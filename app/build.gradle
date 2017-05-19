@@ -1,0 +1,186 @@
+apply plugin: 'com.android.application'
+apply plugin: 'it.handroix.plugin.buildinfoicon'
+apply from: rootProject.file('app/config.gradle')
+apply from: rootProject.file('app/dependencies.gradle')
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        applicationId project.APPLICATION_ID
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion rootProject.ext.minSdkVersion
+        versionCode 1
+        versionName "0.1"
+
+        multiDexEnabled true
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            
+            testCoverageEnabled true
+        }
+
+        release {
+            minifyEnabled true
+            signingConfig signingConfigs.release
+
+            ext.betaDistributionReleaseNotesFilePath = "app/fabric/release_note.txt"
+            ext.betaDistributionGroupAliasesFilePath = "app/fabric/testers_group.txt"
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    /*
+     * Apk Name Beautifier
+     */
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def String fileName = project.APK_NAME + "_" + variant.baseName + "_v_" + variant.versionName + "_" + variant.versionCode
+            def String apkFileName = fileName + ".apk"
+            def String apkZipAlignFileName = fileName + "_zipAlign.apk"
+            if (output.zipAlign) {
+                output.outputFile = new File(output.outputFile.parent, apkZipAlignFileName)
+            }
+            output.packageApplication.outputFile = new File(output.packageApplication.outputFile.parent, apkFileName)
+        }
+    }
+
+    /*
+     * Slack Upload Task
+     */
+    applicationVariants.all{
+        if (!it.buildType.debuggable){
+            def task = tasks.create("slack${it.name.capitalize()}", UploadSlackTask)
+            task.variant = it
+            task.dependsOn it.assemble
+        }
+    }
+
+    /*
+     *  Filter useless variants (like "mockRelease")
+     */
+    android.variantFilter { variant ->
+        if(variant.buildType.name == 'release'
+                && variant.getFlavors().get(0).name == 'mock') {
+            variant.setIgnore(true);
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'LICENSE.txt'
+        exclude 'main/AndroidManifest.xml'
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+        disable 'InvalidPackage'
+    }
+
+    // Always show the result of every unit test, even if it passes.
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        }
+    }
+}
+
+buildInfoIcon {
+
+    builder { ApplicationVariant variant, File iconFile ->
+
+//        def color = "#000000"
+//        if (variant.flavorName.toLowerCase().contains("mock")) {
+//            color = "#FF0000"
+//        }
+//        
+//        if (variant.flavorName.toLowerCase().contains("mock")) {
+//            return customColorRibbonFilter("MOCK", iconFile, color)
+//        }
+//        else {
+            return customColorRibbonFilter(variant.flavorName.toUpperCase(), iconFile, "#000000")
+//        }
+    }
+
+//    forcedVariantsNames "develRelease"
+}
+
+configurations {
+    compile.exclude group: 'stax'
+    compile.exclude group: 'xpp3'
+}
+
+// Log out test results to console
+tasks.matching {it instanceof Test}.all {
+    testLogging.events = ["failed", "passed", "skipped"]
+}
+
+/**
+ *
+ *      UPLOAD SLACK TASK
+ *
+ */
+
+import com.android.build.gradle.api.ApplicationVariant
+import groovyx.net.http.HTTPBuilder
+import groovyx.net.http.Method
+import org.apache.http.entity.mime.HttpMultipartMode
+import org.apache.http.entity.mime.MultipartEntity
+import org.apache.http.entity.mime.content.FileBody
+import org.apache.http.entity.mime.content.StringBody
+
+class UploadSlackTask extends DefaultTask {
+
+    @Input
+    ApplicationVariant variant;
+
+    @TaskAction
+    def action() {
+        File apkFile = variant.outputs[0].outputFile
+        def http = new HTTPBuilder("https://slack.com/api/files.upload")
+
+        File releaseNote = new File('app/fabric/release_note.txt')
+        String releaseNoteContent = new StringBuffer(releaseNote.text.toString())
+        String releaseNotesExtra = project.SLACK_EXTRA_MESSAGE
+
+        http.request(Method.POST) { req ->
+            requestContentType: "multipart/form-data"
+            MultipartEntity multiPartContent = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE)
+            multiPartContent.addPart("channels", new StringBody("#" + project.SLACK_CHANNEL))
+            multiPartContent.addPart("token", new StringBody(project.SLACK_USER_TOKEN))
+            multiPartContent.addPart("file", new FileBody(apkFile))
+
+            // Posto il messaggio solo se almeno uno fra release notes e messagio extra è pieno.
+            if(! releaseNoteContent.trim().isEmpty() || ! releaseNotesExtra.trim().isEmpty()) {
+
+                if(! releaseNoteContent.trim().isEmpty() && ! releaseNotesExtra.trim().isEmpty()) {
+                    releaseNoteContent = releaseNoteContent + "\n"
+                }
+                releaseNoteContent = releaseNoteContent + releaseNotesExtra
+
+                multiPartContent.addPart("initial_comment", new StringBody(releaseNoteContent))
+            }
+
+            req.setEntity(multiPartContent)
+            response.success = { resp, reader ->
+                if (resp.statusLine.statusCode == 200) {
+                    println(reader)
+                }
+            }
+        }
+    }
+}

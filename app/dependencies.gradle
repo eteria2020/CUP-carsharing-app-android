@@ -1,0 +1,40 @@
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //COMMON
+    compile "org.apache.commons:commons-lang3:$rootProject.ext.apacheCommonsLangVersion"
+    compile "io.reactivex:rxjava:$rootProject.ext.rxJavaVersion"
+    compile "io.reactivex:rxandroid:$rootProject.ext.rxAndroidVersion"
+    compile "com.google.guava:guava:$rootProject.ext.guavaVersion"
+    compile  "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
+
+    // DATA
+    compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+    compile "com.squareup.okhttp3:okhttp:$rootProject.ext.okHttp3Version"
+    compile "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.okHttp3Version"
+    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofit2Version"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofit2Version"
+    compile ("com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit2Version"){
+        exclude module: 'okhttp'
+    }
+
+    // ANDROID
+    compile 'com.android.support:multidex:1.0.1'
+    compile "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
+    compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
+    compile "com.android.support:design:$rootProject.ext.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
+
+    // CORE
+    compile "it.handroix:hdx_core:$rootProject.ext.handroixVersion"
+    compile "it.handroix:hdx_baseuiwidgets:$rootProject.ext.handroixVersion@aar"
+
+    // UI
+    compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
+
+    // PROJECT SPECIFIC
+    compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
+    compile "jp.wasabeef:glide-transformations:$rootProject.ext.glideTransformationsVersion"
+}

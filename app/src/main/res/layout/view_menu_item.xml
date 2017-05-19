@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<it.handroix.baseuiwidgets.widgets.HdxTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/HdxTextRegular"
+    android:id="@+id/text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/hdx_standard_distance"
+    android:background="@drawable/slt_rect_white_selectable"
+    android:textColor="@color/slt_text_white_selectable"
+    android:textSize="16sp"
+    tools:text="Tasks"/>
+

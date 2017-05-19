@@ -1,0 +1,27 @@
+android {
+    signingConfigs {
+        debug {
+            storeFile file("keystore/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+        release {
+            // TODO: Change me with customer or self-created keystore
+            storeFile file("keystore/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
+    
+    productFlavors {
+        mock {
+            applicationIdSuffix ".mock"
+            resValue "string", "endpoint", "MOCK_ENDPOINT"
+        }
+        prod {
+            resValue "string", "endpoint", "https://MY.PROD.ENDPOINT/"
+        }
+    }
+}

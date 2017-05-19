@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#2781ba</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="failureColor">@android:color/holo_red_dark</color>
+    <color name="successColor">@android:color/holo_green_dark</color>
+
+</resources>

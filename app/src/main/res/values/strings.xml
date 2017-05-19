@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SkeletonApp</string>
+    
+    <!--LABELS-->
+    <string name="ok">OK</string>
+    <string name="cancel">ANNULLA</string>
+    
+    <!--PERMISSION-->
+    <string name="msg_rational_location_permission">The app needs your permission to access your position.</string>
+
+    <!--MENU-->
+    <string name="menu_home">Home</string>
+
+    <!--COMMON ERRORS-->
+    <string name="error_generic_msg">Ops, something went wrong.</string>
+    <string name="error_msg_no_network">No internet connection. Please try again later</string>
+    <string name="error_msg_server_timeout">Server is unreachable. Please try again later</string>
+    <string name="error_msg_conversion">Some error occured. Please try again later</string>
+    <string name="error_unexpected">Some error occured. Please try again later</string>
+    <string name="error_msg_http_400">Your request cannot be fulfilled (400)</string>
+    <string name="error_msg_http_401">Your credentials seem to be invalid. Please try again</string>
+    <string name="error_msg_http_403">You\'re not allowed to access this content</string>
+    <string name="error_msg_http_404">Your request cannot be fulfilled (404)</string>
+    <string name="error_msg_http_406">Your request is not valid, please check your input and try again (406)</string>
+    <string name="error_msg_http_500">Some error occured. Please try again later (500)</string>
+
+</resources>
