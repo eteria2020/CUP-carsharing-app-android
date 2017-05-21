@@ -9,6 +9,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private static final String TAG = MapPresenter.class.getSimpleName();
 
 
+
     public MapPresenter(SchedulerProvider schedulerProvider) {
         super(schedulerProvider);
 
