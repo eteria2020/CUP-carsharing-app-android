@@ -5,6 +5,7 @@ import android.os.Bundle;
 import dagger.Module;
 import dagger.Provides;
 import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.ui.map.MapPresenter;
 import it.sharengo.eteria.ui.base.presenters.PresenterManager;
 import it.sharengo.eteria.ui.home.HomePresenter;
 import it.sharengo.eteria.ui.menu.MenuPresenter;
@@ -64,6 +65,18 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new MenuPresenter(schedulerProvider, appRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    MapPresenter provideMapPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+        MapPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new MapPresenter(schedulerProvider);
         }
         return presenter;
     }

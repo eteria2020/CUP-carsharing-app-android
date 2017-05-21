@@ -100,7 +100,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
     private MenuAdapter.OnItemActionListener mActionListener = new MenuAdapter.OnItemActionListener() {
         @Override
         public void onItemClick(MenuItem menuItem) {
-            ((BaseDrawerActivity) getActivity()).closeLeftDrawerFrame();
+            ((BaseDrawerActivity) getActivity()).closeRightDrawerFrame();
             startActivityDelayed(menuItem);
         }
     };

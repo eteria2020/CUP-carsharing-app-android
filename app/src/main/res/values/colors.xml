@@ -1,11 +1,63 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#2781ba</color>
-    <color name="colorAccent">#FF4081</color>
-
-    <color name="failureColor">@android:color/holo_red_dark</color>
-    <color name="successColor">@android:color/holo_green_dark</color>
-
+  <color name="colorPrimary">#ffffff</color>
+  <color name="colorPrimaryDark">#2781ba</color>
+  <color name="colorAccent">#FF4081</color>
+  <color name="failureColor">@android:color/holo_red_dark</color>
+  <color name="successColor">@android:color/holo_green_dark</color>
+  <color name="aureolin">#ffea00</color>
+  <color name="darkjunglegreen">#1c2329</color>
+  <color name="mediumjunglegreen">#2b2d30</color>
+  <color name="darkjunglegreen_1">#1c2429</color>
+  <color name="whitesmoke">#f4f4f4</color>
+  <color name="mediumseagreen">#44ad4f</color>
+  <color name="mediumspringbud">#abdb80</color>
+  <color name="teagreen">#d3ecbc</color>
+  <color name="black">#000000</color>
+  <color name="dandelion">#f8e81c</color>
+  <color name="darkpastelgreen">#12bd53</color>
+  <color name="darkjunglegreen_2">#1b2328</color>
+  <color name="mediumseagreen_1">#46ad4e</color>
+  <color name="aureolin_1">#ffeb00</color>
+  <color name="darkjunglegreen_3">#101e24</color>
+  <color name="white">#fefefe</color>
+  <color name="mediumseagreen_2">#45ae4d</color>
+  <color name="darkjunglegreen_4">#111d24</color>
+  <color name="bluegray">#68a7dd</color>
+  <color name="darkjunglegreen_5">#22282c</color>
+  <color name="isabelline">#ececec</color>
+  <color name="gainsboro">#dadada</color>
+  <color name="mantis">#6fac54</color>
+  <color name="dollarbill">#7baf58</color>
+  <color name="dollarbill_1">#87b45c</color>
+  <color name="dollarbill_2">#94b85f</color>
+  <color name="olivine">#a0bc62</color>
+  <color name="olivegreen">#acc167</color>
+  <color name="olivegreen_1">#b8c66b</color>
+  <color name="darkkhaki">#c4cd6e</color>
+  <color name="straw">#d0d371</color>
+  <color name="straw_1">#dbda76</color>
+  <color name="darkpastelgreen_1">#00b046</color>
+  <color name="mediumseagreen_3">#46ae4d</color>
+  <color name="mediumseagreen_4">#44ae4f</color>
+  <color name="grullo">#9e9992</color>
+  <color name="darkjunglegreen_6">#24272c</color>
+  <color name="wenge">#5e5957</color>
+  <color name="yellowgreen">#82b827</color>
+  <color name="timberwolf">#d8d8d8</color>
+  <color name="darkjunglegreen_7">#1d1c1b</color>
+  <color name="pearlaqua">#8ae6b0</color>
+  <color name="darkgray">#b8b0a8</color>
+  <color name="darkpastelgreen_2">#07bd53</color>
+  <color name="platinum">#dcf8e7</color>
+  <color name="aliceblue">#f0f8fc</color>
+  <color name="mediumjunglegreen_1">#24282c</color>
+  <color name="mediumjunglegreen_2">#292c28</color>
+  <color name="sinopia">#e13713</color>
+  <color name="onyx">#13110d</color>
+  <color name="black_1">#010202</color>
+  <color name="darkpastelgreen_3">#04bd51</color>
+  <color name="aureolin_2">#ffe800</color>
+  <color name="manatee">#999999</color>
 </resources>
+

@@ -3,12 +3,10 @@ package it.sharengo.eteria.routing;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import it.sharengo.eteria.data.models.MenuItem;
 import it.sharengo.eteria.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.eteria.ui.home.HomeActivity;
+import it.sharengo.eteria.ui.map.MapActivity;
 
 public class Navigator {
 
@@ -31,5 +29,12 @@ public class Navigator {
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
+
+    public static void launchMap(Fragment fragment) {
+        Intent intent = MapActivity.getCallingIntent(fragment.getActivity());
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
     
 }

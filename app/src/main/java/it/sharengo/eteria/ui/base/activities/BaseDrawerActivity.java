@@ -48,7 +48,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
         mDrawerArrowDrawable = new DrawerArrowDrawable(getResources());
         mDrawerArrowDrawable.setStrokeColor(ContextCompat.getColor(this, android.R.color.white));
         mDrawerArrowDrawable.setFlip(true);
-        mToolBar.setNavigationIcon(mDrawerArrowDrawable);
+        //mToolBar.setNavigationIcon(mDrawerArrowDrawable);
         mToolBar.setNavigationOnClickListener(mNavigationOnClickListener);
 
         String sectionString = getIntent().getStringExtra(EXTRA_MENU_ITEM);
@@ -66,12 +66,12 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean returnValue = false;
-        if (item.getItemId() == android.R.id.home) {
+        if (item.getItemId() == R.id.rightSideButton) {
             if (mDrawerLayout != null) {
-                if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
                     mDrawerLayout.closeDrawers();
                 } else {
-                    mDrawerLayout.openDrawer(GravityCompat.START);
+                    mDrawerLayout.openDrawer(GravityCompat.END);
                 }
             }
             returnValue = true;
@@ -96,7 +96,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
         Boolean drawerClosed = Boolean.FALSE;
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerClosed = Boolean.TRUE;
-            closeLeftDrawerFrame();
+            closeRightDrawerFrame();
         }
         return drawerClosed;
     }
@@ -111,18 +111,18 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
 
 
 
-    public void closeLeftDrawerFrame() {
-        mDrawerLayout.closeDrawer(GravityCompat.START);
-    }
-    public void openLeftDrawerFrame() {
-        mDrawerLayout.openDrawer(GravityCompat.START);
-    }
-//    public void closeRightDrawerFrame() {
-//        mDrawerLayout.closeDrawer(GravityCompat.END);
+//    public void closeLeftDrawerFrame() {
+//        mDrawerLayout.closeDrawer(GravityCompat.START);
 //    }
-//    public void openRightDrawerFrame() {
-//        mDrawerLayout.openDrawer(GravityCompat.END);
+//    public void openLeftDrawerFrame() {
+//        mDrawerLayout.openDrawer(GravityCompat.START);
 //    }
+    public void closeRightDrawerFrame() {
+        mDrawerLayout.closeDrawer(GravityCompat.END);
+    }
+    public void openRightDrawerFrame() {
+        mDrawerLayout.openDrawer(GravityCompat.END);
+    }
 //    public void toggleRightDrawerFrame() {
 //        if (mDrawerLayout != null) {
 //            if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
@@ -185,7 +185,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
             if (mDrawerArrowDrawable != null && mDrawerArrowDrawable.isFlipped()) {
                 //DRAWER MODE  open/close drawer
                 if (mDrawerLayout.isDrawerVisible(GravityCompat.START)) {
-                    closeLeftDrawerFrame();
+                    closeRightDrawerFrame();
                 } else {
 
                     try {
@@ -193,7 +193,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
                         InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
-                        openLeftDrawerFrame();
+                        openRightDrawerFrame();
 
                     } catch (Exception e) {
                         Log.e(this.getClass().getSimpleName(), e.getMessage());

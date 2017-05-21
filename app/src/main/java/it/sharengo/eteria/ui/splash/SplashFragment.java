@@ -68,7 +68,7 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
 
     @Override
     public void navigateToHome() {
-        Navigator.launchHome(this);
+        Navigator.launchMap(this);
         getActivity().finish();
     }
 }
