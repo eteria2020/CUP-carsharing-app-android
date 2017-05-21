@@ -4,14 +4,23 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
-    <it.handroix.baseuiwidgets.widgets.HdxTextView
+    <!--<it.handroix.baseuiwidgets.widgets.HdxTextView
         style="@style/HdxTextRegular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="HOME"
         android:textSize="30sp"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:textColor="@color/colorPrimaryDark"/>-->
+
+    <TextView
+        android:id="@+id/ricercaAutoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:text="Ricerca Auto"/>
 
 
 </FrameLayout>

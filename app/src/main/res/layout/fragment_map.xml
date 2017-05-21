@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:orientation="vertical">
+    android:background="@color/colorPrimary">
 
-    <it.handroix.baseuiwidgets.widgets.HdxTextView
+    <!--<it.handroix.baseuiwidgets.widgets.HdxTextView
         android:id="@+id/text_tv"
         style="@style/HdxTextMedium"
         android:layout_width="match_parent"
@@ -13,6 +12,10 @@
         android:gravity="center"
         android:text="MAPPA"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp" />
+        android:textSize="16sp" />-->
 
-</LinearLayout>
+    <org.osmdroid.views.MapView android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

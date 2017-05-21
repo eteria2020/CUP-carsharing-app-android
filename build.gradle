@@ -80,4 +80,5 @@ ext {
     rxBindingsVersion = '1.0.1'
     glideVersion = '3.8.0'
     glideTransformationsVersion = '2.0.2'
+    osmdroidVersione = '5.6.4'
 }

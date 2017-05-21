@@ -38,4 +38,8 @@ public class MapActivity extends BaseDrawerActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    public void redrawFragment(){
+        replaceFragment(MapFragment.newInstance());
+    }
+
 }
