@@ -5,11 +5,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -20,9 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 
 import org.osmdroid.api.IMapController;
+import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -51,6 +55,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private LocationManager locationManager;
     private IMapController mapController;
     private ItemizedOverlay<OverlayItem> mMyLocationOverlay;
+    private OverlayItem pinUser;
+    private ArrayList<OverlayItem> items;
+    private View view;
+    private ItemizedOverlayWithFocus<OverlayItem> mOverlay;
 
 
     @BindView(R.id.mapView)
@@ -72,7 +80,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
+        view = inflater.inflate(R.layout.fragment_map, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
         setUpMap();
@@ -83,7 +91,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     private void setUpMap() {
 
-        Configuration.getInstance().load(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()));
+        //PIN
+        items = new ArrayList<OverlayItem>();
+
+        //Configuration.getInstance().load(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()));
 
 
         locationListener = new MyLocationListener();
@@ -110,17 +121,19 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         mapController = mMapView.getController();
         mapController.setZoom(14);
-        displayMyCurrentLocationOverlay();
 
 
-        //
-        //your items
-        /*ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        items.add(new OverlayItem("Title", "Description", new GeoPoint(44.931759, 7.612038))); // Lat/Lon decimal degrees
 
-        //the overlay
-        ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(
-                getActivity(), items,  //  <--------- added Context this as first parameter
+
+
+        //Aggiungo il pin utente
+        pinUser = new OverlayItem("Title", "Description", currentLocation);
+        items.add(pinUser);
+
+
+
+        mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(
+                getActivity(), items,
                 new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
                     @Override
                     public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
@@ -133,9 +146,16 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     }
                 });  // <----- removed the mResourceProxy parameter
         mOverlay.setFocusItemsOnTap(true);
+        mOverlay.removeItem(pinUser);
 
-        mMapView.getOverlays().add(mOverlay);*/
+        mMapView.getOverlays().add(mOverlay);
 
+
+        displayMyCurrentLocationOverlay();
+        if( currentLocation != null) {
+
+            mapController.setCenter(currentLocation);
+        }
 
     }
 
@@ -143,10 +163,24 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         Log.w("currentLocation",": "+currentLocation);
 
-        if( currentLocation != null) {
 
-            mapController.setCenter(currentLocation);
-        }
+
+        //Toast.makeText(getActivity(),"VARIATO",Toast.LENGTH_SHORT).show();
+
+
+        //Aggiorno il pin utente
+        //items.remove(pinUser);
+
+        //items.add(0, pinUser);
+
+        mOverlay.removeItem(pinUser);
+
+        pinUser = new OverlayItem("Title", "Description", currentLocation);
+
+        mOverlay.addItem(pinUser);
+
+        mMapView.invalidate();
+
     }
 
     public class MyLocationListener implements LocationListener {
