@@ -131,17 +131,11 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             final Context context = this.getActivity();
             final DisplayMetrics dm = context.getResources().getDisplayMetrics();
 
-            CopyrightOverlay copyrightOverlay = new CopyrightOverlay(getActivity());
 
-            //i hate this very much, but it seems as if certain versions of android and/or
-            //device types handle screen offsets differently
-            if (Build.VERSION.SDK_INT <= 10)
-                copyrightOverlay.setOffset(0,(int)(55*dm.density));
-
-            mMapView.getOverlays().add(copyrightOverlay);
             mMapView.setBuiltInZoomControls(true);
             mMapView.setMultiTouchControls(true);
             mMapView.setTilesScaledToDpi(true);
+            mMapView.getController().setZoom(14);
         }
 
         return view;
@@ -192,31 +186,21 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @Override
     public void onLocationChanged(Location location) {
         //after the first fix, schedule the task to change the icon
+        Toast.makeText(getActivity(), "onLocationChanged", Toast.LENGTH_LONG).show();
         if (!hasFix){
-            Toast.makeText(getActivity(), "Location fixed, scheduling icon change", Toast.LENGTH_LONG).show();
-            TimerTask changeIcon = new TimerTask() {
-                @Override
-                public void run() {
-                    Activity act = getActivity();
-                    if (act!=null)
-                        act.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.pin_car);
-                                    overlay.setDirectionArrow(drawable.getBitmap());
-                                }catch (Throwable t){
-                                    //insultates against crashing when the user rapidly switches fragments/activities
-                                }
-                            }
-                        });
 
-                }
-            };
-            Timer timer = new Timer();
-            timer.schedule(changeIcon, 5000);
+            BitmapDrawable drawable = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                drawable = (BitmapDrawable) getActivity().getDrawable(R.drawable.ic_user);
+            }else{
+                drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.ic_user);
+            }
 
+            overlay.setDirectionArrow(drawable.getBitmap());
+
+            mMapView.getController().setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
         }
+
         hasFix=true;
         overlay.setBearing(location.getBearing());
         overlay.setAccuracy((int)location.getAccuracy());
