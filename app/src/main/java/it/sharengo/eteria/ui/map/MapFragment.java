@@ -199,6 +199,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             overlay.setDirectionArrow(drawable.getBitmap());
 
             mMapView.getController().setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
+            mMapView.getController().setZoom(14);
         }
 
         hasFix=true;
@@ -220,7 +221,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @Override
     public void onProviderDisabled(String s) {
-
+        mMapView.getController().setCenter(new GeoPoint(41.931543, 12.503420));
+        mMapView.getController().setZoom(5);
     }
 
 

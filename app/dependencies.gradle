@@ -38,4 +38,5 @@ dependencies {
     compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
     compile "jp.wasabeef:glide-transformations:$rootProject.ext.glideTransformationsVersion"
     compile "org.osmdroid:osmdroid-android:$rootProject.ext.osmdroidVersione"
+    compile "com.oguzdev:CircularFloatingActionMenu:$rootProject.ext.circularFloatingActionMenu"
 }

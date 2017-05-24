@@ -58,7 +58,7 @@ ext {
     targetSdkVersion = 25
     compileSdkVersion = 25
     buildToolsVersion = '25.0.0'
-    minSdkVersion = 14
+    minSdkVersion = 19
 
     // Handroix
     handroixVersion = '4.0.1'
@@ -81,4 +81,5 @@ ext {
     glideVersion = '3.8.0'
     glideTransformationsVersion = '2.0.2'
     osmdroidVersione = '5.6.4'
+    circularFloatingActionMenu = '1.0.2'
 }
