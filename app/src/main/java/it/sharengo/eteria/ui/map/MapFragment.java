@@ -42,6 +42,7 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
@@ -52,6 +53,7 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 
@@ -73,6 +75,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     private boolean hasFix = false;
     private DirectedLocationOverlay overlay;
+    private GeoPoint userLocation;
+    private GeoPoint defaultLocation = new GeoPoint(41.931543, 12.503420);
 
     @BindView(R.id.mapView)
     MapView mMapView;
@@ -132,10 +136,14 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             final DisplayMetrics dm = context.getResources().getDisplayMetrics();
 
 
-            mMapView.setBuiltInZoomControls(true);
+            mMapView.setBuiltInZoomControls(false);
             mMapView.setMultiTouchControls(true);
             mMapView.setTilesScaledToDpi(true);
             mMapView.getController().setZoom(14);
+
+            RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+            mRotationGestureOverlay.setEnabled(true);
+            mMapView.getOverlays().add(mRotationGestureOverlay);
         }
 
         return view;
@@ -185,6 +193,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @Override
     public void onLocationChanged(Location location) {
+
+        userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+
         //after the first fix, schedule the task to change the icon
         Toast.makeText(getActivity(), "onLocationChanged", Toast.LENGTH_LONG).show();
         if (!hasFix){
@@ -198,8 +209,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
             overlay.setDirectionArrow(drawable.getBitmap());
 
-            mMapView.getController().setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
-            mMapView.getController().setZoom(14);
+            centerMap();
         }
 
         hasFix=true;
@@ -221,8 +231,23 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @Override
     public void onProviderDisabled(String s) {
-        mMapView.getController().setCenter(new GeoPoint(41.931543, 12.503420));
-        mMapView.getController().setZoom(5);
+        userLocation = null;
+
+        centerMap();
+    }
+
+    private void centerMap(){
+        if(userLocation != null) {
+            mMapView.getController().setCenter(userLocation);
+            mMapView.getController().setZoom(14);
+        }else{
+            mMapView.getController().setCenter(defaultLocation);
+            mMapView.getController().setZoom(5);
+        }
+    }
+
+    private void orientationMap(){
+        mMapView.setMapOrientation(0);
     }
 
 
@@ -343,6 +368,15 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @OnClick(R.id.centerMapButton)
+    public void onCenterMap() {
+        centerMap();
+    }
+
+    @OnClick(R.id.orientationMapButton)
+    public void onOrientationMap() {
+        orientationMap();
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

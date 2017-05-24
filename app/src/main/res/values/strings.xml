@@ -26,4 +26,6 @@
     <string name="error_msg_http_406">Your request is not valid, please check your input and try again (406)</string>
     <string name="error_msg_http_500">Some error occured. Please try again later (500)</string>
 
+    <string name="maps_search_placeholder">Cerca indirizzo o targa</string>
+
 </resources>

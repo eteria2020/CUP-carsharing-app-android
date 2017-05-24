@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:layout_marginTop="@dimen/hdx_toolbarHeight"
+    android:background="@color/colorPrimary"
+    android:focusableInTouchMode="true">
 
     <!--<it.handroix.baseuiwidgets.widgets.HdxTextView
         android:id="@+id/text_tv"
@@ -14,10 +16,48 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp" />-->
 
+    <!-- Maps -->
     <org.osmdroid.views.MapView android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <!-- Search -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8.5dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:background="@color/darkjunglegreen"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="18.5dp"
+            android:layout_height="18.0dp"
+            android:src="@drawable/ic_search" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:hint="@string/maps_search_placeholder"
+            android:textColorHint="@color/white"
+            android:background="@android:color/transparent"/>
+        <ImageView
+            android:layout_width="20.5dp"
+            android:layout_height="20.0dp"
+            android:background="@drawable/btn_bkg_white"
+            android:padding="2dp"
+            android:src="@drawable/ic_microphone" />
+    </LinearLayout>
+
+    <!-- Round menu -->
     <RelativeLayout
         android:layout_width="105.0dp"
         android:layout_height="105.0dp"
@@ -39,6 +79,7 @@
             android:src="@drawable/ic_referesh"/>
         <!-- Center Button -->
         <ImageView
+            android:id="@+id/centerMapButton"
             android:layout_width="32.0dp"
             android:layout_height="32.0dp"
             android:layout_marginLeft="30dp"
@@ -46,6 +87,7 @@
             android:src="@drawable/ic_center"/>
         <!-- Compass Button -->
         <ImageView
+            android:id="@+id/orientationMapButton"
             android:layout_width="32.0dp"
             android:layout_height="32.0dp"
             android:layout_alignParentRight="true"
