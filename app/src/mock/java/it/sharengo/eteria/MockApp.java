@@ -1,8 +1,8 @@
-package it.sharengo.eteria;
+package it.sharengo.development;
 
-import it.sharengo.eteria.data.datasources.api.MockApiModule;
-import it.sharengo.eteria.injection.components.DaggerApplicationComponent;
-import it.sharengo.eteria.injection.modules.ApplicationModule;
+import it.sharengo.development.data.datasources.api.MockApiModule;
+import it.sharengo.development.injection.components.DaggerApplicationComponent;
+import it.sharengo.development.injection.modules.ApplicationModule;
 
 public class MockApp extends App {
     

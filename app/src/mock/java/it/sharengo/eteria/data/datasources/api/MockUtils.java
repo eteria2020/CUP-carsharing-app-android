@@ -1,4 +1,4 @@
-package it.sharengo.eteria.data.datasources.api;
+package it.sharengo.development.data.datasources.api;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -11,8 +11,8 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStream;
 
-import it.sharengo.eteria.App;
-import it.sharengo.eteria.data.common.ErrorResponse;
+import it.sharengo.development.App;
+import it.sharengo.development.data.common.ErrorResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.Result;

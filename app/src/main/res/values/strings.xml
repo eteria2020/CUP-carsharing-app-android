@@ -27,5 +27,6 @@
     <string name="error_msg_http_500">Some error occured. Please try again later (500)</string>
 
     <string name="maps_search_placeholder">Cerca indirizzo o targa</string>
+    <string name="maps_permissionlocation_alert">L\'app ha bisogno dei permessi per accedere alla tua posizione. Vuoi aprire le Impostazioni per abilitare la localizzazione?</string>
 
 </resources>

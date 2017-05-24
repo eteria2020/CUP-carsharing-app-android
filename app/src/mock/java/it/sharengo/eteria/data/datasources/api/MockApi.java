@@ -1,4 +1,4 @@
-package it.sharengo.eteria.data.datasources.api;
+package it.sharengo.development.data.datasources.api;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

@@ -1,0 +1,30 @@
+package it.sharengo.development.data.models;
+
+public class MenuItem {
+    
+    public enum Section {
+        NONE,
+        HOME;
+        
+        public static Section toSection (String sectionString) {
+            try {
+                return valueOf(sectionString);
+            } catch (Exception ex) {
+                // For error cases
+                return NONE;
+            }
+        }
+    }
+    
+    public Section section;
+    public boolean selected;
+
+    public MenuItem(Section section) {
+        this.section = section;
+    }
+
+    public MenuItem(MenuItem menuItem) {
+        this(menuItem.section);
+        this.selected = menuItem.selected;
+    }
+}
