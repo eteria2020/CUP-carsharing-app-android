@@ -21,7 +21,7 @@ android {
             resValue "string", "endpoint", "MOCK_ENDPOINT"
         }
         prod {
-            resValue "string", "endpoint", "https://MY.PROD.ENDPOINT/"
+            resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
         }
     }
 }

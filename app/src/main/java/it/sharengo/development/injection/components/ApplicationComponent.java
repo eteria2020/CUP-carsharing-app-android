@@ -6,9 +6,11 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import it.sharengo.development.App;
+import it.sharengo.development.data.datasources.JsonPlaceholderRetrofitDataSource;
 import it.sharengo.development.data.datasources.SampleRetrofitDataSource;
 import it.sharengo.development.data.datasources.api.ApiModule;
 import it.sharengo.development.data.repositories.AppRepository;
+import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.injection.ApplicationContext;
 import it.sharengo.development.injection.modules.ApplicationModule;
 import it.sharengo.development.ui.base.fragments.BaseFragment;
@@ -34,7 +36,9 @@ public interface ApplicationComponent {
     SchedulerProvider schedulerProvider();
 
     AppRepository appRepository();
+    PostRepository postRepository();
     
     SampleRetrofitDataSource sampleRetrofitDataSource();
+    JsonPlaceholderRetrofitDataSource jsonPlaceholderRetrofitDataSource();
 
 }
