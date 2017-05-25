@@ -1,14 +1,22 @@
 package it.sharengo.development.ui.map;
 
 
+import android.util.Log;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
+import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.Post;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Action0;
+import rx.functions.Func1;
+import rx.functions.Func2;
 
 public class MapPresenter extends BasePresenter<MapMvpView> {
 
@@ -26,9 +34,10 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     public MapPresenter(SchedulerProvider schedulerProvider,
                         PostRepository postRepository) {
         super(schedulerProvider);
+        mPostRepository = postRepository;
 
         //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
-        mPostRepository = postRepository;
+
     }
 
 
@@ -40,11 +49,33 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     @Override
     protected void subscribeRequestsOnResume() {
-        if (mPostsRequest != null) {
+
+    }
+
+    void viewCreated() {
+        loadPosts();
+    }
+
+    private void loadPosts() {
+        if(mPosts == null && mPostsRequest == null) {
+            mPostsRequest = buildPostsRequest();
             addSubscription(mPostsRequest.unsafeSubscribe(getSubscriber()));
         }
     }
 
+    private Observable<List<Post>> buildPostsRequest() {
+        return mPostsRequest = mPostRepository.getPosts()
+                .first()
+                .compose(this.<List<Post>>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        //getMvpView().showUsers(mUsers);
+                    }
+                });
+
+        //addSubscription(mPostsRequest.subscribe(getSubscriber()));
+    }
 
     private Subscriber<List<Post>> getSubscriber(){
         return new Subscriber<List<Post>>() {

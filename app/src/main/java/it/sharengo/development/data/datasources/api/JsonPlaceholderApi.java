@@ -17,9 +17,11 @@ import rx.Observable;
 
 public interface JsonPlaceholderApi {
     
+    
     @GET("posts")
     Observable<Result<List<Post>>> getPosts(
             @QueryMap Map<String, String> filters
     );
+
 
 }

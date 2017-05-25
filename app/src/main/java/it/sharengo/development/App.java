@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.multidex.MultiDexApplication;
 
+import it.sharengo.development.data.datasources.DataSourceModule;
 import it.sharengo.development.data.datasources.api.ApiModule;
 import it.sharengo.development.injection.components.ApplicationComponent;
 import it.sharengo.development.injection.components.DaggerApplicationComponent;
@@ -42,6 +43,7 @@ public class App extends MultiDexApplication {
     protected void buildComponent() {
         mComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
+                //.dataSourceModule(new DataSourceModule())
                 .apiModule(new ApiModule())
                 .build();
     }

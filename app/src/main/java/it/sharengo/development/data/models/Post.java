@@ -4,10 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import it.sharengo.development.data.common.ExcludeSerialization;
 
-/**
- * Created by gretaiaconisi on 25/05/17.
- */
-
 public class Post {
 
     @SerializedName("id")

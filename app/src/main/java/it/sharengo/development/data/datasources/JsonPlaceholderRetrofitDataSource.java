@@ -2,27 +2,35 @@ package it.sharengo.development.data.datasources;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
 
 import it.sharengo.development.data.datasources.api.JsonPlaceholderApi;
+import it.sharengo.development.data.datasources.api.SampleApi;
 import it.sharengo.development.data.datasources.base.BaseRetrofitDataSource;
 import it.sharengo.development.data.models.Post;
 import rx.Observable;
 
-/**
- * Created by gretaiaconisi on 25/05/17.
- */
-
 public class JsonPlaceholderRetrofitDataSource extends BaseRetrofitDataSource implements JsonPlaceholderDataSource {
 
-    private final JsonPlaceholderApi mSampleApi;
+    private final JsonPlaceholderApi mJsonPlaceholderApi;
 
-    JsonPlaceholderRetrofitDataSource(JsonPlaceholderApi mSampleApi) {
-        this.mSampleApi = mSampleApi;
+
+    public JsonPlaceholderRetrofitDataSource(JsonPlaceholderApi mSampleApi) {
+        this.mJsonPlaceholderApi = mSampleApi;
     }
 
     @Override
     public Observable<List<Post>> getPosts() {
-        return mSampleApi.getPosts(new HashMap<String, String>())
+        return getPosts(new HashMap<String, String>());
+    }
+
+    @Override
+    public Observable<List<Post>> getPosts(Map<String, String> filters) {
+        return mJsonPlaceholderApi.getPosts(filters)
                 .compose(this.<List<Post>>handleRetrofitRequest());
     }
+
+
 }

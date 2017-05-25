@@ -71,7 +71,8 @@ public class MvpFragmentModule {
     }
 
     @Provides
-    MapPresenter provideMapPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, PostRepository postRepository) {
+    MapPresenter provideMapPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider,
+                                     PostRepository postRepository) {
         MapPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
