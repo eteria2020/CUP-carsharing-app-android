@@ -24,7 +24,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 
 import org.osmdroid.util.GeoPoint;
@@ -175,7 +174,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private void addOverlays() {
         overlay = new DirectedLocationOverlay(getActivity());
         overlay.setShowAccuracy(true);
-        Toast.makeText(getActivity(), "Requires location services turned on", Toast.LENGTH_LONG).show();
         mMapView.getOverlays().add(overlay);
 
 
@@ -187,7 +185,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
 
         //after the first fix, schedule the task to change the icon
-        Toast.makeText(getActivity(), "onLocationChanged", Toast.LENGTH_LONG).show();
         if (!hasFix){
 
             BitmapDrawable drawable = null;
