@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import it.sharengo.development.data.datasources.JsonPlaceholderDataSource;
 import it.sharengo.development.data.models.Post;
@@ -18,6 +19,7 @@ import rx.subjects.BehaviorSubject;
  * Created by gretaiaconisi on 25/05/17.
  */
 
+@Singleton
 public class PostRepository {
     public static final String TAG = AppRepository.class.getSimpleName();
 
