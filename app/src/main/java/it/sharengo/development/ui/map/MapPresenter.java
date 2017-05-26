@@ -70,6 +70,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
+                        Log.w("buildPostsRequest",": "+mPosts);
                         //getMvpView().showUsers(mUsers);
                     }
                 });
@@ -93,6 +94,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
             @Override
             public void onNext(List<Post> postList) {
                 mPosts = postList;
+
+                Log.w("getSubscriber",": "+mPosts);
             }
         };
     }

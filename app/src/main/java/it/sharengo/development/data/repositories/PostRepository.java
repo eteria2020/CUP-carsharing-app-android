@@ -12,7 +12,6 @@ import javax.inject.Singleton;
 
 import it.sharengo.development.data.datasources.JsonPlaceholderDataSource;
 import it.sharengo.development.data.models.Post;
-import it.sharengo.development.injection.RemoteDataSource;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -27,8 +26,8 @@ public class PostRepository {
     private Map<Integer, Post> mCachedPosts = new LinkedHashMap<>();
 
     @Inject
-    public PostRepository() {
-
+    public PostRepository(JsonPlaceholderDataSource remoteDataSource) {
+        this.mRemoteDataSource = remoteDataSource;
     }
 
     /*public Observable<List<Post>> getPosts() {
@@ -63,26 +62,15 @@ public class PostRepository {
 
     private Observable<List<Post>> networkPostWithSave() {
         return mRemoteDataSource.getPosts()
-                /*.flatMap(new Func1<List<Post>, Observable<List<Post>>>() {
-                    @Override
-                    public Observable<List<Post>> call(List<Post> posts) {
-                        return Observable.from(posts)
-//                                .subscribeOn(AndroidSchedulers.mainThread())
-                                .flatMap(new Func1<Post, Observable<Post>>() {
-                                    @Override
-                                    public Observable<Post> call(Post post) {
-                                        return mLocalDataSource.createPost(post);
-                                    }
-                                })
-                                .toList();
-                    }
-                })*/
                 .doOnNext(new Action1<List<Post>>() {
                     @Override
                     public void call(List<Post> posts) {
-                        /*for (Post post : posts) {
+
+
+                        for (Post post : posts) {
                             createOrUpdatePostInMemory(post);
-                        }*/
+                            //Log.w("post",": "+post.title);
+                        }
                     }
                 })
                 .compose(logSource("NETWORK"));
@@ -112,5 +100,14 @@ public class PostRepository {
                         });
             }
         };
+    }
+
+    private void createOrUpdatePostInMemory(Post post) {
+        if (mCachedPosts == null) {
+            mCachedPosts = new LinkedHashMap<>();
+        }
+        mCachedPosts.put(post.id, post);
+
+        Log.w("mCachedPosts",": "+mCachedPosts);
     }
 }

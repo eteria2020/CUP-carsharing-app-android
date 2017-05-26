@@ -28,7 +28,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    SampleApi provideSampleApi(@ApplicationContext Context context, SchedulerProvider schedulerProvider) {
+    JsonPlaceholderApi provideSampleApi(@ApplicationContext Context context, SchedulerProvider schedulerProvider) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         if (BuildConfig.DEBUG) {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -50,6 +50,6 @@ public class ApiModule {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        return retrofit.create(SampleApi.class);
+        return retrofit.create(JsonPlaceholderApi.class);
     }
 }
