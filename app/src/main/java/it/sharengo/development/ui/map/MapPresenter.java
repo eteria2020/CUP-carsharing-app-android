@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 
 import it.sharengo.development.data.models.Car;
+import it.sharengo.development.data.models.Cars;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.Post;
 import it.sharengo.development.data.repositories.CarRepository;
@@ -32,8 +33,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
      */
     private Observable<List<Post>> mPostsRequest;
     private List<Post> mPosts;
-    private Observable<List<Car>> mCarsRequest;
-    private List<Car> mCars;
+    private Observable<Cars> mCarsRequest;
+    private Cars mCars;
 
 
     public MapPresenter(SchedulerProvider schedulerProvider,
@@ -60,7 +61,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     void viewCreated() {
-        loadPosts();
+        //loadPosts();
         loadCars((float) 45.1456, (float) 12.4543, (float) 100.00);
     }
 
@@ -85,21 +86,27 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        Log.w("buildPostsRequest",": "+mPosts);
-                        //getMvpView().showUsers(mUsers);
+
                     }
                 });
     }
 
-    private Observable<List<Car>> buildCarsRequest(float latitude, float longitude, float radius) {
+    private void checkResult(){
+        if(mCars.reason.isEmpty()){
+            getMvpView().showCars(mCars.data);
+        }else{
+            getMvpView().showError(mCars.reason);
+        }
+    }
+
+    private Observable<Cars> buildCarsRequest(float latitude, float longitude, float radius) {
         return mCarsRequest = mCarRepository.getCars(latitude, longitude, radius)
                 .first()
-                .compose(this.<List<Car>>handleDataRequest())
+                .compose(this.<Cars>handleDataRequest())
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        Log.w("buildCarsRequest",": "+mCars);
-                        //getMvpView().showUsers(mUsers);
+                        checkResult();
                     }
                 });
     }
@@ -121,13 +128,13 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
             public void onNext(List<Post> postList) {
                 mPosts = postList;
 
-                Log.w("getSubscriber",": "+mPosts);
+                //Log.w("getSubscriber",": "+mPosts);
             }
         };
     }
 
-    private Subscriber<List<Car>> getCarsSubscriber(){
-        return new Subscriber<List<Car>>() {
+    private Subscriber<Cars> getCarsSubscriber(){
+        return new Subscriber<Cars>() {
             @Override
             public void onCompleted() {
                 mCarsRequest = null;
@@ -140,10 +147,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
             }
 
             @Override
-            public void onNext(List<Car> carsList) {
+            public void onNext(Cars carsList) {
                 mCars = carsList;
-
-                Log.w("getCarsSubscriber",": "+mCars);
             }
         };
     }

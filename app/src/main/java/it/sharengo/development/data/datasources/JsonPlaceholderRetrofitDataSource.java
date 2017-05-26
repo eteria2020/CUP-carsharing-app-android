@@ -4,10 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import it.sharengo.development.data.datasources.api.JsonPlaceholderApi;
-import it.sharengo.development.data.datasources.api.SampleApi;
 import it.sharengo.development.data.datasources.base.BaseRetrofitDataSource;
 import it.sharengo.development.data.models.Post;
 import rx.Observable;

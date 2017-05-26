@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import it.sharengo.development.data.models.Car;
+import it.sharengo.development.data.models.Cars;
 import it.sharengo.development.data.models.Post;
 import rx.Observable;
 
 public interface SharengoDataSource {
 
-    Observable<List<Car>> getCars(float latitude, float longitude, float radius);
+    Observable<Cars> getCars(float latitude, float longitude, float radius);
 
 }

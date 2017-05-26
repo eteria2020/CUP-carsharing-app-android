@@ -13,6 +13,7 @@ import javax.inject.Singleton;
 import it.sharengo.development.data.datasources.JsonPlaceholderDataSource;
 import it.sharengo.development.data.datasources.SharengoDataSource;
 import it.sharengo.development.data.models.Car;
+import it.sharengo.development.data.models.Cars;
 import it.sharengo.development.data.models.Post;
 import rx.Observable;
 import rx.functions.Action1;
@@ -25,7 +26,7 @@ public class CarRepository {
 
     private SharengoDataSource mRemoteDataSource;
 
-    private Map<String, Car> mCachedCar = new LinkedHashMap<>();
+    private Cars mCachedCar;
 
     @Inject
     public CarRepository(SharengoDataSource remoteDataSource) {
@@ -33,55 +34,39 @@ public class CarRepository {
     }
 
 
-    public Observable<List<Car>> getCars(float latitude, float longitude, float radius) {
+    public Observable<Cars> getCars(float latitude, float longitude, float radius) {
 
-        return Observable
-                .concat(
-                        inMemoryPosts(),
-                        networkPostWithSave(latitude, longitude, radius)
-                )
-                .first(new Func1<List<Car>, Boolean>() {
-                    @Override
-                    public Boolean call(List<Car> cars) {
-                        return ! cars.isEmpty();
-                    }
-                });
-    }
+        if(mCachedCar != null){
 
-    private Observable<List<Car>> inMemoryPosts() {
-        List<Car> cars = new ArrayList<>(mCachedCar.values());
-        return Observable.just(cars)
-                .compose(logSource("MEMORY"));
-    }
+            return Observable.just(mCachedCar)
+                    .compose(logSource("MEMORY"));
 
-    private Observable<List<Car>> networkPostWithSave(float latitude, float longitude, float radius) {
-        return mRemoteDataSource.getCars(latitude, longitude, radius)
-                .doOnNext(new Action1<List<Car>>() {
-                    @Override
-                    public void call(List<Car> cars) {
+        }else {
 
+            return mRemoteDataSource.getCars(latitude, longitude, radius)
+                    .doOnNext(new Action1<Cars>() {
+                        @Override
+                        public void call(Cars cars) {
 
-                        for (Car car : cars) {
-                            createOrUpdateCarInMemory(car);
-                            //Log.w("post",": "+post.title);
+                            createOrUpdateCarInMemory(cars);
                         }
-                    }
-                })
-                .compose(logSource("NETWORK"));
+                    })
+                    .compose(logSource("NETWORK"));
+        }
     }
 
 
 
     // Simple logging to let us know what each source is returning
-    private Observable.Transformer<List<Car>, List<Car>> logSource(final String source) {
-        return new Observable.Transformer<List<Car>, List<Car>>() {
+    private Observable.Transformer<Cars, Cars> logSource(final String source) {
+        return new Observable.Transformer<Cars, Cars>() {
             @Override
-            public Observable<List<Car>> call(Observable<List<Car>> postObservable) {
+            public Observable<Cars> call(Observable<Cars> postObservable) {
                 return postObservable
-                        .doOnNext(new Action1<List<Car>>() {
+                        .doOnNext(new Action1<Cars>() {
                             @Override
-                            public void call(List<Car> postList) {
-                                if (postList == null || postList.isEmpty()) {
+                            public void call(Cars postList) {
+                                if (postList == null) {
                                     Log.d("TEST", source + " does not have any data.");
                                 }
 //            else if (!data.isUpToDate()) {
@@ -96,12 +81,11 @@ public class CarRepository {
         };
     }
 
-    private void createOrUpdateCarInMemory(Car car) {
+    private void createOrUpdateCarInMemory(Cars car) {
         if (mCachedCar == null) {
-            mCachedCar = new LinkedHashMap<>();
+            mCachedCar = new Cars();
         }
-        mCachedCar.put(car.id, car);
+        mCachedCar = car;
 
-        Log.w("mCachedCar",": "+mCachedCar);
     }
 }

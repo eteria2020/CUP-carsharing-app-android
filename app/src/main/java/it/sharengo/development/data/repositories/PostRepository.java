@@ -108,6 +108,6 @@ public class PostRepository {
         }
         mCachedPosts.put(post.id, post);
 
-        Log.w("mCachedPosts",": "+mCachedPosts);
+        //Log.w("mCachedPosts",": "+mCachedPosts);
     }
 }

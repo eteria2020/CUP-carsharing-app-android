@@ -2,33 +2,28 @@ package it.sharengo.development.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 import it.sharengo.development.data.common.ExcludeSerialization;
 
-public class Car {
+public class Cars {
 
-    @SerializedName("plate")
-    public String id;
 
-    public String manufactures;
-    public String model;
-    public float longitude;
-    public float latitude;
     public String status;
+    public String reason;
+    public List<Car> data;
 
 
     @ExcludeSerialization
-    public boolean favourite;
+    public String time;
 
-    public Car() {
+    public Cars() {
     }
 
-    private Car(String id, String manufactures, String model, float longitude, float latitude, String status) {
-        this.id = id;
-        this.manufactures = manufactures;
-        this.model = model;
-        this.longitude = longitude;
-        this.latitude = latitude;
+    private Cars(String status, String reason, List<Car> data) {
         this.status = status;
+        this.reason = reason;
+        this.data = data;
     }
 }
 

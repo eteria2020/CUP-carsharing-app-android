@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -28,13 +31,22 @@ import android.widget.ImageView;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
+import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.development.R;
+import it.sharengo.development.data.models.Car;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 
 
@@ -48,15 +60,16 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private IMapController mapController;
     private ItemizedOverlay<OverlayItem> mMyLocationOverlay;
     private OverlayItem pinUser;
-    private ArrayList<OverlayItem> items;
+    private ArrayList<OverlayItem> items;*/
 
-    private ItemizedOverlayWithFocus<OverlayItem> mOverlay;*/
+    private ItemizedOverlayWithFocus<OverlayItem> mOverlay;
     private View view;
 
     private boolean hasFix = false;
     private DirectedLocationOverlay overlay;
     private GeoPoint userLocation;
     private GeoPoint defaultLocation = new GeoPoint(41.931543, 12.503420);
+    private ArrayList<OverlayItem> items;
 
     @BindView(R.id.mapView)
     MapView mMapView;
@@ -129,6 +142,14 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             mMapView.getOverlays().add(mRotationGestureOverlay);
         }
 
+        /*Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(45.791584, 9.411513, 1);
+            Log.w("addresses",": "+addresses);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
         return view;
     }
 
@@ -183,6 +204,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     public void onLocationChanged(Location location) {
 
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+        //userLocation = new GeoPoint(45.467544, 9.181337); //TODO: remove
 
         //after the first fix, schedule the task to change the icon
         if (!hasFix){
@@ -377,6 +399,44 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }*/
 
 
+    private BitmapDrawable getIconMarker(int icon){
+        BitmapDrawable drawable = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            drawable = (BitmapDrawable) getActivity().getDrawable(icon);
+        }else{
+            drawable = (BitmapDrawable) getResources().getDrawable(icon);
+        }
+
+        return drawable;
+    }
+
+    private String findNextCar(List<Car> carsList){
+
+        String car_id = "";
+        float distance = 0.0f;
+
+        if(userLocation != null) {
+
+            for (Car car : carsList) {
+                Location locationA = new Location("point A");
+
+                locationA.setLatitude(userLocation.getLatitude());
+                locationA.setLongitude(userLocation.getLongitude());
+
+                Location locationB = new Location("point B");
+
+                locationB.setLatitude(car.latitude);
+                locationB.setLongitude(car.longitude);
+
+                if(locationA.distanceTo(locationB) < distance) {
+                    distance = locationA.distanceTo(locationB);
+                    car_id = car.id;
+                }
+            }
+        }
+
+        return car_id;
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -395,11 +455,57 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
 
 
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Mvp Methods
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void showCars(List<Car> carsList) {
 
+        //Trovo la macchina più vicina a me
+        String carnext_id = findNextCar(carsList);
+
+
+        //Marker array
+        items = new ArrayList<OverlayItem>();
+
+        for(Car car : carsList){
+            //Verifico che la macchina sia in status = operative
+            if(car.status.equals("operative")) {
+                int icon_marker = R.drawable.ic_auto;
+
+                //Verifico se la vettura è la più vicina
+                if(car.id.equals(carnext_id)){
+                    icon_marker = R.drawable.ic_auto_vicina;
+                }
+
+                //Creo il marker
+                OverlayItem overlayItem = new OverlayItem(car.manufactures, "Descrizione", new GeoPoint(car.latitude, car.longitude));
+                overlayItem.setMarker(getIconMarker(icon_marker));
+                items.add(overlayItem);
+            }
+        }
+
+
+        mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(
+                getActivity(), items,
+                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                    @Override
+                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                        //do something
+                        return true;
+                    }
+                    @Override
+                    public boolean onItemLongPress(final int index, final OverlayItem item) {
+                        return false;
+                    }
+                });
+        mOverlay.setFocusItemsOnTap(true);
+
+        mMapView.getOverlays().add(mOverlay);
+        mMapView.invalidate();
+    }
 
 }

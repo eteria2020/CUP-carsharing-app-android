@@ -8,6 +8,7 @@ import it.sharengo.development.data.datasources.api.JsonPlaceholderApi;
 import it.sharengo.development.data.datasources.api.SharengoApi;
 import it.sharengo.development.data.datasources.base.BaseRetrofitDataSource;
 import it.sharengo.development.data.models.Car;
+import it.sharengo.development.data.models.Cars;
 import it.sharengo.development.data.models.Post;
 import rx.Observable;
 
@@ -22,8 +23,8 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
 
 
     @Override
-    public Observable<List<Car>> getCars(float latitude, float longitude, float radius) {
+    public Observable<Cars> getCars(float latitude, float longitude, float radius) {
         return mSharengoApi.getCars(latitude, longitude, radius)
-                .compose(this.<List<Car>>handleRetrofitRequest());
+                .compose(this.<Cars>handleRetrofitRequest());
     }
 }
