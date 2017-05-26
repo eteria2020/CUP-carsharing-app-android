@@ -52,4 +52,31 @@ public class ApiModule {
 
         return retrofit.create(JsonPlaceholderApi.class);
     }
+
+    @Provides
+    @Singleton
+    SharengoApi provideSharengoApi(@ApplicationContext Context context, SchedulerProvider schedulerProvider) {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        if (BuildConfig.DEBUG) {
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        } else {
+            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+        }
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(logging);
+
+        Gson gson = new GsonBuilder()
+                .addSerializationExclusionStrategy(new SerializationExclusionStrategy())
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(context.getString(R.string.endpointSharengo))
+                .client(httpClient.build())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(schedulerProvider.io()))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        return retrofit.create(SharengoApi.class);
+    }
 }

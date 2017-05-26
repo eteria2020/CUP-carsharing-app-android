@@ -7,8 +7,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
+import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.Post;
+import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
@@ -23,18 +25,23 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private static final String TAG = MapPresenter.class.getSimpleName();
 
     private final PostRepository mPostRepository;
+    private final CarRepository mCarRepository;
 
     /*
      *  REQUEST
      */
     private Observable<List<Post>> mPostsRequest;
     private List<Post> mPosts;
+    private Observable<List<Car>> mCarsRequest;
+    private List<Car> mCars;
 
 
     public MapPresenter(SchedulerProvider schedulerProvider,
-                        PostRepository postRepository) {
+                        PostRepository postRepository,
+                        CarRepository carRepository) {
         super(schedulerProvider);
         mPostRepository = postRepository;
+        mCarRepository = carRepository;
 
         //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
 
@@ -54,12 +61,20 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     void viewCreated() {
         loadPosts();
+        loadCars((float) 45.1456, (float) 12.4543, (float) 100.00);
     }
 
     private void loadPosts() {
         if(mPosts == null && mPostsRequest == null) {
             mPostsRequest = buildPostsRequest();
             addSubscription(mPostsRequest.unsafeSubscribe(getSubscriber()));
+        }
+    }
+
+    private void loadCars(float latitude, float longitude, float radius) {
+        if(mCars == null && mCarsRequest == null) {
+            mCarsRequest = buildCarsRequest(latitude, longitude, radius);
+            addSubscription(mCarsRequest.unsafeSubscribe(getCarsSubscriber()));
         }
     }
 
@@ -74,8 +89,19 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                         //getMvpView().showUsers(mUsers);
                     }
                 });
+    }
 
-        //addSubscription(mPostsRequest.subscribe(getSubscriber()));
+    private Observable<List<Car>> buildCarsRequest(float latitude, float longitude, float radius) {
+        return mCarsRequest = mCarRepository.getCars(latitude, longitude, radius)
+                .first()
+                .compose(this.<List<Car>>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        Log.w("buildCarsRequest",": "+mCars);
+                        //getMvpView().showUsers(mUsers);
+                    }
+                });
     }
 
     private Subscriber<List<Post>> getSubscriber(){
@@ -96,6 +122,28 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                 mPosts = postList;
 
                 Log.w("getSubscriber",": "+mPosts);
+            }
+        };
+    }
+
+    private Subscriber<List<Car>> getCarsSubscriber(){
+        return new Subscriber<List<Car>>() {
+            @Override
+            public void onCompleted() {
+                mCarsRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mCarsRequest = null;
+                getMvpView().showError(e);
+            }
+
+            @Override
+            public void onNext(List<Car> carsList) {
+                mCars = carsList;
+
+                Log.w("getCarsSubscriber",": "+mCars);
             }
         };
     }

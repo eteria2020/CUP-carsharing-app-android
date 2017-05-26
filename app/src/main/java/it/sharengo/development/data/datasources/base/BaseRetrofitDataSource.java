@@ -1,5 +1,7 @@
 package it.sharengo.development.data.datasources.base;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -26,6 +28,7 @@ public abstract class BaseRetrofitDataSource {
 
                         if (r.isError()) {
                             Throwable throwable = r.error();
+                            Log.w("throwable",": "+throwable);
                             if (throwable instanceof IOException) {
                                 if (throwable instanceof java.net.ConnectException) {
                                     return Observable.error(new ErrorResponse(ErrorResponse.ErrorType.NO_NETWORK));

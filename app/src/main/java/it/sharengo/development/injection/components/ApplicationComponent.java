@@ -10,6 +10,7 @@ import it.sharengo.development.data.datasources.DataSourceModule;
 import it.sharengo.development.data.datasources.JsonPlaceholderRetrofitDataSource;
 import it.sharengo.development.data.datasources.api.ApiModule;
 import it.sharengo.development.data.repositories.AppRepository;
+import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.injection.ApplicationContext;
 import it.sharengo.development.injection.modules.ApplicationModule;
@@ -38,6 +39,7 @@ public interface ApplicationComponent {
 
     AppRepository appRepository();
     PostRepository postRepository();
+    CarRepository carRepository();
     //SampleRetrofitDataSource sampleRetrofitDataSource();
     //JsonPlaceholderRetrofitDataSource jsonPlaceholderRetrofitDataSource();
 
