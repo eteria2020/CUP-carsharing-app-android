@@ -69,7 +69,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
             return super.showCustomLoading();
     }
 
-    void viewCreated(float latitude, float longitude, float radius) {
+    void viewCreated(float latitude, float longitude, int radius) {
         refresh = false;
     }
 
@@ -81,12 +81,12 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         }
     }
 
-    public void refreshCars(float latitude, float longitude, float radius){
+    public void refreshCars(float latitude, float longitude, int radius){
         refresh = true;
         loadCars(latitude, longitude, radius);
     }
 
-    public void loadCars(float latitude, float longitude, float radius) {
+    public void loadCars(float latitude, float longitude, int radius) {
         if( mCarsRequest == null) {
             mCarsRequest = buildCarsRequest(latitude, longitude, radius);
             addSubscription(mCarsRequest.unsafeSubscribe(getCarsSubscriber()));
@@ -115,7 +115,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         }
     }
 
-    private Observable<Cars> buildCarsRequest(float latitude, float longitude, float radius) {
+    private Observable<Cars> buildCarsRequest(float latitude, float longitude, int radius) {
         return mCarsRequest = mCarRepository.getCars(latitude, longitude, radius)
                 .first()
                 .compose(this.<Cars>handleDataRequest())

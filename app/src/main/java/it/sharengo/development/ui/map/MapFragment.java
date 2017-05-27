@@ -21,6 +21,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.InputDevice;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -33,6 +34,10 @@ import android.widget.ImageView;
 
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.events.MapListener;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -85,6 +90,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @BindView(R.id.refreshMapButton)
     ImageView refreshMapButton;
 
+    @BindView(R.id.mapOverlayView)
+    View mapOverlayView;
+
 
     public static MapFragment newInstance() {
         MapFragment fragment = new MapFragment();
@@ -113,32 +121,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         anim.setDuration(700);
 
 
-        if (Build.VERSION.SDK_INT >= 12) {
-            mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
-                /**
-                 * mouse wheel zooming ftw
-                 * http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel
-                 * @param v
-                 * @param event
-                 * @return
-                 */
-                @Override
-                public boolean onGenericMotion(View v, MotionEvent event) {
-                    if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
-                        switch (event.getAction()) {
-                            case MotionEvent.ACTION_SCROLL:
-                                if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f)
-                                    mMapView.getController().zoomOut();
-                                else {
-                                    mMapView.getController().zoomIn();
-                                }
-                                return true;
-                        }
-                    }
-                    return false;
-                }
-            });
-        }
+
 
         addOverlays();
 
@@ -151,11 +134,31 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             mMapView.setMultiTouchControls(true);
             mMapView.setTilesScaledToDpi(true);
             mMapView.getController().setZoom(14);
+            mMapView.setMapListener(new MapListener() {
+                @Override
+                public boolean onScroll(ScrollEvent event) {
+                    if(hasInit) {
+                        Log.w("EVENT", "onScroll");
+                        refreshCars();
+                    }
+                    return false;
+                }
+
+                @Override
+                public boolean onZoom(ZoomEvent event) {
+                    if(hasInit) {
+                        Log.w("EVENT", "onZoom");
+                        refreshCars();
+                    }
+                    return false;
+                }
+            });
 
             RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
             mRotationGestureOverlay.setEnabled(true);
             mMapView.getOverlays().add(mRotationGestureOverlay);
         }
+
 
         /*Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
         try {
@@ -164,6 +167,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         } catch (IOException e) {
             e.printStackTrace();
         }*/
+
 
         return view;
     }
@@ -219,7 +223,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
 
-        userLocation = new GeoPoint(45.467544, 9.181337); //TODO: remove
+        userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
 
         //First time
         if (!hasInit){
@@ -234,7 +238,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             overlay.setDirectionArrow(drawable.getBitmap());
 
             centerMap();
-            mPresenter.loadCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), (float) 100.00);
+            loadsCars();
         }
 
         hasInit = true;
@@ -264,9 +268,17 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         if (!hasInit){
             mMapView.getController().setCenter(defaultLocation);
             mMapView.getController().setZoom(5);
-            mPresenter.loadCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), (float) 100.00);
+            loadsCars();
         }
         enabledCenterMap(false);
+    }
+
+    private void loadsCars(){
+        mPresenter.loadCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 100);
+    }
+
+    private void refreshCars(){
+        mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 100);
     }
 
     private void centerMap(){
@@ -429,7 +441,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private String findNextCar(List<Car> carsList){
 
         String car_id = "";
-        float distance = 0.0f;
+        float distance = 100000.0f;
+
 
         if(userLocation != null) {
 
@@ -477,8 +490,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @OnClick(R.id.refreshMapButton)
     public void onRefreshMap() {
         refreshMapButton.startAnimation(anim);
-
-        mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), (float) 100.00);
+        mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 100);
     }
 
 
@@ -494,6 +506,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         //Trovo la macchina più vicina a me
         String carnext_id = findNextCar(carsList);
 
+        Log.w("carnext_id",": "+carnext_id);
 
         //Marker array
         items = new ArrayList<OverlayItem>();

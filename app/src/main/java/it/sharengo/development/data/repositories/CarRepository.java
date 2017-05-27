@@ -34,7 +34,7 @@ public class CarRepository {
     }
 
 
-    public Observable<Cars> getCars(float latitude, float longitude, float radius) {
+    public Observable<Cars> getCars(float latitude, float longitude, int radius) {
 
         /*if(mCachedCar != null){
 
