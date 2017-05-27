@@ -36,7 +36,7 @@ public class CarRepository {
 
     public Observable<Cars> getCars(float latitude, float longitude, float radius) {
 
-        if(mCachedCar != null){
+        /*if(mCachedCar != null){
 
             return Observable.just(mCachedCar)
                     .compose(logSource("MEMORY"));
@@ -52,7 +52,16 @@ public class CarRepository {
                         }
                     })
                     .compose(logSource("NETWORK"));
-        }
+        }*/
+        return mRemoteDataSource.getCars(latitude, longitude, radius)
+                .doOnNext(new Action1<Cars>() {
+                    @Override
+                    public void call(Cars cars) {
+
+                        createOrUpdateCarInMemory(cars);
+                    }
+                })
+                .compose(logSource("NETWORK"));
     }
 
 

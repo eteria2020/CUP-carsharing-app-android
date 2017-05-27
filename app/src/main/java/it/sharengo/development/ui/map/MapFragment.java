@@ -26,9 +26,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -65,17 +69,21 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private ItemizedOverlayWithFocus<OverlayItem> mOverlay;
     private View view;
 
-    private boolean hasFix = false;
+    private boolean hasInit = false;
     private DirectedLocationOverlay overlay;
     private GeoPoint userLocation;
     private GeoPoint defaultLocation = new GeoPoint(41.931543, 12.503420);
     private ArrayList<OverlayItem> items;
+    private RotateAnimation anim;
 
     @BindView(R.id.mapView)
     MapView mMapView;
 
     @BindView(R.id.centerMapButton)
     ImageView centerMapButton;
+
+    @BindView(R.id.refreshMapButton)
+    ImageView refreshMapButton;
 
 
     public static MapFragment newInstance() {
@@ -97,6 +105,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         mUnbinder = ButterKnife.bind(this, view);
 
         //setUpMap();
+
+        //Rotate animation - refresh button
+        anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        anim.setInterpolator(new LinearInterpolator());
+        anim.setRepeatCount(Animation.INFINITE);
+        anim.setDuration(700);
+
 
         if (Build.VERSION.SDK_INT >= 12) {
             mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
@@ -156,7 +171,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.viewCreated();
     }
 
     @Override
@@ -204,10 +218,11 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     public void onLocationChanged(Location location) {
 
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-        //userLocation = new GeoPoint(45.467544, 9.181337); //TODO: remove
 
-        //after the first fix, schedule the task to change the icon
-        if (!hasFix){
+        userLocation = new GeoPoint(45.467544, 9.181337); //TODO: remove
+
+        //First time
+        if (!hasInit){
 
             BitmapDrawable drawable = null;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -219,13 +234,15 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             overlay.setDirectionArrow(drawable.getBitmap());
 
             centerMap();
+            mPresenter.loadCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), (float) 100.00);
         }
 
-        hasFix=true;
+        hasInit = true;
         overlay.setBearing(location.getBearing());
         overlay.setAccuracy((int)location.getAccuracy());
         overlay.setLocation(new GeoPoint(location.getLatitude(), location.getLongitude()));
         mMapView.invalidate();
+
 
         enabledCenterMap(true);
     }
@@ -244,9 +261,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     public void onProviderDisabled(String s) {
         userLocation = null;
 
-        if (!hasFix){
+        if (!hasInit){
             mMapView.getController().setCenter(defaultLocation);
             mMapView.getController().setZoom(5);
+            mPresenter.loadCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), (float) 100.00);
         }
         enabledCenterMap(false);
     }
@@ -272,8 +290,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     .create()
                     .show();
         }
-
-        Log.w("AA",":TAAAP");
     }
 
     private void orientationMap(){
@@ -438,6 +454,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         return car_id;
     }
 
+    private IGeoPoint getMapCenter(){
+        return  mMapView.getMapCenter();
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -452,6 +472,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @OnClick(R.id.orientationMapButton)
     public void onOrientationMap() {
         orientationMap();
+    }
+
+    @OnClick(R.id.refreshMapButton)
+    public void onRefreshMap() {
+        refreshMapButton.startAnimation(anim);
+
+        mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), (float) 100.00);
     }
 
 
@@ -506,6 +533,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         mMapView.getOverlays().add(mOverlay);
         mMapView.invalidate();
+
+        Log.w("FINISH","OK");
+
+        //Stop sull'animazione del pulsante di refresh
+        anim.cancel();
+
     }
 
 }

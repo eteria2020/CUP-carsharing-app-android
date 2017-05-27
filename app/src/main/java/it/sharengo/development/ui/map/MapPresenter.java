@@ -35,6 +35,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private List<Post> mPosts;
     private Observable<Cars> mCarsRequest;
     private Cars mCars;
+    private boolean refresh;
 
 
     public MapPresenter(SchedulerProvider schedulerProvider,
@@ -60,10 +61,18 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     }
 
-    void viewCreated() {
-        //loadPosts();
-        loadCars((float) 45.1456, (float) 12.4543, (float) 100.00);
+    @Override
+    protected boolean showCustomLoading() {
+        if(refresh)
+            return true;
+        else
+            return super.showCustomLoading();
     }
+
+    void viewCreated(float latitude, float longitude, float radius) {
+        refresh = false;
+    }
+
 
     private void loadPosts() {
         if(mPosts == null && mPostsRequest == null) {
@@ -72,10 +81,17 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         }
     }
 
-    private void loadCars(float latitude, float longitude, float radius) {
-        if(mCars == null && mCarsRequest == null) {
+    public void refreshCars(float latitude, float longitude, float radius){
+        refresh = true;
+        loadCars(latitude, longitude, radius);
+    }
+
+    public void loadCars(float latitude, float longitude, float radius) {
+        if( mCarsRequest == null) {
             mCarsRequest = buildCarsRequest(latitude, longitude, radius);
             addSubscription(mCarsRequest.unsafeSubscribe(getCarsSubscriber()));
+            Log.w("latitude",": "+latitude);
+            Log.w("longitude",": "+longitude);
         }
     }
 
