@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import it.sharengo.development.R;
@@ -24,6 +25,8 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
     public DrawerLayout mDrawerLayout;
     
     public DrawerArrowDrawable mDrawerArrowDrawable;
+
+    public ImageView menuButton;
     
 //    public FrameLayout mRightFrame;
 //    public FrameLayout mLeftFrame;
@@ -35,6 +38,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
         
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+
 //        addLeftFrame();
 //        addRightFrame();
 
@@ -43,6 +47,15 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
             contentContainer.addView(mToolBarView, params);
+
+            menuButton = (ImageView) mToolBar.findViewById(R.id.menuButton);
+
+            menuButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    actionBarInteraction();
+                }
+            });
         }
 
         mDrawerArrowDrawable = new DrawerArrowDrawable(getResources());
@@ -50,6 +63,8 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
         mDrawerArrowDrawable.setFlip(true);
         //mToolBar.setNavigationIcon(mDrawerArrowDrawable);
         mToolBar.setNavigationOnClickListener(mNavigationOnClickListener);
+
+
 
         String sectionString = getIntent().getStringExtra(EXTRA_MENU_ITEM);
 //        setLeftFragment(MenuFragment.newInstance(sectionString), savedInstanceState);
@@ -67,6 +82,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean returnValue = false;
         if (item.getItemId() == R.id.rightSideButton) {
+            actionBarInteraction();
             if (mDrawerLayout != null) {
                 if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
                     mDrawerLayout.closeDrawers();
@@ -182,6 +198,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
     private View.OnClickListener mNavigationOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
             if (mDrawerArrowDrawable != null && mDrawerArrowDrawable.isFlipped()) {
                 //DRAWER MODE  open/close drawer
                 if (mDrawerLayout.isDrawerVisible(GravityCompat.START)) {
@@ -194,6 +211,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
                         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
                         openRightDrawerFrame();
+                        actionBarInteraction();
 
                     } catch (Exception e) {
                         Log.e(this.getClass().getSimpleName(), e.getMessage());
@@ -204,4 +222,8 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
             }
         }
     };
+
+    public void actionBarInteraction(){
+
+    }
 }

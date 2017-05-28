@@ -15,6 +15,9 @@ public class Car {
     public float latitude;
     public String status;
 
+    @SerializedName("km")
+    public int autonomy;
+
 
     @ExcludeSerialization
     public boolean favourite;
@@ -22,13 +25,14 @@ public class Car {
     public Car() {
     }
 
-    private Car(String id, String manufactures, String model, float longitude, float latitude, String status) {
+    private Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy) {
         this.id = id;
         this.manufactures = manufactures;
         this.model = model;
         this.longitude = longitude;
         this.latitude = latitude;
         this.status = status;
+        this.autonomy = autonomy;
     }
 }
 

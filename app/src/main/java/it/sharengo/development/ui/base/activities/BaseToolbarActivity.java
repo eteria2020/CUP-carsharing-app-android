@@ -5,11 +5,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import butterknife.OnClick;
 import it.handroix.core.utils.HdxUiUtility;
 import it.sharengo.development.R;
 

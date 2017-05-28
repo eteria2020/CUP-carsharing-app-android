@@ -44,6 +44,7 @@
             android:layout_height="18.0dp"
             android:src="@drawable/ic_search" />
         <EditText
+            android:id="@+id/searchEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -54,6 +55,7 @@
             android:textColorHint="@color/white"
             android:background="@android:color/transparent"/>
         <ImageView
+            android:id="@+id/microphoneImageView"
             android:layout_width="20.5dp"
             android:layout_height="20.0dp"
             android:background="@drawable/btn_bkg_white"

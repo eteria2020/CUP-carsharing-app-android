@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -19,26 +18,26 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.InputDevice;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.EditText;
 import android.widget.ImageView;
-
+import android.widget.TextView;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
-import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -58,6 +57,7 @@ import butterknife.OnClick;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+
 
 
 public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvpView, LocationListener {
@@ -81,6 +81,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private GeoPoint defaultLocation = new GeoPoint(41.931543, 12.503420);
     private ArrayList<OverlayItem> items;
     private RotateAnimation anim;
+    private String carnext_id;
+    private Car carSelected;
 
     @BindView(R.id.mapView)
     MapView mMapView;
@@ -96,6 +98,37 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @BindView(R.id.popupCarView)
     View popupCarView;
+
+    @BindView(R.id.carImageView)
+    ImageView carImageView;
+
+    @BindView(R.id.plateTextView)
+    TextView plateTextView;
+
+    @BindView(R.id.autonomyTextView)
+    TextView autonomyTextView;
+
+    @BindView(R.id.addressTextView)
+    TextView addressTextView;
+
+    @BindView(R.id.distanceView)
+    ViewGroup distanceView;
+
+    @BindView(R.id.distanceTextView)
+    TextView distanceTextView;
+
+    @BindView(R.id.timeView)
+    ViewGroup timeView;
+
+    @BindView(R.id.timeTextView)
+    TextView timeTextView;
+
+    @BindView(R.id.closestcarView)
+    ViewGroup closestcarView;
+
+    @BindView(R.id.searchEditText)
+    EditText searchEditText;
+
 
 
     public static MapFragment newInstance() {
@@ -163,19 +196,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             mMapView.getOverlays().add(mRotationGestureOverlay);
         }
 
-
-        /*Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(45.791584, 9.411513, 1);
-            Log.w("addresses",": "+addresses);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-
-
-
-
         return view;
     }
 
@@ -184,7 +204,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         super.onViewCreated(view, savedInstanceState);
 
         //Preparo il popup dell'auto per l'animazione di entrata
-
         popupCarView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
             @Override
@@ -201,6 +220,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 }
             }
         });
+
     }
 
     @Override
@@ -317,11 +337,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent();
-                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                            Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
-                            intent.setData(uri);
-                            startActivity(intent);
+                            openSettings();
                         }
                     })
                     .setNegativeButton(R.string.cancel, null)
@@ -473,18 +489,11 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         if(userLocation != null) {
 
             for (Car car : carsList) {
-                Location locationA = new Location("point A");
 
-                locationA.setLatitude(userLocation.getLatitude());
-                locationA.setLongitude(userLocation.getLongitude());
+                float dist = getDistance(car);
 
-                Location locationB = new Location("point B");
-
-                locationB.setLatitude(car.latitude);
-                locationB.setLongitude(car.longitude);
-
-                if(locationA.distanceTo(locationB) < distance) {
-                    distance = locationA.distanceTo(locationB);
+                if(dist < distance) {
+                    distance = dist;
                     car_id = car.id;
                 }
             }
@@ -498,17 +507,90 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
 
     private void showPopupCar(Car car){
+
+        carSelected = car;
+
         // Animazione
         popupCarView.setVisibility(View.VISIBLE);
         popupCarView.animate().translationY(0);
+
+        //Popolo i dati dell'interfaccia
+
+        //Targa
+        plateTextView.setText(car.id);
+
+        //Autonomia
+        autonomyTextView.setText(String.format(getString(R.string.maps_autonomy_label), car.autonomy));
+
+        //Indirizzo
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(car.latitude, car.longitude, 1);
+            if(!addresses.isEmpty())
+                addressTextView.setText(addresses.get(0).getAddressLine(0)+", "+addresses.get(0).getLocality());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Distanza
+        if(userLocation != null){
+            distanceTextView.setText(String.format(getString(R.string.maps_distance_label), Math.round(getDistance(car))));
+        }else{
+            distanceView.setVisibility(View.GONE);
+        }
+
+        //Time
+        if(userLocation != null){
+            timeTextView.setText(String.format(getString(R.string.maps_time_label), Math.round(getDistance(car)/100)));
+        }else{
+            timeView.setVisibility(View.GONE);
+        }
+
+        //Tipologia popup
+        if(car.id.equals(carnext_id)){
+            closestcarView.setVisibility(View.VISIBLE);
+        }else{
+            closestcarView.setVisibility(View.GONE);
+        }
     }
 
+    private float getDistance(Car car){
+        Location locationA = new Location("point A");
+
+        locationA.setLatitude(userLocation.getLatitude());
+        locationA.setLongitude(userLocation.getLongitude());
+
+        Location locationB = new Location("point B");
+
+        locationB.setLatitude(car.latitude);
+        locationB.setLongitude(car.longitude);
+
+        return locationA.distanceTo(locationB);
+    }
+
+    private void openSettings(){
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @OnClick(R.id.searchEditText)
+    public void onSearchClick(){
+        onClosePopup();
+    }
+
+    @OnClick(R.id.microphoneImageView)
+    public void onSearchMicrophone(){
+        onClosePopup();
+    }
+
     @OnClick(R.id.centerMapButton)
     public void onCenterMap() {
         centerMap();
@@ -527,8 +609,47 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @OnClick(R.id.closePopupButton)
     public void onClosePopup() {
-        Log.w("POPUP",": "+popupCarView.getHeight());
         popupCarView.animate().translationY(popupCarView.getHeight());
+    }
+
+    @OnClick(R.id.openDoorButton)
+    public void onOpenDoor(){
+        if(carSelected != null){
+            if(userLocation != null){
+                //Calcolo la distanza
+                if(getDistance(carSelected) <= 50){
+                    //Procediamo con le schermate successive
+                }else{
+                    new AlertDialog.Builder(getActivity())
+                            .setMessage(getActivity().getString(R.string.maps_opendoordistance_alert))
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .create()
+                            .show();
+                }
+            }else{
+                //Informo l'utente che la localizzazione non è attiva
+                new AlertDialog.Builder(getActivity())
+                        .setMessage(getActivity().getString(R.string.maps_permissionopendoor_alert))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                openSettings();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .create()
+                        .show();
+            }
+        }
+    }
+
+    @OnClick(R.id.bookingCarButton)
+    public void onBookingCar(){
+
     }
 
 
@@ -542,7 +663,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     public void showCars(final List<Car> carsList) {
 
         //Trovo la macchina più vicina a me
-        String carnext_id = findNextCar(carsList);
+        carnext_id = findNextCar(carsList);
 
         Log.w("carnext_id",": "+carnext_id);
 

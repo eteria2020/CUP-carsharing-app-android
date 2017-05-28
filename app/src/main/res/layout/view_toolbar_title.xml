@@ -19,6 +19,7 @@
             android:layout_height="@dimen/hdx_toolbarHeight">
 
             <ImageView
+                android:id="@+id/menuButton"
                 android:layout_width="30.5dp"
                 android:layout_height="30.5dp"
                 android:layout_centerVertical="true"

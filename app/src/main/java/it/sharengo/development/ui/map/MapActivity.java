@@ -3,6 +3,7 @@ package it.sharengo.development.ui.map;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 
@@ -14,6 +15,8 @@ public class MapActivity extends BaseDrawerActivity {
 
     private static final String TAG = MapActivity.class.getSimpleName();
 
+    private MapFragment mapFragment;
+
     public static Intent getCallingIntent(Context context) {
         Intent i = new Intent(context, MapActivity.class);
         return i;
@@ -24,7 +27,8 @@ public class MapActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            replaceFragment(MapFragment.newInstance());
+            mapFragment = MapFragment.newInstance();
+            replaceFragment(mapFragment);
         }
     }
 
@@ -36,6 +40,13 @@ public class MapActivity extends BaseDrawerActivity {
         inflater.inflate(menuToUse, menu);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void actionBarInteraction(){
+        if(mapFragment != null){
+            mapFragment.onClosePopup();
+        }
     }
 
     public void redrawFragment(){
