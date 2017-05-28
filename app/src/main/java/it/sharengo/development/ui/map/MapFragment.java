@@ -84,6 +84,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private String carnext_id;
     private Car carSelected;
 
+    private float currentRotation = 0f;
+
     @BindView(R.id.mapView)
     MapView mMapView;
 
@@ -129,6 +131,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @BindView(R.id.searchEditText)
     EditText searchEditText;
 
+    @BindView(R.id.orientationMapButton)
+    ImageView orientationMapButton;
 
 
     public static MapFragment newInstance() {
@@ -175,8 +179,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 @Override
                 public boolean onScroll(ScrollEvent event) {
                     if(hasInit) {
-                        Log.w("EVENT", "onScroll");
+                        refreshMapButton.startAnimation(anim);
                         refreshCars();
+
+                        setRotationButton(mMapView.getMapOrientation());
                     }
                     return false;
                 }
@@ -184,7 +190,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 @Override
                 public boolean onZoom(ZoomEvent event) {
                     if(hasInit) {
-                        Log.w("EVENT", "onZoom");
+                        refreshMapButton.startAnimation(anim);
                         refreshCars();
                     }
                     return false;
@@ -197,6 +203,19 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }
 
         return view;
+    }
+
+    private void setRotationButton(float rotation){
+        RotateAnimation animCompass = new RotateAnimation(currentRotation, rotation,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
+        currentRotation = rotation % 360;
+
+        animCompass.setInterpolator(new LinearInterpolator());
+        animCompass.setDuration(1000);
+        animCompass.setFillEnabled(true);
+
+        animCompass.setFillAfter(true);
+        orientationMapButton.setAnimation(animCompass);
     }
 
     @Override
@@ -220,6 +239,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 }
             }
         });
+
+
+        refreshMapButton.startAnimation(anim);
 
     }
 
@@ -284,7 +306,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             overlay.setDirectionArrow(drawable.getBitmap());
 
             centerMap();
-            loadsCars();
+            refreshCars();
         }
 
         hasInit = true;
@@ -348,6 +370,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     private void orientationMap(){
         mMapView.setMapOrientation(0);
+        orientationMapButton.setRotation(0.0f);
+        setRotationButton(0.0f);
     }
 
     private void enabledCenterMap(boolean enable){
@@ -687,6 +711,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             }
         }
 
+        if(mOverlay != null)
+            mOverlay.removeAllItems();
 
         mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(
                 getActivity(), items,

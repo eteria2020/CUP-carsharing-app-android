@@ -90,8 +90,6 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         if( mCarsRequest == null) {
             mCarsRequest = buildCarsRequest(latitude, longitude, radius);
             addSubscription(mCarsRequest.unsafeSubscribe(getCarsSubscriber()));
-            Log.w("latitude",": "+latitude);
-            Log.w("longitude",": "+longitude);
         }
     }
 
