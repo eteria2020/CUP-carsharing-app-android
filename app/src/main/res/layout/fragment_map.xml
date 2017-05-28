@@ -103,53 +103,7 @@
 
 
     <!-- Popup view -->
-    <RelativeLayout
-        android:id="@+id/popupCarView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
-
-            <!-- Shadow -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_marginTop="15dp"
-                android:background="#33000000"/>
-            <View
-                android:layout_width="43dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginRight="-1dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/btn_bkg_shadow"/>
-
-            <!-- Content -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="17.5dp"
-                android:background="@color/whitesmoke">
-            </RelativeLayout>
-
-            <!-- Close popup -->
-            <ImageView
-                android:id="@+id/closePopupButton"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginRight="1dp"
-                android:background="@drawable/btn_bkg_whitesmoke"
-                android:src="@drawable/ic_close"
-                android:padding="10dp"
-                android:layout_alignParentRight="true"/>
-
-        </RelativeLayout>
-
-    </RelativeLayout>
+    <include layout="@layout/car_popup" />
     <!-- /Popup view -->
 
 </RelativeLayout>
