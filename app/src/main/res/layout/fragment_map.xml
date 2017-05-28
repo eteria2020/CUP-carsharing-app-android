@@ -101,4 +101,37 @@
             android:src="@drawable/ic_compass"/>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/popupCarView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <ImageView
+                android:id="@+id/closePopupButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/btn_bkg_white"
+                android:src="@drawable/ic_close"
+                android:layout_alignParentRight="true"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="17.5dp"
+                android:background="@color/whitesmoke"
+                android:layout_alignParentBottom="true">
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
 </RelativeLayout>

@@ -27,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -92,6 +93,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @BindView(R.id.mapOverlayView)
     View mapOverlayView;
+
+    @BindView(R.id.popupCarView)
+    View popupCarView;
 
 
     public static MapFragment newInstance() {
@@ -169,12 +173,34 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }*/
 
 
+
+
+
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //Preparo il popup dell'auto per l'animazione di entrata
+
+        popupCarView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                int width = popupCarView.getWidth();
+                int height = popupCarView.getHeight();
+                if (width > 0 && height > 0) {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        popupCarView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    } else {
+                        popupCarView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    }
+                    popupCarView.setTranslationY(popupCarView.getHeight());
+                }
+            }
+        });
     }
 
     @Override
@@ -471,6 +497,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         return  mMapView.getMapCenter();
     }
 
+    private void showPopupCar(Car car){
+        // Animazione
+        popupCarView.setVisibility(View.VISIBLE);
+        popupCarView.animate().translationY(0);
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -493,6 +525,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 100);
     }
 
+    @OnClick(R.id.closePopupButton)
+    public void onClosePopup() {
+        Log.w("POPUP",": "+popupCarView.getHeight());
+        popupCarView.animate().translationY(popupCarView.getHeight());
+    }
+
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -501,7 +539,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public void showCars(List<Car> carsList) {
+    public void showCars(final List<Car> carsList) {
 
         //Trovo la macchina più vicina a me
         String carnext_id = findNextCar(carsList);
@@ -535,6 +573,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     @Override
                     public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
                         //do something
+                        showPopupCar(carsList.get(index));
                         return true;
                     }
                     @Override
@@ -542,7 +581,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                         return false;
                     }
                 });
-        mOverlay.setFocusItemsOnTap(true);
+        //mOverlay.setFocusItemsOnTap(true);
 
         mMapView.getOverlays().add(mOverlay);
         mMapView.invalidate();
