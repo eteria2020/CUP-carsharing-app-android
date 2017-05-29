@@ -314,7 +314,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         displayMyCurrentLocationOverlay();
 
-        //userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
+        userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
 
         //First time
         if (!hasInit){
@@ -545,7 +545,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private String findNextCar(List<Car> carsList){
 
         String car_id = "";
-        float distance = 100000.0f;
+        float distance = 10000000000000000000000.0f;
 
 
         if(userLocation != null) {

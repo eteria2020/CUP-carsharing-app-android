@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/popupCarView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,13 +16,12 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="18dp"
             android:background="#33000000"/>
         <View
-            android:layout_width="43dp"
+            android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginRight="-1dp"
+            android:layout_marginRight="-2dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/btn_bkg_shadow"/>
 
@@ -29,7 +29,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="17.5dp"
+            android:layout_marginTop="20.5dp"
             android:padding="20dp"
             android:background="@color/whitesmoke"
             android:orientation="vertical">
@@ -41,12 +41,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:orientation="vertical">
-                <TextView
+                <it.sharengo.development.ui.components.CustomTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/darkjunglegreen"
                     android:textAlignment="center"
                     android:textSize="11sp"
+                    app:font_name="poppinsRegular"
                     android:text="@string/maps_closestcar_label"/>
                 <View
                     android:layout_width="168dp"
@@ -65,8 +66,9 @@
 
                 <!-- Car -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/carImageView"
@@ -74,7 +76,7 @@
                         android:layout_height="58dp"
                         android:background="@color/whitesmoke"
                         android:src="@drawable/img_car"/>
-                    <TextView
+                    <it.sharengo.development.ui.components.CustomTextView
                         android:id="@+id/plateTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -83,8 +85,9 @@
                         android:textStyle="bold"
                         android:textSize="11sp"
                         android:textColor="@color/darkjunglegreen"
+                        app:font_name="poppinsBold"
                         android:text="EF8877123"/>
-                    <TextView
+                    <it.sharengo.development.ui.components.CustomTextView
                         android:id="@+id/autonomyTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -93,6 +96,7 @@
                         android:textStyle="bold"
                         android:textSize="11sp"
                         android:textColor="@color/darkjunglegreen"
+                        app:font_name="poppinsBold"
                         android:text="autonomia: 55 km"/>
                 </LinearLayout>
 
@@ -102,7 +106,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:orientation="vertical">
                     <!-- Address -->
                     <LinearLayout
@@ -111,7 +115,7 @@
                         <ImageView
                             style="@style/popupcar_info_box_icon"
                             android:src="@drawable/ic_location"/>
-                        <TextView
+                        <it.sharengo.development.ui.components.CustomTextView
                             android:id="@+id/addressTextView"
                             style="@style/popupcar_info_box_text"
                             android:text="Via Taormina 162, Milano"/>
@@ -123,7 +127,7 @@
                         <ImageView
                             style="@style/popupcar_info_box_icon"
                             android:src="@drawable/ic_distance" />
-                        <TextView
+                        <it.sharengo.development.ui.components.CustomTextView
                             android:id="@+id/distanceTextView"
                             style="@style/popupcar_info_box_text"
                             android:text="300 mt di distanza"/>
@@ -135,7 +139,7 @@
                         <ImageView
                             style="@style/popupcar_info_box_icon"
                             android:src="@drawable/ic_timebyfeet" />
-                        <TextView
+                        <it.sharengo.development.ui.components.CustomTextView
                             android:id="@+id/timeTextView"
                             style="@style/popupcar_info_box_text"
                             android:text="3 minuti a piedi"/>
@@ -152,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
-                <Button
+                <it.sharengo.development.ui.components.CustomButton
                     android:id="@+id/openDoorButton"
                     style="@style/button_primary"
                     android:layout_width="0dp"
@@ -161,7 +165,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="7.5dp"
                     android:text="@string/maps_opendoor_action" />
-                <Button
+                <it.sharengo.development.ui.components.CustomButton
                     android:id="@+id/bookingCarButton"
                     style="@style/button_primary"
                     android:layout_width="0dp"
@@ -181,6 +185,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginRight="1dp"
+            android:layout_marginTop="3dp"
             android:background="@drawable/btn_bkg_whitesmoke"
             android:src="@drawable/ic_close"
             android:padding="10dp"
