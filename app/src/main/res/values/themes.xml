@@ -32,8 +32,11 @@
     <style name="AppTheme.AlertDialog" parent="Theme.AppCompat.Dialog">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/darkjunglegreen</item>
+        <item name="buttonBarPositiveButtonStyle">@style/button_alertdialog_positive</item>
+        <item name="buttonBarButtonStyle">@style/button_alertdialog_positive</item>
     </style>
+
 
     <style name="AppTheme.TilRegular" parent="HdxTextRegular">
         <!-- Hint color and label color in FALSE state -->

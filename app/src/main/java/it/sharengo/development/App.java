@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.Build;
 import android.support.multidex.MultiDexApplication;
 
-import it.sharengo.development.data.datasources.DataSourceModule;
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 import it.sharengo.development.data.datasources.api.ApiModule;
 import it.sharengo.development.injection.components.ApplicationComponent;
 import it.sharengo.development.injection.components.DaggerApplicationComponent;
@@ -19,6 +21,8 @@ public class App extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
+
         if (instance == null) {
             instance = this;
         }

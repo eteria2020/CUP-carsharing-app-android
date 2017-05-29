@@ -1,7 +1,6 @@
 package it.sharengo.development.ui.map;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -57,7 +56,7 @@ import butterknife.OnClick;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-
+import it.sharengo.development.ui.components.CustomDialogClass;
 
 
 public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvpView, LocationListener {
@@ -314,7 +313,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         displayMyCurrentLocationOverlay();
 
-        userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
+        //userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
 
         //First time
         if (!hasInit){
@@ -360,7 +359,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         if (!hasInit){
             mMapView.getController().setCenter(defaultLocation);
             mMapView.getController().setZoom(5);
-            loadsCars();
+            refreshCars();
         }
         enabledCenterMap(false);
     }
@@ -378,17 +377,19 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             mMapView.getController().setCenter(userLocation);
             mMapView.getController().setZoom(14);
         }else{
-            new AlertDialog.Builder(getActivity())
-                    .setMessage(getActivity().getString(R.string.maps_permissionlocation_alert))
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            openSettings();
-                        }
-                    })
-                    .setNegativeButton(R.string.cancel, null)
-                    .create()
-                    .show();
+
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(R.string.maps_permissionlocation_alert),
+                    getString(R.string.ok),
+                    getString(R.string.cancel));
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                    openSettings();
+                }
+            });
         }
     }
 
@@ -682,29 +683,27 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 if(getDistance(carSelected) <= 50){
                     //Procediamo con le schermate successive
                 }else{
-                    new AlertDialog.Builder(getActivity())
-                            .setMessage(getActivity().getString(R.string.maps_opendoordistance_alert))
-                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            })
-                            .create()
-                            .show();
+                    CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                            getString(R.string.maps_opendoordistance_alert),
+                            getString(R.string.ok),
+                            null);
+                    cdd.show();
                 }
             }else{
                 //Informo l'utente che la localizzazione non è attiva
-                new AlertDialog.Builder(getActivity())
-                        .setMessage(getActivity().getString(R.string.maps_permissionopendoor_alert))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                openSettings();
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, null)
-                        .create()
-                        .show();
+                final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                        getString(R.string.maps_permissionopendoor_alert),
+                        getString(R.string.ok),
+                        getString(R.string.cancel));
+                cdd.show();
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismissAlert();
+                        openSettings();
+                    }
+                });
+
             }
         }
     }
