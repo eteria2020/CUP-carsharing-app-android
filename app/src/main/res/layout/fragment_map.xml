@@ -41,8 +41,8 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
         <ImageView
-            android:layout_width="18.5dp"
-            android:layout_height="18.0dp"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
             android:src="@drawable/ic_search" />
         <it.sharengo.development.ui.components.CustomEditText
             android:id="@+id/searchEditText"
@@ -51,15 +51,17 @@
             android:layout_weight="1"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:hint="@string/maps_search_placeholder"
             android:textColorHint="@color/white"
             app:font_name="poppinsRegular"
+            android:maxLines="1"
+            android:singleLine="true"
             android:background="@android:color/transparent"/>
         <ImageView
             android:id="@+id/microphoneImageView"
-            android:layout_width="20.5dp"
-            android:layout_height="20.0dp"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
             android:background="@drawable/btn_bkg_white"
             android:padding="2dp"
             android:src="@drawable/ic_microphone" />

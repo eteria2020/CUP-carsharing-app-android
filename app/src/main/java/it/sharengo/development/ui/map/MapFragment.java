@@ -151,7 +151,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_map, container, false);
+
         mUnbinder = ButterKnife.bind(this, view);
 
         //setUpMap();
@@ -163,14 +165,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         anim.setDuration(700);
 
 
-
-
         //addOverlays();
 
         if (mMapView!=null) {
+
             final Context context = this.getActivity();
             final DisplayMetrics dm = context.getResources().getDisplayMetrics();
-
 
             mMapView.setBuiltInZoomControls(false);
             mMapView.setMultiTouchControls(true);
@@ -180,6 +180,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 @Override
                 public boolean onScroll(ScrollEvent event) {
                     if(hasInit) {
+
                         refreshMapButton.startAnimation(anim);
                         refreshCars();
 
@@ -207,6 +208,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
 
     private void setRotationButton(float rotation){
+
         RotateAnimation animCompass = new RotateAnimation(currentRotation, rotation,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
         currentRotation = rotation % 360;
@@ -217,6 +219,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         animCompass.setFillAfter(true);
         orientationMapButton.setAnimation(animCompass);
+
     }
 
     @Override
@@ -245,24 +248,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         refreshMapButton.startAnimation(anim);
 
 
-        pinUser = new OverlayItem("Title", "Description", userLocation);
-        ArrayList<OverlayItem> userOverleyList = new ArrayList<OverlayItem>();
-        userOverleyList.add(pinUser);
-        mOverlayUser = new ItemizedOverlayWithFocus<OverlayItem>(
-        getActivity(), userOverleyList,
-        new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-            @Override
-            public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                //do something
-                return true;
-            }
-            @Override
-            public boolean onItemLongPress(final int index, final OverlayItem item) {
-                return false;
-            }
-        });
-
-        mMapView.getOverlays().add(mOverlayUser);
     }
 
     @Override
@@ -311,8 +296,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
 
-        displayMyCurrentLocationOverlay();
-
         //userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
 
         //First time
@@ -327,6 +310,28 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
             overlay.setDirectionArrow(drawable.getBitmap());*/
 
+
+            pinUser = new OverlayItem("Title", "Description", userLocation);
+            ArrayList<OverlayItem> userOverleyList = new ArrayList<OverlayItem>();
+            userOverleyList.add(pinUser);
+            mOverlayUser = new ItemizedOverlayWithFocus<OverlayItem>(
+                    getActivity(), userOverleyList,
+                    new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                        @Override
+                        public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                            //do something
+                            return true;
+                        }
+                        @Override
+                        public boolean onItemLongPress(final int index, final OverlayItem item) {
+                            return false;
+                        }
+                    });
+
+            mMapView.getOverlays().add(mOverlayUser);
+
+            displayMyCurrentLocationOverlay();
+
             centerMap();
             refreshCars();
         }
@@ -336,6 +341,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         //overlay.setAccuracy((int)location.getAccuracy());
         //overlay.setLocation(new GeoPoint(location.getLatitude(), location.getLongitude()));
         //mMapView.invalidate();
+
+
 
         pinUser = new OverlayItem("Title", "Description", userLocation);
 
@@ -369,10 +376,15 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
 
     private void refreshCars(){
-        mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 100);
+
+        try {
+            mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 100);
+        }catch (NullPointerException e){}
+
     }
 
     private void centerMap(){
+
         if(userLocation != null) {
             mMapView.getController().setCenter(userLocation);
             mMapView.getController().setZoom(14);
@@ -391,26 +403,29 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 }
             });
         }
+
     }
 
     private void orientationMap(){
+
         mMapView.setMapOrientation(0);
         orientationMapButton.setRotation(0.0f);
         setRotationButton(0.0f);
+
     }
 
     private void enabledCenterMap(boolean enable){
+
         if(enable){
             centerMapButton.setAlpha(1.0f);
         }else{
             centerMapButton.setAlpha(.4f);
         }
+
     }
 
 
     private void displayMyCurrentLocationOverlay() {
-
-
         mOverlayUser.removeAllItems();
 
         pinUser = new OverlayItem("Title", "Description", userLocation);
