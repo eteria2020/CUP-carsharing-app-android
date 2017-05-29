@@ -53,6 +53,7 @@
             android:textSize="12sp"
             android:hint="@string/maps_search_placeholder"
             android:textColorHint="@color/white"
+            style="@style/OswaldTextAppearance"
             android:background="@android:color/transparent"/>
         <ImageView
             android:id="@+id/microphoneImageView"
