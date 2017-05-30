@@ -1,6 +1,7 @@
 package it.sharengo.development.ui.map;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,7 +16,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +36,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.events.MapListener;
@@ -70,6 +75,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private ItemizedOverlay<OverlayItem> mMyLocationOverlay;
     private OverlayItem pinUser;
     private ArrayList<OverlayItem> items;*/
+
+    private final int SPEECH_RECOGNITION_CODE = 1;
 
     private ItemizedOverlayWithFocus<OverlayItem> mOverlay;
     private ItemizedOverlayWithFocus<OverlayItem> mOverlayUser;
@@ -134,6 +141,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @BindView(R.id.orientationMapButton)
     ImageView orientationMapButton;
+
+    @BindView(R.id.microphoneImageView)
+    ImageView microphoneImageView;
 
 
     public static MapFragment newInstance() {
@@ -204,6 +214,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             mMapView.getOverlays().add(mRotationGestureOverlay);
         }
 
+        //Verifico se è disponibile
         return view;
     }
 
@@ -247,6 +258,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         refreshMapButton.startAnimation(anim);
 
+        //Verifico se il dispositivo non è abilitato alla dettatura (microfono)
+        if(!SpeechRecognizer.isRecognitionAvailable(getActivity())){
+            microphoneImageView.setVisibility(View.GONE);
+        }
 
     }
 
@@ -264,7 +279,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         super.onResume();
         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         try {
-            //on API15 AVDs,network provider fails. no idea why
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);
@@ -654,6 +668,42 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         startActivity(intent);
     }
 
+    private void startSpeechToText() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.maps_searchmicrophone_message));
+        try {
+            startActivityForResult(intent, SPEECH_RECOGNITION_CODE);
+        } catch (ActivityNotFoundException a) {
+            Snackbar.make(view, getString(R.string.error_generic_msg), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+
+    /**
+     * Callback for speech recognition activity
+     * */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case SPEECH_RECOGNITION_CODE: {
+                if (resultCode == getActivity().RESULT_OK && null != data) {
+
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    String text = result.get(0);
+                    searchEditText.setText(text);
+                }
+                break;
+            }
+
+        }
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              ButterKnife
@@ -667,6 +717,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @OnClick(R.id.microphoneImageView)
     public void onSearchMicrophone(){
         onClosePopup();
+        startSpeechToText();
     }
 
     @OnClick(R.id.centerMapButton)

@@ -36,5 +36,6 @@
     <string name="maps_closestcar_label">Auto più vicina</string>
     <string name="maps_permissionopendoor_alert">Sharen\'go ha bisogno di sapere la tua posizione per aprire le portiere. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
     <string name="maps_opendoordistance_alert">"Sei troppo distante dalla Saren\'go che hai selezionato. Potrai aprirla quando sarai in prossimità dell\'auto.</string>
+    <string name="maps_searchmicrophone_message">In ascolto...</string>
 
 </resources>
