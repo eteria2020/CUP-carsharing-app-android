@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -54,10 +55,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
@@ -136,8 +140,11 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @BindView(R.id.closestcarView)
     ViewGroup closestcarView;
 
-    @BindView(R.id.searchEditText)
-    EditText searchEditText;
+    /*@BindView(R.id.searchEditText)
+    EditText searchEditText;*/
+
+    @BindView(R.id.searchMapResultView)
+    ViewGroup searchMapResultView;
 
     @BindView(R.id.orientationMapButton)
     ImageView orientationMapButton;
@@ -697,26 +704,37 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String text = result.get(0);
-                    searchEditText.setText(text);
+                    //searchEditText.setText(text);
                 }
                 break;
             }
 
         }
     }
+
+    private void setSearchResult(){
+        //int chardigit = (int) searchEditText.getTextSize();
+
+        searchMapResultView.setVisibility(View.VISIBLE);
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @OnFocusChange(R.id.searchEditText)
+    public void OnFocusSearchChange(){
+        setSearchResult();
+    }
+
     @OnClick(R.id.searchEditText)
     public void onSearchClick(){
-        onClosePopup();
+        setSearchResult();
     }
 
     @OnClick(R.id.microphoneImageView)
     public void onSearchMicrophone(){
-        onClosePopup();
+        onClosePopup(); Log.w("A1",": micro");
         startSpeechToText();
     }
 
@@ -813,6 +831,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 items.add(overlayItem);
             }
         }
+
 
         if(mOverlay != null)
             mOverlay.removeAllItems();
