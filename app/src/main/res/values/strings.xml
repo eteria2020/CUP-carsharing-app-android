@@ -30,7 +30,7 @@
     <string name="maps_permissionlocation_alert">Sharen\'go ha bisogno dei permessi per accedere alla tua posizione. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
     <string name="maps_opendoor_action">Apri portiere</string>
     <string name="maps_bookingcar_action">Prenota auto</string>
-    <string name="maps_autonomy_label">autonomia: %d km</string>
+    <string name="maps_autonomy_label">autonomia: <![CDATA[<b>%d%%</b>]]></string>
     <string name="maps_distance_label">%d mt di distanza</string>
     <string name="maps_time_label">%d minuti a piedi</string>
     <string name="maps_closestcar_label">Auto più vicina</string>

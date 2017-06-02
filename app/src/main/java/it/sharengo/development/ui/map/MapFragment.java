@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -25,6 +27,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +42,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.StringUtils;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
@@ -62,6 +66,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
+import butterknife.OnTextChanged;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
@@ -140,8 +145,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @BindView(R.id.closestcarView)
     ViewGroup closestcarView;
 
-    /*@BindView(R.id.searchEditText)
-    EditText searchEditText;*/
+    @BindView(R.id.searchEditText)
+    EditText searchEditText;
 
     @BindView(R.id.searchMapResultView)
     ViewGroup searchMapResultView;
@@ -270,6 +275,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             microphoneImageView.setVisibility(View.GONE);
         }
 
+        view.getViewTreeObserver().addOnGlobalLayoutListener(layoutListener);
     }
 
     @Override
@@ -279,6 +285,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         if (mMapView!=null)
             mMapView.onDetach();
         mMapView=null;
+
+        if(view != null)
+            view.getViewTreeObserver().removeOnGlobalLayoutListener(layoutListener);
     }
 
     @Override
@@ -303,6 +312,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         lm.removeUpdates(this);
 
     }
+
+    private final ViewTreeObserver.OnGlobalLayoutListener layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            setKeyboardListener();
+        }
+    };
 
     private void addOverlays() {
         overlay = new DirectedLocationOverlay(getActivity());
@@ -619,7 +635,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         plateTextView.setText(car.id);
 
         //Autonomia
-        autonomyTextView.setText(String.format(getString(R.string.maps_autonomy_label), car.autonomy));
+        autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), car.autonomy)));
 
         //Indirizzo
         Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
@@ -717,24 +733,63 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         searchMapResultView.setVisibility(View.VISIBLE);
     }
+
+    private void setKeyboardListener(){
+        Rect r = new Rect();
+        view.getWindowVisibleDisplayFrame(r);
+        if (view.getRootView().getHeight() - (r.bottom - r.top) > 500) {
+            //Show
+            setSearchResult();
+        } else {
+            //Hidden
+            searchMapResultView.setVisibility(View.GONE);
+        }
+    }
+
+    private void initMapSearch(){
+        String searchMapText = searchEditText.getText().toString();
+        if (searchMapText.length() > 2) {
+            Log.w("SEARCH","YES");
+
+            //Verifico se è una targa: (con pattern 2 lettere + 1 numero Es: AB1 ) è una targa e quindi cerchiamo tra le targhe, altrimenti cerchiamo l'indirizzo
+            if(!StringUtils.isNumeric(searchMapText.substring(0))
+                && !StringUtils.isNumeric(searchMapText.substring(1))
+                  && StringUtils.isNumeric(searchMapText.substring(2))){
+                Log.w("SEARCH","PLATE");
+            }else{
+                Log.w("SEARCH","ADDRESS");
+            }
+
+        }else{
+            Log.w("SEARCH","NO");
+        }
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @OnFocusChange(R.id.searchEditText)
     public void OnFocusSearchChange(){
-        setSearchResult();
+        //setSearchResult(); TODO
     }
 
     @OnClick(R.id.searchEditText)
     public void onSearchClick(){
-        setSearchResult();
+        //setSearchResult(); TODO
+    }
+
+    @OnTextChanged(R.id.searchEditText)
+    public void searchEditText(){
+        initMapSearch();
     }
 
     @OnClick(R.id.microphoneImageView)
     public void onSearchMicrophone(){
-        onClosePopup(); Log.w("A1",": micro");
+        onClosePopup();
         startSpeechToText();
     }
 

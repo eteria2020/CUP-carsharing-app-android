@@ -1,7 +1,9 @@
 package it.sharengo.development.ui.map;
 
 
+import android.content.res.Configuration;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 

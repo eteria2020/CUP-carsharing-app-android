@@ -15,7 +15,7 @@ public class Car {
     public float latitude;
     public String status;
 
-    @SerializedName("km")
+    @SerializedName("battery")
     public int autonomy;
 
 

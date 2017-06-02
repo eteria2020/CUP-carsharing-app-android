@@ -4,7 +4,8 @@
     android:id="@+id/popupCarView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="invisible">
+    android:visibility="invisible"
+    android:clickable="true">
 
 
     <RelativeLayout
@@ -30,7 +31,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20.5dp"
-            android:padding="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
             android:background="@color/whitesmoke"
             android:orientation="vertical">
 
@@ -96,7 +100,7 @@
                         android:textStyle="bold"
                         android:textSize="11sp"
                         android:textColor="@color/darkjunglegreen"
-                        app:font_name="poppinsBold"
+                        app:font_name="poppinsMedium"
                         android:text="autonomia: 55 km"/>
                 </LinearLayout>
 
@@ -153,7 +157,7 @@
             <!-- Button -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
                 <it.sharengo.development.ui.components.CustomButton

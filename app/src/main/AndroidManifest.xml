@@ -32,7 +32,8 @@
         <activity
             android:name=".ui.map.MapActivity"
             android:theme="@style/AppTheme.Base.NoAnimation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden"/>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="57623239bae67668df7bbce99e5c2686c876e070" />
