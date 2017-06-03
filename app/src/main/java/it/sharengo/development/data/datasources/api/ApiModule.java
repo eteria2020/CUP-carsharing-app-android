@@ -9,14 +9,19 @@ import com.google.gson.GsonBuilder;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -81,9 +86,11 @@ public class ApiModule {
                 .addSerializationExclusionStrategy(new SerializationExclusionStrategy())
                 .create();
 
+        Log.w("gson",": "+gson);
+
         Retrofit retrofit = new Retrofit.Builder()
-                //.baseUrl(context.getString(R.string.endpointSharengo))
-                .baseUrl("http:gr3dcomunication.com/sharengo/")
+                .baseUrl(context.getString(R.string.endpointSharengo))
+                //.baseUrl("http:gr3dcomunication.com/sharengo/")
                 .client(provideOkHttpClientTrusted(context))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(schedulerProvider.io()))
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -95,7 +102,6 @@ public class ApiModule {
     @Provides
     @Singleton
     OkHttpClient provideOkHttpClientTrusted(Context context){
-
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         if (BuildConfig.DEBUG) {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -105,46 +111,68 @@ public class ApiModule {
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
-
         try {
 
-            // loading CAs from an InputStream
-            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+            final TrustManager[] trustAllCerts = new TrustManager[] {
+                    new X509TrustManager() {
+                        @Override
+                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
 
-            InputStream cert = context.getResources().openRawResource(R.raw.ca);
+                        }
+                        @Override
+                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+
+                        }
+
+                        @Override
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                            return new java.security.cert.X509Certificate[]{};
+                        }
+                    }
+            };
+
+
+
+
+            CertificateFactory cf = CertificateFactory.getInstance("X509");
             Certificate caServer;
+            InputStream cert = context.getResources().openRawResource(R.raw.client);
+            InputStream cert2 = context.getResources().openRawResource(R.raw.ca);
             try {
-                caServer = cf.generateCertificate(cert);
+                // Key
+                KeyStore keyStore = KeyStore.getInstance("PKCS12");
+                keyStore.load(cert, context.getString(R.string.mystore_password).toCharArray());
+
+                KeyManagerFactory kmf = KeyManagerFactory.getInstance("X509");
+                kmf.init(keyStore, context.getString(R.string.mystore_password).toCharArray());
+                KeyManager[] keyManagers = kmf.getKeyManagers();
+
+                // Trust
+                caServer = cf.generateCertificate(cert2);
+                KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                trustStore.load(null, null);
+                trustStore.setCertificateEntry("ca", caServer);
+                TrustManagerFactory tmf = TrustManagerFactory.getInstance("X509");
+                tmf.init(trustStore);
+                TrustManager[] trustManagers = tmf.getTrustManagers();
+                SSLContext sslContext = SSLContext.getInstance("SSL");
+                sslContext.init(keyManagers, trustManagers, null);
+
+                httpClient.sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager)trustAllCerts[0]);
             } finally {
                 cert.close();
             }
-
-            // creating a KeyStore containing our trusted CAs
-            String keyStoreType = KeyStore.getDefaultType();
-            KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-            keyStore.load(null, null);
-            keyStore.setCertificateEntry("ca", caServer);
-
-
-            // creating a TrustManager that trusts the CAs in our KeyStore
-            String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
-            TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
-            tmf.init(keyStore);
-
-            // creating an SSLSocketFactory that uses our TrustManager
-            SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(null, tmf.getTrustManagers(), null);
-            httpClient.sslSocketFactory(sslContext.getSocketFactory());
         }catch (Exception e){
 
         }
 
         httpClient.hostnameVerifier(new HostnameVerifier() {
-            @Override
-            public boolean verify(String hostname, SSLSession session) {
-                return true;
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
             }
-        });
+        );
         httpClient.readTimeout(20, TimeUnit.SECONDS);
         httpClient.connectTimeout(20, TimeUnit.SECONDS);
 

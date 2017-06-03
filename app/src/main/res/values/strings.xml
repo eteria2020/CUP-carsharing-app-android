@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Sharengo</string>
+    <string name="mystore_password">oi8dmf0</string>
     
     <!--LABELS-->
     <string name="ok">OK</string>
@@ -32,7 +33,12 @@
     <string name="maps_bookingcar_action">Prenota auto</string>
     <string name="maps_autonomy_label">autonomia: <![CDATA[<b>%d%%</b>]]></string>
     <string name="maps_distance_label">%d mt di distanza</string>
+    <string name="maps_distancekm_label">%.2f km di distanza</string>
     <string name="maps_time_label">%d minuti a piedi</string>
+    <string name="maps_timeh60_label">1 ora a piedi</string>
+    <string name="maps_timeh_label">%d ore a piedi</string>
+    <string name="maps_timehsm_label" formatted="false">%d ora e %d minuti a piedi</string>
+    <string name="maps_timehm_label" formatted="false">%d ore e %d minuti a piedi</string>
     <string name="maps_closestcar_label">Auto più vicina</string>
     <string name="maps_permissionopendoor_alert">Sharen\'go ha bisogno di sapere la tua posizione per aprire le portiere. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
     <string name="maps_opendoordistance_alert">"Sei troppo distante dalla Saren\'go che hai selezionato. Potrai aprirla quando sarai in prossimità dell\'auto.</string>

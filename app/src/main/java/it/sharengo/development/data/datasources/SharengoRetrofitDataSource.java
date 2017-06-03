@@ -23,7 +23,7 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
 
 
     @Override
-    public Observable<Cars> getCars(float latitude, float longitude, float radius) {
+    public Observable<Cars> getCars(float latitude, float longitude, int radius) {
         return mSharengoApi.getCars(latitude, longitude, radius)
                 .compose(this.<Cars>handleRetrofitRequest());
     }

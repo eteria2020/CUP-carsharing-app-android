@@ -8,4 +8,5 @@ import it.sharengo.development.ui.base.presenters.MvpView;
 public interface MapMvpView extends MvpView {
 
     void showCars(List<Car> carsList);
+    void noCarsFound();
 }

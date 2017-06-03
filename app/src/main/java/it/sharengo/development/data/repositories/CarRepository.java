@@ -53,6 +53,7 @@ public class CarRepository {
                     })
                     .compose(logSource("NETWORK"));
         }*/
+
         return mRemoteDataSource.getCars(latitude, longitude, radius)
                 .doOnNext(new Action1<Cars>() {
                     @Override

@@ -10,6 +10,6 @@ import rx.Observable;
 
 public interface SharengoDataSource {
 
-    Observable<Cars> getCars(float latitude, float longitude, float radius);
+    Observable<Cars> getCars(float latitude, float longitude, int radius);
 
 }

@@ -18,6 +18,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -214,6 +215,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 @Override
                 public boolean onZoom(ZoomEvent event) {
                     if(hasInit) {
+
                         refreshMapButton.startAnimation(anim);
                         refreshCars();
                     }
@@ -333,7 +335,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
 
-        //userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
+        userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
 
         //First time
         if (!hasInit){
@@ -403,19 +405,28 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         if (!hasInit){
             mMapView.getController().setCenter(defaultLocation);
             mMapView.getController().setZoom(5);
-            refreshCars();
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    refreshCars();
+                }
+            }, 100);
+
         }
         enabledCenterMap(false);
+
     }
 
     private void loadsCars(){
-        mPresenter.loadCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 100);
+        mPresenter.loadCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 1000000000);
     }
 
     private void refreshCars(){
 
         try {
-            mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 100);
+            mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 1000000000);
         }catch (NullPointerException e){}
 
     }
@@ -649,14 +660,46 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //Distanza
         if(userLocation != null){
-            distanceTextView.setText(String.format(getString(R.string.maps_distance_label), Math.round(getDistance(car))));
+            String distanceString = "";
+            float distance = getDistance(car);
+            if(distance < 1000){
+                distance = Math.round(distance);
+                distanceString = String.format(getString(R.string.maps_distance_label), distance);
+            }
+            else{
+                distanceString = String.format(getString(R.string.maps_distancekm_label), distance/1000);
+            }
+
+            distanceTextView.setText(distanceString);
         }else{
             distanceView.setVisibility(View.GONE);
         }
 
         //Time
         if(userLocation != null){
-            timeTextView.setText(String.format(getString(R.string.maps_time_label), Math.round(getDistance(car)/100)));
+            int timeF = Math.round(getDistance(car)/100);
+            String timeFString = "";
+
+            if(timeF < 60){
+                timeFString = String.format(getString(R.string.maps_time_label), timeF);
+            }else if(timeF == 60){
+                timeFString = getString(R.string.maps_timeh60_label);
+            }else if(timeF > 60){
+                int hh = timeF / 60;
+                int mm = timeF % 60;
+
+                if(mm == 0){
+                    timeFString = String.format(getString(R.string.maps_timeh_label), hh);
+                }else {
+                    if(hh == 1){
+                        timeFString = String.format(getString(R.string.maps_timehsm_label), hh, mm);
+                    }else {
+                        timeFString = String.format(getString(R.string.maps_timehm_label), hh, mm);
+                    }
+                }
+            }
+
+            timeTextView.setText(timeFString);
         }else{
             timeView.setVisibility(View.GONE);
         }
@@ -806,7 +849,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @OnClick(R.id.refreshMapButton)
     public void onRefreshMap() {
         refreshMapButton.startAnimation(anim);
-        mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 100);
+        mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 1000000000);
     }
 
     @OnClick(R.id.closePopupButton)
@@ -912,9 +955,16 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         Log.w("FINISH","OK");
 
+
         //Stop sull'animazione del pulsante di refresh
         anim.cancel();
 
+    }
+
+    @Override
+    public void noCarsFound() {
+        //Stop sull'animazione del pulsante di refresh
+        anim.cancel();
     }
 
 }

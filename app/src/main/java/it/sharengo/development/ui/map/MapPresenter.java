@@ -89,6 +89,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     public void loadCars(float latitude, float longitude, int radius) {
+
         if( mCarsRequest == null) {
             mCarsRequest = buildCarsRequest(latitude, longitude, radius);
             addSubscription(mCarsRequest.unsafeSubscribe(getCarsSubscriber()));
@@ -111,7 +112,10 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         if(mCars.reason.isEmpty()){
             getMvpView().showCars(mCars.data);
         }else{
-            getMvpView().showError(mCars.reason);
+            if(!mCars.reason.equals("No cars found"))
+                getMvpView().showError(mCars.reason);
+
+            getMvpView().noCarsFound();
         }
     }
 
