@@ -19,5 +19,8 @@ public interface SharengoApi {
     @GET("cars")
     Observable<Result<Cars>> getCars(@Query("lat") float latitude, @Query("lon") float longitude, @Query("radius") int radius);
 
+    @GET("cars")
+    Observable<Result<Cars>> getPlates();
+
     //https://api.sharengo.it:8023/v2/cars?lat=45.1456&lon=12.4543&radius=100
 }

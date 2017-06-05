@@ -12,6 +12,8 @@ import it.sharengo.development.data.models.Cars;
 import it.sharengo.development.data.models.Post;
 import rx.Observable;
 
+import static android.R.attr.radius;
+
 public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implements SharengoDataSource {
 
     private final SharengoApi mSharengoApi;
@@ -25,6 +27,12 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
     @Override
     public Observable<Cars> getCars(float latitude, float longitude, int radius) {
         return mSharengoApi.getCars(latitude, longitude, radius)
+                .compose(this.<Cars>handleRetrofitRequest());
+    }
+
+    @Override
+    public Observable<Cars> getPlates() {
+        return mSharengoApi.getPlates()
                 .compose(this.<Cars>handleRetrofitRequest());
     }
 }

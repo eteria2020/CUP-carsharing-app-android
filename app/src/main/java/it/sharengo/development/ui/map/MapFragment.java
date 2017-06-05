@@ -278,6 +278,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }
 
         view.getViewTreeObserver().addOnGlobalLayoutListener(layoutListener);
+
+        //Prelevo le targhe
+        mPresenter.viewCreated();
     }
 
     @Override
@@ -290,6 +293,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         if(view != null)
             view.getViewTreeObserver().removeOnGlobalLayoutListener(layoutListener);
+
+        mPresenter.viewDestroy();
     }
 
     @Override
@@ -799,6 +804,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 && !StringUtils.isNumeric(searchMapText.substring(1))
                   && StringUtils.isNumeric(searchMapText.substring(2))){
                 Log.w("SEARCH","PLATE");
+                mPresenter.findPlates(searchMapText);
             }else{
                 Log.w("SEARCH","ADDRESS");
             }
