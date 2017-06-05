@@ -40,7 +40,7 @@
             android:singleLine="true"
             android:background="@android:color/transparent"
             android:inputType="text"
-            android:imeOptions="actionSearch"/>
+            android:imeOptions="actionDone"/>
         <ImageView
             android:id="@+id/microphoneImageView"
             android:layout_width="23dp"

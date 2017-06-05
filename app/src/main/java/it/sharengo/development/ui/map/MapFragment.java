@@ -68,6 +68,8 @@ import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+
 
 public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvpView, LocationListener {
 
@@ -82,6 +84,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private ArrayList<OverlayItem> items;*/
 
     private final int SPEECH_RECOGNITION_CODE = 1;
+    private final int ZOOM_A = 15;
+    private final int ZOOM_B = 5;
 
     private ItemizedOverlayWithFocus<OverlayItem> mOverlay;
     private ItemizedOverlayWithFocus<OverlayItem> mOverlayUser;
@@ -103,7 +107,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private MapSearchListAdapter.OnItemActionListener mActionListener = new MapSearchListAdapter.OnItemActionListener() {
         @Override
         public void onItemClick(SearchItem searchItem) {
-
+            hideSoftKeyboard();
+            mMapView.getController().setCenter(new GeoPoint(searchItem.latitude, searchItem.longitude));
+            mMapView.getController().zoomTo(ZOOM_A);
+            mMapView.getController().animateTo(new GeoPoint(searchItem.latitude, searchItem.longitude));
         }
     };
 
@@ -206,7 +213,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             mMapView.setBuiltInZoomControls(false);
             mMapView.setMultiTouchControls(true);
             mMapView.setTilesScaledToDpi(true);
-            mMapView.getController().setZoom(14);
+            mMapView.getController().setZoom(ZOOM_A);
             mMapView.setMapListener(new MapListener() {
                 @Override
                 public boolean onScroll(ScrollEvent event) {
@@ -422,7 +429,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         if (!hasInit){
             mMapView.getController().setCenter(defaultLocation);
-            mMapView.getController().setZoom(5);
+            mMapView.getController().setZoom(ZOOM_B);
 
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -824,6 +831,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         }else{
             Log.w("SEARCH","NO");
+            mAdapter.setData(null);
         }
     }
 
