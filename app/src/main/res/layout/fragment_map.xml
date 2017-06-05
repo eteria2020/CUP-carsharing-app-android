@@ -18,7 +18,7 @@
         android:layout_height="match_parent" />
 
     <!-- Search -->
-    <include layout="@layout/search_map" />
+    <include layout="@layout/view_search_map" />
 
     <!-- Round menu -->
     <RelativeLayout
@@ -62,7 +62,7 @@
 
 
     <!-- Popup view -->
-    <include layout="@layout/car_popup" />
+    <include layout="@layout/view_car_popup" />
     <!-- /Popup view -->
 
 </RelativeLayout>

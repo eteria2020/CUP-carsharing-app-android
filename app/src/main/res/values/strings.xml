@@ -44,4 +44,6 @@
     <string name="maps_opendoordistance_alert">"Sei troppo distante dalla Saren\'go che hai selezionato. Potrai aprirla quando sarai in prossimità dell\'auto.</string>
     <string name="maps_searchmicrophone_message">In ascolto...</string>
 
+    <string name="search_platesharengo_label">Targa Share\'ngo</string>
+
 </resources>

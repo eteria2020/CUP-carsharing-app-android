@@ -3,13 +3,10 @@ package it.sharengo.development.ui.map;
 import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -25,9 +22,9 @@ import android.speech.SpeechRecognizer;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -41,7 +38,6 @@ import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osmdroid.api.IGeoPoint;
@@ -60,8 +56,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,6 +64,7 @@ import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Car;
+import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
 
@@ -103,6 +98,14 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private OverlayItem pinUser;
 
     private float currentRotation = 0f;
+
+    private MapSearchListAdapter mAdapter;
+    private MapSearchListAdapter.OnItemActionListener mActionListener = new MapSearchListAdapter.OnItemActionListener() {
+        @Override
+        public void onItemClick(SearchItem searchItem) {
+
+        }
+    };
 
     @BindView(R.id.mapView)
     MapView mMapView;
@@ -158,6 +161,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @BindView(R.id.microphoneImageView)
     ImageView microphoneImageView;
 
+    @BindView(R.id.searchRecyclerView)
+    RecyclerView searchRecyclerView;
+
 
     public static MapFragment newInstance() {
         MapFragment fragment = new MapFragment();
@@ -170,6 +176,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         getMvpFragmentComponent(savedInstanceState).inject(this);
+
+        mAdapter = new MapSearchListAdapter(mActionListener);
     }
 
     @Override
@@ -228,7 +236,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             mMapView.getOverlays().add(mRotationGestureOverlay);
         }
 
-        //Verifico se è disponibile
+        //Ricerca
+        final LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        searchRecyclerView.setLayoutManager(lm);
+        searchRecyclerView.setAdapter(mAdapter);
+        //searchRecyclerView.addItemDecoration(new DividerItemDecoration(searchRecyclerView.getContext(), lm.getOrientation()));
+
         return view;
     }
 
@@ -971,6 +984,11 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     public void noCarsFound() {
         //Stop sull'animazione del pulsante di refresh
         anim.cancel();
+    }
+
+    @Override
+    public void showSearchResult(List<SearchItem> searchItemList) {
+        mAdapter.setData(searchItemList);
     }
 
 }

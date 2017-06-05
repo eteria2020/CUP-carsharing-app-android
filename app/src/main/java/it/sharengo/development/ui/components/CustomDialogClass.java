@@ -6,11 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.TextView;
 
 import it.sharengo.development.R;
-
-import static android.R.id.message;
 
 /**
  * Created by greta on 29/05/17.
@@ -39,7 +36,7 @@ public class CustomDialogClass extends Dialog implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.custom_dialog);
+        setContentView(R.layout.view_custom_dialog);
         yes = (Button) findViewById(R.id.btn_yes);
         yes.setText(yesString);
         if(yesString == null) yes.setVisibility(View.GONE);

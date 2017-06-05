@@ -4,6 +4,7 @@ package it.sharengo.development.ui.map;
 import android.os.Handler;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -11,6 +12,7 @@ import java.util.TimerTask;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.Cars;
 import it.sharengo.development.data.models.Post;
+import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
@@ -37,6 +39,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private Observable<List<Car>> mFindPlatesRequest;
     private Cars mCars;
     private List<Car> mPlates;
+    private List<SearchItem> mSearchItems;
     private boolean hideLoading;
 
     private Timer timer;
@@ -312,9 +315,14 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     private void checkPlatesResult(){
 
+        mSearchItems = new ArrayList<SearchItem>();
+
         for (Car carr : mPlates){
-            Log.w("carr",": "+carr.id);
+            mSearchItems.add(new SearchItem(carr.id, "plate", carr.longitude, carr.latitude));
         }
+
+        getMvpView().showSearchResult(mSearchItems);
+
     }
 }
 
