@@ -5,8 +5,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Rect;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -38,6 +38,8 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -58,7 +60,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -101,6 +102,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private String carnext_id;
     private Car carSelected;
     private OverlayItem pinUser;
+    private boolean searchViewOpen = false;
 
     private float currentRotation = 0f;
 
@@ -172,6 +174,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @BindView(R.id.searchRecyclerView)
     RecyclerView searchRecyclerView;
 
+    @BindView(R.id.searchMapView)
+    LinearLayout searchMapView;
 
     public static MapFragment newInstance() {
         MapFragment fragment = new MapFragment();
@@ -798,26 +802,52 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }
     }
 
-    private void setSearchResult(){
-        //int chardigit = (int) searchEditText.getTextSize();
 
-        searchMapResultView.setVisibility(View.VISIBLE);
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Ricerca
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //Listener: apertura / chiusura della tastiera
     private void setKeyboardListener(){
+
         Rect r = new Rect();
         view.getWindowVisibleDisplayFrame(r);
-        if (view.getRootView().getHeight() - (r.bottom - r.top) > 500) {
-            //Show
-            setSearchResult();
-        } else {
+
+        if (view.getRootView().getHeight() - (r.bottom - r.top) > 200) { //Tastiera aperta
+
+            //Verifico se la view era precedentemente aperta
+            if(!searchViewOpen) {
+
+                //Setto l'altezza della view dei risultati di ricerca
+                setSearchViewHeight();
+
+                //Mostro la view dei risultati
+                setSearchResult();
+
+                searchViewOpen = true;
+            }
+        } else { //Tastiera chiusa
             //Hidden
             searchMapResultView.setVisibility(View.GONE);
+            searchViewOpen = false;
         }
     }
 
+    private void setSearchResult(){
+
+        //Mostro la view dei risultati
+        searchMapResultView.setVisibility(View.VISIBLE);
+    }
+
+
+    //Metodo richiamato quando viene scritto qualcosa nella casella di ricerca
     private void initMapSearch(){
+
         String searchMapText = searchEditText.getText().toString();
+
+        //Verifico prima di tutto che l'utente abbia scritto 3 caratteri. La ricerca parte nel momento in cui vengono digitati 3 caratteri
         if (searchMapText.length() > 2) {
             Log.w("SEARCH","YES");
 
@@ -831,12 +861,31 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 Log.w("SEARCH","ADDRESS");
             }
 
-        }else{
+        }else{ //Se i caratteri digitati sono meno di 3, ripulisco la lista
             Log.w("SEARCH","NO");
             mAdapter.setData(null);
         }
     }
 
+    //Setto l'altezza della view contente i risultati di una ricerca
+    private void setSearchViewHeight(){
+
+        //Prelevo l'altezza di una singola voce della lista
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = getResources().getDimension(R.dimen.search_item_height); // * (metrics.densityDpi / 160f)
+        float itemHeight = Math.round(px);
+
+        Rect r = new Rect();
+        view.getWindowVisibleDisplayFrame(r);
+
+        //Calcolo il numero di elementi che possono essere visualizzati all'interno dell'intefaccia senza che nessuno venga tagliato a livello visivo
+        float totalHeight = r.height()- searchMapView.getHeight() - 200;
+        int nItem = (int) (totalHeight / itemHeight);
+
+        //Setto l'altezza della lista
+        searchMapResultView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (itemHeight*nItem) + 5));
+        searchRecyclerView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (itemHeight*nItem)));
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -1059,7 +1108,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @Override
     public void showSearchResult(List<SearchItem> searchItemList) {
+
+        setSearchViewHeight();
         mAdapter.setData(searchItemList);
+
     }
 
 }
