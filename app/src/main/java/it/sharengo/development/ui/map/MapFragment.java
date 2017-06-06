@@ -60,6 +60,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -103,6 +104,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private Car carSelected;
     private OverlayItem pinUser;
     private boolean searchViewOpen = false;
+    private OverlayItem ccOverlay;
+    private int currentDrawable = 0; //frame dell'animazione della macchiana più vicina
+    private int[] drawableAnimArray = new int[]{R.drawable.autopulse0000, R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulse0007, R.drawable.autopulse0008, R.drawable.autopulse0009, R.drawable.autopulse0010, R.drawable.autopulse0011, R.drawable.autopulse0012, R.drawable.autopulse0013, R.drawable.autopulse0014, R.drawable.autopulse0015, R.drawable.autopulse0016, R.drawable.autopulse0017, R.drawable.autopulse0018, R.drawable.autopulse0019, R.drawable.autopulse0020 };
+    private Timer timer;
 
     private float currentRotation = 0f;
 
@@ -321,6 +326,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             view.getViewTreeObserver().removeOnGlobalLayoutListener(layoutListener);
 
         mPresenter.viewDestroy();
+
+        if(timer != null) timer.cancel();
     }
 
     @Override
@@ -516,115 +523,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     }
 
-    /*private void setUpMap() {
-
-        //PIN
-        items = new ArrayList<OverlayItem>();
-
-
-
-        locationListener = new MyLocationListener();
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-            if( location != null ) {
-                currentLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-            }else{
-                currentLocation = new GeoPoint(45.463932, 9.186487);
-            }
-        }
-
-
-        mMapView.destroyDrawingCache();
-        mMapView.refreshDrawableState();
-        mMapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
-        mMapView.setBuiltInZoomControls(true);
-        mMapView.setMultiTouchControls(true);
-
-
-        mapController = mMapView.getController();
-        mapController.setZoom(14);
-
-
-
-
-
-        //Aggiungo il pin utente
-        pinUser = new OverlayItem("Title", "Description", currentLocation);
-        items.add(pinUser);
-
-
-
-        mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(
-                getActivity(), items,
-                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                    @Override
-                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                        //do something
-                        return true;
-                    }
-                    @Override
-                    public boolean onItemLongPress(final int index, final OverlayItem item) {
-                        return false;
-                    }
-                });
-        mOverlay.setFocusItemsOnTap(true);
-        mOverlay.removeItem(pinUser);
-
-        mMapView.getOverlays().add(mOverlay);
-
-
-        displayMyCurrentLocationOverlay();
-        if( currentLocation != null) {
-
-            mapController.setCenter(currentLocation);
-        }
-
-    }
-
-    private void displayMyCurrentLocationOverlay() {
-
-        Log.w("currentLocation",": "+currentLocation);
-
-
-        mOverlay.removeItem(pinUser);
-
-        pinUser = new OverlayItem("Title", "Description", currentLocation);
-
-        mOverlay.addItem(pinUser);
-
-        mMapView.invalidate();
-
-    }
-
-    ublic class MyLocationListener implements LocationListener {
-
-
-        @Override
-        public void onLocationChanged(Location location) {
-            currentLocation = new GeoPoint(location);
-            displayMyCurrentLocationOverlay();
-        }
-
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
-
-        }
-    }*/
-
 
     private BitmapDrawable getIconMarker(int icon){
         BitmapDrawable drawable = null;
@@ -765,19 +663,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         startActivity(intent);
     }
 
-    private void startSpeechToText() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                getString(R.string.maps_searchmicrophone_message));
-        try {
-            startActivityForResult(intent, SPEECH_RECOGNITION_CODE);
-        } catch (ActivityNotFoundException a) {
-            Snackbar.make(view, getString(R.string.error_generic_msg), Snackbar.LENGTH_LONG).show();
-        }
-    }
 
 
     /**
@@ -800,6 +685,40 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             }
 
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Marker
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //Animazione del maker più vicino
+    private void setMarkerAnimation(){
+
+        if(timer != null) timer.cancel();
+
+        timer = new Timer();
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //Ogni x millisecondi cambio il frame
+                        ccOverlay.setMarker(getResources().getDrawable(drawableAnimArray[currentDrawable]));
+
+                        mMapView.invalidate();
+
+                        if(currentDrawable < drawableAnimArray.length-1) currentDrawable++;
+                        else currentDrawable = 0;
+
+                    }
+                });
+            }
+        }, 100, 100);
     }
 
 
@@ -885,6 +804,21 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         //Setto l'altezza della lista
         searchMapResultView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (itemHeight*nItem) + 5));
         searchRecyclerView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (itemHeight*nItem)));
+    }
+
+    //Microfono
+    private void startSpeechToText() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.maps_searchmicrophone_message));
+        try {
+            startActivityForResult(intent, SPEECH_RECOGNITION_CODE);
+        } catch (ActivityNotFoundException a) {
+            Snackbar.make(view, getString(R.string.error_generic_msg), Snackbar.LENGTH_LONG).show();
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -980,12 +914,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     //                                              Mvp Methods
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    boolean alphaDirection = true;
-    int currentOverlayAlpha = 0;
-    OverlayItem ccOverlay;
-    int currentDrawable = 0;
-    Drawable[] intArray = new Drawable[7];
-    Timer timer;
+
     @Override
     public void showCars(final List<Car> carsList) {
 
@@ -1004,7 +933,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
                 //Verifico se la vettura è la più vicina
                 if(car.id.equals(carnext_id)){
-                    icon_marker = R.drawable.ic_auto_vicina;
+                    icon_marker = R.drawable.autopulse0000;
                 }
 
                 //Creo il marker
@@ -1045,54 +974,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         Log.w("FINISH","OK");
 
 
-
-        intArray[0] = getResources().getDrawable(R.drawable.tmp0);
-        intArray[1] = getResources().getDrawable(R.drawable.tmp1);
-        intArray[2] = getResources().getDrawable(R.drawable.tmp2);
-        intArray[3] = getResources().getDrawable(R.drawable.tmp3);
-        intArray[4] = getResources().getDrawable(R.drawable.tmp4);
-        intArray[5] = getResources().getDrawable(R.drawable.tmp5);
-        intArray[6] = getResources().getDrawable(R.drawable.tmp6);
-
-
-        /*
-        if(timer != null) timer.cancel();
-
-        timer = new Timer();
-
-
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (currentOverlayAlpha > 255) {
-                            currentOverlayAlpha = 255;
-                            alphaDirection = !alphaDirection;
-                        } else if (currentOverlayAlpha < 0) {
-                            currentOverlayAlpha = 0;
-                            alphaDirection = !alphaDirection;
-                        }
-
-                        //ccOverlay.getDrawable().setAlpha(currentOverlayAlpha);
-                        ccOverlay.setMarker(intArray[currentDrawable]);
-                        mMapView.invalidate();
-
-
-                        if (alphaDirection) {
-                            currentOverlayAlpha += 20;
-                        } else {
-                            currentOverlayAlpha -= 20;
-                        }
-
-                        if(currentDrawable < intArray.length-1) currentDrawable++;
-                        else currentDrawable = 0;
-
-                    }
-                });
-            }
-        }, 150, 150);*/
+        setMarkerAnimation();
 
 
         //Stop sull'animazione del pulsante di refresh
