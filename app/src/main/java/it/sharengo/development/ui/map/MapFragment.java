@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -22,7 +24,6 @@ import android.speech.SpeechRecognizer;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -56,6 +57,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,8 +70,6 @@ import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 
 public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvpView, LocationListener {
@@ -248,6 +249,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         searchRecyclerView.setLayoutManager(lm);
         searchRecyclerView.setAdapter(mAdapter);
         //searchRecyclerView.addItemDecoration(new DividerItemDecoration(searchRecyclerView.getContext(), lm.getOrientation()));
+
 
         return view;
     }
@@ -929,6 +931,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     //                                              Mvp Methods
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    boolean alphaDirection = true;
+    int currentOverlayAlpha = 0;
+    OverlayItem ccOverlay;
+    int currentDrawable = 0;
+    Drawable[] intArray = new Drawable[7];
+    Timer timer;
     @Override
     public void showCars(final List<Car> carsList) {
 
@@ -953,6 +961,11 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 //Creo il marker
                 OverlayItem overlayItem = new OverlayItem(car.manufactures, "Descrizione", new GeoPoint(car.latitude, car.longitude));
                 overlayItem.setMarker(getIconMarker(icon_marker));
+
+                if(car.id.equals(carnext_id)){
+                    ccOverlay = overlayItem;
+                }
+
                 items.add(overlayItem);
             }
         }
@@ -981,6 +994,56 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         mMapView.invalidate();
 
         Log.w("FINISH","OK");
+
+
+
+        intArray[0] = getResources().getDrawable(R.drawable.tmp0);
+        intArray[1] = getResources().getDrawable(R.drawable.tmp1);
+        intArray[2] = getResources().getDrawable(R.drawable.tmp2);
+        intArray[3] = getResources().getDrawable(R.drawable.tmp3);
+        intArray[4] = getResources().getDrawable(R.drawable.tmp4);
+        intArray[5] = getResources().getDrawable(R.drawable.tmp5);
+        intArray[6] = getResources().getDrawable(R.drawable.tmp6);
+
+
+        /*
+        if(timer != null) timer.cancel();
+
+        timer = new Timer();
+
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (currentOverlayAlpha > 255) {
+                            currentOverlayAlpha = 255;
+                            alphaDirection = !alphaDirection;
+                        } else if (currentOverlayAlpha < 0) {
+                            currentOverlayAlpha = 0;
+                            alphaDirection = !alphaDirection;
+                        }
+
+                        //ccOverlay.getDrawable().setAlpha(currentOverlayAlpha);
+                        ccOverlay.setMarker(intArray[currentDrawable]);
+                        mMapView.invalidate();
+
+
+                        if (alphaDirection) {
+                            currentOverlayAlpha += 20;
+                        } else {
+                            currentOverlayAlpha -= 20;
+                        }
+
+                        if(currentDrawable < intArray.length-1) currentDrawable++;
+                        else currentDrawable = 0;
+
+                    }
+                });
+            }
+        }, 150, 150);*/
 
 
         //Stop sull'animazione del pulsante di refresh
