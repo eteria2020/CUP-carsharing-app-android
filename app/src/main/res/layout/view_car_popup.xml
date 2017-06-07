@@ -4,14 +4,14 @@
     android:id="@+id/popupCarView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="invisible"
-    android:clickable="true">
+    android:visibility="invisible">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:clickable="true">
 
         <!-- Shadow -->
         <View

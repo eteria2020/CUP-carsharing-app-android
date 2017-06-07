@@ -32,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -67,7 +68,6 @@ import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
 import it.sharengo.development.R;
-import it.sharengo.development.data.datasources.PreferencesDataSource;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
@@ -679,10 +679,17 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             case SPEECH_RECOGNITION_CODE: {
                 if (resultCode == getActivity().RESULT_OK && null != data) {
 
+                    //searchEditText.requestFocus();
+                    //setSearchResult();
+
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String text = result.get(0);
-                    //searchEditText.setText(text);
+                    searchEditText.setText(text);
+                    initMapSearch();
+
+                    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
                 }
                 break;
             }
@@ -770,7 +777,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     //Metodo richiamato quando viene scritto qualcosa nella casella di ricerca
     private void initMapSearch(){
-        Log.w("currentSearchItem","QUUUUUI");
+
         currentSearchItem = null;
 
         String searchMapText = searchEditText.getText().toString();
@@ -831,9 +838,18 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     private void setSearchItemSelected(SearchItem searchItem){
         hideSoftKeyboard();
+
+        //Muovo la mappa
         mMapView.getController().setCenter(new GeoPoint(searchItem.latitude, searchItem.longitude));
         mMapView.getController().zoomTo(ZOOM_A);
         mMapView.getController().animateTo(new GeoPoint(searchItem.latitude, searchItem.longitude));
+
+        //Se è una targa, apro il popup
+        if(searchItem.type.equals("plate")){
+            Car car = mPresenter.findPlateByID(searchItem.display_name);
+            if(car != null)
+                showPopupCar(car);
+        }
 
         currentSearchItem = searchItem;
 
@@ -843,7 +859,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         //Inserisco nella casella di testo il valore cercato
         searchItemSelected = true;
         searchEditText.setText(searchItem.display_name);
-        Log.w("currentSearchItem1",": "+searchItem);
     }
 
     private void clearSearch(){
@@ -851,7 +866,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         searchMapResultView.setVisibility(View.GONE);
         searchViewOpen = false;
 
-        Log.w("currentSearchItem2",": "+currentSearchItem);
         if(currentSearchItem == null) {
             //Pulisco la Edittext
             searchEditText.setText("");
@@ -863,9 +877,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     private void setSearchDefaultContent(){
         //Mostro preferiti + storisco nella view dei risultati
-        /*List<SearchItem> searchItems = new ArrayList<SearchItem>();
-        searchItems.add(new SearchItem(getString(R.string.search_favoriteempty_label), "none"));
-        mAdapter.setData(searchItems);*/
         mPresenter.getSearchItems("", getContext(), getActivity().getPreferences(MODE_PRIVATE));
     }
 

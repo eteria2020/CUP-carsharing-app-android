@@ -15,9 +15,10 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import it.sharengo.development.R;
+import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.SearchItem;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 
 @Singleton
 public class PreferencesRepository {
@@ -48,6 +49,14 @@ public class PreferencesRepository {
         mSearchResults = getHistoricList(mPrefs);
 
         return Observable.from(mSearchResults)
+                .filter(new Func1<SearchItem, Boolean>() {
+                    @Override
+                    public Boolean call(SearchItem item) {
+                        if(searchText.length() > 0)
+                            return item.display_name.toLowerCase().equals(searchText.toLowerCase()); //filtering
+                        else return true;
+                    }
+                })
                 .toList();
     }
 

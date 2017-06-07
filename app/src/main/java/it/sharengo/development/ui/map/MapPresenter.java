@@ -4,6 +4,7 @@ package it.sharengo.development.ui.map;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,6 +52,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private List<Car> mPlates;
     private List<Address> mAddress;
     private List<SearchItem> mSearchItems;
+    private List<SearchItem> historicItems;
     private boolean hideLoading;
 
     private Timer timer;
@@ -343,6 +345,24 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
+    //                                              Find Plate by ID
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Car findPlateByID(String plate) {
+        Car carFind = null;
+
+        if(mPlates != null){
+            for(Car car : mPlates){
+                if(car.id.toLowerCase().equals(plate.toLowerCase())) carFind = car;
+            }
+        }
+
+        return carFind;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
     //                                              Find Address
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -394,7 +414,15 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         mSearchItems = new ArrayList<SearchItem>();
 
         for (Address address : mAddress){
-            mSearchItems.add(new SearchItem(address.display_name, "address", address.longitude, address.latitude));
+
+            String type = "address";
+
+            if(historicItems != null)
+                for (SearchItem sI : historicItems) {
+                    if (address.display_name.equals(sI.display_name)) type = "historic";
+                }
+
+            mSearchItems.add(new SearchItem(address.display_name, type, address.longitude, address.latitude));
         }
 
         getMvpView().showSearchResult(mSearchItems);
@@ -412,7 +440,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
         if( mFindSearchRequest == null) {
             mFindSearchRequest = buildFindSearchRequest(searchText, context, mPrefs);
-            addSubscription(mFindSearchRequest.unsafeSubscribe(getFindSearchSubscriber(context)));
+            addSubscription(mFindSearchRequest.unsafeSubscribe(getFindSearchSubscriber(context, mPrefs)));
         }
     }
 
@@ -429,7 +457,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                 });
     }
 
-    private Subscriber<List<SearchItem>> getFindSearchSubscriber(final Context context){
+    private Subscriber<List<SearchItem>> getFindSearchSubscriber(final Context context, final SharedPreferences mPrefs){
         return new Subscriber<List<SearchItem>>() {
             @Override
             public void onCompleted() {
@@ -445,20 +473,21 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
             @Override
             public void onNext(List<SearchItem> searchItemList) {
 
-                mSearchItems = searchItemList;
+                historicItems = searchItemList;
 
                 //TODO: preferiti
-                mSearchItems.add(new SearchItem(context.getString(R.string.search_favoriteempty_label), "none"));
+                historicItems.add(new SearchItem(context.getString(R.string.search_favoriteempty_label), "none"));
 
-                Collections.reverse(mSearchItems);
+                Collections.reverse(historicItems);
 
-                mSearchItems = mSearchItems.subList(0, Math.min(mSearchItems.size(), 15));
+                historicItems = historicItems.subList(0, Math.min(historicItems.size(), 15));
+
             }
         };
     }
 
     private void checkSearchResult(){
-        getMvpView().showSearchResult(mSearchItems);
+        getMvpView().showSearchResult(historicItems);
     }
 
     public void saveSearchResultOnHistoric(SharedPreferences mPref, SearchItem searchItem){
