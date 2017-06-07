@@ -1,5 +1,6 @@
 package it.sharengo.development.data.repositories;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import javax.inject.Singleton;
 import it.sharengo.development.data.datasources.SharengoDataSource;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.Cars;
-import it.sharengo.development.data.models.Post;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -82,7 +82,6 @@ public class CarRepository {
         if (mCachedPlate == null) {
             mCachedPlate = new ArrayList<Car>();
         }
-
         mCachedPlate = cars.data;
     }
 

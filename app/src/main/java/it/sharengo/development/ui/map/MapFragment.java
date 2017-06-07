@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
@@ -68,10 +67,13 @@ import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
 import it.sharengo.development.R;
+import it.sharengo.development.data.datasources.PreferencesDataSource;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvpView, LocationListener {
@@ -108,6 +110,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private int currentDrawable = 0; //frame dell'animazione della macchiana più vicina
     private int[] drawableAnimArray = new int[]{R.drawable.autopulse0000, R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulse0007, R.drawable.autopulse0008, R.drawable.autopulse0009, R.drawable.autopulse0010, R.drawable.autopulse0011, R.drawable.autopulse0012, R.drawable.autopulse0013, R.drawable.autopulse0014, R.drawable.autopulse0015, R.drawable.autopulse0016, R.drawable.autopulse0017, R.drawable.autopulse0018, R.drawable.autopulse0019, R.drawable.autopulse0020 };
     private Timer timer;
+    private SearchItem currentSearchItem;
+    private boolean searchItemSelected = false;
 
     private float currentRotation = 0f;
 
@@ -115,10 +119,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private MapSearchListAdapter.OnItemActionListener mActionListener = new MapSearchListAdapter.OnItemActionListener() {
         @Override
         public void onItemClick(SearchItem searchItem) {
-            hideSoftKeyboard();
-            mMapView.getController().setCenter(new GeoPoint(searchItem.latitude, searchItem.longitude));
-            mMapView.getController().zoomTo(ZOOM_A);
-            mMapView.getController().animateTo(new GeoPoint(searchItem.latitude, searchItem.longitude));
+            if(!searchItem.type.equals("none"))
+                setSearchItemSelected(searchItem);
         }
     };
 
@@ -257,6 +259,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         final LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         searchRecyclerView.setLayoutManager(lm);
         searchRecyclerView.setAdapter(mAdapter);
+        setSearchDefaultContent();
         //searchRecyclerView.addItemDecoration(new DividerItemDecoration(searchRecyclerView.getContext(), lm.getOrientation()));
 
 
@@ -750,9 +753,11 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 searchViewOpen = true;
             }
         } else { //Tastiera chiusa
-            //Hidden
-            searchMapResultView.setVisibility(View.GONE);
-            searchViewOpen = false;
+            //Verifico se la view era precedentemente aperta
+            if(searchViewOpen)
+                clearSearch();
+
+            searchEditText.clearFocus();
         }
     }
 
@@ -765,6 +770,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     //Metodo richiamato quando viene scritto qualcosa nella casella di ricerca
     private void initMapSearch(){
+        Log.w("currentSearchItem","QUUUUUI");
+        currentSearchItem = null;
 
         String searchMapText = searchEditText.getText().toString();
 
@@ -822,6 +829,52 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }
     }
 
+    private void setSearchItemSelected(SearchItem searchItem){
+        hideSoftKeyboard();
+        mMapView.getController().setCenter(new GeoPoint(searchItem.latitude, searchItem.longitude));
+        mMapView.getController().zoomTo(ZOOM_A);
+        mMapView.getController().animateTo(new GeoPoint(searchItem.latitude, searchItem.longitude));
+
+        currentSearchItem = searchItem;
+
+        if(searchItem.type.equals("address"))
+            saveLastAndFavouriteSearch(searchItem);
+
+        //Inserisco nella casella di testo il valore cercato
+        searchItemSelected = true;
+        searchEditText.setText(searchItem.display_name);
+        Log.w("currentSearchItem1",": "+searchItem);
+    }
+
+    private void clearSearch(){
+        //Nascondo la view dei risultati
+        searchMapResultView.setVisibility(View.GONE);
+        searchViewOpen = false;
+
+        Log.w("currentSearchItem2",": "+currentSearchItem);
+        if(currentSearchItem == null) {
+            //Pulisco la Edittext
+            searchEditText.setText("");
+
+            //Setto il contenuto di default
+            setSearchDefaultContent();
+        }
+    }
+
+    private void setSearchDefaultContent(){
+        //Mostro preferiti + storisco nella view dei risultati
+        /*List<SearchItem> searchItems = new ArrayList<SearchItem>();
+        searchItems.add(new SearchItem(getString(R.string.search_favoriteempty_label), "none"));
+        mAdapter.setData(searchItems);*/
+        mPresenter.getSearchItems("", getContext(), getActivity().getPreferences(MODE_PRIVATE));
+    }
+
+    //Salvo l'ultima ricerca fatta
+    private void saveLastAndFavouriteSearch(SearchItem searchItem){
+        //PreferencesDataSource aa = new PreferencesDataSource(getActivity().getSharedPreferences("aa", 0));
+        mPresenter.saveSearchResultOnHistoric(getActivity().getPreferences(MODE_PRIVATE), searchItem);
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              ButterKnife
@@ -840,7 +893,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @OnTextChanged(R.id.searchEditText)
     public void searchEditText(){
-        initMapSearch();
+        if(!searchItemSelected)
+            initMapSearch();
+        else searchItemSelected = false;
     }
 
     @OnClick(R.id.microphoneImageView)

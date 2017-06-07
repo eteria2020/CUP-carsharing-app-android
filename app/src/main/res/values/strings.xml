@@ -45,5 +45,6 @@
     <string name="maps_searchmicrophone_message">In ascolto...</string>
 
     <string name="search_platesharengo_label">Targa Share\'ngo</string>
+    <string name="search_favoriteempty_label">Nessun preferito\nmemorizzali nella sezione impostazioni</string>
 
 </resources>

@@ -16,6 +16,8 @@ buildscript {
                 password 'v3rd3andr01d'
             }
         }
+
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.2'
@@ -44,6 +46,8 @@ allprojects {
                 password 'v3rd3andr01d'
             }
         }
+
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -81,5 +85,6 @@ ext {
     glideVersion = '3.8.0'
     glideTransformationsVersion = '2.0.2'
     osmdroidVersione = '5.6.4'
+    osmbonuspackVersion = '6.3'
     circularFloatingActionMenu = '1.0.2'
 }

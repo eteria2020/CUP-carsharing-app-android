@@ -30,6 +30,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="13sp"
@@ -38,6 +40,7 @@
             app:font_name="poppinsRegular"
             android:maxLines="1"
             android:singleLine="true"
+            android:ellipsize="end"
             android:background="@android:color/transparent"
             android:inputType="textCapSentences"
             android:imeOptions="actionDone"/>

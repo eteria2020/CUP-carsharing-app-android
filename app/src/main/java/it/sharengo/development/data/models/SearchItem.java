@@ -25,6 +25,11 @@ public class SearchItem {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+
+    public SearchItem(String display_name, String type){
+        this.display_name = display_name;
+        this.type = type;
+    }
 }
 
 

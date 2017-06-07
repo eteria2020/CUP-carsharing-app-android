@@ -1,14 +1,17 @@
 package it.sharengo.development.ui.map;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
-import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import it.sharengo.development.R;
 import it.sharengo.development.data.models.Address;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.Cars;
@@ -17,6 +20,7 @@ import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
+import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
@@ -30,6 +34,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private final PostRepository mPostRepository;
     private final CarRepository mCarRepository;
     private final AddressRepository mAddressRepository;
+    private final PreferencesRepository mPreferencesRepository;
 
     /*
      *  REQUEST
@@ -41,6 +46,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private Observable<Cars> mPlatesRequest;
     private Observable<List<Car>> mFindPlatesRequest;
     private Observable<List<Address>> mFindAddressRequest;
+    private Observable<List<SearchItem>> mFindSearchRequest;
     private Cars mCars;
     private List<Car> mPlates;
     private List<Address> mAddress;
@@ -55,11 +61,13 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     public MapPresenter(SchedulerProvider schedulerProvider,
                         PostRepository postRepository,
                         CarRepository carRepository,
-                        AddressRepository addressRepository) {
+                        AddressRepository addressRepository,
+                        PreferencesRepository preferencesRepository) {
         super(schedulerProvider);
         mPostRepository = postRepository;
         mCarRepository = carRepository;
         mAddressRepository = addressRepository;
+        mPreferencesRepository = preferencesRepository;
 
         //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
 
@@ -391,6 +399,70 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
         getMvpView().showSearchResult(mSearchItems);
 
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Find Search Item
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void getSearchItems(String searchText, Context context, SharedPreferences mPrefs) {
+        hideLoading = true;
+
+        if( mFindSearchRequest == null) {
+            mFindSearchRequest = buildFindSearchRequest(searchText, context, mPrefs);
+            addSubscription(mFindSearchRequest.unsafeSubscribe(getFindSearchSubscriber(context)));
+        }
+    }
+
+
+    private Observable<List<SearchItem>> buildFindSearchRequest(String searchText, final Context context, SharedPreferences mPrefs) {
+        return mFindSearchRequest = mPreferencesRepository.getHistoricSearch(searchText, mPrefs)
+                .first()
+                .compose(this.<List<SearchItem>>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkSearchResult();
+                    }
+                });
+    }
+
+    private Subscriber<List<SearchItem>> getFindSearchSubscriber(final Context context){
+        return new Subscriber<List<SearchItem>>() {
+            @Override
+            public void onCompleted() {
+                mFindSearchRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mFindSearchRequest = null;
+                //getMvpView().showError(e);
+            }
+
+            @Override
+            public void onNext(List<SearchItem> searchItemList) {
+
+                mSearchItems = searchItemList;
+
+                //TODO: preferiti
+                mSearchItems.add(new SearchItem(context.getString(R.string.search_favoriteempty_label), "none"));
+
+                Collections.reverse(mSearchItems);
+
+                mSearchItems = mSearchItems.subList(0, Math.min(mSearchItems.size(), 15));
+            }
+        };
+    }
+
+    private void checkSearchResult(){
+        getMvpView().showSearchResult(mSearchItems);
+    }
+
+    public void saveSearchResultOnHistoric(SharedPreferences mPref, SearchItem searchItem){
+        mPreferencesRepository.saveSearchResultOnHistoric(mPref, searchItem);
     }
 }
 
