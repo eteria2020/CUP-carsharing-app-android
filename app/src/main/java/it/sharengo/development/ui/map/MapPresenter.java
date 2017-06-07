@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import it.sharengo.development.data.models.Address;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.Cars;
 import it.sharengo.development.data.models.Post;
 import it.sharengo.development.data.models.SearchItem;
+import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
@@ -27,6 +29,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     private final PostRepository mPostRepository;
     private final CarRepository mCarRepository;
+    private final AddressRepository mAddressRepository;
 
     /*
      *  REQUEST
@@ -37,8 +40,10 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private Observable<Cars> mCarsRequest;
     private Observable<Cars> mPlatesRequest;
     private Observable<List<Car>> mFindPlatesRequest;
+    private Observable<List<Address>> mFindAddressRequest;
     private Cars mCars;
     private List<Car> mPlates;
+    private List<Address> mAddress;
     private List<SearchItem> mSearchItems;
     private boolean hideLoading;
 
@@ -49,10 +54,12 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     public MapPresenter(SchedulerProvider schedulerProvider,
                         PostRepository postRepository,
-                        CarRepository carRepository) {
+                        CarRepository carRepository,
+                        AddressRepository addressRepository) {
         super(schedulerProvider);
         mPostRepository = postRepository;
         mCarRepository = carRepository;
+        mAddressRepository = addressRepository;
 
         //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
 
@@ -67,7 +74,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     @Override
     protected void subscribeRequestsOnResume() {
-        Log.w("AAA","subscribeRequestsOnResume");
+
     }
 
 
@@ -319,6 +326,67 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
         for (Car carr : mPlates){
             mSearchItems.add(new SearchItem(carr.id, "plate", carr.longitude, carr.latitude));
+        }
+
+        getMvpView().showSearchResult(mSearchItems);
+
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Find Address
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void findAddress(String searchText) {
+        hideLoading = true;
+
+        if( mFindAddressRequest == null) {
+            mFindAddressRequest = buildFindAddressRequest(searchText);
+            addSubscription(mFindAddressRequest.unsafeSubscribe(getFindAddressSubscriber()));
+        }
+    }
+
+
+    private Observable<List<Address>> buildFindAddressRequest(String searchText) {
+        return mFindAddressRequest = mAddressRepository.searchAddress(searchText,"json")
+                .first()
+                .compose(this.<List<Address>>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkAddressResult();
+                    }
+                });
+    }
+
+    private Subscriber<List<Address>> getFindAddressSubscriber(){
+        return new Subscriber<List<Address>>() {
+            @Override
+            public void onCompleted() {
+                mFindAddressRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mFindAddressRequest = null;
+                //getMvpView().showError(e);
+            }
+
+            @Override
+            public void onNext(List<Address> addressList) {
+                mAddress = addressList;
+            }
+        };
+    }
+
+    private void checkAddressResult(){
+
+        mSearchItems = new ArrayList<SearchItem>();
+
+        for (Address address : mAddress){
+            mSearchItems.add(new SearchItem(address.display_name, "address", address.longitude, address.latitude));
         }
 
         getMvpView().showSearchResult(mSearchItems);

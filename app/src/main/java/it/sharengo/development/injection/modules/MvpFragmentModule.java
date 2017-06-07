@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import dagger.Module;
 import dagger.Provides;
+import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
@@ -73,13 +74,13 @@ public class MvpFragmentModule {
 
     @Provides
     MapPresenter provideMapPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider,
-                                     PostRepository postRepository, CarRepository carRepository) {
+                                     PostRepository postRepository, CarRepository carRepository, AddressRepository addressRepository) {
         MapPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new MapPresenter(schedulerProvider, postRepository, carRepository);
+            presenter = new MapPresenter(schedulerProvider, postRepository, carRepository, addressRepository);
         }
         return presenter;
     }

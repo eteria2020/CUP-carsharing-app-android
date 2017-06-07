@@ -39,7 +39,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:background="@android:color/transparent"
-            android:inputType="text"
+            android:inputType="textCapSentences"
             android:imeOptions="actionDone"/>
         <ImageView
             android:id="@+id/microphoneImageView"

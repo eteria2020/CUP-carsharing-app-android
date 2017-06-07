@@ -78,7 +78,7 @@ public class MapSearchListAdapter extends RecyclerView.Adapter<RecyclerView.View
             if(searchItem.type.equals("plate"))
                 typeDrawable = R.drawable.ic_targa_ricerca;
             else if(searchItem.type.equals("address"))
-                typeDrawable = R.drawable.ic_location;
+                typeDrawable = R.drawable.ic_indirizzo_ricerca;
 
             Drawable drawable = ContextCompat.getDrawable(itemView.getContext(), typeDrawable);
             typeImageView.setImageDrawable(drawable);

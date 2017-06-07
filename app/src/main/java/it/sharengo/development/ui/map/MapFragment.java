@@ -6,9 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -696,29 +696,31 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     //Animazione del maker più vicino
     private void setMarkerAnimation(){
 
-        if(timer != null) timer.cancel();
+        if(ccOverlay != null) {
+            if (timer != null) timer.cancel();
 
-        timer = new Timer();
+            timer = new Timer();
 
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
 
-                        //Ogni x millisecondi cambio il frame
-                        ccOverlay.setMarker(getResources().getDrawable(drawableAnimArray[currentDrawable]));
+                            //Ogni x millisecondi cambio il frame
+                            ccOverlay.setMarker(getResources().getDrawable(drawableAnimArray[currentDrawable]));
 
-                        mMapView.invalidate();
+                            mMapView.invalidate();
 
-                        if(currentDrawable < drawableAnimArray.length-1) currentDrawable++;
-                        else currentDrawable = 0;
+                            if (currentDrawable < drawableAnimArray.length - 1) currentDrawable++;
+                            else currentDrawable = 0;
 
-                    }
-                });
-            }
-        }, 100, 100);
+                        }
+                    });
+                }
+            }, 100, 100);
+        }
     }
 
 
@@ -734,7 +736,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         Rect r = new Rect();
         view.getWindowVisibleDisplayFrame(r);
 
-        if (view.getRootView().getHeight() - (r.bottom - r.top) > 200) { //Tastiera aperta
+        if (view.getRootView().getHeight() - (r.bottom - r.top) > 500) { //Tastiera aperta
 
             //Verifico se la view era precedentemente aperta
             if(!searchViewOpen) {
@@ -774,10 +776,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             if(!StringUtils.isNumeric(searchMapText.substring(0))
                 && !StringUtils.isNumeric(searchMapText.substring(1))
                   && StringUtils.isNumeric(searchMapText.substring(2))){
-                Log.w("SEARCH","PLATE");
                 mPresenter.findPlates(searchMapText);
             }else{
-                Log.w("SEARCH","ADDRESS");
+                mPresenter.findAddress(searchMapText);
             }
 
         }else{ //Se i caratteri digitati sono meno di 3, ripulisco la lista

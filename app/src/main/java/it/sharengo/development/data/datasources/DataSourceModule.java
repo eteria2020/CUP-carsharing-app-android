@@ -6,6 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 import it.sharengo.development.data.datasources.api.JsonPlaceholderApi;
 import it.sharengo.development.data.datasources.api.SharengoApi;
+import it.sharengo.development.data.datasources.api.SharengoMapApi;
 
 @Module
 public class DataSourceModule {
@@ -20,6 +21,12 @@ public class DataSourceModule {
     @Singleton
     SharengoDataSource provideSharengoRemoteDataSource(SharengoApi api) {
         return new SharengoRetrofitDataSource(api);
+    }
+
+    @Provides
+    @Singleton
+    SharengoMapDataSource provideSharengoMapRemoteDataSource(SharengoMapApi api) {
+        return new SharengoMapRetrofitDataSource(api);
     }
     
 }
