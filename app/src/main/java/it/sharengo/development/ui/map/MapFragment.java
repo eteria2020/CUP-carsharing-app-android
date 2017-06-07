@@ -466,8 +466,26 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     private void refreshCars(){
 
+        IGeoPoint mapCenterLoc = mMapView.getMapCenter();
+        double topMapCenter = mapCenterLoc.getLatitude() - mMapView.getProjection().getBoundingBox().getLatitudeSpan();
+        GeoPoint topMapCenterLoc = new GeoPoint(mapCenterLoc.getLatitude(), topMapCenter);
+
+        Location locationA = new Location("point A");
+
+        locationA.setLatitude(mapCenterLoc.getLatitude());
+        locationA.setLongitude(mapCenterLoc.getLongitude());
+
+        Location locationB = new Location("point B");
+
+        locationB.setLatitude(mMapView.getProjection().getNorthEast().getLatitude());
+        locationB.setLongitude(mMapView.getProjection().getNorthEast().getLongitude());
+
+        int distance = (int) locationA.distanceTo(locationB);
+
+        Log.w("raggio", ":" + distance);
+
         try {
-            mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 1000000000);
+            mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), distance);
         }catch (NullPointerException e){}
 
     }
