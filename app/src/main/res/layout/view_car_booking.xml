@@ -13,6 +13,17 @@
         android:clickable="true"
         android:orientation="vertical">
 
+        <!-- User pin -->
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/userPinTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:background="@color/darkjunglegreen"
+            android:textAllCaps="true"
+            android:textSize="12sp"
+            android:textColor="@color/aureolin"
+            android:textAlignment="center"/>
 
         <!-- Content -->
         <LinearLayout
@@ -20,49 +31,62 @@
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:background="@color/whitesmoke"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <it.sharengo.development.ui.components.CustomTextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="16dp"
                 android:textAllCaps="true"
                 android:textSize="12sp"
                 android:textColor="@color/mediumseagreen"
                 app:font_name="poppinsBold"
+                android:includeFontPadding="false"
                 android:text="@string/booking_active_label"/>
 
             <it.sharengo.development.ui.components.CustomTextView
                 android:id="@+id/bookingPlateTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="16dp"
                 android:textAllCaps="true"
                 android:textSize="12sp"
                 android:textColor="@color/darkjunglegreen"
                 app:font_name="poppinsBold"
-                android:text="TARGA EF847391"/>
+                android:text=""/>
 
             <it.sharengo.development.ui.components.CustomTextView
                 android:id="@+id/bookingAddressTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="16dp"
                 android:textSize="12sp"
                 android:textColor="@color/darkjunglegreen"
-                app:font_name="poppinsRegular"
-                android:text="via Taormina 31, Milano"/>
+                app:font_name="poppinsMedium"
+                android:text=""/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_time"
+                    android:layout_gravity="center_vertical"/>
+
+                <it.sharengo.development.ui.components.CustomTextView
+                    android:id="@+id/expiringTimeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_time"/>
+                    android:layout_marginLeft="5dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/darkjunglegreen"
+                    app:font_name="poppinsMedium"
+                    android:text="@string/booking_expirationtime" />
 
             </LinearLayout>
 
@@ -74,6 +98,39 @@
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="#33000000"/>
+
+        <!-- Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="5dp"
+            android:paddingBottom="7dp"
+            android:orientation="horizontal">
+
+            <it.sharengo.development.ui.components.CustomButton
+                android:id="@+id/openDoorBookingButton"
+                style="@style/button_primary"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:textSize="12sp"
+                android:text="@string/booking_opendoor_action"/>
+
+            <it.sharengo.development.ui.components.CustomButton
+                android:id="@+id/deleteBookingButton"
+                style="@style/button_secondary"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:textSize="12sp"
+                android:text="@string/booking_delete_action"/>
+
+        </LinearLayout>
+        <!-- /Button -->
 
     </LinearLayout>
 

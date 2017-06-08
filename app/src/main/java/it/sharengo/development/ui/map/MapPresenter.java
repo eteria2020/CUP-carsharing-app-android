@@ -512,6 +512,10 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     public void bookingCar(Car car){
         getMvpView().showBookingCar();
     }
+
+    public void deleteBookingCar(){
+        getMvpView().showConfirmDeletedCar();
+    }
 }
 
 

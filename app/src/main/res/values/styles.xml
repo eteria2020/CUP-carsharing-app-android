@@ -7,6 +7,13 @@
         <item name="android:textSize">12sp</item>
         <item name="font_name">poppinsBold</item>
     </style>
+    <style name="button_secondary">
+        <item name="android:background">@drawable/button_secondary</item>
+        <item name="android:textColor">@color/darkjunglegreen</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="font_name">poppinsBold</item>
+    </style>
     <style name="button_alertdialog_positive">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">35dp</item>

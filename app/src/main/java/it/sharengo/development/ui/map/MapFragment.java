@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -74,6 +75,9 @@ import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.text.Html.FROM_HTML_MODE_COMPACT;
+import static android.text.Html.FROM_HTML_MODE_LEGACY;
+import static it.sharengo.development.R.id.deleteBookingButton;
 
 
 public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvpView, LocationListener {
@@ -106,12 +110,14 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private Car carSelected;
     private OverlayItem pinUser;
     private boolean searchViewOpen = false;
-    private OverlayItem ccOverlay;
+    private OverlayItem carnextOverlay, carbookingOverlay;
     private int currentDrawable = 0; //frame dell'animazione della macchiana più vicina
-    private int[] drawableAnimArray = new int[]{R.drawable.autopulse0000, R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulse0007, R.drawable.autopulse0008, R.drawable.autopulse0009, R.drawable.autopulse0010, R.drawable.autopulse0011, R.drawable.autopulse0012, R.drawable.autopulse0013, R.drawable.autopulse0014, R.drawable.autopulse0015, R.drawable.autopulse0016, R.drawable.autopulse0017, R.drawable.autopulse0018, R.drawable.autopulse0019, R.drawable.autopulse0020 };
+    private int[] drawableAnimGreenArray = new int[]{R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulse0007, R.drawable.autopulse0008, R.drawable.autopulse0009, R.drawable.autopulse0010, R.drawable.autopulse0011, R.drawable.autopulse0012, R.drawable.autopulse0013, R.drawable.autopulse0014, R.drawable.autopulse0015, R.drawable.autopulse0016, R.drawable.autopulse0017, R.drawable.autopulse0018, R.drawable.autopulse0019, R.drawable.autopulse0020 };
+    private int[] drawableAnimYellowArray = new int[]{R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulseyellow0007, R.drawable.autopulseyellow0008, R.drawable.autopulseyellow0009, R.drawable.autopulseyellow0010, R.drawable.autopulseyellow0011, R.drawable.autopulseyellow0012, R.drawable.autopulseyellow0013, R.drawable.autopulseyellow0014, R.drawable.autopulseyellow0015, R.drawable.autopulseyellow0016, R.drawable.autopulseyellow0017, R.drawable.autopulseyellow0018, R.drawable.autopulseyellow0019, R.drawable.autopulseyellow0020 };
     private Timer timer;
     private SearchItem currentSearchItem;
     private boolean searchItemSelected = false;
+    private boolean isBookingCar = false;
 
     private float currentRotation = 0f;
 
@@ -186,6 +192,18 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @BindView(R.id.bookingCarView)
     RelativeLayout bookingCarView;
+
+    @BindView(R.id.userPinTextView)
+    TextView userPinTextView;
+
+    @BindView(R.id.bookingPlateTextView)
+    TextView bookingPlateTextView;
+
+    @BindView(R.id.bookingAddressTextView)
+    TextView bookingAddressTextView;
+
+    @BindView(R.id.expiringTimeTextView)
+    TextView expiringTimeTextView;
 
     public static MapFragment newInstance() {
         MapFragment fragment = new MapFragment();
@@ -602,14 +620,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), car.autonomy)));
 
         //Indirizzo
-        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(car.latitude, car.longitude, 1);
-            if(!addresses.isEmpty())
-                addressTextView.setText(addresses.get(0).getAddressLine(0)+", "+addresses.get(0).getLocality());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String address = getAddress(car.latitude, car.longitude);
+        if(address.length() > 0)
+            addressTextView.setText(address);
 
         //Distanza
         if(userLocation != null){
@@ -663,6 +676,21 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }else{
             closestcarView.setVisibility(View.GONE);
         }
+    }
+
+    private String getAddress(float latitude, float longitude){
+        String address = "";
+
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            if(!addresses.isEmpty())
+                address = addresses.get(0).getAddressLine(0)+", "+addresses.get(0).getLocality();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return address;
     }
 
     private float getDistance(Car car){
@@ -727,7 +755,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     //Animazione del maker più vicino
     private void setMarkerAnimation(){
 
-        if(ccOverlay != null) {
+        if(carnextOverlay != null || carbookingOverlay != null) {
             if (timer != null) timer.cancel();
 
             timer = new Timer();
@@ -739,8 +767,21 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                         @Override
                         public void run() {
 
+                            int[] drawableAnimArray = null;
+
+                            //Verifico se una prenotazione è attiva: il colore dell'animazione è giallo se c'è una prenotazione, altrimenti verde
+                            if(isBookingCar) drawableAnimArray = drawableAnimYellowArray;
+                            else drawableAnimArray = drawableAnimGreenArray;
+
                             //Ogni x millisecondi cambio il frame
-                            ccOverlay.setMarker(getResources().getDrawable(drawableAnimArray[currentDrawable]));
+                            if(isBookingCar) {
+                                if(carbookingOverlay != null) carbookingOverlay.setMarker(getIconMarker(drawableAnimArray[currentDrawable]));
+                                if(carnextOverlay != null) carnextOverlay.setMarker(getIconMarker(R.drawable.autopulse0001));
+                            }
+                            else {
+                                if(carbookingOverlay != null) carbookingOverlay.setMarker(getIconMarker(R.drawable.autopulse0001));
+                                if(carnextOverlay != null) carnextOverlay.setMarker(getResources().getDrawable(drawableAnimArray[currentDrawable]));
+                            }
 
                             mMapView.invalidate();
 
@@ -961,8 +1002,48 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     //Visualizzio le informazioni della prenotazione
     private void openViewBookingCar(){
 
+        isBookingCar = true;
+
+        //TODO: provvisori
+        String pinUser = "3298";
+        String plateBooking = carSelected.id;
+        String addressBooking = getAddress(carSelected.latitude, carSelected.longitude);
+        String timingBookin = "19:29";
+        //----
+
+        //Popolo le informazioni
+        //Pin utente
+        userPinTextView.setText(String.format(getString(R.string.booking_userpin_label), pinUser));
+        bookingPlateTextView.setText(String.format(getString(R.string.booking_plate_label), plateBooking));
+        bookingAddressTextView.setText(addressBooking);
+        expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), timingBookin), FROM_HTML_MODE_LEGACY));
+
         //Apro le informazioni
         bookingCarView.setVisibility(View.VISIBLE);
+    }
+
+    private void deleteBooking(){
+        //Chiedo conferma all'utente se vuole eliminare la prenotazione della macchina
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.booking_delete_alert),
+                getString(R.string.ok),
+                getString(R.string.cancel));
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                mPresenter.deleteBookingCar();
+            }
+        });
+    }
+
+    private void closeViewBookingCar(){
+
+        isBookingCar = false;
+
+        //Nascondo le informazioni della prenotazione cancellata
+        bookingCarView.setVisibility(View.GONE);
     }
 
 
@@ -1021,9 +1102,19 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         openDoors();
     }
 
+    @OnClick(R.id.openDoorBookingButton)
+    public void openDoorBookingButton(){
+        openDoors();
+    }
+
     @OnClick(R.id.bookingCarButton)
     public void onBookingCar(){
         bookingCar();
+    }
+
+    @OnClick(deleteBookingButton)
+    public void onDeleteBookingButton(){
+        deleteBooking();
     }
 
 
@@ -1052,7 +1143,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
                 //Verifico se la vettura è la più vicina
                 if(car.id.equals(carnext_id)){
-                    icon_marker = R.drawable.autopulse0000;
+                    icon_marker = R.drawable.autopulse0001;
                 }
 
                 //Creo il marker
@@ -1060,7 +1151,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 overlayItem.setMarker(getIconMarker(icon_marker));
 
                 if(car.id.equals(carnext_id)){
-                    ccOverlay = overlayItem;
+                    carnextOverlay = overlayItem;
                 }
 
                 items.add(overlayItem);
@@ -1119,5 +1210,23 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     public void showBookingCar() {
         onClosePopup();
         openViewBookingCar();
+    }
+
+    @Override
+    public void showConfirmDeletedCar(){
+
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.booking_deleteconfirm_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                closeViewBookingCar();
+            }
+        });
+
     }
 }

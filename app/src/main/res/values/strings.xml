@@ -47,8 +47,15 @@
     <string name="search_platesharengo_label">Targa Share\'ngo</string>
     <string name="search_favoriteempty_label">Nessun preferito\nmemorizzali nella sezione impostazioni</string>
 
+    <string name="booking_userpin_label">Il tuo pin utente: %s</string>
     <string name="booking_active_label">Prenotazione attiva</string>
-    <string name="booking_plate_label">Targa</string>
-    <string name="booking_expirationtime">Scade tra \n<![CDATA[<b>%s</b>]]> min</string>
+    <string name="booking_plate_label">Targa %s</string>
+    <string name="booking_expirationtime">Scade tra <![CDATA[<br><b>%s</b>]]> min</string>
+    <string name="booking_opendoor_action">Apri portiere</string>
+    <string name="booking_delete_action">Elimina</string>
+    <string name="booking_delete_alert">Eliminando questa prenotazione, non potrai più prenotare la stessa auto nelle prossime 4 ore. Confermi di voler cancellare la prenotazione?</string>
+    <string name="booking_deleteconfirm_alert">La tua prenotazione è stata annullata correttamente</string>
+    <string name="booking_bookedcar_alert">Hai già una prenotazione attiva</string>
+    <string name="booking_alreadybookedcar_alert">Non puoi prenotare questa auto fino a che non saranno passate 4 ore da quando hai annullato la prenotazione</string>
 
 </resources>
