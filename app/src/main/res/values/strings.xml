@@ -47,4 +47,8 @@
     <string name="search_platesharengo_label">Targa Share\'ngo</string>
     <string name="search_favoriteempty_label">Nessun preferito\nmemorizzali nella sezione impostazioni</string>
 
+    <string name="booking_active_label">Prenotazione attiva</string>
+    <string name="booking_plate_label">Targa</string>
+    <string name="booking_expirationtime">Scade tra \n<![CDATA[<b>%s</b>]]> min</string>
+
 </resources>

@@ -184,6 +184,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @BindView(R.id.searchMapView)
     LinearLayout searchMapView;
 
+    @BindView(R.id.bookingCarView)
+    RelativeLayout bookingCarView;
+
     public static MapFragment newInstance() {
         MapFragment fragment = new MapFragment();
         return fragment;
@@ -461,31 +464,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
 
     private void loadsCars(){
-        mPresenter.loadCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 1000000000);
+        mPresenter.loadCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getMapRadius());
     }
 
     private void refreshCars(){
 
-        IGeoPoint mapCenterLoc = mMapView.getMapCenter();
-        double topMapCenter = mapCenterLoc.getLatitude() - mMapView.getProjection().getBoundingBox().getLatitudeSpan();
-        GeoPoint topMapCenterLoc = new GeoPoint(mapCenterLoc.getLatitude(), topMapCenter);
-
-        Location locationA = new Location("point A");
-
-        locationA.setLatitude(mapCenterLoc.getLatitude());
-        locationA.setLongitude(mapCenterLoc.getLongitude());
-
-        Location locationB = new Location("point B");
-
-        locationB.setLatitude(mMapView.getProjection().getNorthEast().getLatitude());
-        locationB.setLongitude(mMapView.getProjection().getNorthEast().getLongitude());
-
-        int distance = (int) locationA.distanceTo(locationB);
-
-        Log.w("raggio", ":" + distance);
-
         try {
-            mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), distance);
+            mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getMapRadius());
         }catch (NullPointerException e){}
 
     }
@@ -511,6 +496,24 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             });
         }
 
+    }
+
+    private int getMapRadius(){
+        IGeoPoint mapCenterLoc = mMapView.getMapCenter();
+
+        Location locationA = new Location("point A");
+
+        locationA.setLatitude(mapCenterLoc.getLatitude());
+        locationA.setLongitude(mapCenterLoc.getLongitude());
+
+        Location locationB = new Location("point B");
+
+        locationB.setLatitude(mMapView.getProjection().getNorthEast().getLatitude());
+        locationB.setLongitude(mMapView.getProjection().getNorthEast().getLongitude());
+
+        int distance = (int) locationA.distanceTo(locationB);
+
+        return distance;
     }
 
     private void orientationMap(){
@@ -906,6 +909,65 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
+    //                                              Apri portiere
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void openDoors(){
+
+        if(carSelected != null){
+            if(userLocation != null){
+                //Calcolo la distanza
+                if(getDistance(carSelected) <= 50){
+                    //Procediamo con le schermate successive
+                }else{
+                    CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                            getString(R.string.maps_opendoordistance_alert),
+                            getString(R.string.ok),
+                            null);
+                    cdd.show();
+                }
+            }else{
+                //Informo l'utente che la localizzazione non è attiva
+                final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                        getString(R.string.maps_permissionopendoor_alert),
+                        getString(R.string.ok),
+                        getString(R.string.cancel));
+                cdd.show();
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismissAlert();
+                        openSettings();
+                    }
+                });
+
+            }
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Booking
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //Metodo richiamato per prenotare una macchina selezionata
+    private void bookingCar(){
+        mPresenter.bookingCar(carSelected);
+    }
+
+    //Visualizzio le informazioni della prenotazione
+    private void openViewBookingCar(){
+
+        //Apro le informazioni
+        bookingCarView.setVisibility(View.VISIBLE);
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -946,7 +1008,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @OnClick(R.id.refreshMapButton)
     public void onRefreshMap() {
         refreshMapButton.startAnimation(anim);
-        mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), 1000000000);
+        mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getMapRadius());
     }
 
     @OnClick(R.id.closePopupButton)
@@ -956,40 +1018,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @OnClick(R.id.openDoorButton)
     public void onOpenDoor(){
-        if(carSelected != null){
-            if(userLocation != null){
-                //Calcolo la distanza
-                if(getDistance(carSelected) <= 50){
-                    //Procediamo con le schermate successive
-                }else{
-                    CustomDialogClass cdd=new CustomDialogClass(getActivity(),
-                            getString(R.string.maps_opendoordistance_alert),
-                            getString(R.string.ok),
-                            null);
-                    cdd.show();
-                }
-            }else{
-                //Informo l'utente che la localizzazione non è attiva
-                final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
-                        getString(R.string.maps_permissionopendoor_alert),
-                        getString(R.string.ok),
-                        getString(R.string.cancel));
-                cdd.show();
-                cdd.yes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cdd.dismissAlert();
-                        openSettings();
-                    }
-                });
-
-            }
-        }
+        openDoors();
     }
 
     @OnClick(R.id.bookingCarButton)
     public void onBookingCar(){
-
+        bookingCar();
     }
 
 
@@ -1081,4 +1115,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     }
 
+    @Override
+    public void showBookingCar() {
+        onClosePopup();
+        openViewBookingCar();
+    }
 }

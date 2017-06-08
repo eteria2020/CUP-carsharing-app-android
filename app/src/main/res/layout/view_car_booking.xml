@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bookingCarView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="invisible">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:orientation="vertical">
+
+
+        <!-- Content -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@color/whitesmoke"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <it.sharengo.development.ui.components.CustomTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:textSize="12sp"
+                android:textColor="@color/mediumseagreen"
+                app:font_name="poppinsBold"
+                android:text="@string/booking_active_label"/>
+
+            <it.sharengo.development.ui.components.CustomTextView
+                android:id="@+id/bookingPlateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:textSize="12sp"
+                android:textColor="@color/darkjunglegreen"
+                app:font_name="poppinsBold"
+                android:text="TARGA EF847391"/>
+
+            <it.sharengo.development.ui.components.CustomTextView
+                android:id="@+id/bookingAddressTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/darkjunglegreen"
+                app:font_name="poppinsRegular"
+                android:text="via Taormina 31, Milano"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_time"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <!-- Shadow -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#33000000"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -65,4 +65,10 @@
     <include layout="@layout/view_car_popup" />
     <!-- /Popup view -->
 
+
+    <!-- Booking view -->
+    <include layout="@layout/view_car_booking" />
+    <!-- /Booking view -->
+
+
 </RelativeLayout>

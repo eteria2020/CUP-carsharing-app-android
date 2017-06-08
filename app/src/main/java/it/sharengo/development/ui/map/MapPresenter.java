@@ -4,7 +4,6 @@ package it.sharengo.development.ui.map;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +21,7 @@ import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
+import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
@@ -36,25 +36,33 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private final CarRepository mCarRepository;
     private final AddressRepository mAddressRepository;
     private final PreferencesRepository mPreferencesRepository;
+    private final UserRepository mUserRepository;
 
     /*
      *  REQUEST
      */
     private Observable<List<Post>> mPostsRequest;
-    private List<Post> mPosts;
-    //----
     private Observable<Cars> mCarsRequest;
     private Observable<Cars> mPlatesRequest;
     private Observable<List<Car>> mFindPlatesRequest;
     private Observable<List<Address>> mFindAddressRequest;
     private Observable<List<SearchItem>> mFindSearchRequest;
+
+    /*
+     *  VAR
+     */
+
     private Cars mCars;
     private List<Car> mPlates;
     private List<Address> mAddress;
     private List<SearchItem> mSearchItems;
     private List<SearchItem> historicItems;
+    private List<Post> mPosts;
     private boolean hideLoading;
 
+    /*
+     *  Timer
+     */
     private Timer timer;
     private TimerTask timerTask;
     private final Handler handler = new Handler();
@@ -64,12 +72,13 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                         PostRepository postRepository,
                         CarRepository carRepository,
                         AddressRepository addressRepository,
-                        PreferencesRepository preferencesRepository) {
+                        PreferencesRepository preferencesRepository, UserRepository userRepository) {
         super(schedulerProvider);
         mPostRepository = postRepository;
         mCarRepository = carRepository;
         mAddressRepository = addressRepository;
         mPreferencesRepository = preferencesRepository;
+        mUserRepository = userRepository;
 
         //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
 
@@ -492,6 +501,16 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     public void saveSearchResultOnHistoric(SharedPreferences mPref, SearchItem searchItem){
         mPreferencesRepository.saveSearchResultOnHistoric(mPref, searchItem);
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Booking
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void bookingCar(Car car){
+        getMvpView().showBookingCar();
     }
 }
 

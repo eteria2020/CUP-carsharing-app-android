@@ -9,6 +9,7 @@ import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
+import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.map.MapPresenter;
 import it.sharengo.development.ui.base.presenters.PresenterManager;
 import it.sharengo.development.ui.home.HomePresenter;
@@ -75,13 +76,13 @@ public class MvpFragmentModule {
 
     @Provides
     MapPresenter provideMapPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider,
-                                     PostRepository postRepository, CarRepository carRepository, AddressRepository addressRepository, PreferencesRepository preferencesRepository) {
+                                     PostRepository postRepository, CarRepository carRepository, AddressRepository addressRepository, PreferencesRepository preferencesRepository, UserRepository userRepository) {
         MapPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new MapPresenter(schedulerProvider, postRepository, carRepository, addressRepository, preferencesRepository);
+            presenter = new MapPresenter(schedulerProvider, postRepository, carRepository, addressRepository, preferencesRepository, userRepository);
         }
         return presenter;
     }

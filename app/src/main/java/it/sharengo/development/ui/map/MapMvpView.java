@@ -11,4 +11,5 @@ public interface MapMvpView extends MvpView {
     void showCars(List<Car> carsList);
     void noCarsFound();
     void showSearchResult(List<SearchItem> searchItemList);
+    void showBookingCar();
 }
