@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -75,7 +74,6 @@ import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
 
 import static android.content.Context.MODE_PRIVATE;
-import static android.text.Html.FROM_HTML_MODE_COMPACT;
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
 import static it.sharengo.development.R.id.deleteBookingButton;
 
@@ -775,6 +773,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
                             //Ogni x millisecondi cambio il frame
                             if(isBookingCar) {
+
                                 if(carbookingOverlay != null) carbookingOverlay.setMarker(getIconMarker(drawableAnimArray[currentDrawable]));
                                 if(carnextOverlay != null) carnextOverlay.setMarker(getIconMarker(R.drawable.autopulse0001));
                             }
@@ -1020,6 +1019,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //Apro le informazioni
         bookingCarView.setVisibility(View.VISIBLE);
+
+        //Cerco l'overlay della macchina prenotata
+        for(OverlayItem overlayItem : items){
+            if(overlayItem.getTitle().equals(plateBooking)){
+                carbookingOverlay = overlayItem;
+            }
+        }
     }
 
     private void deleteBooking(){
@@ -1136,26 +1142,41 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         //Marker array
         items = new ArrayList<OverlayItem>();
 
+        boolean bookedCarFind = false;
         for(Car car : carsList){
             //Verifico che la macchina sia in status = operative
             if(car.status.equals("operative")) {
                 int icon_marker = R.drawable.ic_auto;
 
-                //Verifico se la vettura è la più vicina
-                if(car.id.equals(carnext_id)){
+                //Verifico se la vettura è la più vicina oppure se è una vettura prenotata
+                if(car.id.equals(carnext_id) || (isBookingCar && car.id.equals(carSelected.id))){
                     icon_marker = R.drawable.autopulse0001;
                 }
 
                 //Creo il marker
-                OverlayItem overlayItem = new OverlayItem(car.manufactures, "Descrizione", new GeoPoint(car.latitude, car.longitude));
+                OverlayItem overlayItem = new OverlayItem(car.id, "", new GeoPoint(car.latitude, car.longitude));
                 overlayItem.setMarker(getIconMarker(icon_marker));
 
                 if(car.id.equals(carnext_id)){
                     carnextOverlay = overlayItem;
                 }
+                //Verifico se è attiva una prenotazione e se la targa dell'overley corrisponde a quella della macchina prenotata
+                if(isBookingCar){
+                    if(car.id.equals(carSelected.id)) {
+                        carbookingOverlay = overlayItem;
+                        bookedCarFind = true;
+                    }
+                }
 
                 items.add(overlayItem);
             }
+        }
+
+        //Se è attiva una prenotazione, ma la macchina non è presente tra i risultati restituiti dal server aggiungo la macchina alla lista
+        if(isBookingCar && !bookedCarFind){
+            OverlayItem overlayItem = new OverlayItem(carSelected.id, "", new GeoPoint(carSelected.latitude, carSelected.longitude));
+            overlayItem.setMarker(getIconMarker(R.drawable.autopulse0001));
+            carbookingOverlay = overlayItem;
         }
 
 
@@ -1166,9 +1187,24 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 getActivity(), items,
                 new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
                     @Override
-                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                        //do something
-                        showPopupCar(carsList.get(index));
+                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) { //Evento tap sul pin
+
+                        //Verifico se è attiva una prenotazione
+                        if(isBookingCar){
+                            //Mostro un'alert di avviso
+                            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                                    getString(R.string.booking_bookedcar_alert),
+                                    getString(R.string.ok),
+                                    null);
+                            cdd.show();
+                            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    cdd.dismissAlert();
+                                }
+                            });
+                        }else
+                            showPopupCar(carsList.get(index));
                         return true;
                     }
                     @Override
