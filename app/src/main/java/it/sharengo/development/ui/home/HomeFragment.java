@@ -37,6 +37,8 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
+        mPresenter.viewCreated();
+
         return view;
     }
 

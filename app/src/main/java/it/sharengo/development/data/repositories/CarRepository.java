@@ -1,6 +1,5 @@
 package it.sharengo.development.data.repositories;
 
-import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import javax.inject.Singleton;
 
 import it.sharengo.development.data.datasources.SharengoDataSource;
 import it.sharengo.development.data.models.Car;
-import it.sharengo.development.data.models.Cars;
+import it.sharengo.development.data.models.Response;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -23,7 +22,7 @@ public class CarRepository {
 
     private SharengoDataSource mRemoteDataSource;
 
-    private Cars mCachedCar;
+    private Response mCachedCar;
     private List<Car> mCachedPlate;
 
     @Inject
@@ -32,22 +31,22 @@ public class CarRepository {
     }
 
 
-    public Observable<Cars> getCars(float latitude, float longitude, int radius) {
+    public Observable<Response> getCars(float latitude, float longitude, int radius) {
 
         return mRemoteDataSource.getCars(latitude, longitude, radius)
-                .doOnNext(new Action1<Cars>() {
+                .doOnNext(new Action1<Response>() {
                     @Override
-                    public void call(Cars cars) {
+                    public void call(Response response) {
 
-                        createOrUpdateCarInMemory(cars);
+                        createOrUpdateCarInMemory(response);
                     }
                 })
                 .compose(logSource("NETWORK"));
     }
 
-    private void createOrUpdateCarInMemory(Cars car) {
+    private void createOrUpdateCarInMemory(Response car) {
         if (mCachedCar == null) {
-            mCachedCar = new Cars();
+            mCachedCar = new Response();
         }
         mCachedCar = car;
 
@@ -64,35 +63,35 @@ public class CarRepository {
                     }).toList();
     }
 
-    public Observable<Cars> getPlates() {
+    public Observable<Response> getPlates() {
 
         return mRemoteDataSource.getPlates()
-                .doOnNext(new Action1<Cars>() {
+                .doOnNext(new Action1<Response>() {
                     @Override
-                    public void call(Cars cars) {
+                    public void call(Response response) {
 
-                        createOrUpdatePlateInMemory(cars);
+                        createOrUpdatePlateInMemory(response);
                     }
                 })
                 .compose(logSource("NETWORK"));
 
     }
 
-    private void createOrUpdatePlateInMemory(Cars cars) {
+    private void createOrUpdatePlateInMemory(Response response) {
         if (mCachedPlate == null) {
             mCachedPlate = new ArrayList<Car>();
         }
-        mCachedPlate = cars.data;
+        mCachedPlate = response.data;
     }
 
-    private Observable.Transformer<Cars, Cars> logSource(final String source) {
-        return new Observable.Transformer<Cars, Cars>() {
+    private Observable.Transformer<Response, Response> logSource(final String source) {
+        return new Observable.Transformer<Response, Response>() {
             @Override
-            public Observable<Cars> call(Observable<Cars> postObservable) {
+            public Observable<Response> call(Observable<Response> postObservable) {
                 return postObservable
-                        .doOnNext(new Action1<Cars>() {
+                        .doOnNext(new Action1<Response>() {
                             @Override
-                            public void call(Cars postList) {
+                            public void call(Response postList) {
                                 if (postList == null) {
                                     Log.d("TEST", source + " does not have any data.");
                                 }

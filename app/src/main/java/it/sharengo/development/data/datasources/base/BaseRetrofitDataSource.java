@@ -55,7 +55,7 @@ public abstract class BaseRetrofitDataSource {
                                 }
                                 ErrorResponse errorResponse = new ErrorResponse(ErrorResponse.ErrorType.HTTP);
                                 errorResponse.httpStatus = code;
-                                errorResponse.rawMessage = message;
+                                errorResponse.rawMessage = message;  Log.w("errorCode",": "+code); Log.w("erroreMessage",": "+message);
                                 return Observable.error(errorResponse);
                             }
                         }

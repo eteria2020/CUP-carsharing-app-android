@@ -1004,7 +1004,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         isBookingCar = true;
 
         //TODO: provvisori
-        String pinUser = "3298";
+        String pinUser = "AAA";
         String plateBooking = carSelected.id;
         String addressBooking = getAddress(carSelected.latitude, carSelected.longitude);
         String timingBookin = "19:29";

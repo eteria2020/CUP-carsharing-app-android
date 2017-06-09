@@ -1,18 +1,10 @@
 package it.sharengo.development.data.datasources;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import it.sharengo.development.data.datasources.api.JsonPlaceholderApi;
 import it.sharengo.development.data.datasources.api.SharengoApi;
 import it.sharengo.development.data.datasources.base.BaseRetrofitDataSource;
-import it.sharengo.development.data.models.Car;
-import it.sharengo.development.data.models.Cars;
-import it.sharengo.development.data.models.Post;
+import it.sharengo.development.data.models.Response;
+import it.sharengo.development.data.models.User;
 import rx.Observable;
-
-import static android.R.attr.radius;
 
 public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implements SharengoDataSource {
 
@@ -25,14 +17,20 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
 
 
     @Override
-    public Observable<Cars> getCars(float latitude, float longitude, int radius) {
+    public Observable<Response> getCars(float latitude, float longitude, int radius) {
         return mSharengoApi.getCars(latitude, longitude, radius)
-                .compose(this.<Cars>handleRetrofitRequest());
+                .compose(this.<Response>handleRetrofitRequest());
     }
 
     @Override
-    public Observable<Cars> getPlates() {
+    public Observable<Response> getPlates() {
         return mSharengoApi.getPlates()
-                .compose(this.<Cars>handleRetrofitRequest());
+                .compose(this.<Response>handleRetrofitRequest());
+    }
+
+    @Override
+    public Observable<Response> getUser() {
+        return mSharengoApi.getUser()
+                .compose(this.<Response>handleRetrofitRequest());
     }
 }

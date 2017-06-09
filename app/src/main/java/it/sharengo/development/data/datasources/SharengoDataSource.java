@@ -1,12 +1,15 @@
 package it.sharengo.development.data.datasources;
 
-import it.sharengo.development.data.models.Cars;
+import it.sharengo.development.data.models.Response;
+import it.sharengo.development.data.models.User;
 import rx.Observable;
 
 public interface SharengoDataSource {
 
-    Observable<Cars> getCars(float latitude, float longitude, int radius);
+    Observable<Response> getCars(float latitude, float longitude, int radius);
 
-    Observable<Cars> getPlates();
+    Observable<Response> getPlates();
+
+    Observable<Response> getUser();
 
 }

@@ -28,8 +28,10 @@ import dagger.Provides;
 import it.sharengo.development.BuildConfig;
 import it.sharengo.development.R;
 import it.sharengo.development.data.common.SerializationExclusionStrategy;
+import it.sharengo.development.data.repositories.AuthRepository;
 import it.sharengo.development.injection.ApplicationContext;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -98,7 +100,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    SharengoApi provideSharengoApi(@ApplicationContext Context context, SchedulerProvider schedulerProvider) {
+    SharengoApi provideSharengoApi(@ApplicationContext Context context, SchedulerProvider schedulerProvider, AuthRepository authRepository) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         if (BuildConfig.DEBUG) {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -113,10 +115,17 @@ public class ApiModule {
                 .addSerializationExclusionStrategy(new SerializationExclusionStrategy())
                 .create();
 
-        Log.w("gson",": "+gson);
+        String baseUrl = context.getString(R.string.endpointSharengo);
+        if(authRepository.auth){
+            baseUrl = "https://francesco.galatro%40gmail.com:508c82b943ae51118d905553b8213c8a@api.sharengo.it:8023/v2/";
+            //baseUrl = String.format(context.getString(R.string.endpointSharengoAuth), authRepository.userAuth.username, authRepository.userAuth.token);
+        }
+        HttpUrl aa = HttpUrl.parse(baseUrl);
+        Log.w("baseUrl",": "+aa);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(context.getString(R.string.endpointSharengo))
+                //.baseUrl(baseUrl)
+                .baseUrl(aa)
                 //.baseUrl("http:gr3dcomunication.com/sharengo/")
                 .client(provideOkHttpClientTrusted(context))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(schedulerProvider.io()))

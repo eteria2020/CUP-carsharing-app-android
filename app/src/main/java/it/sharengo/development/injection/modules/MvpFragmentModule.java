@@ -6,6 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.AppRepository;
+import it.sharengo.development.data.repositories.AuthRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
@@ -49,13 +50,15 @@ public class MvpFragmentModule {
     @Provides
     HomePresenter provideHomePresenter(PresenterManager presenterManager,
                                        SchedulerProvider schedulerProvider,
-                                       AppRepository appRepository) {
+                                       //AppRepository appRepository,
+                                       AuthRepository authRepository,
+                                       UserRepository userRepository) {
         HomePresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new HomePresenter(schedulerProvider);
+            presenter = new HomePresenter(schedulerProvider, authRepository, userRepository);
         }
         return presenter;
     }
@@ -76,13 +79,16 @@ public class MvpFragmentModule {
 
     @Provides
     MapPresenter provideMapPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider,
-                                     PostRepository postRepository, CarRepository carRepository, AddressRepository addressRepository, PreferencesRepository preferencesRepository, UserRepository userRepository) {
+                                     PostRepository postRepository, CarRepository carRepository,
+                                     AddressRepository addressRepository, PreferencesRepository preferencesRepository,
+                                     AuthRepository authRepository,
+                                     UserRepository userRepository) {
         MapPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new MapPresenter(schedulerProvider, postRepository, carRepository, addressRepository, preferencesRepository, userRepository);
+            presenter = new MapPresenter(schedulerProvider, postRepository, carRepository, addressRepository, preferencesRepository, authRepository, userRepository);
         }
         return presenter;
     }

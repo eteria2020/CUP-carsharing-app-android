@@ -4,6 +4,7 @@ package it.sharengo.development.ui.map;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,10 +15,12 @@ import java.util.TimerTask;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Address;
 import it.sharengo.development.data.models.Car;
-import it.sharengo.development.data.models.Cars;
 import it.sharengo.development.data.models.Post;
+import it.sharengo.development.data.models.Response;
 import it.sharengo.development.data.models.SearchItem;
+import it.sharengo.development.data.models.User;
 import it.sharengo.development.data.repositories.AddressRepository;
+import it.sharengo.development.data.repositories.AuthRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
@@ -36,14 +39,15 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private final CarRepository mCarRepository;
     private final AddressRepository mAddressRepository;
     private final PreferencesRepository mPreferencesRepository;
+    private final AuthRepository mAuthRepository;
     private final UserRepository mUserRepository;
 
     /*
      *  REQUEST
      */
     private Observable<List<Post>> mPostsRequest;
-    private Observable<Cars> mCarsRequest;
-    private Observable<Cars> mPlatesRequest;
+    private Observable<Response> mCarsRequest;
+    private Observable<Response> mPlatesRequest;
     private Observable<List<Car>> mFindPlatesRequest;
     private Observable<List<Address>> mFindAddressRequest;
     private Observable<List<SearchItem>> mFindSearchRequest;
@@ -52,7 +56,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
      *  VAR
      */
 
-    private Cars mCars;
+    private Response mResponse;
     private List<Car> mPlates;
     private List<Address> mAddress;
     private List<SearchItem> mSearchItems;
@@ -72,12 +76,15 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                         PostRepository postRepository,
                         CarRepository carRepository,
                         AddressRepository addressRepository,
-                        PreferencesRepository preferencesRepository, UserRepository userRepository) {
+                        PreferencesRepository preferencesRepository,
+                        AuthRepository authRepository,
+                        UserRepository userRepository) {
         super(schedulerProvider);
         mPostRepository = postRepository;
         mCarRepository = carRepository;
         mAddressRepository = addressRepository;
         mPreferencesRepository = preferencesRepository;
+        mAuthRepository = authRepository;
         mUserRepository = userRepository;
 
         //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
@@ -108,6 +115,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     void viewCreated() {
         loadPlates();
         startTimer();
+        Log.w("AUTH",": "+mAuthRepository.userAuth.pin);
     }
 
     void viewDestroy() {
@@ -206,10 +214,10 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
 
-    private Observable<Cars> buildCarsRequest(float latitude, float longitude, int radius) {
+    private Observable<Response> buildCarsRequest(float latitude, float longitude, int radius) {
         return mCarsRequest = mCarRepository.getCars(latitude, longitude, radius)
                 .first()
-                .compose(this.<Cars>handleDataRequest())
+                .compose(this.<Response>handleDataRequest())
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
@@ -218,8 +226,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                 });
     }
 
-    private Subscriber<Cars> getCarsSubscriber(){
-        return new Subscriber<Cars>() {
+    private Subscriber<Response> getCarsSubscriber(){
+        return new Subscriber<Response>() {
             @Override
             public void onCompleted() {
                 mCarsRequest = null;
@@ -232,18 +240,18 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
             }
 
             @Override
-            public void onNext(Cars carsList) {
-                mCars = carsList;
+            public void onNext(Response responseList) {
+                mResponse = responseList;
             }
         };
     }
 
     private void checkResult(){
-        if(mCars.reason.isEmpty()){
-            getMvpView().showCars(mCars.data);
+        if(mResponse.reason.isEmpty()){
+            getMvpView().showCars(mResponse.data);
         }else{
-            if(!mCars.reason.equals("No cars found"))
-                getMvpView().showError(mCars.reason);
+            if(!mResponse.reason.equals("No cars found"))
+                getMvpView().showError(mResponse.reason);
 
             getMvpView().noCarsFound();
         }
@@ -265,14 +273,14 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
 
-    private Observable<Cars> buildPlatesRequest() {
+    private Observable<Response> buildPlatesRequest() {
         return mPlatesRequest = mCarRepository.getPlates()
                 .first()
-                .compose(this.<Cars>handleDataRequest());
+                .compose(this.<Response>handleDataRequest());
     }
 
-    private Subscriber<Cars> getPlatesSubscriber(){
-        return new Subscriber<Cars>() {
+    private Subscriber<Response> getPlatesSubscriber(){
+        return new Subscriber<Response>() {
             @Override
             public void onCompleted() {
                 mPlatesRequest = null;
@@ -285,7 +293,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
             }
 
             @Override
-            public void onNext(Cars carsList) {}
+            public void onNext(Response responseList) {}
         };
     }
 
@@ -501,6 +509,15 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     public void saveSearchResultOnHistoric(SharedPreferences mPref, SearchItem searchItem){
         mPreferencesRepository.saveSearchResultOnHistoric(mPref, searchItem);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              User
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public User getUser(){
+        return mUserRepository.getCachedUser();
     }
 
 
