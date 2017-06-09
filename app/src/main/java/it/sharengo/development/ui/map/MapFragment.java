@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -23,12 +25,14 @@ import android.speech.SpeechRecognizer;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -44,6 +48,7 @@ import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
@@ -51,6 +56,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
+import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay;
@@ -103,12 +109,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private GeoPoint userLocation;
     private GeoPoint defaultLocation = new GeoPoint(41.931543, 12.503420);
     private ArrayList<OverlayItem> items;
+    private RadiusMarkerClusterer poiMarkers;
     private RotateAnimation anim;
     private String carnext_id;
     private Car carSelected;
     private OverlayItem pinUser;
     private boolean searchViewOpen = false;
-    private OverlayItem carnextOverlay, carbookingOverlay;
+    private Marker carnextMarker, carbookingMarker;
     private int currentDrawable = 0; //frame dell'animazione della macchiana più vicina
     private int[] drawableAnimGreenArray = new int[]{R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulse0007, R.drawable.autopulse0008, R.drawable.autopulse0009, R.drawable.autopulse0010, R.drawable.autopulse0011, R.drawable.autopulse0012, R.drawable.autopulse0013, R.drawable.autopulse0014, R.drawable.autopulse0015, R.drawable.autopulse0016, R.drawable.autopulse0017, R.drawable.autopulse0018, R.drawable.autopulse0019, R.drawable.autopulse0020 };
     private int[] drawableAnimYellowArray = new int[]{R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulseyellow0007, R.drawable.autopulseyellow0008, R.drawable.autopulseyellow0009, R.drawable.autopulseyellow0010, R.drawable.autopulseyellow0011, R.drawable.autopulseyellow0012, R.drawable.autopulseyellow0013, R.drawable.autopulseyellow0014, R.drawable.autopulseyellow0015, R.drawable.autopulseyellow0016, R.drawable.autopulseyellow0017, R.drawable.autopulseyellow0018, R.drawable.autopulseyellow0019, R.drawable.autopulseyellow0020 };
@@ -753,7 +760,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     //Animazione del maker più vicino
     private void setMarkerAnimation(){
 
-        if(carnextOverlay != null || carbookingOverlay != null) {
+        if(carnextMarker != null || carbookingMarker != null) {
             if (timer != null) timer.cancel();
 
             timer = new Timer();
@@ -774,12 +781,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                             //Ogni x millisecondi cambio il frame
                             if(isBookingCar) {
 
-                                if(carbookingOverlay != null) carbookingOverlay.setMarker(getIconMarker(drawableAnimArray[currentDrawable]));
-                                if(carnextOverlay != null) carnextOverlay.setMarker(getIconMarker(R.drawable.autopulse0001));
+                                if(carbookingMarker != null) carbookingMarker.setIcon(getIconMarker(drawableAnimArray[currentDrawable]));
+                                if(carnextMarker != null) carnextMarker.setIcon(getIconMarker(R.drawable.autopulse0001));
                             }
                             else {
-                                if(carbookingOverlay != null) carbookingOverlay.setMarker(getIconMarker(R.drawable.autopulse0001));
-                                if(carnextOverlay != null) carnextOverlay.setMarker(getResources().getDrawable(drawableAnimArray[currentDrawable]));
+                                if(carbookingMarker != null) carbookingMarker.setIcon(getIconMarker(R.drawable.autopulse0001));
+                                if(carnextMarker != null) carnextMarker.setIcon(getResources().getDrawable(drawableAnimArray[currentDrawable]));
                             }
 
                             mMapView.invalidate();
@@ -1021,9 +1028,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         bookingCarView.setVisibility(View.VISIBLE);
 
         //Cerco l'overlay della macchina prenotata
-        for(OverlayItem overlayItem : items){
-            if(overlayItem.getTitle().equals(plateBooking)){
-                carbookingOverlay = overlayItem;
+        for(Marker marker : poiMarkers.getItems()){
+            if(marker.getTitle().equals(plateBooking)){
+                carbookingMarker = marker;
             }
         }
     }
@@ -1142,8 +1149,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         //Marker array
         items = new ArrayList<OverlayItem>();
 
+        if(poiMarkers != null)
+            mMapView.getOverlays().remove(poiMarkers);
+
+        poiMarkers = new RadiusMarkerClusterer(getActivity());
+
         boolean bookedCarFind = false;
-        for(Car car : carsList){
+        for(final Car car : carsList){
             //Verifico che la macchina sia in status = operative
             if(car.status.equals("operative")) {
                 int icon_marker = R.drawable.ic_auto;
@@ -1154,33 +1166,78 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 }
 
                 //Creo il marker
-                OverlayItem overlayItem = new OverlayItem(car.id, "", new GeoPoint(car.latitude, car.longitude));
-                overlayItem.setMarker(getIconMarker(icon_marker));
+                Marker markerCar = new Marker(mMapView);
+                markerCar.setPosition(new GeoPoint(car.latitude, car.longitude));
+                markerCar.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                markerCar.setIcon(getIconMarker(icon_marker));
+                markerCar.setTitle(car.id);
+                markerCar.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker, MapView mapView) {
+
+                        onTapMarker(car);
+                        return true;
+                    }
+                });
+                poiMarkers.add(markerCar);
+                
+                //OverlayItem overlayItem = new OverlayItem(car.id, "", new GeoPoint(car.latitude, car.longitude));
+                //overlayItem.setMarker(getIconMarker(icon_marker));
 
                 if(car.id.equals(carnext_id)){
-                    carnextOverlay = overlayItem;
+                    carnextMarker = markerCar;
                 }
                 //Verifico se è attiva una prenotazione e se la targa dell'overley corrisponde a quella della macchina prenotata
                 if(isBookingCar){
                     if(car.id.equals(carSelected.id)) {
-                        carbookingOverlay = overlayItem;
+                        carbookingMarker = markerCar;
                         bookedCarFind = true;
                     }
                 }
 
-                items.add(overlayItem);
+                //items.add(overlayItem);
+
             }
         }
 
+
         //Se è attiva una prenotazione, ma la macchina non è presente tra i risultati restituiti dal server aggiungo la macchina alla lista
         if(isBookingCar && !bookedCarFind){
-            OverlayItem overlayItem = new OverlayItem(carSelected.id, "", new GeoPoint(carSelected.latitude, carSelected.longitude));
-            overlayItem.setMarker(getIconMarker(R.drawable.autopulse0001));
-            carbookingOverlay = overlayItem;
+            //OverlayItem overlayItem = new OverlayItem(carSelected.id, "", new GeoPoint(carSelected.latitude, carSelected.longitude));
+            //overlayItem.setMarker(getIconMarker(R.drawable.autopulse0001));
+            //carbookingMarker = overlayItem;
+
+            //Creo il marker
+            Marker markerCar = new Marker(mMapView);
+            markerCar.setPosition(new GeoPoint(carSelected.latitude, carSelected.longitude));
+            markerCar.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            markerCar.setIcon(getIconMarker(R.drawable.autopulse0001));
+            markerCar.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker, MapView mapView) {
+
+                    onTapMarker(carSelected);
+                    return true;
+                }
+            });
+            poiMarkers.add(markerCar);
+            carbookingMarker = markerCar;
         }
 
 
-        if(mOverlay != null)
+        //Clustering
+        Drawable clusterIconD = getIconMarker(R.drawable.ic_cluster);
+        Bitmap clusterIcon = ((BitmapDrawable)clusterIconD).getBitmap();
+        poiMarkers.setIcon(clusterIcon);
+        poiMarkers.getTextPaint().setColor(ContextCompat.getColor(getContext(), R.color.darkpastelgreen));
+        poiMarkers.getTextPaint().setTextSize(15 * getResources().getDisplayMetrics().density);
+        poiMarkers.getTextPaint().setFakeBoldText(true);
+
+        mMapView.getOverlays().add(poiMarkers);
+        mMapView.invalidate();
+
+
+        /*if(mOverlay != null)
             mOverlay.removeAllItems();
 
         mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(
@@ -1211,13 +1268,15 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     public boolean onItemLongPress(final int index, final OverlayItem item) {
                         return false;
                     }
-                });
+                });*/
         //mOverlay.setFocusItemsOnTap(true);
 
-        mMapView.getOverlays().add(mOverlay);
-        mMapView.invalidate();
+        //mMapView.getOverlays().add(mOverlay);
+        //mMapView.invalidate();
 
         Log.w("FINISH","OK");
+
+
 
 
         setMarkerAnimation();
@@ -1226,6 +1285,25 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         //Stop sull'animazione del pulsante di refresh
         anim.cancel();
 
+    }
+    private void onTapMarker(Car car){
+        //Verifico se è attiva una prenotazione
+        if(isBookingCar){
+
+            //Mostro un'alert di avviso
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(R.string.booking_bookedcar_alert),
+                    getString(R.string.ok),
+                    null);
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                }
+            });
+        }else
+            showPopupCar(car);
     }
 
     @Override
