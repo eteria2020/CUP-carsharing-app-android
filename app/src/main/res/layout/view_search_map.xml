@@ -46,8 +46,8 @@
             android:imeOptions="actionDone"/>
         <ImageView
             android:id="@+id/microphoneImageView"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/btn_bkg_white"
             android:padding="2dp"
             android:src="@drawable/ic_microphone" />

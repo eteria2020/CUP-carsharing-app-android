@@ -464,7 +464,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         //overlay.setLocation(new GeoPoint(location.getLatitude(), location.getLongitude()));
         //mMapView.invalidate();
 
-        Log.w("GPS","onLocationChanged");
 
         pinUser = new OverlayItem("Title", "Description", userLocation);
 
@@ -510,8 +509,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private void refreshCars(){
 
         int mapRadius = getMapRadius();
-
-        Log.w("mapRadius",": "+mapRadius);
 
         if(mapRadius > 35000){
 
@@ -905,11 +902,11 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         if (view.getRootView().getHeight() - (r.bottom - r.top) > 500) { //Tastiera aperta
 
+            //Setto l'altezza della view dei risultati di ricerca
+            setSearchViewHeight();
+
             //Verifico se la view era precedentemente aperta
             if(!searchViewOpen) {
-
-                //Setto l'altezza della view dei risultati di ricerca
-                setSearchViewHeight();
 
                 //Mostro la view dei risultati
                 setSearchResult();
@@ -952,9 +949,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 mPresenter.findAddress(searchMapText);
             }
 
+            searchRecyclerView.scrollToPosition(0);
+
         }else{ //Se i caratteri digitati sono meno di 3, ripulisco la lista
             Log.w("SEARCH","NO");
             mAdapter.setData(null);
+
+            if(searchMapText.length() == 0) setSearchDefaultContent();
         }
     }
 
@@ -970,8 +971,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         view.getWindowVisibleDisplayFrame(r);
 
         //Calcolo il numero di elementi che possono essere visualizzati all'interno dell'intefaccia senza che nessuno venga tagliato a livello visivo
-        float totalHeight = r.height()- searchMapView.getHeight() - 200;
-        int nItem = (int) (totalHeight / itemHeight);
+        float totalHeight = r.height()- searchMapView.getHeight();
+        int nItem = (int) (totalHeight / itemHeight) - 1;
 
         //Setto l'altezza della lista
         searchMapResultView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (itemHeight*nItem) + 5));

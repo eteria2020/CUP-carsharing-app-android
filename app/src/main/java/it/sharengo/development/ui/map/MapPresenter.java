@@ -256,7 +256,6 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
             getMvpView().noCarsFound();
         }
-        Log.w("mResponse.reason",": "+mResponse.reason);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
