@@ -1398,8 +1398,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     cdd.dismissAlert();
                 }
             });
-        }else
+        }else {
+            mMapView.getController().setCenter(new GeoPoint(car.latitude, car.longitude));
             showPopupCar(car);
+        }
     }
 
     @Override
