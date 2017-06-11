@@ -54,6 +54,7 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Marker;
@@ -113,6 +114,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private GeoPoint defaultLocation = new GeoPoint(41.931543, 12.503420);
     private ArrayList<OverlayItem> items;
     private RadiusMarkerClusterer poiMarkers;
+    private FolderOverlay poiCityMarkers;
     private RotateAnimation anim;
     private String carnext_id;
     private Car carSelected;
@@ -266,6 +268,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             mMapView.setMapListener(new MapListener() {
                 @Override
                 public boolean onScroll(ScrollEvent event) {
+
                     if(hasInit) {
 
                         refreshMapButton.startAnimation(anim);
@@ -278,6 +281,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
                 @Override
                 public boolean onZoom(ZoomEvent event) {
+
                     if(hasInit) {
 
                         refreshMapButton.startAnimation(anim);
@@ -357,7 +361,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @Override
     public void onDestroyView(){
         super.onDestroyView();
-        Log.d(TAG, "onDetach");
+
         if (mMapView!=null)
             mMapView.onDetach();
         mMapView=null;
@@ -496,6 +500,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }
         enabledCenterMap(false);
 
+        hasInit = true;
     }
 
     private void loadsCars(){
@@ -504,9 +509,79 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     private void refreshCars(){
 
-        try {
-            mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getMapRadius());
-        }catch (NullPointerException e){}
+        int mapRadius = getMapRadius();
+
+        Log.w("mapRadius",": "+mapRadius);
+
+        if(mapRadius > 35000){
+
+            if(poiMarkers != null)
+                mMapView.getOverlays().remove(poiMarkers);
+
+            if(poiCityMarkers != null)
+                mMapView.getOverlays().remove(poiCityMarkers);
+
+            poiCityMarkers = new FolderOverlay();
+
+            final GeoPoint milanGeoPoint = new GeoPoint(45.465454, 9.186515);
+            final GeoPoint romeGeoPoint = new GeoPoint(41.902783, 12.496365);
+            final GeoPoint modenaGeoPoint = new GeoPoint(44.647128, 10.925226);
+            final GeoPoint florenceGeoPoint = new GeoPoint(43.769560, 11.255813);
+
+            //Milano
+            showCityMarker(milanGeoPoint, R.drawable.ic_cluster_milan);
+
+            //Roma
+            showCityMarker(romeGeoPoint, R.drawable.ic_cluster_rome);
+
+            //Modena
+            showCityMarker(modenaGeoPoint, R.drawable.ic_cluster_modena);
+
+            //Firenze
+            showCityMarker(florenceGeoPoint, R.drawable.ic_cluster_firence);
+
+            mMapView.getOverlays().add(poiCityMarkers);
+            mMapView.invalidate();
+
+        }else {
+
+            try {
+                mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getMapRadius());
+            } catch (NullPointerException e) {
+            }
+        }
+
+    }
+
+    private void showCityMarker(final GeoPoint geoPoint, int clusterIcon){
+        Marker markerCarCity = new Marker(mMapView);
+        markerCarCity.setPosition(geoPoint);
+        markerCarCity.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        markerCarCity.setIcon(getIconMarker(clusterIcon));
+        markerCarCity.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker, MapView mapView) {
+
+                if(poiCityMarkers != null)
+                    mMapView.getOverlays().remove(poiCityMarkers);
+
+                mMapView.invalidate();
+
+                mMapView.getController().setCenter(geoPoint);
+                mMapView.getController().setZoom(11);
+                mMapView.invalidate();
+
+                /*try {
+                    mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getMapRadius());
+                } catch (NullPointerException e) {
+                }*/
+                //refreshCars();
+
+                return true;
+            }
+        });
+
+        poiCityMarkers.add(markerCarCity);
 
     }
 
@@ -1170,6 +1245,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         if(poiMarkers != null)
             mMapView.getOverlays().remove(poiMarkers);
 
+        if(poiCityMarkers != null)
+            mMapView.getOverlays().remove(poiCityMarkers);
+
         poiMarkers = new RadiusMarkerClusterer(getActivity());
 
         boolean bookedCarFind = false;
@@ -1388,7 +1466,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @Override
     public void removeTripInfo(){
-        Log.w("removeTripInfo","OK");
         isTripStart = false;
         closeViewBookingCar();
     }

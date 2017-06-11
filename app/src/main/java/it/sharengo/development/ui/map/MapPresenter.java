@@ -205,14 +205,17 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     public void loadCars(float latitude, float longitude, int radius) {
 
-        if( mCarsRequest == null) {
+        //if( mCarsRequest == null) {
+
+            mCarsRequest = null;
             mCarsRequest = buildCarsRequest(latitude, longitude, radius);
             addSubscription(mCarsRequest.unsafeSubscribe(getCarsSubscriber()));
-        }
+        //}
     }
 
 
     private Observable<Response> buildCarsRequest(float latitude, float longitude, int radius) {
+
         return mCarsRequest = mCarRepository.getCars(latitude, longitude, radius)
                 .first()
                 .compose(this.<Response>handleDataRequest())
@@ -253,7 +256,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
             getMvpView().noCarsFound();
         }
-
+        Log.w("mResponse.reason",": "+mResponse.reason);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
