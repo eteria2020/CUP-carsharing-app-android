@@ -220,9 +220,11 @@ public class UserRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Observable<ResponseTrip> getTrips(boolean active) {
+    public Observable<ResponseTrip> getTrips(boolean active, boolean refreshInfo) {
 
-        if(mCachedTrips == null) {
+        Log.w("active",": "+active);
+        Log.w("mCachedTrips",": "+mCachedTrips);
+        if(mCachedTrips == null || refreshInfo) {
             return mRemoteDataSource.getTrips(active)
                     .doOnNext(new Action1<ResponseTrip>() {
                         @Override

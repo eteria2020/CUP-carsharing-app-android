@@ -54,6 +54,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private Observable<List<Post>> mPostsRequest;
     private Observable<Response> mCarsRequest;
     private Observable<ResponseCar> mCarsReservationRequest;
+    private Observable<ResponseCar> mCarsTripRequest;
     private Observable<Response> mPlatesRequest;
     private Observable<List<Car>> mFindPlatesRequest;
     private Observable<List<Address>> mFindAddressRequest;
@@ -133,8 +134,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     void viewCreated() {
 
         loadPlates();
-        getTrips();
         getReservations(false);
+        getTrips(false);
         startTimer();
     }
 
@@ -169,9 +170,10 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
                 handler1min.post(new Runnable() {
                     public void run() {
-                        //loadPlates();
+
                         Log.w("PASSATO","1 MINUTO");
                         getReservations(true);
+                        getTrips(true);
                     }
                 });
             }
@@ -248,6 +250,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     public void loadCars(float latitude, float longitude, int radius) {
 
+        Log.w("loadCars",": A1");
         //if( mCarsRequest == null) {
 
             mCarsRequest = null;
@@ -679,26 +682,74 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     //                                              Open door
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void openDoor(Car car){
-        Trip trip = new Trip(car.id, car.latitude, car.longitude);
-        getMvpView().setTripInfo(trip);
+
+    public void openDoor(Car car, String action) {
+
+        Log.w("openDoor",": "+action);
+        Log.w("openDoor car",": "+car.id);
+        if( mCarsTripRequest == null) {
+
+            mCarsTripRequest = null;
+            mCarsTripRequest = buildCarsOpenRequest(car, action);
+            addSubscription(mCarsTripRequest.unsafeSubscribe(getCarsOpenSubscriber()));
+        }
     }
 
+
+    private Observable<ResponseCar> buildCarsOpenRequest(final Car car, final String action) {
+
+        return mCarsTripRequest = mCarRepository.openCars(car.id, action)
+                .first()
+                .compose(this.<ResponseCar>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        Log.w("PORTIERE",": "+action);
+
+                        loadCarsTrip(car.id);
+
+                        //getTrips(true);
+                    }
+                });
+    }
+
+    private Subscriber<ResponseCar> getCarsOpenSubscriber(){
+        return new Subscriber<ResponseCar>() {
+            @Override
+            public void onCompleted() {
+                mCarsTripRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mCarsTripRequest = null;
+                //getMvpView().showError(e);
+            }
+
+            @Override
+            public void onNext(ResponseCar responseList) {
+                //mResponseReservationCar = responseList;
+            }
+        };
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              GET Trips
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    void getTrips(){
+    void getTrips(boolean refreshInfo){
+
+        hideLoading = false;
+
         if( mTripsRequest == null) {
-            mTripsRequest = buildTripsRequest();
+            mTripsRequest = buildTripsRequest(refreshInfo);
             addSubscription(mTripsRequest.unsafeSubscribe(getTripsSubscriber()));
         }
     }
 
-    private Observable<ResponseTrip> buildTripsRequest() {
-        return mTripsRequest = mUserRepository.getTrips(false)
+    private Observable<ResponseTrip> buildTripsRequest(boolean refreshInfo) {
+        return mTripsRequest = mUserRepository.getTrips(true, refreshInfo) //TODO, il valore deve essere true
                 .first()
                 .compose(this.<ResponseTrip>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -731,7 +782,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     private void checkTripsResult(){
         if(mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0){
-            getMvpView().showTripInfo(mResponseTrip.trips.get(0));
+            loadCarsTrip(mResponseTrip.trips.get(0).plate);
         }else{
 
             getMvpView().removeTripInfo();
@@ -850,6 +901,71 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         }else{
             getMvpView().removeReservationInfo();
         }
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              GET Car trip
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void loadCarsTrip(String plate) {
+
+        hideLoading = false;
+
+        Log.w("loadCarsTrip",": "+plate);
+
+        mCarsReservationRequest = null;
+        mCarsReservationRequest = buildCarsTripRequest(plate);
+        addSubscription(mCarsReservationRequest.unsafeSubscribe(getCarsTripSubscriber()));
+    }
+
+
+    private Observable<ResponseCar> buildCarsTripRequest(String plate) {
+
+        return mCarsReservationRequest = mCarRepository.getCars(plate)
+                .first()
+                .compose(this.<ResponseCar>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkCarTripResult();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseCar> getCarsTripSubscriber(){
+        return new Subscriber<ResponseCar>() {
+            @Override
+            public void onCompleted() {
+                mCarsReservationRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mCarsReservationRequest = null;
+                //getMvpView().showError(e);
+            }
+
+            @Override
+            public void onNext(ResponseCar responseList) {
+                mResponseReservationCar = responseList;
+            }
+        };
+    }
+
+    private void checkCarTripResult(){
+        Log.w("checkCarTripResu reason",": "+mResponseReservationCar.reason);
+        Log.w("checkCarTripResu reason",": "+mResponseReservationCar.data.id);
+        if(mResponseReservationCar.reason.isEmpty() && mResponseReservationCar.data != null){
+            getMvpView().showTripInfo(mResponseReservationCar.data);
+        }else{
+            getMvpView().removeReservationInfo();
+        }
+
+        //getTrips(true);
     }
 }
 

@@ -861,27 +861,35 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                         @Override
                         public void run() {
 
-                            int[] drawableAnimArray = null;
+                            if(getActivity() != null) {
 
-                            //Verifico se una prenotazione è attiva: il colore dell'animazione è giallo se c'è una prenotazione, altrimenti verde
-                            if(isBookingCar || isTripStart) drawableAnimArray = drawableAnimYellowArray;
-                            else drawableAnimArray = drawableAnimGreenArray;
+                                int[] drawableAnimArray = null;
 
-                            //Ogni x millisecondi cambio il frame
-                            if(isBookingCar || isTripStart) {
+                                //Verifico se una prenotazione è attiva: il colore dell'animazione è giallo se c'è una prenotazione, altrimenti verde
+                                if (isBookingCar || isTripStart)
+                                    drawableAnimArray = drawableAnimYellowArray;
+                                else drawableAnimArray = drawableAnimGreenArray;
 
-                                if(carbookingMarker != null) carbookingMarker.setIcon(getIconMarker(drawableAnimArray[currentDrawable]));
-                                if(carnextMarker != null) carnextMarker.setIcon(getIconMarker(R.drawable.autopulse0001));
+                                //Ogni x millisecondi cambio il frame
+                                if (isBookingCar || isTripStart) {
+
+                                    if (carbookingMarker != null)
+                                        carbookingMarker.setIcon(getIconMarker(drawableAnimArray[currentDrawable]));
+                                    if (carnextMarker != null)
+                                        carnextMarker.setIcon(getIconMarker(R.drawable.autopulse0001));
+                                } else {
+                                    if (carbookingMarker != null)
+                                        carbookingMarker.setIcon(getIconMarker(R.drawable.autopulse0001));
+                                    if (carnextMarker != null)
+                                        carnextMarker.setIcon(getResources().getDrawable(drawableAnimArray[currentDrawable]));
+                                }
+
+                                mMapView.invalidate();
+
+                                if (currentDrawable < drawableAnimArray.length - 1)
+                                    currentDrawable++;
+                                else currentDrawable = 0;
                             }
-                            else {
-                                if(carbookingMarker != null) carbookingMarker.setIcon(getIconMarker(R.drawable.autopulse0001));
-                                if(carnextMarker != null) carnextMarker.setIcon(getResources().getDrawable(drawableAnimArray[currentDrawable]));
-                            }
-
-                            mMapView.invalidate();
-
-                            if (currentDrawable < drawableAnimArray.length - 1) currentDrawable++;
-                            else currentDrawable = 0;
 
                         }
                     });
@@ -1060,7 +1068,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 //Calcolo la distanza
                 if(getDistance(carSelected) <= 1000000000){ //TODO: valore a 50
                     //Procediamo con le schermate successive
-                    mPresenter.openDoor(carSelected);
+                    mPresenter.openDoor(carSelected, "open");
                 }else{
                     CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                             getString(R.string.maps_opendoordistance_alert),
@@ -1123,7 +1131,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     String secStr = (sec<10 ? "0" : "")+sec;
                     //timingBookin = mnStr+":"+secStr;
 
+                    if(getActivity() != null)
                     expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), mnStr+":"+secStr)));
+                    else if(countDownTimer != null) countDownTimer.cancel();
                 }
 
                 public void onFinish() {}
@@ -1475,15 +1485,42 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
 
     @Override
-    public void showTripInfo(Trip trip){
+    public void showTripInfo(final Car car){
 
         isTripStart = true;
+        carSelected = car;
 
-        mMapView.getController().setCenter(new GeoPoint(trip.latitude, trip.longitude));
+        Log.w("showTripInfo","METODO");
+
+        //Aggiungo la macchina
+        Marker markerCar = new Marker(mMapView);
+        markerCar.setPosition(new GeoPoint(car.latitude, car.longitude));
+        markerCar.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        markerCar.setIcon(getIconMarker(R.drawable.autopulse0001));
+        markerCar.setTitle(car.id);
+        markerCar.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker, MapView mapView) {
+
+                onTapMarker(car);
+                return true;
+            }
+        });
+        if(poiMarkers == null){
+            poiMarkers = new RadiusMarkerClusterer(getActivity());
+        }
+        poiMarkers.add(markerCar);
+        carbookingMarker = markerCar;
+
+        mMapView.getOverlays().add(poiMarkers);
+
+
+        mMapView.getController().setCenter(new GeoPoint(car.latitude, car.longitude));
         mMapView.getController().setZoom(ZOOM_C);
         mMapView.invalidate();
 
-        carSelected = new Car(trip.id+"", trip.longitude, trip.latitude);
+        setMarkerAnimation();
+
         openViewBookingCar();
     }
 

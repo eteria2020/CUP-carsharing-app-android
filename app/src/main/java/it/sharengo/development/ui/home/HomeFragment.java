@@ -76,6 +76,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
                 requestPermissions(permissions, mRequestPermission);
             }
         }else{
+            getActivity().finish();
             Navigator.launchMap(this);
         }
     }

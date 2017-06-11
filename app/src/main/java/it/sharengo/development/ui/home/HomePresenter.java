@@ -162,7 +162,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     }
 
     private Observable<ResponseTrip> buildTripsRequest() {
-        return mTripsRequest = mUserRepository.getTrips(true) //TODO, deve essere true
+        return mTripsRequest = mUserRepository.getTrips(true, true) //TODO, deve essere true
                 .first()
                 .compose(this.<ResponseTrip>handleDataRequest());
     }
