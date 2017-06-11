@@ -13,7 +13,7 @@ public class ResponseUser {
     public String reason;
 
     @SerializedName("data")
-    public User user;
+    public UserInfo user;
 
 
     @ExcludeSerialization
@@ -23,7 +23,7 @@ public class ResponseUser {
     }
 
 
-    private ResponseUser(String status, String reason, User user) {
+    private ResponseUser(String status, String reason, UserInfo user) {
         this.status = status;
         this.reason = reason;
         this.user = user;

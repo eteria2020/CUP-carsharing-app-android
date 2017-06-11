@@ -11,7 +11,7 @@ public class User {
     public String username;
     public String password;
     public String token;
-    public int pin;
+    public UserInfo userInfo;
 
     public User() {
     }
@@ -20,12 +20,5 @@ public class User {
         this.username = username;
         this.password = password;
         this.token = token;
-    }
-
-    public User(String username, String password, String token, int pin) {
-        this.username = username;
-        this.password = password;
-        this.token = token;
-        this.pin = pin;
     }
 }

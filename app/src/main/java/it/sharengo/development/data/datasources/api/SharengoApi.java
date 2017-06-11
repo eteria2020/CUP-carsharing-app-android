@@ -1,6 +1,8 @@
 package it.sharengo.development.data.datasources.api;
 
 import it.sharengo.development.data.models.Response;
+import it.sharengo.development.data.models.ResponseReservation;
+import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.GET;
@@ -26,5 +28,17 @@ public interface SharengoApi {
 
     @GET("user")
     Observable<Result<ResponseUser>> getUser();
+
+    /*
+    * Reservation
+    */
+    @GET("reservations")
+    Observable<Result<ResponseReservation>> getReservations();
+
+    /*
+    * Trips
+    */
+    @GET("trips")
+    Observable<Result<ResponseTrip>> getTrips(@Query("active") boolean active);
 
 }

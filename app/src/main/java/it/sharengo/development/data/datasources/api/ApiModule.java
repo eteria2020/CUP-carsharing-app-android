@@ -112,24 +112,14 @@ public class ApiModule {
             logging.setLevel(HttpLoggingInterceptor.Level.NONE);
         }
 
-        /*OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(logging);*/
 
         Gson gson = new GsonBuilder()
                 .addSerializationExclusionStrategy(new SerializationExclusionStrategy())
                 .create();
 
-        String baseUrl = context.getString(R.string.endpointSharengo);
-        if(authRepository.auth){
-            //baseUrl = "https://francesco.galatro@gmail.com:508c82b943ae51118d905553b8213c8a@api.sharengo.it:8023/v2/";
-
-            baseUrl = "https://api.sharengo.it:8023/v2/";
-
-            //baseUrl = String.format(context.getString(R.string.endpointSharengoAuth), authRepository.userAuth.username, authRepository.userAuth.token);
-        }
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(context.getString(R.string.endpointSharengo))
                 //.baseUrl("http:gr3dcomunication.com/sharengo/")
                 .client(provideOkHttpClientTrusted(context))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(schedulerProvider.io()))
@@ -212,7 +202,7 @@ public class ApiModule {
             public Response intercept(Chain chain) throws IOException {
                 Request original = chain.request();
                 HttpUrl originalHttpUrl = original.url();
-                Log.w("originalHttpUrl",": "+originalHttpUrl);
+
                 HttpUrl url = originalHttpUrl.newBuilder()
                         //.addQueryParameter("apikey", "your-actual-api-key")
                         .build();

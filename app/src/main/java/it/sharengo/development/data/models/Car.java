@@ -25,7 +25,17 @@ public class Car {
     public Car() {
     }
 
-    private Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy) {
+    public Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy) {
+        this.id = id;
+        this.manufactures = manufactures;
+        this.model = model;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.status = status;
+        this.autonomy = autonomy;
+    }
+
+    public Car(String id, float longitude, float latitude) {
         this.id = id;
         this.manufactures = manufactures;
         this.model = model;

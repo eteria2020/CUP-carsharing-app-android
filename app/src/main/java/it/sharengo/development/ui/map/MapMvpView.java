@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.SearchItem;
+import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.ui.base.presenters.MvpView;
 
 public interface MapMvpView extends MvpView {
@@ -13,4 +14,6 @@ public interface MapMvpView extends MvpView {
     void showSearchResult(List<SearchItem> searchItemList);
     void showBookingCar();
     void showConfirmDeletedCar();
+    void showTripInfo(Trip trip);
+    void removeTripInfo();
 }

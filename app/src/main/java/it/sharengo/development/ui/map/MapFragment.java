@@ -75,7 +75,9 @@ import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Car;
+import it.sharengo.development.data.models.Reservation;
 import it.sharengo.development.data.models.SearchItem;
+import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
 
@@ -123,6 +125,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private SearchItem currentSearchItem;
     private boolean searchItemSelected = false;
     private boolean isBookingCar = false;
+    private boolean isTripStart = false;
+    private Reservation reservation;
 
     private float currentRotation = 0f;
 
@@ -209,6 +213,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @BindView(R.id.expiringTimeTextView)
     TextView expiringTimeTextView;
+
+    @BindView(R.id.expiringTimeView)
+    ViewGroup expiringTimeView;
+
+    @BindView(R.id.openButtonBookingView)
+    ViewGroup openButtonBookingView;
 
     public static MapFragment newInstance() {
         MapFragment fragment = new MapFragment();
@@ -438,7 +448,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
             displayMyCurrentLocationOverlay();
 
-            centerMap();
+            if(!isTripStart) centerMap();
+
             refreshCars();
         }
 
@@ -775,11 +786,11 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                             int[] drawableAnimArray = null;
 
                             //Verifico se una prenotazione è attiva: il colore dell'animazione è giallo se c'è una prenotazione, altrimenti verde
-                            if(isBookingCar) drawableAnimArray = drawableAnimYellowArray;
+                            if(isBookingCar || isTripStart) drawableAnimArray = drawableAnimYellowArray;
                             else drawableAnimArray = drawableAnimGreenArray;
 
                             //Ogni x millisecondi cambio il frame
-                            if(isBookingCar) {
+                            if(isBookingCar || isTripStart) {
 
                                 if(carbookingMarker != null) carbookingMarker.setIcon(getIconMarker(drawableAnimArray[currentDrawable]));
                                 if(carnextMarker != null) carnextMarker.setIcon(getIconMarker(R.drawable.autopulse0001));
@@ -1008,24 +1019,30 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     //Visualizzio le informazioni della prenotazione
     private void openViewBookingCar(){
 
-        isBookingCar = true;
-
-        //TODO: provvisori
-        String pinUser = "AAA";
+        int pinUser = mPresenter.getUser().userInfo.pin;
         String plateBooking = carSelected.id;
         String addressBooking = getAddress(carSelected.latitude, carSelected.longitude);
-        String timingBookin = "19:29";
+        String timingBookin = "";
+        //TODO: provvisorio
+        if(reservation != null) timingBookin = "19:29";
         //----
 
         //Popolo le informazioni
         //Pin utente
-        userPinTextView.setText(String.format(getString(R.string.booking_userpin_label), pinUser));
+        userPinTextView.setText(String.format(getString(R.string.booking_userpin_label), ""+pinUser));
         bookingPlateTextView.setText(String.format(getString(R.string.booking_plate_label), plateBooking));
         bookingAddressTextView.setText(addressBooking);
-        expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), timingBookin), FROM_HTML_MODE_LEGACY));
+        expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), timingBookin)));
 
         //Apro le informazioni
         bookingCarView.setVisibility(View.VISIBLE);
+
+
+        //Verifico se la corsa è iniziata: nel caso nascondo le informazioni non necessarie
+        if(isTripStart){
+            expiringTimeView.setVisibility(View.GONE);
+            openButtonBookingView.setVisibility(View.GONE);
+        }
 
         //Cerco l'overlay della macchina prenotata
         for(Marker marker : poiMarkers.getItems()){
@@ -1033,6 +1050,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 carbookingMarker = marker;
             }
         }
+
     }
 
     private void deleteBooking(){
@@ -1052,8 +1070,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
 
     private void closeViewBookingCar(){
-
-        isBookingCar = false;
 
         //Nascondo le informazioni della prenotazione cancellata
         bookingCarView.setVisibility(View.GONE);
@@ -1161,7 +1177,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 int icon_marker = R.drawable.ic_auto;
 
                 //Verifico se la vettura è la più vicina oppure se è una vettura prenotata
-                if(car.id.equals(carnext_id) || (isBookingCar && car.id.equals(carSelected.id))){
+                if(car.id.equals(carnext_id) || ((isBookingCar || isTripStart) && car.id.equals(carSelected.id))){
                     icon_marker = R.drawable.autopulse0001;
                 }
 
@@ -1188,7 +1204,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     carnextMarker = markerCar;
                 }
                 //Verifico se è attiva una prenotazione e se la targa dell'overley corrisponde a quella della macchina prenotata
-                if(isBookingCar){
+                if(isBookingCar || isTripStart){
                     if(car.id.equals(carSelected.id)) {
                         carbookingMarker = markerCar;
                         bookedCarFind = true;
@@ -1202,7 +1218,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
 
         //Se è attiva una prenotazione, ma la macchina non è presente tra i risultati restituiti dal server aggiungo la macchina alla lista
-        if(isBookingCar && !bookedCarFind){
+        if((isBookingCar || isTripStart) && !bookedCarFind){
             //OverlayItem overlayItem = new OverlayItem(carSelected.id, "", new GeoPoint(carSelected.latitude, carSelected.longitude));
             //overlayItem.setMarker(getIconMarker(R.drawable.autopulse0001));
             //carbookingMarker = overlayItem;
@@ -1288,7 +1304,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
     private void onTapMarker(Car car){
         //Verifico se è attiva una prenotazione
-        if(isBookingCar){
+        if(isBookingCar || isTripStart){
 
             //Mostro un'alert di avviso
             final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
@@ -1323,6 +1339,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @Override
     public void showBookingCar() {
         onClosePopup();
+        isBookingCar = true;
         openViewBookingCar();
     }
 
@@ -1338,9 +1355,30 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             @Override
             public void onClick(View view) {
                 cdd.dismissAlert();
+                isBookingCar = false;
                 closeViewBookingCar();
             }
         });
 
+    }
+
+    @Override
+    public void showTripInfo(Trip trip){
+        Log.w("showTripInfo","OK");
+        isTripStart = true;
+
+        mMapView.getController().setCenter(new GeoPoint(trip.latitude, trip.longitude));
+        mMapView.getController().setZoom(ZOOM_A);
+        mMapView.invalidate();
+
+        carSelected = new Car(trip.id+"", trip.longitude, trip.latitude);
+        openViewBookingCar();
+    }
+
+    @Override
+    public void removeTripInfo(){
+        Log.w("removeTripInfo","OK");
+        isTripStart = false;
+        closeViewBookingCar();
     }
 }

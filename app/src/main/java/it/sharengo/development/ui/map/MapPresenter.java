@@ -17,6 +17,7 @@ import it.sharengo.development.data.models.Address;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.Post;
 import it.sharengo.development.data.models.Response;
+import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.models.User;
 import it.sharengo.development.data.repositories.AddressRepository;
@@ -51,12 +52,14 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private Observable<List<Car>> mFindPlatesRequest;
     private Observable<List<Address>> mFindAddressRequest;
     private Observable<List<SearchItem>> mFindSearchRequest;
+    private Observable<ResponseTrip> mTripsRequest;
 
     /*
      *  VAR
      */
 
     private Response mResponse;
+    private ResponseTrip mResponseTrip;
     private List<Car> mPlates;
     private List<Address> mAddress;
     private List<SearchItem> mSearchItems;
@@ -113,9 +116,9 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     void viewCreated() {
+        getTrips();
         loadPlates();
         startTimer();
-        Log.w("AUTH",": "+mAuthRepository.userAuth.pin);
     }
 
     void viewDestroy() {
@@ -164,13 +167,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private Observable<List<Post>> buildPostsRequest() {
         return mPostsRequest = mPostRepository.getPosts()
                 .first()
-                .compose(this.<List<Post>>handleDataRequest())
-                .doOnCompleted(new Action0() {
-                    @Override
-                    public void call() {
-
-                    }
-                });
+                .compose(this.<List<Post>>handleDataRequest());
     }
 
     private Subscriber<List<Post>> getSubscriber(){
@@ -255,6 +252,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
             getMvpView().noCarsFound();
         }
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -276,7 +274,13 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private Observable<Response> buildPlatesRequest() {
         return mPlatesRequest = mCarRepository.getPlates()
                 .first()
-                .compose(this.<Response>handleDataRequest());
+                .compose(this.<Response>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkResult();
+                    }
+                });
     }
 
     private Subscriber<Response> getPlatesSubscriber(){
@@ -532,6 +536,60 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     public void deleteBookingCar(){
         getMvpView().showConfirmDeletedCar();
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Trips
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    void getTrips(){
+        if( mTripsRequest == null) {
+            mTripsRequest = buildTripsRequest();
+            addSubscription(mTripsRequest.unsafeSubscribe(getTripsSubscriber()));
+        }
+    }
+
+    private Observable<ResponseTrip> buildTripsRequest() {
+        return mTripsRequest = mUserRepository.getTrips(false)
+                .first()
+                .compose(this.<ResponseTrip>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkTripsResult();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseTrip> getTripsSubscriber(){
+        return new Subscriber<ResponseTrip>() {
+            @Override
+            public void onCompleted() {
+                mTripsRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mTripsRequest = null;
+                //getMvpView().showError(e);
+            }
+
+            @Override
+            public void onNext(ResponseTrip response) {
+                mResponseTrip = response;
+            }
+        };
+    }
+
+    private void checkTripsResult(){
+        if(mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0){
+            getMvpView().showTripInfo(mResponseTrip.trips.get(0));
+        }else{
+
+            getMvpView().removeTripInfo();
+        }
     }
 }
 
