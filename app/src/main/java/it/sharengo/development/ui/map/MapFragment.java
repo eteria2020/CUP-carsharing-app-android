@@ -417,7 +417,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
 
-        userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
+        //userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
 
         //First time
         if (!hasInit){
@@ -464,7 +464,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         //overlay.setLocation(new GeoPoint(location.getLatitude(), location.getLongitude()));
         //mMapView.invalidate();
 
-
+        Log.w("GPS","onLocationChanged");
 
         pinUser = new OverlayItem("Title", "Description", userLocation);
 
@@ -500,7 +500,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }
         enabledCenterMap(false);
 
-        hasInit = true;
+        //hasInit = true;
     }
 
     private void loadsCars(){
@@ -800,11 +800,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
 
     private void openSettings(){
-        Intent intent = new Intent();
+        /*Intent intent = new Intent();
         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
         intent.setData(uri);
-        startActivity(intent);
+        startActivity(intent);*/
+
+        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
     }
 
 
