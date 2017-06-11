@@ -3,6 +3,8 @@ package it.sharengo.development.data.datasources;
 import it.sharengo.development.data.datasources.api.SharengoApi;
 import it.sharengo.development.data.datasources.base.BaseRetrofitDataSource;
 import it.sharengo.development.data.models.Response;
+import it.sharengo.development.data.models.ResponseCar;
+import it.sharengo.development.data.models.ResponsePutReservation;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
@@ -25,6 +27,12 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
     }
 
     @Override
+    public Observable<ResponseCar> getCars(String plate) {
+        return mSharengoApi.getCars(plate)
+                .compose(this.<ResponseCar>handleRetrofitRequest());
+    }
+
+    @Override
     public Observable<Response> getPlates() {
         return mSharengoApi.getPlates()
                 .compose(this.<Response>handleRetrofitRequest());
@@ -40,6 +48,12 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
     public Observable<ResponseReservation> getReservations() {
         return mSharengoApi.getReservations()
                 .compose(this.<ResponseReservation>handleRetrofitRequest());
+    }
+
+    @Override
+    public Observable<ResponsePutReservation> postReservations(String plate) {
+        return mSharengoApi.postReservations(plate)
+                .compose(this.<ResponsePutReservation>handleRetrofitRequest());
     }
 
     @Override

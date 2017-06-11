@@ -105,6 +105,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     void getReservation(){
+
         if( mReservationsRequest == null) {
             mReservationsRequest = buildReservationsRequest();
             addSubscription(mReservationsRequest.unsafeSubscribe(getReservationsSubscriber()));
@@ -112,7 +113,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     }
 
     private Observable<ResponseReservation> buildReservationsRequest() {
-        return mReservationsRequest = mUserRepository.getReservations()
+        return mReservationsRequest = mUserRepository.getReservations(false)
                 .first()
                 .compose(this.<ResponseReservation>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -141,6 +142,9 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
                 Log.w("reservation",": "+response.reservations);
                 Log.w("status",": "+response.status);
                 Log.w("reason",": "+response.reason);
+
+                //Log.w("id",": "+response.reservations.get(0).id);
+                //Log.w("length",": "+response.reservations.get(0).length);
             }
         };
     }

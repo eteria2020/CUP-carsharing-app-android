@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 import it.sharengo.development.data.datasources.SharengoDataSource;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.Response;
+import it.sharengo.development.data.models.ResponseCar;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -23,6 +24,7 @@ public class CarRepository {
     private SharengoDataSource mRemoteDataSource;
 
     private Response mCachedCar;
+    private ResponseCar mCachedReservationCar;
     private List<Car> mCachedPlate;
 
     @Inject
@@ -49,6 +51,27 @@ public class CarRepository {
             mCachedCar = new Response();
         }
         mCachedCar = car;
+
+    }
+
+    public Observable<ResponseCar> getCars(String plate) {
+
+        return mRemoteDataSource.getCars(plate)
+                .doOnNext(new Action1<ResponseCar>() {
+                    @Override
+                    public void call(ResponseCar response) {
+
+                        createOrUpdateCarReservationInMemory(response);
+                    }
+                })
+                .compose(logCarSource("NETWORK"));
+    }
+
+    private void createOrUpdateCarReservationInMemory(ResponseCar car) {
+        if (mCachedReservationCar == null) {
+            mCachedReservationCar = new ResponseCar();
+        }
+        mCachedReservationCar = car;
 
     }
 
@@ -92,6 +115,26 @@ public class CarRepository {
                         .doOnNext(new Action1<Response>() {
                             @Override
                             public void call(Response postList) {
+                                if (postList == null) {
+                                    Log.d("TEST", source + " does not have any data.");
+                                }
+                                else {
+                                    Log.d("TEST", source + " has the data you are looking for!");
+                                }
+                            }
+                        });
+            }
+        };
+    }
+
+    private Observable.Transformer<ResponseCar, ResponseCar> logCarSource(final String source) {
+        return new Observable.Transformer<ResponseCar, ResponseCar>() {
+            @Override
+            public Observable<ResponseCar> call(Observable<ResponseCar> postObservable) {
+                return postObservable
+                        .doOnNext(new Action1<ResponseCar>() {
+                            @Override
+                            public void call(ResponseCar postList) {
                                 if (postList == null) {
                                     Log.d("TEST", source + " does not have any data.");
                                 }

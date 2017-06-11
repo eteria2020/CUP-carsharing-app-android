@@ -16,7 +16,11 @@ import it.sharengo.development.R;
 import it.sharengo.development.data.models.Address;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.Post;
+import it.sharengo.development.data.models.Reservation;
 import it.sharengo.development.data.models.Response;
+import it.sharengo.development.data.models.ResponseCar;
+import it.sharengo.development.data.models.ResponsePutReservation;
+import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.models.Trip;
@@ -49,18 +53,24 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
      */
     private Observable<List<Post>> mPostsRequest;
     private Observable<Response> mCarsRequest;
+    private Observable<ResponseCar> mCarsReservationRequest;
     private Observable<Response> mPlatesRequest;
     private Observable<List<Car>> mFindPlatesRequest;
     private Observable<List<Address>> mFindAddressRequest;
     private Observable<List<SearchItem>> mFindSearchRequest;
     private Observable<ResponseTrip> mTripsRequest;
+    private Observable<ResponseReservation> mReservationsRequest;
+    private Observable<ResponsePutReservation> mReservationRequest;
 
     /*
      *  VAR
      */
 
     private Response mResponse;
+    private ResponseCar mResponseReservationCar;
     private ResponseTrip mResponseTrip;
+    private ResponseReservation mResponseReservation;
+    private Reservation mReservation;
     private List<Car> mPlates;
     private List<Address> mAddress;
     private List<SearchItem> mSearchItems;
@@ -117,8 +127,10 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     void viewCreated() {
-        getTrips();
+
         loadPlates();
+        getTrips();
+        getReservations(false);
         startTimer();
     }
 
@@ -248,6 +260,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     private void checkResult(){
+        Log.w("checkResult",": "+mResponse.reason);
         if(mResponse.reason.isEmpty()){
             getMvpView().showCars(mResponse.data);
         }else{
@@ -468,7 +481,6 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         }
     }
 
-
     private Observable<List<SearchItem>> buildFindSearchRequest(String searchText, final Context context, SharedPreferences mPrefs) {
         return mFindSearchRequest = mPreferencesRepository.getHistoricSearch(searchText, mPrefs)
                 .first()
@@ -530,13 +542,64 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
-    //                                              Booking
+    //                                              Booking car
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void bookingCar(Car car){
-        getMvpView().showBookingCar();
+    public void bookingCar(Car car, Context context){
+
+        hideLoading = false;
+
+        if( mReservationRequest == null) {
+            mReservationRequest = buildReservationRequest(car);
+            addSubscription(mReservationRequest.unsafeSubscribe(getReservationSubscriber(context)));
+        }
     }
 
+    private Observable<ResponsePutReservation> buildReservationRequest(Car car) {
+        return mReservationRequest = mUserRepository.postReservations(car.id)
+                .first()
+                .compose(this.<ResponsePutReservation>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        if(mReservation != null)
+                            Log.w("getReservations","REGISTRATO");
+                            getReservations(true);
+                    }
+                });
+    }
+
+    private Subscriber<ResponsePutReservation> getReservationSubscriber(final Context context){
+        return new Subscriber<ResponsePutReservation>() {
+            @Override
+            public void onCompleted() {
+                mReservationRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mReservationRequest = null;
+                //getMvpView().showError(e);
+            }
+
+            @Override
+            public void onNext(ResponsePutReservation response) {
+                Log.w("getReservations",": "+response.reason);
+                if(!response.reason.isEmpty() && response.reason.equals("Reservation created successfully"))
+                    mReservation = response.reservation;
+                else {
+                    mReservation = null;
+                    getMvpView().showError(context.getString(R.string.booking_alreadybookedcar_alert)); // Error: reservation:false - status:false - trip:false - limit:false - limit_archive:true
+                }
+            }
+        };
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Open door
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void openDoor(Car car){
         Trip trip = new Trip(car.id, car.latitude, car.longitude);
         getMvpView().setTripInfo(trip);
@@ -549,7 +612,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
-    //                                              Trips
+    //                                              GET Trips
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     void getTrips(){
@@ -597,6 +660,120 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         }else{
 
             getMvpView().removeTripInfo();
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              GET Reservations
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    void getReservations(boolean refreshInfo){
+
+        if( mReservationsRequest == null) {
+            mReservationsRequest = buildReservationsRequest(refreshInfo);
+            addSubscription(mReservationsRequest.unsafeSubscribe(getReservationsSubscriber()));
+        }
+    }
+
+    private Observable<ResponseReservation> buildReservationsRequest(boolean refreshInfo) {
+        return mReservationsRequest = mUserRepository.getReservations(refreshInfo)
+                .first()
+                .compose(this.<ResponseReservation>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkReservationsResult();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseReservation> getReservationsSubscriber(){
+        return new Subscriber<ResponseReservation>() {
+            @Override
+            public void onCompleted() {
+                mReservationsRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mReservationsRequest = null;
+                //getMvpView().showError(e);
+            }
+
+            @Override
+            public void onNext(ResponseReservation response) {
+                mResponseReservation = response;
+            }
+        };
+    }
+
+    private void checkReservationsResult(){
+
+        if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
+            loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
+        }else{
+            getMvpView().removeReservationInfo();
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              GET Car reservation
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void loadCarsReservation(String plate) {
+
+        if( mCarsReservationRequest == null) {
+
+            mCarsReservationRequest = null;
+            mCarsReservationRequest = buildCarsReservationRequest(plate);
+            addSubscription(mCarsReservationRequest.unsafeSubscribe(getCarsReservationSubscriber()));
+        }
+    }
+
+
+    private Observable<ResponseCar> buildCarsReservationRequest(String plate) {
+
+        return mCarsReservationRequest = mCarRepository.getCars(plate)
+                .first()
+                .compose(this.<ResponseCar>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkCarReservationResult();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseCar> getCarsReservationSubscriber(){
+        return new Subscriber<ResponseCar>() {
+            @Override
+            public void onCompleted() {
+                mCarsReservationRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mCarsReservationRequest = null;
+                //getMvpView().showError(e);
+            }
+
+            @Override
+            public void onNext(ResponseCar responseList) {
+                mResponseReservationCar = responseList;
+            }
+        };
+    }
+
+    private void checkCarReservationResult(){
+        if(mResponseReservationCar.reason.isEmpty() && mResponseReservationCar.data != null){
+            getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0));
+        }else{
+            getMvpView().removeReservationInfo();
         }
     }
 }

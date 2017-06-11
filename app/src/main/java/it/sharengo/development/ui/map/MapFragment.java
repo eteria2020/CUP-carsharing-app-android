@@ -18,6 +18,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
@@ -125,6 +126,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private int[] drawableAnimGreenArray = new int[]{R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulse0007, R.drawable.autopulse0008, R.drawable.autopulse0009, R.drawable.autopulse0010, R.drawable.autopulse0011, R.drawable.autopulse0012, R.drawable.autopulse0013, R.drawable.autopulse0014, R.drawable.autopulse0015, R.drawable.autopulse0016, R.drawable.autopulse0017, R.drawable.autopulse0018, R.drawable.autopulse0019, R.drawable.autopulse0020 };
     private int[] drawableAnimYellowArray = new int[]{R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulseyellow0007, R.drawable.autopulseyellow0008, R.drawable.autopulseyellow0009, R.drawable.autopulseyellow0010, R.drawable.autopulseyellow0011, R.drawable.autopulseyellow0012, R.drawable.autopulseyellow0013, R.drawable.autopulseyellow0014, R.drawable.autopulseyellow0015, R.drawable.autopulseyellow0016, R.drawable.autopulseyellow0017, R.drawable.autopulseyellow0018, R.drawable.autopulseyellow0019, R.drawable.autopulseyellow0020 };
     private Timer timer;
+    private CountDownTimer countDownTimer;
     private SearchItem currentSearchItem;
     private boolean searchItemSelected = false;
     private boolean isBookingCar = false;
@@ -372,6 +374,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         mPresenter.viewDestroy();
 
         if(timer != null) timer.cancel();
+        if(countDownTimer != null) countDownTimer.cancel();
     }
 
     @Override
@@ -453,7 +456,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
             displayMyCurrentLocationOverlay();
 
-            if(!isTripStart) centerMap();
+            if(!isTripStart && !isBookingCar) centerMap();
 
             refreshCars();
         }
@@ -1093,7 +1096,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     //Metodo richiamato per prenotare una macchina selezionata
     private void bookingCar(){
-        mPresenter.bookingCar(carSelected);
+        mPresenter.bookingCar(carSelected, getContext());
     }
 
     //Visualizzio le informazioni della prenotazione
@@ -1102,9 +1105,38 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         int pinUser = mPresenter.getUser().userInfo.pin;
         String plateBooking = carSelected.id;
         String addressBooking = getAddress(carSelected.latitude, carSelected.longitude);
-        String timingBookin = "19:29";
-        //TODO: provvisorio
-        if(reservation != null) timingBookin = "19:29";
+        String timingBookin = "";
+
+        Log.w("reservation.id",": "+reservation.id);
+        Log.w("reservation.tim_start",": "+reservation.timestamp_start);
+        Log.w("reservation.length",": "+reservation.length);
+
+        if(reservation != null){
+
+            Log.w("setCountDownTimer","OK");
+
+            long unixTime = System.currentTimeMillis() / 1000L;
+            int diffTime = (int) (unixTime - reservation.timestamp_start);
+
+            countDownTimer = new CountDownTimer((reservation.length - diffTime) * 1000, 1000) {
+
+                public void onTick(long millisUntilFinished) {
+
+                    Log.w("millisUntilFinished",": "+millisUntilFinished);
+
+                    int mn = (int) (millisUntilFinished / 1000 / 60);
+                    int sec = (int) (millisUntilFinished / 1000 % 60);
+                    String mnStr = (mn<10 ? "0" : "")+mn;
+                    String secStr = (sec<10 ? "0" : "")+sec;
+                    //timingBookin = mnStr+":"+secStr;
+
+                    Log.w("mnStr:secStr",": "+mnStr+":"+secStr);
+                    expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), mnStr+":"+secStr)));
+                }
+
+                public void onFinish() {}
+            }.start();
+        }
         //----
 
         //Popolo le informazioni
@@ -1124,7 +1156,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             openButtonBookingView.setVisibility(View.GONE);
         }
 
-        //Cerco l'overlay della macchina prenotata
+
         for(Marker marker : poiMarkers.getItems()){
             if(marker.getTitle().equals(plateBooking)){
                 carbookingMarker = marker;
@@ -1299,7 +1331,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             }
         }
 
-
+        Log.w("bookedCarFind",": "+bookedCarFind);
         //Se è attiva una prenotazione, ma la macchina non è presente tra i risultati restituiti dal server aggiungo la macchina alla lista
         if((isBookingCar || isTripStart) && !bookedCarFind){
             //OverlayItem overlayItem = new OverlayItem(carSelected.id, "", new GeoPoint(carSelected.latitude, carSelected.longitude));
@@ -1422,7 +1454,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
 
     @Override
-    public void showBookingCar() {
+    public void showBookingCar(Reservation mReservation) {
+        reservation = mReservation;
+
         onClosePopup();
         isBookingCar = true;
         openViewBookingCar();
@@ -1472,6 +1506,63 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @Override
     public void removeTripInfo(){
         isTripStart = false;
+        closeViewBookingCar();
+    }
+
+
+    @Override
+    public void showReservationInfo(final Car mCar, Reservation mReservation){
+
+        isBookingCar = true;
+
+        carSelected = mCar;
+        reservation = mReservation;
+
+        //Aggiungo la macchina
+        Marker markerCar = new Marker(mMapView);
+        markerCar.setPosition(new GeoPoint(mCar.latitude, mCar.longitude));
+        markerCar.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        markerCar.setIcon(getIconMarker(R.drawable.autopulse0001));
+        markerCar.setTitle(mCar.id);
+        markerCar.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker, MapView mapView) {
+
+                onTapMarker(mCar);
+                return true;
+            }
+        });
+        if(poiMarkers == null){
+            poiMarkers = new RadiusMarkerClusterer(getActivity());
+        }
+        poiMarkers.add(markerCar);
+        mMapView.getOverlays().add(poiMarkers);
+
+
+        mMapView.getController().setCenter(new GeoPoint(carSelected.latitude, carSelected.longitude));
+        mMapView.getController().setZoom(ZOOM_C);
+
+
+        mMapView.invalidate();
+
+        onClosePopup();
+        openViewBookingCar();
+    }
+
+    @Override
+    public void setReservationInfo(Car mCar, Reservation mReservation){
+
+        isBookingCar = true;
+
+        carSelected = mCar;
+        reservation = mReservation;
+
+        openViewBookingCar();
+    }
+
+    @Override
+    public void removeReservationInfo(){
+        isBookingCar = false;
         closeViewBookingCar();
     }
 }

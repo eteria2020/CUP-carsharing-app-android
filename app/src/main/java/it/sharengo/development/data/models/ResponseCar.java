@@ -1,36 +1,26 @@
 package it.sharengo.development.data.models;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 import it.sharengo.development.data.common.ExcludeSerialization;
 
-public class Response {
+public class ResponseCar {
 
 
     public String status;
     public String reason;
-    public List<Car> data;
-    public User user;
-
+    public Car data;
 
     @ExcludeSerialization
     public String time;
 
-    public Response() {
+    public ResponseCar() {
     }
 
-    private Response(String status, String reason, List<Car> data) {
+    private ResponseCar(String status, String reason, Car data) {
         this.status = status;
         this.reason = reason;
         this.data = data;
-    }
-
-    private Response(String status, String reason, User data) {
-        this.status = status;
-        this.reason = reason;
-        this.user = data;
     }
 }
 
