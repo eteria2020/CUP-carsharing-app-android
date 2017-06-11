@@ -85,6 +85,10 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private TimerTask timerTask;
     private final Handler handler = new Handler();
 
+    private Timer timer1min;
+    private TimerTask timerTask1min;
+    private final Handler handler1min = new Handler();
+
 
     public MapPresenter(SchedulerProvider schedulerProvider,
                         PostRepository postRepository,
@@ -155,6 +159,26 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         };
 
         timer.schedule(timerTask, 300000, 300000);
+
+
+        //1 minuto
+        timer1min = new Timer();
+
+        timerTask1min = new TimerTask() {
+            public void run() {
+
+                handler1min.post(new Runnable() {
+                    public void run() {
+                        //loadPlates();
+                        Log.w("PASSATO","1 MINUTO");
+                        getReservations(true);
+                    }
+                });
+            }
+        };
+
+        timer1min.schedule(timerTask1min, 60000, 60000);
+
     }
 
     public void stoptimertask() {
@@ -162,7 +186,14 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
             timer.cancel();
             timer = null;
         }
+
+        if (timer1min != null) {
+            timer1min.cancel();
+            timer1min = null;
+        }
     }
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -595,6 +626,54 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         };
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Delete booking
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void deleteBookingCar(int id){
+
+        hideLoading = false;
+
+        if( mReservationRequest == null) {
+            mReservationRequest = buildDeleteReservationRequest(id);
+            addSubscription(mReservationRequest.unsafeSubscribe(getDeleteReservationSubscriber()));
+        }
+    }
+
+    private Observable<ResponsePutReservation> buildDeleteReservationRequest(int id) {
+        return mReservationRequest = mUserRepository.deleteReservations(id)
+                .first()
+                .compose(this.<ResponsePutReservation>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        getMvpView().showConfirmDeletedCar();
+                        getReservations(true);
+                    }
+                });
+    }
+
+    private Subscriber<ResponsePutReservation> getDeleteReservationSubscriber(){
+        return new Subscriber<ResponsePutReservation>() {
+            @Override
+            public void onCompleted() {
+                mReservationRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mReservationRequest = null;
+            }
+
+            @Override
+            public void onNext(ResponsePutReservation response) {
+            }
+        };
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Open door
@@ -603,10 +682,6 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     public void openDoor(Car car){
         Trip trip = new Trip(car.id, car.latitude, car.longitude);
         getMvpView().setTripInfo(trip);
-    }
-
-    public void deleteBookingCar(){
-        getMvpView().showConfirmDeletedCar();
     }
 
 

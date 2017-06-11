@@ -1107,13 +1107,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         String addressBooking = getAddress(carSelected.latitude, carSelected.longitude);
         String timingBookin = "";
 
-        Log.w("reservation.id",": "+reservation.id);
-        Log.w("reservation.tim_start",": "+reservation.timestamp_start);
-        Log.w("reservation.length",": "+reservation.length);
 
         if(reservation != null){
-
-            Log.w("setCountDownTimer","OK");
 
             long unixTime = System.currentTimeMillis() / 1000L;
             int diffTime = (int) (unixTime - reservation.timestamp_start);
@@ -1122,15 +1117,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
                 public void onTick(long millisUntilFinished) {
 
-                    Log.w("millisUntilFinished",": "+millisUntilFinished);
-
                     int mn = (int) (millisUntilFinished / 1000 / 60);
                     int sec = (int) (millisUntilFinished / 1000 % 60);
                     String mnStr = (mn<10 ? "0" : "")+mn;
                     String secStr = (sec<10 ? "0" : "")+sec;
                     //timingBookin = mnStr+":"+secStr;
 
-                    Log.w("mnStr:secStr",": "+mnStr+":"+secStr);
                     expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), mnStr+":"+secStr)));
                 }
 
@@ -1156,6 +1148,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             openButtonBookingView.setVisibility(View.GONE);
         }
 
+        //refreshCars();
 
         for(Marker marker : poiMarkers.getItems()){
             if(marker.getTitle().equals(plateBooking)){
@@ -1176,7 +1169,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             @Override
             public void onClick(View view) {
                 cdd.dismissAlert();
-                mPresenter.deleteBookingCar();
+                mPresenter.deleteBookingCar(reservation.id);
             }
         });
     }
@@ -1536,6 +1529,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             poiMarkers = new RadiusMarkerClusterer(getActivity());
         }
         poiMarkers.add(markerCar);
+        carbookingMarker = markerCar;
+
         mMapView.getOverlays().add(poiMarkers);
 
 
@@ -1544,6 +1539,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
 
         mMapView.invalidate();
+
+        setMarkerAnimation();
 
         onClosePopup();
         openViewBookingCar();

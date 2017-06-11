@@ -57,6 +57,12 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
     }
 
     @Override
+    public Observable<ResponsePutReservation> deleteReservations(int id) {
+        return mSharengoApi.deleteReservations(id)
+                .compose(this.<ResponsePutReservation>handleRetrofitRequest());
+    }
+
+    @Override
     public Observable<ResponseTrip> getTrips(boolean active) {
         return mSharengoApi.getTrips(active)
                 .compose(this.<ResponseTrip>handleRetrofitRequest());

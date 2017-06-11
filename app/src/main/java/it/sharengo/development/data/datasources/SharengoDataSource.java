@@ -23,6 +23,8 @@ public interface SharengoDataSource {
 
     Observable<ResponsePutReservation> postReservations(String plate);
 
+    Observable<ResponsePutReservation> deleteReservations(int id);
+
     Observable<ResponseTrip> getTrips(boolean active);
 
 }

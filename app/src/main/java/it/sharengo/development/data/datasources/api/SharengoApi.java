@@ -8,10 +8,12 @@ import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -47,6 +49,9 @@ public interface SharengoApi {
     @FormUrlEncoded
     @POST("reservations")
     Observable<Result<ResponsePutReservation>> postReservations(@Field("plate") String plate);
+
+    @DELETE("reservations/{id}")
+    Observable<Result<ResponsePutReservation>> deleteReservations(@Path("id") int id);
 
     /*
     * Trips

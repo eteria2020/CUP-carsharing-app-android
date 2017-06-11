@@ -194,6 +194,26 @@ public class UserRepository {
         };
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              DELETE Reservation
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Observable<ResponsePutReservation> deleteReservations(int id) {
+
+        return mRemoteDataSource.deleteReservations(id)
+                .doOnNext(new Action1<ResponsePutReservation>() {
+                    @Override
+                    public void call(ResponsePutReservation response) {
+
+                    }
+                });
+                //.compose(logSourceDeleteReservation("NETWORK"));
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Trips
