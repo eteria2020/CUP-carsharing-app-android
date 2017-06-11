@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import it.sharengo.development.data.models.Response;
+import it.sharengo.development.data.models.ResponseUser;
 import it.sharengo.development.data.models.User;
 import it.sharengo.development.data.repositories.AuthRepository;
 import it.sharengo.development.data.repositories.UserRepository;
@@ -21,7 +22,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     /*
      *  REQUEST
      */
-    private Observable<Response> mUserRequest;
+    private Observable<ResponseUser> mUserRequest;
 
     public HomePresenter(SchedulerProvider schedulerProvider,
                          AuthRepository authRepository,
@@ -59,14 +60,14 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
         }
     }
 
-    private Observable<Response> buildPlatesRequest() {
+    private Observable<ResponseUser> buildPlatesRequest() {
         return mUserRequest = mUserRepository.getUser()
                 .first()
-                .compose(this.<Response>handleDataRequest());
+                .compose(this.<ResponseUser>handleDataRequest());
     }
 
-    private Subscriber<Response> getPlatesSubscriber(){
-        return new Subscriber<Response>() {
+    private Subscriber<ResponseUser> getPlatesSubscriber(){
+        return new Subscriber<ResponseUser>() {
             @Override
             public void onCompleted() {
                 mUserRequest = null;
@@ -79,7 +80,11 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
             }
 
             @Override
-            public void onNext(Response responseList) {}
+            public void onNext(ResponseUser response) {
+                Log.w("pin",": "+response.user.pin);
+                Log.w("status",": "+response.status);
+                Log.w("reason",": "+response.reason);
+            }
         };
     }
 }

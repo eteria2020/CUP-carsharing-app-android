@@ -3,7 +3,7 @@ package it.sharengo.development.data.datasources;
 import it.sharengo.development.data.datasources.api.SharengoApi;
 import it.sharengo.development.data.datasources.base.BaseRetrofitDataSource;
 import it.sharengo.development.data.models.Response;
-import it.sharengo.development.data.models.User;
+import it.sharengo.development.data.models.ResponseUser;
 import rx.Observable;
 
 public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implements SharengoDataSource {
@@ -29,8 +29,8 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
     }
 
     @Override
-    public Observable<Response> getUser() {
+    public Observable<ResponseUser> getUser() {
         return mSharengoApi.getUser()
-                .compose(this.<Response>handleRetrofitRequest());
+                .compose(this.<ResponseUser>handleRetrofitRequest());
     }
 }

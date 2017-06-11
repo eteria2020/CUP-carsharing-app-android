@@ -1,6 +1,7 @@
 package it.sharengo.development.data.datasources;
 
 import it.sharengo.development.data.models.Response;
+import it.sharengo.development.data.models.ResponseUser;
 import it.sharengo.development.data.models.User;
 import rx.Observable;
 
@@ -10,6 +11,6 @@ public interface SharengoDataSource {
 
     Observable<Response> getPlates();
 
-    Observable<Response> getUser();
+    Observable<ResponseUser> getUser();
 
 }

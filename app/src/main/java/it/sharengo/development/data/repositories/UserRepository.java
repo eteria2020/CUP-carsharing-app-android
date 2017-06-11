@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 
 import it.sharengo.development.data.datasources.SharengoDataSource;
 import it.sharengo.development.data.models.Response;
+import it.sharengo.development.data.models.ResponseUser;
 import it.sharengo.development.data.models.User;
 import rx.Observable;
 import rx.functions.Action1;
@@ -29,12 +30,12 @@ public class UserRepository {
         return mCachedUser;
     }
 
-    public Observable<Response> getUser() {
+    public Observable<ResponseUser> getUser() {
 
         return mRemoteDataSource.getUser()
-                .doOnNext(new Action1<Response>() {
+                .doOnNext(new Action1<ResponseUser>() {
                     @Override
-                    public void call(Response response) {
+                    public void call(ResponseUser response) {
 
                         createOrUpdateInMemory(response);
                     }
@@ -42,7 +43,7 @@ public class UserRepository {
                 .compose(logSource("NETWORK"));
     }
 
-    private void createOrUpdateInMemory(Response response) {
+    private void createOrUpdateInMemory(ResponseUser response) {
         if (mCachedUser == null) {
             mCachedUser = new User();
         }
@@ -50,14 +51,14 @@ public class UserRepository {
 
     }
 
-    private Observable.Transformer<Response, Response> logSource(final String source) {
-        return new Observable.Transformer<Response, Response>() {
+    private Observable.Transformer<ResponseUser, ResponseUser> logSource(final String source) {
+        return new Observable.Transformer<ResponseUser, ResponseUser>() {
             @Override
-            public Observable<Response> call(Observable<Response> postObservable) {
+            public Observable<ResponseUser> call(Observable<ResponseUser> postObservable) {
                 return postObservable
-                        .doOnNext(new Action1<Response>() {
+                        .doOnNext(new Action1<ResponseUser>() {
                             @Override
-                            public void call(Response postList) {
+                            public void call(ResponseUser postList) {
                                 if (postList == null) {
                                     Log.d("TEST", source + " does not have any data.");
                                 }

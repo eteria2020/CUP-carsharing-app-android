@@ -15,7 +15,7 @@ import rx.functions.Func1;
 public abstract class BaseRetrofitDataSource {
 
     protected <T> Observable.Transformer<Result<T>, T> handleRetrofitRequest() {
-        
+
         return new Observable.Transformer<Result<T>, T>() {
             
             @Override

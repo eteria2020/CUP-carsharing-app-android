@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
@@ -31,13 +32,16 @@ import it.sharengo.development.data.common.SerializationExclusionStrategy;
 import it.sharengo.development.data.repositories.AuthRepository;
 import it.sharengo.development.injection.ApplicationContext;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import okhttp3.Credentials;
 import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 /**
  * Provide data-level dependencies.
  */
@@ -117,15 +121,15 @@ public class ApiModule {
 
         String baseUrl = context.getString(R.string.endpointSharengo);
         if(authRepository.auth){
-            baseUrl = "https://francesco.galatro%40gmail.com:508c82b943ae51118d905553b8213c8a@api.sharengo.it:8023/v2/";
+            //baseUrl = "https://francesco.galatro@gmail.com:508c82b943ae51118d905553b8213c8a@api.sharengo.it:8023/v2/";
+
+            baseUrl = "https://api.sharengo.it:8023/v2/";
+
             //baseUrl = String.format(context.getString(R.string.endpointSharengoAuth), authRepository.userAuth.username, authRepository.userAuth.token);
         }
-        HttpUrl aa = HttpUrl.parse(baseUrl);
-        Log.w("baseUrl",": "+aa);
 
         Retrofit retrofit = new Retrofit.Builder()
-                //.baseUrl(baseUrl)
-                .baseUrl(aa)
+                .baseUrl(baseUrl)
                 //.baseUrl("http:gr3dcomunication.com/sharengo/")
                 .client(provideOkHttpClientTrusted(context))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(schedulerProvider.io()))
@@ -147,6 +151,7 @@ public class ApiModule {
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
+
         try {
 
             final TrustManager[] trustAllCerts = new TrustManager[] {
@@ -201,6 +206,26 @@ public class ApiModule {
         }catch (Exception e){
 
         }
+
+        httpClient.addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request original = chain.request();
+                HttpUrl originalHttpUrl = original.url();
+                Log.w("originalHttpUrl",": "+originalHttpUrl);
+                HttpUrl url = originalHttpUrl.newBuilder()
+                        //.addQueryParameter("apikey", "your-actual-api-key")
+                        .build();
+
+                // Request customization: add request headers
+                Request.Builder requestBuilder = original.newBuilder()
+                        .url(url)
+                        .header("Authorization", Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"));
+
+                Request request = requestBuilder.build();
+                return chain.proceed(request);
+            }
+        });
 
         httpClient.hostnameVerifier(new HostnameVerifier() {
                 @Override
