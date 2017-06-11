@@ -19,6 +19,7 @@ import it.sharengo.development.data.models.Post;
 import it.sharengo.development.data.models.Response;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.SearchItem;
+import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.data.models.User;
 import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.AuthRepository;
@@ -532,6 +533,11 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void bookingCar(Car car){
         getMvpView().showBookingCar();
+    }
+
+    public void openDoor(Car car){
+        Trip trip = new Trip(car.id, car.latitude, car.longitude);
+        getMvpView().setTripInfo(trip);
     }
 
     public void deleteBookingCar(){

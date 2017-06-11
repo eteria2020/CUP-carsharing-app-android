@@ -101,6 +101,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private final int SPEECH_RECOGNITION_CODE = 1;
     private final int ZOOM_A = 15;
     private final int ZOOM_B = 5;
+    private final int ZOOM_C = 18;
 
     private ItemizedOverlayWithFocus<OverlayItem> mOverlay;
     private ItemizedOverlayWithFocus<OverlayItem> mOverlayUser;
@@ -976,8 +977,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
-                if(getDistance(carSelected) <= 50){
+                if(getDistance(carSelected) <= 1000000000){ //TODO: valore a 50
                     //Procediamo con le schermate successive
+                    mPresenter.openDoor(carSelected);
                 }else{
                     CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                             getString(R.string.maps_opendoordistance_alert),
@@ -1022,7 +1024,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         int pinUser = mPresenter.getUser().userInfo.pin;
         String plateBooking = carSelected.id;
         String addressBooking = getAddress(carSelected.latitude, carSelected.longitude);
-        String timingBookin = "";
+        String timingBookin = "19:29";
         //TODO: provvisorio
         if(reservation != null) timingBookin = "19:29";
         //----
@@ -1364,12 +1366,21 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @Override
     public void showTripInfo(Trip trip){
-        Log.w("showTripInfo","OK");
+
         isTripStart = true;
 
         mMapView.getController().setCenter(new GeoPoint(trip.latitude, trip.longitude));
-        mMapView.getController().setZoom(ZOOM_A);
+        mMapView.getController().setZoom(ZOOM_C);
         mMapView.invalidate();
+
+        carSelected = new Car(trip.id+"", trip.longitude, trip.latitude);
+        openViewBookingCar();
+    }
+
+    @Override
+    public void setTripInfo(Trip trip){
+
+        isTripStart = true;
 
         carSelected = new Car(trip.id+"", trip.longitude, trip.latitude);
         openViewBookingCar();
