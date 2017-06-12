@@ -1095,8 +1095,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
-                if(getDistance(carSelected) <= 1000000000){ //TODO: valore a 50
+                if(getDistance(carSelected) <= 50){ //TODO: valore a 50
                     //Procediamo con le schermate successive
+                    onClosePopup();
                     mPresenter.openDoor(carSelected, "open");
                 }else{
                     CustomDialogClass cdd=new CustomDialogClass(getActivity(),
@@ -1272,13 +1273,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @OnClick(R.id.openDoorButton)
     public void onOpenDoor(){
-        onClosePopup();
+
         openDoors();
     }
 
     @OnClick(R.id.openDoorBookingButton)
     public void openDoorBookingButton(){
-        onClosePopup();
+
         openDoors();
     }
 

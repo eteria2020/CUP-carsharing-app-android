@@ -67,6 +67,13 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
         //mToolBar.setNavigationIcon(mDrawerArrowDrawable);
         mToolBar.setNavigationOnClickListener(mNavigationOnClickListener);
 
+        mToolBar.findViewById(R.id.menuButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigator.launchHome(BaseDrawerActivity.this);
+                BaseDrawerActivity.this.finish();
+            }
+        });
 
 
         String sectionString = getIntent().getStringExtra(EXTRA_MENU_ITEM);
@@ -227,7 +234,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
     };
 
     public void actionBarInteraction(){
-        Navigator.launchHome(this);
+
     }
 
     public void showNotification(String notification, View.OnClickListener mNotificationListener){

@@ -188,7 +188,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
             }
         };
 
-        timer1min.schedule(timerTask1min, 5000, 5000); //60000
+        timer1min.schedule(timerTask1min, 60000, 60000); //60000 TODO
 
     }
 
@@ -259,12 +259,12 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     public void loadCars(float latitude, float longitude, int radius) {
 
-        //if( mCarsRequest == null) {
+        if( mCarsRequest == null) {
 
             mCarsRequest = null;
             mCarsRequest = buildCarsRequest(latitude, longitude, radius);
             addSubscription(mCarsRequest.unsafeSubscribe(getCarsSubscriber()));
-        //}
+        }
     }
 
 
@@ -305,8 +305,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         if(mResponse.reason.isEmpty()){
             getMvpView().showCars(mResponse.data);
         }else{
-            if(!mResponse.reason.equals("No cars found"))
-                getMvpView().showError(mResponse.reason);
+            /*if(!mResponse.reason.equals("No cars found"))
+                getMvpView().showError(mResponse.reason);*/
 
             getMvpView().noCarsFound();
         }
