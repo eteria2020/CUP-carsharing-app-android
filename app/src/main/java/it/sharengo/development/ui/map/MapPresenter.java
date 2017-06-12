@@ -78,6 +78,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private List<SearchItem> historicItems;
     private List<Post> mPosts;
     private boolean hideLoading;
+    private boolean isTripExists;
+    private int timestamp_start;
 
     /*
      *  Timer
@@ -133,9 +135,11 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     void viewCreated() {
 
+        isTripExists = false;
+
         loadPlates();
         getReservations(false);
-        getTrips(false);
+        //getTrips(false);
         startTimer();
     }
 
@@ -173,13 +177,17 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
                         Log.w("PASSATO","1 MINUTO");
                         getReservations(true);
-                        getTrips(true);
+                        //getTrips(true);
+
+                        /*getMvpView().openTripEnd(1497229925);
+                        timerTask1min.cancel();
+                        timer.cancel();*/
                     }
                 });
             }
         };
 
-        timer1min.schedule(timerTask1min, 60000, 60000);
+        timer1min.schedule(timerTask1min, 3000, 3000);
 
     }
 
@@ -250,7 +258,6 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     public void loadCars(float latitude, float longitude, int radius) {
 
-        Log.w("loadCars",": A1");
         //if( mCarsRequest == null) {
 
             mCarsRequest = null;
@@ -294,7 +301,6 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     private void checkResult(){
-        Log.w("checkResult",": "+mResponse.reason);
         if(mResponse.reason.isEmpty()){
             getMvpView().showCars(mResponse.data);
         }else{
@@ -597,7 +603,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                     @Override
                     public void call() {
                         if(mReservation != null)
-                            Log.w("getReservations","REGISTRATO");
+
                             getReservations(true);
                     }
                 });
@@ -618,7 +624,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
             @Override
             public void onNext(ResponsePutReservation response) {
-                Log.w("getReservations",": "+response.reason);
+
                 if(!response.reason.isEmpty() && response.reason.equals("Reservation created successfully"))
                     mReservation = response.reservation;
                 else {
@@ -685,8 +691,6 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     public void openDoor(Car car, String action) {
 
-        Log.w("openDoor",": "+action);
-        Log.w("openDoor car",": "+car.id);
         if( mCarsTripRequest == null) {
 
             mCarsTripRequest = null;
@@ -704,11 +708,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        Log.w("PORTIERE",": "+action);
 
                         loadCarsTrip(car.id);
-
-                        //getTrips(true);
                     }
                 });
     }
@@ -740,7 +741,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     void getTrips(boolean refreshInfo){
 
-        hideLoading = false;
+        //hideLoading = false;
 
         if( mTripsRequest == null) {
             mTripsRequest = buildTripsRequest(refreshInfo);
@@ -781,10 +782,22 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     private void checkTripsResult(){
+
+        Log.w("TRIPS",": "+mResponseTrip.reason);
         if(mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0){
             loadCarsTrip(mResponseTrip.trips.get(0).plate);
+
+            timestamp_start = mResponseTrip.trips.get(0).timestamp_start;
+            isTripExists = true;
         }else{
 
+            if(isTripExists){
+                isTripExists = false;
+
+                getMvpView().openTripEnd(timestamp_start);
+                timerTask1min.cancel();
+                timer.cancel();
+            }
             getMvpView().removeTripInfo();
         }
     }
@@ -840,7 +853,9 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
             loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
         }else{
-            getMvpView().removeReservationInfo();
+            //getMvpView().removeReservationInfo();
+
+            getTrips(true);
         }
     }
 
@@ -915,8 +930,6 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
         hideLoading = false;
 
-        Log.w("loadCarsTrip",": "+plate);
-
         mCarsReservationRequest = null;
         mCarsReservationRequest = buildCarsTripRequest(plate);
         addSubscription(mCarsReservationRequest.unsafeSubscribe(getCarsTripSubscriber()));
@@ -957,8 +970,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     private void checkCarTripResult(){
-        Log.w("checkCarTripResu reason",": "+mResponseReservationCar.reason);
-        Log.w("checkCarTripResu reason",": "+mResponseReservationCar.data.id);
+
         if(mResponseReservationCar.reason.isEmpty() && mResponseReservationCar.data != null){
             getMvpView().showTripInfo(mResponseReservationCar.data);
         }else{

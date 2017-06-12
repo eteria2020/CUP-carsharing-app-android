@@ -26,6 +26,7 @@ import android.speech.SpeechRecognizer;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -80,6 +81,7 @@ import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.Reservation;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.models.Trip;
+import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
 
@@ -861,6 +863,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                         @Override
                         public void run() {
 
+
                             if(getActivity() != null) {
 
                                 int[] drawableAnimArray = null;
@@ -949,7 +952,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //Verifico prima di tutto che l'utente abbia scritto 3 caratteri. La ricerca parte nel momento in cui vengono digitati 3 caratteri
         if (searchMapText.length() > 2) {
-            Log.w("SEARCH","YES");
 
             //Verifico se è una targa: (con pattern 2 lettere + 1 numero Es: AB1 ) è una targa e quindi cerchiamo tra le targhe, altrimenti cerchiamo l'indirizzo
             if(!StringUtils.isNumeric(searchMapText.substring(0))
@@ -963,7 +965,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             searchRecyclerView.scrollToPosition(0);
 
         }else{ //Se i caratteri digitati sono meno di 3, ripulisco la lista
-            Log.w("SEARCH","NO");
+
             mAdapter.setData(null);
 
             if(searchMapText.length() == 0) setSearchDefaultContent();
@@ -1243,11 +1245,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @OnClick(R.id.openDoorButton)
     public void onOpenDoor(){
+        onClosePopup();
         openDoors();
     }
 
     @OnClick(R.id.openDoorBookingButton)
     public void openDoorBookingButton(){
+        onClosePopup();
         openDoors();
     }
 
@@ -1274,8 +1278,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //Trovo la macchina più vicina a me
         carnext_id = findNextCar(carsList);
-
-        Log.w("carnext_id",": "+carnext_id);
 
         //Marker array
         items = new ArrayList<OverlayItem>();
@@ -1334,7 +1336,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             }
         }
 
-        Log.w("bookedCarFind",": "+bookedCarFind);
         //Se è attiva una prenotazione, ma la macchina non è presente tra i risultati restituiti dal server aggiungo la macchina alla lista
         if((isBookingCar || isTripStart) && !bookedCarFind){
             //OverlayItem overlayItem = new OverlayItem(carSelected.id, "", new GeoPoint(carSelected.latitude, carSelected.longitude));
@@ -1407,8 +1408,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //mMapView.getOverlays().add(mOverlay);
         //mMapView.invalidate();
-
-        Log.w("FINISH","OK");
 
 
 
@@ -1490,7 +1489,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         isTripStart = true;
         carSelected = car;
 
-        Log.w("showTripInfo","METODO");
+        mMapView.getOverlays().remove(poiMarkers);
 
         //Aggiungo la macchina
         Marker markerCar = new Marker(mMapView);
@@ -1548,6 +1547,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         carSelected = mCar;
         reservation = mReservation;
 
+        mMapView.getOverlays().remove(poiMarkers);
+
         //Aggiungo la macchina
         Marker markerCar = new Marker(mMapView);
         markerCar.setPosition(new GeoPoint(mCar.latitude, mCar.longitude));
@@ -1598,5 +1599,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     public void removeReservationInfo(){
         isBookingCar = false;
         closeViewBookingCar();
+    }
+
+    @Override
+    public void openTripEnd(int timestamp){
+        Navigator.launchTripEnd(this, timestamp);
     }
 }

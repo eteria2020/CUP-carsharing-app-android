@@ -16,6 +16,7 @@ import it.sharengo.development.ui.base.presenters.PresenterManager;
 import it.sharengo.development.ui.home.HomePresenter;
 import it.sharengo.development.ui.menu.MenuPresenter;
 import it.sharengo.development.ui.splash.SplashPresenter;
+import it.sharengo.development.ui.tripend.TripEndPresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 
 @Module
@@ -89,6 +90,18 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new MapPresenter(schedulerProvider, postRepository, carRepository, addressRepository, preferencesRepository, authRepository, userRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    TripEndPresenter provideTripEndPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+        TripEndPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new TripEndPresenter(schedulerProvider);
         }
         return presenter;
     }

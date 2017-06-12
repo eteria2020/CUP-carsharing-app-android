@@ -15,13 +15,16 @@ public class Trip {
     @SerializedName("lon_start")
     public float longitude;
 
+    public int timestamp_start;
+
     public Trip() {
     }
 
-    public Trip(String plate, float latitude, float longitude) {
+    public Trip(String plate, float latitude, float longitude, int timestamp_start) {
         this.plate = plate;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.timestamp_start = timestamp_start;
     }
 
 }

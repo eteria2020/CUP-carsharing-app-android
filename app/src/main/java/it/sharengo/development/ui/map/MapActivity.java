@@ -44,6 +44,8 @@ public class MapActivity extends BaseDrawerActivity {
 
     @Override
     public void actionBarInteraction(){
+        super.actionBarInteraction();
+        finish();
         if(mapFragment != null){
             mapFragment.onClosePopup();
         }

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import it.sharengo.development.R;
+import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.drawer.DrawerArrowDrawable;
 import it.sharengo.development.ui.base.drawer.DrawerSlideListener;
 import it.sharengo.development.ui.menu.MenuFragment;
@@ -224,6 +225,6 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
     };
 
     public void actionBarInteraction(){
-
+        Navigator.launchHome(this);
     }
 }

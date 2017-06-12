@@ -1,5 +1,6 @@
 package it.sharengo.development.routing;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
@@ -7,6 +8,7 @@ import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.development.ui.home.HomeActivity;
 import it.sharengo.development.ui.map.MapActivity;
+import it.sharengo.development.ui.tripend.TripEndActivity;
 
 public class Navigator {
 
@@ -23,7 +25,13 @@ public class Navigator {
 
     private Navigator() {
     }
-    
+
+    public static void launchHome(Activity activity) {
+        Intent intent = HomeActivity.getCallingIntent(activity);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        activity.startActivity(intent);
+    }
+
     public static void launchHome(Fragment fragment) {
         Intent intent = HomeActivity.getCallingIntent(fragment.getActivity());
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
@@ -34,6 +42,14 @@ public class Navigator {
         Intent intent = MapActivity.getCallingIntent(fragment.getActivity());
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
+    }
+
+    public static void launchTripEnd(Fragment fragment, int timestamp) {
+        Intent intent = TripEndActivity.getCallingIntent(fragment.getActivity(), timestamp);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+
+        fragment.getActivity().finish();
     }
 
     
