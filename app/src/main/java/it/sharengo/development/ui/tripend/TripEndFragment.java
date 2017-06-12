@@ -17,17 +17,17 @@ public class TripEndFragment extends BaseMvpFragment<TripEndPresenter> implement
 
     private static final String TAG = TripEndFragment.class.getSimpleName();
 
-    public static final String ARG_TIMESTAMP = "ARG_POST_ID";
+    public static final String ARG_CO2 = "ARG_CO2";
 
-    private int timestamp = 0;
+    private float co2 = 0;
 
     @BindView(R.id.cos2TextView)
     TextView cos2TextView;
 
-    public static TripEndFragment newInstance(int timestamp) {
+    public static TripEndFragment newInstance(float mCo2) {
         TripEndFragment fragment = new TripEndFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_TIMESTAMP, timestamp);
+        args.putFloat(ARG_CO2, mCo2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -40,8 +40,8 @@ public class TripEndFragment extends BaseMvpFragment<TripEndPresenter> implement
         getMvpFragmentComponent(savedInstanceState).inject(this);
 
         if(getArguments() != null){
-            timestamp = getArguments().getInt(ARG_TIMESTAMP);
-            Log.w("timestamp",": "+timestamp);
+            co2 = getArguments().getFloat(ARG_CO2);
+            Log.w("co2",": "+co2);
         }
     }
 
@@ -50,18 +50,6 @@ public class TripEndFragment extends BaseMvpFragment<TripEndPresenter> implement
         View view = inflater.inflate(R.layout.fragment_trip_end, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-
-
-
-        long unixTime = System.currentTimeMillis() / 1000L;
-        Log.w("unixTime",": "+unixTime);
-
-        int diffTime = (int) (unixTime - timestamp);
-        Log.w("diffTime",": "+diffTime);
-
-        float co2 = ((float) diffTime)/60/60*17*106;  //((minuti÷60)×17)×106
-
-        Log.w("co2",": "+co2);
 
         cos2TextView.setText(String.format(getString(R.string.tripend_text3_label), co2));
 

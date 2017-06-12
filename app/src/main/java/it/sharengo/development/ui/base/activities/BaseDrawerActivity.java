@@ -2,6 +2,7 @@ package it.sharengo.development.ui.base.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import it.sharengo.development.R;
 import it.sharengo.development.routing.Navigator;
@@ -226,5 +228,20 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
 
     public void actionBarInteraction(){
         Navigator.launchHome(this);
+    }
+
+    public void showNotification(String notification, View.OnClickListener mNotificationListener){
+        ((TextView) findViewById(R.id.notificationTextView)).setText(notification);
+        final ViewGroup notificationView = (ViewGroup) findViewById(R.id.notificationView);
+        notificationView.setVisibility(View.VISIBLE);
+        notificationView.setOnClickListener(mNotificationListener);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                notificationView.setVisibility(View.GONE);
+            }
+        }, 10000);
     }
 }

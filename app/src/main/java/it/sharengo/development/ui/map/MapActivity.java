@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 
 import it.sharengo.development.R;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
@@ -49,6 +50,11 @@ public class MapActivity extends BaseDrawerActivity {
         if(mapFragment != null){
             mapFragment.onClosePopup();
         }
+    }
+
+    @Override
+    public void showNotification(String notification, View.OnClickListener mNotificationListener){
+        super.showNotification(notification, mNotificationListener);
     }
 
     public void redrawFragment(){

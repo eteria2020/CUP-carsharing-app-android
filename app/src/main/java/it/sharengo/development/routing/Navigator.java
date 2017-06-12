@@ -44,8 +44,8 @@ public class Navigator {
         fragment.startActivity(intent);
     }
 
-    public static void launchTripEnd(Fragment fragment, int timestamp) {
-        Intent intent = TripEndActivity.getCallingIntent(fragment.getActivity(), timestamp);
+    public static void launchTripEnd(Fragment fragment, float co2) {
+        Intent intent = TripEndActivity.getCallingIntent(fragment.getActivity(), co2);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
 

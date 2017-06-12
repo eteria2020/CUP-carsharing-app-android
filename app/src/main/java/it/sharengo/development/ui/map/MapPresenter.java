@@ -179,9 +179,10 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                         getReservations(true);
                         //getTrips(true);
 
-                        getMvpView().openTripEnd(1497252565);
+                        //getMvpView().openTripEnd(1497253171);
+                        /*getMvpView().openNotification(1497257941, (int) (System.currentTimeMillis() / 1000L));
                         timerTask1min.cancel();
-                        timer.cancel();
+                        timer.cancel();*/
                     }
                 });
             }
@@ -793,7 +794,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
             if(isTripExists){
                 isTripExists = false;
 
-                getMvpView().openTripEnd(timestamp_start);
+                getMvpView().openNotification(timestamp_start, (int) (System.currentTimeMillis() / 1000L));
                 timerTask1min.cancel();
                 timer.cancel();
             }

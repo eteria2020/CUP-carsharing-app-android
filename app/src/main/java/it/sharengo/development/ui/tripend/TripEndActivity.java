@@ -14,11 +14,11 @@ public class TripEndActivity extends BaseDrawerActivity {
 
     private static final String TAG = TripEndActivity.class.getSimpleName();
 
-    private static final String EXTRA_TRIPEND_TIMESTAMP = "EXTRA_TRIPEND_TIMESTAMP";
+    private static final String EXTRA_TRIPEND_CO2 = "EXTRA_TRIPEND_CO2";
 
-    public static Intent getCallingIntent(Context context, int timestamp) {
+    public static Intent getCallingIntent(Context context, float co2) {
         Intent i = new Intent(context, TripEndActivity.class);
-        i.putExtra(EXTRA_TRIPEND_TIMESTAMP, timestamp);
+        i.putExtra(EXTRA_TRIPEND_CO2, co2);
         return i;
     }
 
@@ -27,8 +27,8 @@ public class TripEndActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null && getIntent().getExtras() != null) {
-            int timestamp = getIntent().getExtras().getInt(EXTRA_TRIPEND_TIMESTAMP);
-            replaceFragment(TripEndFragment.newInstance(timestamp));
+            float co2 = getIntent().getExtras().getFloat(EXTRA_TRIPEND_CO2);
+            replaceFragment(TripEndFragment.newInstance(co2));
         }
     }
 

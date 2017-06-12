@@ -136,6 +136,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private Reservation reservation;
 
     private float currentRotation = 0f;
+    private float co2 = 0f;
 
     private MapSearchListAdapter mAdapter;
     private MapSearchListAdapter.OnItemActionListener mActionListener = new MapSearchListAdapter.OnItemActionListener() {
@@ -143,6 +144,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         public void onItemClick(SearchItem searchItem) {
             if(!searchItem.type.equals("none"))
                 setSearchItemSelected(searchItem);
+        }
+    };
+
+    private View.OnClickListener mNotificationListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Navigator.launchTripEnd(MapFragment.this, co2);
         }
     };
 
@@ -226,6 +234,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @BindView(R.id.openButtonBookingView)
     ViewGroup openButtonBookingView;
+
+    /*@BindView(R.id.notificationView)
+    ViewGroup notificationView;*/
 
     public static MapFragment newInstance() {
         MapFragment fragment = new MapFragment();
@@ -345,6 +356,18 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     }
                     popupCarView.setTranslationY(popupCarView.getHeight());
                 }
+
+                /*int widthN = notificationView.getWidth();
+                int heightN = notificationView.getHeight();
+
+                if (widthN > 0 && heightN > 0) {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        notificationView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    } else {
+                        notificationView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    }
+                    notificationView.setTranslationY(notificationView.getHeight());
+                }*/
             }
         });
 
@@ -1609,5 +1632,17 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @Override
     public void openTripEnd(int timestamp){
         Navigator.launchTripEnd(this, timestamp);
+    }
+
+    @Override
+    public void openNotification(int start, int end){
+
+
+        int diffTime = (int) (end - start);
+        Log.w("diffTime",": "+diffTime);
+
+        co2 = ((float) diffTime)/60/60*17*106;  //((minuti÷60)×17)×106
+
+        ((MapActivity) getActivity()).showNotification(String.format(getString(R.string.tripend_notification_label), diffTime/60), mNotificationListener);
     }
 }
