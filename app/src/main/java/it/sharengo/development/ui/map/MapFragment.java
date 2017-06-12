@@ -508,7 +508,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
 
     private void loadsCars(){
-        mPresenter.loadCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getMapRadius());
+        mPresenter.loadCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());
     }
 
     private void refreshCars(){
@@ -548,7 +548,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }else {
 
             try {
-                mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getMapRadius());
+                mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());
             } catch (NullPointerException e) {
             }
         }
@@ -626,6 +626,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         int distance = (int) locationA.distanceTo(locationB);
 
         return distance;
+    }
+
+    private int getFixMapRadius(){
+        return 700000;
     }
 
     private void orientationMap(){
@@ -1235,7 +1239,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @OnClick(R.id.refreshMapButton)
     public void onRefreshMap() {
         refreshMapButton.startAnimation(anim);
-        mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getMapRadius());
+        mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());
     }
 
     @OnClick(R.id.closePopupButton)
@@ -1437,6 +1441,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             });
         }else {
             mMapView.getController().setCenter(new GeoPoint(car.latitude, car.longitude));
+            mMapView.getController().setZoom(ZOOM_C);
             showPopupCar(car);
         }
     }

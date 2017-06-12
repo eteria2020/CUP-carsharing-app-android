@@ -179,15 +179,15 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                         getReservations(true);
                         //getTrips(true);
 
-                        /*getMvpView().openTripEnd(1497229925);
+                        getMvpView().openTripEnd(1497252565);
                         timerTask1min.cancel();
-                        timer.cancel();*/
+                        timer.cancel();
                     }
                 });
             }
         };
 
-        timer1min.schedule(timerTask1min, 3000, 3000);
+        timer1min.schedule(timerTask1min, 5000, 5000); //60000
 
     }
 
@@ -783,7 +783,6 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     private void checkTripsResult(){
 
-        Log.w("TRIPS",": "+mResponseTrip.reason);
         if(mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0){
             loadCarsTrip(mResponseTrip.trips.get(0).plate);
 

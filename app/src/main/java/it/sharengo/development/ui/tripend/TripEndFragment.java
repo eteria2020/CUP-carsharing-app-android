@@ -59,7 +59,7 @@ public class TripEndFragment extends BaseMvpFragment<TripEndPresenter> implement
         int diffTime = (int) (unixTime - timestamp);
         Log.w("diffTime",": "+diffTime);
 
-        float co2 = ((float) diffTime)/60/60*17*106;
+        float co2 = ((float) diffTime)/60/60*17*106;  //((minuti÷60)×17)×106
 
         Log.w("co2",": "+co2);
 
