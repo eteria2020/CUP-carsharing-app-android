@@ -1,7 +1,6 @@
 package it.sharengo.development.data.datasources.api;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,7 +28,6 @@ import dagger.Provides;
 import it.sharengo.development.BuildConfig;
 import it.sharengo.development.R;
 import it.sharengo.development.data.common.SerializationExclusionStrategy;
-import it.sharengo.development.data.repositories.AuthRepository;
 import it.sharengo.development.injection.ApplicationContext;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import okhttp3.Credentials;
@@ -104,7 +102,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    SharengoApi provideSharengoApi(@ApplicationContext Context context, SchedulerProvider schedulerProvider, AuthRepository authRepository) {
+    SharengoApi provideSharengoApi(@ApplicationContext Context context, SchedulerProvider schedulerProvider) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         if (BuildConfig.DEBUG) {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);

@@ -14,6 +14,8 @@ import it.sharengo.development.R;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements SplashMvpView {
 
     private static final String TAG = SplashFragment.class.getSimpleName();
@@ -68,7 +70,15 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
 
     @Override
     public void navigateToHome() {
-        Navigator.launchHome(this);
-        getActivity().finish();
+
+        //Se è il primo accesso, mostro il login
+        if(mPresenter.isFirstAccess(getActivity().getPreferences(MODE_PRIVATE))){
+            mPresenter.setFirstAccess(getActivity().getPreferences(MODE_PRIVATE));
+            Navigator.launchLogin(this);
+            getActivity().finish();
+        }else{
+            Navigator.launchHome(this);
+            getActivity().finish();
+        }
     }
 }

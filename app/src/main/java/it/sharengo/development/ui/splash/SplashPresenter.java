@@ -1,7 +1,10 @@
 package it.sharengo.development.ui.splash;
 
+import android.content.SharedPreferences;
+
 import java.util.concurrent.TimeUnit;
 
+import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
@@ -9,10 +12,13 @@ import rx.functions.Action0;
 
 public class SplashPresenter extends BasePresenter<SplashMvpView> {
 
+    private final PreferencesRepository mPreferencesRepository;
+
     private Observable<Object> mSplashRequest;
 
-    public SplashPresenter(SchedulerProvider schedulerProvider) {
+    public SplashPresenter(SchedulerProvider schedulerProvider, PreferencesRepository preferencesRepository) {
         super(schedulerProvider);
+        mPreferencesRepository = preferencesRepository;
     }
 
     @Override
@@ -47,5 +53,13 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
 
             addSubscription(mSplashRequest.subscribe());
         }
+    }
+
+    public boolean isFirstAccess(SharedPreferences mPrefs){
+        return mPreferencesRepository.getFirstAccess(mPrefs);
+    }
+
+    public void setFirstAccess(SharedPreferences mPrefs){
+        mPreferencesRepository.saveFirstAccess(false, mPrefs);
     }
 }

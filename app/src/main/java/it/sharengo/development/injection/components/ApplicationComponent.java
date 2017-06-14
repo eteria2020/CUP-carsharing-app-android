@@ -10,7 +10,6 @@ import it.sharengo.development.data.datasources.DataSourceModule;
 import it.sharengo.development.data.datasources.api.ApiModule;
 import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.AuthRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
@@ -45,7 +44,6 @@ public interface ApplicationComponent {
     CarRepository carRepository();
     AddressRepository addressRepository();
     PreferencesRepository preferencesRepository();
-    AuthRepository authRepository();
     UserRepository userRepository();
     //SampleRetrofitDataSource sampleRetrofitDataSource();
     //JsonPlaceholderRetrofitDataSource jsonPlaceholderRetrofitDataSource();

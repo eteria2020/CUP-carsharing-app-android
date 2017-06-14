@@ -1396,9 +1396,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         poiMarkers.getTextPaint().setTextSize(15 * getResources().getDisplayMetrics().density);
         poiMarkers.getTextPaint().setFakeBoldText(true);
 
+
+
         mMapView.getOverlays().add(poiMarkers);
         mMapView.invalidate();
-
 
         /*if(mOverlay != null)
             mOverlay.removeAllItems();
@@ -1447,6 +1448,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         anim.cancel();
 
     }
+
     private void onTapMarker(Car car){
         //Verifico se è attiva una prenotazione
         if(isBookingCar || isTripStart){

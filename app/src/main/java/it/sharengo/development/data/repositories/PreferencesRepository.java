@@ -25,7 +25,10 @@ public class PreferencesRepository {
 
     public static final String TAG = PreferencesRepository.class.getSimpleName();
 
+    static final String KEY_FIRST_ACCESS = "KEY_FIRST_ACCESS";
 
+
+    private SharedPreferences mPref;
     private List<SearchItem> mSearchResults;
     private List<SearchItem> mFavourites;
 
@@ -35,14 +38,56 @@ public class PreferencesRepository {
     }
 
 
-    /*public Observable<List<SearchItem>> getSearchItems(String searchText, Context context, SharedPreferences mPrefs) {
+    public void clear(SharedPreferences prefs) {
+        prefs.edit().clear().apply();
+    }
 
-        return Observable
-                .concat(
-                        getHistoricSearch(searchText, mPrefs),
-                        getFavourite(searchText, context)
-                );
-    }*/
+    /*
+     *
+     *      PRIVATE
+     *
+     */
+
+    private boolean setBoolean(String key, boolean data) {
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.putBoolean(key, data);
+        return editor.commit();
+    }
+
+    private boolean setInt(String key, int data) {
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.putInt(key, data);
+        return editor.commit();
+    }
+
+    private boolean setString(String key, String data) {
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.putString(key, data);
+        return editor.commit();
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Auth
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public boolean getFirstAccess(SharedPreferences prefs) {
+        return prefs.getBoolean(KEY_FIRST_ACCESS, true);
+    }
+
+    public boolean saveFirstAccess(boolean firstAccess, SharedPreferences prefs) {
+        mPref = prefs;
+        return setBoolean(KEY_FIRST_ACCESS, firstAccess);
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Storico ricerche
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public Observable<List<SearchItem>> getHistoricSearch(final String searchText, SharedPreferences mPrefs) {
 
@@ -104,7 +149,6 @@ public class PreferencesRepository {
 
         if(obj != null) results = obj;
 
-        Log.w("results",": "+results);
         return results;
     }
 

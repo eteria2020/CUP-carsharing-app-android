@@ -6,11 +6,11 @@ import dagger.Module;
 import dagger.Provides;
 import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.AuthRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
+import it.sharengo.development.ui.login.LoginPresenter;
 import it.sharengo.development.ui.map.MapPresenter;
 import it.sharengo.development.ui.base.presenters.PresenterManager;
 import it.sharengo.development.ui.home.HomePresenter;
@@ -37,13 +37,13 @@ public class MvpFragmentModule {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Provides
-    SplashPresenter provideSplashPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+    SplashPresenter provideSplashPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, PreferencesRepository preferencesRepository) {
         SplashPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SplashPresenter(schedulerProvider);
+            presenter = new SplashPresenter(schedulerProvider, preferencesRepository);
         }
         return presenter;
     }
@@ -52,14 +52,13 @@ public class MvpFragmentModule {
     HomePresenter provideHomePresenter(PresenterManager presenterManager,
                                        SchedulerProvider schedulerProvider,
                                        //AppRepository appRepository,
-                                       AuthRepository authRepository,
                                        UserRepository userRepository) {
         HomePresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new HomePresenter(schedulerProvider, authRepository, userRepository);
+            presenter = new HomePresenter(schedulerProvider, userRepository);
         }
         return presenter;
     }
@@ -82,14 +81,13 @@ public class MvpFragmentModule {
     MapPresenter provideMapPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider,
                                      PostRepository postRepository, CarRepository carRepository,
                                      AddressRepository addressRepository, PreferencesRepository preferencesRepository,
-                                     AuthRepository authRepository,
                                      UserRepository userRepository) {
         MapPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new MapPresenter(schedulerProvider, postRepository, carRepository, addressRepository, preferencesRepository, authRepository, userRepository);
+            presenter = new MapPresenter(schedulerProvider, postRepository, carRepository, addressRepository, preferencesRepository, userRepository);
         }
         return presenter;
     }
@@ -102,6 +100,18 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new TripEndPresenter(schedulerProvider);
+        }
+        return presenter;
+    }
+
+    @Provides
+    LoginPresenter provideLoginPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+        LoginPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new LoginPresenter(schedulerProvider);
         }
         return presenter;
     }

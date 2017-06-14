@@ -23,10 +23,8 @@ import it.sharengo.development.data.models.ResponsePutReservation;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.SearchItem;
-import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.data.models.User;
 import it.sharengo.development.data.repositories.AddressRepository;
-import it.sharengo.development.data.repositories.AuthRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
@@ -45,7 +43,6 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private final CarRepository mCarRepository;
     private final AddressRepository mAddressRepository;
     private final PreferencesRepository mPreferencesRepository;
-    private final AuthRepository mAuthRepository;
     private final UserRepository mUserRepository;
 
     /*
@@ -98,14 +95,12 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                         CarRepository carRepository,
                         AddressRepository addressRepository,
                         PreferencesRepository preferencesRepository,
-                        AuthRepository authRepository,
                         UserRepository userRepository) {
         super(schedulerProvider);
         mPostRepository = postRepository;
         mCarRepository = carRepository;
         mAddressRepository = addressRepository;
         mPreferencesRepository = preferencesRepository;
-        mAuthRepository = authRepository;
         mUserRepository = userRepository;
 
         //mAppRepository.selectMenuItem(MenuItem.Section.HOME);

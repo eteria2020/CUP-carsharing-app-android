@@ -1,15 +1,10 @@
 package it.sharengo.development.ui.home;
 
-import android.graphics.Color;
-import android.os.Handler;
 import android.util.Log;
 
-import it.sharengo.development.data.models.Response;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
-import it.sharengo.development.data.models.User;
-import it.sharengo.development.data.repositories.AuthRepository;
 import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
@@ -19,7 +14,6 @@ import rx.functions.Action0;
 
 public class HomePresenter extends BasePresenter<HomeMvpView> {
 
-    private final AuthRepository mAuthRepository;
     private final UserRepository mUserRepository;
 
     /*
@@ -30,10 +24,8 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     private Observable<ResponseTrip> mTripsRequest;
 
     public HomePresenter(SchedulerProvider schedulerProvider,
-                         AuthRepository authRepository,
                          UserRepository userRepository) {
         super(schedulerProvider);
-        mAuthRepository = authRepository;
         mUserRepository = userRepository;
     }
 

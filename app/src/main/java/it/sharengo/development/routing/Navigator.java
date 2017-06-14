@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.development.ui.home.HomeActivity;
+import it.sharengo.development.ui.login.LoginActivity;
 import it.sharengo.development.ui.map.MapActivity;
 import it.sharengo.development.ui.tripend.TripEndActivity;
 
@@ -34,6 +35,12 @@ public class Navigator {
 
     public static void launchHome(Fragment fragment) {
         Intent intent = HomeActivity.getCallingIntent(fragment.getActivity());
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchLogin(Fragment fragment) {
+        Intent intent = LoginActivity.getCallingIntent(fragment.getActivity());
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
