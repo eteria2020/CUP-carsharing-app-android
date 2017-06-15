@@ -2,6 +2,7 @@
 <resources>
   <color name="colorPrimary">#ffea00</color>
   <color name="colorPrimaryDark">#e9d701</color>
+  <color name="colorSecondary">#ff0000</color>
   <color name="colorAccent">#ffea00</color>
   <color name="failureColor">@android:color/holo_red_dark</color>
   <color name="successColor">@android:color/holo_green_dark</color>

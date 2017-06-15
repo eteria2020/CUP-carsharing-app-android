@@ -68,4 +68,13 @@
     <string name="tripend_historic_action">Storico corse</string>
     <string name="tripend_notification_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente. Ti ringraziamo per aver usato Sharen\'go</string>
 
+    <string name="login_fillfields_label">Compila i campi per effettuare il login</string>
+    <string name="login_email_placeholder">email</string>
+    <string name="login_password_placeholder">password</string>
+    <string name="login_forgetpassword_action">Ho dimenticato la password</string>
+    <string name="login_login_action">Login</string>
+    <string name="login_notregistered_label">Non sei ancora iscritto?</string>
+    <string name="login_register_action">Registrati</string>
+    <string name="login_continue_action">Continua senza loggarti</string>
+
 </resources>
