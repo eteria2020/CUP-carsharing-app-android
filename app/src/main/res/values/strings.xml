@@ -12,6 +12,9 @@
     <!--PERMISSION-->
     <string name="msg_rational_location_permission">The app needs your permission to access your position.</string>
 
+    <!--GENERAL-->
+    <string name="general_login_alert">Devi effettuare l\'accesso per utilizzare questa funzionalità</string>
+
     <!--MENU-->
     <string name="menu_home">Home</string>
 

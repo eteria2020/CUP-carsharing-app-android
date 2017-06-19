@@ -205,6 +205,11 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         }
     }
 
+    public boolean isAuth(){
+        if(!mUserRepository.getCachedUser().username.isEmpty()) return true;
+        return false;
+    }
+
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

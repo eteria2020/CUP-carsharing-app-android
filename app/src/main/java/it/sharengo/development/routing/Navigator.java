@@ -9,6 +9,8 @@ import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.development.ui.home.HomeActivity;
 import it.sharengo.development.ui.login.LoginActivity;
 import it.sharengo.development.ui.map.MapActivity;
+import it.sharengo.development.ui.profile.ProfileActivity;
+import it.sharengo.development.ui.slideshow.SlideshowActivity;
 import it.sharengo.development.ui.tripend.TripEndActivity;
 
 public class Navigator {
@@ -23,6 +25,11 @@ public class Navigator {
      * 
      * Ex: public static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
      */
+
+    public static final String EXTRA_LOGIN = "EXTRA_LOGIN";
+    public static final int REQUEST_LOGIN_START = 1;
+    public static final int REQUEST_LOGIN_PROFILE = 2;
+    public static final int REQUEST_LOGIN_MAPS = 3;
 
     private Navigator() {
     }
@@ -39,9 +46,10 @@ public class Navigator {
         fragment.startActivity(intent);
     }
 
-    public static void launchLogin(Fragment fragment) {
-        Intent intent = LoginActivity.getCallingIntent(fragment.getActivity());
+    public static void launchLogin(Fragment fragment, int type) {
+        Intent intent = LoginActivity.getCallingIntent(fragment.getActivity(), type);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        intent.putExtra(EXTRA_LOGIN, type);
         fragment.startActivity(intent);
     }
 
@@ -55,8 +63,19 @@ public class Navigator {
         Intent intent = TripEndActivity.getCallingIntent(fragment.getActivity(), co2);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
-
         fragment.getActivity().finish();
+    }
+
+    public static void launchProfile(Fragment fragment) {
+        Intent intent = ProfileActivity.getCallingIntent(fragment.getActivity());
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchSlideshow(Fragment fragment) {
+        Intent intent = SlideshowActivity.getCallingIntent(fragment.getActivity());
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
     }
 
     

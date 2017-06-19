@@ -19,6 +19,7 @@ import it.sharengo.development.data.common.ErrorResponse;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.development.ui.map.MapFragment;
 
 import static android.content.Context.MODE_PRIVATE;
 import static it.sharengo.development.data.common.ErrorResponse.ErrorType.HTTP;
@@ -27,6 +28,10 @@ import static it.sharengo.development.data.common.ErrorResponse.ErrorType.HTTP;
 public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements LoginMvpView {
 
     private static final String TAG = LoginFragment.class.getSimpleName();
+
+    public static final String ARG_TYPE = "ARG_TYPE";
+
+    private int type = 0;
 
     @BindView(R.id.emailEditText)
     EditText emailEditText;
@@ -47,8 +52,11 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
     TextView continueButton;
 
 
-    public static LoginFragment newInstance() {
+    public static LoginFragment newInstance(int type) {
         LoginFragment fragment = new LoginFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_TYPE, type);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -58,6 +66,10 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         getMvpFragmentComponent(savedInstanceState).inject(this);
+
+        if(getArguments() != null){
+            type = getArguments().getInt(ARG_TYPE);
+        }
     }
 
     @Override
@@ -88,8 +100,14 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
     @OnClick(R.id.continueButton)
     public void onContinueButton(){
         Navigator.launchHome(getActivity());
+        getActivity().finish();
     }
 
+    @OnClick(R.id.registerButton)
+    public void onRegisterButton(){
+        Navigator.launchSlideshow(this);
+        getActivity().finish();
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -144,7 +162,22 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
     }
 
     public void navigateTo(){
-        Navigator.launchHome(getActivity());
+
+        switch (type){
+            case Navigator.REQUEST_LOGIN_START:
+                Navigator.launchHome(getActivity());
+                getActivity().finish();
+                break;
+            case Navigator.REQUEST_LOGIN_PROFILE:
+                Navigator.launchProfile(LoginFragment.this);
+                getActivity().finish();
+                break;
+            case Navigator.REQUEST_LOGIN_MAPS:
+                Navigator.launchMap(LoginFragment.this);
+                getActivity().finish();
+                break;
+        }
+
     }
 
 

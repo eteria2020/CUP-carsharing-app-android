@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.login;
+package it.sharengo.development.ui.profile;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,17 +7,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 import it.sharengo.development.R;
-import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 
 
-public class LoginActivity extends BaseDrawerActivity {
+public class ProfileActivity extends BaseDrawerActivity {
 
-    private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final String TAG = ProfileActivity.class.getSimpleName();
 
-    public static Intent getCallingIntent(Context context, int type) {
-        Intent i = new Intent(context, LoginActivity.class);
-        i.putExtra(Navigator.EXTRA_LOGIN, type);
+    public static Intent getCallingIntent(Context context) {
+        Intent i = new Intent(context, ProfileActivity.class);
         return i;
     }
 
@@ -25,9 +23,8 @@ public class LoginActivity extends BaseDrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState == null && getIntent().getExtras() != null) {
-            int type = getIntent().getExtras().getInt(Navigator.EXTRA_LOGIN);
-            replaceFragment(LoginFragment.newInstance(type));
+        if (savedInstanceState == null) {
+            replaceFragment(ProfileFragment.newInstance());
         }
     }
 

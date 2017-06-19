@@ -868,6 +868,22 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }
     }
 
+    private void loginAlert(){
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.general_login_alert),
+                getString(R.string.ok),
+                getString(R.string.cancel));
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                Navigator.launchLogin(MapFragment.this, Navigator.REQUEST_LOGIN_MAPS);
+                getActivity().finish();
+            }
+        });
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Marker
@@ -1273,18 +1289,31 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @OnClick(R.id.openDoorButton)
     public void onOpenDoor(){
 
-        openDoors();
+        if(mPresenter.isAuth())
+            openDoors();
+        else{
+            loginAlert();
+        }
     }
 
     @OnClick(R.id.openDoorBookingButton)
     public void openDoorBookingButton(){
 
-        openDoors();
+        if(mPresenter.isAuth())
+            openDoors();
+        else{
+            loginAlert();
+        }
     }
 
     @OnClick(R.id.bookingCarButton)
     public void onBookingCar(){
-        bookingCar();
+
+        if(mPresenter.isAuth())
+            bookingCar();
+        else{
+            loginAlert();
+        }
     }
 
     @OnClick(deleteBookingButton)

@@ -78,7 +78,7 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
         //Se è il primo accesso, mostro il login
         if(mPresenter.isFirstAccess(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE))){
             mPresenter.setFirstAccess(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
-            Navigator.launchLogin(this);
+            Navigator.launchLogin(this, Navigator.REQUEST_LOGIN_START);
             getActivity().finish();
         }else{
             Navigator.launchHome(this); //TODO
@@ -89,7 +89,7 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
 
     @Override
     public void navigateToLogin() {
-        Navigator.launchLogin(this);
+        Navigator.launchLogin(this, Navigator.REQUEST_LOGIN_START);
         getActivity().finish();
     }
 }

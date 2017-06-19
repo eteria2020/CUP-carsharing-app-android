@@ -16,6 +16,8 @@ import butterknife.OnClick;
 import it.sharengo.development.R;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.development.ui.map.MapFragment;
 
 public class HomeFragment extends BaseMvpFragment<HomePresenter> implements HomeMvpView {
 
@@ -106,6 +108,22 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         }
     }
 
+    private void loginAlert(){
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.general_login_alert),
+                getString(R.string.ok),
+                getString(R.string.cancel));
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                Navigator.launchLogin(HomeFragment.this, Navigator.REQUEST_LOGIN_PROFILE);
+                getActivity().finish();
+            }
+        });
+    }
+
     ////////////////////////////////////
     //
     //         BUTTERKNIFE
@@ -118,7 +136,19 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
     @OnClick(R.id.profileUserButton)
     public void onProfileClick() {
-        //checkMapPermission();
+
+        if(mPresenter.isAuth()) {
+
+            //Apro il profilo
+            Navigator.launchProfile(this);
+            getActivity().finish();
+
+        }else{
+
+            //Mostro l'alert per il login
+            loginAlert();
+        }
+
     }
 
 

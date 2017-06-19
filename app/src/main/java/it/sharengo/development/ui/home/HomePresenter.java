@@ -43,4 +43,9 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
 
     }
 
+    public boolean isAuth(){
+        if(!mUserRepository.getCachedUser().username.isEmpty()) return true;
+        return false;
+    }
+
 }
