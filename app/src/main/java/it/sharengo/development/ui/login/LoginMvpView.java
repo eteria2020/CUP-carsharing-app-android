@@ -9,4 +9,5 @@ public interface LoginMvpView extends MvpView {
 
     void showLoginError(Throwable e);
     void loginCompleted(String username, String password);
+    void navigateTo();
 }

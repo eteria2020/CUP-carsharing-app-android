@@ -20,6 +20,8 @@ import it.sharengo.development.data.models.SearchItem;
 import rx.Observable;
 import rx.functions.Func1;
 
+import static android.content.Context.MODE_PRIVATE;
+
 @Singleton
 public class PreferencesRepository {
 
@@ -85,9 +87,19 @@ public class PreferencesRepository {
     }
 
     public void saveCredentials(String username, String password, SharedPreferences prefs) {
-        mPref = prefs;
-        setString(KEY_USERNAME, username);
-        setString(KEY_PASSWORD, password);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(KEY_USERNAME, username);
+        editor.putString(KEY_PASSWORD, password);
+        editor.commit();
+    }
+
+    public String getUsername(SharedPreferences prefs){
+        return prefs.getString(KEY_USERNAME, "");
+    }
+
+    public String getPassword(SharedPreferences prefs){
+        return prefs.getString(KEY_PASSWORD, "");
     }
 
 

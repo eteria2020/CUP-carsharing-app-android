@@ -1,7 +1,10 @@
 package it.sharengo.development.ui.splash;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +41,7 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_splash, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
         return view;
     }
 
@@ -65,15 +69,15 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
         });
         mSplashContent.startAnimation(anim);
 
-        mPresenter.loadData();
+        mPresenter.loadData(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
     }
 
     @Override
     public void navigateToHome() {
 
         //Se è il primo accesso, mostro il login
-        if(mPresenter.isFirstAccess(getActivity().getPreferences(MODE_PRIVATE))){
-            mPresenter.setFirstAccess(getActivity().getPreferences(MODE_PRIVATE));
+        if(mPresenter.isFirstAccess(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE))){
+            mPresenter.setFirstAccess(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
             Navigator.launchLogin(this);
             getActivity().finish();
         }else{
@@ -81,5 +85,11 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
             //Navigator.launchLogin(this);
             getActivity().finish();
         }
+    }
+
+    @Override
+    public void navigateToLogin() {
+        Navigator.launchLogin(this);
+        getActivity().finish();
     }
 }

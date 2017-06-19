@@ -38,13 +38,13 @@ public class MvpFragmentModule {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Provides
-    SplashPresenter provideSplashPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, PreferencesRepository preferencesRepository) {
+    SplashPresenter provideSplashPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, PreferencesRepository preferencesRepository, UserRepository userRepository) {
         SplashPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SplashPresenter(schedulerProvider, preferencesRepository);
+            presenter = new SplashPresenter(schedulerProvider, preferencesRepository, userRepository);
         }
         return presenter;
     }

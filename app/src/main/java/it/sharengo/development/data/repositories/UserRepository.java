@@ -41,6 +41,15 @@ public class UserRepository {
         this.mRemoteDataSource = remoteDataSource;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              User credentials
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void saveUserCredentials(String username, String password){
+        mCachedUser = new User(username, password, "");
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -100,11 +109,11 @@ public class UserRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Observable<ResponseReservation> getReservations(boolean refreshInfo) {
+    public Observable<ResponseReservation> getReservations(String username, String password, boolean refreshInfo) {
 
 
         if(mCachedReservation == null || refreshInfo) {
-            return mRemoteDataSource.getReservations(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"))
+            return mRemoteDataSource.getReservations(Credentials.basic(username, StringsUtils.md5(password)))
                     .doOnNext(new Action1<ResponseReservation>() {
                         @Override
                         public void call(ResponseReservation response) {
@@ -154,9 +163,9 @@ public class UserRepository {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    public Observable<ResponsePutReservation> postReservations(String plate) {
+    public Observable<ResponsePutReservation> postReservations(String username, String password, String plate) {
 
-        return mRemoteDataSource.postReservations(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"), plate)
+        return mRemoteDataSource.postReservations(Credentials.basic(username, StringsUtils.md5(password)), plate)
                 .doOnNext(new Action1<ResponsePutReservation>() {
                     @Override
                     public void call(ResponsePutReservation response) {
@@ -203,9 +212,9 @@ public class UserRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Observable<ResponsePutReservation> deleteReservations(int id) {
+    public Observable<ResponsePutReservation> deleteReservations(String username, String password, int id) {
 
-        return mRemoteDataSource.deleteReservations(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"), id)
+        return mRemoteDataSource.deleteReservations(Credentials.basic(username, StringsUtils.md5(password)), id)
                 .doOnNext(new Action1<ResponsePutReservation>() {
                     @Override
                     public void call(ResponsePutReservation response) {
@@ -222,12 +231,12 @@ public class UserRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Observable<ResponseTrip> getTrips(boolean active, boolean refreshInfo) {
+    public Observable<ResponseTrip> getTrips(String username, String password, boolean active, boolean refreshInfo) {
 
         Log.w("active",": "+active);
         Log.w("mCachedTrips",": "+mCachedTrips);
         if(mCachedTrips == null || refreshInfo) {
-            return mRemoteDataSource.getTrips(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"), active)
+            return mRemoteDataSource.getTrips(Credentials.basic(username, StringsUtils.md5(password)), active)
                     .doOnNext(new Action1<ResponseTrip>() {
                         @Override
                         public void call(ResponseTrip response) {

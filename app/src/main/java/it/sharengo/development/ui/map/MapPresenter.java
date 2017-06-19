@@ -35,6 +35,8 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class MapPresenter extends BasePresenter<MapMvpView> {
 
     private static final String TAG = MapPresenter.class.getSimpleName();
@@ -133,8 +135,10 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         isTripExists = false;
 
         loadPlates();
-        getReservations(false);
-        //getTrips(false);
+
+        if(!mUserRepository.getCachedUser().username.isEmpty())
+            getReservations(false);
+
         startTimer();
     }
 
@@ -171,7 +175,9 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                     public void run() {
 
                         Log.w("PASSATO","1 MINUTO");
-                        getReservations(true);
+                        if(!mUserRepository.getCachedUser().username.isEmpty())
+                            getReservations(true);
+
                         //getTrips(true);
 
                         //getMvpView().openTripEnd(1497253171);
@@ -265,7 +271,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     private Observable<Response> buildCarsRequest(float latitude, float longitude, int radius) {
 
-        return mCarsRequest = mCarRepository.getCars(latitude, longitude, radius)
+        return mCarsRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, latitude, longitude, radius)
                 .first()
                 .compose(this.<Response>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -324,7 +330,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
 
     private Observable<Response> buildPlatesRequest() {
-        return mPlatesRequest = mCarRepository.getPlates()
+        return mPlatesRequest = mCarRepository.getPlates(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
                 .first()
                 .compose(this.<Response>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -518,6 +524,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     private Observable<List<SearchItem>> buildFindSearchRequest(String searchText, final Context context, SharedPreferences mPrefs) {
+
+
         return mFindSearchRequest = mPreferencesRepository.getHistoricSearch(searchText, mPrefs)
                 .first()
                 .compose(this.<List<SearchItem>>handleDataRequest())
@@ -592,7 +600,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     private Observable<ResponsePutReservation> buildReservationRequest(Car car) {
-        return mReservationRequest = mUserRepository.postReservations(car.id)
+        return mReservationRequest = mUserRepository.postReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, car.id)
                 .first()
                 .compose(this.<ResponsePutReservation>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -649,7 +657,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     private Observable<ResponsePutReservation> buildDeleteReservationRequest(int id) {
-        return mReservationRequest = mUserRepository.deleteReservations(id)
+        return mReservationRequest = mUserRepository.deleteReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, id)
                 .first()
                 .compose(this.<ResponsePutReservation>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -698,7 +706,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     private Observable<ResponseCar> buildCarsOpenRequest(final Car car, final String action) {
 
-        return mCarsTripRequest = mCarRepository.openCars(car.id, action)
+        return mCarsTripRequest = mCarRepository.openCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, car.id, action)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -746,7 +754,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     private Observable<ResponseTrip> buildTripsRequest(boolean refreshInfo) {
-        return mTripsRequest = mUserRepository.getTrips(true, refreshInfo) //TODO, il valore deve essere true
+        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, true, refreshInfo) //TODO, il valore deve essere true
                 .first()
                 .compose(this.<ResponseTrip>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -812,7 +820,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     private Observable<ResponseReservation> buildReservationsRequest(boolean refreshInfo) {
-        return mReservationsRequest = mUserRepository.getReservations(refreshInfo)
+        return mReservationsRequest = mUserRepository.getReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, refreshInfo)
                 .first()
                 .compose(this.<ResponseReservation>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -833,7 +841,6 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
             @Override
             public void onError(Throwable e) {
                 mReservationsRequest = null;
-                //getMvpView().showError(e);
             }
 
             @Override
@@ -874,7 +881,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     private Observable<ResponseCar> buildCarsReservationRequest(String plate) {
 
-        return mCarsReservationRequest = mCarRepository.getCars(plate)
+        return mCarsReservationRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -933,7 +940,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     private Observable<ResponseCar> buildCarsTripRequest(String plate) {
 
-        return mCarsReservationRequest = mCarRepository.getCars(plate)
+        return mCarsReservationRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
                 .doOnCompleted(new Action0() {

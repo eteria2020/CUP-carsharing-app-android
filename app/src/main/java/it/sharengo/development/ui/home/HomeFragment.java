@@ -54,7 +54,6 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            Log.w("PERMSSION","ERROR");
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
@@ -112,9 +111,14 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     //         BUTTERKNIFE
     //
     ////////////////////////////////////
-    @OnClick(R.id.ricercaAutoButton)
+    @OnClick(R.id.searchCarsButton)
     public void onSendClick() {
         checkMapPermission();
+    }
+
+    @OnClick(R.id.profileUserButton)
+    public void onProfileClick() {
+        //checkMapPermission();
     }
 
 

@@ -318,7 +318,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         setSearchDefaultContent();
         //searchRecyclerView.addItemDecoration(new DividerItemDecoration(searchRecyclerView.getContext(), lm.getOrientation()));
 
-
         return view;
     }
 
@@ -1075,13 +1074,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     private void setSearchDefaultContent(){
         //Mostro preferiti + storisco nella view dei risultati
-        mPresenter.getSearchItems("", getContext(), getActivity().getPreferences(MODE_PRIVATE));
+        mPresenter.getSearchItems("", getContext(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
     }
 
     //Salvo l'ultima ricerca fatta
     private void saveLastAndFavouriteSearch(SearchItem searchItem){
         //PreferencesDataSource aa = new PreferencesDataSource(getActivity().getSharedPreferences("aa", 0));
-        mPresenter.saveSearchResultOnHistoric(getActivity().getPreferences(MODE_PRIVATE), searchItem);
+        mPresenter.saveSearchResultOnHistoric(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE), searchItem);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

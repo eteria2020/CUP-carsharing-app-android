@@ -12,6 +12,7 @@ import it.sharengo.development.data.datasources.SharengoDataSource;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.Response;
 import it.sharengo.development.data.models.ResponseCar;
+import it.sharengo.development.utils.StringsUtils;
 import okhttp3.Credentials;
 import rx.Observable;
 import rx.functions.Action1;
@@ -40,9 +41,9 @@ public class CarRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Observable<Response> getCars(float latitude, float longitude, int radius) {
+    public Observable<Response> getCars(String username, String password, float latitude, float longitude, int radius) {
 
-        return mRemoteDataSource.getCars(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"), latitude, longitude, radius)
+        return mRemoteDataSource.getCars(Credentials.basic(username, StringsUtils.md5(password)), latitude, longitude, radius)
                 .doOnNext(new Action1<Response>() {
                     @Override
                     public void call(Response response) {
@@ -67,9 +68,9 @@ public class CarRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Observable<ResponseCar> getCars(String plate) {
+    public Observable<ResponseCar> getCars(String username, String password, String plate) {
 
-        return mRemoteDataSource.getCars(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"), plate)
+        return mRemoteDataSource.getCars(Credentials.basic(username, StringsUtils.md5(password)), plate)
                 .doOnNext(new Action1<ResponseCar>() {
                     @Override
                     public void call(ResponseCar response) {
@@ -94,9 +95,9 @@ public class CarRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Observable<ResponseCar> openCars(String plate, String action) {
+    public Observable<ResponseCar> openCars(String username, String password, String plate, String action) {
 
-        return mRemoteDataSource.openCars(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"), plate, action)
+        return mRemoteDataSource.openCars(Credentials.basic(username, StringsUtils.md5(password)), plate, action)
                 .doOnNext(new Action1<ResponseCar>() {
                     @Override
                     public void call(ResponseCar response) {
@@ -122,9 +123,9 @@ public class CarRepository {
                     }).toList();
     }
 
-    public Observable<Response> getPlates() {
+    public Observable<Response> getPlates(String username, String password) {
 
-        return mRemoteDataSource.getPlates(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"))
+        return mRemoteDataSource.getPlates(Credentials.basic(username, StringsUtils.md5(password)))
                 .doOnNext(new Action1<Response>() {
                     @Override
                     public void call(Response response) {

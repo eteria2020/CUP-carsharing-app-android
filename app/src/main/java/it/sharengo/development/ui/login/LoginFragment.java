@@ -85,6 +85,11 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         checkFormLogin();
     }
 
+    @OnClick(R.id.continueButton)
+    public void onContinueButton(){
+        Navigator.launchHome(getActivity());
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -133,9 +138,12 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
 
     public void loginCompleted(String username, String password){
 
-        //Salvo nelle preferenze
-        mPresenter.saveCredentials(username, password, getActivity().getPreferences(MODE_PRIVATE));
+        //Salvo nelle preferenze e prelevo i dati dell'utente
+        mPresenter.saveCredentials(username, password, getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
 
+    }
+
+    public void navigateTo(){
         Navigator.launchHome(getActivity());
     }
 
