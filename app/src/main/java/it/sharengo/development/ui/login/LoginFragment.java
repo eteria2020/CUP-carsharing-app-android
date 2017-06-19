@@ -12,8 +12,10 @@ import org.osmdroid.views.MapView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import it.sharengo.development.R;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.development.ui.components.CustomDialogClass;
 
 
 public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements LoginMvpView {
@@ -66,6 +68,11 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    @OnClick(R.id.loginButton)
+    public void onLoginClick(){
+        checkFormLogin();
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -73,5 +80,39 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Login
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void checkFormLogin(){
+
+        String email        = emailEditText.getText().toString().trim();
+        String password     = passwordEditText.getText().toString().trim();
+
+        //Verifico che tutti i campi siano stati compilati
+        if(email.isEmpty() || password.isEmpty()){
+
+            //Mostro un messaggio di errore
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(R.string.login_emptyfields_alert),
+                    getString(R.string.ok),
+                    null);
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                }
+            });
+            return;
+        }
+
+        //Continuo con il login
+
+    }
 
 }

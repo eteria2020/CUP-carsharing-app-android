@@ -76,5 +76,6 @@
     <string name="login_notregistered_label">Non sei ancora iscritto?</string>
     <string name="login_register_action">Registrati</string>
     <string name="login_continue_action">Continua senza loggarti</string>
+    <string name="login_emptyfields_alert">Tutti i campi sono obbligatori</string>
 
 </resources>
