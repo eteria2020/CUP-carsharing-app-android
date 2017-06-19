@@ -195,7 +195,7 @@ public class ApiModule {
 
         }
 
-        httpClient.addInterceptor(new Interceptor() {
+        /*httpClient.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request original = chain.request();
@@ -213,7 +213,7 @@ public class ApiModule {
                 Request request = requestBuilder.build();
                 return chain.proceed(request);
             }
-        });
+        });*/
 
         httpClient.hostnameVerifier(new HostnameVerifier() {
                 @Override

@@ -21,56 +21,56 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
 
 
     @Override
-    public Observable<Response> getCars(float latitude, float longitude, int radius) {
-        return mSharengoApi.getCars(latitude, longitude, radius)
+    public Observable<Response> getCars(String auth, float latitude, float longitude, int radius) {
+        return mSharengoApi.getCars(auth, latitude, longitude, radius)
                 .compose(this.<Response>handleRetrofitRequest());
     }
 
     @Override
-    public Observable<ResponseCar> getCars(String plate) {
-        return mSharengoApi.getCars(plate)
+    public Observable<ResponseCar> getCars(String auth, String plate) {
+        return mSharengoApi.getCars(auth, plate)
                 .compose(this.<ResponseCar>handleRetrofitRequest());
     }
 
     @Override
-    public Observable<ResponseCar> openCars(String plate, String action) {
-        return mSharengoApi.openCars(plate, action)
+    public Observable<ResponseCar> openCars(String auth, String plate, String action) {
+        return mSharengoApi.openCars(auth, plate, action)
                 .compose(this.<ResponseCar>handleRetrofitRequest());
     }
 
     @Override
-    public Observable<Response> getPlates() {
-        return mSharengoApi.getPlates()
+    public Observable<Response> getPlates(String auth) {
+        return mSharengoApi.getPlates(auth)
                 .compose(this.<Response>handleRetrofitRequest());
     }
 
     @Override
-    public Observable<ResponseUser> getUser() {
-        return mSharengoApi.getUser()
+    public Observable<ResponseUser> getUser(String auth) {
+        return mSharengoApi.getUser(auth)
                 .compose(this.<ResponseUser>handleRetrofitRequest());
     }
 
     @Override
-    public Observable<ResponseReservation> getReservations() {
-        return mSharengoApi.getReservations()
+    public Observable<ResponseReservation> getReservations(String auth) {
+        return mSharengoApi.getReservations(auth)
                 .compose(this.<ResponseReservation>handleRetrofitRequest());
     }
 
     @Override
-    public Observable<ResponsePutReservation> postReservations(String plate) {
-        return mSharengoApi.postReservations(plate)
+    public Observable<ResponsePutReservation> postReservations(String auth, String plate) {
+        return mSharengoApi.postReservations(auth, plate)
                 .compose(this.<ResponsePutReservation>handleRetrofitRequest());
     }
 
     @Override
-    public Observable<ResponsePutReservation> deleteReservations(int id) {
-        return mSharengoApi.deleteReservations(id)
+    public Observable<ResponsePutReservation> deleteReservations(String auth, int id) {
+        return mSharengoApi.deleteReservations(auth, id)
                 .compose(this.<ResponsePutReservation>handleRetrofitRequest());
     }
 
     @Override
-    public Observable<ResponseTrip> getTrips(boolean active) {
-        return mSharengoApi.getTrips(active)
+    public Observable<ResponseTrip> getTrips(String auth, boolean active) {
+        return mSharengoApi.getTrips(auth, active)
                 .compose(this.<ResponseTrip>handleRetrofitRequest());
     }
 }

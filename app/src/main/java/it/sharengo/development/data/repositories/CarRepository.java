@@ -12,6 +12,7 @@ import it.sharengo.development.data.datasources.SharengoDataSource;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.Response;
 import it.sharengo.development.data.models.ResponseCar;
+import okhttp3.Credentials;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -41,7 +42,7 @@ public class CarRepository {
 
     public Observable<Response> getCars(float latitude, float longitude, int radius) {
 
-        return mRemoteDataSource.getCars(latitude, longitude, radius)
+        return mRemoteDataSource.getCars(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"), latitude, longitude, radius)
                 .doOnNext(new Action1<Response>() {
                     @Override
                     public void call(Response response) {
@@ -68,7 +69,7 @@ public class CarRepository {
 
     public Observable<ResponseCar> getCars(String plate) {
 
-        return mRemoteDataSource.getCars(plate)
+        return mRemoteDataSource.getCars(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"), plate)
                 .doOnNext(new Action1<ResponseCar>() {
                     @Override
                     public void call(ResponseCar response) {
@@ -95,7 +96,7 @@ public class CarRepository {
 
     public Observable<ResponseCar> openCars(String plate, String action) {
 
-        return mRemoteDataSource.openCars(plate, action)
+        return mRemoteDataSource.openCars(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"), plate, action)
                 .doOnNext(new Action1<ResponseCar>() {
                     @Override
                     public void call(ResponseCar response) {
@@ -123,7 +124,7 @@ public class CarRepository {
 
     public Observable<Response> getPlates() {
 
-        return mRemoteDataSource.getPlates()
+        return mRemoteDataSource.getPlates(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"))
                 .doOnNext(new Action1<Response>() {
                     @Override
                     public void call(Response response) {

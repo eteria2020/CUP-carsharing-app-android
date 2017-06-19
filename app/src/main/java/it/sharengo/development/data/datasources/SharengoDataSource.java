@@ -11,22 +11,22 @@ import rx.Observable;
 
 public interface SharengoDataSource {
 
-    Observable<Response> getCars(float latitude, float longitude, int radius);
+    Observable<Response> getCars(String auth, float latitude, float longitude, int radius);
 
-    Observable<ResponseCar> getCars(String plate);
+    Observable<ResponseCar> getCars(String auth, String plate);
 
-    Observable<ResponseCar> openCars(String plate, String action);
+    Observable<ResponseCar> openCars(String auth, String plate, String action);
 
-    Observable<Response> getPlates();
+    Observable<Response> getPlates(String auth);
 
-    Observable<ResponseUser> getUser();
+    Observable<ResponseUser> getUser(String auth);
 
-    Observable<ResponseReservation> getReservations();
+    Observable<ResponseReservation> getReservations(String auth);
 
-    Observable<ResponsePutReservation> postReservations(String plate);
+    Observable<ResponsePutReservation> postReservations(String auth, String plate);
 
-    Observable<ResponsePutReservation> deleteReservations(int id);
+    Observable<ResponsePutReservation> deleteReservations(String auth, int id);
 
-    Observable<ResponseTrip> getTrips(boolean active);
+    Observable<ResponseTrip> getTrips(String auth, boolean active);
 
 }

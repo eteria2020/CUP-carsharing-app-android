@@ -18,6 +18,7 @@ import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
 import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.data.models.User;
+import okhttp3.Credentials;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -52,7 +53,7 @@ public class UserRepository {
 
     public Observable<ResponseUser> getUser() {
 
-        return mRemoteDataSource.getUser()
+        return mRemoteDataSource.getUser(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"))
                 .doOnNext(new Action1<ResponseUser>() {
                     @Override
                     public void call(ResponseUser response) {
@@ -102,7 +103,7 @@ public class UserRepository {
 
 
         if(mCachedReservation == null || refreshInfo) {
-            return mRemoteDataSource.getReservations()
+            return mRemoteDataSource.getReservations(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"))
                     .doOnNext(new Action1<ResponseReservation>() {
                         @Override
                         public void call(ResponseReservation response) {
@@ -154,7 +155,7 @@ public class UserRepository {
 
     public Observable<ResponsePutReservation> postReservations(String plate) {
 
-        return mRemoteDataSource.postReservations(plate)
+        return mRemoteDataSource.postReservations(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"), plate)
                 .doOnNext(new Action1<ResponsePutReservation>() {
                     @Override
                     public void call(ResponsePutReservation response) {
@@ -203,7 +204,7 @@ public class UserRepository {
 
     public Observable<ResponsePutReservation> deleteReservations(int id) {
 
-        return mRemoteDataSource.deleteReservations(id)
+        return mRemoteDataSource.deleteReservations(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"), id)
                 .doOnNext(new Action1<ResponsePutReservation>() {
                     @Override
                     public void call(ResponsePutReservation response) {
@@ -225,7 +226,7 @@ public class UserRepository {
         Log.w("active",": "+active);
         Log.w("mCachedTrips",": "+mCachedTrips);
         if(mCachedTrips == null || refreshInfo) {
-            return mRemoteDataSource.getTrips(active)
+            return mRemoteDataSource.getTrips(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"), active)
                     .doOnNext(new Action1<ResponseTrip>() {
                         @Override
                         public void call(ResponseTrip response) {
