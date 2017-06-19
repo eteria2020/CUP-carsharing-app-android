@@ -76,6 +76,9 @@
     <string name="login_notregistered_label">Non sei ancora iscritto?</string>
     <string name="login_register_action">Registrati</string>
     <string name="login_continue_action">Continua senza loggarti</string>
-    <string name="login_emptyfields_alert">Tutti i campi sono obbligatori</string>
+    <string name="login_emptyfields_alert">Uno o più campi non sono compilati.</string>
+    <string name="login_wrongemail_alert">Attenzione! L\'indirizzo email che hai inserito non è presente nel nostro database.</string>
+    <string name="login_wrongpassword_alert">Attenzione! Password errata.</string>
+
 
 </resources>

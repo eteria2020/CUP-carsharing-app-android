@@ -18,6 +18,7 @@ import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
 import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.data.models.User;
+import it.sharengo.development.utils.StringsUtils;
 import okhttp3.Credentials;
 import rx.Observable;
 import rx.functions.Action1;
@@ -51,9 +52,9 @@ public class UserRepository {
         return mCachedUser;
     }
 
-    public Observable<ResponseUser> getUser() {
+    public Observable<ResponseUser> getUser(String username, String password) {
 
-        return mRemoteDataSource.getUser(Credentials.basic("francesco.galatro@gmail.com", "508c82b943ae51118d905553b8213c8a"))
+        return mRemoteDataSource.getUser(Credentials.basic(username, StringsUtils.md5(password)))
                 .doOnNext(new Action1<ResponseUser>() {
                     @Override
                     public void call(ResponseUser response) {

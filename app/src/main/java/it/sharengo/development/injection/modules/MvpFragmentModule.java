@@ -1,5 +1,6 @@
 package it.sharengo.development.injection.modules;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import dagger.Module;
@@ -105,13 +106,15 @@ public class MvpFragmentModule {
     }
 
     @Provides
-    LoginPresenter provideLoginPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+    LoginPresenter provideLoginPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider,
+                                         UserRepository userRepository,
+                                         PreferencesRepository preferencesRepository) {
         LoginPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new LoginPresenter(schedulerProvider);
+            presenter = new LoginPresenter(schedulerProvider, userRepository, preferencesRepository);
         }
         return presenter;
     }

@@ -1,6 +1,7 @@
 package it.sharengo.development.ui.login;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.development.R;
+import it.sharengo.development.data.common.ErrorResponse;
+import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
+
+import static android.content.Context.MODE_PRIVATE;
+import static it.sharengo.development.data.common.ErrorResponse.ErrorType.HTTP;
 
 
 public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements LoginMvpView {
@@ -58,6 +64,11 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
+        //TODO
+        emailEditText.setText("francesco.galatro@gmail.com");
+        passwordEditText.setText("AppTest2017");
+
         return view;
     }
 
@@ -70,6 +81,7 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
 
     @OnClick(R.id.loginButton)
     public void onLoginClick(){
+        hideSoftKeyboard();
         checkFormLogin();
     }
 
@@ -79,6 +91,53 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
     //                                              Mvp Methods
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void showLoginError(Throwable throwable){
+
+        if(!(throwable instanceof ErrorResponse)) {
+            mPresenter.showError(throwable);
+            return;
+        }
+
+        ErrorResponse errorResponse = (ErrorResponse) throwable;
+
+        if(errorResponse.errorType.equals(HTTP)){
+
+            int errorString = 0;
+
+            switch (errorResponse.httpStatus){
+                case 404:
+                    errorString = R.string.login_wrongemail_alert;
+                    break;
+                case 406:
+                    errorString = R.string.login_wrongpassword_alert;
+                    break;
+            }
+
+            //Mostro un messaggio di errore
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(errorString),
+                    getString(R.string.ok),
+                    null);
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                }
+            });
+
+        }else{
+            mPresenter.showError(throwable);
+        }
+    }
+
+    public void loginCompleted(String username, String password){
+
+        //Salvo nelle preferenze
+        mPresenter.saveCredentials(username, password, getActivity().getPreferences(MODE_PRIVATE));
+
+        Navigator.launchHome(getActivity());
+    }
 
 
 
@@ -112,6 +171,7 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         }
 
         //Continuo con il login
+        mPresenter.login(email, password);
 
     }
 

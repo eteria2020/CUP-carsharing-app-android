@@ -58,7 +58,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     }
 
     private Observable<ResponseUser> buildUserRequest() {
-        return mUserRequest = mUserRepository.getUser()
+        return mUserRequest = mUserRepository.getUser("francesco.galatro@gmail.com","508c82b943ae51118d905553b8213c8a")
                 .first()
                 .compose(this.<ResponseUser>handleDataRequest())
                 .doOnCompleted(new Action0() {

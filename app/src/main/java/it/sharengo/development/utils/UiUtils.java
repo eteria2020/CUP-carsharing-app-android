@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import it.sharengo.development.R;
@@ -45,7 +46,7 @@ public class UiUtils {
         }
         
         ErrorResponse errorResponse = (ErrorResponse) throwable;
-        
+
         switch (errorResponse.errorType){
             case CUSTOM:
                 showErrorMsg(activity, errorResponse.rawMessage);
@@ -64,6 +65,7 @@ public class UiUtils {
                  * rawMessage may contain json or structured objects
                  * this need to be customized in your project
                  */
+
                 if(!TextUtils.isEmpty(errorResponse.rawMessage)){
                     showErrorMsg(activity, errorResponse.rawMessage);
                 }else {

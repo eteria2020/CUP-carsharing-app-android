@@ -26,6 +26,8 @@ public class PreferencesRepository {
     public static final String TAG = PreferencesRepository.class.getSimpleName();
 
     static final String KEY_FIRST_ACCESS = "KEY_FIRST_ACCESS";
+    static final String KEY_USERNAME = "KEY_USERNAME";
+    static final String KEY_PASSWORD = "KEY_PASSWORD";
 
 
     private SharedPreferences mPref;
@@ -80,6 +82,12 @@ public class PreferencesRepository {
     public boolean saveFirstAccess(boolean firstAccess, SharedPreferences prefs) {
         mPref = prefs;
         return setBoolean(KEY_FIRST_ACCESS, firstAccess);
+    }
+
+    public void saveCredentials(String username, String password, SharedPreferences prefs) {
+        mPref = prefs;
+        setString(KEY_USERNAME, username);
+        setString(KEY_PASSWORD, password);
     }
 
 
