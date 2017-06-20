@@ -9,6 +9,7 @@ import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.development.ui.home.HomeActivity;
 import it.sharengo.development.ui.login.LoginActivity;
 import it.sharengo.development.ui.map.MapActivity;
+import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryActivity;
 import it.sharengo.development.ui.profile.ProfileActivity;
 import it.sharengo.development.ui.slideshow.SlideshowActivity;
 import it.sharengo.development.ui.tripend.TripEndActivity;
@@ -74,6 +75,12 @@ public class Navigator {
 
     public static void launchSlideshow(Fragment fragment) {
         Intent intent = SlideshowActivity.getCallingIntent(fragment.getActivity());
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchPasswordRecovery(Fragment fragment) {
+        Intent intent = PasswordRecoveryActivity.getCallingIntent(fragment.getActivity());
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }

@@ -31,10 +31,10 @@
     <string name="error_msg_http_406">Your request is not valid, please check your input and try again (406)</string>
     <string name="error_msg_http_500">Some error occured. Please try again later (500)</string>
     
-    <string name="general_notification_title">Sharen\'go</string>
+    <string name="general_notification_title">Share\'ngo</string>
 
     <string name="maps_search_placeholder">Cerca indirizzo o targa</string>
-    <string name="maps_permissionlocation_alert">Sharen\'go ha bisogno dei permessi per accedere alla tua posizione. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
+    <string name="maps_permissionlocation_alert">Share\'ngo ha bisogno dei permessi per accedere alla tua posizione. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
     <string name="maps_opendoor_action">Apri portiere</string>
     <string name="maps_bookingcar_action">Prenota auto</string>
     <string name="maps_autonomy_label">autonomia: <![CDATA[<b>%d%%</b>]]></string>
@@ -46,7 +46,7 @@
     <string name="maps_timehsm_label" formatted="false">%d ora e %d minuti a piedi</string>
     <string name="maps_timehm_label" formatted="false">%d ore e %d minuti a piedi</string>
     <string name="maps_closestcar_label">Auto più vicina</string>
-    <string name="maps_permissionopendoor_alert">Sharen\'go ha bisogno di sapere la tua posizione per aprire le portiere. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
+    <string name="maps_permissionopendoor_alert">Share\'ngo ha bisogno di sapere la tua posizione per aprire le portiere. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
     <string name="maps_opendoordistance_alert">"Sei troppo distante dalla Saren\'go che hai selezionato. Potrai aprirla quando sarai in prossimità dell\'auto.</string>
     <string name="maps_searchmicrophone_message">In ascolto...</string>
 
@@ -70,7 +70,7 @@
     <string name="tripend_thanks_label">Grazie!</string>
     <string name="tripend_text3_label" formatted="false">CON IL TUO VIAGGIO HAI RISPARMIATO %.1f CO2!</string>
     <string name="tripend_historic_action">Storico corse</string>
-    <string name="tripend_notification_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente. Ti ringraziamo per aver usato Sharen\'go</string>
+    <string name="tripend_notification_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente. Ti ringraziamo per aver usato Share\'ngo</string>
 
     <string name="login_fillfields_label">Compila i campi per effettuare il login</string>
     <string name="login_email_placeholder">email</string>

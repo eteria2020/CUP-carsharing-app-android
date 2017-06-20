@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.slideshow;
+package it.sharengo.development.ui.passwordrecovery;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,16 +7,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 import it.sharengo.development.R;
-import it.sharengo.development.ui.base.activities.BaseBackActivity;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 
 
-public class SlideshowActivity extends BaseDrawerActivity {
+public class PasswordRecoveryActivity extends BaseDrawerActivity {
 
-    private static final String TAG = SlideshowActivity.class.getSimpleName();
+    private static final String TAG = PasswordRecoveryActivity.class.getSimpleName();
 
     public static Intent getCallingIntent(Context context) {
-        Intent i = new Intent(context, SlideshowActivity.class);
+        Intent i = new Intent(context, PasswordRecoveryActivity.class);
         return i;
     }
 
@@ -25,7 +24,7 @@ public class SlideshowActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            replaceFragment(SlideshowFragment.newInstance());
+            replaceFragment(PasswordRecoveryFragment.newInstance());
         }
     }
 

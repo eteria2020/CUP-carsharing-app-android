@@ -3,9 +3,9 @@
 
     <!--COMMON ERRORS-->
     <string name="error_generic_msg">Ops, qualche cosa è andato storto.</string>
-    <string name="error_msg_no_network">Nessuna connesione internet. Riprova più tardi</string>
+    <string name="error_msg_no_network">Non sei connesso ad internet, per favore riprova</string>
     <string name="error_msg_server_timeout">Il Server non è raggiungibile. Per favore riprovare più tardi.</string>
-    <string name="error_msg_conversion">Abbiamo riscontrato un problema. Riprova più tardi</string>
+    <string name="error_msg_conversion">Si è verificato un errore, per favore riprova</string>
     <string name="error_unexpected">Abbiamo riscontrato un problema. Riprova più tardi</string>
     <string name="error_msg_http_400">La tua richiesta non può essere completata (400)</string>
     <string name="error_msg_http_401">Username/Password non corrette. Per favore controlla e riprova</string>

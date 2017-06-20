@@ -98,14 +98,20 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
     }
 
     @OnClick(R.id.continueButton)
-    public void onContinueButton(){
+    public void onContinue(){
         Navigator.launchHome(getActivity());
         getActivity().finish();
     }
 
     @OnClick(R.id.registerButton)
-    public void onRegisterButton(){
+    public void onRegister(){
         Navigator.launchSlideshow(this);
+        getActivity().finish();
+    }
+
+    @OnClick(R.id.forgotButton)
+    public void onRecoveryPassword(){
+        Navigator.launchPasswordRecovery(this);
         getActivity().finish();
     }
 
