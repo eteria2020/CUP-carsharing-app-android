@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!-- Content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/slideTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:textColor="@color/mediumseagreen"
+            android:textSize="13sp"
+            android:textAlignment="center"
+            android:lineSpacingExtra="-5dp"
+            app:font_name="poppinsBold"
+            android:text="@string/signup_step1text1_action" />
+
+        <ImageView
+            android:id="@+id/slideImageView"
+            android:layout_width="104.0dp"
+            android:layout_height="104.0dp"
+            android:padding="20dp"
+            android:background="@drawable/btn_bkg_mediumseagreen"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/img_ci"/>
+
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/slideDescTextView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:paddingBottom="10dp"
+            android:gravity="bottom"
+            android:textColor="@color/darkjunglegreen"
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            app:font_name="poppinsBold"
+            android:text="@string/signup_step1text2_action" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/slideIndicator1"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginRight="12dp"
+                    android:background="@drawable/indicator_empty"/>
+
+                <View
+                    android:id="@+id/slideIndicator2"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginRight="12dp"
+                    android:background="@drawable/indicator_empty"/>
+
+                <View
+                    android:id="@+id/slideIndicator3"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginRight="12dp"
+                    android:background="@drawable/indicator_empty"/>
+
+                <View
+                    android:id="@+id/slideIndicator4"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:background="@drawable/indicator_empty"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

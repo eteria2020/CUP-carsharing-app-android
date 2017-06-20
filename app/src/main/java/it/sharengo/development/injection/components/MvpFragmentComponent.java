@@ -9,6 +9,7 @@ import it.sharengo.development.ui.home.HomeFragment;
 import it.sharengo.development.ui.menu.MenuFragment;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryFragment;
 import it.sharengo.development.ui.profile.ProfileFragment;
+import it.sharengo.development.ui.signup.SignupFragment;
 import it.sharengo.development.ui.slideshow.SlideshowFragment;
 import it.sharengo.development.ui.splash.SplashFragment;
 import it.sharengo.development.ui.tripend.TripEndFragment;
@@ -35,4 +36,6 @@ public interface MvpFragmentComponent {
     void inject(SlideshowFragment fragment);
 
     void inject(PasswordRecoveryFragment fragment);
+
+    void inject(SignupFragment fragment);
 }

@@ -18,6 +18,7 @@ import it.sharengo.development.ui.home.HomePresenter;
 import it.sharengo.development.ui.menu.MenuPresenter;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryPresenter;
 import it.sharengo.development.ui.profile.ProfilePresenter;
+import it.sharengo.development.ui.signup.SignupPresenter;
 import it.sharengo.development.ui.slideshow.SlideshowPresenter;
 import it.sharengo.development.ui.splash.SplashPresenter;
 import it.sharengo.development.ui.tripend.TripEndPresenter;
@@ -154,6 +155,18 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new PasswordRecoveryPresenter(schedulerProvider);
+        }
+        return presenter;
+    }
+
+    @Provides
+    SignupPresenter provideSignupPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+        SignupPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new SignupPresenter(schedulerProvider);
         }
         return presenter;
     }

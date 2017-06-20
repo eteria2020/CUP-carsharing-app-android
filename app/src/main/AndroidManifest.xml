@@ -54,6 +54,9 @@
         <activity
             android:name=".ui.passwordrecovery.PasswordRecoveryActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.signup.SignupActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
