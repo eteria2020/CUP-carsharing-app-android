@@ -23,6 +23,7 @@ import it.sharengo.development.data.models.ResponsePutReservation;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.SearchItem;
+import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.data.models.User;
 import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.CarRepository;
@@ -759,7 +760,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     private Observable<ResponseTrip> buildTripsRequest(boolean refreshInfo) {
-        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, true, refreshInfo) //TODO, il valore deve essere true
+        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, false, refreshInfo) //TODO, il valore deve essere true
                 .first()
                 .compose(this.<ResponseTrip>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -979,7 +980,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private void checkCarTripResult(){
 
         if(mResponseReservationCar.reason.isEmpty() && mResponseReservationCar.data != null){
-            getMvpView().showTripInfo(mResponseReservationCar.data);
+            getMvpView().showTripInfo(mResponseReservationCar.data, timestamp_start);
         }else{
             getMvpView().removeReservationInfo();
         }

@@ -78,8 +78,8 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         mUnbinder = ButterKnife.bind(this, view);
 
         //TODO
-        //emailEditText.setText("francesco.galatro@gmail.com");
-        //passwordEditText.setText("AppTest2017");
+        emailEditText.setText("francesco.galatro@gmail.com");
+        passwordEditText.setText("AppTest2017");
 
         return view;
     }

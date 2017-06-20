@@ -38,6 +38,7 @@
             android:orientation="vertical">
 
             <it.sharengo.development.ui.components.CustomTextView
+                android:id="@+id/bookingTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"
@@ -87,6 +88,17 @@
                     android:textSize="12sp"
                     android:textColor="@color/darkjunglegreen"
                     app:font_name="poppinsMedium"
+                    android:text="@string/booking_expirationtime" />
+
+                <it.sharengo.development.ui.components.CustomTextView
+                    android:id="@+id/tripDurationTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/darkjunglegreen"
+                    app:font_name="poppinsBold"
+                    android:layout_gravity="center_vertical"
                     android:text="@string/booking_expirationtime" />
 
             </LinearLayout>

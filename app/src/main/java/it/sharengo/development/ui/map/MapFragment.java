@@ -32,6 +32,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -130,12 +131,15 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private int[] drawableAnimGreenArray = new int[]{R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulse0007, R.drawable.autopulse0008, R.drawable.autopulse0009, R.drawable.autopulse0010, R.drawable.autopulse0011, R.drawable.autopulse0012, R.drawable.autopulse0013, R.drawable.autopulse0014, R.drawable.autopulse0015, R.drawable.autopulse0016, R.drawable.autopulse0017, R.drawable.autopulse0018, R.drawable.autopulse0019, R.drawable.autopulse0020 };
     private int[] drawableAnimYellowArray = new int[]{R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulseyellow0007, R.drawable.autopulseyellow0008, R.drawable.autopulseyellow0009, R.drawable.autopulseyellow0010, R.drawable.autopulseyellow0011, R.drawable.autopulseyellow0012, R.drawable.autopulseyellow0013, R.drawable.autopulseyellow0014, R.drawable.autopulseyellow0015, R.drawable.autopulseyellow0016, R.drawable.autopulseyellow0017, R.drawable.autopulseyellow0018, R.drawable.autopulseyellow0019, R.drawable.autopulseyellow0020 };
     private Timer timer;
+    private Timer timerTripDuration;
     private CountDownTimer countDownTimer;
     private SearchItem currentSearchItem;
     private boolean searchItemSelected = false;
     private boolean isBookingCar = false;
     private boolean isTripStart = false;
+    private int tripTimestampStart = 0;
     private Reservation reservation;
+    private Trip trip;
 
     private float currentRotation = 0f;
     private float co2 = 0f;
@@ -231,11 +235,17 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @BindView(R.id.expiringTimeTextView)
     TextView expiringTimeTextView;
 
+    @BindView(R.id.tripDurationTextView)
+    TextView tripDurationTextView;
+
     @BindView(R.id.expiringTimeView)
     ViewGroup expiringTimeView;
 
     @BindView(R.id.openButtonBookingView)
     ViewGroup openButtonBookingView;
+
+    @BindView(R.id.bookingTitleTextView)
+    TextView bookingTitleTextView;
 
     /*@BindView(R.id.notificationView)
     ViewGroup notificationView;*/
@@ -400,6 +410,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         mPresenter.viewDestroy();
 
         if(timer != null) timer.cancel();
+        if(timerTripDuration != null) timerTripDuration.cancel();
         if(countDownTimer != null) countDownTimer.cancel();
     }
 
@@ -1163,6 +1174,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         String timingBookin = "";
 
 
+        //Log.w("trip",": "+);
+
         if(reservation != null){
 
             long unixTime = System.currentTimeMillis() / 1000L;
@@ -1186,14 +1199,56 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 public void onFinish() {}
             }.start();
         }
+        if(isTripStart){
+
+            if (timerTripDuration != null) timerTripDuration.cancel();
+
+            timerTripDuration = new Timer();
+
+            timerTripDuration.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            long unixTime = System.currentTimeMillis() / 1000L;
+                            int diffTime = (int) (unixTime - tripTimestampStart) * 1000;
+
+                            Log.w("diffTime",": "+diffTime);
+
+                            int hh = (int) (diffTime / 1000 / 60 / 60);
+                            int mn = (int) (diffTime / 1000 / 60 % 60);
+                            int sec = (int) (diffTime / 1000 % 60);
+                            String hhStr = (hh<10 ? "0" : "")+hh;
+                            String mnStr = (mn<10 ? "0" : "")+mn;
+                            String secStr = (sec<10 ? "0" : "")+sec;
+
+
+                            if(getActivity() != null)
+                                tripDurationTextView.setText(hhStr+":"+mnStr+":"+secStr);
+                            else if(countDownTimer != null) countDownTimer.cancel();
+
+                        }
+                    });
+                }
+            }, 1000, 1000);
+        }
         //----
 
         //Popolo le informazioni
-        //Pin utente
         userPinTextView.setText(String.format(getString(R.string.booking_userpin_label), ""+pinUser));
         bookingPlateTextView.setText(String.format(getString(R.string.booking_plate_label), plateBooking));
-        bookingAddressTextView.setText(addressBooking);
         expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), timingBookin)));
+
+        if(isTripStart){
+            bookingTitleTextView.setText(getString(R.string.booking_tripactive_label));
+            bookingAddressTextView.setText(getString(R.string.booking_durationtrip_label));
+            tripDurationTextView.setText("00:07:00");
+        }else{
+            bookingTitleTextView.setText(getString(R.string.booking_active_label));
+            bookingAddressTextView.setText(addressBooking);
+        }
 
         //Apro le informazioni
         bookingCarView.setVisibility(View.VISIBLE);
@@ -1201,8 +1256,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //Verifico se la corsa è iniziata: nel caso nascondo le informazioni non necessarie
         if(isTripStart){
-            expiringTimeView.setVisibility(View.GONE);
+            expiringTimeTextView.setVisibility(View.GONE);
+            tripDurationTextView.setVisibility(View.VISIBLE);
             openButtonBookingView.setVisibility(View.GONE);
+        }else{
+            expiringTimeTextView.setVisibility(View.VISIBLE);
+            tripDurationTextView.setVisibility(View.GONE);
         }
 
         //refreshCars();
@@ -1545,9 +1604,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
 
     @Override
-    public void showTripInfo(final Car car){
+    public void showTripInfo(final Car car, int timestamp_start){
 
         isTripStart = true;
+        tripTimestampStart = timestamp_start;
         carSelected = car;
 
         mMapView.getOverlays().remove(poiMarkers);
