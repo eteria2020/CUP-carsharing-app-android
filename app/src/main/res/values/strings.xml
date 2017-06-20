@@ -85,4 +85,17 @@
     <string name="login_wrongpassword_alert">Attenzione! Password errata.</string>
 
 
+    <string name="signup_title_label">Iscriviti a Share\'ngo</string>
+    <string name="singup_description_label">L\'iscrizione al servizio costa 10 euro con 30 minuti bonus (condizioni standard, salvo promozioni). Se serve aiuto durante l\'iscrizione usa il pulsante chat!</string>
+    <string name="singup_subscribe_action">ISCRIVITI</string>
+    <string name="singup_step1text1_action">Per iscriverti devi avere\na portata di mano:</string>
+    <string name="singup_step1text2_action">CARTA DI IDENTITÀ</string>
+    <string name="singup_step2text1_action">Per iscriverti devi avere\na portata di mano:</string>
+    <string name="singup_step2text2_action">CODICE FISCALE</string>
+    <string name="singup_step3text1_action">Per iscriverti devi avere\na portata di mano:</string>
+    <string name="singup_step3text2_action">PATENTE</string>
+    <string name="singup_step4text1_action">Per iscriverti devi avere\na portata di mano:</string>
+    <string name="singup_step5text2_action">CARTA DI CREDITO</string>
+
+
 </resources>

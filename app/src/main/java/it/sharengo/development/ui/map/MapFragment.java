@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -51,6 +52,7 @@ import android.widget.TextView;
 import org.apache.commons.lang3.StringUtils;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
+import org.osmdroid.bonuspack.clustering.StaticCluster;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
@@ -1344,7 +1346,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         if(poiCityMarkers != null)
             mMapView.getOverlays().remove(poiCityMarkers);
 
-        poiMarkers = new RadiusMarkerClusterer(getActivity());
+        poiMarkers = new CustomRadiusMarkerClusterer(getActivity());
 
         boolean bookedCarFind = false;
         for(final Car car : carsList){
@@ -1372,7 +1374,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     }
                 });
                 poiMarkers.add(markerCar);
-                
+
                 //OverlayItem overlayItem = new OverlayItem(car.id, "", new GeoPoint(car.latitude, car.longitude));
                 //overlayItem.setMarker(getIconMarker(icon_marker));
 
@@ -1675,5 +1677,42 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         co2 = ((float) diffTime)/60/60*17*106;  //((minuti÷60)×17)×106
 
         ((MapActivity) getActivity()).showNotification(String.format(getString(R.string.tripend_notification_label), diffTime/60), mNotificationListener);
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Class
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public class CustomRadiusMarkerClusterer extends RadiusMarkerClusterer{
+
+        public CustomRadiusMarkerClusterer(Context ctx) {
+            super(ctx);
+        }
+
+        @Override
+        public void renderer(ArrayList<StaticCluster> clusters, Canvas canvas, MapView mapView) {
+            for (StaticCluster cluster : clusters) {
+                if (cluster.getSize() == 1) {
+                    //cluster has only 1 marker => use it as it is:
+                    cluster.setMarker(cluster.getItem(0));
+                } else {
+                    //only draw 1 Marker at Cluster center, displaying number of Markers contained
+                    Marker m = buildClusterMarker(cluster, mapView);
+                    cluster.setMarker(m);
+
+                    m.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker, MapView mapView) {
+                            mMapView.getController().setCenter(new GeoPoint(marker.getPosition().getLatitude(), marker.getPosition().getLongitude()));
+                            mMapView.getController().zoomIn();
+                            return false;
+                        }
+                    });
+                }
+            }
+        }
     }
 }
