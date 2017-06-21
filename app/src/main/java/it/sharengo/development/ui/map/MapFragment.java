@@ -232,6 +232,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @BindView(R.id.bookingAddressTextView)
     TextView bookingAddressTextView;
 
+    @BindView(R.id.timeIconImageView)
+    ImageView timeIconImageView;
+
     @BindView(R.id.expiringTimeTextView)
     TextView expiringTimeTextView;
 
@@ -1215,7 +1218,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                             long unixTime = System.currentTimeMillis() / 1000L;
                             int diffTime = (int) (unixTime - tripTimestampStart) * 1000;
 
-                            Log.w("diffTime",": "+diffTime);
 
                             int hh = (int) (diffTime / 1000 / 60 / 60);
                             int mn = (int) (diffTime / 1000 / 60 % 60);
@@ -1239,15 +1241,17 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         //Popolo le informazioni
         userPinTextView.setText(String.format(getString(R.string.booking_userpin_label), ""+pinUser));
         bookingPlateTextView.setText(String.format(getString(R.string.booking_plate_label), plateBooking));
-        expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), timingBookin)));
+
 
         if(isTripStart){
             bookingTitleTextView.setText(getString(R.string.booking_tripactive_label));
             bookingAddressTextView.setText(getString(R.string.booking_durationtrip_label));
-            tripDurationTextView.setText("00:07:00");
+            timeIconImageView.setImageDrawable(getIconMarker(R.drawable.ic_time_2));
         }else{
             bookingTitleTextView.setText(getString(R.string.booking_active_label));
             bookingAddressTextView.setText(addressBooking);
+            expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), timingBookin)));
+            timeIconImageView.setImageDrawable(getIconMarker(R.drawable.ic_time));
         }
 
         //Apro le informazioni

@@ -4,11 +4,13 @@ import dagger.Component;
 import it.sharengo.development.injection.PerActivity;
 import it.sharengo.development.injection.modules.MvpFragmentModule;
 import it.sharengo.development.ui.login.LoginFragment;
+import it.sharengo.development.ui.longintro.LongIntroFragment;
 import it.sharengo.development.ui.map.MapFragment;
 import it.sharengo.development.ui.home.HomeFragment;
 import it.sharengo.development.ui.menu.MenuFragment;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryFragment;
 import it.sharengo.development.ui.profile.ProfileFragment;
+import it.sharengo.development.ui.shortintro.ShortIntroFragment;
 import it.sharengo.development.ui.signup.SignupFragment;
 import it.sharengo.development.ui.slideshow.SlideshowFragment;
 import it.sharengo.development.ui.splash.SplashFragment;
@@ -38,4 +40,8 @@ public interface MvpFragmentComponent {
     void inject(PasswordRecoveryFragment fragment);
 
     void inject(SignupFragment fragment);
+
+    void inject(LongIntroFragment fragment);
+
+    void inject(ShortIntroFragment fragment);
 }

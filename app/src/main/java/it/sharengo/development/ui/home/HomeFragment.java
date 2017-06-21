@@ -1,16 +1,21 @@
 package it.sharengo.development.ui.home;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.development.R;
@@ -23,6 +28,12 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     private static final int mRequestPermission = 1;
+
+    @BindView(R.id.circleView)
+    View circleView;
+
+    @BindView(R.id.homeView)
+    ViewGroup homeView;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -42,6 +53,55 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         mPresenter.viewCreated();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.w("onResume",": AA");
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() { Log.w("onResume",": DELAY");
+                setAnimations();
+            }
+        }, 800);
+
+    }
+
+    private void setAnimations(){
+
+        circleView.animate().alpha(1.0f).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                setCircleAnimatio();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+
+        //(int) (200 * getResources().getDisplayMetrics().density)
+    }
+
+    private void setCircleAnimatio(){
+        ResizeAnimation resizeAnimation = new ResizeAnimation(circleView, homeView.getWidth() - 300, homeView.getWidth() - 300);
+        resizeAnimation.setDuration(600);
+        circleView.startAnimation(resizeAnimation);
     }
 
     private void checkMapPermission(){
@@ -160,5 +220,40 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     ////////////////////////////////////
 
 
+
+    public class ResizeAnimation extends Animation {
+        final int startWidth;
+        final int targetWidth;
+        final int startHeight;
+        final int targetHeight;
+        View view;
+
+        public ResizeAnimation(View view, int targetWidth, int targetHeight) {
+            this.view = view;
+            this.targetWidth = targetWidth;
+            startWidth = view.getWidth();
+            this.targetHeight = targetHeight;
+            startHeight = view.getHeight();
+        }
+
+        @Override
+        protected void applyTransformation(float interpolatedTime, Transformation t) {
+            int newWidth = (int) (startWidth + (targetWidth - startWidth) * interpolatedTime);
+            int newHeight = (int) (startHeight + (targetHeight - startHeight) * interpolatedTime);
+            view.getLayoutParams().width = newWidth;
+            view.getLayoutParams().height = newHeight;
+            view.requestLayout();
+        }
+
+        @Override
+        public void initialize(int width, int height, int parentWidth, int parentHeight) {
+            super.initialize(width, height, parentWidth, parentHeight);
+        }
+
+        @Override
+        public boolean willChangeBounds() {
+            return true;
+        }
+    }
 
 }

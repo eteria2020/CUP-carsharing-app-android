@@ -5,11 +5,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,7 @@ import butterknife.OnClick;
 import it.sharengo.development.R;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.development.ui.components.CenteredImageSpan;
 import it.sharengo.development.ui.slideshow.page.PageFragment;
 
 
@@ -38,6 +43,9 @@ public class SlideshowFragment extends BaseMvpFragment<SlideshowPresenter> imple
 
     @BindView(R.id.arrowRightImageView)
     ImageView arrowRightImageView;
+
+    @BindView(R.id.signupDescrTextView)
+    TextView signupDescrTextView;
 
     public static SlideshowFragment newInstance() {
         SlideshowFragment fragment = new SlideshowFragment();
@@ -88,6 +96,13 @@ public class SlideshowFragment extends BaseMvpFragment<SlideshowPresenter> imple
 
             }
         });
+
+        //Icona chat
+        CenteredImageSpan is = new CenteredImageSpan(getContext(), R.drawable.ic_chat);
+        String description = getString(R.string.signup_description_label);
+        Spannable text = new SpannableString(description + "  ");
+        text.setSpan(is, text.length()-1, text.length(), 0);
+        signupDescrTextView.setText(text);
 
         return view;
     }

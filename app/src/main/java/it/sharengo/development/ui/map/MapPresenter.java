@@ -760,7 +760,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     private Observable<ResponseTrip> buildTripsRequest(boolean refreshInfo) {
-        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, false, refreshInfo) //TODO, il valore deve essere true
+        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, true, refreshInfo) //TODO, il valore deve essere true
                 .first()
                 .compose(this.<ResponseTrip>handleDataRequest())
                 .doOnCompleted(new Action0() {

@@ -3,10 +3,14 @@ package it.sharengo.development.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 
+import it.sharengo.development.R;
 import it.sharengo.development.ui.base.activities.BaseActivity;
+import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 
-/*public class HomeActivity extends BaseDrawerActivity {
+public class HomeActivity extends BaseDrawerActivity {
 
     public static Intent getCallingIntent(Context context) {
         return new Intent(context, HomeActivity.class);
@@ -32,9 +36,9 @@ import it.sharengo.development.ui.base.activities.BaseActivity;
 
         return super.onCreateOptionsMenu(menu);
     }
-}*/
+}
 
-public class HomeActivity extends BaseActivity {
+/*public class HomeActivity extends BaseActivity {
 
     public static Intent getCallingIntent(Context context) {
         return new Intent(context, HomeActivity.class);
@@ -48,4 +52,4 @@ public class HomeActivity extends BaseActivity {
             replaceFragment(HomeFragment.newInstance());
         }
     }
-}
+}*/

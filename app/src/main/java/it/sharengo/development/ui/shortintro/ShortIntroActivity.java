@@ -1,0 +1,35 @@
+package it.sharengo.development.ui.shortintro;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import it.sharengo.development.R;
+import it.sharengo.development.ui.base.activities.BaseActivity;
+
+
+public class ShortIntroActivity extends BaseActivity {
+
+    private static final String TAG = ShortIntroActivity.class.getSimpleName();
+
+    public static Intent getCallingIntent(Context context) {
+        Intent i = new Intent(context, ShortIntroActivity.class);
+        return i;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState == null) {
+            replaceFragment(ShortIntroFragment.newInstance());
+        }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.slide_out_up);
+    }
+
+}

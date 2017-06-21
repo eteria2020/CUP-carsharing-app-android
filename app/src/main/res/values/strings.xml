@@ -85,8 +85,7 @@
     <string name="login_emptyfields_alert">Uno o più campi non sono compilati.</string>
     <string name="login_wrongemail_alert">Attenzione! L\'indirizzo email che hai inserito non è presente nel nostro database.</string>
     <string name="login_wrongpassword_alert">Attenzione! Password errata.</string>
-
-
+    
     <string name="signup_title_label">Iscriviti a Share\'ngo</string>
     <string name="signup_description_label">L\'iscrizione al servizio costa 10 euro con 30 minuti bonus (condizioni standard, salvo promozioni). Se serve aiuto durante l\'iscrizione usa il pulsante chat!</string>
     <string name="signup_subscribe_action">ISCRIVITI</string>
@@ -98,6 +97,11 @@
     <string name="signup_step3text2_action">PATENTE</string>
     <string name="signup_step4text1_action">Per iscriverti devi avere\na portata di mano:</string>
     <string name="signup_step4text2_action">CARTA DI CREDITO</string>
+    
+    <string name="intro_power_label">Elettrica</string>
+    <string name="intro_shared_label">Condivisa</string>
+    <string name="intro_underhouse_label">Sotto\ncasa</string>
+
 
 
 </resources>

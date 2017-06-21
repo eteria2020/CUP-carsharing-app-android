@@ -12,12 +12,14 @@ import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.login.LoginPresenter;
+import it.sharengo.development.ui.longintro.LongIntroPresenter;
 import it.sharengo.development.ui.map.MapPresenter;
 import it.sharengo.development.ui.base.presenters.PresenterManager;
 import it.sharengo.development.ui.home.HomePresenter;
 import it.sharengo.development.ui.menu.MenuPresenter;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryPresenter;
 import it.sharengo.development.ui.profile.ProfilePresenter;
+import it.sharengo.development.ui.shortintro.ShortIntroPresenter;
 import it.sharengo.development.ui.signup.SignupPresenter;
 import it.sharengo.development.ui.slideshow.SlideshowPresenter;
 import it.sharengo.development.ui.splash.SplashPresenter;
@@ -167,6 +169,30 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new SignupPresenter(schedulerProvider);
+        }
+        return presenter;
+    }
+
+    @Provides
+    LongIntroPresenter provideLongIntroPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+        LongIntroPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new LongIntroPresenter(schedulerProvider);
+        }
+        return presenter;
+    }
+
+    @Provides
+    ShortIntroPresenter provideShortIntroPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+        ShortIntroPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new ShortIntroPresenter(schedulerProvider);
         }
         return presenter;
     }

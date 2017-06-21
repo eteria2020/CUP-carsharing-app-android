@@ -78,12 +78,13 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
         //Se è il primo accesso, mostro il login
         if(mPresenter.isFirstAccess(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE))){
             mPresenter.setFirstAccess(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
+            getActivity().finish();
             Navigator.launchLogin(this, Navigator.REQUEST_LOGIN_START);
-            getActivity().finish();
+            Navigator.launchLongIntro(this);
         }else{
-            Navigator.launchHome(this); //TODO
-            //Navigator.launchLogin(this);
             getActivity().finish();
+            Navigator.launchHome(this);
+            Navigator.launchShortIntro(this);
         }
     }
 

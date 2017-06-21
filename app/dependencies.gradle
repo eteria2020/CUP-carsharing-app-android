@@ -40,4 +40,5 @@ dependencies {
     compile "org.osmdroid:osmdroid-android:$rootProject.ext.osmdroidVersione"
     compile "com.github.MKergall:osmbonuspack:$rootProject.ext.osmbonuspackVersion"
     compile "com.oguzdev:CircularFloatingActionMenu:$rootProject.ext.circularFloatingActionMenu"
+    compile "pl.droidsonroids.gif:android-gif-drawable:$rootProject.ext.androidGifDrawable"
 }

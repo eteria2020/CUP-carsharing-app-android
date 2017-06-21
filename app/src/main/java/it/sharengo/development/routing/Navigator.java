@@ -8,9 +8,11 @@ import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.development.ui.home.HomeActivity;
 import it.sharengo.development.ui.login.LoginActivity;
+import it.sharengo.development.ui.longintro.LongIntroActivity;
 import it.sharengo.development.ui.map.MapActivity;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryActivity;
 import it.sharengo.development.ui.profile.ProfileActivity;
+import it.sharengo.development.ui.shortintro.ShortIntroActivity;
 import it.sharengo.development.ui.signup.SignupActivity;
 import it.sharengo.development.ui.slideshow.SlideshowActivity;
 import it.sharengo.development.ui.tripend.TripEndActivity;
@@ -88,6 +90,18 @@ public class Navigator {
 
     public static void launchSignup(Fragment fragment) {
         Intent intent = SignupActivity.getCallingIntent(fragment.getActivity());
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchLongIntro(Fragment fragment) {
+        Intent intent = LongIntroActivity.getCallingIntent(fragment.getActivity());
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchShortIntro(Fragment fragment) {
+        Intent intent = ShortIntroActivity.getCallingIntent(fragment.getActivity());
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
