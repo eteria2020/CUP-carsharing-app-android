@@ -155,7 +155,7 @@ public class LongIntroFragment extends BaseMvpFragment<LongIntroPresenter> imple
 
                         animator.removeAllListeners();
 
-                        intro3TextView.animate().setStartDelay(700).alpha(0.0f).setListener(new Animator.AnimatorListener() {
+                        intro3TextView.animate().setStartDelay(1200).alpha(0.0f).setListener(new Animator.AnimatorListener() {
                             @Override
                             public void onAnimationStart(Animator animator) {
 

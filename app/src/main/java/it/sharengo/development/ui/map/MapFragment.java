@@ -335,6 +335,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         setSearchDefaultContent();
         //searchRecyclerView.addItemDecoration(new DividerItemDecoration(searchRecyclerView.getContext(), lm.getOrientation()));
 
+
         return view;
     }
 
@@ -417,6 +418,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         if(timer != null) timer.cancel();
         if(timerTripDuration != null) timerTripDuration.cancel();
         if(countDownTimer != null) countDownTimer.cancel();
+        if(timerEditText != null) timerEditText.cancel();
     }
 
     @Override
@@ -462,7 +464,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
 
-        userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
+        //userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
 
         //First time
         if (!hasInit){
@@ -755,7 +757,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         plateTextView.setText(car.id);
 
         //Autonomia
-        autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), car.autonomy)));
+        autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), (int) car.autonomy)));
 
         //Indirizzo
         String address = getAddress(car.latitude, car.longitude);
@@ -768,7 +770,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             float distance = getDistance(car);
             if(distance < 1000){
                 distance = Math.round(distance);
-                distanceString = String.format(getString(R.string.maps_distance_label), distance);
+                distanceString = String.format(getString(R.string.maps_distance_label), (int) distance);
             }
             else{
                 distanceString = String.format(getString(R.string.maps_distancekm_label), distance/1000);
@@ -1321,11 +1323,33 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         //setSearchResult(); TODO
     }
 
-    @OnTextChanged(R.id.searchEditText)
+    /*@OnTextChanged(R.id.searchEditText)
     public void searchEditText(){
         if(!searchItemSelected)
             initMapSearch();
         else searchItemSelected = false;
+    }*/
+
+    private Timer timerEditText=new Timer();
+    private final long DELAY = 500;
+    @OnTextChanged(value = R.id.searchEditText,
+            callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    public void searchEditText() {
+
+
+        timerEditText.cancel();
+        timerEditText = new Timer();
+        timerEditText.schedule(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        if(!searchItemSelected)
+                            initMapSearch();
+                        else searchItemSelected = false;
+                    }
+                },
+                DELAY
+        );
     }
 
     @OnClick(R.id.microphoneImageView)

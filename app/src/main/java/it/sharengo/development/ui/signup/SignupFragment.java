@@ -76,7 +76,6 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.equals("http://www.sharengo.it/signup-3/mobile")) {
                     loadLogin();
-                    return true;
                 }
                 return false;
             }
@@ -87,7 +86,6 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
                 String url=request.getUrl().toString();
                 if (url.equals("http://www.sharengo.it/signup-3/mobile")) {
                     loadLogin();
-                    return true;
                 }
                 return false;
             }
@@ -104,8 +102,9 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
             public void run() {
                 Navigator.launchLogin(SignupFragment.this, Navigator.REQUEST_LOGIN_START);
                 getActivity().finish();
+
             }
-        }, 3000);
+        }, 4000);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

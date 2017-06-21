@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -86,6 +87,11 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
                     .add(R.id.menu_frame, menuFragment)
                     .commit();
         }
+
+
+        final ViewGroup notificationView = (ViewGroup) findViewById(R.id.notificationView);
+        notificationView.setVisibility(View.VISIBLE);
+        notificationView.setY(-500f);
     }
 
     @Override
@@ -238,16 +244,19 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
     }
 
     public void showNotification(String notification, View.OnClickListener mNotificationListener){
+
         ((TextView) findViewById(R.id.notificationTextView)).setText(notification);
         final ViewGroup notificationView = (ViewGroup) findViewById(R.id.notificationView);
         notificationView.setVisibility(View.VISIBLE);
         notificationView.setOnClickListener(mNotificationListener);
 
+        notificationView.animate().translationY(0);
+
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                notificationView.setVisibility(View.GONE);
+                notificationView.animate().translationY(-500);
             }
         }, 10000);
     }
