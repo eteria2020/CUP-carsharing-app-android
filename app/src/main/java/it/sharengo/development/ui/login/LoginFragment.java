@@ -14,6 +14,7 @@ import org.osmdroid.views.MapView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import it.sharengo.development.R;
 import it.sharengo.development.data.common.ErrorResponse;
 import it.sharengo.development.routing.Navigator;
@@ -113,6 +114,12 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
     public void onRecoveryPassword(){
         Navigator.launchPasswordRecovery(this);
         getActivity().finish();
+    }
+
+    @OnEditorAction(R.id.passwordEditText)
+    public boolean OnEditorAction(){
+        onLoginClick();
+        return true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

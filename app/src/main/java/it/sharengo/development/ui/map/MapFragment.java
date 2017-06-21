@@ -887,7 +887,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private void loginAlert(){
         final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                 getString(R.string.general_login_alert),
-                getString(R.string.ok),
+                getString(R.string.login),
                 getString(R.string.cancel));
         cdd.show();
         cdd.yes.setOnClickListener(new View.OnClickListener() {

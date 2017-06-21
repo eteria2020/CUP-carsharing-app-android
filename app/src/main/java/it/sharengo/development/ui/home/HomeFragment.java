@@ -224,21 +224,6 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         }
     }
 
-    private void loginAlert(){
-        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
-                getString(R.string.general_login_alert),
-                getString(R.string.ok),
-                getString(R.string.cancel));
-        cdd.show();
-        cdd.yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cdd.dismissAlert();
-                Navigator.launchLogin(HomeFragment.this, Navigator.REQUEST_LOGIN_PROFILE);
-                getActivity().finish();
-            }
-        });
-    }
 
     ////////////////////////////////////
     //
@@ -253,9 +238,18 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     @OnClick(R.id.profileUserButton)
     public void onProfileClick() {
 
-        //Apro il profilo
-        Navigator.launchProfile(this);
-        getActivity().finish();
+        if(mPresenter.isAuth()) {
+
+            //Apro il profilo
+            Navigator.launchProfile(this);
+            getActivity().finish();
+
+        }else{
+
+            //Mostro il login
+            Navigator.launchLogin(HomeFragment.this, Navigator.REQUEST_LOGIN_PROFILE);
+            getActivity().finish();
+        }
 
     }
 

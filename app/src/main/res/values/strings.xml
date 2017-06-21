@@ -8,6 +8,7 @@
     <!--LABELS-->
     <string name="ok">OK</string>
     <string name="cancel">ANNULLA</string>
+    <string name="login">LOGIN</string>
     
     <!--PERMISSION-->
     <string name="msg_rational_location_permission">The app needs your permission to access your position.</string>
