@@ -277,6 +277,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //setUpMap();
 
+        carSelected = null;
+
         //Rotate animation - refresh button
         anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         anim.setInterpolator(new LinearInterpolator());
@@ -460,7 +462,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
 
-        //userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
+        userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
 
         //First time
         if (!hasInit){
@@ -921,7 +923,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                         @Override
                         public void run() {
 
-
                             if(getActivity() != null) {
 
                                 int[] drawableAnimArray = null;
@@ -1298,6 +1299,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //Nascondo le informazioni della prenotazione cancellata
         bookingCarView.setVisibility(View.GONE);
+
+        //Tolgo l'animazione al pin
+        setMarkerAnimation();
     }
 
 
@@ -1660,6 +1664,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @Override
     public void removeTripInfo(){
         isTripStart = false;
+        isBookingCar = false;
+        carSelected = null;
         closeViewBookingCar();
     }
 
@@ -1723,6 +1729,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @Override
     public void removeReservationInfo(){
         isBookingCar = false;
+        carSelected = null;
         closeViewBookingCar();
     }
 

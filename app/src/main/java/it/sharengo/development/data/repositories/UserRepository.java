@@ -47,7 +47,12 @@ public class UserRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void saveUserCredentials(String username, String password){
-        mCachedUser = new User(username, password, "");
+        if(mCachedUser == null)
+            mCachedUser = new User(username, password, "");
+        else {
+            mCachedUser.username = username;
+            mCachedUser.password = password;
+        }
     }
 
 

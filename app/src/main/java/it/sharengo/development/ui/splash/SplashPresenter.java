@@ -57,12 +57,15 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
         Log.w("LOAD","DATA");
 
         //Recupero le credenziali dell'utente (se salvate)
+
+        Log.w("user1",": "+mPreferencesRepository.getFirstAccess(mPref));
+
         mUserRepository.saveUserCredentials(mPreferencesRepository.getUsername(mPref), mPreferencesRepository.getPassword(mPref));
 
         if(mSplashRequest == null) {
 
+            Log.w("user2",": "+mUserRepository.getCachedUser().username);
             if(!mUserRepository.getCachedUser().username.isEmpty()) { //Utente loggato
-
                 //Recupero le informazioni dell'utente
                 getUser();
 
@@ -98,6 +101,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void getUser(){
+        Log.w("getUser","GET");
         if( mUserRequest == null) {
             mUserRequest = buildUserRequest();
             addSubscription(mUserRequest.unsafeSubscribe(getUserSubscriber()));
