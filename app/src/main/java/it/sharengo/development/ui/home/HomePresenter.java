@@ -5,6 +5,7 @@ import android.util.Log;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
+import it.sharengo.development.data.models.User;
 import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
@@ -46,6 +47,10 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     public boolean isAuth(){
         if(!mUserRepository.getCachedUser().username.isEmpty()) return true;
         return false;
+    }
+
+    public User getUserInfo(){
+        return mUserRepository.getCachedUser();
     }
 
 }

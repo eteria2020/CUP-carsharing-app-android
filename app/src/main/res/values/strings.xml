@@ -14,6 +14,7 @@
 
     <!--GENERAL-->
     <string name="general_login_alert">Devi effettuare l\'accesso per utilizzare questa funzionalità</string>
+    <string name="general_notenabled_alert">Questa funzione sarà disponibile prossimamente.</string>
 
     <!--MENU-->
     <string name="menu_home">Home</string>
@@ -101,6 +102,9 @@
     <string name="intro_power_label">Elettrica</string>
     <string name="intro_shared_label">Condivisa</string>
     <string name="intro_underhouse_label">Sotto\ncasa</string>
+
+    <string name="home_welcome_label">Benvenuto!</string>
+    <string name="home_welcomeauth_label">Bentornato %s!</string>
 
 
 

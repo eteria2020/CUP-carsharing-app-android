@@ -14,6 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +36,19 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     View circleView;
 
     @BindView(R.id.homeView)
-    ViewGroup homeView;
+    View homeView;
+
+    @BindView(R.id.searchCarsButton)
+    ImageView searchCarsButton;
+
+    @BindView(R.id.profileUserButton)
+    ImageView profileUserButton;
+
+    @BindView(R.id.unknownButton)
+    ImageView unknownButton;
+
+    @BindView(R.id.welcomeTextView)
+    TextView welcomeTextView;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -52,6 +67,22 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
         mPresenter.viewCreated();
 
+        //Scritta di benvenuto
+        if(mPresenter.isAuth()){
+            welcomeTextView.setText(String.format(getString(R.string.home_welcomeauth_label), mPresenter.getUserInfo().userInfo.name));
+        }else{
+            welcomeTextView.setText(getString(R.string.home_welcome_label));
+        }
+
+        //Animazioni
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setAnimations();
+            }
+        }, 800);
+
         return view;
     }
 
@@ -59,15 +90,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     public void onResume() {
         super.onResume();
 
-        Log.w("onResume",": AA");
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() { Log.w("onResume",": DELAY");
-                setAnimations();
-            }
-        }, 800);
 
     }
 
@@ -99,9 +122,42 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     }
 
     private void setCircleAnimatio(){
-        ResizeAnimation resizeAnimation = new ResizeAnimation(circleView, homeView.getWidth() - 300, homeView.getWidth() - 300);
+        ResizeAnimation resizeAnimation = new ResizeAnimation(circleView, homeView.getWidth() - 400, homeView.getWidth() - 400);
         resizeAnimation.setDuration(600);
         circleView.startAnimation(resizeAnimation);
+        resizeAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                setButtonAnimation();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        searchCarsButton.setX((float) (circleView.getX()+searchCarsButton.getWidth()*0.35));
+        searchCarsButton.setY((float) (circleView.getY()-(homeView.getWidth() - 400)/2+searchCarsButton.getHeight()*0.35));
+
+        profileUserButton.setX((float) (circleView.getX()+(homeView.getWidth() - 400)*0.435+profileUserButton.getWidth()*0.35));
+        profileUserButton.setY((float) (circleView.getY()+(homeView.getWidth() - 400)*0.225 + profileUserButton.getHeight()*0.35));
+
+        unknownButton.setX((float) (circleView.getX()-(homeView.getWidth() - 400)*0.435+unknownButton.getWidth()*0.35));
+        unknownButton.setY((float) (circleView.getY()+(homeView.getWidth() - 400)*0.225 + unknownButton.getHeight()*0.35));
+    }
+
+    private void setButtonAnimation(){
+        profileUserButton.animate().alpha(1.0f).setDuration(500).start();
+        searchCarsButton.animate().alpha(1.0f).setDuration(500).start();
+        unknownButton.animate().alpha(1.0f).setDuration(500).start();
+
+        welcomeTextView.animate().alpha(1.0f).setDuration(500).start();
     }
 
     private void checkMapPermission(){
@@ -197,18 +253,25 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     @OnClick(R.id.profileUserButton)
     public void onProfileClick() {
 
-        if(mPresenter.isAuth()) {
+        //Apro il profilo
+        Navigator.launchProfile(this);
+        getActivity().finish();
 
-            //Apro il profilo
-            Navigator.launchProfile(this);
-            getActivity().finish();
+    }
 
-        }else{
-
-            //Mostro l'alert per il login
-            loginAlert();
-        }
-
+    @OnClick(R.id.unknownButton)
+    public void onUnknownClick(){
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.general_notenabled_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+            }
+        });
     }
 
 
