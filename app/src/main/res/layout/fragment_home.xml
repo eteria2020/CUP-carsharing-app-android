@@ -56,7 +56,8 @@
             android:src="@drawable/ic_utente_home"
             android:padding="15dp"
             android:alpha="0.0"
-            android:background="@drawable/btn_bkg_homegrey"/>
+            android:tint="@color/white"
+            android:background="@drawable/btn_bkg_darkpastelgreen"/>
 
         <ImageView
             android:id="@+id/unknownButton"

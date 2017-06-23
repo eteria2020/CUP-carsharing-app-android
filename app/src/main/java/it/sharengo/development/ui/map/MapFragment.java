@@ -1023,7 +1023,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 mPresenter.findAddress(searchMapText);
             }
 
-            searchRecyclerView.scrollToPosition(0);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    searchRecyclerView.scrollToPosition(0);
+                }
+            });
+
 
         }else{ //Se i caratteri digitati sono meno di 3, ripulisco la lista
 

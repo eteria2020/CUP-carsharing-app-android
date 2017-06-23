@@ -96,60 +96,64 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
     private void setAnimations(){
 
-        circleView.animate().alpha(1.0f).setListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
+        if(circleView != null) {
+            circleView.animate().alpha(1.0f).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
 
-            }
+                }
 
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                setCircleAnimatio();
-            }
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    setCircleAnimatio();
+                }
 
-            @Override
-            public void onAnimationCancel(Animator animator) {
+                @Override
+                public void onAnimationCancel(Animator animator) {
 
-            }
+                }
 
-            @Override
-            public void onAnimationRepeat(Animator animator) {
+                @Override
+                public void onAnimationRepeat(Animator animator) {
 
-            }
-        });
+                }
+            });
+        }
 
         //(int) (200 * getResources().getDisplayMetrics().density)
     }
 
     private void setCircleAnimatio(){
-        ResizeAnimation resizeAnimation = new ResizeAnimation(circleView, homeView.getWidth() - 350, homeView.getWidth() - 350);
-        resizeAnimation.setDuration(600);
-        circleView.startAnimation(resizeAnimation);
-        resizeAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
+        if(homeView != null) {
+            ResizeAnimation resizeAnimation = new ResizeAnimation(circleView, homeView.getWidth() - 350, homeView.getWidth() - 350);
+            resizeAnimation.setDuration(600);
+            circleView.startAnimation(resizeAnimation);
+            resizeAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
 
-            }
+                }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                setButtonAnimation();
-            }
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    setButtonAnimation();
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+                @Override
+                public void onAnimationRepeat(Animation animation) {
 
-            }
-        });
+                }
+            });
 
-        searchCarsButton.setX((float) (circleView.getX()+searchCarsButton.getWidth()*0.35));
-        searchCarsButton.setY((float) (circleView.getY()-(homeView.getWidth() - 350)/2+searchCarsButton.getHeight()*0.35));
+            searchCarsButton.setX((float) (circleView.getX() + searchCarsButton.getWidth() * 0.35));
+            searchCarsButton.setY((float) (circleView.getY() - (homeView.getWidth() - 350) / 2 + searchCarsButton.getHeight() * 0.35));
 
-        profileUserButton.setX((float) (circleView.getX()+(homeView.getWidth() - 350)*0.435+profileUserButton.getWidth()*0.35));
-        profileUserButton.setY((float) (circleView.getY()+(homeView.getWidth() - 350)*0.225 + profileUserButton.getHeight()*0.35));
+            profileUserButton.setX((float) (circleView.getX() + (homeView.getWidth() - 350) * 0.435 + profileUserButton.getWidth() * 0.35));
+            profileUserButton.setY((float) (circleView.getY() + (homeView.getWidth() - 350) * 0.225 + profileUserButton.getHeight() * 0.35));
 
-        unknownButton.setX((float) (circleView.getX()-(homeView.getWidth() - 350)*0.435+unknownButton.getWidth()*0.35));
-        unknownButton.setY((float) (circleView.getY()+(homeView.getWidth() - 350)*0.225 + unknownButton.getHeight()*0.35));
+            unknownButton.setX((float) (circleView.getX() - (homeView.getWidth() - 350) * 0.435 + unknownButton.getWidth() * 0.35));
+            unknownButton.setY((float) (circleView.getY() + (homeView.getWidth() - 350) * 0.225 + unknownButton.getHeight() * 0.35));
+        }
     }
 
     private void setButtonAnimation(){

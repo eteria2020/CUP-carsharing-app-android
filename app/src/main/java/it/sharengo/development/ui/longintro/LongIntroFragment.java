@@ -4,6 +4,7 @@ package it.sharengo.development.ui.longintro;
 import android.animation.Animator;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -135,8 +136,6 @@ public class LongIntroFragment extends BaseMvpFragment<LongIntroPresenter> imple
             @Override
             public void onAnimationEnd(Animator animation) {
 
-                Log.w("Animator","AA");
-
                 animation.removeListener(this);
 
                 introTextView.animate().setStartDelay(500).alpha(0.0f).setListener(null);;
@@ -155,7 +154,7 @@ public class LongIntroFragment extends BaseMvpFragment<LongIntroPresenter> imple
 
                         animator.removeAllListeners();
 
-                        intro3TextView.animate().setStartDelay(1200).alpha(0.0f).setListener(new Animator.AnimatorListener() {
+                        intro3TextView.animate().setStartDelay(800).alpha(0.0f).setListener(new Animator.AnimatorListener() {
                             @Override
                             public void onAnimationStart(Animator animator) {
 
@@ -166,8 +165,16 @@ public class LongIntroFragment extends BaseMvpFragment<LongIntroPresenter> imple
 
                                 animator.removeAllListeners();
 
-                                //Navigator.launchLogin(LongIntroFragment.this, Navigator.REQUEST_LOGIN_START);
-                                getActivity().finish();
+                                final Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //Navigator.launchLogin(LongIntroFragment.this, Navigator.REQUEST_LOGIN_START);
+                                        getActivity().finish();
+                                    }
+                                }, 1000);
+
+
                             }
 
                             @Override
