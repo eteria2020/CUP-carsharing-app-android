@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -59,6 +60,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         @BindView(R.id.text)
         TextView text;
 
+        @BindView(R.id.icon)
+        ImageView icon;
+
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
@@ -73,12 +77,17 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             text.setSelected(menuItem.selected);
 //            text.setEnabled(!menuItem.selected);
 //            text.setClickable(!menuItem.selected);
-            if(menuItem.selected) {
+            /*if(menuItem.selected) {
                 text.setTypeface(null, Typeface.BOLD);
             }
             else {
                 text.setTypeface(null, Typeface.NORMAL);
-            }
+            }*/
+
+            icon.setImageDrawable(ResourceProvider.getMenuItemIcon(
+                    icon.getContext(),
+                    menuItem
+            ));
         }
 
         @OnClick(R.id.text)

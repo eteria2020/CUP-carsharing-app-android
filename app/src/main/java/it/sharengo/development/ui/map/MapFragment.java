@@ -1126,7 +1126,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     private void openDoors(){
 
-        if(carSelected != null){
+        /*if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
                 if(getDistance(carSelected) <= 50){ //TODO: valore a 50
@@ -1156,7 +1156,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 });
 
             }
-        }
+        }*/
+        //Procediamo con le schermate successive
+        onClosePopup();
+        mPresenter.openDoor(carSelected, "open");
     }
 
 

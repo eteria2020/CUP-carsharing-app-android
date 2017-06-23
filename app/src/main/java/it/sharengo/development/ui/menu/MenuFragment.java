@@ -6,9 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -28,6 +30,15 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
 
     @BindView(R.id.rv)
     RecyclerView mRv;
+
+    @BindView(R.id.welcomeTextView)
+    TextView welcomeTextView;
+
+    @BindView(R.id.scoreTextView)
+    TextView scoreTextView;
+
+    @BindView(R.id.profileButton)
+    ViewGroup profileButton;
     
     private MenuAdapter mAdapter;
 
@@ -89,6 +100,18 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
     @Override
     public void showList(List<MenuItem> menuItemList) {
         mAdapter.setData(menuItemList);
+
+        //Messaggio benvenuto
+        if(mPresenter.isAuth()){
+            welcomeTextView.setText(String.format(getString(R.string.menu_welcome_login), mPresenter.getUserInfo().name));
+
+            profileButton.setVisibility(View.VISIBLE);
+            scoreTextView.setText("+75");
+        }else{
+            welcomeTextView.setText(getString(R.string.menu_welcome));
+
+            profileButton.setVisibility(View.GONE);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

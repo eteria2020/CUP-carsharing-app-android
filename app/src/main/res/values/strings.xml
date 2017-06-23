@@ -19,6 +19,20 @@
 
     <!--MENU-->
     <string name="menu_home">Home</string>
+    <string name="menu_welcome">Ciao, benvenuto!</string>
+    <string name="menu_welcome_login">Ciao %s, bentornato!</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_signup">Iscrizione</string>
+    <string name="menu_rates">Tariffe</string>
+    <string name="menu_profile">Profilo</string>
+    <string name="menu_booking">Prenota un\'auto</string>
+    <string name="menu_historic">Cronologia corse</string>
+    <string name="menu_help">Richiedi assistenza</string>
+    <string name="menu_faq">FAQ e tutorial</string>
+    <string name="menu_buy">Acquista o regala minuti</string>
+    <string name="menu_share">Invita un amico</string>
+    <string name="menu_setting">Impostazioni</string>
+    <string name="menu_logout">Logout</string>
 
     <!--COMMON ERRORS-->
     <string name="error_generic_msg">Ops, something went wrong.</string>

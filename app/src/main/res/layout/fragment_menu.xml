@@ -1,16 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/gainsboro">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingLeft="@dimen/hdx_standard_distance"
+        android:paddingRight="@dimen/hdx_standard_distance"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/welcomeTextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:font_name="poppinsBold"
+            android:gravity="center_vertical"
+            android:textSize="12.5sp"
+            android:textColor="@color/darkjunglegreen"/>
+
+        <RelativeLayout
+            android:id="@+id/profileButton"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:paddingTop="3dp">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="5dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/img_user"
+                android:background="@drawable/btn_bkg_mediumseagreen_bordered"/>
+            <it.sharengo.development.ui.components.CustomTextView
+                android:id="@+id/scoreTextView"
+                android:layout_width="15.5dp"
+                android:layout_height="15.5dp"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                app:font_name="poppinsBold"
+                android:textSize="7sp"
+                android:background="@drawable/btn_bkg_darkjunglegreen"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/isabelline"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:background="@color/white"
         android:listDivider="@drawable/bkg_rect_primary_dark"
         tools:listitem="@layout/view_menu_item"/>
     

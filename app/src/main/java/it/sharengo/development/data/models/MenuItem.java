@@ -4,7 +4,19 @@ public class MenuItem {
     
     public enum Section {
         NONE,
-        HOME;
+        HOME,
+        LOGIN,
+        SIGNUP,
+        FAQ,
+        RATES,
+        HELP,
+        PROFILE,
+        BOOKING,
+        HISTORIC,
+        BUY,
+        SHARE,
+        SETTINGS,
+        LOGOUT;
         
         public static Section toSection (String sectionString) {
             try {

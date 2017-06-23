@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<it.handroix.baseuiwidgets.widgets.HdxTextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/HdxTextRegular"
-    android:id="@+id/text"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/hdx_standard_distance"
-    android:background="@drawable/slt_rect_white_selectable"
-    android:textColor="@color/slt_text_white_selectable"
-    android:textSize="16sp"
-    tools:text="Tasks"/>
+    android:paddingLeft="@dimen/hdx_standard_distance"
+    android:paddingRight="@dimen/hdx_standard_distance"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center_vertical"
+        android:padding="5dp"
+        android:tint="@color/darkjunglegreen"
+        android:background="@drawable/btn_bkg_darkjunglegreen_bordered" />
+
+    <it.sharengo.development.ui.components.CustomTextView
+        android:id="@+id/text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="@dimen/hdx_standard_distance"
+        android:background="@drawable/slt_rect_white_selectable"
+        android:layout_gravity="center_vertical"
+        app:font_name="poppinsBold"
+        android:textColor="@color/darkjunglegreen"
+        android:textSize="12sp"/>
+
+</LinearLayout>
+
 

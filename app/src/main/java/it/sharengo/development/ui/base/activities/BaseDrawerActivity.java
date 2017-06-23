@@ -1,6 +1,7 @@
 package it.sharengo.development.ui.base.activities;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -42,6 +43,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
         
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mDrawerLayout.setScrimColor(Color.parseColor("#956fac54"));
 
 //        addLeftFrame();
 //        addRightFrame();

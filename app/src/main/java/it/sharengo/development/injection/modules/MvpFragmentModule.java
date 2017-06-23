@@ -73,13 +73,14 @@ public class MvpFragmentModule {
     @Provides
     MenuPresenter provideMenuPresenter(PresenterManager presenterManager, 
                                        SchedulerProvider schedulerProvider,
-                                       AppRepository appRepository) {
+                                       AppRepository appRepository,
+                                       UserRepository userRepository) {
         MenuPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new MenuPresenter(schedulerProvider, appRepository);
+            presenter = new MenuPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
