@@ -16,11 +16,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements MenuMvpView {
 
@@ -84,11 +87,22 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
         mPresenter.loadMenu(sectionString);
     }
 
+    public void logoutUser(){
+        Navigator.launchHome(this);
+        getActivity().finish();
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                      Butter Knife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @OnClick(R.id.profileButton)
+    public void onProfileClick(){
+        Navigator.launchProfile(this);
+        getActivity().finish();
+    }
     
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,8 +156,17 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
             @Override
             public void run() {
                 switch(menuItem.section) {
-                    case HOME:
-                        Navigator.launchHome(MenuFragment.this);
+                    case LOGIN:
+                        Navigator.launchLogin(MenuFragment.this, Navigator.REQUEST_LOGIN_START);
+                        break;
+                    case LOGOUT:
+                        mPresenter.logout(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
+                        break;
+                    case SIGNUP:
+                        Navigator.launchSignup(MenuFragment.this);
+                        break;
+                    case BOOKING:
+                        Navigator.launchMap(MenuFragment.this);
                         break;
                 }
             }

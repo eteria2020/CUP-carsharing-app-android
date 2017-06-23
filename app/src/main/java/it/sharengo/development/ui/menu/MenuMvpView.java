@@ -8,4 +8,5 @@ import it.sharengo.development.ui.base.presenters.MvpView;
 public interface MenuMvpView extends MvpView {
 
      void showList(List<MenuItem> menuItemList);
+     void logoutUser();
 }

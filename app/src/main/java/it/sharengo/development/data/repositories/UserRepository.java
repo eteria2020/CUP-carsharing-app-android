@@ -1,5 +1,6 @@
 package it.sharengo.development.data.repositories;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -53,6 +54,20 @@ public class UserRepository {
             mCachedUser.username = username;
             mCachedUser.password = password;
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Logout
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void logoutUser(SharedPreferences prefs){
+        mCachedUser = new User("", "", "");
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(PreferencesRepository.KEY_USERNAME, "");
+        editor.putString(PreferencesRepository.KEY_PASSWORD, "");
+        editor.commit();
     }
 
 

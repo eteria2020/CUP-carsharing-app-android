@@ -1,5 +1,6 @@
 package it.sharengo.development.ui.menu;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.List;
@@ -144,5 +145,17 @@ public class MenuPresenter extends BasePresenter<MenuMvpView> {
 
     public UserInfo getUserInfo(){
         return mUserRepository.getCachedUser().userInfo;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //          LOGOUT
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void logout(SharedPreferences mPref){
+        mUserRepository.logoutUser(mPref);
+        getMvpView().logoutUser();
     }
 }
