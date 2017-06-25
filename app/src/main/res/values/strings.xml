@@ -38,6 +38,7 @@
     <string name="error_generic_msg">Ops, something went wrong.</string>
     <string name="error_msg_no_network">No internet connection. Please try again later</string>
     <string name="error_msg_server_timeout">Server is unreachable. Please try again later</string>
+    <string name="error_msg_network_general">Si è verificato un errore, per favore controlla la tua connessione ad internet o riprova più tardi.</string>
     <string name="error_msg_conversion">Some error occured. Please try again later</string>
     <string name="error_unexpected">Some error occured. Please try again later</string>
     <string name="error_msg_http_400">Your request cannot be fulfilled (400)</string>

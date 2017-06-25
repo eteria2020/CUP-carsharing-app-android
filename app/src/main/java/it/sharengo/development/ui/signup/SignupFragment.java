@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import it.sharengo.development.R;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryFragment;
 
 
@@ -62,13 +63,28 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
             public void onProgressChanged(WebView view, int progress) {
                 // Activities and WebViews measure progress with different scales.
                 // The progress meter will automatically disappear when we reach 100%
-                getActivity().setProgress(progress * 1000);
+                if(getActivity() != null)
+                    getActivity().setProgress(progress * 1000);
             }
         });
         webview.setWebViewClient(new WebViewClient() {
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                showError(getString(R.string.error_generic_msg));
+                //showError(getString(R.string.error_generic_msg));
+                webview.setVisibility(View.GONE);
+                final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                        getString(R.string.error_msg_network_general),
+                        getString(R.string.ok),
+                        null);
+                cdd.show();
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismissAlert();
+                        Navigator.launchSlideshow(SignupFragment.this);
+                        getActivity().finish();
+                    }
+                });
             }
 
             @SuppressWarnings("deprecation")

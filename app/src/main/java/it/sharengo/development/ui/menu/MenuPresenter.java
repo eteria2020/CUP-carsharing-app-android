@@ -147,6 +147,9 @@ public class MenuPresenter extends BasePresenter<MenuMvpView> {
         return mUserRepository.getCachedUser().userInfo;
     }
 
+    public MenuItem.Section getMenuSelection(){
+        return mAppRepository.getSelectMenuItem();
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //

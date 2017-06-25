@@ -2,6 +2,7 @@ package it.sharengo.development.ui.home;
 
 import android.util.Log;
 
+import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
@@ -32,6 +33,8 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
         super(schedulerProvider);
         mUserRepository = userRepository;
         mAppRepository = appRepository;
+
+        mAppRepository.selectMenuItem(MenuItem.Section.HOME);
     }
 
     @Override

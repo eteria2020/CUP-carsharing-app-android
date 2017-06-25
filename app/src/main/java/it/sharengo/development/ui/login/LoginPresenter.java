@@ -4,6 +4,7 @@ package it.sharengo.development.ui.login;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
@@ -20,6 +21,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
 
     private static final String TAG = LoginPresenter.class.getSimpleName();
 
+    private final AppRepository mAppRepository;
     private final UserRepository mUserRepository;
     private final PreferencesRepository mPreferencesRepository;
     private Observable<ResponseReservation> mReservationsRequest;
@@ -32,13 +34,16 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
 
 
     public LoginPresenter(SchedulerProvider schedulerProvider,
+                          AppRepository appRepository,
                           UserRepository userRepository,
                           PreferencesRepository preferencesRepository) {
         super(schedulerProvider);
 
         mUserRepository = userRepository;
         mPreferencesRepository = preferencesRepository;
-        //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
+        mAppRepository = appRepository;
+
+        mAppRepository.selectMenuItem(MenuItem.Section.LOGIN);
     }
 
 

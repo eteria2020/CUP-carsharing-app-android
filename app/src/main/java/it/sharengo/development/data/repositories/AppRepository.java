@@ -15,6 +15,7 @@ public class AppRepository {
     public static final String TAG = AppRepository.class.getSimpleName();
 
     private boolean animateHome = true;
+    private MenuItem.Section menuSelection;
 
     @Inject
     public AppRepository() {
@@ -57,5 +58,13 @@ public class AppRepository {
 
     public void setAnimateHome(boolean animate){
         animateHome = animate;
+    }
+
+    public void selectMenuItem(MenuItem.Section selected){
+        menuSelection = selected;
+    }
+
+    public MenuItem.Section getSelectMenuItem(){
+        return menuSelection;
     }
 }

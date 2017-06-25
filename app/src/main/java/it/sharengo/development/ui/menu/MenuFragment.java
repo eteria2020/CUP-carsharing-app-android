@@ -100,8 +100,12 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
 
     @OnClick(R.id.profileButton)
     public void onProfileClick(){
-        Navigator.launchProfile(this);
-        getActivity().finish();
+        ((BaseDrawerActivity) getActivity()).closeRightDrawerFrame();
+
+        if(mPresenter.getMenuSelection() != MenuItem.Section.PROFILE) {
+            Navigator.launchProfile(this);
+            getActivity().finish();
+        }
     }
     
 
@@ -121,6 +125,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
 
             profileButton.setVisibility(View.VISIBLE);
             scoreTextView.setText("+75");
+            scoreTextView.setVisibility(View.GONE);
         }else{
             welcomeTextView.setText(getString(R.string.menu_welcome));
 
@@ -144,7 +149,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
     
     private void startActivityDelayed(final MenuItem menuItem) {
         
-        if(menuItem.selected) {
+        if(menuItem.section == mPresenter.getMenuSelection()) {
             return;
         }
         
@@ -163,7 +168,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                         mPresenter.logout(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
                         break;
                     case SIGNUP:
-                        Navigator.launchSignup(MenuFragment.this);
+                        Navigator.launchSlideshow(MenuFragment.this);
                         break;
                     case BOOKING:
                         Navigator.launchMap(MenuFragment.this);

@@ -86,7 +86,7 @@ public class MvpFragmentModule {
     }
 
     @Provides
-    MapPresenter provideMapPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider,
+    MapPresenter provideMapPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository,
                                      PostRepository postRepository, CarRepository carRepository,
                                      AddressRepository addressRepository, PreferencesRepository preferencesRepository,
                                      UserRepository userRepository) {
@@ -95,25 +95,26 @@ public class MvpFragmentModule {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new MapPresenter(schedulerProvider, postRepository, carRepository, addressRepository, preferencesRepository, userRepository);
+            presenter = new MapPresenter(schedulerProvider, appRepository, postRepository, carRepository, addressRepository, preferencesRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    TripEndPresenter provideTripEndPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+    TripEndPresenter provideTripEndPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
         TripEndPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new TripEndPresenter(schedulerProvider);
+            presenter = new TripEndPresenter(schedulerProvider, appRepository);
         }
         return presenter;
     }
 
     @Provides
     LoginPresenter provideLoginPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider,
+                                         AppRepository appRepository,
                                          UserRepository userRepository,
                                          PreferencesRepository preferencesRepository) {
         LoginPresenter presenter = null;
@@ -121,55 +122,56 @@ public class MvpFragmentModule {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new LoginPresenter(schedulerProvider, userRepository, preferencesRepository);
+            presenter = new LoginPresenter(schedulerProvider, appRepository, userRepository, preferencesRepository);
         }
         return presenter;
     }
 
     @Provides
-    ProfilePresenter provideProfilePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+    ProfilePresenter provideProfilePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider,
+                                             AppRepository appRepository) {
         ProfilePresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new ProfilePresenter(schedulerProvider);
+            presenter = new ProfilePresenter(schedulerProvider, appRepository);
         }
         return presenter;
     }
 
     @Provides
-    SlideshowPresenter provideSlideshowPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+    SlideshowPresenter provideSlideshowPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
         SlideshowPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SlideshowPresenter(schedulerProvider);
+            presenter = new SlideshowPresenter(schedulerProvider, appRepository);
         }
         return presenter;
     }
 
     @Provides
-    PasswordRecoveryPresenter providePasswordRecoveryPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+    PasswordRecoveryPresenter providePasswordRecoveryPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
         PasswordRecoveryPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new PasswordRecoveryPresenter(schedulerProvider);
+            presenter = new PasswordRecoveryPresenter(schedulerProvider, appRepository);
         }
         return presenter;
     }
 
     @Provides
-    SignupPresenter provideSignupPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+    SignupPresenter provideSignupPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
         SignupPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SignupPresenter(schedulerProvider);
+            presenter = new SignupPresenter(schedulerProvider, appRepository);
         }
         return presenter;
     }

@@ -15,6 +15,7 @@ import java.util.TimerTask;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Address;
 import it.sharengo.development.data.models.Car;
+import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.Post;
 import it.sharengo.development.data.models.Reservation;
 import it.sharengo.development.data.models.Response;
@@ -26,6 +27,7 @@ import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.data.models.User;
 import it.sharengo.development.data.repositories.AddressRepository;
+import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
@@ -42,6 +44,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     private static final String TAG = MapPresenter.class.getSimpleName();
 
+    private final AppRepository mAppRepository;
     private final PostRepository mPostRepository;
     private final CarRepository mCarRepository;
     private final AddressRepository mAddressRepository;
@@ -94,6 +97,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
 
     public MapPresenter(SchedulerProvider schedulerProvider,
+                        AppRepository appRepository,
                         PostRepository postRepository,
                         CarRepository carRepository,
                         AddressRepository addressRepository,
@@ -105,8 +109,9 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         mAddressRepository = addressRepository;
         mPreferencesRepository = preferencesRepository;
         mUserRepository = userRepository;
+        mAppRepository = appRepository;
 
-        //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
+        mAppRepository.selectMenuItem(MenuItem.Section.BOOKING);
 
     }
 
@@ -927,7 +932,17 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     private void checkCarReservationResult(){
         if(mResponseReservationCar.reason.isEmpty() && mResponseReservationCar.data != null){
-            getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0));
+
+            //mResponseReservation.reservations.get(0).length = 700;
+
+            long unixTime = System.currentTimeMillis() / 1000L;
+            int diffTime = (int) (unixTime - mResponseReservation.reservations.get(0).timestamp_start);
+
+
+            if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0)
+                getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0));
+            else
+                getMvpView().removeReservationInfo();
         }else{
             getMvpView().removeReservationInfo();
         }

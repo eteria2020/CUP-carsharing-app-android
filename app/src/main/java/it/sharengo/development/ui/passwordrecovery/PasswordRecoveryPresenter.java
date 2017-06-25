@@ -1,6 +1,7 @@
 package it.sharengo.development.ui.passwordrecovery;
 
 
+import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
@@ -9,11 +10,16 @@ public class PasswordRecoveryPresenter extends BasePresenter<PasswordRecoveryMvp
 
     private static final String TAG = PasswordRecoveryPresenter.class.getSimpleName();
 
+    private final AppRepository mAppRepository;
 
-    public PasswordRecoveryPresenter(SchedulerProvider schedulerProvider) {
+
+    public PasswordRecoveryPresenter(SchedulerProvider schedulerProvider,
+                                     AppRepository appRepository) {
         super(schedulerProvider);
 
-        //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
+        mAppRepository = appRepository;
+
+        mAppRepository.selectMenuItem(MenuItem.Section.NONE);
     }
 
 

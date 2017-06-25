@@ -1223,7 +1223,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     int sec = (int) (millisUntilFinished / 1000 % 60);
                     String mnStr = (mn<10 ? "0" : "")+mn;
                     String secStr = (sec<10 ? "0" : "")+sec;
-                    //timingBookin = mnStr+":"+secStr;
+
+                    if(mnStr.equals("00") && secStr.equals("01")){
+                        removeReservationInfo();
+                        countDownTimer.cancel();
+                        return;
+                    }
 
                     if(getActivity() != null)
                     expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), mnStr+":"+secStr)));
@@ -1239,7 +1244,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
             timerTripDuration = new Timer();
 
-            Log.w("tripTimestampStart",": "+tripTimestampStart);
 
             timerTripDuration.schedule(new TimerTask() {
                 @Override
