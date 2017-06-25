@@ -28,6 +28,7 @@ public class CarRepository {
     private Response mCachedCar;
     private ResponseCar mCachedReservationCar;
     private List<Car> mCachedPlate;
+    private Car carSelected;
 
     @Inject
     public CarRepository(SharengoDataSource remoteDataSource) {
@@ -182,6 +183,21 @@ public class CarRepository {
                         });
             }
         };
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              SET / GET car selected (popover)
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void setCarSelected(Car cs){
+        carSelected = cs;
+    }
+
+    public Car getCarSelected(){
+        return carSelected;
     }
 
 }

@@ -137,6 +137,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
         loadPlates();
 
+        loadCarpopup();
+
         if(!mUserRepository.getCachedUser().username.isEmpty())
             getReservations(false);
 
@@ -209,6 +211,11 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     public boolean isAuth(){
         if(!mUserRepository.getCachedUser().username.isEmpty()) return true;
         return false;
+    }
+
+    private void loadCarpopup(){
+        if(mCarRepository.getCarSelected() != null)
+            getMvpView().openPreselectedCarPopup(mCarRepository.getCarSelected());
     }
 
 
@@ -986,6 +993,17 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         }
 
         //getTrips(true);
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              SET car selected (popover)
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void setCarSelected(Car cs){
+        mCarRepository.setCarSelected(cs);
     }
 }
 

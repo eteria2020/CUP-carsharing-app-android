@@ -58,14 +58,14 @@ public class MvpFragmentModule {
     @Provides
     HomePresenter provideHomePresenter(PresenterManager presenterManager,
                                        SchedulerProvider schedulerProvider,
-                                       //AppRepository appRepository,
+                                       AppRepository appRepository,
                                        UserRepository userRepository) {
         HomePresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new HomePresenter(schedulerProvider, userRepository);
+            presenter = new HomePresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }

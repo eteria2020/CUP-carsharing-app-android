@@ -74,14 +74,21 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
             welcomeTextView.setText(getString(R.string.home_welcome_label));
         }
 
-        //Animazioni
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setAnimations();
-            }
-        }, 800);
+        //Animo la home solo all'apertura dell'applicazione
+        if(mPresenter.animateHome()) {
+            //Animazioni
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setAnimations();
+                }
+            }, 800);
+
+            mPresenter.setAnimateHome(false);
+        }else{
+            showElements();
+        }
 
         return view;
     }
@@ -90,6 +97,27 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     public void onResume() {
         super.onResume();
 
+    }
+
+    private void showElements(){
+
+        circleView.setAlpha(1.0f);
+        searchCarsButton.setAlpha(1.0f);
+        profileUserButton.setAlpha(1.0f);
+        unknownButton.setAlpha(1.0f);
+        welcomeTextView.setAlpha(1.0f);
+
+        homeView.post(new Runnable() {
+            @Override
+            public void run() {
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) circleView.getLayoutParams();
+                layoutParams.height = homeView.getWidth() - 350;
+                layoutParams.width = homeView.getWidth() - 350;
+                layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+                circleView.setLayoutParams(layoutParams);
+
+                setButtonPosition();
+        }});
 
 
     }
@@ -145,15 +173,19 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
                 }
             });
 
-            searchCarsButton.setX((float) (circleView.getX() + searchCarsButton.getWidth() * 0.35));
-            searchCarsButton.setY((float) (circleView.getY() - (homeView.getWidth() - 350) / 2 + searchCarsButton.getHeight() * 0.35));
-
-            profileUserButton.setX((float) (circleView.getX() + (homeView.getWidth() - 350) * 0.435 + profileUserButton.getWidth() * 0.35));
-            profileUserButton.setY((float) (circleView.getY() + (homeView.getWidth() - 350) * 0.225 + profileUserButton.getHeight() * 0.35));
-
-            unknownButton.setX((float) (circleView.getX() - (homeView.getWidth() - 350) * 0.435 + unknownButton.getWidth() * 0.35));
-            unknownButton.setY((float) (circleView.getY() + (homeView.getWidth() - 350) * 0.225 + unknownButton.getHeight() * 0.35));
+            setButtonPosition();
         }
+    }
+
+    private void setButtonPosition(){
+        searchCarsButton.setX((float) (circleView.getX() + searchCarsButton.getWidth() * 0.35));
+        searchCarsButton.setY((float) (circleView.getY() - (homeView.getWidth() - 350) / 2 + searchCarsButton.getHeight() * 0.35));
+
+        profileUserButton.setX((float) (circleView.getX() + (homeView.getWidth() - 350) * 0.435 + profileUserButton.getWidth() * 0.35));
+        profileUserButton.setY((float) (circleView.getY() + (homeView.getWidth() - 350) * 0.225 + profileUserButton.getHeight() * 0.35));
+
+        unknownButton.setX((float) (circleView.getX() - (homeView.getWidth() - 350) * 0.435 + unknownButton.getWidth() * 0.35));
+        unknownButton.setY((float) (circleView.getY() + (homeView.getWidth() - 350) * 0.225 + unknownButton.getHeight() * 0.35));
     }
 
     private void setButtonAnimation(){

@@ -14,6 +14,8 @@ public class AppRepository {
 
     public static final String TAG = AppRepository.class.getSimpleName();
 
+    private boolean animateHome = true;
+
     @Inject
     public AppRepository() {
         
@@ -47,5 +49,13 @@ public class AppRepository {
         menuItems.add(new MenuItem(MenuItem.Section.LOGOUT));
 
         return Observable.just(menuItems);
+    }
+
+    public boolean animateHome(){
+        return animateHome;
+    }
+
+    public void setAnimateHome(boolean animate){
+        animateHome = animate;
     }
 }

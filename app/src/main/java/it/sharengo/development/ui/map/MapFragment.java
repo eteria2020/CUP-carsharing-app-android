@@ -140,6 +140,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private int tripTimestampStart = 0;
     private Reservation reservation;
     private Trip trip;
+    private Car carPreSelected;
 
     private float currentRotation = 0f;
     private float co2 = 0f;
@@ -462,6 +463,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @Override
     public void onLocationChanged(Location location) {
 
+        Log.w("INIT","onLocationChanged");
+
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
 
         //userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
@@ -515,6 +518,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         pinUser = new OverlayItem("Title", "Description", userLocation);
 
         enabledCenterMap(true);
+
+        if(carPreSelected != null){
+            mMapView.getController().setCenter(new GeoPoint(carPreSelected.latitude, carPreSelected.longitude));
+            mMapView.getController().zoomIn();
+            showPopupCar(carPreSelected);
+        }
     }
 
     @Override
@@ -529,6 +538,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @Override
     public void onProviderDisabled(String s) {
+
+        Log.w("INIT","onProviderDisabled");
+
         userLocation = null;
 
         if (!hasInit){
@@ -545,6 +557,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         }
         enabledCenterMap(false);
+
+        if(carPreSelected != null){
+            mMapView.getController().setCenter(new GeoPoint(carPreSelected.latitude, carPreSelected.longitude));
+            mMapView.getController().zoomIn();
+            showPopupCar(carPreSelected);
+        }
 
         //hasInit = true;
     }
@@ -898,6 +916,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             @Override
             public void onClick(View view) {
                 cdd.dismissAlert();
+                mPresenter.setCarSelected(carSelected);
                 Navigator.launchLogin(MapFragment.this, Navigator.REQUEST_LOGIN_MAPS);
                 getActivity().finish();
             }
@@ -1220,6 +1239,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
             timerTripDuration = new Timer();
 
+            Log.w("tripTimestampStart",": "+tripTimestampStart);
+
             timerTripDuration.schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -1229,7 +1250,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
                             long unixTime = System.currentTimeMillis() / 1000L;
                             int diffTime = (int) (unixTime - tripTimestampStart) * 1000;
-
+                            Log.w("unixTime",": "+unixTime);
+                            Log.w("diffTime",": "+diffTime);
 
                             int hh = (int) (diffTime / 1000 / 60 / 60);
                             int mn = (int) (diffTime / 1000 / 60 % 60);
@@ -1385,6 +1407,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @OnClick(R.id.closePopupButton)
     public void onClosePopup() {
+        mPresenter.setCarSelected(null);
         popupCarView.animate().translationY(popupCarView.getHeight());
     }
 
@@ -1781,6 +1804,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         co2 = ((float) diffTime)/60/60*17*106;  //((minuti÷60)×17)×106
 
         ((MapActivity) getActivity()).showNotification(String.format(getString(R.string.tripend_notification_label), diffTime/60), mNotificationListener);
+    }
+
+    @Override
+    public void openPreselectedCarPopup(Car car){
+        Log.w("INIT","openPreselectedCarPopup");
+        carPreSelected = car;
     }
 
 
