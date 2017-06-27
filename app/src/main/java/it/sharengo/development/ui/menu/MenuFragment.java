@@ -79,7 +79,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
         lm.setSmoothScrollbarEnabled(false);
         mRv.setLayoutManager(lm);
         mRv.setAdapter(mAdapter);
-        mRv.addItemDecoration(new DividerItemDecoration(mRv.getContext(), lm.getOrientation()));
+        //mRv.addItemDecoration(new DividerItemDecoration(mRv.getContext(), lm.getOrientation()));
         
         return view;
     }

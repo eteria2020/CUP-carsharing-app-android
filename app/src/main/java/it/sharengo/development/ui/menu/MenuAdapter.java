@@ -53,22 +53,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_menu_item, parent, false);
 
-        int welcomeHeight = (int) (parent.getResources().getDimension(R.dimen.hdx_toolbarHeight));
 
-        Display display = mActivity.getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int heightW = size.y;
-
-        int result = 0;
-        int resourceId = parent.getContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = parent.getContext().getResources().getDimensionPixelSize(resourceId);
-        }
-
-        int height = (int) (heightW - result - welcomeHeight - 10 * mActivity.getResources().getDisplayMetrics().density);;
-
-        v.setLayoutParams(new RecyclerView.LayoutParams(parent.getWidth(), (height / mData.size())));
+        v.setLayoutParams(new RecyclerView.LayoutParams(parent.getWidth(), (parent.getHeight() / 9)));
         return new ViewHolder(v);
     }
 

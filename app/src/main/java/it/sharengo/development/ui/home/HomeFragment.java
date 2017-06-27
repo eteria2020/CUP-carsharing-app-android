@@ -32,6 +32,9 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     private static final String TAG = HomeFragment.class.getSimpleName();
     private static final int mRequestPermission = 1;
 
+    int sizeCircleView = 0;
+    int marginCircle = 0;
+
     @BindView(R.id.circleView)
     View circleView;
 
@@ -74,6 +77,8 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
             welcomeTextView.setText(getString(R.string.home_welcome_label));
         }
 
+        marginCircle = (int) (60 * getResources().getDisplayMetrics().density);
+
         //Animo la home solo all'apertura dell'applicazione
         if(mPresenter.animateHome()) {
             //Animazioni
@@ -110,9 +115,13 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         homeView.post(new Runnable() {
             @Override
             public void run() {
+
+                if(homeView.getWidth() < homeView.getHeight()) sizeCircleView = homeView.getWidth();
+                else sizeCircleView = homeView.getHeight();
+
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) circleView.getLayoutParams();
-                layoutParams.height = homeView.getWidth() - 350;
-                layoutParams.width = homeView.getWidth() - 350;
+                layoutParams.height = sizeCircleView - marginCircle;
+                layoutParams.width = sizeCircleView - marginCircle;
                 layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
                 circleView.setLayoutParams(layoutParams);
 
@@ -148,12 +157,15 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
             });
         }
 
-        //(int) (200 * getResources().getDisplayMetrics().density)
     }
 
     private void setCircleAnimatio(){
         if(homeView != null) {
-            ResizeAnimation resizeAnimation = new ResizeAnimation(circleView, homeView.getWidth() - 350, homeView.getWidth() - 350);
+
+            if(homeView.getWidth() < homeView.getHeight()) sizeCircleView = homeView.getWidth();
+            else sizeCircleView = homeView.getHeight();
+
+            ResizeAnimation resizeAnimation = new ResizeAnimation(circleView, sizeCircleView - marginCircle, sizeCircleView - marginCircle); //homeView.getWidth() - 350, homeView.getWidth() - 350
             resizeAnimation.setDuration(600);
             circleView.startAnimation(resizeAnimation);
             resizeAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -178,14 +190,15 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     }
 
     private void setButtonPosition(){
+
         searchCarsButton.setX((float) (circleView.getX() + searchCarsButton.getWidth() * 0.35));
-        searchCarsButton.setY((float) (circleView.getY() - (homeView.getWidth() - 350) / 2 + searchCarsButton.getHeight() * 0.35));
+        searchCarsButton.setY(0);
 
-        profileUserButton.setX((float) (circleView.getX() + (homeView.getWidth() - 350) * 0.435 + profileUserButton.getWidth() * 0.35));
-        profileUserButton.setY((float) (circleView.getY() + (homeView.getWidth() - 350) * 0.225 + profileUserButton.getHeight() * 0.35));
+        profileUserButton.setX((float) (circleView.getX() + (sizeCircleView) * 0.33 + profileUserButton.getWidth() * 0.35));
+        profileUserButton.setY((float) (circleView.getY() + (sizeCircleView) * 0.225 + profileUserButton.getHeight() * 0.35));
 
-        unknownButton.setX((float) (circleView.getX() - (homeView.getWidth() - 350) * 0.435 + unknownButton.getWidth() * 0.35));
-        unknownButton.setY((float) (circleView.getY() + (homeView.getWidth() - 350) * 0.225 + unknownButton.getHeight() * 0.35));
+        unknownButton.setX((float) (circleView.getX() - (sizeCircleView) * 0.33 + unknownButton.getWidth() * 0.35));
+        unknownButton.setY((float) (circleView.getY() + (sizeCircleView) * 0.225 + unknownButton.getHeight() * 0.35));
     }
 
     private void setButtonAnimation(){
