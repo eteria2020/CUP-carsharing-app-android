@@ -147,6 +147,9 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
                 case 406:
                     errorString = R.string.login_wrongpassword_alert;
                     break;
+                default:
+                    errorString = R.string.error_msg_conversion;
+                    break;
             }
 
             //Mostro un messaggio di errore

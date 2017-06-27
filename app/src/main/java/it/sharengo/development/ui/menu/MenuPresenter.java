@@ -64,7 +64,7 @@ public class MenuPresenter extends BasePresenter<MenuMvpView> {
 
             //Mostro un menu diverso in base se l'utente è loggato oppure no
             //Utente non loggato
-            if(mUserRepository.getCachedUser().username.isEmpty()) {
+            if(mUserRepository.getCachedUser() == null || mUserRepository.getCachedUser().username.isEmpty()) {
 
                 mMenuRequest = mAppRepository.getMenu()
                         .compose(this.<List<MenuItem>>handleDataRequest())
