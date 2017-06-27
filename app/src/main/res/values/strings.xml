@@ -102,6 +102,7 @@
     <string name="login_emptyfields_alert">Uno o più campi non sono compilati.</string>
     <string name="login_wrongemail_alert">Attenzione! L\'indirizzo email che hai inserito non è presente nel nostro database.</string>
     <string name="login_wrongpassword_alert">Attenzione! Password errata.</string>
+    <string name="login_userdisabled_alert">Attenzione! L\'utente non è abilitato per l\'accesso.</string>
     
     <string name="signup_title_label">Iscriviti a Share\'ngo</string>
     <string name="signup_description_label">L\'iscrizione al servizio costa 10 euro con 30 minuti bonus (condizioni standard, salvo promozioni). Se serve aiuto durante l\'iscrizione usa il pulsante chat!</string>
