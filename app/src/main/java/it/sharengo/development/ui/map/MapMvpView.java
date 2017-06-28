@@ -23,5 +23,6 @@ public interface MapMvpView extends MvpView {
     void removeReservationInfo();
     void openTripEnd(int timestamp);
     void openNotification(int start, int end);
+    void openReservationNotification();
     void openPreselectedCarPopup(Car car);
 }

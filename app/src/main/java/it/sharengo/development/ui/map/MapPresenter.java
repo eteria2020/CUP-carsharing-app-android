@@ -82,6 +82,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private List<Post> mPosts;
     private boolean hideLoading;
     private boolean isTripExists;
+    private boolean isBookingExists;
     private int timestamp_start;
 
     /*
@@ -139,6 +140,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     void viewCreated() {
 
         isTripExists = false;
+        isBookingExists = false;
 
         loadPlates();
 
@@ -668,6 +670,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
         hideLoading = false;
 
+        isBookingExists = false;
+
         if( mReservationRequest == null) {
             mReservationRequest = buildDeleteReservationRequest(id);
             addSubscription(mReservationRequest.unsafeSubscribe(getDeleteReservationSubscriber()));
@@ -816,8 +820,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                 isTripExists = false;
 
                 getMvpView().openNotification(timestamp_start, (int) (System.currentTimeMillis() / 1000L));
-                timerTask1min.cancel();
-                timer.cancel();
+                //timerTask1min.cancel();
+                //timer.cancel();
             }
             getMvpView().removeTripInfo();
         }
@@ -872,9 +876,14 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
         if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
             loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
+
+            isBookingExists = true;
         }else{
             //getMvpView().removeReservationInfo();
-
+            if(isBookingExists){
+                isBookingExists = false;
+                getMvpView().openReservationNotification();
+            }
             getTrips(true);
         }
     }
@@ -941,8 +950,10 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
             if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0)
                 getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0));
-            else
+            else {
+                getMvpView().openReservationNotification();
                 getMvpView().removeReservationInfo();
+            }
         }else{
             getMvpView().removeReservationInfo();
         }

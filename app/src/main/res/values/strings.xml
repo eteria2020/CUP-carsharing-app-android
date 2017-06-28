@@ -82,6 +82,7 @@
     <string name="booking_alreadybookedcar_alert">Non puoi prenotare questa auto fino a che non saranno passate 4 ore da quando hai annullato la prenotazione</string>
     <string name="booking_durationtrip_label">Durata corsa:</string>
     <string name="booking_tripactive_label">Corsa attiva</string>
+    <string name="booking_timeend_label">Il tempo di prenotazione è scaduto, la tua prenotazione è stata annullata. Prenota un\'altra auto in mappa</string>
 
     <string name="tripend_title_label">Hai completato il tuo noleggio</string>
     <string name="tripend_text1_label">Attendi la chiusura delle portiere fuori dell\'auto.</string>

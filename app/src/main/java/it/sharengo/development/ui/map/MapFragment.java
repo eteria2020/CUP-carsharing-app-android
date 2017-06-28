@@ -1151,7 +1151,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     private void openDoors(){
 
-        /*if(carSelected != null){
+        if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
                 if(getDistance(carSelected) <= 50){ //TODO: valore a 50
@@ -1181,10 +1181,11 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 });
 
             }
-        }*/
-        //Procediamo con le schermate successive
-        onClosePopup();
-        mPresenter.openDoor(carSelected, "open");
+        }
+
+        //Procediamo con le schermate successive TODO
+        //onClosePopup();
+        //mPresenter.openDoor(carSelected, "open");
     }
 
 
@@ -1803,7 +1804,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
 
         int diffTime = (int) (end - start);
-        Log.w("diffTime",": "+diffTime);
 
         co2 = ((float) diffTime)/60/60*17*106;  //((minuti÷60)×17)×106
 
@@ -1811,8 +1811,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
 
     @Override
+    public void openReservationNotification(){
+
+        ((MapActivity) getActivity()).showNotification(getString(R.string.booking_timeend_label), null);
+    }
+
+    @Override
     public void openPreselectedCarPopup(Car car){
-        Log.w("INIT","openPreselectedCarPopup");
         carPreSelected = car;
     }
 
