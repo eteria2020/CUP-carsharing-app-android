@@ -25,6 +25,7 @@ import it.sharengo.development.R;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.development.ui.map.MapActivity;
 import it.sharengo.development.ui.map.MapFragment;
 
 public class HomeFragment extends BaseMvpFragment<HomePresenter> implements HomeMvpView {
@@ -34,6 +35,14 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
     int sizeCircleView = 0;
     int marginCircle = 0;
+    private float co2 = 0f;
+
+    private View.OnClickListener mNotificationListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Navigator.launchTripEnd(HomeFragment.this, co2);
+        }
+    };
 
     @BindView(R.id.circleView)
     View circleView;
@@ -273,6 +282,13 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         }
     }
 
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+
+        mPresenter.viewDestroy();
+    }
+
 
     ////////////////////////////////////
     //
@@ -324,6 +340,22 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     //         MVP
     //
     ////////////////////////////////////
+    @Override
+    public void openNotification(int start, int end){
+
+
+        int diffTime = (int) (end - start);
+
+        co2 = ((float) diffTime)/60/60*17*106;  //((minuti÷60)×17)×106
+
+        ((HomeActivity) getActivity()).showNotification(String.format(getString(R.string.tripend_notification_label), diffTime/60), mNotificationListener);
+    }
+
+    @Override
+    public void openReservationNotification(){
+
+        ((HomeActivity) getActivity()).showNotification(getString(R.string.booking_timeend_label), null);
+    }
 
 
 

@@ -278,7 +278,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //setUpMap();
 
-        carSelected = null;
+        //carSelected = null;
 
         //Rotate animation - refresh button
         anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);

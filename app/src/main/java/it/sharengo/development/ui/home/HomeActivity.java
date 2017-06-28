@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 
 import it.sharengo.development.R;
 import it.sharengo.development.ui.base.activities.BaseActivity;
@@ -35,6 +36,11 @@ public class HomeActivity extends BaseDrawerActivity {
         inflater.inflate(menuToUse, menu);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void showNotification(String notification, View.OnClickListener mNotificationListener){
+        super.showNotification(notification, mNotificationListener);
     }
 }
 

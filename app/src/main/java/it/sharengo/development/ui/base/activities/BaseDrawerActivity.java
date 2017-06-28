@@ -259,6 +259,8 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
             @Override
             public void run() {
                 notificationView.animate().translationY(-500);
+                notificationView.setOnClickListener(null);
+                notificationView.setVisibility(View.GONE);
             }
         }, 10000);
     }
