@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import it.sharengo.development.R;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 
@@ -40,6 +41,10 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @OnClick(R.id.backImageView)
+    public void onBackClick(){
+        getActivity().finish();
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

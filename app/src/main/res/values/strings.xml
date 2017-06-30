@@ -130,4 +130,12 @@
     <string name="settings_address_action">Imposta i tuoi indirizzi preferiti</string>
     <string name="settings_lang_action">Imposta lingua</string>
 
+    <!-- Settings - City -->
+    <string name="settingscities_title_label">Imposta città</string>
+
+    <!-- Settings - Address -->
+    <string name="settingsaddress_title_label">Imposta indirizzi preferiti</string>
+
+    <!-- Settings - Lang -->
+    <string name="settingslang_title_label">Imposta lingua</string>
 </resources>
