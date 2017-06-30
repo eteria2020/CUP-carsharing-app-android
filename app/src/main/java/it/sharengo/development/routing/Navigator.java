@@ -12,6 +12,10 @@ import it.sharengo.development.ui.longintro.LongIntroActivity;
 import it.sharengo.development.ui.map.MapActivity;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryActivity;
 import it.sharengo.development.ui.profile.ProfileActivity;
+import it.sharengo.development.ui.settingcities.SettingsCitiesActivity;
+import it.sharengo.development.ui.settings.SettingsActivity;
+import it.sharengo.development.ui.settingsaddresses.SettingsAddressesActivity;
+import it.sharengo.development.ui.settingslang.SettingsLangActivity;
 import it.sharengo.development.ui.shortintro.ShortIntroActivity;
 import it.sharengo.development.ui.signup.SignupActivity;
 import it.sharengo.development.ui.slideshow.SlideshowActivity;
@@ -72,6 +76,30 @@ public class Navigator {
 
     public static void launchProfile(Fragment fragment) {
         Intent intent = ProfileActivity.getCallingIntent(fragment.getActivity());
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchSettings(Fragment fragment) {
+        Intent intent = SettingsActivity.getCallingIntent(fragment.getActivity());
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchSettingsCities(Fragment fragment) {
+        Intent intent = SettingsCitiesActivity.getCallingIntent(fragment.getActivity());
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchSettingsAddresses(Fragment fragment) {
+        Intent intent = SettingsAddressesActivity.getCallingIntent(fragment.getActivity());
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchSettingsLang(Fragment fragment) {
+        Intent intent = SettingsLangActivity.getCallingIntent(fragment.getActivity());
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }

@@ -184,6 +184,9 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                     case BOOKING:
                         Navigator.launchMap(MenuFragment.this);
                         break;
+                    case SETTINGS:
+                        Navigator.launchSettings(MenuFragment.this);
+                        break;
                 }
             }
         }, 300);

@@ -19,6 +19,10 @@ import it.sharengo.development.ui.home.HomePresenter;
 import it.sharengo.development.ui.menu.MenuPresenter;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryPresenter;
 import it.sharengo.development.ui.profile.ProfilePresenter;
+import it.sharengo.development.ui.settingcities.SettingsCitiesPresenter;
+import it.sharengo.development.ui.settings.SettingsPresenter;
+import it.sharengo.development.ui.settingsaddresses.SettingsAddressesPresenter;
+import it.sharengo.development.ui.settingslang.SettingsLangPresenter;
 import it.sharengo.development.ui.shortintro.ShortIntroPresenter;
 import it.sharengo.development.ui.signup.SignupPresenter;
 import it.sharengo.development.ui.slideshow.SlideshowPresenter;
@@ -196,6 +200,54 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new ShortIntroPresenter(schedulerProvider);
+        }
+        return presenter;
+    }
+
+    @Provides
+    SettingsPresenter provideSettingsPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+        SettingsPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new SettingsPresenter(schedulerProvider);
+        }
+        return presenter;
+    }
+
+    @Provides
+    SettingsCitiesPresenter provideSettingsCitiesPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+        SettingsCitiesPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new SettingsCitiesPresenter(schedulerProvider);
+        }
+        return presenter;
+    }
+
+    @Provides
+    SettingsLangPresenter provideSettingsLangPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+        SettingsLangPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new SettingsLangPresenter(schedulerProvider, appRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    SettingsAddressesPresenter provideSettingsAddressesPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+        SettingsAddressesPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new SettingsAddressesPresenter(schedulerProvider, appRepository);
         }
         return presenter;
     }

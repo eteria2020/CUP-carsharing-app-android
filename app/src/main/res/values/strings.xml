@@ -124,6 +124,10 @@
     <string name="home_welcome_label">Benvenuto!</string>
     <string name="home_welcomeauth_label">Bentornato %s!</string>
 
-
+    <!-- Settings -->
+    <string name="settings_title_label">Impostazioni</string>
+    <string name="settings_city_action">Imposta città</string>
+    <string name="settings_address_action">Imposta i tuoi indirizzi preferiti</string>
+    <string name="settings_lang_action">Imposta lingua</string>
 
 </resources>

@@ -60,12 +60,24 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.longintro.LongIntroActivity"
-            android:theme="@style/IntroTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/IntroTheme" />
         <activity
             android:name=".ui.shortintro.ShortIntroActivity"
-            android:theme="@style/IntroTheme"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/IntroTheme" />
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.settingcities.SettingsCitiesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.settingslang.SettingsLangActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.settingsaddresses.SettingsAddressesActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

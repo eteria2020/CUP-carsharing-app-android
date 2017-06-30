@@ -10,6 +10,10 @@ import it.sharengo.development.ui.home.HomeFragment;
 import it.sharengo.development.ui.menu.MenuFragment;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryFragment;
 import it.sharengo.development.ui.profile.ProfileFragment;
+import it.sharengo.development.ui.settingcities.SettingsCitiesFragment;
+import it.sharengo.development.ui.settings.SettingsFragment;
+import it.sharengo.development.ui.settingsaddresses.SettingsAddressesFragment;
+import it.sharengo.development.ui.settingslang.SettingsLangFragment;
 import it.sharengo.development.ui.shortintro.ShortIntroFragment;
 import it.sharengo.development.ui.signup.SignupFragment;
 import it.sharengo.development.ui.slideshow.SlideshowFragment;
@@ -44,4 +48,12 @@ public interface MvpFragmentComponent {
     void inject(LongIntroFragment fragment);
 
     void inject(ShortIntroFragment fragment);
+
+    void inject(SettingsFragment fragment);
+
+    void inject(SettingsCitiesFragment fragment);
+
+    void inject(SettingsLangFragment fragment);
+
+    void inject(SettingsAddressesFragment fragment);
 }
