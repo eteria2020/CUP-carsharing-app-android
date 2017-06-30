@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import it.sharengo.development.data.datasources.api.CitiesApi;
 import it.sharengo.development.data.datasources.api.JsonPlaceholderApi;
 import it.sharengo.development.data.datasources.api.SharengoApi;
 import it.sharengo.development.data.datasources.api.SharengoMapApi;
@@ -27,6 +28,12 @@ public class DataSourceModule {
     @Singleton
     SharengoMapDataSource provideSharengoMapRemoteDataSource(SharengoMapApi api) {
         return new SharengoMapRetrofitDataSource(api);
+    }
+
+    @Provides
+    @Singleton
+    CitiesDataSource provideCitiesRemoteDataSource(CitiesApi api) {
+        return new CitiesRetrofitDataSource(api);
     }
     
 }

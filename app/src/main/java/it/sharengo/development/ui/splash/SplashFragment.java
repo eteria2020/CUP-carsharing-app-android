@@ -69,7 +69,7 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
         });
         mSplashContent.startAnimation(anim);
 
-        mPresenter.loadData(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
+        mPresenter.loadData(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE), getContext());
     }
 
     @Override

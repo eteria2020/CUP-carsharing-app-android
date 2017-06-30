@@ -1,13 +1,21 @@
 package it.sharengo.development.data.repositories;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import it.sharengo.development.R;
+import it.sharengo.development.data.datasources.CitiesDataSource;
+import it.sharengo.development.data.models.City;
 import it.sharengo.development.data.models.MenuItem;
+import it.sharengo.development.data.models.ResponseCity;
+import okhttp3.Credentials;
 import rx.Observable;
+import rx.functions.Action1;
 
 @Singleton
 public class AppRepository {
@@ -17,9 +25,12 @@ public class AppRepository {
     private boolean animateHome = true;
     private MenuItem.Section menuSelection;
 
+    private CitiesDataSource mCitiesDataSource;
+    private List<City> mChachedCities;
+
     @Inject
-    public AppRepository() {
-        
+    public AppRepository(CitiesDataSource citiesDataSource) {
+        this.mCitiesDataSource = citiesDataSource;
     }
 
     public Observable<List<MenuItem>> getMenu() {
@@ -66,5 +77,32 @@ public class AppRepository {
 
     public MenuItem.Section getSelectMenuItem(){
         return menuSelection;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              GET Cities
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Observable<ResponseCity> getCities(Context context) {
+
+        return mCitiesDataSource.getCities(Credentials.basic(context.getString(R.string.endpointCitiesUser),context.getString(R.string.endpointCitiesPass)))
+                .doOnNext(new Action1<ResponseCity>() {
+                    @Override
+                    public void call(ResponseCity response) {
+
+                        createOrUpdateCitiesInMemory(response);
+                    }
+                });
+    }
+
+    private void createOrUpdateCitiesInMemory(ResponseCity response) {
+        if (mChachedCities == null) {
+            mChachedCities = new ArrayList<City>();
+        }
+        mChachedCities = response.data;
+
     }
 }

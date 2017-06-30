@@ -1,6 +1,7 @@
 package it.sharengo.development.ui.settingsaddresses;
 
 
+import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
@@ -15,7 +16,8 @@ public class SettingsAddressesPresenter extends BasePresenter<SettingsAddressesM
     public SettingsAddressesPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository) {
         super(schedulerProvider);
         mAppRepository = appRepository;
-        //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
+
+        mAppRepository.selectMenuItem(MenuItem.Section.SETTINGS);
     }
 
 

@@ -1,38 +1,44 @@
 package it.sharengo.development.ui.splash;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.concurrent.TimeUnit;
 
+import it.sharengo.development.data.models.ResponseCity;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
+import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
+import it.sharengo.development.injection.ApplicationContext;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.utils.StringsUtils;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class SplashPresenter extends BasePresenter<SplashMvpView> {
 
     private final PreferencesRepository mPreferencesRepository;
     private final UserRepository mUserRepository;
+    private final AppRepository mAppRepository;
 
     private Observable<Object> mSplashRequest;
     private Observable<ResponseUser> mUserRequest;
     private Observable<ResponseReservation> mReservationsRequest;
     private Observable<ResponseTrip> mTripsRequest;
+    private Observable<ResponseCity> mCityRequest;
 
-    public SplashPresenter(SchedulerProvider schedulerProvider, PreferencesRepository preferencesRepository, UserRepository userRepository) {
+    private Context mContext;
+
+    public SplashPresenter(SchedulerProvider schedulerProvider, PreferencesRepository preferencesRepository, UserRepository userRepository, AppRepository appRepository) {
         super(schedulerProvider);
         mPreferencesRepository = preferencesRepository;
         mUserRepository = userRepository;
+        mAppRepository = appRepository;
     }
 
     @Override
@@ -52,7 +58,9 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
         return true;
     }
 
-    public void loadData(SharedPreferences mPref) {
+    public void loadData(SharedPreferences mPref, Context context) {
+
+        mContext = context;
 
         Log.w("LOAD","DATA");
 
@@ -208,7 +216,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        getMvpView().navigateToHome();
+                        getCities();
                     }
                 });
     }
@@ -230,6 +238,52 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             @Override
             public void onNext(ResponseTrip response) {
                 Log.w("Trip",": "+response.reason);
+            }
+        };
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Cities
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    void getCities(){
+        if( mCityRequest == null) {
+            mCityRequest = buildCitiesRequest();
+            addSubscription(mCityRequest.unsafeSubscribe(getCitiesSubscriber()));
+        }
+    }
+
+    private Observable<ResponseCity> buildCitiesRequest() {
+        return mCityRequest = mAppRepository.getCities(mContext)
+                .first()
+                .compose(this.<ResponseCity>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        getMvpView().navigateToHome();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseCity> getCitiesSubscriber(){
+        return new Subscriber<ResponseCity>() {
+            @Override
+            public void onCompleted() {
+                mCityRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mCityRequest = null;
+                Log.w("Cities",": error");
+                getMvpView().navigateToHome();
+            }
+
+            @Override
+            public void onNext(ResponseCity response) {
+                Log.w("Cities",": "+response.status);
             }
         };
     }

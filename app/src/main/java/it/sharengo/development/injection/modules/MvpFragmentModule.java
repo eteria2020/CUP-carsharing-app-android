@@ -48,13 +48,13 @@ public class MvpFragmentModule {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Provides
-    SplashPresenter provideSplashPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, PreferencesRepository preferencesRepository, UserRepository userRepository) {
+    SplashPresenter provideSplashPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, PreferencesRepository preferencesRepository, UserRepository userRepository, AppRepository appRepository) {
         SplashPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SplashPresenter(schedulerProvider, preferencesRepository, userRepository);
+            presenter = new SplashPresenter(schedulerProvider, preferencesRepository, userRepository, appRepository);
         }
         return presenter;
     }
@@ -205,25 +205,25 @@ public class MvpFragmentModule {
     }
 
     @Provides
-    SettingsPresenter provideSettingsPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+    SettingsPresenter provideSettingsPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
         SettingsPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SettingsPresenter(schedulerProvider);
+            presenter = new SettingsPresenter(schedulerProvider, appRepository);
         }
         return presenter;
     }
 
     @Provides
-    SettingsCitiesPresenter provideSettingsCitiesPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+    SettingsCitiesPresenter provideSettingsCitiesPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
         SettingsCitiesPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SettingsCitiesPresenter(schedulerProvider);
+            presenter = new SettingsCitiesPresenter(schedulerProvider, appRepository);
         }
         return presenter;
     }

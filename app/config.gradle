@@ -23,8 +23,10 @@ android {
         prod {
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
             resValue "string", "endpointSharengo", "https://api.sharengo.it:8023/v2/"
-            resValue "string", "endpointSharengoAuth", "https://%s:%s@api.sharengo.it:8023/v2/"
             resValue "string", "endpointSharengoMaps", "http://maps.sharengo.it/"
+            resValue "string", "endpointCities", "http://universo-sharengo.thedigitalproject.it/feed/cities/list/"
+            resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
+            resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
         }
     }
 }
