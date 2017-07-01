@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.City;
+import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -91,6 +92,7 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @OnClick(R.id.backImageView)
     public void onBackClick(){
+        Navigator.launchSettings(this);
         getActivity().finish();
     }
 

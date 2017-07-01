@@ -1,15 +1,17 @@
 package it.sharengo.development.ui.splash;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,7 +75,8 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
     }
 
     @Override
-    public void navigateToHome() {
+    public void navigateToHome(String lang) {
+        
 
         //Se è il primo accesso, mostro il login
         if(mPresenter.isFirstAccess(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE))){

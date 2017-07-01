@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 import it.sharengo.development.R;
+import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 
 
@@ -36,5 +37,11 @@ public class SettingsAddressesActivity extends BaseDrawerActivity {
         inflater.inflate(menuToUse, menu);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Navigator.launchSettings(this);
+        super.onBackPressed();
     }
 }

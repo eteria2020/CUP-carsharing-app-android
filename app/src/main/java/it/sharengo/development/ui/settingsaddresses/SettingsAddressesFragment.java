@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.development.R;
+import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 
 
@@ -43,6 +44,7 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @OnClick(R.id.backImageView)
     public void onBackClick(){
+        Navigator.launchSettings(this);
         getActivity().finish();
     }
 

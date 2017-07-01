@@ -5,6 +5,7 @@
     <string name="mystore_password">oi8dmf0</string>
     <string name="preference_file_key">sharengopreference</string>
     <string name="preference_citiesfavourites">citiesfavourites</string>
+    <string name="preference_lang">lang</string>
     
     <!--LABELS-->
     <string name="ok">OK</string>
@@ -139,4 +140,6 @@
 
     <!-- Settings - Lang -->
     <string name="settingslang_title_label">Imposta lingua</string>
+    <string name="settingslang_it_label">Italiano</string>
+    <string name="settingslang_en_label">Inglese</string>
 </resources>

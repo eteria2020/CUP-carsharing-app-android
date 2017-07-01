@@ -2,10 +2,14 @@ package it.sharengo.development.ui.splash;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import it.sharengo.development.R;
 import it.sharengo.development.data.models.ResponseCity;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
@@ -13,7 +17,6 @@ import it.sharengo.development.data.models.ResponseUser;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.injection.ApplicationContext;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
@@ -62,17 +65,16 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
 
         mContext = context;
 
-        Log.w("LOAD","DATA");
+
+        //Recupero la lingua impostata
+        mAppRepository.putLang(mPref.getString(context.getString(R.string.preference_lang), "it"));
+
 
         //Recupero le credenziali dell'utente (se salvate)
-
-        Log.w("user1",": "+mPreferencesRepository.getFirstAccess(mPref));
-
         mUserRepository.saveUserCredentials(mPreferencesRepository.getUsername(mPref), mPreferencesRepository.getPassword(mPref));
 
         if(mSplashRequest == null) {
 
-            Log.w("user2",": "+mUserRepository.getCachedUser().username);
             if(!mUserRepository.getCachedUser().username.isEmpty()) { //Utente loggato
                 //Recupero le informazioni dell'utente
                 getUser();
@@ -86,7 +88,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                         .doOnCompleted(new Action0() {
                             @Override
                             public void call() {
-                                getMvpView().navigateToHome();
+                                getMvpView().navigateToHome(mAppRepository.getLang());
                             }
                         });
 
@@ -109,7 +111,6 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void getUser(){
-        Log.w("getUser","GET");
         if( mUserRequest == null) {
             mUserRequest = buildUserRequest();
             addSubscription(mUserRequest.unsafeSubscribe(getUserSubscriber()));
@@ -141,7 +142,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             public void onError(Throwable e) {
                 mUserRequest = null;
                 Log.w("User",": error");
-                getMvpView().navigateToHome();
+                getMvpView().navigateToHome(mAppRepository.getLang());
             }
 
             @Override
@@ -187,7 +188,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             public void onError(Throwable e) {
                 mReservationsRequest = null;
                 Log.w("Reservation",": error");
-                getMvpView().navigateToHome();
+                getMvpView().navigateToHome(mAppRepository.getLang());
             }
 
             @Override
@@ -232,7 +233,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             public void onError(Throwable e) {
                 mTripsRequest = null;
                 Log.w("Trip",": error");
-                getMvpView().navigateToHome();
+                getMvpView().navigateToHome(mAppRepository.getLang());
             }
 
             @Override
@@ -262,7 +263,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        getMvpView().navigateToHome();
+                        getMvpView().navigateToHome(mAppRepository.getLang());
                     }
                 });
     }
@@ -278,7 +279,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             public void onError(Throwable e) {
                 mCityRequest = null;
                 Log.w("Cities",": error");
-                getMvpView().navigateToHome();
+                getMvpView().navigateToHome(mAppRepository.getLang());
             }
 
             @Override

@@ -32,6 +32,7 @@ public class AppRepository {
     private List<City> mChachedCities;
 
     private City mCityPreference;
+    private String mLang;
 
     @Inject
     public AppRepository(CitiesDataSource citiesDataSource) {
@@ -123,5 +124,13 @@ public class AppRepository {
 
     public City getCityPreference(){
         return mCityPreference;
+    }
+
+    public void putLang(String lang){
+        mLang = lang;
+    }
+
+    public String getLang(){
+        return mLang;
     }
 }

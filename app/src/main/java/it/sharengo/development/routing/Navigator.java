@@ -21,6 +21,8 @@ import it.sharengo.development.ui.signup.SignupActivity;
 import it.sharengo.development.ui.slideshow.SlideshowActivity;
 import it.sharengo.development.ui.tripend.TripEndActivity;
 
+import static android.R.attr.fragment;
+
 public class Navigator {
 
     /**
@@ -84,6 +86,12 @@ public class Navigator {
         Intent intent = SettingsActivity.getCallingIntent(fragment.getActivity());
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
+    }
+
+    public static void launchSettings(Activity activity) {
+        Intent intent = SettingsActivity.getCallingIntent(activity);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        activity.startActivity(intent);
     }
 
     public static void launchSettingsCities(Fragment fragment) {
