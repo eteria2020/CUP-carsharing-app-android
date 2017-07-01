@@ -22,15 +22,32 @@
             android:padding="1dp"
             android:background="@drawable/btn_bkg_darkpastelgreen" />
 
-        <it.sharengo.development.ui.components.CustomTextView
-            android:id="@+id/nameTextview"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:font_name="poppinsBold"
-            android:textColor="@color/mediumseagreen"
-            android:textSize="12sp"
-            android:textAlignment="center"/>
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/checkImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-25dp"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"
+                android:src="@drawable/ic_citta_selezionata"/>
+
+            <it.sharengo.development.ui.components.CustomTextView
+                android:id="@+id/nameTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:font_name="poppinsBold"
+                android:textColor="@color/mediumseagreen"
+                android:textSize="12sp"
+                android:textAlignment="center"/>
+            
+        </LinearLayout>
 
     </LinearLayout>
 

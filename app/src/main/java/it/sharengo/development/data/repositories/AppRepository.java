@@ -1,6 +1,7 @@
 package it.sharengo.development.data.repositories;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ import okhttp3.Credentials;
 import rx.Observable;
 import rx.functions.Action1;
 
+import static android.content.Context.MODE_PRIVATE;
+
 @Singleton
 public class AppRepository {
 
@@ -27,6 +30,8 @@ public class AppRepository {
 
     private CitiesDataSource mCitiesDataSource;
     private List<City> mChachedCities;
+
+    private City mCityPreference;
 
     @Inject
     public AppRepository(CitiesDataSource citiesDataSource) {
@@ -86,23 +91,32 @@ public class AppRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Observable<ResponseCity> getCities(Context context) {
+    public Observable<ResponseCity> getCities(final Context context) {
 
         return mCitiesDataSource.getCities(Credentials.basic(context.getString(R.string.endpointCitiesUser),context.getString(R.string.endpointCitiesPass)))
                 .doOnNext(new Action1<ResponseCity>() {
                     @Override
                     public void call(ResponseCity response) {
 
-                        createOrUpdateCitiesInMemory(response);
+                        createOrUpdateCitiesInMemory(context, response);
                     }
                 });
     }
 
-    private void createOrUpdateCitiesInMemory(ResponseCity response) {
+    private void createOrUpdateCitiesInMemory(Context context, ResponseCity response) {
         if (mChachedCities == null) {
             mChachedCities = new ArrayList<City>();
         }
         mChachedCities = response.data;
+
+        SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
+        for(City mCity : mChachedCities){
+            if(mPref.getString(context.getString(R.string.preference_file_key),"").equals(mCity.id)){
+                mCity.favourites = true;
+            }else{
+                mCity.favourites = false;
+            }
+        }
 
     }
 }

@@ -23,6 +23,7 @@ public class SettingsCitiesPresenter extends BasePresenter<SettingsCitiesMvpView
     private final AppRepository mAppRepository;
 
     private Observable<ResponseCity> mCityRequest;
+    private boolean hideLoading;
 
     private List<City> mCitiesList;
 
@@ -50,8 +51,18 @@ public class SettingsCitiesPresenter extends BasePresenter<SettingsCitiesMvpView
         }
     }
 
+    @Override
+    protected boolean showCustomLoading() {
+        if(hideLoading)
+            return true;
+        else
+            return super.showCustomLoading();
+    }
+
 
     public void loadList(Context context) {
+
+        hideLoading = true;
 
         if( mCityRequest == null) {
             mCityRequest = buildCitiesRequest(context);

@@ -71,6 +71,9 @@ public class SettingsCitiesAdapter extends RecyclerView.Adapter<SettingsCitiesAd
         @BindView(R.id.cityView)
         ViewGroup cityView;
 
+        @BindView(R.id.checkImageView)
+        ImageView checkImageView;
+
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
@@ -79,6 +82,12 @@ public class SettingsCitiesAdapter extends RecyclerView.Adapter<SettingsCitiesAd
         public void render(City city) {
             nameTextview.setText(city.name);
             ImageUtils.loadImage(iconImageView, city.media.images.icon.uri);
+
+            if(city.favourites){
+                checkImageView.setVisibility(View.VISIBLE);
+            }else{
+                checkImageView.setVisibility(View.GONE);
+            }
 
             if(getAdapterPosition() % 2 == 0){
                 cityView.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.white));

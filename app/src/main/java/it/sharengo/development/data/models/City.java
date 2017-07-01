@@ -12,6 +12,7 @@ public class City {
     public String name;
     public Media media;
     public Information informations;
+    public boolean favourites;
 
     public City() {
     }

@@ -1,5 +1,6 @@
 package it.sharengo.development.ui.settingcities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,12 +16,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.City;
-import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 
-import static it.sharengo.development.R.id.profileButton;
-import static it.sharengo.development.R.id.scoreTextView;
-import static it.sharengo.development.R.id.welcomeTextView;
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresenter> implements SettingsCitiesMvpView {
@@ -75,6 +73,13 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
     private SettingsCitiesAdapter.OnItemActionListener mActionListener = new SettingsCitiesAdapter.OnItemActionListener() {
         @Override
         public void onItemClick(City city) {
+
+            SharedPreferences mPref = getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+            SharedPreferences.Editor editor = mPref.edit();
+            editor.putString(getString(R.string.preference_file_key), city.id);
+            editor.commit();
+
+            mPresenter.loadList(getContext());
         }
     };
 
