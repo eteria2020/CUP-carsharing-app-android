@@ -6,6 +6,7 @@ import android.util.Log;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import it.sharengo.development.data.models.City;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
@@ -125,6 +126,10 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
 
     public void setAnimateHome(boolean animate){
         mAppRepository.setAnimateHome(animate);
+    }
+
+    public City getCityPreference(){
+        return mAppRepository.getCityPreference();
     }
 
 

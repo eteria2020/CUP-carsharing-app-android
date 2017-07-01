@@ -60,12 +60,12 @@
             android:background="@drawable/btn_bkg_darkpastelgreen"/>
 
         <ImageView
-            android:id="@+id/unknownButton"
+            android:id="@+id/cityButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_milano"
+            android:src="@drawable/ic_imposta_citta"
             android:padding="15dp"
             android:alpha="0.0"
             android:background="@drawable/btn_bkg_homegrey"/>

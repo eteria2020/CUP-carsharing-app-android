@@ -22,11 +22,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.development.R;
+import it.sharengo.development.data.models.City;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.map.MapActivity;
-import it.sharengo.development.ui.map.MapFragment;
+import it.sharengo.development.utils.ImageUtils;
 
 public class HomeFragment extends BaseMvpFragment<HomePresenter> implements HomeMvpView {
 
@@ -56,8 +56,8 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     @BindView(R.id.profileUserButton)
     ImageView profileUserButton;
 
-    @BindView(R.id.unknownButton)
-    ImageView unknownButton;
+    @BindView(R.id.cityButton)
+    ImageView cityButton;
 
     @BindView(R.id.welcomeTextView)
     TextView welcomeTextView;
@@ -87,6 +87,16 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         }
 
         marginCircle = (int) (60 * getResources().getDisplayMetrics().density);
+
+
+        //Modifico l'icona della città in base alle preferenze dell'utente
+        City favouritesCity = mPresenter.getCityPreference();
+        if(favouritesCity != null){
+            ImageUtils.loadImage(cityButton, favouritesCity.media.images.icon.uri);
+            int padding = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
+            cityButton.setPadding(padding,padding,padding,padding);
+        }
+
 
         //Animo la home solo all'apertura dell'applicazione
         if(mPresenter.animateHome()) {
@@ -118,7 +128,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         circleView.setAlpha(1.0f);
         searchCarsButton.setAlpha(1.0f);
         profileUserButton.setAlpha(1.0f);
-        unknownButton.setAlpha(1.0f);
+        cityButton.setAlpha(1.0f);
         welcomeTextView.setAlpha(1.0f);
 
         homeView.post(new Runnable() {
@@ -206,14 +216,14 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         profileUserButton.setX((float) (circleView.getX() + (sizeCircleView) * 0.33 + profileUserButton.getWidth() * 0.35));
         profileUserButton.setY((float) (circleView.getY() + (sizeCircleView) * 0.225 + profileUserButton.getHeight() * 0.35));
 
-        unknownButton.setX((float) (circleView.getX() - (sizeCircleView) * 0.33 + unknownButton.getWidth() * 0.35));
-        unknownButton.setY((float) (circleView.getY() + (sizeCircleView) * 0.225 + unknownButton.getHeight() * 0.35));
+        cityButton.setX((float) (circleView.getX() - (sizeCircleView) * 0.33 + cityButton.getWidth() * 0.35));
+        cityButton.setY((float) (circleView.getY() + (sizeCircleView) * 0.225 + cityButton.getHeight() * 0.35));
     }
 
     private void setButtonAnimation(){
         profileUserButton.animate().alpha(1.0f).setDuration(500).start();
         searchCarsButton.animate().alpha(1.0f).setDuration(500).start();
-        unknownButton.animate().alpha(1.0f).setDuration(500).start();
+        cityButton.animate().alpha(1.0f).setDuration(500).start();
 
         welcomeTextView.animate().alpha(1.0f).setDuration(500).start();
     }
@@ -318,7 +328,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
     }
 
-    @OnClick(R.id.unknownButton)
+    @OnClick(R.id.cityButton)
     public void onUnknownClick(){
         final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                 getString(R.string.general_notenabled_alert),

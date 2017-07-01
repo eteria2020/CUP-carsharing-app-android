@@ -113,10 +113,15 @@ public class AppRepository {
         for(City mCity : mChachedCities){
             if(mPref.getString(context.getString(R.string.preference_file_key),"").equals(mCity.id)){
                 mCity.favourites = true;
+                mCityPreference = mCity;
             }else{
                 mCity.favourites = false;
             }
         }
 
+    }
+
+    public City getCityPreference(){
+        return mCityPreference;
     }
 }
