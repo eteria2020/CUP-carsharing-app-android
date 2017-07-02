@@ -149,6 +149,17 @@ public class SettingsAddressesPresenter extends BasePresenter<SettingsAddressesM
             getMvpView().showList(historicItems);
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              EDIT  favourite
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void editFavourite(SharedPreferences mPref, SearchItem searchItem, String name, String address){
+        mPreferencesRepository.editSearchResultOnFavourites(mPref, searchItem, name, address);
+        getHistoric(mContext, pref);
+    }
 }
 
 

@@ -2,6 +2,7 @@ package it.sharengo.development.data.repositories;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -10,7 +11,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -173,6 +173,25 @@ public class PreferencesRepository {
         List<SearchItem> results = getHistoricList(mPrefs);
 
         results.add(searchItem);
+
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+
+        Type fooType = new TypeToken<List<SearchItem>>() {}.getType();
+        Gson gson = new Gson();
+        String json = gson.toJson(results, fooType);
+        prefsEditor.putString("SearchHistoric", json);
+        prefsEditor.commit();
+    }
+
+    public void editSearchResultOnFavourites(SharedPreferences mPrefs, SearchItem searchItem, String name, String address){
+        List<SearchItem> results = getHistoricList(mPrefs);
+
+        for(SearchItem rI : results){
+            if(rI.display_name.equals(searchItem.display_name) && rI.name.equals(searchItem.name)){
+                rI.name = name;
+                rI.display_name = address;
+            }
+        }
 
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
 

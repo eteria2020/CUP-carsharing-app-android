@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -29,6 +30,8 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
 
     private SettingsAddressesAdapter mAdapter;
 
+    private SearchItem searchItemSelected;
+
     @BindView(R.id.addressLayout)
     ViewGroup addressLayout;
 
@@ -43,6 +46,12 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
 
     @BindView(R.id.editTitleTextView)
     TextView editTitleTextView;
+
+    @BindView(R.id.addressEditText)
+    EditText addressEditText;
+
+    @BindView(R.id.nameEditText)
+    EditText nameEditText;
 
     public static SettingsAddressesFragment newInstance() {
         SettingsAddressesFragment fragment = new SettingsAddressesFragment();
@@ -95,13 +104,20 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
     };
 
     public void setAddFavorite(SearchItem searchItem){
+        searchItemSelected = searchItem;
+
         editTitleTextView.setText(getString(R.string.settingsaddress_addtitle_label));
         editLayout.setVisibility(View.VISIBLE);
     }
 
     public void setEditFavorite(SearchItem searchItem){
-        Log.w("searchItem",": "+searchItem.display_name);
+        searchItemSelected = searchItem;
+
         editTitleTextView.setText(getString(R.string.settingsaddress_edittitle_label));
+
+        addressEditText.setText(searchItem.display_name);
+        nameEditText.setText(searchItem.name);
+
         editLayout.setVisibility(View.VISIBLE);
     }
 
@@ -125,6 +141,16 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
         Navigator.launchSettingsAddressesNew(this);
     }
 
+    @OnClick(R.id.okSaveButton)
+    public void onOkSaveClick(){
+        if(searchItemSelected != null){
+            mPresenter.editFavourite(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE),
+                    searchItemSelected,
+                    nameEditText.getText().toString().trim(),
+                    addressEditText.getText().toString().trim());
+        }
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Mvp Methods
@@ -136,6 +162,9 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
     }
 
     public void showList(List<SearchItem> searchItems){
+
+        editLayout.setVisibility(View.GONE);
+
         mAdapter.setData(searchItems);
         addressLayout.setVisibility(View.GONE);
         addressListLayout.setVisibility(View.VISIBLE);

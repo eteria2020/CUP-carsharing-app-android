@@ -36,30 +36,13 @@
             app:font_name="poppinsRegular"
             android:text="@string/settingsaddress_edittitle_label"/>
 
-        <!-- Indirizzo -->
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/addressInputLayout"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            style="@style/form_inputlayout"
-            app:font_name="poppinsRegular">
-
-            <it.sharengo.development.ui.components.CustomEditText
-                android:id="@+id/addressEditText"
-                style="@style/form_input"
-                app:font_name="poppinsRegular"
-                android:inputType="text"
-                android:hint="@string/settingsaddress_editname_label"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-        <!-- Indirizzo -->
+        <!-- Nome -->
         <android.support.design.widget.TextInputLayout
             android:id="@+id/nameInputLayout"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            style="@style/form_inputlayout"
+            android:layout_marginTop="20dp"
+            style="@style/form_inputlayoutwhite"
             app:font_name="poppinsRegular">
 
             <it.sharengo.development.ui.components.CustomEditText
@@ -67,6 +50,29 @@
                 style="@style/form_input"
                 app:font_name="poppinsRegular"
                 android:inputType="text"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                android:hint="@string/settingsaddress_editname_label"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Indirizzo -->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/addressInputLayout"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            style="@style/form_inputlayoutwhite"
+            android:textColorHint="@color/white"
+            app:font_name="poppinsRegular">
+
+            <it.sharengo.development.ui.components.CustomEditText
+                android:id="@+id/addressEditText"
+                style="@style/form_input"
+                app:font_name="poppinsRegular"
+                android:inputType="text"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
                 android:hint="@string/settingsaddress_editaddress_label"/>
 
         </android.support.design.widget.TextInputLayout>
@@ -74,6 +80,7 @@
 
         <!-- Ok Button -->
         <it.sharengo.development.ui.components.CustomButton
+            android:id="@+id/okSaveButton"
             style="@style/button_primary"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
