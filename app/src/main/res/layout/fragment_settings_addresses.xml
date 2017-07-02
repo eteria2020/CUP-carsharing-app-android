@@ -44,5 +44,6 @@
 
     <!-- Modal -->
     <include layout="@layout/view_addresses_edit" />
+    <include layout="@layout/view_addresses_delete" />
 
 </RelativeLayout>

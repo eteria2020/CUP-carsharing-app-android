@@ -44,6 +44,9 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
     @BindView(R.id.editLayout)
     ViewGroup editLayout;
 
+    @BindView(R.id.deleteLayout)
+    ViewGroup deleteLayout;
+
     @BindView(R.id.editTitleTextView)
     TextView editTitleTextView;
 
@@ -52,6 +55,12 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
 
     @BindView(R.id.nameEditText)
     EditText nameEditText;
+
+    @BindView(R.id.nameDeleteTextView)
+    TextView nameDeleteTextView;
+
+    @BindView(R.id.addressDeleteTextView)
+    TextView addressDeleteTextView;
 
     public static SettingsAddressesFragment newInstance() {
         SettingsAddressesFragment fragment = new SettingsAddressesFragment();
@@ -123,11 +132,17 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
     }
 
     public void setDeleteFavorite(SearchItem searchItem){
+        searchItemSelected = searchItem;
 
+        nameDeleteTextView.setText(searchItem.name);
+        addressDeleteTextView.setText(searchItem.display_name);
+
+        deleteLayout.setVisibility(View.VISIBLE);
     }
 
     private void closeModal(){
         editLayout.setVisibility(View.GONE);
+        deleteLayout.setVisibility(View.GONE);
         addressEditText.setText("");
         nameEditText.setText("");
     }
@@ -184,8 +199,19 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
         }
     }
 
+    @OnClick(R.id.deleteButton)
+    public void onDeleteButton(){
+        mPresenter.deleteFavourite(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE),
+                searchItemSelected);
+    }
+
     @OnClick(R.id.closeButton)
     public void onCloseClick(){
+        closeModal();
+    }
+
+    @OnClick(R.id.closeDeleteButton)
+    public void onCloseDeleteClick(){
         closeModal();
     }
 
@@ -195,6 +221,9 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void showEmptyResult(){
+
+        closeModal();
+
         addressLayout.setVisibility(View.VISIBLE);
         addressListLayout.setVisibility(View.GONE);
     }

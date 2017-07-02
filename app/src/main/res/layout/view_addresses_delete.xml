@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/deleteLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:layout_margin="20dp"
+        android:background="#000000"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <!-- Title -->
+        <it.sharengo.development.ui.components.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            app:font_name="poppinsRegular"
+            android:text="@string/settingsaddress_deletetitle_label"/>
+
+        <!-- Nome -->
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/nameDeleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            app:font_name="poppinsBold"/>
+
+        <!-- Indirizzo -->
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/addressDeleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            app:font_name="poppinsRegular"/>
+
+
+        <!-- Ok Button -->
+        <it.sharengo.development.ui.components.CustomButton
+            android:id="@+id/deleteButton"
+            style="@style/button_primary"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/settingsaddress_editdelete_label"/>
+
+        <!-- Cancel Button -->
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/closeDeleteButton"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginTop="15dp"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            app:font_name="poppinsBold"
+            android:text="@string/settingsaddress_editcancel_label"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

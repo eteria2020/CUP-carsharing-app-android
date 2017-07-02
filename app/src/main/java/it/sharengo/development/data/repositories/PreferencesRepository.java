@@ -224,6 +224,29 @@ public class PreferencesRepository {
         prefsEditor.commit();
     }
 
+    public void deleteSearchResultOnFavourites(SharedPreferences mPrefs, SearchItem searchItem){
+        List<SearchItem> results = getHistoricList(mPrefs);
+
+        int i = 0;
+        int find = 0;
+        for(SearchItem rI : results){
+            if(rI.display_name.equals(searchItem.display_name) && rI.name.equals(searchItem.name)){
+                find = i;
+            }
+            i++;
+        }
+
+        results.remove(find);
+
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+
+        Type fooType = new TypeToken<List<SearchItem>>() {}.getType();
+        Gson gson = new Gson();
+        String json = gson.toJson(results, fooType);
+        prefsEditor.putString("SearchHistoric", json);
+        prefsEditor.commit();
+    }
+
     private List<SearchItem> getHistoricList(SharedPreferences mPrefs){
 
         List<SearchItem> results = new ArrayList<SearchItem>();
