@@ -107,6 +107,7 @@
                 android:layout_weight="0.1"/>
 
             <it.sharengo.development.ui.components.CustomButton
+                android:id="@+id/saveButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -114,13 +115,15 @@
                 style="@style/button_primary"
                 android:text="@string/settingsaddressnew_save_action" />
 
-            <it.sharengo.development.ui.components.CustomEditText
+            <it.sharengo.development.ui.components.CustomTextView
+                android:id="@+id/cancelButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:textSize="12sp"
                 android:textColor="@color/darkjunglegreen"
                 android:textAlignment="center"
+                android:imeOptions="actionDone"
                 app:font_name="poppinsBold"
                 android:text="@string/settingsaddressnew_cancel_action" />
 

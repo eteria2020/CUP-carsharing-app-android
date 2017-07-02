@@ -11,7 +11,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +36,7 @@ import it.sharengo.development.R;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.ui.map.MapSearchListAdapter;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -50,8 +50,6 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
 
     private View view;
     private boolean searchViewOpen = false;
-    private SearchItem currentSearchItem;
-    private boolean searchItemSelected = false;
 
     private MapSearchListAdapter mAdapter;
     private MapSearchListAdapter.OnItemActionListener mActionListener = new MapSearchListAdapter.OnItemActionListener() {
@@ -68,6 +66,12 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
             setKeyboardListener();
         }
     };
+
+    @BindView(R.id.addressEditText)
+    EditText addressEditText;
+
+    @BindView(R.id.nameEditText)
+    EditText nameEditText;
 
     @BindView(R.id.searchView)
     ViewGroup searchView;
@@ -155,6 +159,31 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
         }
     }
 
+    private void checkFormValidation(){
+        String address  = addressEditText.getText().toString().trim();
+        String name     = nameEditText.getText().toString().trim();
+
+        //Verifico se tutti i campi sono compilati
+        if(address.isEmpty() || name.isEmpty()){
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(R.string.settingsaddressnew_empty_error),
+                    getString(R.string.ok),
+                    null);
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                }
+            });
+            return;
+        }
+
+        //Se è tutto ok procedo con il salvataggio
+        mPresenter.saveFavourite(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE), new SearchItem(name, address, "favorite"));
+        getActivity().finish();
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Ricerca
@@ -191,8 +220,6 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
 
     //Metodo richiamato quando viene scritto qualcosa nella casella di ricerca
     private void initMapSearch(){
-
-        currentSearchItem = null;
 
         String searchMapText = searchEditText.getText().toString();
 
@@ -248,13 +275,11 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
     private void clearSearch(){
         searchViewOpen = false;
 
-        if(currentSearchItem == null) {
-            //Pulisco la Edittext
-            searchEditText.setText("");
+        //Pulisco la Edittext
+        searchEditText.setText("");
 
-            //Setto il contenuto di default
-            setSearchDefaultContent();
-        }
+        //Setto il contenuto di default
+        setSearchDefaultContent();
     }
 
     private void setSearchDefaultContent(){
@@ -280,14 +305,8 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
     private void setSearchItemSelected(SearchItem searchItem){
         hideSoftKeyboard();
 
-        //Fai qualcosa TODO
-
-        currentSearchItem = searchItem;
-
-
         //Inserisco nella casella di testo il valore cercato
-        searchItemSelected = true;
-        searchEditText.setText(searchItem.display_name);
+        addressEditText.setText(searchItem.display_name);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -313,9 +332,7 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
                 new TimerTask() {
                     @Override
                     public void run() {
-                        if(!searchItemSelected)
-                            initMapSearch();
-                        else searchItemSelected = false;
+                        initMapSearch();
                     }
                 },
                 DELAY
@@ -330,14 +347,26 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
     @OnFocusChange(R.id.addressEditText)
     @OnClick(R.id.addressEditText)
     public void onAddressClick(){
-        if(searchEditText.getText().toString().trim().length() > 0){
+        if(addressEditText.isFocused()) {
+            if (addressEditText.getText().toString().trim().length() > 0) {
 
-        }else {
+            } else {
 
-            //hideSoftKeyboard();
-            searchView.setVisibility(View.VISIBLE);
-            searchMapResultView.setVisibility(View.VISIBLE);
+                //hideSoftKeyboard();
+                searchView.setVisibility(View.VISIBLE);
+                searchMapResultView.setVisibility(View.VISIBLE);
+            }
         }
+    }
+
+    @OnClick(R.id.saveButton)
+    public void onSaveClick(){
+        checkFormValidation();
+    }
+
+    @OnClick(R.id.cancelButton)
+    public void onCancelClick(){
+        getActivity().finish();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

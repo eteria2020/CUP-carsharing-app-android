@@ -9,6 +9,7 @@ import static android.R.attr.id;
 public class SearchItem {
 
     public String display_name;
+    public String name;
     public String type;
     public float longitude;
     public float latitude;
@@ -27,6 +28,12 @@ public class SearchItem {
     }
 
     public SearchItem(String display_name, String type){
+        this.display_name = display_name;
+        this.type = type;
+    }
+
+    public SearchItem(String name, String display_name, String type){
+        this.name = name;
         this.display_name = display_name;
         this.type = type;
     }

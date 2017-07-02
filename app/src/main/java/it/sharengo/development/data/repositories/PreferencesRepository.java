@@ -157,6 +157,20 @@ public class PreferencesRepository {
         }
     }
 
+    public void saveSearchResultOnFavourites(SharedPreferences mPrefs, SearchItem searchItem){
+        List<SearchItem> results = getHistoricList(mPrefs);
+
+        results.add(searchItem);
+
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+
+        Type fooType = new TypeToken<List<SearchItem>>() {}.getType();
+        Gson gson = new Gson();
+        String json = gson.toJson(results, fooType);
+        prefsEditor.putString("SearchHistoric", json);
+        prefsEditor.commit();
+    }
+
     private List<SearchItem> getHistoricList(SharedPreferences mPrefs){
 
         List<SearchItem> results = new ArrayList<SearchItem>();
