@@ -38,10 +38,4 @@ public class SettingsLangActivity extends BaseDrawerActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
-
-    @Override
-    public void onBackPressed() {
-        Navigator.launchSettings(this);
-        super.onBackPressed();
-    }
 }

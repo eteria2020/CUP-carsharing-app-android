@@ -15,13 +15,12 @@ import it.sharengo.development.ui.profile.ProfileActivity;
 import it.sharengo.development.ui.settingcities.SettingsCitiesActivity;
 import it.sharengo.development.ui.settings.SettingsActivity;
 import it.sharengo.development.ui.settingsaddresses.SettingsAddressesActivity;
+import it.sharengo.development.ui.settingsaddressesnew.SettingsAddressesNewActivity;
 import it.sharengo.development.ui.settingslang.SettingsLangActivity;
 import it.sharengo.development.ui.shortintro.ShortIntroActivity;
 import it.sharengo.development.ui.signup.SignupActivity;
 import it.sharengo.development.ui.slideshow.SlideshowActivity;
 import it.sharengo.development.ui.tripend.TripEndActivity;
-
-import static android.R.attr.fragment;
 
 public class Navigator {
 
@@ -46,18 +45,21 @@ public class Navigator {
 
     public static void launchHome(Activity activity) {
         Intent intent = HomeActivity.getCallingIntent(activity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         activity.startActivity(intent);
     }
 
     public static void launchHome(Fragment fragment) {
         Intent intent = HomeActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
 
     public static void launchLogin(Fragment fragment, int type) {
         Intent intent = LoginActivity.getCallingIntent(fragment.getActivity(), type);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         intent.putExtra(EXTRA_LOGIN, type);
         fragment.startActivity(intent);
@@ -65,12 +67,14 @@ public class Navigator {
 
     public static void launchMap(Fragment fragment) {
         Intent intent = MapActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
 
     public static void launchTripEnd(Fragment fragment, float co2) {
         Intent intent = TripEndActivity.getCallingIntent(fragment.getActivity(), co2);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
         fragment.getActivity().finish();
@@ -78,18 +82,21 @@ public class Navigator {
 
     public static void launchProfile(Fragment fragment) {
         Intent intent = ProfileActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
 
     public static void launchSettings(Fragment fragment) {
         Intent intent = SettingsActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
 
     public static void launchSettings(Activity activity) {
         Intent intent = SettingsActivity.getCallingIntent(activity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         activity.startActivity(intent);
     }
@@ -106,6 +113,12 @@ public class Navigator {
         fragment.startActivity(intent);
     }
 
+    public static void launchSettingsAddressesNew(Fragment fragment) {
+        Intent intent = SettingsAddressesNewActivity.getCallingIntent(fragment.getActivity());
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
     public static void launchSettingsLang(Fragment fragment) {
         Intent intent = SettingsLangActivity.getCallingIntent(fragment.getActivity());
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
@@ -114,30 +127,35 @@ public class Navigator {
 
     public static void launchSlideshow(Fragment fragment) {
         Intent intent = SlideshowActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
 
     public static void launchPasswordRecovery(Fragment fragment) {
         Intent intent = PasswordRecoveryActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
 
     public static void launchSignup(Fragment fragment) {
         Intent intent = SignupActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
 
     public static void launchLongIntro(Fragment fragment) {
         Intent intent = LongIntroActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
 
     public static void launchShortIntro(Fragment fragment) {
         Intent intent = ShortIntroActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }

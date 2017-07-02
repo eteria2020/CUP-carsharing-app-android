@@ -22,6 +22,7 @@ import it.sharengo.development.ui.profile.ProfilePresenter;
 import it.sharengo.development.ui.settingcities.SettingsCitiesPresenter;
 import it.sharengo.development.ui.settings.SettingsPresenter;
 import it.sharengo.development.ui.settingsaddresses.SettingsAddressesPresenter;
+import it.sharengo.development.ui.settingsaddressesnew.SettingsAddressesNewPresenter;
 import it.sharengo.development.ui.settingslang.SettingsLangPresenter;
 import it.sharengo.development.ui.shortintro.ShortIntroPresenter;
 import it.sharengo.development.ui.signup.SignupPresenter;
@@ -248,6 +249,18 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new SettingsAddressesPresenter(schedulerProvider, appRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    SettingsAddressesNewPresenter provideSettingsAddressesNewPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+        SettingsAddressesNewPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new SettingsAddressesNewPresenter(schedulerProvider, appRepository);
         }
         return presenter;
     }

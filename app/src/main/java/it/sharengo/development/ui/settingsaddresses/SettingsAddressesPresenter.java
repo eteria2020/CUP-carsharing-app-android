@@ -1,10 +1,16 @@
 package it.sharengo.development.ui.settingsaddresses;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import it.sharengo.development.R;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class SettingsAddressesPresenter extends BasePresenter<SettingsAddressesMvpView> {
 
@@ -32,6 +38,9 @@ public class SettingsAddressesPresenter extends BasePresenter<SettingsAddressesM
 
     }
 
+    public void loadData(Context context){
+        getMvpView().showEmptyResult();
+    }
 }
 
 

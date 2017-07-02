@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.settingcities;
+package it.sharengo.development.ui.settingsaddressesnew;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,16 +7,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 import it.sharengo.development.R;
-import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 
 
-public class SettingsCitiesActivity extends BaseDrawerActivity {
+public class SettingsAddressesNewActivity extends BaseDrawerActivity {
 
-    private static final String TAG = SettingsCitiesActivity.class.getSimpleName();
+    private static final String TAG = SettingsAddressesNewActivity.class.getSimpleName();
 
     public static Intent getCallingIntent(Context context) {
-        Intent i = new Intent(context, SettingsCitiesActivity.class);
+        Intent i = new Intent(context, SettingsAddressesNewActivity.class);
         return i;
     }
 
@@ -25,7 +24,7 @@ public class SettingsCitiesActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            replaceFragment(SettingsCitiesFragment.newInstance());
+            replaceFragment(SettingsAddressesNewFragment.newInstance());
         }
     }
 
@@ -38,10 +37,4 @@ public class SettingsCitiesActivity extends BaseDrawerActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
-/*
-    @Override
-    public void onBackPressed() {
-        Navigator.launchSettings(this);
-        super.onBackPressed();
-    }*/
 }

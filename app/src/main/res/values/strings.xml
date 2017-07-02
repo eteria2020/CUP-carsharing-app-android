@@ -137,6 +137,18 @@
 
     <!-- Settings - Address -->
     <string name="settingsaddress_title_label">Imposta indirizzi preferiti</string>
+    <string name="settingsaddress_new_action">Imposta nuovo indirizzo</string>
+    <string name="settingsaddress_empty_title">Peccato!</string>
+    <string name="settingsaddress_empty_description">Non hai ancora nessun indirizzo preferito o recente! Imposta le tue destinazioni più frequenti e risparmia tempo quando scegli dove andare.</string>
+
+    <!-- Settings - New address -->
+    <string name="settingsaddressnew_header_label">Nuovo indirizzo preferito</string>
+    <string name="settingsaddressnew_title_label">Imposta un nuovo indirizzo</string>
+    <string name="settingsaddressnew_description_label">per aggiungerlo ai tuoi preferiti</string>
+    <string name="settingsaddressnew_address_label">imposta indirizzo</string>
+    <string name="settingsaddressnew_name_label">nome preferito</string>
+    <string name="settingsaddressnew_save_action">Salva preferito</string>
+    <string name="settingsaddressnew_cancel_action">Annulla</string>
 
     <!-- Settings - Lang -->
     <string name="settingslang_title_label">Imposta lingua</string>

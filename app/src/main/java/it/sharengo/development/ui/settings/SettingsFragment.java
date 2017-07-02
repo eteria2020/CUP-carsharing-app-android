@@ -45,17 +45,17 @@ public class SettingsFragment extends BaseMvpFragment<SettingsPresenter> impleme
     @OnClick(R.id.cityButton)
     public void onCityClick(){
         Navigator.launchSettingsCities(this);
-        getActivity().finish();
+        //getActivity().finish();
     }
     @OnClick(R.id.addressButton)
     public void onAddressClick(){
         Navigator.launchSettingsAddresses(this);
-        getActivity().finish();
+        //getActivity().finish();
     }
     @OnClick(R.id.langButton)
     public void onLangClick(){
         Navigator.launchSettingsLang(this);
-        getActivity().finish();
+        //getActivity().finish();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

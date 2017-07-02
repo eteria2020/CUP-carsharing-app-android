@@ -19,4 +19,6 @@
             android:text="@string/settingsaddress_title_label"/>
     </RelativeLayout>
 
+    <include layout="@layout/view_addresses_empty" />
+
 </LinearLayout>

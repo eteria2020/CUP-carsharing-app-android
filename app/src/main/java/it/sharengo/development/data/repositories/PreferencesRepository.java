@@ -125,7 +125,7 @@ public class PreferencesRepository {
                 .toList();
     }
 
-    public Observable<List<SearchItem>> getFavourite(final String searchText, Context context) {
+    public Observable<List<SearchItem>> getFavourite(Context context) {
 
         List<SearchItem> searchItems = new ArrayList<SearchItem>();
         searchItems.add(new SearchItem(context.getString(R.string.search_favoriteempty_label), "none"));
