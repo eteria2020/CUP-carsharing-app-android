@@ -1052,7 +1052,15 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         }else{ //Se i caratteri digitati sono meno di 3, ripulisco la lista
 
-            mAdapter.setData(null);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    mAdapter.setData(null);
+
+                }
+            });
+
 
             if(searchMapText.length() == 0) setSearchDefaultContent();
         }

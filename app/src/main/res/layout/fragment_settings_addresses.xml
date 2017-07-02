@@ -1,38 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/hdx_toolbarHeight"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:background="@color/white">
 
-    <!-- Header -->
-    <RelativeLayout
-        style="@style/header_view">
-        <ImageView
-            android:id="@+id/backImageView"
-            style="@style/header_back" />
-        <it.sharengo.development.ui.components.CustomTextView
-            style="@style/header_title"
-            app:font_name="poppinsBold"
-            android:text="@string/settingsaddress_title_label"/>
-    </RelativeLayout>
-
-    <include layout="@layout/view_addresses" />
-
-    <include layout="@layout/view_addresses_empty" />
-
-    <it.sharengo.development.ui.components.CustomButton
-        android:id="@+id/newAddressButton"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/mediumseagreen"
-        android:textAllCaps="true"
-        android:textSize="12sp"
-        android:textColor="@color/white"
-        app:font_name="poppinsBold"
-        android:text="@string/settingsaddress_new_action" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <!-- Header -->
+        <RelativeLayout
+            style="@style/header_view">
+            <ImageView
+                android:id="@+id/backImageView"
+                style="@style/header_back" />
+            <it.sharengo.development.ui.components.CustomTextView
+                style="@style/header_title"
+                app:font_name="poppinsBold"
+                android:text="@string/settingsaddress_title_label"/>
+        </RelativeLayout>
+
+        <include layout="@layout/view_addresses" />
+
+        <include layout="@layout/view_addresses_empty" />
+
+        <it.sharengo.development.ui.components.CustomButton
+            android:id="@+id/newAddressButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mediumseagreen"
+            android:textAllCaps="true"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            app:font_name="poppinsBold"
+            android:text="@string/settingsaddress_new_action" />
+
+    </LinearLayout>
+
+
+    <!-- Modal -->
+    <include layout="@layout/view_addresses_edit" />
+
+</RelativeLayout>

@@ -142,6 +142,12 @@
     <string name="settingsaddress_empty_description">Non hai ancora nessun indirizzo preferito o recente! Imposta le tue destinazioni più frequenti e risparmia tempo quando scegli dove andare.</string>
     <string name="settingsaddress_title2_label">Imposta i tuoi indirizzi preferiti</string>
     <string name="settingsaddress_description2_label">per rendere più veloci le tue ricerche</string>
+    <string name="settingsaddress_edittitle_label">Vuoi modificare questo indirizzo preferito?</string>
+    <string name="settingsaddress_addtitle_label">Vuoi aggiungere questo indirizzo recente alla lista dei tuoi indirizzi preferiti?</string>
+    <string name="settingsaddress_editname_label">nome preferito</string>
+    <string name="settingsaddress_editaddress_label">imposta indirizzo</string>
+    <string name="settingsaddress_editok_label">Ok</string>
+    <string name="settingsaddress_editcancel_label">Annulla</string>
 
     <!-- Settings - New address -->
     <string name="settingsaddressnew_header_label">Nuovo indirizzo preferito</string>

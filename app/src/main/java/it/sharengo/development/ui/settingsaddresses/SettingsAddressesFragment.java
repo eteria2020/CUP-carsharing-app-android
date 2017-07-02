@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -36,6 +38,12 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
     @BindView(R.id.addressesRecyclerView)
     RecyclerView mRv;
 
+    @BindView(R.id.editLayout)
+    ViewGroup editLayout;
+
+    @BindView(R.id.editTitleTextView)
+    TextView editTitleTextView;
+
     public static SettingsAddressesFragment newInstance() {
         SettingsAddressesFragment fragment = new SettingsAddressesFragment();
         return fragment;
@@ -46,7 +54,7 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         getMvpFragmentComponent(savedInstanceState).inject(this);
-        mAdapter = new SettingsAddressesAdapter(null, getActivity());
+        mAdapter = new SettingsAddressesAdapter(mActionListener, getActivity(), this);
 
         mPresenter.setData(getContext(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
     }
@@ -71,6 +79,34 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
         super.onViewCreated(view, savedInstanceState);
 
         mPresenter.loadData(getContext(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //          LISTENERS
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    private SettingsAddressesAdapter.OnItemActionListener mActionListener = new SettingsAddressesAdapter.OnItemActionListener() {
+        @Override
+        public void onItemClick(SearchItem searchItem) {
+
+        }
+    };
+
+    public void setAddFavorite(SearchItem searchItem){
+        editTitleTextView.setText(getString(R.string.settingsaddress_addtitle_label));
+        editLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void setEditFavorite(SearchItem searchItem){
+        Log.w("searchItem",": "+searchItem.display_name);
+        editTitleTextView.setText(getString(R.string.settingsaddress_edittitle_label));
+        editLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void setDeleteFavorite(SearchItem searchItem){
+
     }
 
 

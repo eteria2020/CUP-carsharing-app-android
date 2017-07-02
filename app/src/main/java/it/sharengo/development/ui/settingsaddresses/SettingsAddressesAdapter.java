@@ -2,8 +2,10 @@ package it.sharengo.development.ui.settingsaddresses;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ public class SettingsAddressesAdapter extends RecyclerView.Adapter<SettingsAddre
     private OnItemActionListener mListener;
 
     private Activity mActivity;
+    private SettingsAddressesFragment mFragment;
 
     private List<SearchItem> mData;
 
@@ -32,9 +35,10 @@ public class SettingsAddressesAdapter extends RecyclerView.Adapter<SettingsAddre
         void onItemClick(SearchItem searchItem);
     }
 
-    public SettingsAddressesAdapter(OnItemActionListener listener, Activity activity) {
+    public SettingsAddressesAdapter(OnItemActionListener listener, Activity activity, SettingsAddressesFragment fragment) {
         mListener = listener;
         mActivity = activity;
+        mFragment = fragment;
         mData = new ArrayList<>();
     }
 
@@ -135,7 +139,22 @@ public class SettingsAddressesAdapter extends RecyclerView.Adapter<SettingsAddre
 
         @OnClick(R.id.addressView)
         void onClick() {
-            mListener.onItemClick(mData.get(getAdapterPosition()));
+            //mListener.onItemClick(mData.get(getAdapterPosition()));
+        }
+
+        @OnClick(R.id.favoriteButton)
+        void onFavoriteClick(){
+            mFragment.setAddFavorite(mData.get(getAdapterPosition()));
+        }
+
+        @OnClick(R.id.editButton)
+        void onEditClick(){
+            mFragment.setEditFavorite(mData.get(getAdapterPosition()));
+        }
+
+        @OnClick(R.id.deleteButton)
+        void onDeleteClick(){
+            mFragment.setDeleteFavorite(mData.get(getAdapterPosition()));
         }
     }
 }
