@@ -35,6 +35,7 @@ public class UserRepository {
     private User mCachedUser;
     private List<Reservation> mCachedReservations;
     private ResponseTrip mCachedTrips;
+    private ResponseTrip mCachedTripsChron;
     private ResponseReservation mCachedReservation;
 
     @Inject
@@ -253,8 +254,6 @@ public class UserRepository {
 
     public Observable<ResponseTrip> getTrips(String username, String password, boolean active, boolean refreshInfo) {
 
-        Log.w("active",": "+active);
-        Log.w("mCachedTrips",": "+mCachedTrips);
         if(mCachedTrips == null || refreshInfo) {
             return mRemoteDataSource.getTrips(Credentials.basic(username, StringsUtils.md5(password)), active)
                     .doOnNext(new Action1<ResponseTrip>() {
@@ -278,6 +277,52 @@ public class UserRepository {
     }
 
     private Observable.Transformer<ResponseTrip, ResponseTrip> logSourceTrips(final String source) {
+        return new Observable.Transformer<ResponseTrip, ResponseTrip>() {
+            @Override
+            public Observable<ResponseTrip> call(Observable<ResponseTrip> postObservable) {
+                return postObservable
+                        .doOnNext(new Action1<ResponseTrip>() {
+                            @Override
+                            public void call(ResponseTrip postList) {
+                                if (postList == null) {
+                                    Log.d("TEST", source + " does not have any data.");
+                                }
+                                else {
+                                    Log.d("TEST", source + " has the data you are looking for!");
+                                }
+                            }
+                        });
+            }
+        };
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Trips (old)
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Observable<ResponseTrip> getChronTrips(String username, String password) {
+
+        return mRemoteDataSource.getTrips(Credentials.basic(username, StringsUtils.md5(password)), false)
+                .doOnNext(new Action1<ResponseTrip>() {
+                    @Override
+                    public void call(ResponseTrip response) {
+
+                        createOrUpdateTripChronsInMemory(response);
+                    }
+                })
+                .compose(logSourceTrips("NETWORK"));
+    }
+
+    private void createOrUpdateTripChronsInMemory(ResponseTrip response) {
+        if (mCachedTripsChron == null) {
+            mCachedTripsChron = new ResponseTrip();
+        }
+        mCachedTripsChron = response;
+    }
+
+    private Observable.Transformer<ResponseTrip, ResponseTrip> logSourceTripsChron(final String source) {
         return new Observable.Transformer<ResponseTrip, ResponseTrip>() {
             @Override
             public Observable<ResponseTrip> call(Observable<ResponseTrip> postObservable) {

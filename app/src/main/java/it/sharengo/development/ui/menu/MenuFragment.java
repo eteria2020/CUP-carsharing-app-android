@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -187,7 +188,12 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                     case SETTINGS:
                         Navigator.launchSettings(MenuFragment.this);
                         break;
+                    case HISTORIC:
+                        Navigator.launchChronology(MenuFragment.this);
+                        break;
                 }
+
+                getActivity().finish();
             }
         }, 300);
     }

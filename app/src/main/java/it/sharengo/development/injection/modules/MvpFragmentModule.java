@@ -11,6 +11,7 @@ import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
+import it.sharengo.development.ui.chronology.ChronologyPresenter;
 import it.sharengo.development.ui.login.LoginPresenter;
 import it.sharengo.development.ui.longintro.LongIntroPresenter;
 import it.sharengo.development.ui.map.MapPresenter;
@@ -261,6 +262,18 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new SettingsAddressesNewPresenter(schedulerProvider, appRepository, addressRepository, preferencesRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    ChronologyPresenter provideChronologyPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+        ChronologyPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new ChronologyPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }

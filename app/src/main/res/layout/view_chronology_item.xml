@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chronView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <it.sharengo.development.ui.components.CustomTextView
+        android:id="@+id/bookingNTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:font_name="poppinsBold"
+        android:text="AAA"/>
+
+</LinearLayout>
+
+

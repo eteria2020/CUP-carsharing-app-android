@@ -78,9 +78,12 @@
         <activity
             android:name=".ui.settingsaddresses.SettingsAddressesActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.settingsaddressesnew.SettingsAddressesNewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.chronology.ChronologyActivity"
             android:screenOrientation="portrait" />
     </application>
 
