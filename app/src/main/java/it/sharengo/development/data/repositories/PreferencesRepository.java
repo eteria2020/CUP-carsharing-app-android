@@ -109,7 +109,7 @@ public class PreferencesRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Observable<List<SearchItem>> getHistoricSearch(final String searchText, SharedPreferences mPrefs) {
+    public Observable<List<SearchItem>> getHistoricSearch(final String searchText, SharedPreferences mPrefs, final String exclude) {
 
         mSearchResults = getHistoricList(mPrefs);
 
@@ -117,6 +117,9 @@ public class PreferencesRepository {
                 .filter(new Func1<SearchItem, Boolean>() {
                     @Override
                     public Boolean call(SearchItem item) {
+                        if(exclude != null){
+                            if(item.type.equals(exclude)) return false;
+                        }
                         if(searchText.length() > 0)
                             return item.display_name.toLowerCase().equals(searchText.toLowerCase()); //filtering
                         else return true;

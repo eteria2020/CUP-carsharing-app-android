@@ -4,26 +4,49 @@ package it.sharengo.development.ui.settingsaddresses;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Collections;
+import java.util.List;
+
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.MenuItem;
+import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.repositories.AppRepository;
+import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
-
-import static android.content.Context.MODE_PRIVATE;
+import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Action0;
 
 public class SettingsAddressesPresenter extends BasePresenter<SettingsAddressesMvpView> {
 
     private static final String TAG = SettingsAddressesPresenter.class.getSimpleName();
 
     private final AppRepository mAppRepository;
+    private final PreferencesRepository mPreferencesRepository;
+
+    private Observable<List<SearchItem>> mFindSearchRequest;
+    private List<SearchItem> historicItems;
+
+    private boolean hideLoading;
+
+    private Context mContext;
+    private SharedPreferences pref;
 
 
-    public SettingsAddressesPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    public SettingsAddressesPresenter(SchedulerProvider schedulerProvider,
+                                      AppRepository appRepository,
+                                      PreferencesRepository preferencesRepository) {
         super(schedulerProvider);
         mAppRepository = appRepository;
+        mPreferencesRepository = preferencesRepository;
 
         mAppRepository.selectMenuItem(MenuItem.Section.SETTINGS);
+    }
+
+    public void setData(Context context, SharedPreferences mPrefs){
+        mContext = context;
+        pref = mPrefs;
     }
 
 
@@ -36,10 +59,95 @@ public class SettingsAddressesPresenter extends BasePresenter<SettingsAddressesM
     @Override
     protected void subscribeRequestsOnResume() {
 
+        getHistoric(mContext, pref);
+
     }
 
-    public void loadData(Context context){
-        getMvpView().showEmptyResult();
+    @Override
+    protected boolean showCustomLoading() {
+        if(hideLoading)
+            return true;
+        else
+            return super.showCustomLoading();
+    }
+
+    public void loadData(Context context, SharedPreferences mPrefs){
+
+        hideLoading = true;
+
+        getHistoric(context, mPrefs);
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              GET historic
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void getHistoric(Context context, SharedPreferences mPrefs) {
+        hideLoading = true;
+
+        if( mFindSearchRequest == null) {
+            mFindSearchRequest = buildHistoricRequest("", context, mPrefs);
+            addSubscription(mFindSearchRequest.unsafeSubscribe(getHistoricSubscriber(context, mPrefs)));
+        }
+    }
+
+    private Observable<List<SearchItem>> buildHistoricRequest(String searchText, final Context context, SharedPreferences mPrefs) {
+
+
+        return mFindSearchRequest = mPreferencesRepository.getHistoricSearch(searchText, mPrefs, null)
+                .first()
+                .compose(this.<List<SearchItem>>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        showEmptyList(context);
+                    }
+                });
+    }
+
+    private Subscriber<List<SearchItem>> getHistoricSubscriber(final Context context, final SharedPreferences mPrefs){
+        return new Subscriber<List<SearchItem>>() {
+            @Override
+            public void onCompleted() {
+                mFindSearchRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mFindSearchRequest = null;
+            }
+
+            @Override
+            public void onNext(List<SearchItem> searchItemList) {
+
+                historicItems = searchItemList;
+
+                Collections.reverse(historicItems);
+
+                historicItems = historicItems.subList(0, Math.min(historicItems.size(), 15));
+
+            }
+        };
+    }
+
+    private void showEmptyList(Context context){
+
+        boolean find = false;
+        for(SearchItem ss : historicItems){
+            if(ss.type.equals("favorite")) find = true;
+        }
+
+        if(historicItems == null || historicItems.size() == 0|| !find){
+            historicItems.add(new SearchItem(context.getString(R.string.settingsaddressnew_searchempty_label), "settings"));
+
+            getMvpView().showEmptyResult();
+        }else{
+            getMvpView().showList(historicItems);
+        }
     }
 }
 

@@ -546,7 +546,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private Observable<List<SearchItem>> buildFindSearchRequest(String searchText, final Context context, SharedPreferences mPrefs) {
 
 
-        return mFindSearchRequest = mPreferencesRepository.getHistoricSearch(searchText, mPrefs)
+        return mFindSearchRequest = mPreferencesRepository.getHistoricSearch(searchText, mPrefs, null)
                 .first()
                 .compose(this.<List<SearchItem>>handleDataRequest())
                 .doOnCompleted(new Action0() {

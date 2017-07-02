@@ -100,7 +100,7 @@ public class SettingsAddressesNewPresenter extends BasePresenter<SettingsAddress
     private Observable<List<SearchItem>> buildHistoricRequest(String searchText, final Context context, SharedPreferences mPrefs) {
 
 
-        return mFindSearchRequest = mPreferencesRepository.getHistoricSearch(searchText, mPrefs)
+        return mFindSearchRequest = mPreferencesRepository.getHistoricSearch(searchText, mPrefs, "favorite")
                 .first()
                 .compose(this.<List<SearchItem>>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -196,8 +196,6 @@ public class SettingsAddressesNewPresenter extends BasePresenter<SettingsAddress
     }
 
     private void checkAddressResult(){
-
-        Log.w("SEARCH","checkAddressResult");
 
         mSearchItems = new ArrayList<SearchItem>();
 

@@ -140,6 +140,8 @@
     <string name="settingsaddress_new_action">Imposta nuovo indirizzo</string>
     <string name="settingsaddress_empty_title">Peccato!</string>
     <string name="settingsaddress_empty_description">Non hai ancora nessun indirizzo preferito o recente! Imposta le tue destinazioni più frequenti e risparmia tempo quando scegli dove andare.</string>
+    <string name="settingsaddress_title2_label">Imposta i tuoi indirizzi preferiti</string>
+    <string name="settingsaddress_description2_label">per rendere più veloci le tue ricerche</string>
 
     <!-- Settings - New address -->
     <string name="settingsaddressnew_header_label">Nuovo indirizzo preferito</string>
