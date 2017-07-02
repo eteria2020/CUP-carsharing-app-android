@@ -2,25 +2,24 @@ package it.sharengo.development.data.repositories;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import it.sharengo.development.R;
-import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.SearchItem;
 import rx.Observable;
 import rx.functions.Func1;
-
-import static android.content.Context.MODE_PRIVATE;
 
 @Singleton
 public class PreferencesRepository {
@@ -112,6 +111,16 @@ public class PreferencesRepository {
     public Observable<List<SearchItem>> getHistoricSearch(final String searchText, SharedPreferences mPrefs, final String exclude) {
 
         mSearchResults = getHistoricList(mPrefs);
+
+        Collections.sort(mSearchResults, new Comparator<SearchItem>() {
+
+            @Override
+            public int compare(SearchItem lhs,
+                               SearchItem rhs) {
+                // Do your comparison logic here and retrn accordingly.
+                return rhs.type.compareTo(lhs.type);
+            }
+        });
 
         return Observable.from(mSearchResults)
                 .filter(new Func1<SearchItem, Boolean>() {

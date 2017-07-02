@@ -575,8 +575,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
                 historicItems = searchItemList;
 
-                //TODO: preferiti
-                historicItems.add(new SearchItem(context.getString(R.string.search_favoriteempty_label), "none"));
+                if(historicItems.isEmpty())
+                    historicItems.add(new SearchItem(context.getString(R.string.search_favoriteempty_label), "none"));
 
                 Collections.reverse(historicItems);
 

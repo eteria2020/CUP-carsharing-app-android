@@ -96,7 +96,7 @@
                     android:id="@+id/nameEditText"
                     style="@style/form_input"
                     app:font_name="poppinsRegular"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
                     android:hint="@string/settingsaddressnew_name_label"/>
 
             </android.support.design.widget.TextInputLayout>
