@@ -149,6 +149,8 @@
     <string name="settingsaddressnew_name_label">nome preferito</string>
     <string name="settingsaddressnew_save_action">Salva preferito</string>
     <string name="settingsaddressnew_cancel_action">Annulla</string>
+    <string name="settingsaddressnew_empty_error">Uno o più campi non sono compilati.</string>
+    <string name="settingsaddressnew_searchempty_label">digita l\'indirizzo che vorresti\naggiungere ai tuoi preferiti</string>
 
     <!-- Settings - Lang -->
     <string name="settingslang_title_label">Imposta lingua</string>

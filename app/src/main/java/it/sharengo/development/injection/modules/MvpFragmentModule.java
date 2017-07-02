@@ -254,13 +254,13 @@ public class MvpFragmentModule {
     }
 
     @Provides
-    SettingsAddressesNewPresenter provideSettingsAddressesNewPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    SettingsAddressesNewPresenter provideSettingsAddressesNewPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, AddressRepository addressRepository, PreferencesRepository preferencesRepository) {
         SettingsAddressesNewPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SettingsAddressesNewPresenter(schedulerProvider, appRepository);
+            presenter = new SettingsAddressesNewPresenter(schedulerProvider, appRepository, addressRepository, preferencesRepository);
         }
         return presenter;
     }

@@ -65,6 +65,8 @@ public class MapSearchListAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView displayNameTextView;
         @BindView(R.id.subNameTextView)
         TextView subNameTextView;
+        @BindView(R.id.dividerView)
+        View dividerView;
 
         public ViewHolder(View v) {
             super(v);
@@ -84,8 +86,10 @@ public class MapSearchListAdapter extends RecyclerView.Adapter<RecyclerView.View
             else if(searchItem.type.equals("historic"))
                 typeDrawable = R.drawable.ic_clock;
 
-            Drawable drawable = ContextCompat.getDrawable(itemView.getContext(), typeDrawable);
-            typeImageView.setImageDrawable(drawable);
+            if(typeDrawable > 0) {
+                Drawable drawable = ContextCompat.getDrawable(itemView.getContext(), typeDrawable);
+                typeImageView.setImageDrawable(drawable);
+            }
 
             //Nome
             displayNameTextView.setText(searchItem.display_name);
@@ -95,6 +99,13 @@ public class MapSearchListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 subNameTextView.setVisibility(View.VISIBLE);
             else
                 subNameTextView.setVisibility(View.GONE);
+
+            //Divider
+            if(searchItem.type.equals("settings")){
+                dividerView.setVisibility(View.GONE);
+            }else{
+                dividerView.setVisibility(View.VISIBLE);
+            }
 
         }
 
