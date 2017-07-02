@@ -160,6 +160,11 @@ public class SettingsAddressesPresenter extends BasePresenter<SettingsAddressesM
         mPreferencesRepository.editSearchResultOnFavourites(mPref, searchItem, name, address);
         getHistoric(mContext, pref);
     }
+
+    public void addFavourite(SharedPreferences mPref, SearchItem searchItem, String name, String address){
+        mPreferencesRepository.addSearchResultOnFavourites(mPref, searchItem, name, address);
+        getHistoric(mContext, pref);
+    }
 }
 
 

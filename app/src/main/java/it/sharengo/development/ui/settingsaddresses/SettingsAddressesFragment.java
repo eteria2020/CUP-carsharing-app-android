@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import it.sharengo.development.R;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.development.ui.components.CustomDialogClass;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -107,6 +107,8 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
         searchItemSelected = searchItem;
 
         editTitleTextView.setText(getString(R.string.settingsaddress_addtitle_label));
+        addressEditText.setText(searchItem.display_name);
+
         editLayout.setVisibility(View.VISIBLE);
     }
 
@@ -114,7 +116,6 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
         searchItemSelected = searchItem;
 
         editTitleTextView.setText(getString(R.string.settingsaddress_edittitle_label));
-
         addressEditText.setText(searchItem.display_name);
         nameEditText.setText(searchItem.name);
 
@@ -125,6 +126,11 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
 
     }
 
+    private void closeModal(){
+        editLayout.setVisibility(View.GONE);
+        addressEditText.setText("");
+        nameEditText.setText("");
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -143,12 +149,44 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
 
     @OnClick(R.id.okSaveButton)
     public void onOkSaveClick(){
-        if(searchItemSelected != null){
-            mPresenter.editFavourite(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE),
-                    searchItemSelected,
-                    nameEditText.getText().toString().trim(),
-                    addressEditText.getText().toString().trim());
+
+        String address  = addressEditText.getText().toString().trim();
+        String name     = nameEditText.getText().toString().trim();
+
+        //Verifico se tutti i campi sono compilati
+        if(address.isEmpty() || name.isEmpty()) {
+            final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                    getString(R.string.settingsaddressnew_empty_error),
+                    getString(R.string.ok),
+                    null);
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                }
+            });
+            return;
         }
+
+        if(searchItemSelected != null){
+            if(searchItemSelected.type.equals("historic")){
+                mPresenter.addFavourite(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE),
+                        searchItemSelected,
+                        name,
+                        address);
+            }else {
+                mPresenter.editFavourite(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE),
+                        searchItemSelected,
+                        name,
+                        address);
+            }
+        }
+    }
+
+    @OnClick(R.id.closeButton)
+    public void onCloseClick(){
+        closeModal();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -163,7 +201,7 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
 
     public void showList(List<SearchItem> searchItems){
 
-        editLayout.setVisibility(View.GONE);
+        closeModal();
 
         mAdapter.setData(searchItems);
         addressLayout.setVisibility(View.GONE);

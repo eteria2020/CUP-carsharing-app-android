@@ -30,6 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:textAlignment="center"
             android:textSize="12sp"
             android:textColor="@color/white"
@@ -49,7 +51,7 @@
                 android:id="@+id/nameEditText"
                 style="@style/form_input"
                 app:font_name="poppinsRegular"
-                android:inputType="text"
+                android:inputType="textCapSentences"
                 android:textColorHint="@color/white"
                 android:textColor="@color/white"
                 android:hint="@string/settingsaddress_editname_label"/>
@@ -90,6 +92,7 @@
 
         <!-- Cancel Button -->
         <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/closeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"

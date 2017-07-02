@@ -21,6 +21,8 @@ import it.sharengo.development.data.models.SearchItem;
 import rx.Observable;
 import rx.functions.Func1;
 
+import static android.os.Build.VERSION_CODES.M;
+
 @Singleton
 public class PreferencesRepository {
 
@@ -190,6 +192,26 @@ public class PreferencesRepository {
             if(rI.display_name.equals(searchItem.display_name) && rI.name.equals(searchItem.name)){
                 rI.name = name;
                 rI.display_name = address;
+            }
+        }
+
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+
+        Type fooType = new TypeToken<List<SearchItem>>() {}.getType();
+        Gson gson = new Gson();
+        String json = gson.toJson(results, fooType);
+        prefsEditor.putString("SearchHistoric", json);
+        prefsEditor.commit();
+    }
+
+    public void addSearchResultOnFavourites(SharedPreferences mPrefs, SearchItem searchItem, String name, String address){
+        List<SearchItem> results = getHistoricList(mPrefs);
+
+        for(SearchItem rI : results){
+            if(rI.name == null && rI.display_name.equals(searchItem.display_name)){
+                rI.name = name;
+                rI.display_name = address;
+                rI.type = "favorite";
             }
         }
 
