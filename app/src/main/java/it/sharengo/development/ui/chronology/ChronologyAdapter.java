@@ -7,6 +7,7 @@ import android.location.Geocoder;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,9 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
     private Activity mActivity;
 
     private List<Trip> mData;
+
+    private ViewGroup detailViewSelected;
+    private ImageView arrowImageViewSelected;
 
     public interface OnItemActionListener {
         void onItemClick(Trip cityItem);
@@ -151,6 +155,15 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
 
         @OnClick(R.id.chronView)
         void onClick() {
+
+            if(detailViewSelected != null && detailView != detailViewSelected){
+                detailViewSelected.setVisibility(View.GONE);
+                arrowImageViewSelected.setImageDrawable(getIcon(R.drawable.ic_arrow_drop_down));
+            }
+
+            detailViewSelected = detailView;
+            arrowImageViewSelected = arrowImageView;
+
             if (detailView.getVisibility() == View.VISIBLE) {
                 detailView.setVisibility(View.GONE);
                 arrowImageView.setImageDrawable(getIcon(R.drawable.ic_arrow_drop_down));

@@ -1,7 +1,7 @@
 package it.sharengo.development.ui.chronology;
 
 
-import android.util.Log;
+import android.os.Handler;
 
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.repositories.AppRepository;
@@ -23,6 +23,8 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
 
     private ResponseTrip mResponseTrip;
 
+    private boolean hideLoading;
+
     public ChronologyPresenter(SchedulerProvider schedulerProvider,
                                AppRepository appRepository,
                                UserRepository userRepository) {
@@ -40,11 +42,22 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
         }
     }
 
+    @Override
+    protected boolean showCustomLoading() {
+        if(hideLoading)
+            return true;
+        else
+            return super.showCustomLoading();
+    }
+
 
     @Override
     protected void subscribeRequestsOnResume() {
+
         getTrips();
     }
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -52,6 +65,9 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void getTrips(){
+
+        hideLoading = false;
+        getMvpView().showStandardLoading();
 
         if( mTripsRequest == null) {
             mTripsRequest = buildTripsRequest();

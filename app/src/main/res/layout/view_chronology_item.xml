@@ -12,10 +12,10 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/pin_car" />
+        android:src="@drawable/ic_corsa" />
 
     <it.sharengo.development.ui.components.CustomTextView
         android:id="@+id/bookingNTextView"

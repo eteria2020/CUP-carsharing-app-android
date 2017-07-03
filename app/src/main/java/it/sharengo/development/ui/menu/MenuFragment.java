@@ -191,6 +191,9 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                     case HISTORIC:
                         Navigator.launchChronology(MenuFragment.this);
                         break;
+                    case PROFILE:
+                        Navigator.launchProfile(MenuFragment.this);
+                        break;
                 }
 
                 getActivity().finish();

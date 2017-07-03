@@ -1,5 +1,6 @@
 package it.sharengo.development.ui.chronology;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
     @BindView(R.id.emptyChronLayout)
     ViewGroup emptyChronLayout;
 
+
     public static ChronologyFragment newInstance() {
         ChronologyFragment fragment = new ChronologyFragment();
         return fragment;
@@ -50,12 +53,14 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         View view = inflater.inflate(R.layout.fragment_chronology, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
+
         mRv.setHasFixedSize(true);
         final LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         lm.setSmoothScrollbarEnabled(false);
         mRv.setLayoutManager(lm);
         mRv.setAdapter(mAdapter);
         //mRv.addItemDecoration(new DividerItemDecoration(mRv.getContext(), lm.getOrientation()));
+
 
         return view;
     }
@@ -64,7 +69,7 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPresenter.getTrips();
+        //mPresenter.getTrips();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,10 +102,12 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public void showList(List<Trip> tripList) {
+    public void showList(final List<Trip> tripList) {
         emptyChronLayout.setVisibility(View.GONE);
         mRv.setVisibility(View.VISIBLE);
+
         mAdapter.setData(tripList);
+
     }
 
     @Override
