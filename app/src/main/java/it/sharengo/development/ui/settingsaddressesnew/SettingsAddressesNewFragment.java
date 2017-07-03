@@ -1,6 +1,7 @@
 package it.sharengo.development.ui.settingsaddressesnew;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,7 +36,6 @@ import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.SearchItem;
-import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.ui.map.MapSearchListAdapter;
@@ -213,7 +214,7 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
                 searchView.setVisibility(View.GONE);
             }
 
-            searchEditText.clearFocus();
+            //searchEditText.clearFocus();
 
         }
     }
@@ -316,7 +317,7 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @OnClick(R.id.backImageView)
     public void onBackClick(){
-        Navigator.launchSettings(this);
+        getActivity().finish();
     }
 
     private Timer timerEditText=new Timer();
@@ -348,14 +349,14 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
     @OnClick(R.id.addressEditText)
     public void onAddressClick(){
         if(addressEditText.isFocused()) {
-            if (addressEditText.getText().toString().trim().length() > 0) {
+            //hideSoftKeyboard();
+            //addressEditText.clearFocus();
+            searchEditText.requestFocus();
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT);
 
-            } else {
-
-                //hideSoftKeyboard();
-                searchView.setVisibility(View.VISIBLE);
-                searchMapResultView.setVisibility(View.VISIBLE);
-            }
+            searchView.setVisibility(View.VISIBLE);
+            searchMapResultView.setVisibility(View.VISIBLE);
         }
     }
 

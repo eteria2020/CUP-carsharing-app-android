@@ -74,7 +74,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.settingslang.SettingsLangActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base.NoAnimation" />
         <activity
             android:name=".ui.settingsaddresses.SettingsAddressesActivity"
             android:screenOrientation="portrait"

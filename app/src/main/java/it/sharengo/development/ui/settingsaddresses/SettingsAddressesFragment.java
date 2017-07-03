@@ -154,7 +154,7 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @OnClick(R.id.backImageView)
     public void onBackClick(){
-        Navigator.launchSettings(this);
+        getActivity().finish();
     }
 
     @OnClick(R.id.newAddressButton)

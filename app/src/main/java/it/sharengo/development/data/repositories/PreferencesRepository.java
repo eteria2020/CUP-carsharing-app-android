@@ -230,7 +230,7 @@ public class PreferencesRepository {
         int i = 0;
         int find = 0;
         for(SearchItem rI : results){
-            if(rI.display_name.equals(searchItem.display_name) && rI.name.equals(searchItem.name)){
+            if(rI.display_name.equals(searchItem.display_name)){
                 find = i;
             }
             i++;

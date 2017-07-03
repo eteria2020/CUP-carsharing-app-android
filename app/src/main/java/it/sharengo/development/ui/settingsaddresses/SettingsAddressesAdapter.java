@@ -125,6 +125,9 @@ public class SettingsAddressesAdapter extends RecyclerView.Adapter<SettingsAddre
             if(typeDrawable > 0) {
                 Drawable drawable = ContextCompat.getDrawable(itemView.getContext(), typeDrawable);
                 iconImageView.setImageDrawable(drawable);
+                iconImageView.setVisibility(View.VISIBLE);
+            }else{
+                iconImageView.setVisibility(View.GONE);
             }
 
             //Pulsanti

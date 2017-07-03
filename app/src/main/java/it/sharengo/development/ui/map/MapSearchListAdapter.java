@@ -89,6 +89,9 @@ public class MapSearchListAdapter extends RecyclerView.Adapter<RecyclerView.View
             if(typeDrawable > 0) {
                 Drawable drawable = ContextCompat.getDrawable(itemView.getContext(), typeDrawable);
                 typeImageView.setImageDrawable(drawable);
+                typeImageView.setVisibility(View.VISIBLE);
+            }else{
+                typeImageView.setVisibility(View.GONE);
             }
 
             //Nome
