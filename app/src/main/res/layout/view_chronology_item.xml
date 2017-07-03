@@ -4,15 +4,136 @@
     android:id="@+id/chronView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="5dp"
     android:background="@color/white"
-    android:orientation="horizontal">
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/pin_car" />
 
     <it.sharengo.development.ui.components.CustomTextView
         android:id="@+id/bookingNTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:font_name="poppinsBold"
-        android:text="AAA"/>
+        android:layout_marginTop="10dp"
+        android:textSize="13sp"
+        android:textAlignment="center"
+        android:textColor="@color/mediumseagreen"
+        app:font_name="poppinsBold"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/darkjunglegreen"/>
+
+    <it.sharengo.development.ui.components.CustomTextView
+        android:id="@+id/minutesTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="13sp"
+        android:textAlignment="center"
+        android:textColor="@color/darkjunglegreen"
+        app:font_name="poppinsBold"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/darkjunglegreen"/>
+
+    <it.sharengo.development.ui.components.CustomTextView
+        android:id="@+id/dateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="13sp"
+        android:textAlignment="center"
+        android:textColor="@color/taupegray"
+        android:textAllCaps="true"
+        app:font_name="poppinsBold"/>
+
+    <LinearLayout
+        android:id="@+id/detailView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <!-- Indirizzo di partenza -->
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/addressStartTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="13sp"
+            android:textAlignment="center"
+            android:textColor="@color/darkjunglegreen"
+            app:font_name="poppinsRegular"/>
+
+        <!-- Fine -->
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/endTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="13sp"
+            android:textAlignment="center"
+            android:textColor="@color/taupegray"
+            android:textAllCaps="true"
+            app:font_name="poppinsBold"/>
+
+        <!-- Indirizzo di arrivo -->
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/addressEndTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="13sp"
+            android:textAlignment="center"
+            android:textColor="@color/darkjunglegreen"
+            app:font_name="poppinsRegular"/>
+
+        <!-- KM percorsi -->
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/kmTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="13sp"
+            android:textAlignment="center"
+            android:textColor="@color/taupegray"
+            app:font_name="poppinsBold"/>
+
+        <!-- Macchina -->
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/carTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="13sp"
+            android:textAlignment="center"
+            android:textColor="@color/darkjunglegreen"
+            android:textAllCaps="true"
+            app:font_name="poppinsRegular"/>
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/arrowImageView"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_arrow_drop_down"/>
 
 </LinearLayout>
 

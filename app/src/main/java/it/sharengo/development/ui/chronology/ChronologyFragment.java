@@ -14,10 +14,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.development.R;
-import it.sharengo.development.data.models.City;
 import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.development.ui.components.CustomDialogClass;
 
 
 public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> implements ChronologyMvpView {
@@ -107,6 +107,24 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
     public void showEmptyResult(){
         emptyChronLayout.setVisibility(View.VISIBLE);
         mRv.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showChronError(Throwable e){
+        //Mostro un messaggio di errore
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.error_msg_network_general),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                Navigator.launchHome(ChronologyFragment.this);
+                getActivity().finish();
+            }
+        });
     }
 
 

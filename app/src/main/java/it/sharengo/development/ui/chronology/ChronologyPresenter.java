@@ -81,7 +81,7 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
             @Override
             public void onError(Throwable e) {
                 mTripsRequest = null;
-                //getMvpView().showError(e);
+                getMvpView().showChronError(e);
             }
 
             @Override

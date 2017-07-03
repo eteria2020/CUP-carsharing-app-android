@@ -10,5 +10,6 @@ public interface ChronologyMvpView extends MvpView {
 
     void showList(List<Trip> tripList);
     void showEmptyResult();
+    void showChronError(Throwable e);
 
 }
