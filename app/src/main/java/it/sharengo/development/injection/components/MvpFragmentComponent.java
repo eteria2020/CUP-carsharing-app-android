@@ -9,6 +9,7 @@ import it.sharengo.development.ui.longintro.LongIntroFragment;
 import it.sharengo.development.ui.map.MapFragment;
 import it.sharengo.development.ui.home.HomeFragment;
 import it.sharengo.development.ui.menu.MenuFragment;
+import it.sharengo.development.ui.onboarding.OnboardingFragment;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryFragment;
 import it.sharengo.development.ui.profile.ProfileFragment;
 import it.sharengo.development.ui.settingcities.SettingsCitiesFragment;
@@ -62,4 +63,6 @@ public interface MvpFragmentComponent {
     void inject(SettingsAddressesNewFragment fragment);
 
     void inject(ChronologyFragment fragment);
+
+    void inject(OnboardingFragment fragment);
 }

@@ -38,6 +38,8 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
     private ViewGroup detailViewSelected;
     private ImageView arrowImageViewSelected;
 
+
+
     public interface OnItemActionListener {
         void onItemClick(Trip cityItem);
     }

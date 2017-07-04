@@ -9,7 +9,9 @@ import android.view.ViewTreeObserver;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.sharengo.development.R;
+import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.development.ui.longintro.LongIntroFragment;
 import pl.droidsonroids.gif.AnimationListener;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
@@ -57,6 +59,7 @@ public class ShortIntroFragment extends BaseMvpFragment<ShortIntroPresenter> imp
 
     @Override
     public void onAnimationCompleted(int loopNumber) {
+        //Navigator.launchOnboarding(ShortIntroFragment.this);
         getActivity().finish();
     }
 

@@ -181,4 +181,10 @@
     <string name="chronology_emptydescription_label">Non hai ancora effettuato nessuna\ncorsa con una Share\'ngo!</string>
     <string name="chronology_emptyquestion_label">Cosa aspetti a provare?</string>
     <string name="chronology_tomap_action">Vai alla mappa</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip_action">Skip >></string>
+    <string name="onboarding_car1_label">Facili e divertenti\nda guidare</string>
+    <string name="onboarding_car2_label">Più ne hai bisogno\ne meno costa</string>
+    <string name="onboarding_car3_label">Ogni corsa una sorpresa\ne una scoperta</string>
 </resources>

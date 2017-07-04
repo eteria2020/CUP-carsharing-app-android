@@ -1,15 +1,19 @@
 package it.sharengo.development.ui.chronology;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,12 +31,19 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
     private static final String TAG = ChronologyFragment.class.getSimpleName();
 
     private ChronologyAdapter mAdapter;
+    private List<Trip> mTripsList;
 
     @BindView(R.id.chronRecyclerView)
     RecyclerView mRv;
 
     @BindView(R.id.emptyChronLayout)
     ViewGroup emptyChronLayout;
+
+    @BindView(R.id.progressList)
+    ViewGroup progressList;
+
+    @BindView(R.id.progressBarList)
+    ProgressBar progressBarList;
 
 
     public static ChronologyFragment newInstance() {
@@ -106,7 +117,10 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         emptyChronLayout.setVisibility(View.GONE);
         mRv.setVisibility(View.VISIBLE);
 
-        mAdapter.setData(tripList);
+
+        mTripsList = tripList;
+        new LongOperation().execute();
+
 
     }
 
@@ -134,5 +148,43 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         });
     }
 
+    private class LongOperation extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            for (int i = 0; i < 1; i++) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    Thread.interrupted();
+                }
+            }
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            progressBarList.setVisibility(View.GONE);
+
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Do something after 5s = 5000ms
+                    mAdapter.setData(mTripsList);
+                    progressList.setVisibility(View.GONE);
+                }
+            }, 100);
+        }
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected void onProgressUpdate(Void... values) {}
+    }
 
 }

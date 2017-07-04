@@ -11,6 +11,7 @@ import it.sharengo.development.ui.home.HomeActivity;
 import it.sharengo.development.ui.login.LoginActivity;
 import it.sharengo.development.ui.longintro.LongIntroActivity;
 import it.sharengo.development.ui.map.MapActivity;
+import it.sharengo.development.ui.onboarding.OnboardingActivity;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryActivity;
 import it.sharengo.development.ui.profile.ProfileActivity;
 import it.sharengo.development.ui.settingcities.SettingsCitiesActivity;
@@ -163,6 +164,13 @@ public class Navigator {
 
     public static void launchChronology(Fragment fragment) {
         Intent intent = ChronologyActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchOnboarding(Fragment fragment) {
+        Intent intent = OnboardingActivity.getCallingIntent(fragment.getActivity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);

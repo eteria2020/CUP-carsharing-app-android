@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/onboardLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whitesmoke"
+    android:layout_marginTop="@dimen/hdx_toolbarHeight"
+    android:orientation="vertical">
+
+    <!-- Animazione -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/backgroundImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/onboard_sfondo_loop" />
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/animImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+    </RelativeLayout>
+
+    <!-- Footer -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_onboard">
+
+        <!-- Skip -->
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/skipButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:textSize="15sp"
+            android:textColor="@color/mediumseagreen"
+            app:font_name="poppinsBold"
+            android:text="@string/onboarding_skip_action" />
+
+        <!-- Text -->
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/textTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textColor="@color/mediumseagreen"
+            android:alpha="0.0"
+            app:font_name="poppinsBold" />
+
+        <!-- Indicator -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/slideIndicator1"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/btn_bkg_mediumseagreen"/>
+
+            <View
+                android:id="@+id/slideIndicator2"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/btn_bkg_white"/>
+
+            <View
+                android:id="@+id/slideIndicator3"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/btn_bkg_white"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

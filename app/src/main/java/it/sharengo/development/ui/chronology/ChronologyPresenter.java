@@ -66,8 +66,8 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void getTrips(){
 
-        hideLoading = false;
-        getMvpView().showStandardLoading();
+        hideLoading = true;
+        //getMvpView().showStandardLoading();
 
         if( mTripsRequest == null) {
             mTripsRequest = buildTripsRequest();
@@ -110,13 +110,17 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
     private void checkTripsResult(){
 
         if(mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0){
-
+            //getMvpView().showStandardLoading();
             getMvpView().showList(mResponseTrip.trips);
 
         }else{
 
             getMvpView().showEmptyResult();
         }
+    }
+
+    public void hideLoading(){
+        getMvpView().hideStandardLoading();
     }
 
 }

@@ -29,7 +29,7 @@ public class LongIntroActivity extends BaseActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0, R.anim.slide_out_up);
+        //overridePendingTransition(0, R.anim.slide_out_up);
     }
 
 }
