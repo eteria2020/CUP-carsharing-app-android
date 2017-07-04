@@ -41,4 +41,5 @@ dependencies {
     compile "com.github.MKergall:osmbonuspack:$rootProject.ext.osmbonuspackVersion"
     compile "com.oguzdev:CircularFloatingActionMenu:$rootProject.ext.circularFloatingActionMenu"
     compile "pl.droidsonroids.gif:android-gif-drawable:$rootProject.ext.androidGifDrawable"
+    compile "com.squareup.picasso:picasso:$rootProject.ext.squareupPicasso"
 }

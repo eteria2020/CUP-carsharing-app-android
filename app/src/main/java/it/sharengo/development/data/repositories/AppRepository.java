@@ -29,7 +29,7 @@ public class AppRepository {
     private MenuItem.Section menuSelection;
 
     private CitiesDataSource mCitiesDataSource;
-    private List<City> mChachedCities;
+    private ResponseCity mChachedCities;
 
     private City mCityPreference;
     private String mLang;
@@ -94,24 +94,30 @@ public class AppRepository {
 
     public Observable<ResponseCity> getCities(final Context context) {
 
-        return mCitiesDataSource.getCities(Credentials.basic(context.getString(R.string.endpointCitiesUser),context.getString(R.string.endpointCitiesPass)))
-                .doOnNext(new Action1<ResponseCity>() {
-                    @Override
-                    public void call(ResponseCity response) {
+        if(mChachedCities != null) {
 
-                        createOrUpdateCitiesInMemory(context, response);
-                    }
-                });
+            return Observable.just(mChachedCities);
+
+        }else{
+            return mCitiesDataSource.getCities(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)))
+                    .doOnNext(new Action1<ResponseCity>() {
+                        @Override
+                        public void call(ResponseCity response) {
+
+                            createOrUpdateCitiesInMemory(context, response);
+                        }
+                    });
+        }
     }
 
     private void createOrUpdateCitiesInMemory(Context context, ResponseCity response) {
         if (mChachedCities == null) {
-            mChachedCities = new ArrayList<City>();
+            mChachedCities = new ResponseCity();
         }
-        mChachedCities = response.data;
+        mChachedCities = response;
 
         SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
-        for(City mCity : mChachedCities){
+        for(City mCity : mChachedCities.data){
             if(mPref.getString(context.getString(R.string.preference_file_key),"").equals(mCity.id)){
                 mCity.favourites = true;
                 mCityPreference = mCity;

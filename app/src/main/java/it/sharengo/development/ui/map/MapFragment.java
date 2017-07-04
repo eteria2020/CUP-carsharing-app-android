@@ -7,10 +7,18 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -50,6 +58,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import org.apache.commons.lang3.StringUtils;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
@@ -68,6 +79,9 @@ import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -81,6 +95,7 @@ import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Car;
+import it.sharengo.development.data.models.City;
 import it.sharengo.development.data.models.Reservation;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.models.Trip;
@@ -585,7 +600,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
             poiCityMarkers = new FolderOverlay();
 
-            final GeoPoint milanGeoPoint = new GeoPoint(45.465454, 9.186515);
+            /*final GeoPoint milanGeoPoint = new GeoPoint(45.465454, 9.186515);
             final GeoPoint romeGeoPoint = new GeoPoint(41.902783, 12.496365);
             final GeoPoint modenaGeoPoint = new GeoPoint(44.647128, 10.925226);
             final GeoPoint florenceGeoPoint = new GeoPoint(43.769560, 11.255813);
@@ -600,7 +615,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             showCityMarker(modenaGeoPoint, R.drawable.ic_cluster_modena);
 
             //Firenze
-            showCityMarker(florenceGeoPoint, R.drawable.ic_cluster_firence);
+            showCityMarker(florenceGeoPoint, R.drawable.ic_cluster_firence);*/
+            mPresenter.loadCity(getActivity());
 
             mMapView.getOverlays().add(poiCityMarkers);
             mMapView.invalidate();
@@ -615,37 +631,28 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     }
 
-    private void showCityMarker(final GeoPoint geoPoint, int clusterIcon){
-        Marker markerCarCity = new Marker(mMapView);
-        markerCarCity.setPosition(geoPoint);
-        markerCarCity.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        markerCarCity.setIcon(getIconMarker(clusterIcon));
-        markerCarCity.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker, MapView mapView) {
+    public Drawable makeBasicMarker(Bitmap bitmap) {
+        Drawable[] layers = new Drawable[2];
+        layers[0] = new BitmapDrawable(getResources(),
+                BitmapFactory.decodeResource(getResources(), R.drawable.ic_cluster));
 
-                if(poiCityMarkers != null)
-                    mMapView.getOverlays().remove(poiCityMarkers);
-
-                mMapView.invalidate();
-
-                mMapView.getController().setCenter(geoPoint);
-                mMapView.getController().setZoom(11);
-                mMapView.invalidate();
-
-                /*try {
-                    mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getMapRadius());
-                } catch (NullPointerException e) {
-                }*/
-                //refreshCars();
-
-                return true;
-            }
-        });
-
-        poiCityMarkers.add(markerCarCity);
-
+        layers[1] = new BitmapDrawable(getResources(), tintImage(bitmap));
+        LayerDrawable ld = new LayerDrawable(layers);
+        ld.setLayerInset(1, 10, 10, 10, 10); // xx would be the values needed so bitmap ends in the upper part of the image
+        return ld;
     }
+
+    public  Bitmap tintImage(Bitmap bitmap) {
+        Paint paint = new Paint();
+        paint.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(getActivity(), R.color.mediumseagreen), PorterDuff.Mode.SRC_ATOP));
+        Bitmap bitmapResult = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmapResult);
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+        return bitmapResult;
+    }
+
+
+
 
     private void centerMap(){
 
@@ -1828,6 +1835,120 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     public void openPreselectedCarPopup(Car car){
         carPreSelected = car;
     }
+
+    @Override
+    public void showCity(List<City> cityList){
+        for(City cA : cityList){
+
+            //Setto il marker
+            final GeoPoint geoPoint = new GeoPoint(cA.informations.address.latitude, cA.informations.address.longitude);
+            Marker markerCarCity = new Marker(mMapView);
+            markerCarCity.setPosition(geoPoint);
+            //markerCarCity.setIcon(getIconMarker(R.drawable.ic_cluster));
+            markerCarCity.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            //Listener
+            markerCarCity.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker, MapView mapView) {
+
+                    if(poiCityMarkers != null)
+                        mMapView.getOverlays().remove(poiCityMarkers);
+
+                    mMapView.invalidate();
+
+                    mMapView.getController().setCenter(geoPoint);
+                    mMapView.getController().setZoom(11);
+                    mMapView.invalidate();
+
+
+                    return true;
+                }
+            });
+
+
+
+            //Disegno i componenti grafici
+            final Marker finalMarkerCarCity = markerCarCity;
+            Target target = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    finalMarkerCarCity.setIcon(makeBasicMarker(bitmap));
+                    //Aggiungo all'array
+                    poiCityMarkers.add(finalMarkerCarCity);
+                    mMapView.invalidate();
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                }
+            };
+
+            Picasso.with(getActivity()).load(cA.media.images.icon.uri).into(target);
+
+        }
+    }
+
+
+
+    /*AAA*/
+    /*Marker markerCarCity;
+    private void showCityMarker(final GeoPoint geoPoint, int clusterIcon){
+        markerCarCity = new Marker(mMapView);
+        markerCarCity.setPosition(geoPoint);
+        markerCarCity.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        //markerCarCity.setIcon(getIconMarker(clusterIcon));
+        //markerCarCity.setIcon(makeBasicMarker());
+        markerCarCity.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker, MapView mapView) {
+
+                if(poiCityMarkers != null)
+                    mMapView.getOverlays().remove(poiCityMarkers);
+
+                mMapView.invalidate();
+
+                mMapView.getController().setCenter(geoPoint);
+                mMapView.getController().setZoom(11);
+                mMapView.invalidate();
+
+
+                return true;
+            }
+        });
+
+        someMethod();
+
+        poiCityMarkers.add(markerCarCity);
+
+    }*/
+
+
+    /*private Target target = new Target() {
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            Log.w("MAP","onBitmapLoaded");
+            markerCarCity.setIcon(makeBasicMarker(bitmap));
+            mMapView.invalidate();
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+        }
+    };*/
+
+    /*private void someMethod() {
+        Log.w("MAP","someMethod");
+        Picasso.with(getActivity()).load("http://universo-sharengo.thedigitalproject.it/sites/default/files/assets/images/icona_trasparente-milano.png").into(target);
+    }*/
+    /*AAA*/
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

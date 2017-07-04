@@ -3,6 +3,7 @@ package it.sharengo.development.ui.map;
 import java.util.List;
 
 import it.sharengo.development.data.models.Car;
+import it.sharengo.development.data.models.City;
 import it.sharengo.development.data.models.Reservation;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.models.Trip;
@@ -25,4 +26,5 @@ public interface MapMvpView extends MvpView {
     void openNotification(int start, int end);
     void openReservationNotification();
     void openPreselectedCarPopup(Car car);
+    void showCity(List<City> cityList);
 }

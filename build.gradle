@@ -88,4 +88,5 @@ ext {
     osmbonuspackVersion = '6.3'
     circularFloatingActionMenu = '1.0.2'
     androidGifDrawable = '1.2.7'
+    squareupPicasso = '2.5.2'
 }

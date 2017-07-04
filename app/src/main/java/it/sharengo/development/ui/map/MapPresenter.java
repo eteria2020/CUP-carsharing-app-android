@@ -15,11 +15,13 @@ import java.util.TimerTask;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Address;
 import it.sharengo.development.data.models.Car;
+import it.sharengo.development.data.models.City;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.Post;
 import it.sharengo.development.data.models.Reservation;
 import it.sharengo.development.data.models.Response;
 import it.sharengo.development.data.models.ResponseCar;
+import it.sharengo.development.data.models.ResponseCity;
 import it.sharengo.development.data.models.ResponsePutReservation;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
@@ -65,6 +67,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private Observable<ResponseTrip> mTripsRequest;
     private Observable<ResponseReservation> mReservationsRequest;
     private Observable<ResponsePutReservation> mReservationRequest;
+    private Observable<ResponseCity> mCityRequest;
 
     /*
      *  VAR
@@ -84,6 +87,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private boolean isTripExists;
     private boolean isBookingExists;
     private int timestamp_start;
+    private List<City> mCitiesList;
 
     /*
      *  Timer
@@ -1030,6 +1034,53 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     public void setCarSelected(Car cs){
         mCarRepository.setCarSelected(cs);
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              LOAD City
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void loadCity(Context context) {
+
+        hideLoading = true;
+
+        if( mCityRequest == null) {
+            mCityRequest = buildCitiesRequest(context);
+            addSubscription(mCityRequest.unsafeSubscribe(getCitiesSubscriber()));
+        }
+    }
+
+    private Observable<ResponseCity> buildCitiesRequest(Context context) {
+        return mCityRequest = mAppRepository.getCities(context)
+                .first()
+                .compose(this.<ResponseCity>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        getMvpView().showCity(mCitiesList);
+                    }
+                });
+    }
+
+    private Subscriber<ResponseCity> getCitiesSubscriber(){
+        return new Subscriber<ResponseCity>() {
+            @Override
+            public void onCompleted() {
+                mCityRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mCityRequest = null;
+            }
+
+            @Override
+            public void onNext(ResponseCity response) {
+                mCitiesList = response.data;
+            }
+        };
     }
 }
 
