@@ -34,6 +34,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
     private GifDrawable gifDrawable;
     private int nextAnimation;
     private String lang;
+    private boolean animation;
 
     @BindView(R.id.animImageView)
     GifImageView mGif;
@@ -77,8 +78,8 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
 
         gifDrawable = (GifDrawable) mGif.getDrawable();
 
+        animation = false;
         nextAnimation = 0;
-        nextAnimation();
 
         onboardLayout.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
             public void onSwipeTop() {
@@ -86,7 +87,8 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
             public void onSwipeRight() {
             }
             public void onSwipeLeft() {
-                nextAnimation();
+
+                if(!animation) nextAnimation();
             }
             public void onSwipeBottom() {
             }
@@ -94,6 +96,13 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(nextAnimation == 0)
+            nextAnimation();
     }
 
     private Drawable getBgDrawable(int icon){
@@ -113,6 +122,8 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void nextAnimation(){
+        animation = true;
+
         switch (nextAnimation){
             case 0: //Car 1 - Ingresso
                 setIndicator(1);
@@ -338,6 +349,8 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onAnimationCompleted(int loopNumber) {
+
+        animation = false;
 
         if(nextAnimation == 1 || nextAnimation == 3 || nextAnimation == 4 || nextAnimation == 6 || nextAnimation == 7 || nextAnimation == 8)
             nextAnimation();

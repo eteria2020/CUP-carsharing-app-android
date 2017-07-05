@@ -83,6 +83,7 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
             mPresenter.setFirstAccess(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
             getActivity().finish();
             Navigator.launchLogin(this, Navigator.REQUEST_LOGIN_START);
+            Navigator.launchOnboarding(this);
             Navigator.launchLongIntro(this);
         }else{
             getActivity().finish();

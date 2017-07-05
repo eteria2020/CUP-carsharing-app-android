@@ -169,7 +169,7 @@ public class LongIntroFragment extends BaseMvpFragment<LongIntroPresenter> imple
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Navigator.launchOnboarding(LongIntroFragment.this);
+                                        //Navigator.launchOnboarding(LongIntroFragment.this);
                                         getActivity().finish();
                                     }
                                 }, 1000);
