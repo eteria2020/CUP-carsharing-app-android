@@ -33,6 +33,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
 
     private GifDrawable gifDrawable;
     private int nextAnimation;
+    private boolean backAnimation;
     private String lang;
     private boolean animation;
 
@@ -80,15 +81,25 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
 
         animation = false;
         nextAnimation = 0;
+        backAnimation = false;
 
         onboardLayout.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
             public void onSwipeTop() {
             }
             public void onSwipeRight() {
+
+                if(!animation && nextAnimation != 2){
+                    backAnimation = true;
+                    nextAnimation();
+                }
+
             }
             public void onSwipeLeft() {
 
-                if(!animation) nextAnimation();
+                if(!animation){
+                    backAnimation = false;
+                    nextAnimation();
+                }
             }
             public void onSwipeBottom() {
             }
@@ -158,7 +169,11 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
                 startAnimationCar3Loop();
                 break;
             case 8:
-                //Devo uscire dalla schermata
+                //Car 3 - Uscita
+                setIndicator(3);
+                startAnimationCar3Uscita();
+                break;
+            case 9:
                 getActivity().finish();
                 break;
 
@@ -300,7 +315,11 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
         gifDrawable.start();
         gifDrawable.addAnimationListener(this);
 
-        nextAnimation = 6;
+        if(backAnimation)
+            nextAnimation = 0;
+        else
+            nextAnimation = 6;
+
     }
 
     //Car 3
@@ -342,6 +361,30 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
         nextAnimation = 8;
     }
 
+    private void startAnimationCar3Uscita(){
+
+        textTextView.animate().alpha(0.0f).setListener(null);
+
+        int da = (lang.equals("it")) ? R.drawable.auto_c_uscita : R.drawable.auto_c_uscita;
+
+        try {
+            gifDrawable = new GifDrawable(getResources(), da);
+            mGif.setImageDrawable(gifDrawable);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        gifDrawable.setLoopCount(1);
+        gifDrawable.start();
+        gifDrawable.addAnimationListener(this);
+
+        if(backAnimation)
+            nextAnimation = 3;
+        else
+            nextAnimation = 9;
+
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Listener
@@ -352,7 +395,8 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
 
         animation = false;
 
-        if(nextAnimation == 1 || nextAnimation == 3 || nextAnimation == 4 || nextAnimation == 6 || nextAnimation == 7 || nextAnimation == 8)
+
+        if(nextAnimation == 0 || nextAnimation == 1 || nextAnimation == 3 || nextAnimation == 4 || nextAnimation == 6 || nextAnimation == 7 || nextAnimation == 9)
             nextAnimation();
     }
 
