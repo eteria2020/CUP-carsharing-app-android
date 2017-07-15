@@ -4,6 +4,7 @@ import dagger.Component;
 import it.sharengo.development.injection.PerActivity;
 import it.sharengo.development.injection.modules.MvpFragmentModule;
 import it.sharengo.development.ui.chronology.ChronologyFragment;
+import it.sharengo.development.ui.feeds.FeedsFragment;
 import it.sharengo.development.ui.login.LoginFragment;
 import it.sharengo.development.ui.longintro.LongIntroFragment;
 import it.sharengo.development.ui.map.MapFragment;
@@ -65,4 +66,6 @@ public interface MvpFragmentComponent {
     void inject(ChronologyFragment fragment);
 
     void inject(OnboardingFragment fragment);
+
+    void inject(FeedsFragment fragment);
 }

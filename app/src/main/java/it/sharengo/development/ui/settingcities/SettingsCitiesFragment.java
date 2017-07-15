@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -27,13 +28,23 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
 
     private static final String TAG = SettingsCitiesFragment.class.getSimpleName();
 
+    public static final String ARG_FEEDS = "ARG_FEEDS";
+
+    private boolean feeds;
+
     private SettingsCitiesAdapter mAdapter;
 
     @BindView(R.id.citiesRecyclerView)
     RecyclerView mRv;
 
-    public static SettingsCitiesFragment newInstance() {
+    @BindView(R.id.backImageView)
+    ImageView backImageView;
+
+    public static SettingsCitiesFragment newInstance(boolean feeds) {
         SettingsCitiesFragment fragment = new SettingsCitiesFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(ARG_FEEDS, feeds);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -43,6 +54,10 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
         setHasOptionsMenu(true);
         getMvpFragmentComponent(savedInstanceState).inject(this);
         mAdapter = new SettingsCitiesAdapter(mActionListener, getActivity());
+
+        if(getArguments() != null){
+            feeds = getArguments().getBoolean(ARG_FEEDS);
+        }
     }
 
     @Override
@@ -56,6 +71,11 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
         mRv.setLayoutManager(lm);
         mRv.setAdapter(mAdapter);
         //mRv.addItemDecoration(new DividerItemDecoration(mRv.getContext(), lm.getOrientation()));
+
+        //Se provengo dalla Home per i feeds rimuovo il pulsante back
+        if(feeds){
+            backImageView.setVisibility(View.GONE);
+        }
 
         return view;
     }
@@ -81,7 +101,11 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
             editor.putString(getString(R.string.preference_citiesfavourites), city.id);
             editor.commit();
 
-            mPresenter.loadList(getContext());
+            if(feeds) {
+                Navigator.launchFeeds(SettingsCitiesFragment.this);
+                getActivity().finish();
+            }else
+                mPresenter.loadList(getContext());
         }
     };
 

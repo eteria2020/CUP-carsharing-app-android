@@ -89,6 +89,9 @@
         <activity
             android:name=".ui.onboarding.OnboardingActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.feeds.FeedsActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

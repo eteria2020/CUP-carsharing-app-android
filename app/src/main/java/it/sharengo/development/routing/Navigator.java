@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.development.ui.chronology.ChronologyActivity;
+import it.sharengo.development.ui.feeds.FeedsActivity;
 import it.sharengo.development.ui.home.HomeActivity;
 import it.sharengo.development.ui.login.LoginActivity;
 import it.sharengo.development.ui.longintro.LongIntroActivity;
@@ -38,6 +39,7 @@ public class Navigator {
      */
 
     public static final String EXTRA_LOGIN = "EXTRA_LOGIN";
+    public static final String EXTRA_FEEDS = "EXTRA_FEEDS";
     public static final int REQUEST_LOGIN_START = 1;
     public static final int REQUEST_LOGIN_PROFILE = 2;
     public static final int REQUEST_LOGIN_MAPS = 3;
@@ -103,8 +105,8 @@ public class Navigator {
         activity.startActivity(intent);
     }
 
-    public static void launchSettingsCities(Fragment fragment) {
-        Intent intent = SettingsCitiesActivity.getCallingIntent(fragment.getActivity());
+    public static void launchSettingsCities(Fragment fragment, boolean feeds) {
+        Intent intent = SettingsCitiesActivity.getCallingIntent(fragment.getActivity(), feeds);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
@@ -171,6 +173,13 @@ public class Navigator {
 
     public static void launchOnboarding(Fragment fragment) {
         Intent intent = OnboardingActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchFeeds(Fragment fragment) {
+        Intent intent = FeedsActivity.getCallingIntent(fragment.getActivity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);

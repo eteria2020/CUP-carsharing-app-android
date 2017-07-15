@@ -187,4 +187,10 @@
     <string name="onboarding_car1_label">Facili e divertenti\nda guidare</string>
     <string name="onboarding_car2_label">Più ne hai bisogno\ne meno costa</string>
     <string name="onboarding_car3_label">Ogni corsa una sorpresa\ne una scoperta</string>
+
+    <!-- Feeds -->
+    <string name="feeds_feed_action">Feed</string>
+    <string name="feeds_categories_action">Categorie</string>
+    <string name="feeds_aroundme_action">Intorno a me</string>
+    <string name="feeds_categorydisabled_alert">Questa categoria sarà disponibile prossimamente.</string>
 </resources>

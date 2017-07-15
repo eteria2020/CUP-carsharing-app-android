@@ -8,10 +8,12 @@ import dagger.Provides;
 import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.CarRepository;
+import it.sharengo.development.data.repositories.CityRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.chronology.ChronologyPresenter;
+import it.sharengo.development.ui.feeds.FeedsPresenter;
 import it.sharengo.development.ui.login.LoginPresenter;
 import it.sharengo.development.ui.longintro.LongIntroPresenter;
 import it.sharengo.development.ui.map.MapPresenter;
@@ -287,6 +289,18 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new OnboardingPresenter(schedulerProvider, appRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    FeedsPresenter provideFeedsPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, CityRepository cityRepository) {
+        FeedsPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new FeedsPresenter(schedulerProvider, appRepository, cityRepository);
         }
         return presenter;
     }

@@ -15,8 +15,9 @@ public class SettingsCitiesActivity extends BaseDrawerActivity {
 
     private static final String TAG = SettingsCitiesActivity.class.getSimpleName();
 
-    public static Intent getCallingIntent(Context context) {
+    public static Intent getCallingIntent(Context context, boolean feeds) {
         Intent i = new Intent(context, SettingsCitiesActivity.class);
+        i.putExtra(Navigator.EXTRA_FEEDS, feeds);
         return i;
     }
 
@@ -24,8 +25,9 @@ public class SettingsCitiesActivity extends BaseDrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState == null) {
-            replaceFragment(SettingsCitiesFragment.newInstance());
+        if (savedInstanceState == null && getIntent().getExtras() != null) {
+            boolean feeds = getIntent().getExtras().getBoolean(Navigator.EXTRA_FEEDS);
+            replaceFragment(SettingsCitiesFragment.newInstance(feeds));
         }
     }
 

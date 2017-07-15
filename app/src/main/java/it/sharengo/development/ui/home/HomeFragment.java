@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.Animator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,8 @@ import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.utils.ImageUtils;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends BaseMvpFragment<HomePresenter> implements HomeMvpView {
 
@@ -405,7 +408,71 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     }
 
     private void openFeeds(){
-        Log.w("HOME","openFeeds");
+
+        //homeView
+        float centerX = homeView.getWidth() / 2;
+        float centerY = homeView.getHeight() / 2;
+
+        cityButton.animate().x(centerX - cityButton.getWidth() / 2).y(centerY - cityButton.getHeight() / 2).setDuration(500).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+
+                homeView.animate().alpha(0.0f).setDuration(100).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+
+
+                        //Verifico se la città preferita è stata impostata
+                        SharedPreferences mPref = getActivity().getSharedPreferences(getActivity().getString(R.string.preference_file_key), MODE_PRIVATE);
+                        if(mPref.getString(getActivity().getString(R.string.preference_citiesfavourites),"").isEmpty()){
+                            //Apro i settings
+                            Navigator.launchSettingsCities(HomeFragment.this, true);
+                            getActivity().finish();
+                        }else{
+                            //Apro i feed
+                            Navigator.launchFeeds(HomeFragment.this);
+                            getActivity().finish();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+
+                    }
+                }).start();
+
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        }).start();
+
+
     }
 
     ////////////////////////////////////
