@@ -2,6 +2,7 @@ package it.sharengo.development.data.repositories;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +97,7 @@ public class AppRepository {
 
         if(mChachedCities != null) {
 
+            setFavoriteCity(context);
             return Observable.just(mChachedCities);
 
         }else{
@@ -116,16 +118,20 @@ public class AppRepository {
         }
         mChachedCities = response;
 
+        setFavoriteCity(context);
+    }
+
+    private void setFavoriteCity(Context context){
         SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
+
         for(City mCity : mChachedCities.data){
-            if(mPref.getString(context.getString(R.string.preference_file_key),"").equals(mCity.id)){
+            if(mPref.getString(context.getString(R.string.preference_citiesfavourites),"").equals(mCity.id)){
                 mCity.favourites = true;
                 mCityPreference = mCity;
             }else{
                 mCity.favourites = false;
             }
         }
-
     }
 
     public City getCityPreference(){

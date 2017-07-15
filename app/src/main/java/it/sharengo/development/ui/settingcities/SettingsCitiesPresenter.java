@@ -3,6 +3,7 @@ package it.sharengo.development.ui.settingcities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.List;
 

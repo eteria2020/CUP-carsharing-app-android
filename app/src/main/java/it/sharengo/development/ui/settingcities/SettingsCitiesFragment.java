@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,7 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
 
             SharedPreferences mPref = getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
             SharedPreferences.Editor editor = mPref.edit();
-            editor.putString(getString(R.string.preference_file_key), city.id);
+            editor.putString(getString(R.string.preference_citiesfavourites), city.id);
             editor.commit();
 
             mPresenter.loadList(getContext());
@@ -105,6 +106,7 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
     @Override
     public void showList(List<City> citiesList) {
         mAdapter.setData(citiesList);
+        mAdapter.notifyDataSetChanged();
     }
 
 }

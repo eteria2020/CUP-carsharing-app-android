@@ -404,6 +404,9 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
     }
 
+    private void openFeeds(){
+        Log.w("HOME","openFeeds");
+    }
 
     ////////////////////////////////////
     //
@@ -434,17 +437,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
     @OnClick(R.id.cityButton)
     public void onUnknownClick(){
-        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
-                getString(R.string.general_notenabled_alert),
-                getString(R.string.ok),
-                null);
-        cdd.show();
-        cdd.yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cdd.dismissAlert();
-            }
-        });
+        openFeeds();
     }
 
 
