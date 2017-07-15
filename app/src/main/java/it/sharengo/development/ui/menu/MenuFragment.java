@@ -177,7 +177,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                         Navigator.launchLogin(MenuFragment.this, Navigator.REQUEST_LOGIN_START);
                         break;
                     case LOGOUT:
-                        mPresenter.logout(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
+                        mPresenter.logout(getActivity(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
                         break;
                     case SIGNUP:
                         Navigator.launchSlideshow(MenuFragment.this);

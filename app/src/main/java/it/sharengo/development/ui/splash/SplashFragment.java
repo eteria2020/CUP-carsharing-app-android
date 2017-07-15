@@ -88,7 +88,7 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
         }else{
             getActivity().finish();
             Navigator.launchHome(this);
-            Navigator.launchOnboarding(this); //TODO remove
+            //Navigator.launchOnboarding(this); //TODO remove
             Navigator.launchShortIntro(this);
         }
     }

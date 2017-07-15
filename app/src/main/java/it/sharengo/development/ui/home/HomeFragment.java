@@ -261,8 +261,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
                 requestPermissions(permissions, mRequestPermission);
             }
         }else{
-            getActivity().finish();
-            Navigator.launchMap(this);
+            launchMap();
         }
     }
 
@@ -276,7 +275,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
 
-                    Navigator.launchMap(this);
+                    launchMap();
 
                 } else {
 
@@ -299,6 +298,112 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         mPresenter.viewDestroy();
     }
 
+    private void launchMap(){
+
+        //homeView
+        float centerX = homeView.getWidth() / 2;
+        float centerY = homeView.getHeight() / 2;
+
+        searchCarsButton.animate().x(centerX - searchCarsButton.getWidth() / 2).y(centerY - searchCarsButton.getHeight() / 2).setDuration(500).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+
+                homeView.animate().alpha(0.0f).setDuration(100).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        getActivity().finish();
+                        Navigator.launchMap(HomeFragment.this);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+
+                    }
+                }).start();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        }).start();
+
+    }
+
+    private void launchProfile(){
+
+        //homeView
+        float centerX = homeView.getWidth() / 2;
+        float centerY = homeView.getHeight() / 2;
+
+        profileUserButton.animate().x(centerX - profileUserButton.getWidth() / 2).y(centerY - profileUserButton.getHeight() / 2).setDuration(500).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+
+                homeView.animate().alpha(0.0f).setDuration(100).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        getActivity().finish();
+                        Navigator.launchProfile(HomeFragment.this);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+
+                    }
+                }).start();
+
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        }).start();
+
+    }
+
 
     ////////////////////////////////////
     //
@@ -316,8 +421,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         if(mPresenter.isAuth()) {
 
             //Apro il profilo
-            Navigator.launchProfile(this);
-            getActivity().finish();
+            launchProfile();
 
         }else{
 

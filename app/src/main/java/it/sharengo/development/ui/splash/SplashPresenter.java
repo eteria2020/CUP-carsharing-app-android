@@ -66,12 +66,17 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
         mContext = context;
 
 
-        //Recupero la lingua impostata
-        mAppRepository.putLang(mPref.getString(context.getString(R.string.preference_lang), "it"));
-
 
         //Recupero le credenziali dell'utente (se salvate)
         mUserRepository.saveUserCredentials(mPreferencesRepository.getUsername(mPref), mPreferencesRepository.getPassword(mPref));
+
+
+        //Recupero la lingua impostata
+        if(!mUserRepository.getCachedUser().username.isEmpty()) //Utente loggato
+            mAppRepository.putLang(mPref.getString(context.getString(R.string.preference_lang), Locale.getDefault().getLanguage()));
+        else
+            mAppRepository.putLang(Locale.getDefault().getLanguage());
+
 
         if(mSplashRequest == null) {
 

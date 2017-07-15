@@ -184,13 +184,13 @@ public class MvpFragmentModule {
     }
 
     @Provides
-    LongIntroPresenter provideLongIntroPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+    LongIntroPresenter provideLongIntroPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
         LongIntroPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new LongIntroPresenter(schedulerProvider);
+            presenter = new LongIntroPresenter(schedulerProvider, appRepository);
         }
         return presenter;
     }

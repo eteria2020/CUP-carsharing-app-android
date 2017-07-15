@@ -25,7 +25,13 @@ public class BaseFragment extends HdxBaseFragment {
         App.getInstance().getComponent().inject(this);
 
         SharedPreferences mPref = getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
-        String lang = mPref.getString(getString(R.string.preference_lang), "it");
+        String username =  mPref.getString("KEY_USERNAME", "");
+
+        String lang;
+        if(!username.isEmpty())
+            lang = mPref.getString(getString(R.string.preference_lang), Locale.getDefault().getLanguage());
+        else
+            lang = Locale.getDefault().getLanguage();
 
         Resources res = getActivity().getResources();
         DisplayMetrics dm = res.getDisplayMetrics();

@@ -73,6 +73,8 @@ public class LongIntroFragment extends BaseMvpFragment<LongIntroPresenter> imple
 
         startGifAnimation();
 
+        mPresenter.onCreateView();
+
         return view;
     }
 

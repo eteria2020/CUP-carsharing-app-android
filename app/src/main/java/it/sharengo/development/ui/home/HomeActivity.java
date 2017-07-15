@@ -42,6 +42,12 @@ public class HomeActivity extends BaseDrawerActivity {
     public void showNotification(String notification, View.OnClickListener mNotificationListener){
         super.showNotification(notification, mNotificationListener);
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.fade_out);
+    }
 }
 
 /*public class HomeActivity extends BaseActivity {

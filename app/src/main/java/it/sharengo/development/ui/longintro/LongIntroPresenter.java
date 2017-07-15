@@ -9,11 +9,18 @@ public class LongIntroPresenter extends BasePresenter<LongIntroMvpView> {
 
     private static final String TAG = LongIntroPresenter.class.getSimpleName();
 
+    private final AppRepository mAppRepository;
 
-    public LongIntroPresenter(SchedulerProvider schedulerProvider) {
+    public LongIntroPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository) {
         super(schedulerProvider);
 
+        mAppRepository = appRepository;
+
         //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
+    }
+
+    public void onCreateView(){
+        mAppRepository.setAnimateHome(false);
     }
 
 

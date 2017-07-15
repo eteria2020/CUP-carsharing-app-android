@@ -1125,7 +1125,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         currentSearchItem = searchItem;
 
-        if(searchItem.type.equals("address"))
+        //Salvo la ricerca appena effettuata solo se sono un utente loggato
+        if(searchItem.type.equals("address") && mPresenter.isAuth())
             saveLastAndFavouriteSearch(searchItem);
 
         //Inserisco nella casella di testo il valore cercato
@@ -1148,8 +1149,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     }
 
     private void setSearchDefaultContent(){
-        //Mostro preferiti + storisco nella view dei risultati
-        mPresenter.getSearchItems("", getContext(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
+        //Mostro preferiti + storisco nella view dei risultati (solo se l'utente è loggato)
+        if(mPresenter.isAuth())
+            mPresenter.getSearchItems("", getContext(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
     }
 
     //Salvo l'ultima ricerca fatta

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -54,6 +55,7 @@ public class SettingsLangPresenter extends BasePresenter<SettingsLangMvpView> {
         editor.commit();
 
         mAppRepository.putLang(lang);
+
 
         getMvpView().reloadApp();
     }
