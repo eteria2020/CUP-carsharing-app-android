@@ -17,6 +17,8 @@ public class Address {
 
     public String display_name;
 
+    public String friendly;
+
 
 
     @ExcludeSerialization
@@ -30,5 +32,11 @@ public class Address {
         this.longitude = longitude;
         this.latitude = latitude;
         this.display_name = display_name;
+    }
+
+    private Address(String friendly, float longitude, float latitude) {
+        this.friendly = friendly;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 }

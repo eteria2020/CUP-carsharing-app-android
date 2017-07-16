@@ -1,14 +1,11 @@
 package it.sharengo.development.data.datasources;
 
 import it.sharengo.development.data.datasources.api.CitiesApi;
-import it.sharengo.development.data.datasources.api.SharengoApi;
 import it.sharengo.development.data.datasources.base.BaseRetrofitDataSource;
-import it.sharengo.development.data.models.Response;
 import it.sharengo.development.data.models.ResponseCity;
+import it.sharengo.development.data.models.ResponseFeed;
 import it.sharengo.development.data.models.ResponseFeedCategory;
 import rx.Observable;
-
-import static android.R.attr.radius;
 
 public class CitiesRetrofitDataSource extends BaseRetrofitDataSource implements CitiesDataSource {
 
@@ -30,5 +27,17 @@ public class CitiesRetrofitDataSource extends BaseRetrofitDataSource implements 
     public Observable<ResponseFeedCategory> getCategories(String auth) {
         return mCitiesApi.getCategories(auth)
                 .compose(this.<ResponseFeedCategory>handleRetrofitRequest());
+    }
+
+    @Override
+    public Observable<ResponseFeed> getOffers(String auth, String id_city) {
+        return mCitiesApi.getOffers(auth, id_city)
+                .compose(this.<ResponseFeed>handleRetrofitRequest());
+    }
+
+    @Override
+    public Observable<ResponseFeed> getEvents(String auth, String id_city) {
+        return mCitiesApi.getEvents(auth, id_city)
+                .compose(this.<ResponseFeed>handleRetrofitRequest());
     }
 }

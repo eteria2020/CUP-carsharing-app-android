@@ -6,9 +6,9 @@ import android.util.Log;
 
 import java.util.List;
 
-import it.sharengo.development.data.models.City;
+import it.sharengo.development.data.models.Feed;
 import it.sharengo.development.data.models.FeedCategory;
-import it.sharengo.development.data.models.ResponseCity;
+import it.sharengo.development.data.models.ResponseFeed;
 import it.sharengo.development.data.models.ResponseFeedCategory;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.CityRepository;
@@ -26,9 +26,12 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
     private final CityRepository mCityRepository;
 
     private Observable<ResponseFeedCategory> mCategoriesRequest;
+    private Observable<ResponseFeed> mFeedRequest;
     private boolean hideLoading;
 
     private List<FeedCategory> mCategoriesList;
+    private List<Feed> mOffersList;
+    private List<Feed> mEventsList;
 
 
     public FeedsPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, CityRepository cityRepository) {
@@ -63,6 +66,11 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
     }
 
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              LOAD Categories
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void loadCategoriesList(Context context) {
 
         hideLoading = false;
@@ -73,7 +81,7 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
         }
     }
 
-    private Observable<ResponseFeedCategory> buildCategoriesRequest(Context context) {
+    private Observable<ResponseFeedCategory> buildCategoriesRequest(final Context context) {
         return mCategoriesRequest = mCityRepository.getCategories(context)
                 .first()
                 .compose(this.<ResponseFeedCategory>handleDataRequest())
@@ -81,6 +89,7 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
                     @Override
                     public void call() {
                         getMvpView().showCategoriesList(mCategoriesList);
+                        loadOffersList(context, "5"); //TODO
                     }
                 });
     }
@@ -104,6 +113,101 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
         };
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              LOAD Offers
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void loadOffersList(Context context, String id_city) {
+
+        hideLoading = false;
+
+        if( mFeedRequest == null) {
+            mFeedRequest = buildOffersRequest(context, id_city);
+            addSubscription(mFeedRequest.unsafeSubscribe(getOffersSubscriber()));
+        }
+    }
+
+    private Observable<ResponseFeed> buildOffersRequest(final Context context, final String id_city) {
+        return mFeedRequest = mCityRepository.getOffers(context, id_city)
+                .first()
+                .compose(this.<ResponseFeed>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        loadEventsList(context, id_city);
+                    }
+                });
+    }
+
+    private Subscriber<ResponseFeed> getOffersSubscriber(){
+        return new Subscriber<ResponseFeed>() {
+            @Override
+            public void onCompleted() {
+                mFeedRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mFeedRequest = null;
+            }
+
+            @Override
+            public void onNext(ResponseFeed response) {
+                mFeedRequest = null;
+                mOffersList = response.data;
+            }
+        };
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              LOAD Events
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void loadEventsList(Context context, String id_city) {
+
+        hideLoading = false;
+
+        if( mFeedRequest == null) {
+            mFeedRequest = buildEventsRequest(context, id_city);
+            addSubscription(mFeedRequest.unsafeSubscribe(getEventsSubscriber()));
+        }
+    }
+
+    private Observable<ResponseFeed> buildEventsRequest(Context context, String id_city) {
+        return mFeedRequest = mCityRepository.getEvents(context, id_city)
+                .first()
+                .compose(this.<ResponseFeed>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        //getMvpView().showCategoriesList(mCategoriesList); TODO
+
+                        Log.w("mEventsList",": "+mEventsList.size());
+                    }
+                });
+    }
+
+    private Subscriber<ResponseFeed> getEventsSubscriber(){
+        return new Subscriber<ResponseFeed>() {
+            @Override
+            public void onCompleted() {
+                mFeedRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mFeedRequest = null;
+            }
+
+            @Override
+            public void onNext(ResponseFeed response) {
+                mEventsList = response.data;
+            }
+        };
+    }
 }
 
 

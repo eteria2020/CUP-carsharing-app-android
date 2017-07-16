@@ -1,22 +1,18 @@
 package it.sharengo.development.data.repositories;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import it.sharengo.development.R;
 import it.sharengo.development.data.datasources.CitiesDataSource;
-import it.sharengo.development.data.datasources.JsonPlaceholderDataSource;
-import it.sharengo.development.data.models.FeedCategory;
+import it.sharengo.development.data.models.Feed;
 import it.sharengo.development.data.models.Post;
-import it.sharengo.development.data.models.ResponseCity;
+import it.sharengo.development.data.models.ResponseFeed;
 import it.sharengo.development.data.models.ResponseFeedCategory;
 import okhttp3.Credentials;
 import rx.Observable;
@@ -30,6 +26,8 @@ public class CityRepository {
 
     private CitiesDataSource mRemoteDataSource;
     private ResponseFeedCategory mChachedCategories;
+    private List<Feed> mChachedOffers;
+    private List<Feed> mChachedEvents;
 
 
     @Inject
@@ -61,5 +59,57 @@ public class CityRepository {
             mChachedCategories = new ResponseFeedCategory();
         }
         mChachedCategories = response;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              GET Feed Offers
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Observable<ResponseFeed> getOffers(final Context context, String id_city) {
+
+        return mRemoteDataSource.getOffers(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)), id_city)
+                .doOnNext(new Action1<ResponseFeed>() {
+                    @Override
+                    public void call(ResponseFeed response) {
+
+                        createOrUpdateOffersInMemory(context, response);
+                    }
+                });
+    }
+
+    private void createOrUpdateOffersInMemory(Context context, ResponseFeed response) {
+        if (mChachedOffers == null) {
+            mChachedOffers = new ArrayList<Feed>();
+        }
+        mChachedOffers = response.data;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              GET Feed Events
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Observable<ResponseFeed> getEvents(final Context context, String id_city) {
+
+        return mRemoteDataSource.getEvents(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)), id_city)
+                .doOnNext(new Action1<ResponseFeed>() {
+                    @Override
+                    public void call(ResponseFeed response) {
+
+                        createOrUpdateEventsInMemory(context, response);
+                    }
+                });
+    }
+
+    private void createOrUpdateEventsInMemory(Context context, ResponseFeed response) {
+        if (mChachedEvents == null) {
+            mChachedEvents = new ArrayList<Feed>();
+        }
+        mChachedEvents = response.data;
     }
 }

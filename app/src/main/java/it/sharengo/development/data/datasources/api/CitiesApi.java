@@ -1,10 +1,12 @@
 package it.sharengo.development.data.datasources.api;
 
 import it.sharengo.development.data.models.ResponseCity;
+import it.sharengo.development.data.models.ResponseFeed;
 import it.sharengo.development.data.models.ResponseFeedCategory;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Path;
 import rx.Observable;
 
 public interface CitiesApi {
@@ -14,4 +16,11 @@ public interface CitiesApi {
 
     @GET("feed/categories/list")
     Observable<Result<ResponseFeedCategory>> getCategories(@Header("Authorization") String auth);
+
+    @GET("feed/category/0/city/{id_city}/offers")
+    Observable<Result<ResponseFeed>> getOffers(@Header("Authorization") String auth, @Path("id_city") String id_city);
+
+    @GET("feed/category/0/city/{id_city}/events")
+    Observable<Result<ResponseFeed>> getEvents(@Header("Authorization") String auth, @Path("id_city") String id_city);
+
 }
