@@ -7,11 +7,11 @@ public class Feed {
     @SerializedName("nid")
     public String id;
 
-    String title;
-    FeedCategory category;
-    FeedMedia media;
-    FeedAppearance appearance;
-    FeedInformation informations;
+    public String title;
+    public FeedCategory category;
+    public FeedMedia media;
+    public FeedAppearance appearance;
+    public FeedInformation informations;
 
     public Feed() {
     }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/feedView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/feedImageView"
+        android:layout_width="match_parent"
+        android:layout_height="170dp" />
+
+    <!--<ImageView
+        android:layout_width="320.0dp"
+        android:layout_height="320.0dp"
+        android:background="@drawable/trapezoid"/>-->
+
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/triangle"></RelativeLayout>
+
+    <it.sharengo.development.ui.components.CustomTextView
+        android:id="@+id/feedTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000" />
+
+</RelativeLayout>
+
+

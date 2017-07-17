@@ -13,7 +13,6 @@
         android:id="@+id/categoriesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#95a5ff"
         android:dividerHeight="1dp"
         tools:listitem="@layout/view_feeds_categories_item" />
 

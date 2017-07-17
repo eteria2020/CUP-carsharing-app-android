@@ -1,15 +1,11 @@
 package it.sharengo.development.ui.feeds;
 
-import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +17,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.development.R;
-import it.sharengo.development.data.models.City;
+import it.sharengo.development.data.models.Feed;
 import it.sharengo.development.data.models.FeedCategory;
-import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.settingcities.SettingsCitiesAdapter;
-import it.sharengo.development.ui.settingcities.SettingsCitiesFragment;
-
-import static android.content.Context.MODE_PRIVATE;
 
 
 public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements FeedsMvpView {
@@ -37,6 +28,7 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
     private static final String TAG = FeedsFragment.class.getSimpleName();
 
     private FeedsCategoriesAdapter mCategoriesAdapter;
+    private FeedsAdapter mFeedsAdapter;
 
     @BindView(R.id.feedTextView)
     TextView feedTextView;
@@ -59,6 +51,9 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
     @BindView(R.id.categoriesRecyclerView)
     RecyclerView mCategoriesRv;
 
+    @BindView(R.id.feedsRecyclerView)
+    RecyclerView mFeedsRv;
+
     public static FeedsFragment newInstance() {
         FeedsFragment fragment = new FeedsFragment();
         return fragment;
@@ -71,7 +66,8 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
         setHasOptionsMenu(true);
         getMvpFragmentComponent(savedInstanceState).inject(this);
 
-        mCategoriesAdapter = new FeedsCategoriesAdapter(mActionListener, getActivity());
+        mCategoriesAdapter = new FeedsCategoriesAdapter(mCategoriesActionListener, getActivity());
+        mFeedsAdapter = new FeedsAdapter(mFeedsActionListener, getActivity());
     }
 
     @Override
@@ -82,11 +78,19 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
         //Mostro la lista
         feedsListView.setVisibility(View.VISIBLE);
 
+        //Categorie
         mCategoriesRv.setHasFixedSize(true);
         final GridLayoutManager lm = new GridLayoutManager(mContext, 2);
         lm.setSmoothScrollbarEnabled(false);
         mCategoriesRv.setLayoutManager(lm);
         mCategoriesRv.setAdapter(mCategoriesAdapter);
+
+        //Feed
+        mFeedsRv.setHasFixedSize(true);
+        final LinearLayoutManager lmFeed = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        lmFeed.setSmoothScrollbarEnabled(false);
+        mFeedsRv.setLayoutManager(lmFeed);
+        mFeedsRv.setAdapter(mFeedsAdapter);
 
         return view;
     }
@@ -127,7 +131,7 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
     //          LISTENERS
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    private FeedsCategoriesAdapter.OnItemActionListener mActionListener = new FeedsCategoriesAdapter.OnItemActionListener() {
+    private FeedsCategoriesAdapter.OnItemActionListener mCategoriesActionListener = new FeedsCategoriesAdapter.OnItemActionListener() {
         @Override
         public void onItemClick(FeedCategory feedCategory) {
 
@@ -152,6 +156,14 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
         }
     };
 
+    private FeedsAdapter.OnItemActionListener mFeedsActionListener = new FeedsAdapter.OnItemActionListener() {
+        @Override
+        public void onItemClick(Feed feed) {
+
+            //TODO
+        }
+    };
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              ButterKnife
@@ -173,9 +185,12 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
     //                                              Mvp Methods
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void showCategoriesList(List<FeedCategory> feedCategoryList){
-        mCategoriesAdapter.setData(feedCategoryList);
+    public void showCategoriesList(List<FeedCategory> feedsCategoryList){
+        mCategoriesAdapter.setData(feedsCategoryList);
     }
 
+    public void showAllFeedsList(List<Feed> feedsList){
+        mFeedsAdapter.setData(feedsList);
+    }
 
 }

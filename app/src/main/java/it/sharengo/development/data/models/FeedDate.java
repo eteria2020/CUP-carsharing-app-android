@@ -1,13 +1,19 @@
 package it.sharengo.development.data.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class FeedDate {
 
     public String friendly;
 
+    @SerializedName("default")
+    public String date;
+
     public FeedDate() {
     }
 
-    public FeedDate(String friendly) {
+    public FeedDate(String date, String friendly) {
+        this.date = date;
         this.friendly = friendly;
     }
 

@@ -2,8 +2,13 @@ package it.sharengo.development.ui.feeds;
 
 
 import android.content.Context;
-import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import it.sharengo.development.data.models.Feed;
@@ -183,9 +188,7 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        //getMvpView().showCategoriesList(mCategoriesList); TODO
-
-                        Log.w("mEventsList",": "+mEventsList.size());
+                        setAllFeedsList();
                     }
                 });
     }
@@ -207,6 +210,44 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
                 mEventsList = response.data;
             }
         };
+    }
+
+    private void setAllFeedsList(){
+
+        List<Feed> feeds = new ArrayList<>();
+
+        //Ordino gli eventi
+        Collections.sort(mEventsList, new Comparator<Feed>() {
+            public int compare(Feed o1, Feed o2) {
+
+                return convertDate(o1.informations.date.date).compareTo(convertDate(o2.informations.date.date));
+            }
+        });
+        //Ordino le offerte
+        Collections.sort(mOffersList, new Comparator<Feed>() {
+            public int compare(Feed o1, Feed o2) {
+
+                return convertDate(o1.informations.date.date).compareTo(convertDate(o2.informations.date.date));
+            }
+        });
+
+        //Concateno offerte + eventi
+        feeds.addAll(mOffersList);
+        feeds.addAll(mEventsList);
+
+        getMvpView().showAllFeedsList(feeds);
+    }
+
+    private Date convertDate(String dateString){ //"31-07-2017 23:59"
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        Date convertedDate = new Date();
+
+        try {
+            convertedDate = dateFormat.parse(dateString);
+        } catch (ParseException e) {
+        }
+
+        return convertedDate;
     }
 }
 
