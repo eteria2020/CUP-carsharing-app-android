@@ -128,11 +128,12 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             if(feed.informations.advantage_top.isEmpty()) {
                 feedTriangleView.setVisibility(View.GONE);
             }else {
+                feedTriangleView.setVisibility(View.VISIBLE);
                 feedAdvantageTextView.setText(feed.informations.advantage_top);
             }
 
             //Icona
-            ImageUtils.loadImage(feedIconImageView, feed.media.images.icon.uri);
+            ImageUtils.loadImage(feedIconImageView, feed.category.media.images.icon.uri);
             GradientDrawable backgroundShape = (GradientDrawable) feedIconImageView.getBackground();
             backgroundShape.setColor(Color.parseColor(feed.appearance.color.rgb));
 

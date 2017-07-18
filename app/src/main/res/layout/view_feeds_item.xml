@@ -9,13 +9,13 @@
     <ImageView
         android:id="@+id/feedImageView"
         android:layout_width="match_parent"
-        android:layout_height="170dp" />
+        android:layout_height="200dp" />
 
 
     <ImageView
         android:id="@+id/feedTrapezoidImageView"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="200dp"
         android:alpha="0.5"
         android:scaleType="fitXY"
         android:src="@drawable/trapezoid1"/>
@@ -23,22 +23,23 @@
     <!-- Triangolo -->
     <RelativeLayout
         android:id="@+id/feedTriangleView"
-        android:layout_width="136dp"
-        android:layout_height="170dp"
+        android:layout_width="166dp"
+        android:layout_height="200dp"
         android:layout_alignParentRight="true">
 
         <ImageView
             android:id="@+id/feedTriangleImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="fitXY"
             android:src="@drawable/triangle" />
 
         <it.sharengo.development.ui.components.CustomTextView
             android:id="@+id/feedAdvantageTextView"
-            android:layout_width="70dp"
-            android:layout_height="100dp"
+            android:layout_width="100dp"
+            android:layout_height="130dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
             app:font_name="poppinsBold"
             android:textColor="@color/white"
@@ -51,7 +52,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="120dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="20dp"
@@ -59,9 +60,9 @@
 
         <ImageView
             android:id="@+id/feedIconImageView"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginBottom="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/btn_bkg_darkjunglegreen_bordered" />
 
         <it.sharengo.development.ui.components.CustomTextView
@@ -76,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:font_name="poppinsBold"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textColor="@color/taupegray"/>
 
         <it.sharengo.development.ui.components.CustomTextView
