@@ -2,6 +2,7 @@ package it.sharengo.development.ui.home;
 
 import android.Manifest;
 import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -26,7 +27,6 @@ import it.sharengo.development.R;
 import it.sharengo.development.data.models.City;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.utils.ImageUtils;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -116,6 +116,49 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         }else{
             showElements();
         }
+
+
+        ValueAnimator animator;
+        animator = ValueAnimator.ofFloat(0, 0.5f); // values from 0 to 1
+        animator.setDuration(5000); // 5 seconds duration from 0 to 1
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+        {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = ((Float) (animation.getAnimatedValue()))
+                        .floatValue();
+                Log.w("value",": "+value);
+                // Set translation of your view here. Position can be calculated
+                // out of value. This code should move the view in a half circle.
+                cityButton.setTranslationX((float)(200.0 * Math.sin(value*Math.PI)));
+                cityButton.setTranslationY((float)(200.0 * Math.cos(value*Math.PI)));
+            }
+        });
+        animator.start();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ValueAnimator animator;
+                animator = ValueAnimator.ofFloat(0.5f, 1); // values from 0 to 1
+                animator.setDuration(500); // 5 seconds duration from 0 to 1
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+                {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = ((Float) (animation.getAnimatedValue()))
+                                .floatValue();
+                        Log.w("value",": "+value);
+                        // Set translation of your view here. Position can be calculated
+                        // out of value. This code should move the view in a half circle.
+                        cityButton.setTranslationX((float)(200.0 * Math.sin(value*Math.PI)));
+                        cityButton.setTranslationY((float)(200.0 * Math.cos(value*Math.PI)));
+                    }
+                });
+                animator.start();
+            }
+        }, 7000);
 
         return view;
     }
