@@ -440,7 +440,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
                             getActivity().finish();
                         }else{
                             //Apro i feed
-                            Navigator.launchFeeds(HomeFragment.this);
+                            Navigator.launchFeeds(HomeFragment.this, "0", "");
                             getActivity().finish();
                         }
 

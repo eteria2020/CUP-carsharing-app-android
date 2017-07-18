@@ -63,7 +63,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/btn_bkg_darkjunglegreen_bordered" />
+            android:background="@drawable/btn_bkg_feed_bordered" />
 
         <it.sharengo.development.ui.components.CustomTextView
             android:id="@+id/feedLaunchTitleTextView"

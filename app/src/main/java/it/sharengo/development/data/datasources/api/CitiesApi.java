@@ -17,10 +17,11 @@ public interface CitiesApi {
     @GET("feed/categories/list")
     Observable<Result<ResponseFeedCategory>> getCategories(@Header("Authorization") String auth);
 
-    @GET("feed/category/0/city/{id_city}/offers")
-    Observable<Result<ResponseFeed>> getOffers(@Header("Authorization") String auth, @Path("id_city") String id_city);
+    @GET("feed/category/{id_category}/city/{id_city}/offers")
+    Observable<Result<ResponseFeed>> getOffers(@Header("Authorization") String auth, @Path("id_category") String id_category, @Path("id_city") String id_city);
 
-    @GET("feed/category/0/city/{id_city}/events")
-    Observable<Result<ResponseFeed>> getEvents(@Header("Authorization") String auth, @Path("id_city") String id_city);
+    @GET("feed/category/{id_category}/city/{id_city}/events")
+    Observable<Result<ResponseFeed>> getEvents(@Header("Authorization") String auth, @Path("id_category") String id_category, @Path("id_city") String id_city);
+
 
 }

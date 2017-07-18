@@ -178,9 +178,11 @@ public class Navigator {
         fragment.startActivity(intent);
     }
 
-    public static void launchFeeds(Fragment fragment) {
-        Intent intent = FeedsActivity.getCallingIntent(fragment.getActivity());
+    public static void launchFeeds(Fragment fragment, String category_id, String category_name) {
+        Intent intent = FeedsActivity.getCallingIntent(fragment.getActivity(), category_id, category_name);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }

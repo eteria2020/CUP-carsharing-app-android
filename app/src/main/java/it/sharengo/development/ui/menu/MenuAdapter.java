@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -102,6 +103,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                     icon.getContext(),
                     menuItem
             ));
+            //icon.setBackground(ContextCompat.getDrawable(icon.getContext(), R.drawable.btn_bkg_darkjunglegreen_bordered));
         }
 
         @OnClick(R.id.text)

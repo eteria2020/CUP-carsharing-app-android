@@ -1,5 +1,6 @@
 package it.sharengo.development.ui.feeds;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -19,8 +21,11 @@ import butterknife.OnClick;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Feed;
 import it.sharengo.development.data.models.FeedCategory;
+import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements FeedsMvpView {
@@ -29,6 +34,11 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
 
     private FeedsCategoriesAdapter mCategoriesAdapter;
     private FeedsAdapter mFeedsAdapter;
+
+    private boolean isEmpty;
+
+    public static final String ARG_CATEGORY = "ARG_CATEGORY";
+    public static final String ARG_CATEGORY_NAME = "ARG_CATEGORY_NAME";
 
     @BindView(R.id.feedTextView)
     TextView feedTextView;
@@ -54,8 +64,30 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
     @BindView(R.id.feedsRecyclerView)
     RecyclerView mFeedsRv;
 
-    public static FeedsFragment newInstance() {
+    @BindView(R.id.aroundMeButton)
+    Button aroundMeButton;
+
+    @BindView(R.id.feedsEmptyView)
+    ViewGroup feedsEmptyView;
+
+    @BindView(R.id.feedsEmptyTextView)
+    TextView feedsEmptyTextView;
+
+    @BindView(R.id.feedTabButton)
+    ViewGroup feedTabButton;
+
+    @BindView(R.id.headerView)
+    ViewGroup headerView;
+
+    @BindView(R.id.feedHeaderTextView)
+    TextView feedHeaderTextView;
+
+    public static FeedsFragment newInstance(String mCategoryId, String mCategoryName) {
         FeedsFragment fragment = new FeedsFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_CATEGORY, mCategoryId);
+        args.putString(ARG_CATEGORY_NAME, mCategoryName);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -66,6 +98,11 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
         setHasOptionsMenu(true);
         getMvpFragmentComponent(savedInstanceState).inject(this);
 
+        if(getArguments() != null){
+            mPresenter.category_id = getArguments().getString(ARG_CATEGORY);
+            mPresenter.category_name = getArguments().getString(ARG_CATEGORY_NAME);
+        }
+
         mCategoriesAdapter = new FeedsCategoriesAdapter(mCategoriesActionListener, getActivity());
         mFeedsAdapter = new FeedsAdapter(mFeedsActionListener, getActivity());
     }
@@ -74,6 +111,8 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feeds, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
+        isEmpty = false;
 
         //Mostro la lista
         feedsListView.setVisibility(View.VISIBLE);
@@ -92,6 +131,15 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
         mFeedsRv.setLayoutManager(lmFeed);
         mFeedsRv.setAdapter(mFeedsAdapter);
 
+        //Se è stata selezionata una categoria, nascondo i tab
+        if(!mPresenter.category_id.equals("0")){
+            feedTabButton.setVisibility(View.GONE);
+            aroundMeButton.setVisibility(View.GONE);
+
+            headerView.setVisibility(View.VISIBLE);
+            feedHeaderTextView.setText(mPresenter.category_name);
+        }
+
         return view;
     }
 
@@ -99,6 +147,13 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Preference
+        SharedPreferences mPref = getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+
+        //Setto la città in uso
+        mPresenter.city_id = mPref.getString(getString(R.string.preference_citiesfavourites),"0");
+
+        //Carico le info
         mPresenter.loadCategoriesList(getContext());
     }
 
@@ -110,7 +165,15 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
         categoriesBorderView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.manatee));
 
         //Mostro la lista
-        feedsListView.setVisibility(View.VISIBLE);
+        if(isEmpty){
+            aroundMeButton.setVisibility(View.GONE);
+            feedsEmptyView.setVisibility(View.VISIBLE);
+        }else{
+            aroundMeButton.setVisibility(View.VISIBLE);
+            feedsListView.setVisibility(View.VISIBLE);
+            feedsEmptyView.setVisibility(View.GONE);
+        }
+
         feedsCategoriesView.setVisibility(View.GONE);
     }
 
@@ -123,7 +186,9 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
 
         //Mostro le categorie
         feedsListView.setVisibility(View.GONE);
+        feedsEmptyView.setVisibility(View.GONE);
         feedsCategoriesView.setVisibility(View.VISIBLE);
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,7 +202,7 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
 
             if(feedCategory.status.published.equals("1")){
 
-                //TODO
+                Navigator.launchFeeds(FeedsFragment.this, feedCategory.id, feedCategory.name);
             }else{
 
                 //Alert categoria disabilitata
@@ -179,6 +244,11 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
         showFeedsCategories();
     }
 
+    @OnClick(R.id.backImageView)
+    public void onBackClick(){
+        getActivity().finish();
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -190,7 +260,22 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
     }
 
     public void showAllFeedsList(List<Feed> feedsList){
+        isEmpty = false;
         mFeedsAdapter.setData(feedsList);
+    }
+
+    public void showEmptyMessage(){
+
+        isEmpty = true;
+
+        aroundMeButton.setVisibility(View.GONE);
+        feedsEmptyView.setVisibility(View.VISIBLE);
+
+        if(mPresenter.category_id.equals("0")){
+            feedsEmptyTextView.setText(getString(R.string.feeds_empty_label));
+        }else{
+            feedsEmptyTextView.setText(getString(R.string.feeds_emptycategory_label));
+        }
     }
 
 }

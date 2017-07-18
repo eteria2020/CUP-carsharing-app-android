@@ -102,7 +102,7 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
             editor.commit();
 
             if(feeds) {
-                Navigator.launchFeeds(SettingsCitiesFragment.this);
+                Navigator.launchFeeds(SettingsCitiesFragment.this, "0", "");
                 getActivity().finish();
             }else
                 mPresenter.loadList(getContext());

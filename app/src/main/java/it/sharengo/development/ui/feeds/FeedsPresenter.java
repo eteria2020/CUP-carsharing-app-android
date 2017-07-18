@@ -33,6 +33,9 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
     private Observable<ResponseFeedCategory> mCategoriesRequest;
     private Observable<ResponseFeed> mFeedRequest;
     private boolean hideLoading;
+    public String city_id;
+    public String category_id;
+    public String category_name;
 
     private List<FeedCategory> mCategoriesList;
     private List<Feed> mOffersList;
@@ -51,6 +54,9 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
     protected void restoreDataOnConfigurationChange() {
         if(mCategoriesList != null) {
             getMvpView().showCategoriesList(mCategoriesList);
+        }
+        if(mOffersList != null && mEventsList != null) {
+            setAllFeedsList();
         }
     }
 
@@ -94,7 +100,7 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
                     @Override
                     public void call() {
                         getMvpView().showCategoriesList(mCategoriesList);
-                        loadOffersList(context, "5"); //TODO
+                        loadOffersList(context, city_id);
                     }
                 });
     }
@@ -134,7 +140,7 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
     }
 
     private Observable<ResponseFeed> buildOffersRequest(final Context context, final String id_city) {
-        return mFeedRequest = mCityRepository.getOffers(context, id_city)
+        return mFeedRequest = mCityRepository.getOffers(context, category_id, id_city)
                 .first()
                 .compose(this.<ResponseFeed>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -182,7 +188,7 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
     }
 
     private Observable<ResponseFeed> buildEventsRequest(Context context, String id_city) {
-        return mFeedRequest = mCityRepository.getEvents(context, id_city)
+        return mFeedRequest = mCityRepository.getEvents(context, category_id, id_city)
                 .first()
                 .compose(this.<ResponseFeed>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -214,28 +220,37 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
 
     private void setAllFeedsList(){
 
-        List<Feed> feeds = new ArrayList<>();
+        //Verifico se ci sono evento o offerte
+        if(mEventsList.isEmpty() && mOffersList.isEmpty()){
 
-        //Ordino gli eventi
-        Collections.sort(mEventsList, new Comparator<Feed>() {
-            public int compare(Feed o1, Feed o2) {
+            //Schermata vuota
+            getMvpView().showEmptyMessage();
 
-                return convertDate(o1.informations.date.date).compareTo(convertDate(o2.informations.date.date));
-            }
-        });
-        //Ordino le offerte
-        Collections.sort(mOffersList, new Comparator<Feed>() {
-            public int compare(Feed o1, Feed o2) {
+        }else {
 
-                return convertDate(o1.informations.date.date).compareTo(convertDate(o2.informations.date.date));
-            }
-        });
+            List<Feed> feeds = new ArrayList<>();
 
-        //Concateno offerte + eventi
-        feeds.addAll(mOffersList);
-        feeds.addAll(mEventsList);
+            //Ordino gli eventi
+            Collections.sort(mEventsList, new Comparator<Feed>() {
+                public int compare(Feed o1, Feed o2) {
 
-        getMvpView().showAllFeedsList(feeds);
+                    return convertDate(o1.informations.date.date).compareTo(convertDate(o2.informations.date.date));
+                }
+            });
+            //Ordino le offerte
+            Collections.sort(mOffersList, new Comparator<Feed>() {
+                public int compare(Feed o1, Feed o2) {
+
+                    return convertDate(o1.informations.date.date).compareTo(convertDate(o2.informations.date.date));
+                }
+            });
+
+            //Concateno offerte + eventi
+            feeds.addAll(mOffersList);
+            feeds.addAll(mEventsList);
+
+            getMvpView().showAllFeedsList(feeds);
+        }
     }
 
     private Date convertDate(String dateString){ //"31-07-2017 23:59"

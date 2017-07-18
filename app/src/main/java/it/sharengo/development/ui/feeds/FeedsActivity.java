@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 import it.sharengo.development.R;
-import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 
 
@@ -15,8 +14,13 @@ public class FeedsActivity extends BaseDrawerActivity {
 
     private static final String TAG = FeedsActivity.class.getSimpleName();
 
-    public static Intent getCallingIntent(Context context) {
+    private static final String EXTRA_FEED_CATEGORY = "EXTRA_FEED_CATEGORY";
+    private static final String EXTRA_FEED_CATEGORY_NAME = "EXTRA_FEED_CATEGORY_NAME";
+
+    public static Intent getCallingIntent(Context context, String category_id, String category_name) {
         Intent i = new Intent(context, FeedsActivity.class);
+        i.putExtra(EXTRA_FEED_CATEGORY, category_id);
+        i.putExtra(EXTRA_FEED_CATEGORY_NAME, category_name);
         return i;
     }
 
@@ -25,7 +29,9 @@ public class FeedsActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            replaceFragment(FeedsFragment.newInstance());
+            String category_id = getIntent().getExtras().getString(EXTRA_FEED_CATEGORY);
+            String category_name = getIntent().getExtras().getString(EXTRA_FEED_CATEGORY_NAME);
+            replaceFragment(FeedsFragment.newInstance(category_id, category_name));
         }
     }
 

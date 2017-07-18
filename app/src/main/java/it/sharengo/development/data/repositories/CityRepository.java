@@ -68,9 +68,9 @@ public class CityRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Observable<ResponseFeed> getOffers(final Context context, String id_city) {
+    public Observable<ResponseFeed> getOffers(final Context context, String id_category, String id_city) {
 
-        return mRemoteDataSource.getOffers(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)), id_city)
+        return mRemoteDataSource.getOffers(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)), id_category, id_city)
                 .doOnNext(new Action1<ResponseFeed>() {
                     @Override
                     public void call(ResponseFeed response) {
@@ -94,9 +94,9 @@ public class CityRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Observable<ResponseFeed> getEvents(final Context context, String id_city) {
+    public Observable<ResponseFeed> getEvents(final Context context, String id_category, String id_city) {
 
-        return mRemoteDataSource.getEvents(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)), id_city)
+        return mRemoteDataSource.getEvents(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)), id_category, id_city)
                 .doOnNext(new Action1<ResponseFeed>() {
                     @Override
                     public void call(ResponseFeed response) {

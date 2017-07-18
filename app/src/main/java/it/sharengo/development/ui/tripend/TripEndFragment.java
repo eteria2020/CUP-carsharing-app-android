@@ -41,7 +41,6 @@ public class TripEndFragment extends BaseMvpFragment<TripEndPresenter> implement
 
         if(getArguments() != null){
             co2 = getArguments().getFloat(ARG_CO2);
-            Log.w("co2",": "+co2);
         }
     }
 

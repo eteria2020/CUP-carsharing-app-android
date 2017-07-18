@@ -7,8 +7,23 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <!-- Header -->
+    <RelativeLayout
+        android:id="@+id/headerView"
+        style="@style/header_view"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/backImageView"
+            style="@style/header_back" />
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/feedHeaderTextView"
+            style="@style/header_title"
+            app:font_name="poppinsBold"/>
+    </RelativeLayout>
+
     <!-- Button -->
     <LinearLayout
+        android:id="@+id/feedTabButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -55,6 +70,8 @@
     <include layout="@layout/view_feeds_list" />
 
     <include layout="@layout/view_feeds_categories" />
+
+    <include layout="@layout/view_feeds_empty" />
 
     <!-- Intorno a me -->
     <it.sharengo.development.ui.components.CustomButton

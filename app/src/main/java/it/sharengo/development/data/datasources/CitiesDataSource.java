@@ -9,7 +9,7 @@ public interface CitiesDataSource {
 
     Observable<ResponseCity> getCities(String auth);
     Observable<ResponseFeedCategory> getCategories(String auth);
-    Observable<ResponseFeed> getOffers(String auth, String id_city);
-    Observable<ResponseFeed> getEvents(String auth, String id_city);
+    Observable<ResponseFeed> getOffers(String auth, String id_category, String id_city);
+    Observable<ResponseFeed> getEvents(String auth, String id_category, String id_city);
 
 }

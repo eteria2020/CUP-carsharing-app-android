@@ -30,14 +30,14 @@ public class CitiesRetrofitDataSource extends BaseRetrofitDataSource implements 
     }
 
     @Override
-    public Observable<ResponseFeed> getOffers(String auth, String id_city) {
-        return mCitiesApi.getOffers(auth, id_city)
+    public Observable<ResponseFeed> getOffers(String auth, String id_category, String id_city) {
+        return mCitiesApi.getOffers(auth, id_category, id_city)
                 .compose(this.<ResponseFeed>handleRetrofitRequest());
     }
 
     @Override
-    public Observable<ResponseFeed> getEvents(String auth, String id_city) {
-        return mCitiesApi.getEvents(auth, id_city)
+    public Observable<ResponseFeed> getEvents(String auth, String id_category, String id_city) {
+        return mCitiesApi.getEvents(auth, id_category, id_city)
                 .compose(this.<ResponseFeed>handleRetrofitRequest());
     }
 }

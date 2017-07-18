@@ -10,5 +10,6 @@ public interface FeedsMvpView extends MvpView {
 
     void showCategoriesList(List<FeedCategory> feedCategoryList);
     void showAllFeedsList(List<Feed> feedsList);
+    void showEmptyMessage();
 
 }
