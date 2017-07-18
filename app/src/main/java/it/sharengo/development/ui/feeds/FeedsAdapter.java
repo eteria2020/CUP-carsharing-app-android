@@ -1,6 +1,8 @@
 package it.sharengo.development.ui.feeds;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Feed;
+import it.sharengo.development.utils.ImageUtils;
 import jp.wasabeef.glide.transformations.MaskTransformation;
 
 public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> {
@@ -72,6 +75,36 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         @BindView(R.id.feedImageView)
         ImageView feedImageView;
 
+        @BindView(R.id.feedTrapezoidImageView)
+        ImageView feedTrapezoidImageView;
+
+        @BindView(R.id.feedAdvantageTextView)
+        TextView feedAdvantageTextView;
+
+        @BindView(R.id.feedTriangleView)
+        ViewGroup feedTriangleView;
+
+        @BindView(R.id.feedTriangleImageView)
+        ImageView feedTriangleImageView;
+
+        @BindView(R.id.feedIconImageView)
+        ImageView feedIconImageView;
+
+        @BindView(R.id.feedDateTextView)
+        TextView feedDateTextView;
+
+        @BindView(R.id.feedLaunchTitleTextView)
+        TextView feedLaunchTitleTextView;
+
+        @BindView(R.id.feedAbstractTextView)
+        TextView feedAbstractTextView;
+
+        @BindView(R.id.feedLocationTextView)
+        TextView feedLocationTextView;
+
+        @BindView(R.id.feedAdvantageBottomTextView)
+        TextView feedAdvantageBottomTextView;
+
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
@@ -79,11 +112,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
 
         public void render(Feed feed) {
 
-            //Titolo
-            feedTitleTextView.setText(feed.title);
-
             //Immagine copertina
-            //ImageUtils.loadImage(feedImageView, feed.media.images.image.uri);
             Glide.with(feedImageView.getContext())
                     .load(feed.media.images.image.uri)
                     .crossFade()
@@ -91,6 +120,53 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
                             new MaskTransformation(feedImageView.getContext(), R.drawable.trapezoid1))
                     .into(feedImageView);
 
+            //Overlay copertina
+            feedTrapezoidImageView.setColorFilter(Color.parseColor(feed.appearance.color.rgb));
+
+            //Advantage
+            feedTriangleImageView.setColorFilter(Color.parseColor(feed.appearance.color.rgb));
+            if(feed.informations.advantage_top.isEmpty()) {
+                feedTriangleView.setVisibility(View.GONE);
+            }else {
+                feedAdvantageTextView.setText(feed.informations.advantage_top);
+            }
+
+            //Icona
+            ImageUtils.loadImage(feedIconImageView, feed.media.images.icon.uri);
+            GradientDrawable backgroundShape = (GradientDrawable) feedIconImageView.getBackground();
+            backgroundShape.setColor(Color.parseColor(feed.appearance.color.rgb));
+
+            //Data
+            feedDateTextView.setText(feed.informations.date.friendly);
+
+            //Launch title
+            if(feed.informations.launch_title.isEmpty()){
+                feedLaunchTitleTextView.setVisibility(View.GONE);
+            }else{
+                feedLaunchTitleTextView.setText(feed.informations.launch_title);
+                feedLaunchTitleTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
+            }
+
+            //Titolo
+            feedTitleTextView.setText(feed.title);
+
+            //Abstract
+            if(feed.informations.abstract_text.isEmpty()){
+                feedAbstractTextView.setVisibility(View.GONE);
+            }else{
+                feedAbstractTextView.setText(feed.informations.abstract_text);
+            }
+
+            //Location
+            feedLocationTextView.setText(feed.informations.location + ", " +  feed.informations.address.friendly +  ", " + feed.informations.city.name);
+
+            //Advantage bottom
+            if(feed.informations.advantage_bottom.isEmpty()){
+                feedAdvantageBottomTextView.setVisibility(View.GONE);
+            }else{
+                feedAdvantageBottomTextView.setText(feed.informations.advantage_bottom);
+                feedAdvantageBottomTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
+            }
         }
 
         @OnClick(R.id.feedView)

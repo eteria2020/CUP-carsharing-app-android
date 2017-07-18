@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class FeedInformation {
 
+    public String launch_title;
     public FeedDate date;
     public City city;
     public String location;
@@ -19,7 +20,8 @@ public class FeedInformation {
     public FeedInformation() {
     }
 
-    public FeedInformation(FeedDate date, City city, String location, Address address, String advantage_top, String advantage_bottom, String abstract_text, String description) {
+    public FeedInformation(String launch_title, FeedDate date, City city, String location, Address address, String advantage_top, String advantage_bottom, String abstract_text, String description) {
+        this.launch_title = launch_title;
         this.date = date;
         this.city = city;
         this.location = location;
