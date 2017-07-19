@@ -1,96 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="@drawable/img_sfondo">
 
-    <!--<it.handroix.baseuiwidgets.widgets.HdxTextView
-        style="@style/HdxTextRegular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="HOME"
-        android:textSize="30sp"
-        android:textColor="@color/colorPrimaryDark"/>-->
-
-
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-
-    <RelativeLayout
-        android:id="@+id/homeView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:layout_centerInParent="true">
-
-        <View
-            android:id="@+id/circleView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:alpha="0.0"
-            android:layout_centerInParent="true"
-            android:background="@drawable/home_circle" />
-
-        <ImageView
-            android:id="@+id/searchCarsButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_cat_home"
-            android:padding="10dp"
-            android:alpha="0.0"
-            android:background="@drawable/btn_bkg_darkpastelgreen"/>
-
-        <ImageView
-            android:id="@+id/profileUserButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_utente_home"
-            android:padding="15dp"
-            android:alpha="0.0"
-            android:tint="@color/white"
-            android:background="@drawable/btn_bkg_darkpastelgreen"/>
-
-        <ImageView
-            android:id="@+id/cityButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_imposta_citta"
-            android:padding="15dp"
-            android:alpha="0.0"
-            android:tint="@color/white"
-            android:background="@drawable/btn_bkg_darkpastelgreen"/> <!-- btn_bkg_homegrey -->
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2">
-
-        <it.sharengo.development.ui.components.CustomTextView
-            android:id="@+id/welcomeTextView"
+        <!--<it.handroix.baseuiwidgets.widgets.HdxTextView
+            style="@style/HdxTextRegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            app:font_name="poppinsSemiBold"
-            android:alpha="0.0"
-            android:textColor="@color/darkjunglegreen"
-            android:textSize="16sp"
-            android:text="Bentornato Francesco!"/>
+            android:layout_gravity="center"
+            android:text="HOME"
+            android:textSize="30sp"
+            android:textColor="@color/colorPrimaryDark"/>-->
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5" />
+
+
+        <RelativeLayout
+            android:id="@+id/homeView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:layout_centerInParent="true">
+
+            <View
+                android:id="@+id/circleView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:alpha="0.0"
+                android:layout_centerInParent="true"
+                android:background="@drawable/home_circle" />
+
+            <ImageView
+                android:id="@+id/searchCarsButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_cat_home"
+                android:padding="10dp"
+                android:alpha="0.0"
+                android:background="@drawable/btn_bkg_darkpastelgreen"/>
+
+            <ImageView
+                android:id="@+id/profileUserButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_utente_home"
+                android:padding="15dp"
+                android:alpha="0.0"
+                android:tint="@color/white"
+                android:background="@drawable/btn_bkg_darkpastelgreen"/>
+
+            <ImageView
+                android:id="@+id/cityButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_imposta_citta"
+                android:padding="15dp"
+                android:alpha="0.0"
+                android:tint="@color/white"
+                android:background="@drawable/btn_bkg_darkpastelgreen"/> <!-- btn_bkg_homegrey -->
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <it.sharengo.development.ui.components.CustomTextView
+                android:id="@+id/welcomeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:font_name="poppinsSemiBold"
+                android:alpha="0.0"
+                android:textColor="@color/darkjunglegreen"
+                android:textSize="16sp"
+                android:text="Bentornato Francesco!"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/testRotView"
+        android:layout_width="105.0dp"
+        android:layout_height="105.0dp"
+        android:layout_centerInParent="true" android:visibility="gone"
+        android:background="#f00">
+        <!-- Round -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.7"
+            android:src="@drawable/bkg_menu_round"/>
+        <ImageView
+            android:id="@+id/testRot"
+            android:layout_width="32.0dp"
+            android:layout_height="32.0dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_compass"/>
     </RelativeLayout>
 
 
 
-</LinearLayout>
+</RelativeLayout>

@@ -22,6 +22,7 @@
 
     <!-- Round menu -->
     <RelativeLayout
+        android:id="@+id/roundMenuView"
         android:layout_width="105.0dp"
         android:layout_height="105.0dp"
         android:layout_alignParentBottom="true"

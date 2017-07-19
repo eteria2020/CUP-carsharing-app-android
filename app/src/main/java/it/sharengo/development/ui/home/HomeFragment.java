@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -29,6 +30,7 @@ import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.utils.ImageUtils;
 
+import static android.R.attr.value;
 import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends BaseMvpFragment<HomePresenter> implements HomeMvpView {
@@ -65,6 +67,12 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     @BindView(R.id.welcomeTextView)
     TextView welcomeTextView;
 
+    @BindView(R.id.testRot)
+    ImageView testRot;
+
+    @BindView(R.id.testRotView)
+    ViewGroup testRotView;
+
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
@@ -74,6 +82,10 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         super.onCreate(savedInstanceState);
         getMvpFragmentComponent(savedInstanceState).inject(this);
     }
+
+    private Handler mHandler = new Handler();
+    private static final int FINGER_STOP_THRESHOLD = 500;
+    private int touchX, touchY, deltaX, deltaY, oldX, oldY;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -118,50 +130,53 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         }
 
 
-        ValueAnimator animator;
-        animator = ValueAnimator.ofFloat(0, 0.5f); // values from 0 to 1
-        animator.setDuration(5000); // 5 seconds duration from 0 to 1
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
-        {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = ((Float) (animation.getAnimatedValue()))
-                        .floatValue();
-                Log.w("value",": "+value);
-                // Set translation of your view here. Position can be calculated
-                // out of value. This code should move the view in a half circle.
-                cityButton.setTranslationX((float)(200.0 * Math.sin(value*Math.PI)));
-                cityButton.setTranslationY((float)(200.0 * Math.cos(value*Math.PI)));
+        testRotView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View arg0, MotionEvent event) {
+
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+
+
+                    case MotionEvent.ACTION_MOVE:
+
+                        touchX = (int) event.getX();
+                        touchY = (int) event.getY();
+
+                        deltaX = touchX - oldX;
+                        deltaY = touchY - oldY;
+
+                        oldX = touchX;
+                        oldY = touchY;
+
+                        mHandler.removeCallbacksAndMessages(null);
+                        if (event.getActionMasked() != MotionEvent.ACTION_UP) {
+                            mHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    deltaX = 0;
+                                    deltaY = 0;
+                                }
+                            }, FINGER_STOP_THRESHOLD);
+                        }
+
+
+                        value += 0.00001 * (deltaY / 10);
+                        //Log.w("value", ": " + value);
+                        Log.w("value", ": " + value);
+                        if (value >= 0.5f || value <= 1) {
+                            testRot.setTranslationX(-(float) (150 * Math.sin(value * Math.PI)));
+                            testRot.setTranslationY((float) (200 * Math.cos(value * Math.PI)) + 200);
+                        }
+
+                    break;
+
+                }
+                return true;
             }
         });
-        animator.start();
-
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ValueAnimator animator;
-                animator = ValueAnimator.ofFloat(0.5f, 1); // values from 0 to 1
-                animator.setDuration(500); // 5 seconds duration from 0 to 1
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
-                {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float value = ((Float) (animation.getAnimatedValue()))
-                                .floatValue();
-                        Log.w("value",": "+value);
-                        // Set translation of your view here. Position can be calculated
-                        // out of value. This code should move the view in a half circle.
-                        cityButton.setTranslationX((float)(200.0 * Math.sin(value*Math.PI)));
-                        cityButton.setTranslationY((float)(200.0 * Math.cos(value*Math.PI)));
-                    }
-                });
-                animator.start();
-            }
-        }, 7000);
 
         return view;
     }
+    private float value = 1;
 
     @Override
     public void onResume() {
@@ -550,7 +565,36 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         openFeeds();
     }
 
+    @OnClick(R.id.testRot)
+    public void onTestClick(){
+        Log.w("YYY INIT",": "+testRot.getY());
 
+        final Float bubuX = Float.valueOf(testRotView.getWidth());
+        final Float bubuY = Float.valueOf(testRotView.getHeight());
+
+        Log.w("bubuX",": "+bubuX);
+        Log.w("bubuY",": "+bubuY);
+
+        ValueAnimator animator;
+        animator = ValueAnimator.ofFloat(1, 0.5f); // values from 0 to 1
+        animator.setDuration(3000); // 5 seconds duration from 0 to 1
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+        {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = ((Float) (animation.getAnimatedValue()))
+                        .floatValue();
+                Log.w("value",": "+value);
+                // Set translation of your view here. Position can be calculated
+                // out of value. This code should move the view in a half circle.
+                testRot.setTranslationX(- (float)(150 * Math.sin(value*Math.PI)));
+                testRot.setTranslationY((float)(200 * Math.cos(value*Math.PI)) + 200 );
+
+                Log.w("YYY",": "+testRot.getY());
+            }
+        });
+        animator.start();
+    }
 
     ////////////////////////////////////
     //
