@@ -6,13 +6,15 @@ public class UserInfo {
     public int pin;
     public String name;
     public String surname;
+    public boolean enabled;
 
     public UserInfo() {
     }
 
 
-    public UserInfo(int pin, String name, String surname) {
+    public UserInfo(int pin, String name, String surname, boolean enabled) {
         this.pin = pin;
+        this.enabled = enabled;
     }
 
     /*

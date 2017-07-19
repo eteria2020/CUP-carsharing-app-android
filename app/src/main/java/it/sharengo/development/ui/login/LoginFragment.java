@@ -193,6 +193,20 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         }
     }
 
+    public void showEnabledError(){
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.login_enabled_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+            }
+        });
+    }
+
     public void loginCompleted(String username, String password){
 
         //Salvo nelle preferenze e prelevo i dati dell'utente

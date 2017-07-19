@@ -8,6 +8,8 @@ import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
+import it.sharengo.development.data.models.User;
+import it.sharengo.development.data.models.UserInfo;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
@@ -31,6 +33,8 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
      *  REQUEST
      */
     private Observable<ResponseUser> mUserRequest;
+
+    private UserInfo mCachedUser;
 
 
     public LoginPresenter(SchedulerProvider schedulerProvider,
@@ -82,8 +86,13 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        //Salvo le credenziali dell'utente
-                        getMvpView().loginCompleted(username, password);
+
+                        if(mCachedUser.enabled) {
+                            //Salvo le credenziali dell'utente
+                            getMvpView().loginCompleted(username, password);
+                        }else{
+                            getMvpView().showEnabledError();
+                        }
                     }
                 });
     }
@@ -103,7 +112,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
 
             @Override
             public void onNext(ResponseUser response) {
-
+                mCachedUser = response.user;
             }
         };
     }

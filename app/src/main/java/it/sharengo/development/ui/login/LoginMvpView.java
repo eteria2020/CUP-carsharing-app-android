@@ -8,6 +8,7 @@ import it.sharengo.development.ui.base.presenters.MvpView;
 public interface LoginMvpView extends MvpView {
 
     void showLoginError(Throwable e);
+    void showEnabledError();
     void loginCompleted(String username, String password);
     void navigateTo();
 }
