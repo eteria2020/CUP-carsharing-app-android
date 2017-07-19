@@ -3,13 +3,12 @@ package it.sharengo.development.ui.feeds;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.development.R;
-import it.sharengo.development.data.models.City;
 import it.sharengo.development.data.models.FeedCategory;
 import it.sharengo.development.utils.ImageUtils;
 
@@ -77,6 +75,12 @@ public class FeedsCategoriesAdapter extends RecyclerView.Adapter<FeedsCategories
         @BindView(R.id.dividerRightView)
         View dividerRightView;
 
+        @BindView(R.id.btnCategoryItem)
+        ViewGroup btnCategoryItem;
+
+        @BindView(R.id.bkgCategoryItem)
+        View bkgCategoryItem;
+
         public ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
@@ -85,12 +89,10 @@ public class FeedsCategoriesAdapter extends RecyclerView.Adapter<FeedsCategories
         public void render(FeedCategory category) {
             nameTextview.setText(category.name);
 
-            //Icona
-            ImageUtils.loadImage(bkgImageView, category.media.images.icon.uri);
-            bkgImageView.setColorFilter(Color.argb(255, 255, 255, 255));
+
 
             //Sfondo icona
-            GradientDrawable backgroundShape = (GradientDrawable) bkgImageView.getBackground();
+            GradientDrawable backgroundShape = (GradientDrawable) bkgCategoryItem.getBackground();
             backgroundShape.setColor(Color.parseColor(category.appearance.color.rgb));
 
             //Divider
@@ -100,6 +102,22 @@ public class FeedsCategoriesAdapter extends RecyclerView.Adapter<FeedsCategories
             if(!category.status.published.equals("1")){
                 bkgImageView.setColorFilter(Color.parseColor("#97918B"));
                 backgroundShape.setColor(Color.parseColor("#B4ACA4"));
+
+                //Icona
+                ImageUtils.loadImage(bkgImageView, category.media.images.icon.uri);
+
+            }else{
+                //Icona
+                ImageUtils.loadImage(bkgImageView, category.media.videos.feedViedeosDefault.uri);
+                bkgImageView.setColorFilter(Color.argb(255, 255, 255, 255));
+                int iconSize = (int) (120 * bkgImageView.getContext().getResources().getDisplayMetrics().density);
+                //bkgImageView.setLayoutParams(new RelativeLayout.LayoutParams(iconSize, iconSize));
+                bkgImageView.getLayoutParams().width = iconSize;
+                bkgImageView.getLayoutParams().height = iconSize;
+                /*RelativeLayout.LayoutParams aa = (RelativeLayout.LayoutParams) bkgImageView.getLayoutParams();
+                aa.setMargins(0, (int) (50 * bkgImageView.getContext().getResources().getDisplayMetrics().density), 0, - (int) (50 * bkgImageView.getContext().getResources().getDisplayMetrics().density));
+                bkgImageView.setLayoutParams(aa);*/
+                bkgImageView.setPadding(0, (int) (10 * bkgImageView.getContext().getResources().getDisplayMetrics().density), 0, 0);
             }
         }
 

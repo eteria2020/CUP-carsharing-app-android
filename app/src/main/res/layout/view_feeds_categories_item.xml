@@ -12,19 +12,33 @@
         android:layout_centerInParent="true"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/bkgImageView"
-            android:layout_width="77.0dp"
-            android:layout_height="77.0dp"
-            android:tint="@color/white"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/btn_bkg_darkpastelgreen"/>
+        <RelativeLayout
+            android:id="@+id/btnCategoryItem"
+            android:layout_width="100.0dp"
+            android:layout_height="100.0dp"
+            android:layout_gravity="center_horizontal">
+
+            <View
+                android:id="@+id/bkgCategoryItem"
+                android:layout_width="77dp"
+                android:layout_height="77dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/btn_bkg_darkpastelgreen" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/bkgImageView"
+                android:layout_width="77dp"
+                android:layout_height="77dp"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
 
         <it.sharengo.development.ui.components.CustomTextView
             android:id="@+id/nameTextview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             app:font_name="poppinsBold"
             android:textColor="@color/darkjunglegreen"
             android:textSize="12sp"
