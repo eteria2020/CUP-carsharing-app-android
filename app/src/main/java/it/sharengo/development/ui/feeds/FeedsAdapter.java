@@ -1,6 +1,7 @@
 package it.sharengo.development.ui.feeds;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +28,14 @@ import it.sharengo.development.data.models.Feed;
 import it.sharengo.development.utils.ImageUtils;
 import jp.wasabeef.glide.transformations.MaskTransformation;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> {
 
     private OnItemActionListener mListener;
 
     private Activity mActivity;
+    private SharedPreferences mPref;
 
     private List<Feed> mData;
     private int height;
@@ -41,6 +48,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
         mListener = listener;
         mActivity = activity;
         mData = new ArrayList<>();
+        mPref = mActivity.getSharedPreferences(mActivity.getString(R.string.preference_file_key), MODE_PRIVATE);
     }
 
     public void setData(List<Feed> pData) {
@@ -104,6 +112,9 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
 
         @BindView(R.id.feedAdvantageBottomTextView)
         TextView feedAdvantageBottomTextView;
+
+        @BindView(R.id.feedIntersImageView)
+        ImageView feedIntersImageView;
 
         public ViewHolder(View v) {
             super(v);
@@ -169,6 +180,25 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
 
                 if(feed.appearance.color.enforce.equals("true"))
                     feedAdvantageBottomTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
+            }
+
+            //Interessi
+            SharedPreferences.Editor prefsEditor = mPref.edit();
+
+            Type fooType = new TypeToken<List<String>>() {}.getType();
+            Gson gson = new Gson();
+            List<String> feedsInterested = (ArrayList<String>) gson.fromJson(mPref.getString(mActivity.getString(R.string.preference_feeds), "[]"), fooType);
+            boolean isInters = false;
+            for (String feed_id : feedsInterested){
+                if(feed_id.equals(feed.id)){
+                    isInters = true;
+                }
+            }
+
+            if(isInters){
+                feedIntersImageView.setVisibility(View.VISIBLE);
+            }else{
+                feedIntersImageView.setVisibility(View.GONE);
             }
         }
 

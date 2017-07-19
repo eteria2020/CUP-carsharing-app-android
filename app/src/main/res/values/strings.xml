@@ -6,6 +6,7 @@
     <string name="preference_file_key">sharengopreference</string>
     <string name="preference_citiesfavourites">citiesfavourites</string>
     <string name="preference_lang">lang</string>
+    <string name="preference_feeds">feeds</string>
     
     <!--LABELS-->
     <string name="ok">OK</string>
@@ -196,5 +197,9 @@
     <string name="feeds_empty_title">Peccato!</string>
     <string name="feeds_empty_label">Al momento per la tua città non ci sono contenuti disponibili. Ti invitiamo a riprovare nei prossimi giorni</string>
     <string name="feeds_emptycategory_label">Al momento per la tua città non ci sono contenuti disponibili nella categoria selezionata. Ti invitiamo a riprovare nei prossimi giorni.</string>
+
+    <!-- Feeds - Detail -->
+    <string name="feedsdetails_interested_action">Mi interessa</string>
+    <string name="feedsdetails_notinterested_action">Non mi interessa</string>
 
 </resources>

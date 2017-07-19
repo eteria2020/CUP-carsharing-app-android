@@ -9,13 +9,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +40,9 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
     private static final String TAG = FeedsDetailFragment.class.getSimpleName();
 
     public static final String ARG_FEED = "ARG_FEED";
+
+    private SharedPreferences mPref;
+    private boolean isInters;
 
     @BindView(R.id.feedHeaderTextView)
     TextView feedHeaderTextView;
@@ -77,6 +86,12 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
     @BindView(R.id.feedDescriptionTextView)
     TextView feedDescriptionTextView;
 
+    @BindView(R.id.interestedButton)
+    Button interestedButton;
+
+    @BindView(R.id.feedIntersImageView)
+    ImageView feedIntersImageView;
+
     public static FeedsDetailFragment newInstance(Feed feed) {
         FeedsDetailFragment fragment = new FeedsDetailFragment();
         Bundle args = new Bundle();
@@ -101,6 +116,9 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feeds_detail, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
+        mPref = getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+
         return view;
     }
 
@@ -121,6 +139,35 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
     @OnClick(R.id.backImageView)
     public void onBackClick(){
         getActivity().finish();
+    }
+
+    @OnClick(R.id.interestedButton)
+    public void onInterestedClick(){
+
+        SharedPreferences.Editor prefsEditor = mPref.edit();
+
+        Type fooType = new TypeToken<List<String>>() {}.getType();
+        Gson gson = new Gson();
+        List<String> feedsInterested = (ArrayList<String>) gson.fromJson(mPref.getString(getString(R.string.preference_feeds), "[]"), fooType);
+
+
+        //Salvo l'id del feed se non esiste nell'array già salvato
+        if(!isInters){
+            feedsInterested.add(mPresenter.feed.id);
+            isInters = true;
+            interestedButton.setText(getString(R.string.feedsdetails_notinterested_action));
+            feedIntersImageView.setVisibility(View.VISIBLE);
+        }else{
+            //Rimuovo dall'array
+            feedsInterested.remove(mPresenter.feed.id);
+            isInters = false;
+            interestedButton.setText(getString(R.string.feedsdetails_interested_action));
+            feedIntersImageView.setVisibility(View.GONE);
+        }
+
+        String json = gson.toJson(feedsInterested, fooType);
+        prefsEditor.putString(getString(R.string.preference_feeds), json);
+        prefsEditor.commit();
     }
 
 
@@ -200,6 +247,24 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
             feedDescriptionTextView.setVisibility(View.GONE);
         }else{
             feedDescriptionTextView.setText(feed.informations.description);
+        }
+
+        //Mi interessa
+        Type fooType = new TypeToken<List<String>>() {}.getType();
+        Gson gson = new Gson();
+        List<String> feedsInterested = (ArrayList<String>) gson.fromJson(mPref.getString(getString(R.string.preference_feeds), "[]"), fooType);
+
+
+        isInters = false;
+        for (String feed_id : feedsInterested){
+            if(feed_id.equals(mPresenter.feed.id)){
+                interestedButton.setText(getString(R.string.feedsdetails_notinterested_action));
+                isInters = true;
+            }
+        }
+
+        if(isInters){
+            feedIntersImageView.setVisibility(View.VISIBLE);
         }
     }
 

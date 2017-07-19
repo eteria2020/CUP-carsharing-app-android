@@ -2,6 +2,7 @@ package it.sharengo.development.ui.feeds;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,6 +53,7 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
 
     @Override
     protected void restoreDataOnConfigurationChange() {
+        Log.w("AA","::::");
         if(mCategoriesList != null) {
             getMvpView().showCategoriesList(mCategoriesList);
         }
@@ -62,10 +64,12 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
 
 
     @Override
-    protected void subscribeRequestsOnResume() {
+    protected void subscribeRequestsOnResume() { Log.w("BB","::::");
         if (mCategoriesRequest != null) {
             addSubscription(mCategoriesRequest.subscribe(getCategoriesSubscriber()));
         }
+        if(mOffersList != null && mCategoriesList != null)
+            setAllFeedsList();
     }
 
     @Override
