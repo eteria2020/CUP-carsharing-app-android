@@ -2,7 +2,9 @@ package it.sharengo.development.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class FeedInformation {
+import java.io.Serializable;
+
+public class FeedInformation implements Serializable {
 
     public String launch_title;
     public FeedDate date;

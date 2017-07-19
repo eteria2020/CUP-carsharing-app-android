@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/hdx_toolbarHeight"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- Header -->
+    <RelativeLayout
+        android:id="@+id/headerView"
+        style="@style/header_view">
+        <ImageView
+            android:id="@+id/backImageView"
+            style="@style/header_back" />
+        <it.sharengo.development.ui.components.CustomTextView
+            android:id="@+id/feedHeaderTextView"
+            style="@style/header_title"
+            app:font_name="poppinsBold"/>
+    </RelativeLayout>
+
+    <!-- Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/feedImageView"
+                android:layout_width="match_parent"
+                android:layout_height="210dp" />
+
+
+            <ImageView
+                android:id="@+id/feedTrapezoidImageView"
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
+                android:alpha="0.5"
+                android:scaleType="fitXY"
+                android:src="@drawable/trapezoid1"/>
+
+            <!-- Triangolo -->
+            <RelativeLayout
+                android:id="@+id/feedTriangleView"
+                android:layout_width="166dp"
+                android:layout_height="190dp"
+                android:layout_alignParentRight="true">
+
+                <ImageView
+                    android:id="@+id/feedTriangleImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/triangle" />
+
+                <it.sharengo.development.ui.components.CustomTextView
+                    android:id="@+id/feedAdvantageTextView"
+                    android:layout_width="100dp"
+                    android:layout_height="130dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    app:font_name="poppinsBold"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:gravity="right"/>
+
+            </RelativeLayout>
+            <!-- /Triangolo -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="130dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/feedIconImageView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/btn_bkg_feed_bordered" />
+
+                <it.sharengo.development.ui.components.CustomTextView
+                    android:id="@+id/feedLaunchTitleTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:font_name="poppinsBold"
+                    android:textSize="12sp"/>
+
+                <it.sharengo.development.ui.components.CustomTextView
+                    android:id="@+id/feedDateTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    app:font_name="poppinsBold"
+                    android:textSize="12sp"
+                    android:textColor="@color/taupegray"/>
+
+                <it.sharengo.development.ui.components.CustomTextView
+                    android:id="@+id/feedTitleTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    app:font_name="poppinsBold"
+                    android:textSize="12sp"
+                    android:textColor="@color/darkjunglegreen"/>
+
+                <it.sharengo.development.ui.components.CustomTextView
+                    android:id="@+id/feedAbstractTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:font_name="poppinsRegular"
+                    android:textSize="12sp"
+                    android:textColor="@color/darkjunglegreen"/>
+
+                <it.sharengo.development.ui.components.CustomTextView
+                    android:id="@+id/feedLocationTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:font_name="poppinsRegular"
+                    android:textSize="12sp"
+                    android:textColor="@color/darkjunglegreen"/>
+
+                <it.sharengo.development.ui.components.CustomTextView
+                    android:id="@+id/feedAdvantageBottomTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:font_name="poppinsBold"
+                    android:textSize="12sp"
+                    android:textColor="@color/taupegray" />
+
+                <it.sharengo.development.ui.components.CustomTextView
+                    android:id="@+id/feedDescriptionTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:font_name="poppinsRegular"
+                    android:textSize="12sp"
+                    android:textColor="@color/darkjunglegreen"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+    <!-- /Content -->
+
+</LinearLayout>

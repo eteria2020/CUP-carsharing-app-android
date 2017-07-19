@@ -1,6 +1,8 @@
 package it.sharengo.development.data.models;
 
-public class FeedMedia {
+import java.io.Serializable;
+
+public class FeedMedia implements Serializable {
 
     public FeedImages images;
     public FeedVideos videos;

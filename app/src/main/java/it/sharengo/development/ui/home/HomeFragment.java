@@ -374,28 +374,8 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
             @Override
             public void onAnimationEnd(Animator animator) {
 
-                homeView.animate().alpha(0.0f).setDuration(100).setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        getActivity().finish();
-                        Navigator.launchMap(HomeFragment.this);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
-
-                    }
-                }).start();
+                getActivity().finish();
+                Navigator.launchMap(HomeFragment.this);
             }
 
             @Override
@@ -426,28 +406,8 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
             @Override
             public void onAnimationEnd(Animator animator) {
 
-                homeView.animate().alpha(0.0f).setDuration(100).setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        getActivity().finish();
-                        Navigator.launchProfile(HomeFragment.this);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
-
-                    }
-                }).start();
+                getActivity().finish();
+                Navigator.launchProfile(HomeFragment.this);
 
 
             }
@@ -480,41 +440,23 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
             @Override
             public void onAnimationEnd(Animator animator) {
 
-                homeView.animate().alpha(0.0f).setDuration(100).setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
-
+                //Verifico se sono loggato
+                if(mPresenter.isAuth()) {
+                    //Verifico se la città preferita è stata impostata
+                    SharedPreferences mPref = getActivity().getSharedPreferences(getActivity().getString(R.string.preference_file_key), MODE_PRIVATE);
+                    if (mPref.getString(getActivity().getString(R.string.preference_citiesfavourites), "").isEmpty()) {
+                        //Apro i settings
+                        Navigator.launchSettingsCities(HomeFragment.this, true);
+                        getActivity().finish();
+                    } else {
+                        //Apro i feed
+                        Navigator.launchFeeds(HomeFragment.this, "0", "");
+                        getActivity().finish();
                     }
-
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-
-
-                        //Verifico se la città preferita è stata impostata
-                        SharedPreferences mPref = getActivity().getSharedPreferences(getActivity().getString(R.string.preference_file_key), MODE_PRIVATE);
-                        if(mPref.getString(getActivity().getString(R.string.preference_citiesfavourites),"").isEmpty()){
-                            //Apro i settings
-                            Navigator.launchSettingsCities(HomeFragment.this, true);
-                            getActivity().finish();
-                        }else{
-                            //Apro i feed
-                            Navigator.launchFeeds(HomeFragment.this, "0", "");
-                            getActivity().finish();
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
-
-                    }
-                }).start();
+                }else{
+                    Navigator.launchLogin(HomeFragment.this, Navigator.REQUEST_LOGIN_FEEDS);
+                    getActivity().finish();
+                }
 
 
             }

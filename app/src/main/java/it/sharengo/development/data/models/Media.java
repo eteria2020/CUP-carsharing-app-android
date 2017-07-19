@@ -1,6 +1,8 @@
 package it.sharengo.development.data.models;
 
-public class Media {
+import java.io.Serializable;
+
+public class Media implements Serializable {
 
     public Images images;
 

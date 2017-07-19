@@ -2,7 +2,9 @@ package it.sharengo.development.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class FeedVideos {
+import java.io.Serializable;
+
+public class FeedVideos implements Serializable {
 
     @SerializedName("default")
     public FeedVideosDefault feedViedeosDefault;

@@ -2,7 +2,9 @@ package it.sharengo.development.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class FeedCategoryStatus {
+import java.io.Serializable;
+
+public class FeedCategoryStatus implements Serializable {
 
     public String published;
 

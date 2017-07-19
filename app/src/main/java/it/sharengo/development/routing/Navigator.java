@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import it.sharengo.development.data.models.Feed;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.development.ui.chronology.ChronologyActivity;
 import it.sharengo.development.ui.feeds.FeedsActivity;
+import it.sharengo.development.ui.feedsdetail.FeedsDetailActivity;
 import it.sharengo.development.ui.home.HomeActivity;
 import it.sharengo.development.ui.login.LoginActivity;
 import it.sharengo.development.ui.longintro.LongIntroActivity;
@@ -43,6 +45,7 @@ public class Navigator {
     public static final int REQUEST_LOGIN_START = 1;
     public static final int REQUEST_LOGIN_PROFILE = 2;
     public static final int REQUEST_LOGIN_MAPS = 3;
+    public static final int REQUEST_LOGIN_FEEDS = 4;
 
     private Navigator() {
     }
@@ -180,6 +183,15 @@ public class Navigator {
 
     public static void launchFeeds(Fragment fragment, String category_id, String category_name) {
         Intent intent = FeedsActivity.getCallingIntent(fragment.getActivity(), category_id, category_name);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchFeedsDetail(Fragment fragment, Feed feed) {
+        Intent intent = FeedsDetailActivity.getCallingIntent(fragment.getActivity(), feed);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);

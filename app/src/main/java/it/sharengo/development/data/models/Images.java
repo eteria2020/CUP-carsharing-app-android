@@ -2,7 +2,9 @@ package it.sharengo.development.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Images {
+import java.io.Serializable;
+
+public class Images implements Serializable {
 
     public Icon icon;
     public Icon icon_svg;

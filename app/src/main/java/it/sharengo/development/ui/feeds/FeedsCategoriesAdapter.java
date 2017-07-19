@@ -110,14 +110,9 @@ public class FeedsCategoriesAdapter extends RecyclerView.Adapter<FeedsCategories
                 //Icona
                 ImageUtils.loadImage(bkgImageView, category.media.videos.feedViedeosDefault.uri);
                 bkgImageView.setColorFilter(Color.argb(255, 255, 255, 255));
-                int iconSize = (int) (120 * bkgImageView.getContext().getResources().getDisplayMetrics().density);
-                //bkgImageView.setLayoutParams(new RelativeLayout.LayoutParams(iconSize, iconSize));
+                int iconSize = (int) (130 * bkgImageView.getContext().getResources().getDisplayMetrics().density);
                 bkgImageView.getLayoutParams().width = iconSize;
-                bkgImageView.getLayoutParams().height = iconSize;
-                /*RelativeLayout.LayoutParams aa = (RelativeLayout.LayoutParams) bkgImageView.getLayoutParams();
-                aa.setMargins(0, (int) (50 * bkgImageView.getContext().getResources().getDisplayMetrics().density), 0, - (int) (50 * bkgImageView.getContext().getResources().getDisplayMetrics().density));
-                bkgImageView.setLayoutParams(aa);*/
-                bkgImageView.setPadding(0, (int) (10 * bkgImageView.getContext().getResources().getDisplayMetrics().density), 0, 0);
+                bkgImageView.setPadding(0, (int) (20 * bkgImageView.getContext().getResources().getDisplayMetrics().density), 0, 0);
             }
         }
 

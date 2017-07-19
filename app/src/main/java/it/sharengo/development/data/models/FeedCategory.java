@@ -2,7 +2,9 @@ package it.sharengo.development.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class FeedCategory {
+import java.io.Serializable;
+
+public class FeedCategory implements Serializable {
 
     @SerializedName("tid")
     public String id;

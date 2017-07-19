@@ -1,6 +1,8 @@
 package it.sharengo.development.data.models;
 
-public class FeedAppearance {
+import java.io.Serializable;
+
+public class FeedAppearance implements Serializable {
 
     public FeedColor color;
 

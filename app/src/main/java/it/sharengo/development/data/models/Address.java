@@ -2,9 +2,11 @@ package it.sharengo.development.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import it.sharengo.development.data.common.ExcludeSerialization;
 
-public class Address {
+public class Address implements Serializable {
 
     @SerializedName("place_id")
     public String id;

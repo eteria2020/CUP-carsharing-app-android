@@ -1,5 +1,6 @@
 package it.sharengo.development.ui.login;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import it.sharengo.development.data.common.ErrorResponse;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.development.ui.home.HomeFragment;
 import it.sharengo.development.ui.map.MapFragment;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -212,6 +214,19 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
             case Navigator.REQUEST_LOGIN_MAPS:
                 Navigator.launchMap(LoginFragment.this);
                 getActivity().finish();
+                break;
+            case Navigator.REQUEST_LOGIN_FEEDS:
+                //Verifico se la città preferita è stata impostata
+                SharedPreferences mPref = getActivity().getSharedPreferences(getActivity().getString(R.string.preference_file_key), MODE_PRIVATE);
+                if (mPref.getString(getActivity().getString(R.string.preference_citiesfavourites), "").isEmpty()) {
+                    //Apro i settings
+                    Navigator.launchSettingsCities(LoginFragment.this, true);
+                    getActivity().finish();
+                } else {
+                    //Apro i feed
+                    Navigator.launchFeeds(LoginFragment.this, "0", "");
+                    getActivity().finish();
+                }
                 break;
         }
 

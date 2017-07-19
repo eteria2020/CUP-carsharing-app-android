@@ -1,6 +1,8 @@
 package it.sharengo.development.data.models;
 
-public class FeedImages {
+import java.io.Serializable;
+
+public class FeedImages implements Serializable {
 
     public FeedUri marker;
     public FeedUri icon;

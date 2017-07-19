@@ -166,7 +166,9 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
                 feedAdvantageBottomTextView.setVisibility(View.GONE);
             }else{
                 feedAdvantageBottomTextView.setText(feed.informations.advantage_bottom);
-                feedAdvantageBottomTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
+
+                if(feed.appearance.color.enforce.equals("true"))
+                    feedAdvantageBottomTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
             }
         }
 

@@ -2,7 +2,9 @@ package it.sharengo.development.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Information {
+import java.io.Serializable;
+
+public class Information implements Serializable {
 
     public AddressCity address;
 

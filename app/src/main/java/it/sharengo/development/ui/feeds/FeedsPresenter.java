@@ -131,7 +131,7 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void loadOffersList(Context context, String id_city) {
 
-        hideLoading = false;
+        hideLoading = true;
 
         if( mFeedRequest == null) {
             mFeedRequest = buildOffersRequest(context, id_city);
@@ -179,7 +179,7 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void loadEventsList(Context context, String id_city) {
 
-        hideLoading = false;
+        hideLoading = true;
 
         if( mFeedRequest == null) {
             mFeedRequest = buildEventsRequest(context, id_city);

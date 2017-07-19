@@ -1,6 +1,8 @@
 package it.sharengo.development.data.models;
 
-public class FeedVideosDefault {
+import java.io.Serializable;
+
+public class FeedVideosDefault implements Serializable {
 
     public String uri;
 

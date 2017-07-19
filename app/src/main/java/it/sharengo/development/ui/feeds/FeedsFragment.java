@@ -225,7 +225,7 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
         @Override
         public void onItemClick(Feed feed) {
 
-            //TODO
+            Navigator.launchFeedsDetail(FeedsFragment.this, feed);
         }
     };
 
