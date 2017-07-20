@@ -4,17 +4,20 @@ import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -37,9 +40,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -53,6 +54,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -74,6 +77,7 @@ import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -95,9 +99,11 @@ import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.development.utils.ImageUtils;
 
 import static android.content.Context.MODE_PRIVATE;
 import static it.sharengo.development.R.id.deleteBookingButton;
+import static it.sharengo.development.R.id.interestedButton;
 
 public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvpView, LocationListener {
 
@@ -134,6 +140,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private FolderOverlay poiCityMarkers;
     private RotateAnimation anim;
     private String carnext_id;
+    private Car carNext;
     private Car carSelected;
     private OverlayItem pinUser;
     private boolean searchViewOpen = false;
@@ -152,6 +159,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private Reservation reservation;
     private Trip trip;
     private Car carPreSelected;
+    private Feed feedSelected;
+    private boolean showCarsWithFeeds;
 
     private float currentRotation = 0f;
     private float co2 = 0f;
@@ -186,6 +195,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @BindView(R.id.popupCarView)
     View popupCarView;
+
+    @BindView(R.id.popupFeedView)
+    View popupFeedView;
 
     @BindView(R.id.carImageView)
     ImageView carImageView;
@@ -268,6 +280,42 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @BindView(R.id.roundMenuView)
     ViewGroup roundMenuView;
 
+    @BindView(R.id.feedImageView)
+    ImageView feedImageView;
+
+    @BindView(R.id.feedAdvantageTextView)
+    TextView feedAdvantageTextView;
+
+    @BindView(R.id.feedTriangleView)
+    ViewGroup feedTriangleView;
+
+    @BindView(R.id.feedTriangleImageView)
+    ImageView feedTriangleImageView;
+
+    @BindView(R.id.feedOverlayView)
+    View feedOverlayView;
+
+    @BindView(R.id.feedIconImageView)
+    ImageView feedIconImageView;
+
+    @BindView(R.id.feedIntersImageView)
+    ImageView feedIntersImageView;
+
+    @BindView(R.id.feedLaunchTitleTextView)
+    TextView feedLaunchTitleTextView;
+
+    @BindView(R.id.feedDateTextView)
+    TextView feedDateTextView;
+
+    @BindView(R.id.feedTitleTextView)
+    TextView feedTitleTextView;
+
+    @BindView(R.id.feedLocationTextView)
+    TextView feedLocationTextView;
+
+    @BindView(R.id.feedAdvantageBottomTextView)
+    TextView feedAdvantageBottomTextView;
+
     public static MapFragment newInstance(int type) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
@@ -309,6 +357,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         anim.setRepeatCount(Animation.INFINITE);
         anim.setDuration(700);
 
+        showCarsWithFeeds = false;
 
         //addOverlays();
 
@@ -765,6 +814,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 if(dist < distance) {
                     distance = dist;
                     car_id = car.id;
+                    carNext = car;
                 }
             }
         }
@@ -1441,6 +1491,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         popupCarView.animate().translationY(popupCarView.getHeight());
     }
 
+    @OnClick(R.id.closeFeedPopupButton)
+    public void onCloseFeedPopup() {
+        feedSelected = null;
+        popupFeedView.animate().translationY(popupFeedView.getHeight());
+    }
+
     @OnClick(R.id.openDoorButton)
     public void onOpenDoor(){
 
@@ -1476,6 +1532,45 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         deleteBooking();
     }
 
+    @OnClick(R.id.feedDiscoverButton)
+    public void onDiscoverClick(){
+        Navigator.launchFeedsDetail(this, feedSelected);
+    }
+
+    @OnClick(R.id.feedBookingButton)
+    public void onFeedBookingClick(){
+        //Navigator.launchFeedsDetail(this, feedSelected);
+        //carnext_id
+        //carnextMarker
+        //FEEED
+
+        //mMapView.getController().setCenter(new GeoPoint(marker.getPosition().getLatitude(), marker.getPosition().getLongitude()));
+        //mMapView.getController().zoomIn();
+        if(carNext != null && userLocation != null) {
+            Log.w("carNext",": "+carNext.latitude+","+carNext.longitude);
+            showCarsWithFeeds = true;
+
+            showPoiMarkers();
+            onCloseFeedPopup();
+
+            mMapView.getController().setCenter(new GeoPoint(carNext.latitude, carNext.longitude));
+            mMapView.getController().setZoom(ZOOM_C);
+            showPopupCar(carNext);
+        }else{
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(R.string.maps_permissionlocation_alert),
+                    getString(R.string.ok),
+                    getString(R.string.cancel));
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                    openSettings();
+                }
+            });
+        }
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1526,6 +1621,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                         return true;
                     }
                 });
+
+
                 poiMarkers.add(markerCar);
 
                 //OverlayItem overlayItem = new OverlayItem(car.id, "", new GeoPoint(car.latitude, car.longitude));
@@ -1580,7 +1677,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         poiMarkers.getTextPaint().setFakeBoldText(true);
 
 
-        if(!mPresenter.isFeeds)
+        if(!mPresenter.isFeeds || showCarsWithFeeds || isBookingCar || isTripStart)
             showPoiMarkers();
 
 
@@ -1626,6 +1723,87 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }
     }
 
+    private void onTapFeedMarker(Feed feed){
+
+        feedSelected = feed;
+
+        //Immagine copertina
+        ImageUtils.loadImage(feedImageView, feed.media.images.image.uri);
+
+        //Overlay copertina
+        feedOverlayView.setBackgroundColor(Color.parseColor(feed.appearance.color.rgb));
+
+        //Advantage
+        feedTriangleImageView.setColorFilter(Color.parseColor(feed.appearance.color.rgb));
+        if(feed.informations.advantage_top.isEmpty()) {
+            feedTriangleView.setVisibility(View.GONE);
+        }else {
+            feedTriangleView.setVisibility(View.VISIBLE);
+            feedAdvantageTextView.setText(feed.informations.advantage_top);
+        }
+
+        //Icona
+        ImageUtils.loadImage(feedIconImageView, feed.category.media.images.icon.uri);
+        GradientDrawable backgroundShape = (GradientDrawable) feedIconImageView.getBackground();
+        backgroundShape.setColor(Color.parseColor(feed.appearance.color.rgb));
+
+        //Data
+        feedDateTextView.setText(feed.informations.date.friendly);
+
+        //Launch title
+        if(feed.informations.launch_title.isEmpty()){
+            feedLaunchTitleTextView.setVisibility(View.GONE);
+        }else{
+            feedLaunchTitleTextView.setVisibility(View.VISIBLE);
+            feedLaunchTitleTextView.setText(feed.informations.launch_title);
+            feedLaunchTitleTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
+        }
+
+        //Titolo
+        feedTitleTextView.setText(feed.title);
+
+        //Location
+        feedLocationTextView.setText(feed.informations.location + ", " +  feed.informations.address.friendly +  ", " + feed.informations.city.name);
+
+        //Advantage bottom
+        if(feed.informations.advantage_bottom.isEmpty()){
+            feedAdvantageBottomTextView.setVisibility(View.GONE);
+        }else{
+            feedAdvantageBottomTextView.setVisibility(View.VISIBLE);
+            feedAdvantageBottomTextView.setText(feed.informations.advantage_bottom);
+
+            if(feed.informations.sponsored.equals("true"))
+                feedAdvantageBottomTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
+            else
+                feedAdvantageBottomTextView.setTextColor(ContextCompat.getColor(getActivity(), R.color.taupegray));
+        }
+
+        //Mi interessa
+        SharedPreferences mPref = getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+        Type fooType = new TypeToken<List<String>>() {}.getType();
+        Gson gson = new Gson();
+        List<String> feedsInterested = (ArrayList<String>) gson.fromJson(mPref.getString(getString(R.string.preference_feeds), "[]"), fooType);
+
+
+        boolean isInters = false;
+        for (String feed_id : feedsInterested){
+            if(feed_id.equals(feed.id)){
+                isInters = true;
+            }
+        }
+
+        if(isInters){
+            feedIntersImageView.setVisibility(View.VISIBLE);
+        }else{
+            feedIntersImageView.setVisibility(View.GONE);
+        }
+
+        // Animazione
+        popupFeedView.setVisibility(View.VISIBLE);
+        popupFeedView.animate().translationY(0);
+    }
+
+
     @Override
     public void noCarsFound() {
         //Stop sull'animazione del pulsante di refresh
@@ -1640,7 +1818,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         feedsMarker = new FolderOverlay();
 
-        for(Feed feed : feedsList){
+        for(final Feed feed : feedsList){
 
             //Creo il marker
             Marker markerFeed = new Marker(mMapView);
@@ -1652,7 +1830,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 @Override
                 public boolean onMarkerClick(Marker marker, MapView mapView) {
 
-                    //onTapMarker(car); TODO
+                    onTapFeedMarker(feed);
                     return true;
                 }
             });

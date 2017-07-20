@@ -66,6 +66,10 @@
     <include layout="@layout/view_car_popup" />
     <!-- /Popup view -->
 
+    <!-- Popup view -->
+    <include layout="@layout/view_feed_popup" />
+    <!-- /Popup view -->
+
 
     <!-- Booking view -->
     <include layout="@layout/view_car_booking" />

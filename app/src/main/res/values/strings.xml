@@ -69,6 +69,7 @@
     <string name="maps_permissionopendoor_alert">Share\'ngo ha bisogno di sapere la tua posizione per aprire le portiere. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
     <string name="maps_opendoordistance_alert">"Sei troppo distante dalla Saren\'go che hai selezionato. Potrai aprirla quando sarai in prossimità dell\'auto.</string>
     <string name="maps_searchmicrophone_message">In ascolto...</string>
+    <string name="maps_feeddiscover_message">Scopri di più</string>
 
     <string name="search_platesharengo_label">Targa Share\'ngo</string>
     <string name="search_favoriteempty_label">Nessun preferito\nmemorizzali nella sezione impostazioni</string>
