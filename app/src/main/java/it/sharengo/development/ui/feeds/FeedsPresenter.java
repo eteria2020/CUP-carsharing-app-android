@@ -53,7 +53,7 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
 
     @Override
     protected void restoreDataOnConfigurationChange() {
-        Log.w("AA","::::");
+
         if(mCategoriesList != null) {
             getMvpView().showCategoriesList(mCategoriesList);
         }
@@ -231,7 +231,6 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
             getMvpView().showEmptyMessage();
 
         }else {
-
             List<Feed> feeds = new ArrayList<>();
 
             //Ordino gli eventi

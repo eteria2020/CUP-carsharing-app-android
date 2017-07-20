@@ -91,10 +91,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.feeds.FeedsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base.NoAnimation" />
         <activity
             android:name=".ui.feedsdetail.FeedsDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base.NoAnimation" />
     </application>
 
 </manifest>

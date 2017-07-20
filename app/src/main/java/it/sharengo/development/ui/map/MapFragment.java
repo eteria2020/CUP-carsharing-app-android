@@ -1416,7 +1416,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private void closeViewBookingCar(){
 
         //Nascondo le informazioni della prenotazione cancellata
-        bookingCarView.setVisibility(View.GONE);
+        if(bookingCarView != null)
+            bookingCarView.setVisibility(View.GONE);
 
         //Tolgo l'animazione al pin
         setMarkerAnimation();

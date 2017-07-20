@@ -43,6 +43,7 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
     private FeedsAdapter mFeedsAdapter;
 
     private boolean isEmpty;
+    private int tabSelected;
 
     public static final String ARG_CATEGORY = "ARG_CATEGORY";
     public static final String ARG_CATEGORY_NAME = "ARG_CATEGORY_NAME";
@@ -146,6 +147,8 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
             headerView.setVisibility(View.VISIBLE);
             feedHeaderTextView.setText(mPresenter.category_name);
         }
+
+        tabSelected = 0;
 
         return view;
     }
@@ -312,11 +315,13 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @OnClick(R.id.feedButton)
     public void onFeedClick(){
+        tabSelected = 0;
         showFeedsList();
     }
 
     @OnClick(R.id.categoriesButton)
     public void onCategoriesClick(){
+        tabSelected = 1;
         showFeedsCategories();
     }
 
@@ -350,7 +355,7 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
         isEmpty = true;
 
         aroundMeButton.setVisibility(View.GONE);
-        feedsEmptyView.setVisibility(View.VISIBLE);
+        if(tabSelected == 0) feedsEmptyView.setVisibility(View.VISIBLE);
 
         if(mPresenter.category_id.equals("0")){
             feedsEmptyTextView.setText(getString(R.string.feeds_empty_label));
