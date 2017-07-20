@@ -102,6 +102,7 @@ import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.utils.ImageUtils;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.os.Build.VERSION_CODES.M;
 import static it.sharengo.development.R.id.deleteBookingButton;
 import static it.sharengo.development.R.id.interestedButton;
 
@@ -234,6 +235,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @BindView(R.id.orientationMapButton)
     ImageView orientationMapButton;
+
+    @BindView(R.id.carFeedMapButton)
+    ImageView carFeedMapButton;
 
     @BindView(R.id.microphoneImageView)
     ImageView microphoneImageView;
@@ -1390,6 +1394,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             }
         }
 
+        carFeedMapButton.setAlpha(1.0f);
     }
 
     private void deleteBooking(){
@@ -1479,6 +1484,40 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         orientationMap();
     }
 
+    @OnClick(R.id.carFeedMapButton)
+    public void onShowCarOnMapClick() {
+
+        //Non posso nascondere le macchine se c'è attiva prenotazione / corsa
+        if(isBookingCar || isTripStart){
+
+            //maps_hidecars_alert EEA
+
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(R.string.maps_hidecars_alert),
+                    getString(R.string.ok),
+                    null);
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                }
+            });
+
+        }
+        else {
+            if (showCarsWithFeeds) {
+                showCarsWithFeeds = false;
+                carFeedMapButton.setAlpha(.4f);
+                hidePoiMarkers();
+            } else {
+                showCarsWithFeeds = true;
+                carFeedMapButton.setAlpha(1.0f);
+                showPoiMarkers();
+            }
+        }
+    }
+
     @OnClick(R.id.refreshMapButton)
     public void onRefreshMap() {
         refreshMapButton.startAnimation(anim);
@@ -1539,18 +1578,17 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @OnClick(R.id.feedBookingButton)
     public void onFeedBookingClick(){
-        //Navigator.launchFeedsDetail(this, feedSelected);
         //carnext_id
         //carnextMarker
         //FEEED
 
-        //mMapView.getController().setCenter(new GeoPoint(marker.getPosition().getLatitude(), marker.getPosition().getLongitude()));
-        //mMapView.getController().zoomIn();
         if(carNext != null && userLocation != null) {
-            Log.w("carNext",": "+carNext.latitude+","+carNext.longitude);
+
+            if(!showCarsWithFeeds)
+                showPoiMarkers();
+
             showCarsWithFeeds = true;
 
-            showPoiMarkers();
             onCloseFeedPopup();
 
             mMapView.getController().setCenter(new GeoPoint(carNext.latitude, carNext.longitude));
@@ -1870,12 +1908,16 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             int markerWidth = (int) (38 * getResources().getDisplayMetrics().density);
             int markerHeight = (int) (46 * getResources().getDisplayMetrics().density);
 
+            String feedMarkerIconUri = feed.category.media.images.marker.uri;
+
             if(feed.informations.sponsored.equals("true")){
                 markerWidth = (int) (46 * getResources().getDisplayMetrics().density);
                 markerHeight = (int) (55 * getResources().getDisplayMetrics().density);
+
+                feedMarkerIconUri = feed.media.images.icon.uri;
             }
 
-            Picasso.with(getActivity()).load(feed.category.media.images.marker.uri).resize(markerWidth, markerHeight).into(target);
+            Picasso.with(getActivity()).load(feedMarkerIconUri).resize(markerWidth, markerHeight).into(target);
 
         }
 

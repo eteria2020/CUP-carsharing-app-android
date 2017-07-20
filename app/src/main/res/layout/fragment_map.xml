@@ -59,6 +59,16 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
             android:src="@drawable/ic_compass"/>
+        <!-- Cars Button -->
+        <ImageView
+            android:id="@+id/carFeedMapButton"
+            android:layout_width="32.0dp"
+            android:layout_height="32.0dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:alpha="0.4"
+            android:src="@drawable/ic_cars"/>
     </RelativeLayout>
 
 

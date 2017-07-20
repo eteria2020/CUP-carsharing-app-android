@@ -70,6 +70,7 @@
     <string name="maps_opendoordistance_alert">"Sei troppo distante dalla Saren\'go che hai selezionato. Potrai aprirla quando sarai in prossimità dell\'auto.</string>
     <string name="maps_searchmicrophone_message">In ascolto...</string>
     <string name="maps_feeddiscover_message">Scopri di più</string>
+    <string name="maps_hidecars_alert">Attenzione! Potrai utilizzare questa funzione solo dopo aver concluso la corsa o la prenotazione attiva</string>
 
     <string name="search_platesharengo_label">Targa Share\'ngo</string>
     <string name="search_favoriteempty_label">Nessun preferito\nmemorizzali nella sezione impostazioni</string>
