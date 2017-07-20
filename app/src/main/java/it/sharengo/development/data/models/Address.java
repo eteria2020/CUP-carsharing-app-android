@@ -14,6 +14,9 @@ public class Address implements Serializable {
     @SerializedName("lon")
     public float longitude;
 
+    @SerializedName("lng")
+    public float longitudef;
+
     @SerializedName("lat")
     public float latitude;
 
@@ -36,9 +39,9 @@ public class Address implements Serializable {
         this.display_name = display_name;
     }
 
-    private Address(String friendly, float longitude, float latitude) {
+    private Address(String friendly, float longitudef, float latitude) {
         this.friendly = friendly;
-        this.longitude = longitude;
+        this.longitudef = longitudef;
         this.latitude = latitude;
     }
 }

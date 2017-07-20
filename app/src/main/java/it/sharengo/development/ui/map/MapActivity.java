@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.View;
 
 import it.sharengo.development.R;
+import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 
 
@@ -18,8 +19,9 @@ public class MapActivity extends BaseDrawerActivity {
 
     private MapFragment mapFragment;
 
-    public static Intent getCallingIntent(Context context) {
+    public static Intent getCallingIntent(Context context, int type) {
         Intent i = new Intent(context, MapActivity.class);
+        i.putExtra(Navigator.EXTRA_MAP, type);
         return i;
     }
 
@@ -27,8 +29,9 @@ public class MapActivity extends BaseDrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState == null) {
-            mapFragment = MapFragment.newInstance();
+        if (savedInstanceState == null && getIntent().getExtras() != null) {
+            int type = getIntent().getExtras().getInt(Navigator.EXTRA_MAP);
+            mapFragment = MapFragment.newInstance(type);
             replaceFragment(mapFragment);
         }
     }
@@ -55,10 +58,6 @@ public class MapActivity extends BaseDrawerActivity {
     @Override
     public void showNotification(String notification, View.OnClickListener mNotificationListener){
         super.showNotification(notification, mNotificationListener);
-    }
-
-    public void redrawFragment(){
-        replaceFragment(MapFragment.newInstance());
     }
 
 }

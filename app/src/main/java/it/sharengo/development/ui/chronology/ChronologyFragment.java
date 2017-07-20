@@ -103,7 +103,7 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @OnClick(R.id.goToMapButton)
     public void onMapClick(){
-        Navigator.launchMap(this);
+        Navigator.launchMap(this, Navigator.REQUEST_MAP_DEFAULT);
         getActivity().finish();
     }
 

@@ -88,6 +88,7 @@ import butterknife.OnTextChanged;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.City;
+import it.sharengo.development.data.models.Feed;
 import it.sharengo.development.data.models.Reservation;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.models.Trip;
@@ -110,6 +111,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private OverlayItem pinUser;
     private ArrayList<OverlayItem> items;*/
 
+    public static final String ARG_TYPE = "ARG_TYPE";
+
+    private int type = 0;
+
     private final int SPEECH_RECOGNITION_CODE = 1;
     private final int ZOOM_A = 15;
     private final int ZOOM_B = 5;
@@ -125,6 +130,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private GeoPoint defaultLocation = new GeoPoint(41.931543, 12.503420);
     private ArrayList<OverlayItem> items;
     private RadiusMarkerClusterer poiMarkers;
+    private FolderOverlay feedsMarker;
     private FolderOverlay poiCityMarkers;
     private RotateAnimation anim;
     private String carnext_id;
@@ -262,8 +268,11 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @BindView(R.id.roundMenuView)
     ViewGroup roundMenuView;
 
-    public static MapFragment newInstance() {
+    public static MapFragment newInstance(int type) {
         MapFragment fragment = new MapFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_TYPE, type);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -273,6 +282,12 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         getMvpFragmentComponent(savedInstanceState).inject(this);
+
+        if(getArguments() != null){
+            type = getArguments().getInt(ARG_TYPE);
+            if(type == Navigator.REQUEST_MAP_FEEDS) mPresenter.isFeeds = true;
+            else mPresenter.isFeeds = false;
+        }
 
         mAdapter = new MapSearchListAdapter(mActionListener);
     }
@@ -475,7 +490,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
 
-        //userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
+        userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
 
         //First time
         if (!hasInit){
@@ -617,7 +632,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }else {
 
             try {
-                mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());
+                mPresenter.refreshCars(getActivity(), (float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());
             } catch (NullPointerException e) {
             }
         }
@@ -1417,7 +1432,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @OnClick(R.id.refreshMapButton)
     public void onRefreshMap() {
         refreshMapButton.startAnimation(anim);
-        mPresenter.refreshCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());
+        mPresenter.refreshCars(getActivity(), (float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());
     }
 
     @OnClick(R.id.closePopupButton)
@@ -1565,56 +1580,27 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         poiMarkers.getTextPaint().setFakeBoldText(true);
 
 
-
-        mMapView.getOverlays().add(poiMarkers);
-        mMapView.invalidate();
-
-        /*if(mOverlay != null)
-            mOverlay.removeAllItems();
-
-        mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(
-                getActivity(), items,
-                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                    @Override
-                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) { //Evento tap sul pin
-
-                        //Verifico se è attiva una prenotazione
-                        if(isBookingCar){
-                            //Mostro un'alert di avviso
-                            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
-                                    getString(R.string.booking_bookedcar_alert),
-                                    getString(R.string.ok),
-                                    null);
-                            cdd.show();
-                            cdd.yes.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    cdd.dismissAlert();
-                                }
-                            });
-                        }else
-                            showPopupCar(carsList.get(index));
-                        return true;
-                    }
-                    @Override
-                    public boolean onItemLongPress(final int index, final OverlayItem item) {
-                        return false;
-                    }
-                });*/
-        //mOverlay.setFocusItemsOnTap(true);
-
-        //mMapView.getOverlays().add(mOverlay);
-        //mMapView.invalidate();
-
-
-
-
-        setMarkerAnimation();
+        if(!mPresenter.isFeeds)
+            showPoiMarkers();
 
 
         //Stop sull'animazione del pulsante di refresh
         anim.cancel();
 
+    }
+
+    private void showPoiMarkers(){
+        mMapView.getOverlays().add(poiMarkers);
+        mMapView.invalidate();
+
+        setMarkerAnimation();
+    }
+
+    private void hidePoiMarkers(){
+        mMapView.getOverlays().remove(poiMarkers);
+        mMapView.invalidate();
+
+        setMarkerAnimation();
     }
 
     private void onTapMarker(Car car){
@@ -1644,6 +1630,83 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     public void noCarsFound() {
         //Stop sull'animazione del pulsante di refresh
         anim.cancel();
+    }
+
+    @Override
+    public void showFeeds(List<Feed> feedsList) {
+
+        if(feedsMarker != null)
+            mMapView.getOverlays().remove(feedsMarker);
+
+        feedsMarker = new FolderOverlay();
+
+        for(Feed feed : feedsList){
+
+            //Creo il marker
+            Marker markerFeed = new Marker(mMapView);
+            markerFeed.setPosition(new GeoPoint(feed.informations.address.latitude, feed.informations.address.longitudef));
+            markerFeed.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            //markerFeed.setIcon(getIconMarker(R.drawable.ic_auto)); //TODO
+            markerFeed.setTitle("AA"); //TODO
+            markerFeed.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker, MapView mapView) {
+
+                    //onTapMarker(car); TODO
+                    return true;
+                }
+            });
+
+            //Disegno i componenti grafici
+            final Marker finalMarkerCarCity = markerFeed;
+            Target target = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+
+
+                    /*public Drawable makeBasicMarker(Bitmap bitmap) {
+        Drawable[] layers = new Drawable[2];
+        layers[0] = new BitmapDrawable(getResources(),
+                BitmapFactory.decodeResource(getResources(), R.drawable.ic_cluster));
+
+        layers[1] = new BitmapDrawable(getResources(), tintImage(bitmap));
+        LayerDrawable ld = new LayerDrawable(layers);
+        ld.setLayerInset(1, 10, 10, 10, 10); // xx would be the values needed so bitmap ends in the upper part of the image
+        return ld;
+    }*/
+
+                    finalMarkerCarCity.setIcon(new BitmapDrawable(getResources(), bitmap));
+                    //Aggiungo all'array
+                    feedsMarker.add(finalMarkerCarCity);
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                }
+            };
+
+            int markerWidth = (int) (38 * getResources().getDisplayMetrics().density);
+            int markerHeight = (int) (46 * getResources().getDisplayMetrics().density);
+
+            if(feed.informations.sponsored.equals("true")){
+                markerWidth = (int) (46 * getResources().getDisplayMetrics().density);
+                markerHeight = (int) (55 * getResources().getDisplayMetrics().density);
+            }
+
+            Picasso.with(getActivity()).load(feed.category.media.images.marker.uri).resize(markerWidth, markerHeight).into(target);
+
+        }
+
+        mMapView.getOverlays().add(feedsMarker);
+        mMapView.invalidate();
+
+        //Stop sull'animazione del pulsante di refresh
+        anim.cancel();
+
     }
 
     @Override

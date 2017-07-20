@@ -1,8 +1,13 @@
 package it.sharengo.development.ui.feeds;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +29,7 @@ import it.sharengo.development.data.models.FeedCategory;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.development.ui.home.HomeFragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -31,6 +37,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements FeedsMvpView {
 
     private static final String TAG = FeedsFragment.class.getSimpleName();
+    private static final int mRequestPermission = 1;
 
     private FeedsCategoriesAdapter mCategoriesAdapter;
     private FeedsAdapter mFeedsAdapter;
@@ -191,6 +198,75 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
 
     }
 
+
+    private void checkMapPermission(){
+
+        final String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+
+
+        if (ActivityCompat.checkSelfPermission(getActivity(),Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                new AlertDialog.Builder(getActivity())
+                        .setMessage(getActivity().getString(R.string.msg_rational_location_permission))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                requestPermissions(permissions, mRequestPermission);
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .create()
+                        .show();
+
+            } else {
+                requestPermissions(permissions, mRequestPermission);
+            }
+        }else{
+            launchMap();
+        }
+    }
+
+    private void launchMap(){
+        getActivity().finish();
+        Navigator.launchMap(this, Navigator.REQUEST_MAP_FEEDS);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case mRequestPermission: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+
+                    launchMap();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    checkMapPermission();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //          LISTENERS
@@ -247,6 +323,11 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
     @OnClick(R.id.backImageView)
     public void onBackClick(){
         getActivity().finish();
+    }
+
+    @OnClick(R.id.aroundMeButton)
+    public void onAroungMeClick(){
+        checkMapPermission();
     }
 
 

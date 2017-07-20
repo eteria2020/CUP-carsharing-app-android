@@ -99,13 +99,13 @@ public class MvpFragmentModule {
     MapPresenter provideMapPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository,
                                      PostRepository postRepository, CarRepository carRepository,
                                      AddressRepository addressRepository, PreferencesRepository preferencesRepository,
-                                     UserRepository userRepository) {
+                                     UserRepository userRepository, CityRepository cityRepository) {
         MapPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new MapPresenter(schedulerProvider, appRepository, postRepository, carRepository, addressRepository, preferencesRepository, userRepository);
+            presenter = new MapPresenter(schedulerProvider, appRepository, postRepository, carRepository, addressRepository, preferencesRepository, userRepository, cityRepository);
         }
         return presenter;
     }

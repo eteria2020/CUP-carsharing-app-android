@@ -36,8 +36,20 @@ public class CitiesRetrofitDataSource extends BaseRetrofitDataSource implements 
     }
 
     @Override
+    public Observable<ResponseFeed> getOffersByCoordinates(String auth, Float latitude, Float longitude, int radius) {
+        return mCitiesApi.getOffersByCoordinates(auth, latitude, longitude, radius)
+                .compose(this.<ResponseFeed>handleRetrofitRequest());
+    }
+
+    @Override
     public Observable<ResponseFeed> getEvents(String auth, String id_category, String id_city) {
         return mCitiesApi.getEvents(auth, id_category, id_city)
+                .compose(this.<ResponseFeed>handleRetrofitRequest());
+    }
+
+    @Override
+    public Observable<ResponseFeed> getEventsByCoordinates(String auth, Float latitude, Float longitude, int radius) {
+        return mCitiesApi.getEventsByCoordinates(auth, latitude, longitude, radius)
                 .compose(this.<ResponseFeed>handleRetrofitRequest());
     }
 }

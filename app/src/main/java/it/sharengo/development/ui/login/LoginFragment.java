@@ -226,7 +226,7 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
                 getActivity().finish();
                 break;
             case Navigator.REQUEST_LOGIN_MAPS:
-                Navigator.launchMap(LoginFragment.this);
+                Navigator.launchMap(LoginFragment.this, Navigator.REQUEST_MAP_DEFAULT);
                 getActivity().finish();
                 break;
             case Navigator.REQUEST_LOGIN_FEEDS:

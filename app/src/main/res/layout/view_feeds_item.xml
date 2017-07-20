@@ -75,9 +75,7 @@
                 android:id="@+id/feedIntersImageView"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:padding="5dp"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/btn_bkg_darkjunglegreen"
                 android:visibility="gone"
                 android:src="@drawable/ic_love" />
 

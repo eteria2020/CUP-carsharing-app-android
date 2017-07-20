@@ -183,7 +183,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                         Navigator.launchSlideshow(MenuFragment.this);
                         break;
                     case BOOKING:
-                        Navigator.launchMap(MenuFragment.this);
+                        Navigator.launchMap(MenuFragment.this, Navigator.REQUEST_MAP_DEFAULT);
                         break;
                     case SETTINGS:
                         Navigator.launchSettings(MenuFragment.this);

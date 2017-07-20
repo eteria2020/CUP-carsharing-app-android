@@ -90,6 +90,32 @@ public class CityRepository {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
+    //                                              GET Feed Offers by Coordinates
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Observable<ResponseFeed> getOffersByCoordinates(final Context context, Float latitude, Float longitude, int radius) {
+
+        return mRemoteDataSource.getOffersByCoordinates(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)), latitude, longitude, radius)
+                .doOnNext(new Action1<ResponseFeed>() {
+                    @Override
+                    public void call(ResponseFeed response) {
+
+                        createOrUpdateOffersByCoordinatesInMemory(context, response);
+                    }
+                });
+    }
+
+    private void createOrUpdateOffersByCoordinatesInMemory(Context context, ResponseFeed response) {
+        if (mChachedOffers == null) {
+            mChachedOffers = new ArrayList<Feed>();
+        }
+        mChachedOffers = response.data;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
     //                                              GET Feed Events
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,6 +133,32 @@ public class CityRepository {
     }
 
     private void createOrUpdateEventsInMemory(Context context, ResponseFeed response) {
+        if (mChachedEvents == null) {
+            mChachedEvents = new ArrayList<Feed>();
+        }
+        mChachedEvents = response.data;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              GET Feed Events by Coordinates
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Observable<ResponseFeed> getEventsByCoordinates(final Context context, Float latitude, Float longitude, int radius) {
+
+        return mRemoteDataSource.getEventsByCoordinates(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)), latitude, longitude, radius)
+                .doOnNext(new Action1<ResponseFeed>() {
+                    @Override
+                    public void call(ResponseFeed response) {
+
+                        createOrUpdateEventsByCoordinatesInMemory(context, response);
+                    }
+                });
+    }
+
+    private void createOrUpdateEventsByCoordinatesInMemory(Context context, ResponseFeed response) {
         if (mChachedEvents == null) {
             mChachedEvents = new ArrayList<Feed>();
         }

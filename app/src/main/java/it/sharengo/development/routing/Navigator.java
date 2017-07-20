@@ -42,10 +42,15 @@ public class Navigator {
 
     public static final String EXTRA_LOGIN = "EXTRA_LOGIN";
     public static final String EXTRA_FEEDS = "EXTRA_FEEDS";
+    public static final String EXTRA_MAP = "EXTRA_MAPA";
+
     public static final int REQUEST_LOGIN_START = 1;
     public static final int REQUEST_LOGIN_PROFILE = 2;
     public static final int REQUEST_LOGIN_MAPS = 3;
     public static final int REQUEST_LOGIN_FEEDS = 4;
+
+    public static final int REQUEST_MAP_DEFAULT = 1;
+    public static final int REQUEST_MAP_FEEDS = 2;
 
     private Navigator() {
     }
@@ -72,8 +77,8 @@ public class Navigator {
         fragment.startActivity(intent);
     }
 
-    public static void launchMap(Fragment fragment) {
-        Intent intent = MapActivity.getCallingIntent(fragment.getActivity());
+    public static void launchMap(Fragment fragment, int type) {
+        Intent intent = MapActivity.getCallingIntent(fragment.getActivity(), type);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);

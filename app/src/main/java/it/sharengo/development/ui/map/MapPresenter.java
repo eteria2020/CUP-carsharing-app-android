@@ -8,6 +8,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,12 +17,14 @@ import it.sharengo.development.R;
 import it.sharengo.development.data.models.Address;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.City;
+import it.sharengo.development.data.models.Feed;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.Post;
 import it.sharengo.development.data.models.Reservation;
 import it.sharengo.development.data.models.Response;
 import it.sharengo.development.data.models.ResponseCar;
 import it.sharengo.development.data.models.ResponseCity;
+import it.sharengo.development.data.models.ResponseFeed;
 import it.sharengo.development.data.models.ResponsePutReservation;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
@@ -31,6 +34,7 @@ import it.sharengo.development.data.models.User;
 import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.CarRepository;
+import it.sharengo.development.data.repositories.CityRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
@@ -52,6 +56,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private final AddressRepository mAddressRepository;
     private final PreferencesRepository mPreferencesRepository;
     private final UserRepository mUserRepository;
+    private final CityRepository mCityRepository;
 
     /*
      *  REQUEST
@@ -68,6 +73,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private Observable<ResponseReservation> mReservationsRequest;
     private Observable<ResponsePutReservation> mReservationRequest;
     private Observable<ResponseCity> mCityRequest;
+    private Observable<ResponseFeed> mFeedRequest;
 
     /*
      *  VAR
@@ -88,6 +94,9 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     private boolean isBookingExists;
     private int timestamp_start;
     private List<City> mCitiesList;
+    public boolean isFeeds;
+    private List<Feed> mOffersList;
+    private List<Feed> mEventsList;
 
     /*
      *  Timer
@@ -107,7 +116,8 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                         CarRepository carRepository,
                         AddressRepository addressRepository,
                         PreferencesRepository preferencesRepository,
-                        UserRepository userRepository) {
+                        UserRepository userRepository,
+                        CityRepository cityRepository) {
         super(schedulerProvider);
         mPostRepository = postRepository;
         mCarRepository = carRepository;
@@ -115,6 +125,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         mPreferencesRepository = preferencesRepository;
         mUserRepository = userRepository;
         mAppRepository = appRepository;
+        mCityRepository = cityRepository;
 
         mAppRepository.selectMenuItem(MenuItem.Section.BOOKING);
 
@@ -277,9 +288,12 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void refreshCars(float latitude, float longitude, int radius){
+    public void refreshCars(Context context, float latitude, float longitude, int radius){
         hideLoading = true;
         loadCars(latitude, longitude, radius);
+
+        if(isFeeds)
+            loadFeeds(context, latitude, longitude, radius);
     }
 
     public void loadCars(float latitude, float longitude, int radius) {
@@ -330,12 +344,131 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         if(mResponse.reason.isEmpty()){
             getMvpView().showCars(mResponse.data);
         }else{
-            /*if(!mResponse.reason.equals("No cars found"))
-                getMvpView().showError(mResponse.reason);*/
-
             getMvpView().noCarsFound();
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Load Offers
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void loadFeeds(Context context, float latitude, float longitude, int radius){
+        loadOffersList(context, latitude, longitude, radius);
+    }
+
+    private void loadOffersList(Context context, float latitude, float longitude, int radius) {
+
+        hideLoading = true;
+
+        if( mFeedRequest == null) {
+            mFeedRequest = buildOffersRequest(context, latitude, longitude, radius);
+            addSubscription(mFeedRequest.unsafeSubscribe(getOffersSubscriber()));
+        }
+    }
+
+    private Observable<ResponseFeed> buildOffersRequest(final Context context, final float latitude, final float longitude, final int radius) {
+        return mFeedRequest = mCityRepository.getOffersByCoordinates(context, latitude, longitude, radius)
+                .first()
+                .compose(this.<ResponseFeed>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        loadEventsList(context, latitude, longitude, radius);
+                    }
+                });
+    }
+
+    private Subscriber<ResponseFeed> getOffersSubscriber(){
+        return new Subscriber<ResponseFeed>() {
+            @Override
+            public void onCompleted() {
+                mFeedRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mFeedRequest = null;
+            }
+
+            @Override
+            public void onNext(ResponseFeed response) {
+                mFeedRequest = null;
+                mOffersList = response.data;
+            }
+        };
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              LOAD Events
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void loadEventsList(Context context, float latitude, float longitude, int radius) {
+
+        hideLoading = true;
+
+        if( mFeedRequest == null) {
+            mFeedRequest = buildEventsRequest(context, latitude, longitude, radius);
+            addSubscription(mFeedRequest.unsafeSubscribe(getEventsSubscriber()));
+        }
+    }
+
+    private Observable<ResponseFeed> buildEventsRequest(Context context, float latitude, float longitude, int radius) {
+        return mFeedRequest = mCityRepository.getEventsByCoordinates(context, latitude, longitude, radius)
+                .first()
+                .compose(this.<ResponseFeed>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        setAllFeedsList();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseFeed> getEventsSubscriber(){
+        return new Subscriber<ResponseFeed>() {
+            @Override
+            public void onCompleted() {
+                mFeedRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mFeedRequest = null;
+            }
+
+            @Override
+            public void onNext(ResponseFeed response) {
+                mEventsList = response.data;
+            }
+        };
+    }
+
+    private void setAllFeedsList(){
+
+        List<Feed> feeds = new ArrayList<>();
+
+        //Verifico se ci sono evento o offerte
+        if(!mEventsList.isEmpty())
+            feeds.addAll(mEventsList);
+
+        Log.w("EVENT","EV");
+        for(Feed ff : mEventsList){
+            Log.w("E",": "+ff.title);
+        }
+
+        if(!mOffersList.isEmpty())
+            feeds.addAll(mOffersList);
+
+        Log.w("OFFER","OF");
+        for(Feed ff : mOffersList){
+            Log.w("O",": "+ff.title);
+        }
+
+        getMvpView().showFeeds(feeds);
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //

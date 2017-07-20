@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class FeedInformation implements Serializable {
 
+    public String sponsored;
     public String launch_title;
     public FeedDate date;
     public City city;
@@ -22,7 +23,8 @@ public class FeedInformation implements Serializable {
     public FeedInformation() {
     }
 
-    public FeedInformation(String launch_title, FeedDate date, City city, String location, Address address, String advantage_top, String advantage_bottom, String abstract_text, String description) {
+    public FeedInformation(String sponsored, String launch_title, FeedDate date, City city, String location, Address address, String advantage_top, String advantage_bottom, String abstract_text, String description) {
+        this.sponsored = sponsored;
         this.launch_title = launch_title;
         this.date = date;
         this.city = city;
