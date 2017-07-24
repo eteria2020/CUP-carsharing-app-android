@@ -212,5 +212,6 @@
     <string name="assistance_phonenumber_label">+3905861975772</string>
     <string name="assistance_alertcall_action">Chiama</string>
     <string name="assistance_cancelcall_action">Anulla</string>
+    <string name="assistance_devicenotenabled_alert">Dispositivo non abilitato</string>
 
 </resources>
