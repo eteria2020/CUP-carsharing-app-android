@@ -20,6 +20,7 @@ import it.sharengo.development.ui.settings.SettingsFragment;
 import it.sharengo.development.ui.settingsaddresses.SettingsAddressesFragment;
 import it.sharengo.development.ui.settingsaddressesnew.SettingsAddressesNewFragment;
 import it.sharengo.development.ui.settingslang.SettingsLangFragment;
+import it.sharengo.development.ui.share.ShareFragment;
 import it.sharengo.development.ui.shortintro.ShortIntroFragment;
 import it.sharengo.development.ui.signup.SignupFragment;
 import it.sharengo.development.ui.slideshow.SlideshowFragment;
@@ -74,4 +75,6 @@ public interface MvpFragmentComponent {
     void inject(FeedsDetailFragment fragment);
 
     void inject(AssistanceFragment fragment);
+
+    void inject(ShareFragment fragment);
 }

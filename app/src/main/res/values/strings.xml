@@ -206,12 +206,24 @@
     <string name="feedsdetails_notinterested_action">Non mi interessa</string>
 
     <!-- Assistance -->
-    <string name="assistance_title_label">Siamo qui per aiutarti!</string>
+    <string name="assistance_title_label">Richiedi assistenza</string>
+    <string name="assistance_help_label">Siamo qui per aiutarti!</string>
     <string name="assistance_talkoperator_label">Vuoi parlare con un operatore?</string>
     <string name="assistance_call_action">Chiama ora</string>
     <string name="assistance_phonenumber_label">+3905861975772</string>
     <string name="assistance_alertcall_action">Chiama</string>
     <string name="assistance_cancelcall_action">Anulla</string>
     <string name="assistance_devicenotenabled_alert">Dispositivo non abilitato</string>
+    
+    <!-- Share -->
+    <string name="share_title_label">Invita un amico</string>
+    <string name="share_invitefriend_label">Invita un amico e guadagna minuti!</string>
+    <string name="share_timeregister_label">Al momento dell\'iscrizione</string>
+    <string name="share_tenminutes_label">riceverà 10 minuti di guida gratuita</string>
+    <string name="share_giftwelcome_label">come omaggio di benvenuto.</string>
+    <string name="share_friendregistration_label">Per ogni amico che si iscriverà\ngrazie al tuo invito</string>
+    <string name="share_twentyminutes_label">riceverai 20 minuti di guida gratuita!</string>
+    <string name="share_invite_button">Invita subito</string>
+    <string name="share_text">Sono un testo da condividere</string>
 
 </resources>

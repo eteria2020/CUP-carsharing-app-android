@@ -1,6 +1,5 @@
 package it.sharengo.development.injection.modules;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import dagger.Module;
@@ -30,6 +29,7 @@ import it.sharengo.development.ui.settings.SettingsPresenter;
 import it.sharengo.development.ui.settingsaddresses.SettingsAddressesPresenter;
 import it.sharengo.development.ui.settingsaddressesnew.SettingsAddressesNewPresenter;
 import it.sharengo.development.ui.settingslang.SettingsLangPresenter;
+import it.sharengo.development.ui.share.SharePresenter;
 import it.sharengo.development.ui.shortintro.ShortIntroPresenter;
 import it.sharengo.development.ui.signup.SignupPresenter;
 import it.sharengo.development.ui.slideshow.SlideshowPresenter;
@@ -327,6 +327,18 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new AssistancePresenter(schedulerProvider, appRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    SharePresenter providesharePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+        SharePresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new SharePresenter(schedulerProvider, appRepository);
         }
         return presenter;
     }

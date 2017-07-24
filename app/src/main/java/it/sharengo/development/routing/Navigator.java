@@ -23,6 +23,7 @@ import it.sharengo.development.ui.settings.SettingsActivity;
 import it.sharengo.development.ui.settingsaddresses.SettingsAddressesActivity;
 import it.sharengo.development.ui.settingsaddressesnew.SettingsAddressesNewActivity;
 import it.sharengo.development.ui.settingslang.SettingsLangActivity;
+import it.sharengo.development.ui.share.ShareActivity;
 import it.sharengo.development.ui.shortintro.ShortIntroActivity;
 import it.sharengo.development.ui.signup.SignupActivity;
 import it.sharengo.development.ui.slideshow.SlideshowActivity;
@@ -207,6 +208,13 @@ public class Navigator {
 
     public static void launchAssistance(Fragment fragment) {
         Intent intent = AssistanceActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchShare(Fragment fragment) {
+        Intent intent = ShareActivity.getCallingIntent(fragment.getActivity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
