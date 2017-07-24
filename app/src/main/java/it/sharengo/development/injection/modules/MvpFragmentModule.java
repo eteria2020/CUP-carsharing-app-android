@@ -12,6 +12,7 @@ import it.sharengo.development.data.repositories.CityRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
+import it.sharengo.development.ui.assistance.AssistancePresenter;
 import it.sharengo.development.ui.chronology.ChronologyPresenter;
 import it.sharengo.development.ui.feeds.FeedsPresenter;
 import it.sharengo.development.ui.feedsdetail.FeedsDetailPresenter;
@@ -314,6 +315,18 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new FeedsDetailPresenter(schedulerProvider, appRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    AssistancePresenter provideAssistancePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+        AssistancePresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new AssistancePresenter(schedulerProvider, appRepository);
         }
         return presenter;
     }

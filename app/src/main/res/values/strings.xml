@@ -205,4 +205,12 @@
     <string name="feedsdetails_interested_action">Mi interessa</string>
     <string name="feedsdetails_notinterested_action">Non mi interessa</string>
 
+    <!-- Assistance -->
+    <string name="assistance_title_label">Siamo qui per aiutarti!</string>
+    <string name="assistance_talkoperator_label">Vuoi parlare con un operatore?</string>
+    <string name="assistance_call_action">Chiama ora</string>
+    <string name="assistance_phonenumber_label">+3905861975772</string>
+    <string name="assistance_alertcall_action">Chiama</string>
+    <string name="assistance_cancelcall_action">Anulla</string>
+
 </resources>

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import it.sharengo.development.data.models.Feed;
 import it.sharengo.development.data.models.MenuItem;
+import it.sharengo.development.ui.assistance.AssistanceActivity;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.development.ui.chronology.ChronologyActivity;
 import it.sharengo.development.ui.feeds.FeedsActivity;
@@ -200,6 +201,13 @@ public class Navigator {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchAssistance(Fragment fragment) {
+        Intent intent = AssistanceActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }

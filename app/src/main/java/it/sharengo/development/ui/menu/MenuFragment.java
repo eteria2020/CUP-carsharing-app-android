@@ -194,6 +194,9 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                     case PROFILE:
                         Navigator.launchProfile(MenuFragment.this);
                         break;
+                    case HELP:
+                        Navigator.launchAssistance(MenuFragment.this);
+                        break;
                 }
 
                 getActivity().finish();

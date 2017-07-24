@@ -3,6 +3,7 @@ package it.sharengo.development.injection.components;
 import dagger.Component;
 import it.sharengo.development.injection.PerActivity;
 import it.sharengo.development.injection.modules.MvpFragmentModule;
+import it.sharengo.development.ui.assistance.AssistanceFragment;
 import it.sharengo.development.ui.chronology.ChronologyFragment;
 import it.sharengo.development.ui.feeds.FeedsFragment;
 import it.sharengo.development.ui.feedsdetail.FeedsDetailFragment;
@@ -71,4 +72,6 @@ public interface MvpFragmentComponent {
     void inject(FeedsFragment fragment);
 
     void inject(FeedsDetailFragment fragment);
+
+    void inject(AssistanceFragment fragment);
 }
