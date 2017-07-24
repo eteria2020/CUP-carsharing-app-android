@@ -1,6 +1,8 @@
 package it.sharengo.development.ui.map;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -35,13 +37,16 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
@@ -105,6 +110,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static android.os.Build.VERSION_CODES.M;
 import static it.sharengo.development.R.id.deleteBookingButton;
 import static it.sharengo.development.R.id.interestedButton;
+import static java.lang.Math.atan2;
 
 public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvpView, LocationListener {
 
@@ -163,6 +169,14 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private Feed feedSelected;
     private boolean showCarsWithFeeds;
 
+    private int touchX;
+    private int touchY;
+    private float deltaX;
+    private float deltaY;
+    private Handler mHandler = new Handler();
+    private static final int FINGER_STOP_THRESHOLD = 500;
+    private double deltaAngle = 3;
+
     private float currentRotation = 0f;
     private float co2 = 0f;
 
@@ -188,8 +202,14 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @BindView(R.id.centerMapButton)
     ImageView centerMapButton;
 
+    @BindView(R.id.centerMapButtonView)
+    ViewGroup centerMapButtonView;
+
     @BindView(R.id.refreshMapButton)
     ImageView refreshMapButton;
+
+    @BindView(R.id.refreshMapButtonView)
+    ViewGroup refreshMapButtonView;
 
     @BindView(R.id.mapOverlayView)
     View mapOverlayView;
@@ -236,8 +256,14 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @BindView(R.id.orientationMapButton)
     ImageView orientationMapButton;
 
+    @BindView(R.id.orientationMapButtonView)
+    ViewGroup orientationMapButtonView;
+
     @BindView(R.id.carFeedMapButton)
     ImageView carFeedMapButton;
+
+    @BindView(R.id.carFeedMapButtonView)
+    ViewGroup carFeedMapButtonView;
 
     @BindView(R.id.microphoneImageView)
     ImageView microphoneImageView;
@@ -379,8 +405,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 public boolean onScroll(ScrollEvent event) {
 
                     if(hasInit) {
-
-                        refreshMapButton.startAnimation(anim);
+                        Log.w("refreshCars","onScroll");
                         refreshCars();
 
                         setRotationButton(mMapView.getMapOrientation());
@@ -390,10 +415,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
                 @Override
                 public boolean onZoom(ZoomEvent event) {
-
+                    Log.w("onZoom","onZoom");
+                    Log.w("hasInit",": "+hasInit);
                     if(hasInit) {
 
                         refreshMapButton.startAnimation(anim);
+
+                        Log.w("refreshCars","onZoom");
                         refreshCars();
                     }
                     return false;
@@ -412,6 +440,11 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         setSearchDefaultContent();
         //searchRecyclerView.addItemDecoration(new DividerItemDecoration(searchRecyclerView.getContext(), lm.getOrientation()));
 
+
+        //Riposiziono i pulsanti del menu circolare in base alla modalità
+        if(mPresenter.isFeeds){
+
+        }
 
         return view;
     }
@@ -477,6 +510,92 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //Prelevo le targhe
         mPresenter.viewCreated();
+
+
+
+
+        //Animazion cerchio CCC
+        if(mPresenter.isFeeds) {
+            roundMenuView.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View arg0, MotionEvent event) {
+
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+
+                        case MotionEvent.ACTION_MOVE:
+
+                            touchX = (int) event.getX();
+                            touchY = (int) event.getY();
+
+                            deltaX = touchX - (roundMenuView.getX() + roundMenuView.getWidth());
+                            deltaY = touchY - (roundMenuView.getY() + roundMenuView.getHeight());
+
+
+                            mHandler.removeCallbacksAndMessages(null);
+                            if (event.getActionMasked() != MotionEvent.ACTION_UP) {
+                                mHandler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        deltaX = 0;
+                                        deltaY = 0;
+                                    }
+                                }, FINGER_STOP_THRESHOLD);
+                            }
+
+                            double prevDeltaAngle = deltaAngle;
+
+                            deltaAngle = 3;
+                            deltaAngle -= -atan2(deltaX, deltaY);
+
+                            if (prevDeltaAngle < deltaAngle) {
+
+                                orientationMapButtonView.setTranslationX(-157.0f);
+                                orientationMapButtonView.setTranslationY(12.0f);
+
+                                centerMapButtonView.setTranslationX(-100.0f);
+                                centerMapButtonView.setTranslationY(65.0f);
+
+                                refreshMapButtonView.setTranslationX(-65.0f);
+                                refreshMapButtonView.setTranslationY(100.0f);
+
+                                carFeedMapButtonView.setTranslationX(-20.0f);
+                                carFeedMapButtonView.setTranslationY(100.0f);
+                            } else {
+
+                                orientationMapButtonView.setTranslationX(-1.0f);
+                                orientationMapButtonView.setTranslationY(-1.0f);
+
+                                centerMapButtonView.setTranslationX(-1.0f);
+                                centerMapButtonView.setTranslationY(-1.0f);
+
+                                refreshMapButtonView.setTranslationX(-1.0f);
+                                refreshMapButtonView.setTranslationY(-1.0f);
+
+                                carFeedMapButtonView.setTranslationX(-1.0f);
+                                carFeedMapButtonView.setTranslationY(-1.0f);
+                            }
+
+
+                            break;
+
+                    }
+                    return true;
+                }
+            });
+        }
+
+        if(!mPresenter.isFeeds){
+            orientationMapButtonView.setTranslationX(-157.0f);
+            orientationMapButtonView.setTranslationY(12.0f);
+
+            centerMapButtonView.setTranslationX(-100.0f);
+            centerMapButtonView.setTranslationY(65.0f);
+
+            refreshMapButtonView.setTranslationX(-65.0f);
+            refreshMapButtonView.setTranslationY(100.0f);
+
+            carFeedMapButtonView.setTranslationX(-20.0f);
+            carFeedMapButtonView.setTranslationY(100.0f);
+        }
     }
 
     @Override
@@ -543,7 +662,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
 
-        userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
+        //userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
 
         //First time
         if (!hasInit){
@@ -581,6 +700,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
             if(!isTripStart && !isBookingCar) centerMap();
 
+            Log.w("refreshCars","onLocationChanged");
             refreshCars();
         }
 
@@ -627,6 +747,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    Log.w("refreshCars","onProviderDisabled");
                     refreshCars();
                 }
             }, 100);
@@ -640,7 +761,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             showPopupCar(carPreSelected);
         }
 
-        //hasInit = true;
+        hasInit = true;
     }
 
     private void loadsCars(){
@@ -649,6 +770,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     private void refreshCars(){
 
+
+        refreshMapButton.startAnimation(anim);
+
         int mapRadius = getMapRadius();
 
         if(mapRadius > 35000){
@@ -656,27 +780,14 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             if(poiMarkers != null)
                 mMapView.getOverlays().remove(poiMarkers);
 
+            if(feedsMarker != null)
+                mMapView.getOverlays().remove(feedsMarker);
+
             if(poiCityMarkers != null)
                 mMapView.getOverlays().remove(poiCityMarkers);
 
             poiCityMarkers = new FolderOverlay();
 
-            /*final GeoPoint milanGeoPoint = new GeoPoint(45.465454, 9.186515);
-            final GeoPoint romeGeoPoint = new GeoPoint(41.902783, 12.496365);
-            final GeoPoint modenaGeoPoint = new GeoPoint(44.647128, 10.925226);
-            final GeoPoint florenceGeoPoint = new GeoPoint(43.769560, 11.255813);
-
-            //Milano
-            showCityMarker(milanGeoPoint, R.drawable.ic_cluster_milan);
-
-            //Roma
-            showCityMarker(romeGeoPoint, R.drawable.ic_cluster_rome);
-
-            //Modena
-            showCityMarker(modenaGeoPoint, R.drawable.ic_cluster_modena);
-
-            //Firenze
-            showCityMarker(florenceGeoPoint, R.drawable.ic_cluster_firence);*/
             mPresenter.loadCity(getActivity());
 
             mMapView.getOverlays().add(poiCityMarkers);
@@ -684,9 +795,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         }else {
 
-            try {
-                mPresenter.refreshCars(getActivity(), (float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());
-            } catch (NullPointerException e) {
+            if(poiCityMarkers != null)  mMapView.getOverlays().remove(poiCityMarkers);
+
+            if(getMapCenter().getLongitude() > 0) {
+                try {
+                    mPresenter.refreshCars(getActivity(), (float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());
+                } catch (NullPointerException e) {
+                }
             }
         }
 
@@ -833,6 +948,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private void showPopupCar(Car car){
 
         carSelected = car;
+
+        carFeedMapButton.setAlpha(1.0f);
+        showCarsWithFeeds = true;
 
         // Animazione
         popupCarView.setVisibility(View.VISIBLE);
@@ -1475,17 +1593,17 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         startSpeechToText();
     }
 
-    @OnClick(R.id.centerMapButton)
+    @OnClick(R.id.centerMapButtonView)
     public void onCenterMap() {
         centerMap();
     }
 
-    @OnClick(R.id.orientationMapButton)
+    @OnClick(R.id.orientationMapButtonView)
     public void onOrientationMap() {
         orientationMap();
     }
 
-    @OnClick(R.id.carFeedMapButton)
+    @OnClick(R.id.carFeedMapButtonView)
     public void onShowCarOnMapClick() {
 
         //Non posso nascondere le macchine se c'è attiva prenotazione / corsa
@@ -1514,15 +1632,19 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             } else {
                 showCarsWithFeeds = true;
                 carFeedMapButton.setAlpha(1.0f);
-                showPoiMarkers();
+
+                if(getMapRadius() < 35000)
+                    showPoiMarkers();
             }
         }
     }
 
-    @OnClick(R.id.refreshMapButton)
+    @OnClick(R.id.refreshMapButtonView)
     public void onRefreshMap() {
-        refreshMapButton.startAnimation(anim);
-        mPresenter.refreshCars(getActivity(), (float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());
+        if(getMapRadius() < 35000) {
+            refreshMapButton.startAnimation(anim);
+            mPresenter.refreshCars(getActivity(), (float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());
+        }
     }
 
     @OnClick(R.id.closePopupButton)
@@ -1766,6 +1888,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         feedSelected = feed;
 
+        //Zoom sulla mappa
+        mMapView.getController().setCenter(new GeoPoint(feed.informations.address.latitude, feed.informations.address.longitudef));
+        mMapView.getController().zoomTo(ZOOM_C);
+
         //Immagine copertina
         ImageUtils.loadImage(feedImageView, feed.media.images.image.uri);
 
@@ -1818,28 +1944,36 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }
 
         //Mi interessa
-        SharedPreferences mPref = getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
-        Type fooType = new TypeToken<List<String>>() {}.getType();
-        Gson gson = new Gson();
-        List<String> feedsInterested = (ArrayList<String>) gson.fromJson(mPref.getString(getString(R.string.preference_feeds), "[]"), fooType);
-
-
-        boolean isInters = false;
-        for (String feed_id : feedsInterested){
-            if(feed_id.equals(feed.id)){
-                isInters = true;
-            }
-        }
-
-        if(isInters){
-            feedIntersImageView.setVisibility(View.VISIBLE);
-        }else{
-            feedIntersImageView.setVisibility(View.GONE);
-        }
+        setFeedInters();
 
         // Animazione
         popupFeedView.setVisibility(View.VISIBLE);
         popupFeedView.animate().translationY(0);
+    }
+
+    @Override
+    public void setFeedInters(){
+
+        if(feedSelected != null) {
+            SharedPreferences mPref = getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+            Type fooType = new TypeToken<List<String>>() {
+            }.getType();
+            Gson gson = new Gson();
+            List<String> feedsInterested = (ArrayList<String>) gson.fromJson(mPref.getString(getString(R.string.preference_feeds), "[]"), fooType);
+
+            boolean isInters = false;
+            for (String feed_id : feedsInterested) {
+                if (feed_id.equals(feedSelected.id)) {
+                    isInters = true;
+                }
+            }
+
+            if (isInters) {
+                feedIntersImageView.setVisibility(View.VISIBLE);
+            } else {
+                feedIntersImageView.setVisibility(View.GONE);
+            }
+        }
     }
 
 
@@ -2139,6 +2273,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     mMapView.getController().setZoom(11);
                     mMapView.invalidate();
 
+                    //refreshCars();
+
 
                     return true;
                 }
@@ -2169,6 +2305,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             Picasso.with(getActivity()).load(cA.media.images.icon.uri).into(target);
 
         }
+
+        anim.cancel();
     }
 
 
@@ -2265,5 +2403,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             }
         }
     }
+
 
 }

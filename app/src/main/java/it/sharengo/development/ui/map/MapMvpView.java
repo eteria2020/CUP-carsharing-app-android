@@ -29,4 +29,5 @@ public interface MapMvpView extends MvpView {
     void openReservationNotification();
     void openPreselectedCarPopup(Car car);
     void showCity(List<City> cityList);
+    void setFeedInters();
 }

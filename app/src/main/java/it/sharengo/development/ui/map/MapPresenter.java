@@ -140,7 +140,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
     @Override
     protected void subscribeRequestsOnResume() {
-
+        getMvpView().setFeedInters();
     }
 
 
@@ -291,7 +291,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     public void refreshCars(Context context, float latitude, float longitude, int radius){
         hideLoading = true;
         loadCars(latitude, longitude, radius);
-
+        Log.w("refreshCars","L: "+latitude+", LO: "+longitude+", R: "+radius);
         if(isFeeds)
             loadFeeds(context, latitude, longitude, radius);
     }
@@ -308,7 +308,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
 
     private Observable<Response> buildCarsRequest(float latitude, float longitude, int radius) {
-
+        Log.w("buildCarsRequest","L: "+latitude+", LO: "+longitude+", R: "+radius);
         return mCarsRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, latitude, longitude, radius)
                 .first()
                 .compose(this.<Response>handleDataRequest())
@@ -341,9 +341,11 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     private void checkResult(){
-        if(mResponse.reason.isEmpty()){
+        Log.w("EEEE","checkResult");
+        Log.w("EEEE",": "+mResponse.reason);
+        if(mResponse.reason.isEmpty()){ Log.w("EEEE","showCars");
             getMvpView().showCars(mResponse.data);
-        }else{
+        }else{ Log.w("EEEE","noCarsFound");
             getMvpView().noCarsFound();
         }
     }
