@@ -213,7 +213,7 @@
     <string name="assistance_phonenumber_label">+3905861975772</string>
     <string name="assistance_alertcall_action">Chiama</string>
     <string name="assistance_cancelcall_action">Anulla</string>
-    <string name="assistance_devicenotenabled_alert">Dispositivo non abilitato</string>
+    <string name="assistance_devicenotenabled_alert">Il tuo dispositivo non è abilitato alle chiamate</string>
     
     <!-- Share -->
     <string name="share_title_label">Invita un amico</string>
