@@ -5,12 +5,14 @@ import it.sharengo.development.injection.PerActivity;
 import it.sharengo.development.injection.modules.MvpFragmentModule;
 import it.sharengo.development.ui.assistance.AssistanceFragment;
 import it.sharengo.development.ui.chronology.ChronologyFragment;
+import it.sharengo.development.ui.faq.FaqFragment;
 import it.sharengo.development.ui.feeds.FeedsFragment;
 import it.sharengo.development.ui.feedsdetail.FeedsDetailFragment;
 import it.sharengo.development.ui.login.LoginFragment;
 import it.sharengo.development.ui.longintro.LongIntroFragment;
 import it.sharengo.development.ui.map.MapFragment;
 import it.sharengo.development.ui.home.HomeFragment;
+import it.sharengo.development.ui.mapgoogle.MapGoogleFragment;
 import it.sharengo.development.ui.menu.MenuFragment;
 import it.sharengo.development.ui.onboarding.OnboardingFragment;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryFragment;
@@ -26,6 +28,7 @@ import it.sharengo.development.ui.signup.SignupFragment;
 import it.sharengo.development.ui.slideshow.SlideshowFragment;
 import it.sharengo.development.ui.splash.SplashFragment;
 import it.sharengo.development.ui.tripend.TripEndFragment;
+import it.sharengo.development.ui.tutorial.TutorialFragment;
 
 /**
  * This component inject dependencies to all MvpFragments across the application
@@ -77,4 +80,10 @@ public interface MvpFragmentComponent {
     void inject(AssistanceFragment fragment);
 
     void inject(ShareFragment fragment);
+
+    void inject(MapGoogleFragment fragment);
+
+    void inject(FaqFragment fragment);
+
+    void inject(TutorialFragment fragment);
 }

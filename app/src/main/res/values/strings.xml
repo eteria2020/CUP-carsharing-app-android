@@ -226,4 +226,8 @@
     <string name="share_invite_button">Invita subito</string>
     <string name="share_text">Sono un testo da condividere</string>
 
+    <!-- FAQ -->
+    <string name="faq_title_label">FAQ</string>
+    <string name="faq_tutorial_action">App tutorial</string>
+
 </resources>

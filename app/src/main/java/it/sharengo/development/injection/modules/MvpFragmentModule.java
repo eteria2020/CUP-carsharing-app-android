@@ -13,6 +13,7 @@ import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.assistance.AssistancePresenter;
 import it.sharengo.development.ui.chronology.ChronologyPresenter;
+import it.sharengo.development.ui.faq.FaqPresenter;
 import it.sharengo.development.ui.feeds.FeedsPresenter;
 import it.sharengo.development.ui.feedsdetail.FeedsDetailPresenter;
 import it.sharengo.development.ui.login.LoginPresenter;
@@ -20,6 +21,7 @@ import it.sharengo.development.ui.longintro.LongIntroPresenter;
 import it.sharengo.development.ui.map.MapPresenter;
 import it.sharengo.development.ui.base.presenters.PresenterManager;
 import it.sharengo.development.ui.home.HomePresenter;
+import it.sharengo.development.ui.mapgoogle.MapGooglePresenter;
 import it.sharengo.development.ui.menu.MenuPresenter;
 import it.sharengo.development.ui.onboarding.OnboardingPresenter;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryPresenter;
@@ -35,6 +37,7 @@ import it.sharengo.development.ui.signup.SignupPresenter;
 import it.sharengo.development.ui.slideshow.SlideshowPresenter;
 import it.sharengo.development.ui.splash.SplashPresenter;
 import it.sharengo.development.ui.tripend.TripEndPresenter;
+import it.sharengo.development.ui.tutorial.TutorialPresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 
 @Module
@@ -339,6 +342,42 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new SharePresenter(schedulerProvider, appRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    MapGooglePresenter provideMapGooglePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+        MapGooglePresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new MapGooglePresenter(schedulerProvider, appRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    FaqPresenter provideFaqPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+        FaqPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new FaqPresenter(schedulerProvider, appRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    TutorialPresenter provideTutorialPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+        TutorialPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new TutorialPresenter(schedulerProvider, appRepository);
         }
         return presenter;
     }

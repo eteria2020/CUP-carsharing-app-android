@@ -84,6 +84,7 @@ ext {
     rxBindingsVersion = '1.0.1'
     glideVersion = '3.8.0'
     glideTransformationsVersion = '2.0.2'
+    androidMapExtensions = '2.4.0'
     osmdroidVersione = '5.6.4'
     osmbonuspackVersion = '6.3'
     circularFloatingActionMenu = '1.0.2'

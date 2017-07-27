@@ -174,6 +174,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     private float deltaX;
     private float deltaY;
     private Handler mHandler = new Handler();
+    private int eventMotionType = -1;
     private static final int FINGER_STOP_THRESHOLD = 500;
     private double deltaAngle = 3;
 
@@ -309,6 +310,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @BindView(R.id.roundMenuView)
     ViewGroup roundMenuView;
+
+    @BindView(R.id.frikFrak)
+    View frikFrak;
 
     @BindView(R.id.feedImageView)
     ImageView feedImageView;
@@ -516,18 +520,31 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //Animazion cerchio CCC
         if(mPresenter.isFeeds) {
-            roundMenuView.setOnTouchListener(new View.OnTouchListener() {
+
+            frikFrak.setOnTouchListener(new View.OnTouchListener() {
+
+
                 public boolean onTouch(View arg0, MotionEvent event) {
+
+
+                    boolean returnEvent = true;
+                    Log.w("motionType",": "+event.getAction());
 
                     switch (event.getAction() & MotionEvent.ACTION_MASK) {
 
-                        case MotionEvent.ACTION_MOVE:
+                        case MotionEvent.ACTION_DOWN:
+                            //Log.w("eventMotionType",": "+eventMotionType);
 
+                            returnEvent = false;
+                            break;
+
+                        case MotionEvent.ACTION_MOVE:
+                            //Log.w("eventMotionType","SWIPO");
                             touchX = (int) event.getX();
                             touchY = (int) event.getY();
 
-                            deltaX = touchX - (roundMenuView.getX() + roundMenuView.getWidth());
-                            deltaY = touchY - (roundMenuView.getY() + roundMenuView.getHeight());
+                            deltaX = touchX - (frikFrak.getX() + frikFrak.getWidth());
+                            deltaY = touchY - (frikFrak.getY() + frikFrak.getHeight());
 
 
                             mHandler.removeCallbacksAndMessages(null);
@@ -578,7 +595,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                             break;
 
                     }
-                    return true;
+
+                    eventMotionType = event.getAction();
+                    //Log.w("returnEvent",": "+returnEvent);
+                    return returnEvent;
                 }
             });
         }
@@ -1641,6 +1661,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @OnClick(R.id.refreshMapButtonView)
     public void onRefreshMap() {
+        Log.w("onRefreshMap","AAA");
         if(getMapRadius() < 35000) {
             refreshMapButton.startAnimation(anim);
             mPresenter.refreshCars(getActivity(), (float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());

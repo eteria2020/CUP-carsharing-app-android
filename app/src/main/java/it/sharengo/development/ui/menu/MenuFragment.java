@@ -200,6 +200,9 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                     case SHARE:
                         Navigator.launchShare(MenuFragment.this);
                         break;
+                    case FAQ:
+                        Navigator.launchFaq(MenuFragment.this);
+                        break;
                 }
 
                 getActivity().finish();

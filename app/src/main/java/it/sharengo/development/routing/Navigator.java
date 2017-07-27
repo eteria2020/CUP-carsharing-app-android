@@ -9,12 +9,14 @@ import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.ui.assistance.AssistanceActivity;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.development.ui.chronology.ChronologyActivity;
+import it.sharengo.development.ui.faq.FaqActivity;
 import it.sharengo.development.ui.feeds.FeedsActivity;
 import it.sharengo.development.ui.feedsdetail.FeedsDetailActivity;
 import it.sharengo.development.ui.home.HomeActivity;
 import it.sharengo.development.ui.login.LoginActivity;
 import it.sharengo.development.ui.longintro.LongIntroActivity;
 import it.sharengo.development.ui.map.MapActivity;
+import it.sharengo.development.ui.mapgoogle.MapGoogleActivity;
 import it.sharengo.development.ui.onboarding.OnboardingActivity;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryActivity;
 import it.sharengo.development.ui.profile.ProfileActivity;
@@ -28,6 +30,7 @@ import it.sharengo.development.ui.shortintro.ShortIntroActivity;
 import it.sharengo.development.ui.signup.SignupActivity;
 import it.sharengo.development.ui.slideshow.SlideshowActivity;
 import it.sharengo.development.ui.tripend.TripEndActivity;
+import it.sharengo.development.ui.tutorial.TutorialActivity;
 
 public class Navigator {
 
@@ -81,6 +84,13 @@ public class Navigator {
 
     public static void launchMap(Fragment fragment, int type) {
         Intent intent = MapActivity.getCallingIntent(fragment.getActivity(), type);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchMapGoogle(Fragment fragment) {
+        Intent intent = MapGoogleActivity.getCallingIntent(fragment.getActivity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
@@ -217,6 +227,19 @@ public class Navigator {
         Intent intent = ShareActivity.getCallingIntent(fragment.getActivity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchFaq(Fragment fragment) {
+        Intent intent = FaqActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchTutorial(Fragment fragment) {
+        Intent intent = TutorialActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         fragment.startActivity(intent);
     }
     

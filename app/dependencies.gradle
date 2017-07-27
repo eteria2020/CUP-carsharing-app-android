@@ -25,16 +25,21 @@ dependencies {
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:design:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
+    compile "com.google.android.gms:play-services-location:$rootProject.ext.playServiceVersion"
+    compile "com.google.android.gms:play-services-maps:$rootProject.ext.playServiceVersion"
 
     // CORE
     compile "it.handroix:hdx_core:$rootProject.ext.handroixVersion"
     compile "it.handroix:hdx_baseuiwidgets:$rootProject.ext.handroixVersion@aar"
+    compile "it.handroix:hdx_location:$rootProject.ext.handroixVersion@aar"
+    compile "it.handroix:hdx_map:$rootProject.ext.handroixVersion@aar"
 
     // UI
     compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
 
     // PROJECT SPECIFIC
+    compile "com.androidmapsextensions:android-maps-extensions:$rootProject.ext.androidMapExtensions"
     compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
     compile "jp.wasabeef:glide-transformations:$rootProject.ext.glideTransformationsVersion"
     compile "org.osmdroid:osmdroid-android:$rootProject.ext.osmdroidVersione"

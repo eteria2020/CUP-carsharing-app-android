@@ -376,6 +376,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
                 getActivity().finish();
                 Navigator.launchMap(HomeFragment.this, Navigator.REQUEST_MAP_DEFAULT);
+                //Navigator.launchMapGoogle(HomeFragment.this);
             }
 
             @Override
