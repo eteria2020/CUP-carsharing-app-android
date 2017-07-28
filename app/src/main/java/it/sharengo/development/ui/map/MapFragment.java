@@ -1466,29 +1466,31 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             timerTripDuration.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                    if(getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
 
-                            long unixTime = System.currentTimeMillis() / 1000L;
-                            int diffTime = (int) (unixTime - tripTimestampStart) * 1000;
-                            Log.w("unixTime",": "+unixTime);
-                            Log.w("diffTime",": "+diffTime);
+                                long unixTime = System.currentTimeMillis() / 1000L;
+                                int diffTime = (int) (unixTime - tripTimestampStart) * 1000;
+                                Log.w("unixTime", ": " + unixTime);
+                                Log.w("diffTime", ": " + diffTime);
 
-                            int hh = (int) (diffTime / 1000 / 60 / 60);
-                            int mn = (int) (diffTime / 1000 / 60 % 60);
-                            int sec = (int) (diffTime / 1000 % 60);
-                            String hhStr = (hh<10 ? "0" : "")+hh;
-                            String mnStr = (mn<10 ? "0" : "")+mn;
-                            String secStr = (sec<10 ? "0" : "")+sec;
+                                int hh = (int) (diffTime / 1000 / 60 / 60);
+                                int mn = (int) (diffTime / 1000 / 60 % 60);
+                                int sec = (int) (diffTime / 1000 % 60);
+                                String hhStr = (hh < 10 ? "0" : "") + hh;
+                                String mnStr = (mn < 10 ? "0" : "") + mn;
+                                String secStr = (sec < 10 ? "0" : "") + sec;
 
 
-                            if(getActivity() != null)
-                                tripDurationTextView.setText(hhStr+":"+mnStr+":"+secStr);
-                            else if(countDownTimer != null) countDownTimer.cancel();
+                                if (getActivity() != null)
+                                    tripDurationTextView.setText(hhStr + ":" + mnStr + ":" + secStr);
+                                else if (countDownTimer != null) countDownTimer.cancel();
 
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
             }, 1000, 1000);
         }

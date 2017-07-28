@@ -47,41 +47,35 @@ public class PageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.fragment_slideshow_page, container, false);
+                R.layout.fragment_tutorial_page, container, false);
 
 
         ImageView slideImageView = (ImageView) rootView.findViewById(R.id.slideImageView);
-        TextView slideTitleTextView = (TextView) rootView.findViewById(R.id.slideTitleTextView);
-        TextView slideDescTextView = (TextView) rootView.findViewById(R.id.slideDescTextView);
-        View slideIndicator1 = rootView.findViewById(R.id.slideIndicator1);
-        View slideIndicator2 = rootView.findViewById(R.id.slideIndicator2);
-        View slideIndicator3 = rootView.findViewById(R.id.slideIndicator3);
-        View slideIndicator4 = rootView.findViewById(R.id.slideIndicator4);
 
         switch (page){
             case 1:
-                slideImageView.setImageDrawable(getIcon(R.drawable.img_ci));
-                slideTitleTextView.setText(getString(R.string.signup_step1text1_action));
-                slideDescTextView.setText(getString(R.string.signup_step1text2_action));
-                slideIndicator1.setBackground(getIcon(R.drawable.indicator_fill));
+                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_01));
                 break;
             case 2:
-                slideImageView.setImageDrawable(getIcon(R.drawable.img_cf));
-                slideTitleTextView.setText(getString(R.string.signup_step2text1_action));
-                slideDescTextView.setText(getString(R.string.signup_step2text2_action));
-                slideIndicator2.setBackground(getIcon(R.drawable.indicator_fill));
+                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_02));
                 break;
             case 3:
-                slideImageView.setImageDrawable(getIcon(R.drawable.img_patente));
-                slideTitleTextView.setText(getString(R.string.signup_step3text1_action));
-                slideDescTextView.setText(getString(R.string.signup_step3text2_action));
-                slideIndicator3.setBackground(getIcon(R.drawable.indicator_fill));
+                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_03));
                 break;
             case 4:
-                slideImageView.setImageDrawable(getIcon(R.drawable.img_ccredito));
-                slideTitleTextView.setText(getString(R.string.signup_step4text1_action));
-                slideDescTextView.setText(getString(R.string.signup_step4text2_action));
-                slideIndicator4.setBackground(getIcon(R.drawable.indicator_fill));
+                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_04));
+                break;
+            case 5:
+                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_05));
+                break;
+            case 6:
+                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_06));
+                break;
+            case 7:
+                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_07));
+                break;
+            case 8:
+                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_08));
                 break;
         }
 
