@@ -9,14 +9,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import it.sharengo.development.R;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.ui.slideshow.SlideshowFragment;
 import it.sharengo.development.ui.tutorial.page.PageFragment;
 
@@ -30,6 +33,12 @@ public class TutorialFragment extends BaseMvpFragment<TutorialPresenter> impleme
 
     @BindView(R.id.tutorialViewPager)
     ViewPager mPager;
+
+    @BindView(R.id.prevTutorialButton)
+    ImageView prevTutorialButton;
+
+    @BindView(R.id.nextTutorialButton)
+    ImageView nextTutorialButton;
 
     public static TutorialFragment newInstance() {
         TutorialFragment fragment = new TutorialFragment();
@@ -58,16 +67,16 @@ public class TutorialFragment extends BaseMvpFragment<TutorialPresenter> impleme
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
                 if(position == 0){
-                    //arrowLeftImageView.setVisibility(View.GONE);
+                    prevTutorialButton.setVisibility(View.GONE);
                 }else{
-                    //arrowLeftImageView.setVisibility(View.VISIBLE);
+                    prevTutorialButton.setVisibility(View.VISIBLE);
                 }
 
-                if(position >= NUM_PAGES-1){
-                    //arrowRightImageView.setVisibility(View.GONE);
+                /*if(position >= NUM_PAGES-1){
+                    //nextTutorialButton.setVisibility(View.GONE);
                 }else{
-                    //arrowRightImageView.setVisibility(View.VISIBLE);
-                }
+                    //nextTutorialButton.setVisibility(View.VISIBLE);
+                }*/
             }
 
             @Override
@@ -123,6 +132,43 @@ public class TutorialFragment extends BaseMvpFragment<TutorialPresenter> impleme
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @OnClick(R.id.closeTutorialButton)
+    public void closeTutorialButton(){
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.faq_close_alert),
+                getString(R.string.faq_stay_action),
+                getString(R.string.faq_exit_action));
+        cdd.show();
+        cdd.no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                getActivity().finish();
+            }
+        });
+    }
+
+    @OnClick(R.id.prevTutorialButton)
+    public void onPrevButton(){
+        int tab = mPager.getCurrentItem();
+        if (tab > 0) {
+            tab--;
+            mPager.setCurrentItem(tab);
+        } else if (tab == 0) {
+            mPager.setCurrentItem(tab);
+        }
+    }
+
+    @OnClick(R.id.nextTutorialButton)
+    public void onNextButton(){
+        int tab = mPager.getCurrentItem();
+        tab++;
+        mPager.setCurrentItem(tab);
+
+        if(tab == 8){
+            getActivity().finish();
+        }
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

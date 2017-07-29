@@ -74,14 +74,21 @@ public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvp
                 webview.setVisibility(View.GONE);
                 final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                         getString(R.string.error_msg_network_general),
-                        getString(R.string.ok),
-                        null);
+                        getString(R.string.faq_tutorialalert_action),
+                        getString(R.string.faq_backalert_action));
                 cdd.show();
                 cdd.yes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         cdd.dismissAlert();
-                        Navigator.launchHome(FaqFragment.this);
+                        Navigator.launchTutorial(FaqFragment.this);
+                        getActivity().finish();
+                    }
+                });
+                cdd.no.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismissAlert();
                         getActivity().finish();
                     }
                 });

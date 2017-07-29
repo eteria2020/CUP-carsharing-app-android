@@ -175,37 +175,46 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                 switch(menuItem.section) {
                     case LOGIN:
                         Navigator.launchLogin(MenuFragment.this, Navigator.REQUEST_LOGIN_START);
+                        getActivity().finish();
                         break;
                     case LOGOUT:
                         mPresenter.logout(getActivity(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
+                        getActivity().finish();
                         break;
                     case SIGNUP:
                         Navigator.launchSlideshow(MenuFragment.this);
+                        getActivity().finish();
                         break;
                     case BOOKING:
                         Navigator.launchMap(MenuFragment.this, Navigator.REQUEST_MAP_DEFAULT);
+                        getActivity().finish();
                         break;
                     case SETTINGS:
                         Navigator.launchSettings(MenuFragment.this);
+                        getActivity().finish();
                         break;
                     case HISTORIC:
                         Navigator.launchChronology(MenuFragment.this);
+                        getActivity().finish();
                         break;
                     case PROFILE:
                         Navigator.launchProfile(MenuFragment.this);
+                        getActivity().finish();
                         break;
                     case HELP:
                         Navigator.launchAssistance(MenuFragment.this);
+                        getActivity().finish();
                         break;
                     case SHARE:
                         Navigator.launchShare(MenuFragment.this);
+                        getActivity().finish();
                         break;
                     case FAQ:
                         Navigator.launchFaq(MenuFragment.this);
                         break;
                 }
 
-                getActivity().finish();
+
             }
         }, 300);
     }

@@ -229,5 +229,10 @@
     <!-- FAQ -->
     <string name="faq_title_label">FAQ</string>
     <string name="faq_tutorial_action">App tutorial</string>
+    <string name="faq_close_alert">Vuoi uscire dal tutorial?\nPotrai rivederlo quando vuoi alla sezione del menù \"Faq e tutorial\"</string>
+    <string name="faq_exit_action">Esci</string>
+    <string name="faq_stay_action">Rimani</string>
+    <string name="faq_backalert_action">Indietro</string>
+    <string name="faq_tutorialalert_action">Tutorial</string>
 
 </resources>
