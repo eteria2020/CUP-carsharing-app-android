@@ -7,6 +7,7 @@
     <string name="preference_citiesfavourites">citiesfavourites</string>
     <string name="preference_lang">lang</string>
     <string name="preference_feeds">feeds</string>
+    <string name="preference_tutorial">tutorial</string>
     
     <!--LABELS-->
     <string name="ok">OK</string>
@@ -224,7 +225,7 @@
     <string name="share_friendregistration_label">Per ogni amico che si iscriverà\ngrazie al tuo invito</string>
     <string name="share_twentyminutes_label">riceverai 20 minuti di guida gratuita!</string>
     <string name="share_invite_button">Invita subito</string>
-    <string name="share_text">Sono un testo da condividere</string>
+    <string name="share_text">Hey! Utilizza anche tu l\'applicazione Share\'ngo</string>
 
     <!-- FAQ -->
     <string name="faq_title_label">FAQ</string>

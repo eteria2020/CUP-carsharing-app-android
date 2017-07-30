@@ -286,7 +286,39 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         searchCarsButton.animate().alpha(1.0f).setDuration(500).start();
         cityButton.animate().alpha(1.0f).setDuration(500).start();
 
-        welcomeTextView.animate().alpha(1.0f).setDuration(500).start();
+        welcomeTextView.animate().alpha(1.0f).setDuration(500).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                //Verifico se devo mostrare il tutorial (solo la seconda volta)
+                SharedPreferences mPref = getActivity().getSharedPreferences(getActivity().getString(R.string.preference_file_key), MODE_PRIVATE);
+                SharedPreferences.Editor editor = mPref.edit();
+                String prefKey = getActivity().getString(R.string.preference_tutorial);
+
+                if (mPref.getInt(prefKey, 0) == 0){
+                    editor.putInt(prefKey, 1);
+                    editor.commit();
+
+                    Navigator.launchTutorial(HomeFragment.this);
+
+                }
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        }).start();
     }
 
     private void checkMapPermission(){
