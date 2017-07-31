@@ -22,6 +22,7 @@ import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryFragment;
 import it.sharengo.development.ui.signup.SignupFragment;
+import it.sharengo.development.ui.tutorial.TutorialActivity;
 
 
 public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvpView {
@@ -82,6 +83,7 @@ public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvp
                     public void onClick(View view) {
                         cdd.dismissAlert();
                         Navigator.launchTutorial(FaqFragment.this);
+                        getActivity().overridePendingTransition(R.anim.slide_modal, R.anim.no_anim);
                         getActivity().finish();
                     }
                 });
@@ -114,6 +116,7 @@ public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvp
     @OnClick(R.id.tutorialButton)
     public void onTutorialClick(){
         Navigator.launchTutorial(this);
+        getActivity().overridePendingTransition(R.anim.slide_modal, R.anim.no_anim);
     }
 
 

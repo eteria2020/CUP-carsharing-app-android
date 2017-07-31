@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import it.sharengo.development.R;
 import it.sharengo.development.ui.base.activities.BaseActivity;
 
 
@@ -23,6 +24,12 @@ public class TutorialActivity extends BaseActivity {
         if (savedInstanceState == null) {
             replaceFragment(TutorialFragment.newInstance());
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.slide_modal_close);
     }
 
 }
