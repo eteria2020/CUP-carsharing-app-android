@@ -42,7 +42,6 @@ public class MyCircleLayoutItem extends CircularLayoutItem {
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick() {
-                Toast.makeText(getContext(),"Item number: "+getIndex(),Toast.LENGTH_SHORT).show();
                 mListener.onItemClick(getIndex());
             }
         });

@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +31,7 @@ public abstract class CircularLayoutItem extends LinearLayout {
     private ImageView forground;
     private OnClickListener clickListener;
     private OnFocusListener focusListener;
+    private RotateAnimation rotateAnimation;
 
     public void setIndex(int index) {
         this.index = index;
@@ -52,6 +55,12 @@ public abstract class CircularLayoutItem extends LinearLayout {
 
     public CircularLayoutItem(Context context) {
         super(context);
+
+        rotateAnimation = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotateAnimation.setInterpolator(new LinearInterpolator());
+        rotateAnimation.setRepeatCount(Animation.INFINITE);
+        rotateAnimation.setDuration(700);
+
         init();
     }
 
@@ -154,6 +163,14 @@ public abstract class CircularLayoutItem extends LinearLayout {
         an.setRepeatMode(Animation.REVERSE); // reverses each repeat
         an.setFillAfter(true);
         this.setAnimation(an);
+    }
+    public void startRotateAnimation()
+    {
+        background.setAnimation(rotateAnimation);
+    }
+    public void stopRotateAnimation()
+    {
+        rotateAnimation.cancel();
     }
 
 

@@ -192,6 +192,14 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }
     };
 
+    private MyCircleLayoutAdapter ad;
+    private MyCircleLayoutAdapter.OnItemActionListener mActionCircleListener = new MyCircleLayoutAdapter.OnItemActionListener() {
+        @Override
+        public void onItemClick(int index) {
+            onCircleMenuClick(index);
+        }
+    };
+
     private View.OnClickListener mNotificationListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -391,6 +399,9 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         mUnbinder = ButterKnife.bind(this, view);
 
+        ad = new MyCircleLayoutAdapter(mActionCircleListener);
+        ad.animationRefresh = true;
+
         //setUpMap();
 
         //carSelected = null;
@@ -459,8 +470,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         if(mPresenter.isFeeds){
             roundMenuMapView.setVisibility(View.GONE);
             roundMenuFeedsView.setVisibility(View.VISIBLE);
-
-            MyCircleLayoutAdapter ad=new MyCircleLayoutAdapter();
 
 
             ad.add(R.drawable.ic_compass);
@@ -829,6 +838,28 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         hasInit = true;
     }
 
+    private void onCircleMenuClick(int i){
+        switch (i){
+            case 0: //Compass
+                onOrientationMap();
+                break;
+            case 1: //Center
+                onCenterMap();
+                break;
+            case 2: //Refresh
+                onRefreshMap();
+                ad.animationRefresh = true;
+                circularLayout.init();
+                break;
+            case 3: //Car
+                onShowCarOnMapClick();
+                if(ad.carAlpha) ad.carAlpha = false;
+                else ad.carAlpha = true;
+                circularLayout.init();
+                break;
+        }
+    }
+
     private void loadsCars(){
         mPresenter.loadCars((float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());
     }
@@ -952,10 +983,15 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         if(enable){
             centerMapButton.setAlpha(1.0f);
+            if(mPresenter.isFeeds) ad.centerAlpha = false;
         }else{
             centerMapButton.setAlpha(.4f);
+            if(mPresenter.isFeeds) ad.centerAlpha = true;
         }
 
+        if(mPresenter.isFeeds){
+            circularLayout.init();
+        }
     }
 
 
@@ -1708,7 +1744,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @OnClick(R.id.refreshMapButtonView)
     public void onRefreshMap() {
-        Log.w("onRefreshMap","AAA");
         if(getMapRadius() < 35000) {
             refreshMapButton.startAnimation(anim);
             mPresenter.refreshCars(getActivity(), (float) getMapCenter().getLatitude(), (float) getMapCenter().getLongitude(), getFixMapRadius());
@@ -1912,6 +1947,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //Stop sull'animazione del pulsante di refresh
         anim.cancel();
+        if(mPresenter.isFeeds){
+            ad.animationRefresh = false;
+            circularLayout.init();
+        }
 
     }
 
@@ -2049,6 +2088,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     public void noCarsFound() {
         //Stop sull'animazione del pulsante di refresh
         anim.cancel();
+        if(mPresenter.isFeeds){
+            ad.animationRefresh = false;
+            circularLayout.init();
+        }
     }
 
     @Override
@@ -2129,6 +2172,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //Stop sull'animazione del pulsante di refresh
         anim.cancel();
+        if(mPresenter.isFeeds){
+            ad.animationRefresh = false;
+            circularLayout.init();
+        }
 
     }
 
@@ -2375,6 +2422,10 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         }
 
         anim.cancel();
+        if(mPresenter.isFeeds){
+            ad.animationRefresh = false;
+            circularLayout.init();
+        }
     }
 
 

@@ -1,6 +1,10 @@
 package it.sharengo.development.ui.map.CircleLayout;
 
+import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 
 import com.example.x.circlelayout.CircleLayoutAdapter;
 import com.example.x.circlelayout.CircularLayoutItem;
@@ -19,23 +23,27 @@ public class MyCircleLayoutAdapter extends CircleLayoutAdapter {
     private int startingIdIndex=0;
     private boolean isStartingIdSetten=false;
 
-    /*
-    * private MapSearchListAdapter.OnItemActionListener mActionListener = new MapSearchListAdapter.OnItemActionListener() {
-        @Override
-        public void onItemClick(SearchItem searchItem) {
-            if(!searchItem.type.equals("none"))
-                setSearchItemSelected(searchItem);
-        }
-    };
-    *
-    * */
+    public boolean carAlpha = true;
+    public boolean centerAlpha = false;
+    public boolean animationRefresh = false;
+
+    private OnItemActionListener mListener;
+
+    public interface OnItemActionListener {
+        void onItemClick(int i);
+    }
 
     private MyCircleLayoutItem.OnItemActionListener mActionListener = new MyCircleLayoutItem.OnItemActionListener(){
         @Override
         public void onItemClick(int i) {
-            Log.w("AAA","MI SONO CLICCATO "+i);
+            mListener.onItemClick(i);
         }
     };
+
+    public MyCircleLayoutAdapter(OnItemActionListener listener){
+        super();
+        mListener = listener;
+    }
 
 
     public boolean setStartingIndex(int startingIndex) {
@@ -76,6 +84,7 @@ public class MyCircleLayoutAdapter extends CircleLayoutAdapter {
         return adapter.get( getRoundedIndex(getRoundedIndex(parent.getCurrent_step())-startingIdIndex));
     }
 
+
     @Override
     public CircularLayoutItem get(int index)
     {
@@ -86,6 +95,17 @@ public class MyCircleLayoutAdapter extends CircleLayoutAdapter {
         //if(index == 1)
         //civ.setAlpha(0.5f);
         if(index < 0 || index > 3) civ.setAlpha(0.0f);
+
+        //Cars
+        if(index == 3 && carAlpha) civ.setAlpha(0.4f);
+
+        //Center
+        if(index == 1 && centerAlpha) civ.setAlpha(0.4f);
+
+
+        if(index == 2 && animationRefresh) civ.startRotateAnimation();
+        else civ.stopRotateAnimation();
+
         return civ;
     }
 
