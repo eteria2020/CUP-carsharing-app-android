@@ -21,11 +21,13 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics-ndk:1.1.6@aar') {
         transitive = true;
     }
+    compile project(':circlelayout')
 }
 
 apply plugin: 'it.handroix.plugin.buildinfoicon'
 apply from: rootProject.file('app/config.gradle')
 apply from: rootProject.file('app/dependencies.gradle')
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion

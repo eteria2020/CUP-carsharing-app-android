@@ -22,7 +22,7 @@
 
     <!-- Round menu -->
     <RelativeLayout
-        android:id="@+id/roundMenuView"
+        android:id="@+id/roundMenuMapView"
         android:layout_width="105.0dp"
         android:layout_height="105.0dp"
         android:layout_alignParentBottom="true"
@@ -33,45 +33,6 @@
             android:layout_height="match_parent"
             android:alpha="0.7"
             android:src="@drawable/bkg_menu_round"/>
-        <!-- Refresh Button
-        <ImageView
-            android:id="@+id/refreshMapButton"
-            android:layout_width="32.0dp"
-            android:layout_height="32.0dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp"
-            android:src="@drawable/ic_referesh"/>-->
-        <!-- Center Button
-        <ImageView
-            android:id="@+id/centerMapButton"
-            android:layout_width="32.0dp"
-            android:layout_height="32.0dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/ic_center"/>-->
-        <!-- Compass Button
-        <ImageView
-            android:id="@+id/orientationMapButton"
-            android:layout_width="32.0dp"
-            android:layout_height="32.0dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/ic_compass"/>-->
-        <!-- Cars Button
-        <ImageView
-            android:id="@+id/carFeedMapButton"
-            android:layout_width="32.0dp"
-            android:layout_height="32.0dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:alpha="0.4"
-            android:src="@drawable/ic_cars"/>-->
-
-
-
 
 
         <!-- Compass Button - testRot1 -->
@@ -104,7 +65,6 @@
                 android:src="@drawable/ic_center"/>
         </RelativeLayout>
 
-
         <!-- Refresh Button - testRot3 -->
         <RelativeLayout
             android:id="@+id/refreshMapButtonView"
@@ -118,7 +78,6 @@
                 android:layout_height="32.0dp"
                 android:src="@drawable/ic_referesh"/>
         </RelativeLayout>
-
 
         <!-- Cars Button - testRot  android:layout_marginRight="-55dp" -->
         <RelativeLayout
@@ -141,6 +100,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/roundMenuFeedsView"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
+        <!-- Round -->
+        <ImageView
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:alpha="0.7"
+            android:scaleType="fitXY"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/bkg_menu_round"/>
+
+        <com.example.x.circlelayout.CircleLayout
+            android:id="@+id/circularLayout"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/transparent"
+            android:layout_gravity="bottom"
+            app:angleOffset="0"
+            app:angleRange="360"
+            android:paddingBottom="0dp">
+
+        </com.example.x.circlelayout.CircleLayout>
     </RelativeLayout>
 
 

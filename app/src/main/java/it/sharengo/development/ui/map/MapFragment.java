@@ -59,6 +59,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.x.circlelayout.CircleLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
@@ -104,6 +105,7 @@ import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.development.ui.map.CircleLayout.MyCircleLayoutAdapter;
 import it.sharengo.development.utils.ImageUtils;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -196,6 +198,8 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             Navigator.launchTripEnd(MapFragment.this, co2);
         }
     };
+
+
 
     @BindView(R.id.mapView)
     MapView mMapView;
@@ -308,9 +312,6 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     /*@BindView(R.id.notificationView)
     ViewGroup notificationView;*/
 
-    @BindView(R.id.roundMenuView)
-    ViewGroup roundMenuView;
-
     @BindView(R.id.frikFrak)
     View frikFrak;
 
@@ -349,6 +350,15 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
     @BindView(R.id.feedAdvantageBottomTextView)
     TextView feedAdvantageBottomTextView;
+
+    @BindView(R.id.roundMenuMapView)
+    ViewGroup roundMenuMapView;
+
+    @BindView(R.id.roundMenuFeedsView)
+    ViewGroup roundMenuFeedsView;
+
+    @BindView(R.id.circularLayout)
+    CircleLayout circularLayout;
 
     public static MapFragment newInstance(int type) {
         MapFragment fragment = new MapFragment();
@@ -447,7 +457,41 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         //Riposiziono i pulsanti del menu circolare in base alla modalità
         if(mPresenter.isFeeds){
+            roundMenuMapView.setVisibility(View.GONE);
+            roundMenuFeedsView.setVisibility(View.VISIBLE);
 
+            MyCircleLayoutAdapter ad=new MyCircleLayoutAdapter();
+
+
+            ad.add(R.drawable.ic_compass);
+            ad.add(R.drawable.ic_center);
+            ad.add(R.drawable.ic_referesh);
+            ad.add(R.drawable.ic_cars);
+
+            ad.add(R.drawable.ic_cars);
+            ad.add(R.drawable.ic_referesh);
+            ad.add(R.drawable.ic_center);
+            ad.add(R.drawable.ic_compass);
+            ad.add(R.drawable.ic_cars);
+            ad.add(R.drawable.ic_referesh);
+            ad.add(R.drawable.ic_center);
+            ad.add(R.drawable.ic_compass);
+            ad.add(R.drawable.ic_cars);
+            ad.add(R.drawable.ic_referesh);
+            ad.add(R.drawable.ic_center);
+            ad.add(R.drawable.ic_compass);
+
+
+            circularLayout.setAdapter(ad);
+            circularLayout.setChildrenCount(16);
+            circularLayout.setOffsetY(-13);
+            circularLayout.setOffsetX(86);
+            circularLayout.setRadius(60);
+            circularLayout.setChildrenPinned(true);
+
+        }else{
+            roundMenuMapView.setVisibility(View.VISIBLE);
+            roundMenuFeedsView.setVisibility(View.GONE);
         }
 
         return view;
@@ -465,6 +509,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
         animCompass.setFillAfter(true);
         orientationMapButton.setAnimation(animCompass);
+        //circularLayout.pinn
 
     }
 
@@ -519,7 +564,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
 
         //Animazion cerchio CCC
-        if(mPresenter.isFeeds) {
+        /*if(mPresenter.isFeeds) {
 
             frikFrak.setOnTouchListener(new View.OnTouchListener() {
 
@@ -601,7 +646,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                     return returnEvent;
                 }
             });
-        }
+        }*/
 
         if(!mPresenter.isFeeds){
             orientationMapButtonView.setTranslationX(-157.0f);
