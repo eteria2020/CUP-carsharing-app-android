@@ -407,8 +407,8 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
             public void onAnimationEnd(Animator animator) {
 
                 getActivity().finish();
-                Navigator.launchMap(HomeFragment.this, Navigator.REQUEST_MAP_DEFAULT);
-                //Navigator.launchMapGoogle(HomeFragment.this);
+                //Navigator.launchMap(HomeFragment.this, Navigator.REQUEST_MAP_DEFAULT);
+                Navigator.launchMapGoogle(HomeFragment.this, Navigator.REQUEST_MAP_DEFAULT);
             }
 
             @Override

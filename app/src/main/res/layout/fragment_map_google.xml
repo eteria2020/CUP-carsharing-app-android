@@ -1,14 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/hdx_toolbarHeight"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:focusableInTouchMode="true">
 
+
+    <!-- Maps -->
     <FrameLayout
-        android:id="@+id/map_container"
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+    <View android:id="@+id/mapOverlayView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Search -->
+    <include layout="@layout/view_search_map" />
+
+    <!-- Round menu -->
+    <RelativeLayout
+        android:id="@+id/roundMenuMapView"
+        android:layout_width="105.0dp"
+        android:layout_height="105.0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
+        <!-- Round -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.7"
+            android:src="@drawable/bkg_menu_round"/>
+
+
+        <!-- Compass Button - testRot1 -->
+        <RelativeLayout
+            android:id="@+id/orientationMapButtonView"
+            android:layout_width="32.0dp"
+            android:layout_height="32.0dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="-55dp">
+            <ImageView
+                android:id="@+id/orientationMapButton"
+                android:layout_width="32.0dp"
+                android:layout_height="32.0dp"
+                android:src="@drawable/ic_compass"/>
+        </RelativeLayout>
+
+        <!-- Center Button - testRot2 -->
+        <RelativeLayout
+            android:id="@+id/centerMapButtonView"
+            android:layout_width="32.0dp"
+            android:layout_height="32.0dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp">
+            <ImageView
+                android:id="@+id/centerMapButton"
+                android:layout_width="32.0dp"
+                android:layout_height="32.0dp"
+                android:src="@drawable/ic_center"/>
+        </RelativeLayout>
+
+        <!-- Refresh Button - testRot3 -->
+        <RelativeLayout
+            android:id="@+id/refreshMapButtonView"
+            android:layout_width="32.0dp"
+            android:layout_height="32.0dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp">
+            <ImageView
+                android:id="@+id/refreshMapButton"
+                android:layout_width="32.0dp"
+                android:layout_height="32.0dp"
+                android:src="@drawable/ic_referesh"/>
+        </RelativeLayout>
+
+        <!-- Cars Button - testRot  android:layout_marginRight="-55dp" -->
+        <RelativeLayout
+            android:id="@+id/carFeedMapButtonView"
+            android:layout_width="32.0dp"
+            android:layout_height="32.0dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp">
+            <ImageView
+                android:id="@+id/carFeedMapButton"
+                android:layout_width="32.0dp"
+                android:layout_height="32.0dp"
+                android:alpha="0.4"
+                android:src="@drawable/ic_cars"/>
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/frikFrak"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/roundMenuFeedsView"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
+        <!-- Round -->
+        <ImageView
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:alpha="0.7"
+            android:scaleType="fitXY"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/bkg_menu_round"/>
+
+        <com.example.x.circlelayout.CircleLayout
+            android:id="@+id/circularLayout"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/transparent"
+            android:layout_gravity="bottom"
+            app:angleOffset="0"
+            app:angleRange="360"
+            android:paddingBottom="0dp">
+
+        </com.example.x.circlelayout.CircleLayout>
+    </RelativeLayout>
+
+
+    <!-- Popup view -->
+    <include layout="@layout/view_car_popup" />
+    <!-- /Popup view -->
+
+    <!-- Popup view -->
+    <include layout="@layout/view_feed_popup" />
+    <!-- /Popup view -->
+
+
+    <!-- Booking view -->
+    <include layout="@layout/view_car_booking" />
+    <!-- /Booking view -->
+
+
+</RelativeLayout>

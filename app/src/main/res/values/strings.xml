@@ -8,18 +8,17 @@
     <string name="preference_lang">lang</string>
     <string name="preference_feeds">feeds</string>
     <string name="preference_tutorial">tutorial</string>
-    
-    <!--LABELS-->
-    <string name="ok">OK</string>
-    <string name="cancel">ANNULLA</string>
-    <string name="login">LOGIN</string>
-    
+
     <!--PERMISSION-->
     <string name="msg_rational_location_permission">The app needs your permission to access your position.</string>
 
     <!--GENERAL-->
     <string name="general_login_alert">Devi effettuare l\'accesso per utilizzare questa funzionalità</string>
     <string name="general_notenabled_alert">Questa funzione sarà disponibile prossimamente.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">ANNULLA</string>
+    <string name="login">LOGIN</string>
+    <string name="error_msg_network_general">Si è verificato un errore, per favore controlla la tua connessione ad internet o riprova più tardi.</string>
 
     <!--MENU-->
     <string name="menu_home">Home</string>
@@ -42,7 +41,6 @@
     <string name="error_generic_msg">Ops, something went wrong.</string>
     <string name="error_msg_no_network">No internet connection. Please try again later</string>
     <string name="error_msg_server_timeout">Server is unreachable. Please try again later</string>
-    <string name="error_msg_network_general">Si è verificato un errore, per favore controlla la tua connessione ad internet o riprova più tardi.</string>
     <string name="error_msg_conversion">Some error occured. Please try again later</string>
     <string name="error_unexpected">Some error occured. Please try again later</string>
     <string name="error_msg_http_400">Your request cannot be fulfilled (400)</string>
@@ -51,7 +49,7 @@
     <string name="error_msg_http_404">Your request cannot be fulfilled (404)</string>
     <string name="error_msg_http_406">Your request is not valid, please check your input and try again (406)</string>
     <string name="error_msg_http_500">Some error occured. Please try again later (500)</string>
-    
+
     <string name="general_notification_title">Share\'ngo</string>
 
     <string name="maps_search_placeholder">Cerca indirizzo o targa</string>
@@ -68,7 +66,7 @@
     <string name="maps_timehm_label" formatted="false">%d ore e %d minuti a piedi</string>
     <string name="maps_closestcar_label">Auto più vicina</string>
     <string name="maps_permissionopendoor_alert">Share\'ngo ha bisogno di sapere la tua posizione per aprire le portiere. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
-    <string name="maps_opendoordistance_alert">"Sei troppo distante dalla Saren\'go che hai selezionato. Potrai aprirla quando sarai in prossimità dell\'auto.</string>
+    <string name="maps_opendoordistance_alert">Sei troppo distante dalla Saren\'go che hai selezionato. Potrai aprirla quando sarai in prossimità dell\'auto.</string>
     <string name="maps_searchmicrophone_message">In ascolto...</string>
     <string name="maps_feeddiscover_message">Scopri di più</string>
     <string name="maps_hidecars_alert">Attenzione! Potrai utilizzare questa funzione solo dopo aver concluso la corsa o la prenotazione attiva</string>

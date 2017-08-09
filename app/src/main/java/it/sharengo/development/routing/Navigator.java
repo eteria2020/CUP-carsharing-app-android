@@ -89,8 +89,8 @@ public class Navigator {
         fragment.startActivity(intent);
     }
 
-    public static void launchMapGoogle(Fragment fragment) {
-        Intent intent = MapGoogleActivity.getCallingIntent(fragment.getActivity());
+    public static void launchMapGoogle(Fragment fragment, int type) {
+        Intent intent = MapGoogleActivity.getCallingIntent(fragment.getActivity(), type);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);

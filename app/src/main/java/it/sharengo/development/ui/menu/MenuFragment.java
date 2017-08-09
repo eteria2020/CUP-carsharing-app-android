@@ -186,7 +186,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                         getActivity().finish();
                         break;
                     case BOOKING:
-                        Navigator.launchMap(MenuFragment.this, Navigator.REQUEST_MAP_DEFAULT);
+                        Navigator.launchMapGoogle(MenuFragment.this, Navigator.REQUEST_MAP_DEFAULT);
                         getActivity().finish();
                         break;
                     case SETTINGS:

@@ -241,7 +241,7 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
 
     private void launchMap(){
         getActivity().finish();
-        Navigator.launchMap(this, Navigator.REQUEST_MAP_FEEDS);
+        Navigator.launchMapGoogle(this, Navigator.REQUEST_MAP_FEEDS);
     }
 
     @Override
