@@ -106,7 +106,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.mapgoogle.MapGoogleActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Base.NoAnimation"
+            android:windowSoftInputMode="adjustPan" />
 
         <!-- GOOGLE MAPS API -->
         <meta-data

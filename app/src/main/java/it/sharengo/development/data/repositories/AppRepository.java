@@ -63,7 +63,7 @@ public class AppRepository {
         menuItems.add(new MenuItem(MenuItem.Section.HELP));
         menuItems.add(new MenuItem(MenuItem.Section.FAQ));
         menuItems.add(new MenuItem(MenuItem.Section.BUY));
-        menuItems.add(new MenuItem(MenuItem.Section.SHARE));
+        //menuItems.add(new MenuItem(MenuItem.Section.SHARE));
         menuItems.add(new MenuItem(MenuItem.Section.SETTINGS));
         menuItems.add(new MenuItem(MenuItem.Section.LOGOUT));
 

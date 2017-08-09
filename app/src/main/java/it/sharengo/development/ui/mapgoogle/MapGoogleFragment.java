@@ -1,15 +1,25 @@
 package it.sharengo.development.ui.mapgoogle;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Rect;
 import android.location.Location;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.androidmapsextensions.GoogleMap;
 import com.androidmapsextensions.OnMapReadyCallback;
@@ -18,6 +28,7 @@ import com.example.x.circlelayout.CircleLayout;
 import org.osmdroid.util.GeoPoint;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,7 +58,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     public static final String ARG_TYPE = "ARG_TYPE";
     private int type = 0;
 
+    private View view;
+
+    /* Feeds */
+    private boolean showCarsWithFeeds;
+
     /* Search */
+    private final int SPEECH_RECOGNITION_CODE = 1;
     private boolean searchViewOpen = false;
     private SearchItem currentSearchItem;
     private boolean searchItemSelected = false;
@@ -57,6 +74,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         public void onItemClick(SearchItem searchItem) {
             if(!searchItem.type.equals("none"))
                 setSearchItemSelected(searchItem);
+        }
+    };
+    private final ViewTreeObserver.OnGlobalLayoutListener layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            setKeyboardListener();
         }
     };
 
@@ -119,7 +142,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_map_google, container, false);
+        view = inflater.inflate(R.layout.fragment_map_google, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
         mMapHelper = HdxFragmentMapHelper.newInstance(getActivity(), this);
@@ -131,7 +154,17 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //Setup animazione menu circolare
         setupCircleMenu();
 
+        showCarsWithFeeds = false;
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //Imposto il listener sull'apertura della tastiera: se appare la tastiera devo aprire la ricerca
+        view.getViewTreeObserver().addOnGlobalLayoutListener(layoutListener);
     }
 
     @Override
@@ -159,6 +192,40 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         searchRecyclerView.setLayoutManager(lm);
         searchRecyclerView.setAdapter(mAdapter);
         setSearchDefaultContent();
+    }
+
+    //Listener: apertura / chiusura della tastiera
+    private void setKeyboardListener(){
+
+        Rect r = new Rect();
+        view.getWindowVisibleDisplayFrame(r);
+
+        if (view.getRootView().getHeight() - (r.bottom - r.top) > 500) { //Tastiera aperta
+
+            //Setto l'altezza della view dei risultati di ricerca
+            setSearchViewHeight();
+
+            //Verifico se la view era precedentemente aperta
+            if(!searchViewOpen) {
+
+                //Mostro la view dei risultati
+                setSearchResult();
+
+                searchViewOpen = true;
+            }
+        } else { //Tastiera chiusa
+            //Verifico se la view era precedentemente aperta
+            if(searchViewOpen)
+                clearSearch();
+
+            searchEditText.clearFocus();
+        }
+    }
+
+    private void setSearchResult(){
+
+        //Mostro la view dei risultati
+        searchMapResultView.setVisibility(View.VISIBLE);
     }
 
     private void setSearchItemSelected(SearchItem searchItem){
@@ -189,6 +256,26 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         searchEditText.setText(searchItem.display_name);
     }
 
+    //Setto l'altezza della view contente i risultati di una ricerca
+    private void setSearchViewHeight(){
+
+        //Prelevo l'altezza di una singola voce della lista
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = getResources().getDimension(R.dimen.search_item_height); // * (metrics.densityDpi / 160f)
+        float itemHeight = Math.round(px);
+
+        Rect r = new Rect();
+        view.getWindowVisibleDisplayFrame(r);
+
+        //Calcolo il numero di elementi che possono essere visualizzati all'interno dell'intefaccia senza che nessuno venga tagliato a livello visivo
+        float totalHeight = r.height()- searchMapView.getHeight();
+        int nItem = (int) (totalHeight / itemHeight) - 1;
+
+        //Setto l'altezza della lista
+        searchMapResultView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (itemHeight*nItem) + 5));
+        searchRecyclerView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (itemHeight*nItem)));
+    }
+
     private void clearSearch(){
         //Nascondo la view dei risultati
         searchMapResultView.setVisibility(View.GONE);
@@ -213,6 +300,21 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void saveLastAndFavouriteSearch(SearchItem searchItem){
         //PreferencesDataSource aa = new PreferencesDataSource(getActivity().getSharedPreferences("aa", 0));
         mPresenter.saveSearchResultOnHistoric(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE), searchItem);
+    }
+
+    //Microfono
+    private void startSpeechToText() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.maps_searchmicrophone_message));
+        try {
+            startActivityForResult(intent, SPEECH_RECOGNITION_CODE);
+        } catch (ActivityNotFoundException a) {
+            Snackbar.make(view, getString(R.string.error_generic_msg), Snackbar.LENGTH_LONG).show();
+        }
     }
 
 
