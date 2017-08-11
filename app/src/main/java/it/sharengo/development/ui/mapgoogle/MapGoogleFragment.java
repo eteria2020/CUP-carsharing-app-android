@@ -1,23 +1,34 @@
 package it.sharengo.development.ui.mapgoogle;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -29,10 +40,13 @@ import org.osmdroid.util.GeoPoint;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import it.handroix.map.HdxFragmentMapHelper;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Car;
@@ -42,15 +56,14 @@ import it.sharengo.development.data.models.Reservation;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.base.map.BaseMapFragment;
+import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
-import it.sharengo.development.ui.mapgoogle.MapSearchListAdapter;
 
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> implements MapGoogleMvpView, OnMapReadyCallback {
+public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> implements MapGoogleMvpView, OnMapReadyCallback, LocationListener {
 
     private static final String TAG = MapGoogleFragment.class.getSimpleName();
 
@@ -60,6 +73,16 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private View view;
 
+    /* General */
+    private boolean hasInit;
+    private Car carPreSelected;
+
+    /* Location */
+    Location userLocation;
+
+    /* Animazioni */
+    private Timer timer;
+
     /* Feeds */
     private boolean showCarsWithFeeds;
 
@@ -68,6 +91,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private boolean searchViewOpen = false;
     private SearchItem currentSearchItem;
     private boolean searchItemSelected = false;
+    private Timer timerEditText;
+    private final long DELAY = 500;
     private MapSearchListAdapter mAdapter;
     private MapSearchListAdapter.OnItemActionListener mActionListener = new MapSearchListAdapter.OnItemActionListener() {
         @Override
@@ -91,6 +116,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             onCircleMenuClick(index);
         }
     };
+
+    /* Booking - Trip */
+    private Timer timerTripDuration;
+    private CountDownTimer countDownTimer;
+    private boolean isBookingCar;
+    private boolean isTripStart;
 
     @BindView(R.id.mapView)
     FrameLayout mMapContainer;
@@ -116,6 +147,24 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @BindView(R.id.circularLayout)
     CircleLayout circularLayout;
 
+    @BindView(R.id.centerMapButton)
+    ImageView centerMapButton;
+
+    @BindView(R.id.orientationMapButton)
+    ImageView orientationMapButton;
+
+    @BindView(R.id.orientationMapButtonView)
+    ViewGroup orientationMapButtonView;
+
+    @BindView(R.id.centerMapButtonView)
+    ViewGroup centerMapButtonView;
+
+    @BindView(R.id.refreshMapButtonView)
+    ViewGroup refreshMapButtonView;
+
+    @BindView(R.id.carFeedMapButtonView)
+    ViewGroup carFeedMapButtonView;
+
     public static MapGoogleFragment newInstance(int type) {
         MapGoogleFragment fragment = new MapGoogleFragment();
         Bundle args = new Bundle();
@@ -137,7 +186,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             else mPresenter.isFeeds = false;
         }
 
+        //Init
+        hasInit = false;
         mAdapter = new MapSearchListAdapter(mActionListener);
+        isBookingCar = false;
+        isTripStart = false;
     }
 
     @Override
@@ -168,17 +221,183 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+
+
+        if(view != null)
+            view.getViewTreeObserver().removeOnGlobalLayoutListener(layoutListener);
+
+        mPresenter.viewDestroy();
+
+        if(timer != null) timer.cancel();
+        if(timerTripDuration != null) timerTripDuration.cancel();
+        if(countDownTimer != null) countDownTimer.cancel();
+        if(timerEditText != null) timerEditText.cancel();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        try {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
+                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);
+                return;
+            }
+
+        }
+        catch (Exception ex){}
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Map listener
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
         mPresenter.onMapIsReady();
     }
 
+
     @Override
     public void onNewLocation(Location location) {
         super.onNewLocation(location);
-        mPresenter.onLocationIsReady(location.getLatitude(), location.getLongitude());
+
+        Log.w("LOCATION","onNewLocation");
+        locationChange(location);
     }
 
+    @Override
+    public void onLocationUnavailable() {
+        super.onLocationUnavailable();
+        if(mMap != null)
+            providerDisabled();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Location listener
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void onLocationChanged(Location location) {
+        //mPresenter.onLocationIsReady(location.getLatitude(), location.getLongitude());
+
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+        Log.w("LOCATION","onProviderEnabled");
+        if(!isTripStart && !isBookingCar) centerMap();
+
+        enabledCenterMap(true);
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+        if(mMap != null)
+            providerDisabled();
+
+        enabledCenterMap(false);
+    }
+
+    private void providerDisabled(){
+
+        Log.w("LOCATION","providerDisabled");
+
+        userLocation = null;
+
+        if (!hasInit){
+
+            moveMapCameraToDefaultLocation();
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //TODO Google
+                    //refreshCars();
+                }
+            }, 100);
+
+        }
+        enabledCenterMap(false);
+
+        if(carPreSelected != null){
+
+            moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
+            //TODO Google
+            //showPopupCar(carPreSelected);
+        }
+
+        hasInit = true;
+    }
+
+    private void locationChange(Location location){
+        userLocation = location;
+        //userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
+
+        //First time
+        if (!hasInit){
+
+            //TODO Google inserire pin user
+            /*pinUser = new OverlayItem("Title", "Description", userLocation);
+            ArrayList<OverlayItem> userOverleyList = new ArrayList<OverlayItem>();
+            userOverleyList.add(pinUser);
+            mOverlayUser = new ItemizedOverlayWithFocus<OverlayItem>(
+                    getActivity(), userOverleyList,
+                    new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                        @Override
+                        public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                            //do something
+                            return true;
+                        }
+                        @Override
+                        public boolean onItemLongPress(final int index, final OverlayItem item) {
+                            return false;
+                        }
+                    });
+
+            mMapView.getOverlays().add(mOverlayUser);
+
+            displayMyCurrentLocationOverlay();
+            */
+
+
+            if(mMap != null)
+                moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
+
+
+            //TODO Google refreshCars
+            //refreshCars();
+        }
+
+        hasInit = true;
+
+        //TODO Google
+        //pinUser = new OverlayItem("Title", "Description", userLocation);
+
+
+
+        if(carPreSelected != null){
+
+            if(mMap != null)
+                moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
+
+            //TODO Google
+            //showPopupCar(carPreSelected);
+        }
+    }
 
 
 
@@ -191,6 +410,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         final LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         searchRecyclerView.setLayoutManager(lm);
         searchRecyclerView.setAdapter(mAdapter);
+        timerEditText = new Timer();
         setSearchDefaultContent();
     }
 
@@ -363,6 +583,18 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }else{
             roundMenuMapView.setVisibility(View.VISIBLE);
             roundMenuFeedsView.setVisibility(View.GONE);
+
+            orientationMapButtonView.setTranslationX(-157.0f);
+            orientationMapButtonView.setTranslationY(12.0f);
+
+            centerMapButtonView.setTranslationX(-100.0f);
+            centerMapButtonView.setTranslationY(65.0f);
+
+            refreshMapButtonView.setTranslationX(-65.0f);
+            refreshMapButtonView.setTranslationY(100.0f);
+
+            carFeedMapButtonView.setTranslationX(-20.0f);
+            carFeedMapButtonView.setTranslationY(100.0f);
         }
     }
     private void onCircleMenuClick(int i){
@@ -388,6 +620,53 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Mappa
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Abilito / disabilito pulsante per centrare la mappa
+    private void enabledCenterMap(boolean enable){
+
+        if(enable){
+            centerMapButton.setAlpha(1.0f);
+            if(mPresenter.isFeeds) ad.centerAlpha = false;
+        }else{
+            centerMapButton.setAlpha(.4f);
+            if(mPresenter.isFeeds) ad.centerAlpha = true;
+        }
+
+        if(mPresenter.isFeeds){
+            circularLayout.init();
+        }
+    }
+
+    private void centerMap(){
+
+        if(userLocation != null) {
+            moveMapCameraTo(userLocation.getLatitude(), userLocation.getLongitude());
+        }else{
+
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(R.string.maps_permissionlocation_alert),
+                    getString(R.string.ok),
+                    getString(R.string.cancel));
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                    openSettings();
+                }
+            });
+        }
+
+    }
+
+
+    private void openSettings(){
+        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -395,9 +674,38 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Quando l'utente preme il pulsante di chiusura del popup con il dettaglio di una macchina
     @OnClick(R.id.closePopupButton)
     public void onClosePopup() {
 
+    }
+
+    //Metodo richiamato quando l'utente scrive nella casella di testo
+    @OnTextChanged(value = R.id.searchEditText,
+            callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    public void searchEditText() {
+
+
+        timerEditText.cancel();
+        timerEditText = new Timer();
+        timerEditText.schedule(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        //TODO Google
+                        /*if(!searchItemSelected)
+                            initMapSearch();
+                        else searchItemSelected = false;*/
+                    }
+                },
+                DELAY
+        );
+    }
+
+    @OnClick(R.id.microphoneImageView)
+    public void onSearchMicrophone(){
+        onClosePopup();
+        startSpeechToText();
     }
 
 
@@ -495,6 +803,5 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     public void setFeedInters() {
 
     }
-
 
 }

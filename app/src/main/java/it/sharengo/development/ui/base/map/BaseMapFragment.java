@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.androidmapsextensions.GoogleMap;
 import com.androidmapsextensions.Marker;
@@ -21,11 +22,12 @@ import it.sharengo.development.R;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 
 public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMvpFragment<T>
-        implements MvpMapView, HdxLocationUpdateListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+        implements MvpMapView, HdxLocationUpdateListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMyLocationChangeListener {
 
+    public static final Integer DISABLEDLOCATION_ZOOM = 5;
     public static final Integer DEFAULT_ZOOM = 13;
-    private static final double DEFAULT_LAT = 41.788721;
-    private static final double DEFAULT_LON = 12.331467;
+    private static final double DEFAULT_LAT = 41.931543;
+    private static final double DEFAULT_LON = 12.503420;
 
     protected HdxActivityLocationHelper mHdxActivityLocationHelper;
     protected HdxFragmentMapHelper mMapHelper;
@@ -51,6 +53,7 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
     public void onNewLocation(Location location) {
         if (mMap != null) {
             mMap.setMyLocationEnabled(true);
+            mMap.setOnMyLocationChangeListener(this);
         }
     }
 
@@ -77,6 +80,7 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
     @Override
     public void onFineLocationDenied() {
         // STUB
+        Log.w("LOCATION","onFineLocationDenied");
     }
 
     //*********************************
@@ -88,6 +92,7 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(false);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -98,6 +103,7 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(getActivity(), "android.permission.ACCESS_FINE_LOCATION");
         if (hasFineLocationPermission == 0) {
             mMap.setMyLocationEnabled(true);
+            mMap.setOnMyLocationChangeListener(this);
 
             if (mHdxActivityLocationHelper.getLastLocation() != null) {
                 moveMapCameraTo(mHdxActivityLocationHelper.getLastLocation().getLatitude(), mHdxActivityLocationHelper.getLastLocation().getLongitude());
@@ -145,7 +151,7 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
     @Override
     public void moveMapCameraToDefaultLocation() {
         LatLng latLng = new LatLng(DEFAULT_LAT, DEFAULT_LON);
-        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, DISABLEDLOCATION_ZOOM);
         mMap.moveCamera(cu);
     }
 
@@ -155,6 +161,8 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
     }
 
 
-
-
+    @Override
+    public void onMyLocationChange(Location location) {
+        Log.w("LOCATION","onMyLocationChange");
+    }
 }
