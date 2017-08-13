@@ -6,10 +6,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -18,6 +28,7 @@ import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -26,6 +37,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -33,11 +47,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.androidmapsextensions.GoogleMap;
+import com.androidmapsextensions.MarkerOptions;
 import com.androidmapsextensions.OnMapReadyCallback;
 import com.example.x.circlelayout.CircleLayout;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.maps.android.clustering.ClusterItem;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
-import org.osmdroid.util.GeoPoint;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -79,6 +100,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     /* Location */
     Location userLocation;
+    private boolean prevLocationDisabled;
 
     /* Animazioni */
     private Timer timer;
@@ -116,12 +138,18 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             onCircleMenuClick(index);
         }
     };
+    private RotateAnimation anim;
 
     /* Booking - Trip */
     private Timer timerTripDuration;
     private CountDownTimer countDownTimer;
     private boolean isBookingCar;
     private boolean isTripStart;
+
+    /* Map */
+    private List<ClusterItem> poiMarkers;
+    private List<com.androidmapsextensions.Marker> feedsMarker;
+    private List<com.androidmapsextensions.Marker> poiCityMarkers;
 
     @BindView(R.id.mapView)
     FrameLayout mMapContainer;
@@ -165,6 +193,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @BindView(R.id.carFeedMapButtonView)
     ViewGroup carFeedMapButtonView;
 
+    @BindView(R.id.refreshMapButton)
+    ImageView refreshMapButton;
+
     public static MapGoogleFragment newInstance(int type) {
         MapGoogleFragment fragment = new MapGoogleFragment();
         Bundle args = new Bundle();
@@ -191,6 +222,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         mAdapter = new MapSearchListAdapter(mActionListener);
         isBookingCar = false;
         isTripStart = false;
+        prevLocationDisabled = false;
     }
 
     @Override
@@ -206,6 +238,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         //Setup animazione menu circolare
         setupCircleMenu();
+
 
         showCarsWithFeeds = false;
 
@@ -268,7 +301,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     public void onNewLocation(Location location) {
         super.onNewLocation(location);
 
-        Log.w("LOCATION","onNewLocation");
         locationChange(location);
     }
 
@@ -277,6 +309,18 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         super.onLocationUnavailable();
         if(mMap != null)
             providerDisabled();
+    }
+
+    @Override
+    public void onMyLocationChange(Location location) {
+
+        locationChange(location);
+
+        if(prevLocationDisabled && !isTripStart && !isBookingCar && userLocation != null){
+            moveMapCameraTo(location.getLatitude(), location.getLongitude());
+        }
+
+        prevLocationDisabled = false;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -297,14 +341,22 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void onProviderEnabled(String s) {
-        Log.w("LOCATION","onProviderEnabled");
-        if(!isTripStart && !isBookingCar) centerMap();
+
+        prevLocationDisabled = true;
+
+        if(!isTripStart && !isBookingCar){
+            if(userLocation != null)
+                moveMapCameraTo(userLocation.getLatitude(), userLocation.getLongitude());
+        }
 
         enabledCenterMap(true);
     }
 
     @Override
     public void onProviderDisabled(String s) {
+
+        prevLocationDisabled = false;
+
         if(mMap != null)
             providerDisabled();
 
@@ -313,20 +365,16 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void providerDisabled(){
 
-        Log.w("LOCATION","providerDisabled");
-
         userLocation = null;
+        moveMapCameraToDefaultLocation();
 
         if (!hasInit){
-
-            moveMapCameraToDefaultLocation();
 
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    //TODO Google
-                    //refreshCars();
+                    refreshCars();
                 }
             }, 100);
 
@@ -375,11 +423,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
 
             if(mMap != null)
-                moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
+                moveMapCameraTo((double) userLocation.getLatitude(), (double) userLocation.getLongitude());
 
 
-            //TODO Google refreshCars
-            //refreshCars();
+            refreshCars();
         }
 
         hasInit = true;
@@ -545,6 +592,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void setupCircleMenu(){
 
+        //Rotate animation - refresh button
+        anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        anim.setInterpolator(new LinearInterpolator());
+        anim.setRepeatCount(Animation.INFINITE);
+        anim.setDuration(700);
+
+        //Adapter
         ad = new MyCircleLayoutAdapter(mActionCircleListener);
         ad.animationRefresh = true;
 
@@ -625,6 +679,99 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //                                              Mappa
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void refreshCars(){
+
+
+        refreshMapButton.startAnimation(anim);
+
+        int mapRadius = getMapRadius();
+
+        if(mapRadius > 35000){
+
+            if(poiMarkers != null)
+                mMap.getMarkers().remove(poiMarkers);
+
+            if(feedsMarker != null)
+                removeMarkers(feedsMarker);
+
+            if(poiCityMarkers != null)
+                removeMarkers(poiCityMarkers);
+
+            poiCityMarkers = new ArrayList<>();
+
+            mPresenter.loadCity(getActivity());
+
+
+        }else {
+
+            if(poiCityMarkers != null)  removeMarkers(poiCityMarkers);
+
+            if(getMapCenter().longitude > 0) {
+                try {
+                    mPresenter.refreshCars(getActivity(), (float) getMapCenter().latitude, (float) getMapCenter().longitude, getFixMapRadius());
+                } catch (NullPointerException e) {
+                }
+            }
+        }
+
+    }
+
+    //Rimuovo un gruppo di marker dalla mappa
+    private void removeMarkers(List<com.androidmapsextensions.Marker> markerList) {
+        for (com.androidmapsextensions.Marker marker: markerList) {
+            marker.remove();
+        }
+        markerList.clear();
+    }
+
+    //Metodo richiamato quando viene eseguito il tap su un marker presente nella mappa
+    @Override
+    public boolean onMarkerClick(com.androidmapsextensions.Marker marker) {
+
+        if (marker.getData().getClass().equals(City.class)) {
+
+
+            if(poiCityMarkers != null)
+                removeMarkers(poiCityMarkers);
+
+            moveMapCameraToPoitWithZoom(marker.getPosition().latitude, marker.getPosition().longitude, 10);
+
+        }
+
+        return true;
+    }
+
+
+    //Metodo per recuperare il raggio della mappa
+    private int getMapRadius(){
+
+        LatLng mapCenterLoc = getMapCenter();
+
+        Location locationA = new Location("point A");
+
+        locationA.setLatitude(mapCenterLoc.latitude);
+        locationA.setLongitude(mapCenterLoc.longitude);
+
+        Location locationB = new Location("point B");
+
+        locationB.setLatitude(mMap.getProjection().getVisibleRegion().latLngBounds.northeast.latitude);
+        locationB.setLongitude(mMap.getProjection().getVisibleRegion().latLngBounds.northeast.longitude);
+
+        int distance = (int) locationA.distanceTo(locationB);
+
+        return distance;
+    }
+
+    private int getFixMapRadius(){
+        return 700000;
+    }
+
+    //Recupero il centro della mappa
+    private LatLng getMapCenter(){
+        return mMap.getCameraPosition().target;
+    }
+
     //Abilito / disabilito pulsante per centrare la mappa
     private void enabledCenterMap(boolean enable){
 
@@ -663,9 +810,149 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     }
 
-
     private void openSettings(){
         startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+    }
+
+    private void drawCityMarkerOnMap(List<City> cityList){
+        for(City cA : cityList){
+
+            com.androidmapsextensions.Marker markerCity = mMap.addMarker(new MarkerOptions().position(new LatLng(cA.informations.address.latitude, cA.informations.address.longitude)));
+            markerCity.setIcon(getBitmapDescriptor(R.drawable.ic_cluster));
+            markerCity.setData(cA);
+
+            //TODO Google anchor
+            poiCityMarkers.add(markerCity);
+
+            /*
+            * Marker marker = myMap.addMarker(new MarkerOptions().position(new LatLng(geo1Dub,geo2Dub))); //...
+markers.add(marker);
+            * */
+            /*
+            * //Setto il marker
+            final GeoPoint geoPoint = new GeoPoint(cA.informations.address.latitude, cA.informations.address.longitude);
+            Marker markerCarCity = new Marker(mMapView);
+            markerCarCity.setPosition(geoPoint);
+            //markerCarCity.setIcon(getIconMarker(R.drawable.ic_cluster));
+            markerCarCity.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            //Listener
+            markerCarCity.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker, MapView mapView) {
+
+                    if(poiCityMarkers != null)
+                        mMapView.getOverlays().remove(poiCityMarkers);
+
+                    mMapView.invalidate();
+
+                    mMapView.getController().setCenter(geoPoint);
+                    mMapView.getController().setZoom(11);
+                    mMapView.invalidate();
+
+                    //refreshCars();
+
+
+                    return true;
+                }
+            });
+            *
+            *
+            * */
+
+            Log.w("CITY",": "+cA.name);
+            //Disegno i componenti grafici
+            final com.androidmapsextensions.Marker finalMarkerCarCity = markerCity;
+            Target target = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    finalMarkerCarCity.setIcon(getBitmapDescriptor(makeBasicMarker(bitmap)));
+                    //Aggiungo all'array
+                    //poiCityMarkers.add(finalMarkerCarCity);
+                    //mMapView.invalidate();
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                }
+            };
+            Picasso.with(getActivity()).load(cA.media.images.icon.uri).into(target);
+
+            markerCity.setTag(target);
+        }
+
+        anim.cancel();
+        if(mPresenter.isFeeds){
+            ad.animationRefresh = false;
+            circularLayout.init();
+        }
+    }
+
+    private BitmapDescriptor getBitmapDescriptor(int icon){
+        return BitmapDescriptorFactory.fromBitmap(getIconMarker(icon).getBitmap());
+    }
+
+    private BitmapDescriptor getBitmapDescriptor(Drawable drawable){
+        return BitmapDescriptorFactory.fromBitmap(drawableToBitmap(drawable));
+    }
+
+    private Bitmap drawableToBitmap(Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+
+    //Metodo che server per prelevare l'asset grafico corretto
+    private BitmapDrawable getIconMarker(int icon){
+        BitmapDrawable drawable = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            drawable = (BitmapDrawable) getActivity().getDrawable(icon);
+        }else{
+            drawable = (BitmapDrawable) getResources().getDrawable(icon);
+        }
+
+        return drawable;
+    }
+
+    //Metodo per inserire un'icona sovrapposta al marker base (cerchio giallo con bordo verde)
+    public Drawable makeBasicMarker(Bitmap bitmap) {
+        Drawable[] layers = new Drawable[2];
+        layers[0] = new BitmapDrawable(getResources(),
+                BitmapFactory.decodeResource(getResources(), R.drawable.ic_cluster));
+
+        layers[1] = new BitmapDrawable(getResources(), tintImage(bitmap));
+        LayerDrawable ld = new LayerDrawable(layers);
+        ld.setLayerInset(1, 10, 10, 10, 10); // xx would be the values needed so bitmap ends in the upper part of the image
+        return ld;
+    }
+
+    //Metodo per modificare il colore di una bitmap
+    public  Bitmap tintImage(Bitmap bitmap) {
+        Paint paint = new Paint();
+        paint.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(getActivity(), R.color.mediumseagreen), PorterDuff.Mode.SRC_ATOP));
+        Bitmap bitmapResult = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmapResult);
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+        return bitmapResult;
     }
 
 
@@ -796,7 +1083,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void showCity(List<City> cityList) {
-
+        drawCityMarkerOnMap(cityList);
     }
 
     @Override

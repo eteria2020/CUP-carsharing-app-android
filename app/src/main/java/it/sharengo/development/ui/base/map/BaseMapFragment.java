@@ -115,7 +115,7 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        return false;
+        return true;
     }
 
     //*********************************
@@ -123,6 +123,12 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
     //          VIEW METHODS
     //
     //*********************************
+
+    public void moveMapCameraToPoitWithZoom(Double latitude, Double longitude, Integer zoom){
+        LatLng latLng = new LatLng(latitude, longitude);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
+        mMap.moveCamera(cu);
+    }
 
     @Override
     public void moveMapCameraTo(Double latitude, Double longitude) {
@@ -163,6 +169,6 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
 
     @Override
     public void onMyLocationChange(Location location) {
-        Log.w("LOCATION","onMyLocationChange");
+
     }
 }

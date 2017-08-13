@@ -441,7 +441,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
                 getActivity().finish();
                 Navigator.launchProfile(HomeFragment.this);
-
+                //((HomeActivity) getActivity()).showNotification(String.format(getString(R.string.tripend_notification_label), 0), mNotificationListener);
 
             }
 

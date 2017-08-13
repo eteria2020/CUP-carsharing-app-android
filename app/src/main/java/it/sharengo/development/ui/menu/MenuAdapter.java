@@ -55,7 +55,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_menu_item, parent, false);
 
 
-        v.setLayoutParams(new RecyclerView.LayoutParams(parent.getWidth(), (parent.getHeight() / 9)));
+        v.setLayoutParams(new RecyclerView.LayoutParams(parent.getWidth(), (parent.getHeight() / 8)));
         return new ViewHolder(v);
     }
 

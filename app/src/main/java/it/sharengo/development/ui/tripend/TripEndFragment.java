@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import it.sharengo.development.R;
+import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 
 
@@ -67,6 +69,11 @@ public class TripEndFragment extends BaseMvpFragment<TripEndPresenter> implement
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @OnClick(R.id.historicButton)
+    public void historicButton(){
+        Navigator.launchChronology(this);
+        getActivity().finish();
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
