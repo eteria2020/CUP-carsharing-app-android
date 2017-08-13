@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -29,6 +30,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.LruCache;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -46,6 +48,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.androidmapsextensions.ClusterGroup;
+import com.androidmapsextensions.ClusterOptions;
+import com.androidmapsextensions.ClusterOptionsProvider;
+import com.androidmapsextensions.ClusteringSettings;
 import com.androidmapsextensions.GoogleMap;
 import com.androidmapsextensions.MarkerOptions;
 import com.androidmapsextensions.OnMapReadyCallback;
@@ -55,6 +61,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.clustering.ClusterItem;
+import com.google.maps.android.clustering.ClusterManager;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -147,9 +154,18 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private boolean isTripStart;
 
     /* Map */
-    private List<ClusterItem> poiMarkers;
+    private List<com.androidmapsextensions.Marker> poiMarkers;
+    private List<MarkerOptions> poiMarkersToAdd;
     private List<com.androidmapsextensions.Marker> feedsMarker;
     private List<com.androidmapsextensions.Marker> poiCityMarkers;
+    private ClusterManager<ClusterItem> mClusterManager;
+    private String carnext_id;
+    private Car carNext;
+    private Car carSelected;
+    private com.androidmapsextensions.Marker carnextMarker, carbookingMarker;
+    private int currentDrawable = 0; //frame dell'animazione della macchiana più vicina
+    private int[] drawableAnimGreenArray = new int[]{R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulse0007, R.drawable.autopulse0008, R.drawable.autopulse0009, R.drawable.autopulse0010, R.drawable.autopulse0011, R.drawable.autopulse0012, R.drawable.autopulse0013, R.drawable.autopulse0014, R.drawable.autopulse0015, R.drawable.autopulse0016, R.drawable.autopulse0017, R.drawable.autopulse0018, R.drawable.autopulse0019, R.drawable.autopulse0020 };
+    private int[] drawableAnimYellowArray = new int[]{R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulseyellow0007, R.drawable.autopulseyellow0008, R.drawable.autopulseyellow0009, R.drawable.autopulseyellow0010, R.drawable.autopulseyellow0011, R.drawable.autopulseyellow0012, R.drawable.autopulseyellow0013, R.drawable.autopulseyellow0014, R.drawable.autopulseyellow0015, R.drawable.autopulseyellow0016, R.drawable.autopulseyellow0017, R.drawable.autopulseyellow0018, R.drawable.autopulseyellow0019, R.drawable.autopulseyellow0020 };
 
     @BindView(R.id.mapView)
     FrameLayout mMapContainer;
@@ -393,7 +409,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void locationChange(Location location){
         userLocation = location;
-        //userLocation = new GeoPoint(45.538927, 9.168744); //TODO: remove
+
+        //TODO: remove
+        userLocation.setLatitude(45.510349);
+        userLocation.setLongitude(9.093254);
 
         //First time
         if (!hasInit){
@@ -729,14 +748,16 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public boolean onMarkerClick(com.androidmapsextensions.Marker marker) {
 
-        if (marker.getData().getClass().equals(City.class)) {
+        if(marker != null && marker.getData() != null) {
+            if (marker.getData().getClass().equals(City.class)) {
 
 
-            if(poiCityMarkers != null)
-                removeMarkers(poiCityMarkers);
+                if (poiCityMarkers != null)
+                    removeMarkers(poiCityMarkers);
 
-            moveMapCameraToPoitWithZoom(marker.getPosition().latitude, marker.getPosition().longitude, 10);
+                moveMapCameraToPoitWithZoom(marker.getPosition().latitude, marker.getPosition().longitude, 10);
 
+            }
         }
 
         return true;
@@ -788,6 +809,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
     }
 
+    //Metodo richiamato per centrare la mappa. Se la localizzazione non è attiva, viene avvisato l'utente
     private void centerMap(){
 
         if(userLocation != null) {
@@ -810,10 +832,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     }
 
+    //Apre i setting del dispositivo per permettere di attivare il gps
     private void openSettings(){
         startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
     }
 
+    //Disegna sulla mappa i marker delle città (Milano, Roma, ecc...)
     private void drawCityMarkerOnMap(List<City> cityList){
         for(City cA : cityList){
 
@@ -889,6 +913,199 @@ markers.add(marker);
             ad.animationRefresh = false;
             circularLayout.init();
         }
+    }
+
+    //Metodo per disegnare sulla mappa i pin (in particolare i cluster
+    private void showCarsOnMap(List<Car> carsList){
+
+        //Trovo la macchina più vicina a me
+        carnext_id = findNextCar(carsList);
+
+        //Rimuovo i marker dalla mappa
+        /*if(poiMarkers != null)
+            mMap.getMarkers().removeAll(poiMarkers);*/
+
+        if(poiCityMarkers != null)
+            removeMarkers(poiCityMarkers);
+
+        //Clustering
+        mMap.setClustering(new ClusteringSettings().clusterOptionsProvider(new DemoClusterOptionsProvider(getResources())));
+
+
+        poiMarkersToAdd = new ArrayList<>();
+
+        boolean bookedCarFind = false;
+        for(final Car car : carsList){
+            //Verifico che la macchina sia in status = operative
+            if(car.status.equals("operative")) {
+                int icon_marker = R.drawable.ic_auto;
+
+                //Verifico se la vettura è la più vicina oppure se è una vettura prenotata
+                if(car.id.equals(carnext_id) || ((isBookingCar || isTripStart) && car.id.equals(carSelected.id))){
+                    icon_marker = R.drawable.autopulse0001;
+                }
+
+                //Creo il marker
+                MarkerOptions markerCar = new MarkerOptions().position(new LatLng(car.latitude, car.longitude));
+                markerCar.icon(getBitmapDescriptor(icon_marker));
+                markerCar.data(car);
+
+                poiMarkersToAdd.add(markerCar);
+
+            }
+        }
+
+
+        if(!mPresenter.isFeeds || showCarsWithFeeds || isBookingCar || isTripStart)
+            showPoiMarkers();
+
+
+        //Stop sull'animazione del pulsante di refresh
+        anim.cancel();
+        if(mPresenter.isFeeds){
+            ad.animationRefresh = false;
+            circularLayout.init();
+        }
+    }
+
+    private void showPoiMarkers(){
+
+        poiMarkers = new ArrayList<>();
+
+        boolean bookedCarFind = false;
+        for(MarkerOptions markerCar : poiMarkersToAdd){
+            com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
+            poiMarkers.add(myMarker);
+
+            Car car = (Car) markerCar.getData();
+            if(car.id.equals(carnext_id)){
+                carnextMarker = myMarker;
+            }
+
+            //Verifico se è attiva una prenotazione e se la targa dell'overley corrisponde a quella della macchina prenotata
+            if(isBookingCar || isTripStart){
+                if(car.id.equals(carSelected.id)) {
+                    carbookingMarker = myMarker;
+                    bookedCarFind = true;
+                }
+            }
+        }
+
+        //Se è attiva una prenotazione, ma la macchina non è presente tra i risultati restituiti dal server aggiungo la macchina alla lista
+        if((isBookingCar || isTripStart) && !bookedCarFind){
+
+            //Creo il marker
+            MarkerOptions markerCar = new MarkerOptions().position(new LatLng(carSelected.latitude, carSelected.longitude));
+            markerCar.icon(getBitmapDescriptor(R.drawable.autopulse0001));
+
+            com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
+            poiMarkers.add(myMarker);
+
+            carbookingMarker = myMarker;
+        }
+
+        setMarkerAnimation();
+    }
+
+    //Metodo richiamato se il server non restituisce macchina da mostrare: stoppo l'animazione del pulsante "refresh"
+    private void noCarsFountToDraw(){
+        //Stop sull'animazione del pulsante di refresh
+        anim.cancel();
+        if(mPresenter.isFeeds){
+            ad.animationRefresh = false;
+            circularLayout.init();
+        }
+    }
+
+    //Metodo utilizzato per trovare la macchina più vicina alla posizione dell'utente
+    private String findNextCar(List<Car> carsList){
+
+        String car_id = "";
+        float distance = 10000000000000000000000.0f;
+
+
+        if(userLocation != null) {
+
+            for (Car car : carsList) {
+
+                float dist = getDistance(car);
+
+                if(dist < distance) {
+                    distance = dist;
+                    car_id = car.id;
+                    carNext = car;
+                }
+            }
+        }
+
+        return car_id;
+    }
+
+    //Animazione del maker più vicino
+    private void setMarkerAnimation(){
+
+        if(carnextMarker != null || carbookingMarker != null) {
+            if (timer != null) timer.cancel();
+
+            timer = new Timer();
+
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if(getActivity() != null) {
+
+                                int[] drawableAnimArray = null;
+
+                                //Verifico se una prenotazione è attiva: il colore dell'animazione è giallo se c'è una prenotazione, altrimenti verde
+                                if (isBookingCar || isTripStart)
+                                    drawableAnimArray = drawableAnimYellowArray;
+                                else drawableAnimArray = drawableAnimGreenArray;
+
+                                //Ogni x millisecondi cambio il frame
+                                if (isBookingCar || isTripStart) {
+
+                                    if (carbookingMarker != null)
+                                        carbookingMarker.setIcon(getBitmapDescriptor(drawableAnimArray[currentDrawable]));
+                                    if (carnextMarker != null)
+                                        carnextMarker.setIcon(getBitmapDescriptor(R.drawable.autopulse0001));
+                                } else {
+
+                                    if (carbookingMarker != null)
+                                        carbookingMarker.setIcon(getBitmapDescriptor(R.drawable.autopulse0001));
+                                    if (carnextMarker != null)
+                                        carnextMarker.setIcon(getBitmapDescriptor(drawableAnimArray[currentDrawable]));
+                                }
+
+
+                                if (currentDrawable < drawableAnimArray.length - 1)
+                                    currentDrawable++;
+                                else currentDrawable = 0;
+                            }
+
+                        }
+                    });
+                }
+            }, 100, 100);
+        }
+    }
+
+    //Metodo per calcolare la distanza tra una macchina e la posizione dell'utente
+    private float getDistance(Car car){
+        Location locationA = new Location("point A");
+
+        locationA.setLatitude(userLocation.getLatitude());
+        locationA.setLongitude(userLocation.getLongitude());
+
+        Location locationB = new Location("point B");
+
+        locationB.setLatitude(car.latitude);
+        locationB.setLongitude(car.longitude);
+
+        return locationA.distanceTo(locationB);
     }
 
     private BitmapDescriptor getBitmapDescriptor(int icon){
@@ -1003,7 +1220,7 @@ markers.add(marker);
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void showCars(List<Car> carsList) {
-
+        showCarsOnMap(carsList);
     }
 
     @Override
@@ -1013,7 +1230,7 @@ markers.add(marker);
 
     @Override
     public void noCarsFound() {
-
+        noCarsFountToDraw();
     }
 
     @Override
@@ -1091,4 +1308,61 @@ markers.add(marker);
 
     }
 
+    //Classe per customizzare il cluster
+    public class DemoClusterOptionsProvider implements ClusterOptionsProvider {
+
+        private final int[] res = {R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster};
+
+        private final int[] forCounts = {10, 100, 1000, 10000, Integer.MAX_VALUE};
+
+        private Bitmap[] baseBitmaps;
+        private LruCache<Integer, BitmapDescriptor> cache = new LruCache<Integer, BitmapDescriptor>(128);
+
+        private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        private Rect bounds = new Rect();
+
+        private ClusterOptions clusterOptions = new ClusterOptions().anchor(0.5f, 0.5f);
+
+        public DemoClusterOptionsProvider(Resources resources) {
+            baseBitmaps = new Bitmap[res.length];
+            for (int i = 0; i < res.length; i++) {
+                baseBitmaps[i] = BitmapFactory.decodeResource(resources, res[i]);
+            }
+            paint.setColor(ContextCompat.getColor(getContext(), R.color.darkpastelgreen));
+            paint.setTextAlign(Paint.Align.CENTER);
+            paint.setTextSize(15 * getResources().getDisplayMetrics().density);
+        }
+
+        @Override
+        public ClusterOptions getClusterOptions(List<com.androidmapsextensions.Marker> markers) {
+
+            int markersCount = markers.size();
+            BitmapDescriptor cachedIcon = cache.get(markersCount);
+            if (cachedIcon != null) {
+                return clusterOptions.icon(cachedIcon);
+            }
+
+            Bitmap base;
+            int i = 0;
+            do {
+                base = baseBitmaps[i];
+            } while (markersCount >= forCounts[i++]);
+
+            Bitmap bitmap = base.copy(Bitmap.Config.ARGB_8888, true);
+
+            String text = String.valueOf(markersCount);
+            paint.getTextBounds(text, 0, text.length(), bounds);
+            float x = bitmap.getWidth() / 2.0f;
+            float y = (bitmap.getHeight() - bounds.height()) / 2.0f - bounds.top;
+
+            Canvas canvas = new Canvas(bitmap);
+            canvas.drawText(text, x, y, paint);
+
+
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(bitmap);
+            cache.put(markersCount, icon);
+
+            return clusterOptions.icon(icon);
+        }
+    }
 }
