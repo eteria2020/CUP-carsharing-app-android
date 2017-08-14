@@ -17,6 +17,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -33,6 +35,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.util.LruCache;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,6 +50,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.androidmapsextensions.ClusterGroup;
 import com.androidmapsextensions.ClusterOptions;
@@ -66,6 +70,7 @@ import com.google.maps.android.clustering.ClusterManager;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -87,6 +92,7 @@ import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.map.BaseMapFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.development.ui.map.MapFragment;
 import it.sharengo.development.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -216,6 +222,36 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @BindView(R.id.refreshMapButton)
     ImageView refreshMapButton;
+
+    @BindView(R.id.carFeedMapButton)
+    ImageView carFeedMapButton;
+
+    @BindView(R.id.popupCarView)
+    View popupCarView;
+
+    @BindView(R.id.plateTextView)
+    TextView plateTextView;
+
+    @BindView(R.id.autonomyTextView)
+    TextView autonomyTextView;
+
+    @BindView(R.id.addressTextView)
+    TextView addressTextView;
+
+    @BindView(R.id.timeTextView)
+    TextView timeTextView;
+
+    @BindView(R.id.timeView)
+    ViewGroup timeView;
+
+    @BindView(R.id.closestcarView)
+    ViewGroup closestcarView;
+
+    @BindView(R.id.distanceTextView)
+    TextView distanceTextView;
+
+    @BindView(R.id.distanceView)
+    ViewGroup distanceView;
 
     public static MapGoogleFragment newInstance(int type) {
         MapGoogleFragment fragment = new MapGoogleFragment();
@@ -793,17 +829,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             //Car
             if (marker.getData().getClass().equals(Car.class)) {
 
-                //TODO Google apertura popup
+                onTapMarker((Car) marker.getData());
 
             }
         }else{ //Cluster
-            //moveMapCameraToPoitWithZoom(marker.getPosition().latitude, marker.getPosition().longitude, 15);
 
             zoomCarmeraIn(marker.getPosition().latitude, marker.getPosition().longitude);
-            //mMap.mo
-
-            //mMapView.getController().setCenter(new GeoPoint(marker.getPosition().getLatitude(), marker.getPosition().getLongitude()));
-            //mMapView.getController().zoomIn();
         }
 
         return true;
@@ -1054,6 +1085,37 @@ markers.add(marker);
         setMarkerAnimation();
     }
 
+    //Metodo per nascondere i pin sulla mappa (richiamato in genere dal pulsante del menu radiale)
+    private void hidePoiMarkers(){
+
+        removeMarkers(poiMarkers);
+
+        setMarkerAnimation();
+    }
+
+    //Metodo richiamato quando si preme sul pin di un macchina
+    private void onTapMarker(Car car){
+        //Verifico se è attiva una prenotazione
+        if(isBookingCar || isTripStart){
+
+            //Mostro un'alert di avviso
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(R.string.booking_bookedcar_alert),
+                    getString(R.string.ok),
+                    null);
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                }
+            });
+        }else {
+            moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 17);
+            showPopupCar(car);
+        }
+    }
+
     //Metodo richiamato se il server non restituisce macchina da mostrare: stoppo l'animazione del pulsante "refresh"
     private void noCarsFountToDraw(){
         //Stop sull'animazione del pulsante di refresh
@@ -1140,6 +1202,13 @@ markers.add(marker);
         }
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Utils
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     //Metodo per calcolare la distanza tra una macchina e la posizione dell'utente
     private float getDistance(Car car){
         Location locationA = new Location("point A");
@@ -1189,6 +1258,7 @@ markers.add(marker);
         return bitmap;
     }
 
+    //Metodo che permette di modificare la dimensione dell'immagine del pin presente sulla mappa
     public Bitmap resizeMapIcons(String iconName,int width, int height){
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getActivity().getPackageName()));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
@@ -1229,6 +1299,195 @@ markers.add(marker);
         return bitmapResult;
     }
 
+    //Metodo per ricavere l'indirizzo date le coordinate
+    private String getAddress(float latitude, float longitude){
+        String address = "";
+
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            if(!addresses.isEmpty())
+                address = addresses.get(0).getAddressLine(0)+", "+addresses.get(0).getLocality();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return address;
+    }
+
+    private void loginAlert(){
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.general_login_alert),
+                getString(R.string.login),
+                getString(R.string.cancel));
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                mPresenter.setCarSelected(carSelected);
+                Navigator.launchLogin(MapGoogleFragment.this, Navigator.REQUEST_LOGIN_MAPS);
+                getActivity().finish();
+            }
+        });
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Popup Car
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private void showPopupCar(Car car){
+
+        carSelected = car;
+
+        carFeedMapButton.setAlpha(1.0f);
+        showCarsWithFeeds = true;
+
+        // Animazione
+        popupCarView.setVisibility(View.VISIBLE);
+        popupCarView.animate().translationY(0);
+
+        //Popolo i dati dell'interfaccia
+
+        //Targa
+        plateTextView.setText(car.id);
+
+        //Autonomia
+        autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), (int) car.autonomy)));
+
+        //Indirizzo
+        String address = getAddress(car.latitude, car.longitude);
+        if(address.length() > 0)
+            addressTextView.setText(address);
+
+        //Distanza
+        if(userLocation != null){
+            String distanceString = "";
+            float distance = getDistance(car);
+            if(distance < 1000){
+                distance = Math.round(distance);
+                distanceString = String.format(getString(R.string.maps_distance_label), (int) distance);
+            }
+            else{
+                distanceString = String.format(getString(R.string.maps_distancekm_label), distance/1000);
+            }
+
+            distanceTextView.setText(distanceString);
+        }else{
+            distanceView.setVisibility(View.GONE);
+        }
+
+        //Time
+        if(userLocation != null){
+            int timeF = Math.round(getDistance(car)/100);
+            String timeFString = "";
+
+            if(timeF < 60){
+                timeFString = String.format(getString(R.string.maps_time_label), timeF);
+            }else if(timeF == 60){
+                timeFString = getString(R.string.maps_timeh60_label);
+            }else if(timeF > 60){
+                int hh = timeF / 60;
+                int mm = timeF % 60;
+
+                if(mm == 0){
+                    timeFString = String.format(getString(R.string.maps_timeh_label), hh);
+                }else {
+                    if(hh == 1){
+                        timeFString = String.format(getString(R.string.maps_timehsm_label), hh, mm);
+                    }else {
+                        timeFString = String.format(getString(R.string.maps_timehm_label), hh, mm);
+                    }
+                }
+            }
+
+            timeTextView.setText(timeFString);
+        }else{
+            timeView.setVisibility(View.GONE);
+        }
+
+        //Tipologia popup
+        if(car.id.equals(carnext_id)){
+            closestcarView.setVisibility(View.VISIBLE);
+        }else{
+            closestcarView.setVisibility(View.GONE);
+        }
+    }
+
+    //Metodo per chiudere il popup che mostra le informazioni della macchina
+    private void closePopup(){
+        mPresenter.setCarSelected(null);
+        popupCarView.animate().translationY(popupCarView.getHeight());
+    }
+
+    //Metodo per verificare se è possibile aprire le portiere (utente autenticato)
+    private void checkOpenDoor(){
+        if(mPresenter.isAuth()){
+            openDoors();
+        }else{
+            loginAlert();
+        }
+    }
+
+    //Metodo per aprire le portiere
+    private void openDoors(){
+
+        if(carSelected != null){
+            if(userLocation != null){
+                //Calcolo la distanza
+                if(getDistance(carSelected) <= 50){ //TODO: valore a 50
+                    //Procediamo con le schermate successive
+                    onClosePopup();
+                    mPresenter.openDoor(carSelected, "open");
+                }else{
+                    CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                            getString(R.string.maps_opendoordistance_alert),
+                            getString(R.string.ok),
+                            null);
+                    cdd.show();
+                }
+            }else{
+                //Informo l'utente che la localizzazione non è attiva
+                final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                        getString(R.string.maps_permissionopendoor_alert),
+                        getString(R.string.ok),
+                        getString(R.string.cancel));
+                cdd.show();
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismissAlert();
+                        openSettings();
+                    }
+                });
+
+            }
+        }
+    }
+
+    //Metodo per verificare se è possibile prenotare la macchina (utente autenticato)
+    private void checkBookingCar(){
+        if(mPresenter.isAuth())
+            bookingCar();
+        else{
+            loginAlert();
+        }
+    }
+
+    //Metodo richiamato per prenotare una macchina selezionata
+    private void bookingCar(){
+        mPresenter.bookingCar(carSelected, getContext());
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Booking
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -1238,7 +1497,17 @@ markers.add(marker);
     //Quando l'utente preme il pulsante di chiusura del popup con il dettaglio di una macchina
     @OnClick(R.id.closePopupButton)
     public void onClosePopup() {
+        closePopup();
+    }
 
+    @OnClick(R.id.openDoorButton)
+    public void onOpenDoor(){
+        checkOpenDoor();
+    }
+
+    @OnClick(R.id.bookingCarButton)
+    public void onBookingCar(){
+        checkBookingCar();
     }
 
     //Metodo richiamato quando l'utente scrive nella casella di testo
