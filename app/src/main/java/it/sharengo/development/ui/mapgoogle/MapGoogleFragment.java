@@ -42,6 +42,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -70,6 +71,8 @@ import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -421,6 +424,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 refreshCars();
             }
         });
+
     }
 
 
@@ -508,8 +512,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(carPreSelected != null){
 
             moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
-            //TODO Google
-            //showPopupCar(carPreSelected);
+            showPopupCar(carPreSelected);
         }
 
         hasInit = true;
@@ -568,8 +571,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             if(mMap != null)
                 moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
 
-            //TODO Google
-            //showPopupCar(carPreSelected);
+            showPopupCar(carPreSelected);
         }
     }
 
@@ -622,22 +624,61 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         searchMapResultView.setVisibility(View.VISIBLE);
     }
 
+    //Metodo richiamato quando viene scritto qualcosa nella casella di ricerca
+    private void initMapSearch(){
+
+        currentSearchItem = null;
+
+        String searchMapText = searchEditText.getText().toString();
+
+        //Verifico prima di tutto che l'utente abbia scritto 3 caratteri. La ricerca parte nel momento in cui vengono digitati 3 caratteri
+        if (searchMapText.length() > 2) {
+
+            //Verifico se è una targa: (con pattern 2 lettere + 1 numero Es: AB1 ) è una targa e quindi cerchiamo tra le targhe, altrimenti cerchiamo l'indirizzo
+            if(!StringUtils.isNumeric(searchMapText.substring(0))
+                    && !StringUtils.isNumeric(searchMapText.substring(1))
+                    && StringUtils.isNumeric(searchMapText.substring(2))){
+                mPresenter.findPlates(searchMapText);
+            }else{
+                mPresenter.findAddress(searchMapText);
+            }
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    searchRecyclerView.scrollToPosition(0);
+                }
+            });
+
+
+        }else{ //Se i caratteri digitati sono meno di 3, ripulisco la lista
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    mAdapter.setData(null);
+
+                }
+            });
+
+
+            if(searchMapText.length() == 0) setSearchDefaultContent();
+        }
+    }
+
     private void setSearchItemSelected(SearchItem searchItem){
         hideSoftKeyboard();
 
         //Muovo la mappa
-        //TODO Google
-        /*mMapView.getController().setCenter(new GeoPoint(searchItem.latitude, searchItem.longitude));
-        mMapView.getController().zoomTo(ZOOM_A);
-        mMapView.getController().animateTo(new GeoPoint(searchItem.latitude, searchItem.longitude));*/
+        moveMapCameraToPoitWithZoom((double) searchItem.latitude, (double) searchItem.longitude, 17);
 
         //Se è una targa, apro il popup
-        //TODO Google
-        /*if(searchItem.type.equals("plate")){
+        if(searchItem.type.equals("plate")){
             Car car = mPresenter.findPlateByID(searchItem.display_name);
             if(car != null)
                 showPopupCar(car);
-        }*/
+        }
 
         currentSearchItem = searchItem;
 
@@ -685,6 +726,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void setSearchDefaultContent(){
+        Log.w("SEARC","setSearchDefaultContent");
         //Mostro preferiti + storisco nella view dei risultati (solo se l'utente è loggato)
         if(mPresenter.isAuth())
             mPresenter.getSearchItems("", getContext(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
@@ -692,7 +734,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Salvo l'ultima ricerca fatta
     private void saveLastAndFavouriteSearch(SearchItem searchItem){
-        //PreferencesDataSource aa = new PreferencesDataSource(getActivity().getSharedPreferences("aa", 0));
         mPresenter.saveSearchResultOnHistoric(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE), searchItem);
     }
 
@@ -708,6 +749,30 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             startActivityForResult(intent, SPEECH_RECOGNITION_CODE);
         } catch (ActivityNotFoundException a) {
             Snackbar.make(view, getString(R.string.error_generic_msg), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    //Callback for speech recognition activity
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case SPEECH_RECOGNITION_CODE: {
+                if (resultCode == getActivity().RESULT_OK && null != data) {
+
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    String text = result.get(0);
+                    searchEditText.setText(text);
+                    initMapSearch();
+
+                    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+                }
+                break;
+            }
+
         }
     }
 
@@ -1790,6 +1855,14 @@ markers.add(marker);
         closeViewBookingCar();
     }
 
+    private void showBookingCarInfo(Reservation mReservation){
+        reservation = mReservation;
+
+        onClosePopup();
+        isBookingCar = true;
+        openViewBookingCar();
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Trip
@@ -1875,10 +1948,10 @@ markers.add(marker);
                 new TimerTask() {
                     @Override
                     public void run() {
-                        //TODO Google
-                        /*if(!searchItemSelected)
+
+                        if(!searchItemSelected)
                             initMapSearch();
-                        else searchItemSelected = false;*/
+                        else searchItemSelected = false;
                     }
                 },
                 DELAY
@@ -1938,12 +2011,13 @@ markers.add(marker);
 
     @Override
     public void showSearchResult(List<SearchItem> searchItemList) {
-
+        setSearchViewHeight();
+        mAdapter.setData(searchItemList);
     }
 
     @Override
     public void showBookingCar(Reservation reservation) {
-
+        showBookingCarInfo(reservation);
     }
 
     @Override

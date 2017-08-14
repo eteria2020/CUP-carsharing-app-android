@@ -155,6 +155,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     public void onMapIsReady() {
         mMapIsReady = true;
         Log.w("onMapIsReady","YES");
+        viewCreated();
     }
 
     public void onLocationIsReady(Double lat, Double lng) {
@@ -686,7 +687,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     public void getSearchItems(String searchText, Context context, SharedPreferences mPrefs) {
         hideLoading = true;
-
+        Log.w("SEARC","getSearchItems");
         if( mFindSearchRequest == null) {
             mFindSearchRequest = buildFindSearchRequest(searchText, context, mPrefs);
             addSubscription(mFindSearchRequest.unsafeSubscribe(getFindSearchSubscriber(context, mPrefs)));
