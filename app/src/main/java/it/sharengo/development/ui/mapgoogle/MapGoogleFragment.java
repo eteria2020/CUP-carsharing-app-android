@@ -60,6 +60,7 @@ import com.androidmapsextensions.GoogleMap;
 import com.androidmapsextensions.MarkerOptions;
 import com.androidmapsextensions.OnMapReadyCallback;
 import com.example.x.circlelayout.CircleLayout;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -92,6 +93,7 @@ import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.map.BaseMapFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.development.ui.map.MapActivity;
 import it.sharengo.development.ui.map.MapFragment;
 import it.sharengo.development.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
 
@@ -159,6 +161,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private CountDownTimer countDownTimer;
     private boolean isBookingCar;
     private boolean isTripStart;
+    private Reservation reservation;
+    private int tripTimestampStart;
+    private float co2;
+    private View.OnClickListener mNotificationListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Navigator.launchTripEnd(MapGoogleFragment.this, co2);
+        }
+    };
 
     /* Map */
     private int mapRadius;
@@ -177,6 +188,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private List<String> drawableAnimGreenArray;
     //private int[] drawableAnimYellowArray = new int[]{R.drawable.autopulse0001, R.drawable.autopulse0002, R.drawable.autopulse0003, R.drawable.autopulse0004, R.drawable.autopulse0005, R.drawable.autopulse0006, R.drawable.autopulseyellow0007, R.drawable.autopulseyellow0008, R.drawable.autopulseyellow0009, R.drawable.autopulseyellow0010, R.drawable.autopulseyellow0011, R.drawable.autopulseyellow0012, R.drawable.autopulseyellow0013, R.drawable.autopulseyellow0014, R.drawable.autopulseyellow0015, R.drawable.autopulseyellow0016, R.drawable.autopulseyellow0017, R.drawable.autopulseyellow0018, R.drawable.autopulseyellow0019, R.drawable.autopulseyellow0020 };
     private List<String> drawableAnimYellowArray;
+    private float currentRotation;
 
     @BindView(R.id.mapView)
     FrameLayout mMapContainer;
@@ -253,6 +265,33 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @BindView(R.id.distanceView)
     ViewGroup distanceView;
 
+    @BindView(R.id.expiringTimeTextView)
+    TextView expiringTimeTextView;
+
+    @BindView(R.id.tripDurationTextView)
+    TextView tripDurationTextView;
+
+    @BindView(R.id.userPinTextView)
+    TextView userPinTextView;
+
+    @BindView(R.id.bookingPlateTextView)
+    TextView bookingPlateTextView;
+
+    @BindView(R.id.bookingTitleTextView)
+    TextView bookingTitleTextView;
+
+    @BindView(R.id.bookingAddressTextView)
+    TextView bookingAddressTextView;
+
+    @BindView(R.id.timeIconImageView)
+    ImageView timeIconImageView;
+
+    @BindView(R.id.bookingCarView)
+    RelativeLayout bookingCarView;
+
+    @BindView(R.id.openButtonBookingView)
+    ViewGroup openButtonBookingView;
+
     public static MapGoogleFragment newInstance(int type) {
         MapGoogleFragment fragment = new MapGoogleFragment();
         Bundle args = new Bundle();
@@ -281,6 +320,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         isTripStart = false;
         prevLocationDisabled = false;
         mapRadius = 0;
+        tripTimestampStart = 0;
+        co2 = 0f;
+        currentRotation = 0f;
         drawableAnimGreenArray = new ArrayList<>();
         drawableAnimYellowArray = new ArrayList<>();
         for(int i = 0; i <= NUM_ANIM; i++){
@@ -370,6 +412,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
+
+                CameraPosition oldPos = mMap.getCameraPosition();
+                setRotationButton(oldPos.bearing);
+
 
                 refreshMapButton.startAnimation(anim);
                 refreshCars();
@@ -735,23 +781,35 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void onCircleMenuClick(int i){
         switch (i){
             case 0: //Compass
-                //onOrientationMap();
+                onOrientationMap();
                 break;
             case 1: //Center
-                //onCenterMap();
+                onCenterMap();
                 break;
             case 2: //Refresh
-                //onRefreshMap();
+                onRefreshMap();
                 ad.animationRefresh = true;
-                //circularLayout.init();
+                circularLayout.init();
                 break;
             case 3: //Car
-                //onShowCarOnMapClick();
+                onShowCarOnMapClick();
                 if(ad.carAlpha) ad.carAlpha = false;
                 else ad.carAlpha = true;
-                //circularLayout.init();
+                circularLayout.init();
                 break;
         }
+    }
+
+    private void refreshMap(){
+        if(getMapRadius() < 35000) {
+            refreshMapButton.startAnimation(anim);
+            mPresenter.refreshCars(getActivity(), (float) mMap.getCameraPosition().target.latitude, (float) mMap.getCameraPosition().target.longitude, getFixMapRadius());
+        }
+    }
+
+    private void setRotationButton(float rotation){
+
+        orientationMapButton.setRotation(-rotation);
     }
 
 
@@ -812,8 +870,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public boolean onMarkerClick(com.androidmapsextensions.Marker marker) {
 
-        //Log.w("Marker CLASS",": "+marker.getData().getClass());
-
         if(marker != null && marker.getData() != null) {
 
             //City
@@ -864,6 +920,18 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private int getFixMapRadius(){
         //return 700000;
         return getMapRadius();
+    }
+
+    //Metodo per resettare l'orientamento della mappa se l'utente l'ha ruotata
+    private void orientationMap(){
+
+        CameraPosition oldPos = mMap.getCameraPosition();
+        CameraPosition pos = CameraPosition.builder(oldPos).bearing(0.0f).build();
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos));
+
+        orientationMapButton.setRotation(0.0f);
+
+        //setRotationButton(0.0f);
     }
 
     //Recupero il centro della mappa
@@ -1075,6 +1143,7 @@ markers.add(marker);
             //Creo il marker
             MarkerOptions markerCar = new MarkerOptions().position(new LatLng(carSelected.latitude, carSelected.longitude));
             markerCar.icon(getBitmapDescriptor(R.drawable.autopulse0001));
+            poiMarkersToAdd.add(markerCar);
 
             com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
             poiMarkers.add(myMarker);
@@ -1090,7 +1159,7 @@ markers.add(marker);
 
         removeMarkers(poiMarkers);
 
-        setMarkerAnimation();
+        //setMarkerAnimation();
     }
 
     //Metodo richiamato quando si preme sul pin di un macchina
@@ -1165,7 +1234,7 @@ markers.add(marker);
                         @Override
                         public void run() {
 
-                            if(getActivity() != null) {
+                            if(getActivity() != null && showCarsWithFeeds) {
 
                                 List<String> drawableAnimArray = null;
 
@@ -1202,6 +1271,39 @@ markers.add(marker);
         }
     }
 
+    private void showCarOnMapClick(){
+        //Non posso nascondere le macchine se c'è attiva prenotazione / corsa
+        if(isBookingCar || isTripStart){
+
+            //maps_hidecars_alert EEA
+
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(R.string.maps_hidecars_alert),
+                    getString(R.string.ok),
+                    null);
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                }
+            });
+
+        }
+        else {
+            if (showCarsWithFeeds) {
+                showCarsWithFeeds = false;
+                carFeedMapButton.setAlpha(.4f);
+                hidePoiMarkers();
+            } else {
+                showCarsWithFeeds = true;
+                carFeedMapButton.setAlpha(1.0f);
+
+                if(getMapRadius() < 35000)
+                    showPoiMarkers();
+            }
+        }
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -1467,6 +1569,14 @@ markers.add(marker);
         }
     }
 
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Booking
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     //Metodo per verificare se è possibile prenotare la macchina (utente autenticato)
     private void checkBookingCar(){
         if(mPresenter.isAuth())
@@ -1481,13 +1591,256 @@ markers.add(marker);
         mPresenter.bookingCar(carSelected, getContext());
     }
 
+    //Metodo per mostrare le informazioni sulla prenotazione
+    private void reservationInfo(Car mCar, Reservation mReservation){
+        isBookingCar = true;
+
+        carSelected = mCar;
+        reservation = mReservation;
+
+        removeMarkers(poiMarkers);
+
+        //Aggiungo la macchina
+        MarkerOptions markerCar = new MarkerOptions().position(new LatLng(mCar.latitude, mCar.longitude));
+        markerCar.icon(getBitmapDescriptor(R.drawable.autopulse0001));
+        markerCar.data(mCar);
+        poiMarkersToAdd.add(markerCar);
+
+        com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
+        poiMarkers.add(myMarker);
+
+
+        carbookingMarker = myMarker;
+
+        moveMapCameraToPoitWithZoom((double) carSelected.latitude, (double) carSelected.longitude, 17);
+
+        setMarkerAnimation();
+
+        onClosePopup();
+        openViewBookingCar();
+    }
+
+
+    //Visualizzio le informazioni della prenotazione
+    private void openViewBookingCar(){
+
+        int pinUser = mPresenter.getUser().userInfo.pin;
+        String plateBooking = carSelected.id;
+        String addressBooking = getAddress(carSelected.latitude, carSelected.longitude);
+        String timingBookin = "";
+
+
+        if(reservation != null){
+
+            long unixTime = System.currentTimeMillis() / 1000L;
+            int diffTime = (int) (unixTime - reservation.timestamp_start);
+
+            countDownTimer = new CountDownTimer((reservation.length - diffTime) * 1000, 1000) {
+
+                public void onTick(long millisUntilFinished) {
+
+                    int mn = (int) (millisUntilFinished / 1000 / 60);
+                    int sec = (int) (millisUntilFinished / 1000 % 60);
+                    String mnStr = (mn<10 ? "0" : "")+mn;
+                    String secStr = (sec<10 ? "0" : "")+sec;
+
+                    if(mnStr.equals("00") && secStr.equals("01")){
+                        removeReservationInfo();
+                        countDownTimer.cancel();
+                        return;
+                    }
+
+                    if(getActivity() != null)
+                        expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), mnStr+":"+secStr)));
+                    else if(countDownTimer != null) countDownTimer.cancel();
+                }
+
+                public void onFinish() {}
+            }.start();
+        }
+        if(isTripStart){
+
+            if (timerTripDuration != null) timerTripDuration.cancel();
+
+            timerTripDuration = new Timer();
+
+
+            timerTripDuration.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if(getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                long unixTime = System.currentTimeMillis() / 1000L;
+                                int diffTime = (int) (unixTime - tripTimestampStart) * 1000;
+                                Log.w("unixTime", ": " + unixTime);
+                                Log.w("diffTime", ": " + diffTime);
+
+                                int hh = (int) (diffTime / 1000 / 60 / 60);
+                                int mn = (int) (diffTime / 1000 / 60 % 60);
+                                int sec = (int) (diffTime / 1000 % 60);
+                                String hhStr = (hh < 10 ? "0" : "") + hh;
+                                String mnStr = (mn < 10 ? "0" : "") + mn;
+                                String secStr = (sec < 10 ? "0" : "") + sec;
+
+
+                                if (getActivity() != null)
+                                    tripDurationTextView.setText(hhStr + ":" + mnStr + ":" + secStr);
+                                else if (countDownTimer != null) countDownTimer.cancel();
+
+                            }
+                        });
+                    }
+                }
+            }, 1000, 1000);
+        }
+        //----
+
+        //Popolo le informazioni
+        userPinTextView.setText(String.format(getString(R.string.booking_userpin_label), ""+pinUser));
+        bookingPlateTextView.setText(String.format(getString(R.string.booking_plate_label), plateBooking));
+
+
+        if(isTripStart){
+            bookingTitleTextView.setText(getString(R.string.booking_tripactive_label));
+            bookingAddressTextView.setText(getString(R.string.booking_durationtrip_label));
+            timeIconImageView.setImageDrawable(getIconMarker(R.drawable.ic_time_2));
+        }else{
+            bookingTitleTextView.setText(getString(R.string.booking_active_label));
+            bookingAddressTextView.setText(addressBooking);
+            expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), timingBookin)));
+            timeIconImageView.setImageDrawable(getIconMarker(R.drawable.ic_time));
+        }
+
+        //Apro le informazioni
+        bookingCarView.setVisibility(View.VISIBLE);
+
+
+        //Verifico se la corsa è iniziata: nel caso nascondo le informazioni non necessarie
+        if(isTripStart){
+            expiringTimeTextView.setVisibility(View.GONE);
+            tripDurationTextView.setVisibility(View.VISIBLE);
+            openButtonBookingView.setVisibility(View.GONE);
+        }else{
+            expiringTimeTextView.setVisibility(View.VISIBLE);
+            tripDurationTextView.setVisibility(View.GONE);
+        }
+
+
+        for(com.androidmapsextensions.Marker marker : poiMarkers){
+            if(((Car) marker.getData()).id.equals(plateBooking)){
+                carbookingMarker = marker;
+            }
+        }
+
+        carFeedMapButton.setAlpha(1.0f);
+    }
+
+    //Metodo chiamato quando l'utente decide di annullare la prenotazione
+    private void deleteBooking(){
+        //Chiedo conferma all'utente se vuole eliminare la prenotazione della macchina
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.booking_delete_alert),
+                getString(R.string.ok),
+                getString(R.string.cancel));
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                mPresenter.deleteBookingCar(reservation.id);
+            }
+        });
+    }
+
+    //Nasconde le informazioni della prenotazione
+    private void closeViewBookingCar(){
+
+        //Nascondo le informazioni della prenotazione cancellata
+        if(bookingCarView != null)
+            bookingCarView.setVisibility(View.GONE);
+
+        //Tolgo l'animazione al pin
+        setMarkerAnimation();
+    }
+
+    //Metodo quando arriva dal server la conferma che la prenotaizone è stata annullata
+    private void confirmDeletedCar(){
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.booking_deleteconfirm_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                isBookingCar = false;
+                closeViewBookingCar();
+            }
+        });
+    }
+
+    //Metodo per nascondere le informazioni delle prenotazione
+    private void hideReservationInfo(){
+        isBookingCar = false;
+        carSelected = null;
+        closeViewBookingCar();
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
-    //                                              Booking
+    //                                              Trip
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //Metodo richiamato quando c'è una corsa attiva e occorre mostrare la grafica
+    private void tripInfo(final Car car, int timestamp_start){
+        isTripStart = true;
+        tripTimestampStart = timestamp_start;
+        carSelected = car;
 
+        removeMarkers(poiMarkers);
+
+
+        //Aggiungo la macchina
+        MarkerOptions markerCar = new MarkerOptions().position(new LatLng(car.latitude, car.longitude));
+        markerCar.icon(getBitmapDescriptor(R.drawable.autopulse0001));
+        markerCar.data(car);
+        poiMarkersToAdd.add(markerCar);
+
+        com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
+        poiMarkers.add(myMarker);
+
+
+        carbookingMarker = myMarker;
+
+
+        moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 17);
+
+
+        setMarkerAnimation();
+
+        openViewBookingCar();
+    }
+
+    //Metodo richiamato per togliere tutte le informazioni della corsa attiva
+    private void hideTripInfo(){
+        isTripStart = false;
+        isBookingCar = false;
+        carSelected = null;
+        closeViewBookingCar();
+    }
+
+    private void showNotification(int start, int end){
+        int diffTime = (int) (end - start);
+
+        co2 = ((float) diffTime)/60/60*17*106;  //((minuti÷60)×17)×106
+
+        ((MapActivity) getActivity()).showNotification(String.format(getString(R.string.tripend_notification_label), diffTime/60), mNotificationListener);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -1538,6 +1891,30 @@ markers.add(marker);
         startSpeechToText();
     }
 
+    @OnClick(R.id.deleteBookingButton)
+    public void onDeleteBookingButton(){
+        deleteBooking();
+    }
+
+    @OnClick(R.id.refreshMapButtonView)
+    public void onRefreshMap() {
+        refreshMap();
+    }
+
+    @OnClick(R.id.centerMapButtonView)
+    public void onCenterMap() {
+        centerMap();
+    }
+
+    @OnClick(R.id.orientationMapButtonView)
+    public void onOrientationMap() {
+        orientationMap();
+    }
+
+    @OnClick(R.id.carFeedMapButtonView)
+    public void onShowCarOnMapClick() {
+        showCarOnMapClick();
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -1571,57 +1948,57 @@ markers.add(marker);
 
     @Override
     public void showConfirmDeletedCar() {
-
+        confirmDeletedCar();
     }
 
     @Override
     public void showTripInfo(Car car, int timestamp_start) {
-
+        tripInfo(car, timestamp_start);
     }
 
     @Override
     public void setTripInfo(Trip trip) {
-
+        //Non popolare - metodo da rimuovere
     }
 
     @Override
     public void removeTripInfo() {
-
+        hideTripInfo();
     }
 
     @Override
     public void showReservationInfo(Car mCar, Reservation mReservation) {
-
+        reservationInfo(mCar, mReservation);
     }
 
     @Override
     public void setReservationInfo(Car mCar, Reservation mReservation) {
-
+        //Non popolare - metodo da rimuovere
     }
 
     @Override
     public void removeReservationInfo() {
-
+        hideReservationInfo();
     }
 
     @Override
     public void openTripEnd(int timestamp) {
-
+        Navigator.launchTripEnd(this, timestamp);
     }
 
     @Override
     public void openNotification(int start, int end) {
-
+        showNotification(start, end);
     }
 
     @Override
     public void openReservationNotification() {
-
+        ((MapGoogleActivity) getActivity()).showNotification(getString(R.string.booking_timeend_label), null);
     }
 
     @Override
     public void openPreselectedCarPopup(Car car) {
-
+        carPreSelected = car;
     }
 
     @Override
