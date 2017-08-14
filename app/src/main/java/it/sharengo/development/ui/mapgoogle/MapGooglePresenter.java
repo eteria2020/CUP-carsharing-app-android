@@ -87,6 +87,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private ResponseReservation mResponseReservation;
     private Reservation mReservation;
     private List<Car> mPlates;
+    public List<Car> mCachedPlates;
     private List<Address> mAddress;
     private List<SearchItem> mSearchItems;
     private List<SearchItem> historicItems;
@@ -507,7 +508,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        checkResult();
+                        //checkResult();
+                        getMvpView().setNextCar(mResponse.data);
                     }
                 });
     }
@@ -526,7 +528,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             }
 
             @Override
-            public void onNext(Response responseList) {}
+            public void onNext(Response responseList) {
+
+                if(responseList.reason.isEmpty()){
+                    mCachedPlates = mResponse.data;
+                }
+
+            }
         };
     }
 
@@ -687,7 +695,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     public void getSearchItems(String searchText, Context context, SharedPreferences mPrefs) {
         hideLoading = true;
-        Log.w("SEARC","getSearchItems");
+
         if( mFindSearchRequest == null) {
             mFindSearchRequest = buildFindSearchRequest(searchText, context, mPrefs);
             addSubscription(mFindSearchRequest.unsafeSubscribe(getFindSearchSubscriber(context, mPrefs)));

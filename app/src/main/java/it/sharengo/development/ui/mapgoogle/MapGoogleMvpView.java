@@ -31,4 +31,5 @@ public interface MapGoogleMvpView extends MvpMapView {
     void openPreselectedCarPopup(Car car);
     void showCity(List<City> cityList);
     void setFeedInters();
+    void setNextCar(List<Car> carsList);
 }

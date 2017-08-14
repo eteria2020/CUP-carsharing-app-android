@@ -532,8 +532,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(45.510349);
-        //userLocation.setLongitude(9.093254);
+        userLocation.setLatitude(45.510349);
+        userLocation.setLongitude(9.093254);
 
         //First time
         if (!hasInit){
@@ -1122,9 +1122,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Metodo per predisporre i pin che dovranno poi essere disegnati sulla mappa
     private void showCarsOnMap(List<Car> carsList){
 
-        //Trovo la macchina più vicina a me
-        carnext_id = findNextCar(carsList);
-
         //Rimuovo i marker dalla mappa
         if(poiMarkers != null)
             removeMarkers(poiMarkers);
@@ -1181,9 +1178,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             poiMarkers.add(myMarker);
 
             Car car = (Car) markerCar.getData();
-            if(car.id.equals(carnext_id)){
+            /*if(car.id.equals(carnext_id)){
                 carnextMarker = myMarker;
-            }
+            }*/
 
             //Verifico se è attiva una prenotazione e se la targa dell'overley corrisponde a quella della macchina prenotata
             if(isBookingCar || isTripStart){
@@ -1206,6 +1203,19 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             poiMarkers.add(myMarker);
 
             carbookingMarker = myMarker;
+        }
+
+        //Ciclo i marker disegnati per trovare l'auto vicina
+        if(poiMarkers != null && poiMarkers.size() > 0){
+            for(com.androidmapsextensions.Marker markerNext : poiMarkers){
+                if(((Car) markerNext.getData()).id.equals(carnext_id)){
+                    carnextMarker = markerNext;
+                }
+            }
+
+            setMarkerAnimation();
+        }else{
+            carnextMarker = null;
         }
 
         setMarkerAnimation();
@@ -1253,11 +1263,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     //Metodo utilizzato per trovare la macchina più vicina alla posizione dell'utente
-    private String findNextCar(List<Car> carsList){
+    private void findNextCar(List<Car> carsList){
 
         String car_id = "";
         float distance = 10000000000000000000000.0f;
-
 
         if(userLocation != null) {
 
@@ -1273,7 +1282,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             }
         }
 
-        return car_id;
+        carnext_id = car_id;
     }
 
     //Animazione del maker più vicino
@@ -1291,7 +1300,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         @Override
                         public void run() {
 
-                            if(getActivity() != null && showCarsWithFeeds) {
+                            if(getActivity() != null && (!mPresenter.isFeeds || showCarsWithFeeds)) {
 
                                 List<String> drawableAnimArray = null;
 
@@ -1311,8 +1320,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                                     if (carbookingMarker != null)
                                         carbookingMarker.setIcon(getBitmapDescriptor(R.drawable.ic_auto));
-                                    if (carnextMarker != null)
-                                        carnextMarker.setIcon(getBitmapDescriptor(resizeMapIcons(drawableAnimArray.get(currentDrawable), 500, 500)));
+                                    if (carnextMarker != null) {
+
+                                        try {
+                                            carnextMarker.setIcon(getBitmapDescriptor(resizeMapIcons(drawableAnimArray.get(currentDrawable), 500, 500)));
+                                        }catch (NullPointerException e){
+                                            carnextMarker = null;
+                                        }
+
+                                    }
                                 }
 
 
@@ -2073,6 +2089,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void setFeedInters() {
 
+    }
+
+    @Override
+    public void setNextCar(List<Car> carsList){
+        findNextCar(carsList);
     }
 
 
