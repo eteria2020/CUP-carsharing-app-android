@@ -52,7 +52,7 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
     @Override
     public void onNewLocation(Location location) {
         if (mMap != null) {
-            mMap.setMyLocationEnabled(true);
+            mMap.setMyLocationEnabled(false);
             mMap.setOnMyLocationChangeListener(this);
         }
     }
@@ -102,7 +102,7 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
 
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(getActivity(), "android.permission.ACCESS_FINE_LOCATION");
         if (hasFineLocationPermission == 0) {
-            mMap.setMyLocationEnabled(true);
+            mMap.setMyLocationEnabled(false);
             mMap.setOnMyLocationChangeListener(this);
 
             if (mHdxActivityLocationHelper.getLastLocation() != null) {

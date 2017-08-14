@@ -176,6 +176,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     /* Map */
     private int mapRadius;
+    private com.androidmapsextensions.Marker userMarker;
     private List<com.androidmapsextensions.Marker> poiMarkers;
     private List<MarkerOptions> poiMarkersToAdd;
     private List<com.androidmapsextensions.Marker> feedsMarker;
@@ -445,13 +446,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void onMyLocationChange(Location location) {
 
-        locationChange(location);
 
-        if(prevLocationDisabled && !isTripStart && !isBookingCar && userLocation != null){
-            moveMapCameraTo(location.getLatitude(), location.getLongitude());
-        }
-
-        prevLocationDisabled = false;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -463,7 +458,19 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     public void onLocationChanged(Location location) {
         //mPresenter.onLocationIsReady(location.getLatitude(), location.getLongitude());
 
+        locationChange(location);
+
+        if(prevLocationDisabled && !isTripStart && !isBookingCar && userLocation != null){
+            moveMapCameraTo(location.getLatitude(), location.getLongitude());
+        }
+
+        //markerUser
+        drawUserMarker();
+
+        prevLocationDisabled = false;
+
     }
+
 
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -492,6 +499,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             providerDisabled();
 
         enabledCenterMap(false);
+
     }
 
     private void providerDisabled(){
@@ -516,14 +524,16 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         hasInit = true;
+
+        if(userMarker != null) userMarker.remove();
     }
 
     private void locationChange(Location location){
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(45.510349);
-        userLocation.setLongitude(9.093254);
+        //userLocation.setLatitude(45.510349);
+        //userLocation.setLongitude(9.093254);
 
         //First time
         if (!hasInit){
@@ -726,7 +736,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void setSearchDefaultContent(){
-        Log.w("SEARC","setSearchDefaultContent");
+
         //Mostro preferiti + storisco nella view dei risultati (solo se l'utente è loggato)
         if(mPresenter.isAuth())
             mPresenter.getSearchItems("", getContext(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
@@ -884,6 +894,19 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    private void drawUserMarker(){
+
+        if(userMarker != null) userMarker.remove();
+
+        if(userLocation != null){
+            com.androidmapsextensions.Marker mMarkerUser = mMap.addMarker(new MarkerOptions().position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude())));
+            mMarkerUser.setIcon(getBitmapDescriptor(R.drawable.ic_user));
+            mMarkerUser.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
+            userMarker = mMarkerUser;
+        }
+
+    }
+
     private void refreshCars(){
 
 
@@ -894,6 +917,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(mapRadius > 35000){
 
             carnextMarker = null;
+
+            if(userMarker != null) userMarker.remove();
 
             if(poiMarkers != null)
                 removeMarkers(poiMarkers);
@@ -910,6 +935,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
 
         }else {
+
+            drawUserMarker();
 
             if(poiCityMarkers != null)  removeMarkers(poiCityMarkers);
 
@@ -1059,52 +1086,17 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             poiCityMarkers.add(markerCity);
 
-            /*
-            * Marker marker = myMap.addMarker(new MarkerOptions().position(new LatLng(geo1Dub,geo2Dub))); //...
-markers.add(marker);
-            * */
-            /*
-            * //Setto il marker
-            final GeoPoint geoPoint = new GeoPoint(cA.informations.address.latitude, cA.informations.address.longitude);
-            Marker markerCarCity = new Marker(mMapView);
-            markerCarCity.setPosition(geoPoint);
-            //markerCarCity.setIcon(getIconMarker(R.drawable.ic_cluster));
-            markerCarCity.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            //Listener
-            markerCarCity.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(Marker marker, MapView mapView) {
-
-                    if(poiCityMarkers != null)
-                        mMapView.getOverlays().remove(poiCityMarkers);
-
-                    mMapView.invalidate();
-
-                    mMapView.getController().setCenter(geoPoint);
-                    mMapView.getController().setZoom(11);
-                    mMapView.invalidate();
-
-                    //refreshCars();
-
-
-                    return true;
-                }
-            });
-            *
-            *
-            * */
-
 
             //Disegno i componenti grafici
             final com.androidmapsextensions.Marker finalMarkerCarCity = markerCity;
             Target target = new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    Log.w("finalMarkerCarCity",": "+finalMarkerCarCity);
-                    finalMarkerCarCity.setIcon(getBitmapDescriptor(makeBasicMarker(bitmap)));
-                    //Aggiungo all'array
-                    //poiCityMarkers.add(finalMarkerCarCity);
-                    //mMapView.invalidate();
+
+                    try {
+                        finalMarkerCarCity.setIcon(getBitmapDescriptor(makeBasicMarker(bitmap)));
+                    }catch (NullPointerException e){}
+
                 }
 
                 @Override
@@ -1740,8 +1732,6 @@ markers.add(marker);
 
                                 long unixTime = System.currentTimeMillis() / 1000L;
                                 int diffTime = (int) (unixTime - tripTimestampStart) * 1000;
-                                Log.w("unixTime", ": " + unixTime);
-                                Log.w("diffTime", ": " + diffTime);
 
                                 int hh = (int) (diffTime / 1000 / 60 / 60);
                                 int mn = (int) (diffTime / 1000 / 60 % 60);
