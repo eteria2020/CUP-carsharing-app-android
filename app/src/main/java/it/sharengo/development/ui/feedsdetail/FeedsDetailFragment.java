@@ -238,7 +238,7 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
         }else{
             feedAdvantageBottomTextView.setText(feed.informations.advantage_bottom);
 
-            if(feed.appearance.color.enforce.equals("true"))
+            if(feed.appearance.color.enforce != null && feed.appearance.color.enforce.equals("true"))
                 feedAdvantageBottomTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
         }
 

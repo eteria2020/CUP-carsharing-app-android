@@ -136,13 +136,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     @Override
     protected void restoreDataOnConfigurationChange() {
-
+        startTimer();
     }
 
 
     @Override
     protected void subscribeRequestsOnResume() {
-
+        getMvpView().setFeedInters();
     }
 
     @Override

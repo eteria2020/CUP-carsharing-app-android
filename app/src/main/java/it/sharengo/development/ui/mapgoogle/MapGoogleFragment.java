@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -67,6 +69,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 import com.squareup.picasso.Picasso;
@@ -75,6 +79,7 @@ import com.squareup.picasso.Target;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -99,6 +104,7 @@ import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.ui.map.MapActivity;
 import it.sharengo.development.ui.map.MapFragment;
 import it.sharengo.development.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
+import it.sharengo.development.utils.ImageUtils;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -126,6 +132,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     /* Feeds */
     private boolean showCarsWithFeeds;
+    private Feed feedSelected;
 
     /* Search */
     private final int SPEECH_RECOGNITION_CODE = 1;
@@ -295,6 +302,46 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @BindView(R.id.openButtonBookingView)
     ViewGroup openButtonBookingView;
+
+    @BindView(R.id.feedImageView)
+    ImageView feedImageView;
+
+    @BindView(R.id.feedAdvantageTextView)
+    TextView feedAdvantageTextView;
+
+    @BindView(R.id.feedTriangleView)
+    ViewGroup feedTriangleView;
+
+    @BindView(R.id.feedTriangleImageView)
+    ImageView feedTriangleImageView;
+
+    @BindView(R.id.feedOverlayView)
+    View feedOverlayView;
+
+    @BindView(R.id.feedIconImageView)
+    ImageView feedIconImageView;
+
+    @BindView(R.id.feedIntersImageView)
+    ImageView feedIntersImageView;
+
+    @BindView(R.id.feedLaunchTitleTextView)
+    TextView feedLaunchTitleTextView;
+
+    @BindView(R.id.feedDateTextView)
+    TextView feedDateTextView;
+
+    @BindView(R.id.feedTitleTextView)
+    TextView feedTitleTextView;
+
+    @BindView(R.id.feedLocationTextView)
+    TextView feedLocationTextView;
+
+    @BindView(R.id.feedAdvantageBottomTextView)
+    TextView feedAdvantageBottomTextView;
+
+    @BindView(R.id.popupFeedView)
+    View popupFeedView;
+
 
     public static MapGoogleFragment newInstance(int type) {
         MapGoogleFragment fragment = new MapGoogleFragment();
@@ -978,6 +1025,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             if (marker.getData().getClass().equals(Car.class)) {
 
                 onTapMarker((Car) marker.getData());
+
+            }
+
+            //Feed
+            if (marker.getData().getClass().equals(Feed.class)) {
+
+                onTapFeedMarker((Feed) marker.getData());
 
             }
         }else{ //Cluster
@@ -1923,6 +1977,198 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
+    //                                              Feeds
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private void showFeedsOnMap(List<Feed> feedsList){
+
+        if(feedsMarker != null)
+            removeMarkers(feedsMarker);
+
+        feedsMarker = new ArrayList<>();
+
+        for(final Feed feed : feedsList){
+
+            //Creo il marker
+            com.androidmapsextensions.Marker markerFeed = mMap.addMarker(new MarkerOptions().position(new LatLng(feed.informations.address.latitude, feed.informations.address.longitudef)));
+            markerFeed.setIcon(getBitmapDescriptor(R.drawable.ic_cluster));
+            markerFeed.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
+            markerFeed.setData(feed);
+
+            feedsMarker.add(markerFeed);
+
+
+
+            //Disegno i componenti grafici
+            final com.androidmapsextensions.Marker finalMarkerFeed = markerFeed;
+            Target target = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+
+                    try {
+                        finalMarkerFeed.setIcon(getBitmapDescriptor(bitmap));
+                    }catch (NullPointerException e){}
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                }
+            };
+
+            int markerWidth = (int) (38 * getResources().getDisplayMetrics().density);
+            int markerHeight = (int) (46 * getResources().getDisplayMetrics().density);
+
+            String feedMarkerIconUri = feed.category.media.images.marker.uri;
+
+            if(feed.informations.sponsored.equals("true")){
+                markerWidth = (int) (46 * getResources().getDisplayMetrics().density);
+                markerHeight = (int) (55 * getResources().getDisplayMetrics().density);
+
+                feedMarkerIconUri = feed.media.images.icon.uri;
+            }
+
+            Picasso.with(getActivity()).load(feedMarkerIconUri).resize(markerWidth, markerHeight).into(target);
+
+            markerFeed.setTag(target);
+
+        }
+
+        //Stop sull'animazione del pulsante di refresh
+        anim.cancel();
+        if(mPresenter.isFeeds){
+            ad.animationRefresh = false;
+            circularLayout.init();
+        }
+    }
+
+    private void closeFeedPopup(){
+        feedSelected = null;
+        popupFeedView.animate().translationY(popupFeedView.getHeight());
+    }
+
+    private void feedBookingClick(){
+        if(carNext != null && userLocation != null) {
+
+            if(!showCarsWithFeeds)
+                showPoiMarkers();
+
+            showCarsWithFeeds = true;
+
+            onCloseFeedPopup();
+
+            moveMapCameraToPoitWithZoom((double) carNext.latitude, (double) carNext.longitude, 17);
+            showPopupCar(carNext);
+        }else{
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(R.string.maps_permissionlocation_alert),
+                    getString(R.string.ok),
+                    getString(R.string.cancel));
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                    openSettings();
+                }
+            });
+        }
+    }
+
+    private void onTapFeedMarker(Feed feed){
+
+        feedSelected = feed;
+
+        //Zoom sulla mappa
+        moveMapCameraToPoitWithZoom((double) feed.informations.address.latitude, (double) feed.informations.address.longitudef, 17);
+
+        //Immagine copertina
+        ImageUtils.loadImage(feedImageView, feed.media.images.image.uri);
+
+        //Overlay copertina
+        feedOverlayView.setBackgroundColor(Color.parseColor(feed.appearance.color.rgb));
+
+        //Advantage
+        feedTriangleImageView.setColorFilter(Color.parseColor(feed.appearance.color.rgb));
+        if(feed.informations.advantage_top.isEmpty()) {
+            feedTriangleView.setVisibility(View.GONE);
+        }else {
+            feedTriangleView.setVisibility(View.VISIBLE);
+            feedAdvantageTextView.setText(feed.informations.advantage_top);
+        }
+
+        //Icona
+        ImageUtils.loadImage(feedIconImageView, feed.category.media.images.icon.uri);
+        GradientDrawable backgroundShape = (GradientDrawable) feedIconImageView.getBackground();
+        backgroundShape.setColor(Color.parseColor(feed.appearance.color.rgb));
+
+        //Data
+        feedDateTextView.setText(feed.informations.date.friendly);
+
+        //Launch title
+        if(feed.informations.launch_title.isEmpty()){
+            feedLaunchTitleTextView.setVisibility(View.GONE);
+        }else{
+            feedLaunchTitleTextView.setVisibility(View.VISIBLE);
+            feedLaunchTitleTextView.setText(feed.informations.launch_title);
+            feedLaunchTitleTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
+        }
+
+        //Titolo
+        feedTitleTextView.setText(feed.title);
+
+        //Location
+        feedLocationTextView.setText(feed.informations.location + ", " +  feed.informations.address.friendly +  ", " + feed.informations.city.name);
+
+        //Advantage bottom
+        if(feed.informations.advantage_bottom.isEmpty()){
+            feedAdvantageBottomTextView.setVisibility(View.GONE);
+        }else{
+            feedAdvantageBottomTextView.setVisibility(View.VISIBLE);
+            feedAdvantageBottomTextView.setText(feed.informations.advantage_bottom);
+
+            if(feed.informations.sponsored.equals("true"))
+                feedAdvantageBottomTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
+            else
+                feedAdvantageBottomTextView.setTextColor(ContextCompat.getColor(getActivity(), R.color.taupegray));
+        }
+
+        //Mi interessa
+        setFeedInters();
+
+        // Animazione
+        popupFeedView.setVisibility(View.VISIBLE);
+        popupFeedView.animate().translationY(0);
+    }
+
+    private void feedInters(){
+        if(feedSelected != null) {
+            SharedPreferences mPref = getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+            Type fooType = new TypeToken<List<String>>() {
+            }.getType();
+            Gson gson = new Gson();
+            List<String> feedsInterested = (ArrayList<String>) gson.fromJson(mPref.getString(getString(R.string.preference_feeds), "[]"), fooType);
+
+            boolean isInters = false;
+            for (String feed_id : feedsInterested) {
+                if (feed_id.equals(feedSelected.id)) {
+                    isInters = true;
+                }
+            }
+
+            if (isInters) {
+                feedIntersImageView.setVisibility(View.VISIBLE);
+            } else {
+                feedIntersImageView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1930,6 +2176,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @OnClick(R.id.closePopupButton)
     public void onClosePopup() {
         closePopup();
+    }
+
+    //Quando l'utente preme il pulsante di chiusura del popup dei feeds
+    @OnClick(R.id.closeFeedPopupButton)
+    public void onCloseFeedPopup() {
+        closeFeedPopup();
     }
 
     @OnClick(R.id.openDoorButton)
@@ -1995,6 +2247,17 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         showCarOnMapClick();
     }
 
+    @OnClick(R.id.feedDiscoverButton)
+    public void onDiscoverClick(){
+        Navigator.launchFeedsDetail(this, feedSelected);
+    }
+
+
+    @OnClick(R.id.feedBookingButton)
+    public void onFeedBookingClick(){
+        feedBookingClick();
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Mvp Methods
@@ -2007,7 +2270,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void showFeeds(List<Feed> feedsList) {
-
+        showFeedsOnMap(feedsList);
     }
 
     @Override
@@ -2088,7 +2351,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void setFeedInters() {
-
+        feedInters();
     }
 
     @Override
