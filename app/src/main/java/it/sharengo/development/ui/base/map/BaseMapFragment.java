@@ -130,6 +130,13 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
         mMap.moveCamera(cu);
     }
 
+    public void zoomCarmeraIn(Double latitude, Double longitude){
+        LatLng latLng = new LatLng(latitude, longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        CameraUpdate cu = CameraUpdateFactory.zoomIn();
+        mMap.moveCamera(cu);
+    }
+
     @Override
     public void moveMapCameraTo(Double latitude, Double longitude) {
         LatLng latLng = new LatLng(latitude, longitude);
