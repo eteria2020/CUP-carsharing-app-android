@@ -158,7 +158,7 @@
     <string name="chronology_bookingn_label">Booking n. %s</string>
     <string name="chronology_minutes_label">%s minutes</string>
     <string name="chronology_date_label" formatted="false">%s - hours %s</string>
-    <string name="chronology_end_label" formatted="false">End: % - hours %s</string>
+    <string name="chronology_end_label" formatted="false">End: %s - hours %s</string>
     <string name="chronology_rate_label">Rate by the minute: %s</string>
     <string name="chronology_minfree_label">Free driving minutes used: %s</string>
     <string name="chronology_km_label">Kilometers traveled: %s</string>
