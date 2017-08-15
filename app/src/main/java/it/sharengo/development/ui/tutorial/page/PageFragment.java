@@ -4,11 +4,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.Locale;
 
 import it.sharengo.development.R;
 
@@ -52,30 +55,36 @@ public class PageFragment extends Fragment {
 
         ImageView slideImageView = (ImageView) rootView.findViewById(R.id.slideImageView);
 
+
+        String lang = Locale.getDefault().getLanguage();
+
+        if(!lang.equals("it")) lang = "en";
+
         switch (page){
             case 1:
-                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_01));
+                //lang
+                slideImageView.setImageDrawable(getIcon(getResources().getIdentifier("tutorial_01_"+lang, "drawable", getActivity().getPackageName())));
                 break;
             case 2:
-                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_02));
+                slideImageView.setImageDrawable(getIcon(getResources().getIdentifier("tutorial_02_"+lang, "drawable", getActivity().getPackageName())));
                 break;
             case 3:
-                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_03));
+                slideImageView.setImageDrawable(getIcon(getResources().getIdentifier("tutorial_03_"+lang, "drawable", getActivity().getPackageName())));
                 break;
             case 4:
-                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_04));
+                slideImageView.setImageDrawable(getIcon(getResources().getIdentifier("tutorial_04_"+lang, "drawable", getActivity().getPackageName())));
                 break;
             case 5:
-                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_05));
+                slideImageView.setImageDrawable(getIcon(getResources().getIdentifier("tutorial_05_"+lang, "drawable", getActivity().getPackageName())));
                 break;
             case 6:
-                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_06));
+                slideImageView.setImageDrawable(getIcon(getResources().getIdentifier("tutorial_06_"+lang, "drawable", getActivity().getPackageName())));
                 break;
             case 7:
-                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_07));
+                slideImageView.setImageDrawable(getIcon(getResources().getIdentifier("tutorial_07_"+lang, "drawable", getActivity().getPackageName())));
                 break;
             case 8:
-                slideImageView.setImageDrawable(getIcon(R.drawable.tutorial_08));
+                slideImageView.setImageDrawable(getIcon(getResources().getIdentifier("tutorial_08_"+lang, "drawable", getActivity().getPackageName())));
                 break;
         }
 

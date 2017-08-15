@@ -177,7 +177,7 @@
     <!-- Feeds -->
     <string name="feeds_feed_action">Feed</string>
     <string name="feeds_categories_action">Categories</string>
-    <string name="feeds_aroundme_action">Around me</string>
+    <string name="feeds_aroundme_action">See on the map</string>
     <string name="feeds_categorydisabled_alert">This category will be available soon</string>
     <string name="feeds_empty_title">Too bad!</string>
     <string name="feeds_empty_label">At the moment no content is available in your city. Please come back in the next few days </string>

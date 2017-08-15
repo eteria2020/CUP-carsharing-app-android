@@ -202,7 +202,7 @@
     <!-- Feeds -->
     <string name="feeds_feed_action">Feed</string>
     <string name="feeds_categories_action">Categorie</string>
-    <string name="feeds_aroundme_action">Intorno a me</string>
+    <string name="feeds_aroundme_action">Vedi in mappa</string>
     <string name="feeds_categorydisabled_alert">Questa categoria sarà disponibile prossimamente.</string>
     <string name="feeds_empty_title">Peccato!</string>
     <string name="feeds_empty_label">Al momento per la tua città non ci sono contenuti disponibili. Ti invitiamo a riprovare nei prossimi giorni</string>
