@@ -448,6 +448,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         catch (Exception ex){}
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        lm.removeUpdates(this);
+
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Map listener
