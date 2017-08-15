@@ -178,6 +178,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
         loadCarpopup();
 
+        Log.w("viewCreated","A");
         if(!mUserRepository.getCachedUser().username.isEmpty())
             getReservations(false);
 
@@ -993,7 +994,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     void getReservations(boolean refreshInfo){
-
+        Log.w("getReservations","A");
         if( mReservationsRequest == null) {
             mReservationsRequest = buildReservationsRequest(refreshInfo);
             addSubscription(mReservationsRequest.unsafeSubscribe(getReservationsSubscriber()));
@@ -1032,10 +1033,10 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private void checkReservationsResult(){
-
+        Log.w("checkReservationsResult","A");
         if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
+            Log.w("checkReservationsResult","B");
             loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
-
             isBookingExists = true;
         }else{
             //getMvpView().removeReservationInfo();
@@ -1066,7 +1067,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
     private Observable<ResponseCar> buildCarsReservationRequest(String plate) {
-
+        Log.w("plate",": "+plate);
         return mCarsReservationRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
@@ -1089,6 +1090,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             public void onError(Throwable e) {
                 mCarsReservationRequest = null;
                 //getMvpView().showError(e);
+                Log.w("onError",": "+e);
             }
 
             @Override
@@ -1127,7 +1129,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void loadCarsTrip(String plate) {
-
+        Log.w("loadCarsTrip","A");
         hideLoading = false;
 
         mCarsReservationRequest = null;
@@ -1160,6 +1162,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             public void onError(Throwable e) {
                 mCarsReservationRequest = null;
                 //getMvpView().showError(e);
+                Log.w("ERRORE",": "+e);
             }
 
             @Override

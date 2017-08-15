@@ -915,8 +915,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 break;
             case 3: //Car
                 onShowCarOnMapClick();
-                if(ad.carAlpha) ad.carAlpha = false;
-                else ad.carAlpha = true;
+                if(!isBookingCar && !isTripStart) {
+                    if (ad.carAlpha) ad.carAlpha = false;
+                    else ad.carAlpha = true;
+                }
                 circularLayout.init();
                 break;
         }
@@ -999,10 +1001,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Rimuovo un gruppo di marker dalla mappa
     private void removeMarkers(List<com.androidmapsextensions.Marker> markerList) {
-        for (com.androidmapsextensions.Marker marker: markerList) {
-            marker.remove();
+        if(markerList != null) {
+            for (com.androidmapsextensions.Marker marker : markerList) {
+                marker.remove();
+            }
+            markerList.clear();
         }
-        markerList.clear();
     }
 
     //Metodo richiamato quando viene eseguito il tap su un marker presente nella mappa
@@ -1186,10 +1190,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         poiMarkersToAdd = new ArrayList<>();
 
+
+
         for(final Car car : carsList){
             //Verifico che la macchina sia in status = operative
             if(car.status.equals("operative")) {
                 int icon_marker = R.drawable.ic_auto;
+
 
                 //Verifico se la vettura è la più vicina oppure se è una vettura prenotata
                 if(car.id.equals(carnext_id) || ((isBookingCar || isTripStart) && car.id.equals(carSelected.id))){
@@ -1225,16 +1232,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         poiMarkers = new ArrayList<>();
 
-        boolean bookedCarFind = false;
+       boolean bookedCarFind = false;
         for(MarkerOptions markerCar : poiMarkersToAdd){
             com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
             myMarker.setClusterGroup(ClusterGroup.DEFAULT);
             poiMarkers.add(myMarker);
 
             Car car = (Car) markerCar.getData();
-            /*if(car.id.equals(carnext_id)){
-                carnextMarker = myMarker;
-            }*/
 
             //Verifico se è attiva una prenotazione e se la targa dell'overley corrisponde a quella della macchina prenotata
             if(isBookingCar || isTripStart){
@@ -1251,6 +1255,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             //Creo il marker
             MarkerOptions markerCar = new MarkerOptions().position(new LatLng(carSelected.latitude, carSelected.longitude));
             markerCar.icon(getBitmapDescriptor(R.drawable.autopulse0001));
+            markerCar.data(carSelected);
             poiMarkersToAdd.add(markerCar);
 
             com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
@@ -1260,19 +1265,19 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //Ciclo i marker disegnati per trovare l'auto vicina
-        if(poiMarkers != null && poiMarkers.size() > 0){
-            for(com.androidmapsextensions.Marker markerNext : poiMarkers){
-                if(((Car) markerNext.getData()).id.equals(carnext_id)){
-                    carnextMarker = markerNext;
+          if(poiMarkers != null && poiMarkers.size() > 0){
+                for(com.androidmapsextensions.Marker markerNext : poiMarkers){
+                    if(((Car) markerNext.getData()).id.equals(carnext_id)){
+                        carnextMarker = markerNext;
+                    }
                 }
+
+                setMarkerAnimation();
+            }else{
+                carnextMarker = null;
             }
 
-            setMarkerAnimation();
-        }else{
-            carnextMarker = null;
-        }
-
-        setMarkerAnimation();
+          setMarkerAnimation();
     }
 
     //Metodo per nascondere i pin sulla mappa (richiamato in genere dal pulsante del menu radiale)
@@ -1354,7 +1359,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         @Override
                         public void run() {
 
-                            if(getActivity() != null && (!mPresenter.isFeeds || showCarsWithFeeds)) {
+                            if(getActivity() != null) {
 
                                 List<String> drawableAnimArray = null;
 
@@ -1367,13 +1372,25 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                 if (isBookingCar || isTripStart) {
 
                                     if (carbookingMarker != null)
-                                        carbookingMarker.setIcon(getBitmapDescriptor(resizeMapIcons(drawableAnimArray.get(currentDrawable), 500, 500)));
+                                        try {
+                                            carbookingMarker.setIcon(getBitmapDescriptor(resizeMapIcons(drawableAnimArray.get(currentDrawable), 500, 500)));
+                                        }catch (NullPointerException e){
+                                            carbookingMarker = null;
+                                        }
                                     if (carnextMarker != null)
-                                        carnextMarker.setIcon(getBitmapDescriptor(R.drawable.ic_auto));
+                                        try {
+                                            carnextMarker.setIcon(getBitmapDescriptor(R.drawable.ic_auto));
+                                        }catch (NullPointerException e){
+                                            carnextMarker = null;
+                                        }
                                 } else {
 
                                     if (carbookingMarker != null)
-                                        carbookingMarker.setIcon(getBitmapDescriptor(R.drawable.ic_auto));
+                                        try {
+                                            carbookingMarker.setIcon(getBitmapDescriptor(R.drawable.ic_auto));
+                                        }catch (NullPointerException e){
+                                            carbookingMarker = null;
+                                        }
                                     if (carnextMarker != null) {
 
                                         try {
@@ -1662,7 +1679,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Metodo per aprire le portiere
     private void openDoors(){
-
+        
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
@@ -1721,11 +1738,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Metodo per mostrare le informazioni sulla prenotazione
     private void reservationInfo(Car mCar, Reservation mReservation){
         isBookingCar = true;
+        ad.carAlpha = false;
+        circularLayout.init();
 
         carSelected = mCar;
         reservation = mReservation;
 
-        removeMarkers(poiMarkers);
+        //removeMarkers(poiMarkers);
+        if(poiMarkersToAdd == null) poiMarkersToAdd = new ArrayList<>();
+        if(poiMarkers == null) poiMarkers = new ArrayList<>();
 
         //Aggiungo la macchina
         MarkerOptions markerCar = new MarkerOptions().position(new LatLng(mCar.latitude, mCar.longitude));
@@ -1920,6 +1941,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         onClosePopup();
         isBookingCar = true;
+        ad.carAlpha = false;
+        circularLayout.init();
         openViewBookingCar();
     }
 
@@ -1935,7 +1958,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         tripTimestampStart = timestamp_start;
         carSelected = car;
 
-        removeMarkers(poiMarkers);
+        //removeMarkers(poiMarkers);
+        if(poiMarkersToAdd == null) poiMarkersToAdd = new ArrayList<>();
+        if(poiMarkers == null) poiMarkers = new ArrayList<>();
 
 
         //Aggiungo la macchina
@@ -2256,6 +2281,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @OnClick(R.id.feedBookingButton)
     public void onFeedBookingClick(){
         feedBookingClick();
+    }
+
+    @OnClick(R.id.openDoorBookingButton)
+    public void openDoorBookingButton(){
+        checkOpenDoor();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
