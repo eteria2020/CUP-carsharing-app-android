@@ -52,6 +52,7 @@
 
     <string name="general_notification_title">Share\'ngo</string>
 
+    <!-- MAPPA -->
     <string name="maps_search_placeholder">Cerca indirizzo o targa</string>
     <string name="maps_permissionlocation_alert">Share\'ngo ha bisogno dei permessi per accedere alla tua posizione. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
     <string name="maps_opendoor_action">Apri portiere</string>
@@ -71,9 +72,11 @@
     <string name="maps_feeddiscover_message">Scopri di più</string>
     <string name="maps_hidecars_alert">Attenzione! Potrai utilizzare questa funzione solo dopo aver concluso la corsa o la prenotazione attiva</string>
 
+    <!-- Ricerca -->
     <string name="search_platesharengo_label">Targa Share\'ngo</string>
     <string name="search_favoriteempty_label">Nessun preferito\nmemorizzali nella sezione impostazioni</string>
 
+    <!-- Prenotazione -->
     <string name="booking_userpin_label">Il tuo pin utente: %s</string>
     <string name="booking_active_label">Prenotazione attiva</string>
     <string name="booking_plate_label">Targa %s</string>
@@ -88,6 +91,7 @@
     <string name="booking_tripactive_label">Corsa attiva</string>
     <string name="booking_timeend_label">Il tempo di prenotazione è scaduto, la tua prenotazione è stata annullata. Prenota un\'altra auto in mappa</string>
 
+    <!-- Corsa -->
     <string name="tripend_title_label">Hai completato il tuo noleggio</string>
     <string name="tripend_text1_label">Attendi la chiusura delle portiere fuori dell\'auto.</string>
     <string name="tripend_text2_label">Riceverai via mail la conferma di transazione avvenuta entro 24 ore.</string>
@@ -96,6 +100,7 @@
     <string name="tripend_historic_action">Storico corse</string>
     <string name="tripend_notification_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente. Ti ringraziamo per aver usato Share\'ngo</string>
 
+    <!-- Login -->
     <string name="login_fillfields_label">Compila i campi per effettuare il login</string>
     <string name="login_email_placeholder">email</string>
     <string name="login_password_placeholder">password</string>
@@ -109,7 +114,8 @@
     <string name="login_wrongpassword_alert">Attenzione! Password errata.</string>
     <string name="login_userdisabled_alert">Attenzione! L\'utente non è abilitato per l\'accesso.</string>
     <string name="login_enabled_alert">Attenzione! Non puoi utilizzare il servizio Share\'ngo. Verifica i tuoi dati o contatta l\'assistenza clienti. Grazie</string>
-    
+
+    <!-- Registrazione -->
     <string name="signup_title_label">Iscriviti a Share\'ngo</string>
     <string name="signup_description_label">L\'iscrizione al servizio costa 10 euro con 30 minuti bonus (condizioni standard, salvo promozioni). Se serve aiuto durante l\'iscrizione usa il pulsante chat!</string>
     <string name="signup_subscribe_action">ISCRIVITI</string>
@@ -121,11 +127,13 @@
     <string name="signup_step3text2_action">PATENTE</string>
     <string name="signup_step4text1_action">Per iscriverti devi avere\na portata di mano:</string>
     <string name="signup_step4text2_action">CARTA DI CREDITO</string>
-    
+
+    <!-- Intro -->
     <string name="intro_power_label">Elettrica</string>
     <string name="intro_shared_label">Condivisa</string>
     <string name="intro_underhouse_label">Sotto\ncasa</string>
 
+    <!-- Home -->
     <string name="home_welcome_label">Benvenuto!</string>
     <string name="home_welcomeauth_label">Bentornato %s!</string>
 

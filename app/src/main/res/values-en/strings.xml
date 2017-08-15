@@ -1,4 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Sharengo</string>
+
+    <!--GENERAL-->
+    <string name="general_login_alert">You need to log in to use this feature </string>
+    <string name="general_notenabled_alert">This feature will be released soon </string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="login">LOGIN</string>
+    <string name="error_msg_network_general">An error occurred, please check your internet connection and try again later </string>
+
+    <!--MENU-->
+    <string name="menu_home">Home </string>
+    <string name="menu_welcome">Hi, welcome!</string>
+    <string name="menu_welcome_login">Hi %s, welcome back!</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_signup">Signup </string>
+    <string name="menu_rates">Rates</string>
+    <string name="menu_profile">Profile </string>
+    <string name="menu_booking">Book a car</string>
+    <string name="menu_historic">Trip History </string>
+    <string name="menu_help">Request Assistance</string>
+    <string name="menu_faq">FAQ &amp; Tutorial </string>
+    <string name="menu_buy">Buy minutes </string>
+    <string name="menu_share">Invite a friend</string>
+    <string name="menu_setting">Settings</string>
+    <string name="menu_logout">Logout </string>
+
+    <!-- MAPPA -->
+    <string name="maps_search_placeholder">Search by address or plate</string>
+    <string name="maps_permissionlocation_alert">Share\'ngo needs permissions to access your position. Would you like to open settings and enable geolocation? </string>
+    <string name="maps_opendoor_action">Open doors </string>
+    <string name="maps_bookingcar_action">Book car </string>
+    <string name="maps_autonomy_label">autonomy: <![CDATA[<b>%d%%</b>]]></string>
+    <string name="maps_distance_label">%d m away</string>
+    <string name="maps_distancekm_label">%.2f km away</string>
+    <string name="maps_time_label">%d minutes on foot </string>
+    <string name="maps_timeh60_label">1 hour on foot</string>
+    <string name="maps_timeh_label">%d hours on foot</string>
+    <string name="maps_timehsm_label" formatted="false">%d hours and %d minutes on foot</string>
+    <string name="maps_timehm_label" formatted="false">%d hours and %d minutes on foot</string>
+    <string name="maps_closestcar_label">Nearest car </string>
+    <string name="maps_permissionopendoor_alert">Share\'ngo needs to know your position to open the doors. Would you like to open settings and enable geolocation? </string>
+    <string name="maps_opendoordistance_alert">You are too far from Saren\'go you selected. You will be able to open it as you get closer to it. </string>
+    <string name="maps_searchmicrophone_message">Listening…</string>
+    <string name="maps_feeddiscover_message">Find out more </string>
+    <string name="maps_hidecars_alert">Careful! You will only be able to use this feature after ending your trip or the active booking. </string>
+
+    <!-- Ricerca -->
+    <string name="search_platesharengo_label">Share\'ngo Plate</string>
+    <string name="search_favoriteempty_label">No favorite\nnotmemorize in the settings section</string>
+
+    <!-- Prenotazione -->
+    <string name="booking_userpin_label">Il tuo pin utente: %s</string>
+    <string name="booking_active_label">Prenotazione attiva</string>
+    <string name="booking_plate_label">Targa %s</string>
+    <string name="booking_expirationtime">Scade tra <![CDATA[<br><b>%s</b>]]> min</string>
+    <string name="booking_opendoor_action">Apri portiere</string>
+    <string name="booking_delete_action">Elimina</string>
+    <string name="booking_delete_alert">Eliminando questa prenotazione, non potrai più prenotare la stessa auto nelle prossime 4 ore. Confermi di voler cancellare la prenotazione?</string>
+    <string name="booking_deleteconfirm_alert">La tua prenotazione è stata annullata correttamente</string>
+    <string name="booking_bookedcar_alert">Hai già una prenotazione attiva</string>
+    <string name="booking_alreadybookedcar_alert">Non puoi prenotare questa auto fino a che non saranno passate 4 ore da quando hai annullato la prenotazione</string>
+    <string name="booking_durationtrip_label">Durata corsa:</string>
+    <string name="booking_tripactive_label">Corsa attiva</string>
+    <string name="booking_timeend_label">Il tempo di prenotazione è scaduto, la tua prenotazione è stata annullata. Prenota un\'altra auto in mappa</string>
+
+    <!-- Corsa -->
+    <string name="tripend_title_label">Hai completato il tuo noleggio</string>
+    <string name="tripend_text1_label">Attendi la chiusura delle portiere fuori dell\'auto.</string>
+    <string name="tripend_text2_label">Riceverai via mail la conferma di transazione avvenuta entro 24 ore.</string>
+    <string name="tripend_thanks_label">Grazie!</string>
+    <string name="tripend_text3_label" formatted="false">CON IL TUO VIAGGIO HAI RISPARMIATO %.1f CO2!</string>
+    <string name="tripend_historic_action">Storico corse</string>
+    <string name="tripend_notification_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente. Ti ringraziamo per aver usato Share\'ngo</string>
+
+    <!-- Login -->
+    <string name="login_fillfields_label">Please fill out the fields to log in </string>
+    <string name="login_email_placeholder">email </string>
+    <string name="login_password_placeholder">password </string>
+    <string name="login_forgetpassword_action">Forgot my password </string>
+    <string name="login_login_action">Login</string>
+    <string name="login_notregistered_label">Haven\'t signed up yet? </string>
+    <string name="login_register_action">Subscribe </string>
+    <string name="login_continue_action">Continue without logging </string>
+    <string name="login_emptyfields_alert">One or more fields are not completed</string>
+    <string name="login_wrongemail_alert">Careful! The email address you input does not match up in our database. </string>
+    <string name="login_wrongpassword_alert">Careful! Wrong password </string>
+    <string name="login_userdisabled_alert">Careful! The user is not enabled to access </string>
+    <string name="login_enabled_alert">Careful! You cannot use the Share\'ngo service. Please verify your data or contact our customer service. Thank you. </string>
+
+    <!-- Registrazione -->
+    <string name="signup_title_label">Sign up to Share\'ngo</string>
+    <string name="signup_description_label">The subscription to the service costs 10 € per 30 minutes (standard conditions, unless promotions). If your need help in the sign-up process please use the chat button!  </string>
+    <string name="signup_subscribe_action">SIGN UP </string>
+    <string name="signup_step1text1_action">To sign up you need to have at hand:</string>
+    <string name="signup_step1text2_action">PERSONAL I.D.</string>
+    <string name="signup_step2text1_action">To sign up you need to have at hand:</string>
+    <string name="signup_step2text2_action">FISCAL CODE </string>
+    <string name="signup_step3text1_action">To sign up you need to have at hand:</string>
+    <string name="signup_step3text2_action">DRIVING LICENSE </string>
+    <string name="signup_step4text1_action">To sign up you need to have at hand:</string>
+    <string name="signup_step4text2_action">CREDIT CARD </string>
+
+    <!-- Intro -->
+    <string name="intro_power_label">Electric </string>
+    <string name="intro_shared_label">Shared</string>
+    <string name="intro_underhouse_label">Outside\nyour place</string>
+
+    <!-- Home -->
+    <string name="home_welcome_label">Welcome!</string>
+    <string name="home_welcomeauth_label">Welcome back %s!</string>
+
+    <!-- Settings -->
+    <string name="settings_title_label">Settings</string>
+    <string name="settings_city_action">Set up city</string>
+    <string name="settings_address_action">Set up favorite addresses</string>
+    <string name="settings_lang_action">Set up language </string>
+
+    <!-- Settings - City -->
+    <string name="settingscities_title_label">Set up city</string>
+
+    <!-- Settings - Address -->
+    <string name="settingsaddress_title_label">Set up you favorite addresses</string>
+    <string name="settingsaddress_new_action">Set up a new address</string>
+    <string name="settingsaddress_empty_title">Too bad!</string>
+    <string name="settingsaddress_empty_description">You haven’t set up any favorite o recent address yet! Set up your most frequent destinations and save time as you choose where to go.</string>
+    <string name="settingsaddress_title2_label">Set up your favorite addresses</string>
+    <string name="settingsaddress_description2_label">and make your searches quicker</string>
+    <string name="settingsaddress_edittitle_label">Would you like to change your favorite address?</string>
+    <string name="settingsaddress_addtitle_label">Would you like to add this address to your favorite address list?</string>
+    <string name="settingsaddress_deletetitle_label">Would you like to delete this address\nfrom your favorite address list?</string>
+    <string name="settingsaddress_editname_label">favorite name</string>
+    <string name="settingsaddress_editaddress_label">set up address</string>
+    <string name="settingsaddress_editok_label">ok </string>
+    <string name="settingsaddress_editdelete_label">Delete</string>
+    <string name="settingsaddress_editcancel_label">Cancel</string>
+
+    <!-- Settings - New address -->
+    <string name="settingsaddressnew_header_label">New favorite address</string>
+    <string name="settingsaddressnew_title_label">Set up new address</string>
+    <string name="settingsaddressnew_description_label">To add it to favorites</string>
+    <string name="settingsaddressnew_address_label">Set up address</string>
+    <string name="settingsaddressnew_name_label">Favorite name</string>
+    <string name="settingsaddressnew_save_action">Save favorite</string>
+    <string name="settingsaddressnew_cancel_action">Cancel</string>
+    <string name="settingsaddressnew_empty_error">One or more fields are not completed.</string>
+    <string name="settingsaddressnew_searchempty_label">Input the address you\'d like\nto add to your favorites</string>
+
+    <!-- Settings - Lang -->
+    <string name="settingslang_title_label">Set up language</string>
+    <string name="settingslang_it_label">Italian</string>
+    <string name="settingslang_en_label">English</string>
+
+    <!-- Chronology -->
+    <string name="chronology_title_label">Trip history</string>
+    <string name="chronology_bookingn_label">Booking n. %s</string>
+    <string name="chronology_minutes_label">%s minutes</string>
+    <string name="chronology_date_label" formatted="false">%s - hours %s</string>
+    <string name="chronology_end_label" formatted="false">End: % - hours %s</string>
+    <string name="chronology_rate_label">Rate by the minute: %s</string>
+    <string name="chronology_minfree_label">Free driving minutes used: %s</string>
+    <string name="chronology_km_label">Kilometers traveled: %s</string>
+    <string name="chronology_sharengo_label">SHARE\'NGO %s</string>
+    <string name="chronology_emptytitle_label">Too bad!</string>
+    <string name="chronology_emptydescription_label">You haven\'t made any trip with a Share\'ngo yet!</string>
+    <string name="chronology_emptyquestion_label">Why not giving it a try? </string>
+    <string name="chronology_tomap_action">Go to the map</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip_action">Skip >></string>
+    <string name="onboarding_car1_label">Easy and fun\nto drive</string>
+    <string name="onboarding_car2_label">The more you need them,\nthe less they cost you </string>
+    <string name="onboarding_car3_label">Every trip a surprise\nand a discovery </string>
+
+    <!-- Feeds -->
+    <string name="feeds_feed_action">Feed</string>
+    <string name="feeds_categories_action">Categories</string>
+    <string name="feeds_aroundme_action">Around me</string>
+    <string name="feeds_categorydisabled_alert">This category will be available soon</string>
+    <string name="feeds_empty_title">Too bad!</string>
+    <string name="feeds_empty_label">At the moment no content is available in your city. Please come back in the next few days </string>
+    <string name="feeds_emptycategory_label">At the moment no content for the category you entered is available in your city. Please come back in the next few days </string>
+
+    <!-- Feeds - Detail -->
+    <string name="feedsdetails_interested_action">Interested</string>
+    <string name="feedsdetails_notinterested_action">Not interested</string>
+
+    <!-- Assistance -->
+    <string name="assistance_title_label">Request assistance</string>
+    <string name="assistance_help_label">We are here to help!</string>
+    <string name="assistance_talkoperator_label">Talk to an operator?</string>
+    <string name="assistance_call_action">Call now</string>
+    <string name="assistance_phonenumber_label">+3905861975772</string>
+    <string name="assistance_alertcall_action">Call </string>
+    <string name="assistance_cancelcall_action">Cancel</string>
+    <string name="assistance_devicenotenabled_alert">Your device is not enabled to calling</string>
+
+    <!-- Share -->
+    <string name="share_title_label">Invite a friend</string>
+    <string name="share_invitefriend_label">Invite a friend and earn minutes!</string>
+    <string name="share_timeregister_label">Upon subscription </string>
+    <string name="share_tenminutes_label">you will receive 10 minutes of free driving </string>
+    <string name="share_giftwelcome_label">as a welcome gift</string>
+    <string name="share_friendregistration_label">For every friend signing up\nfrom your invitation </string>
+    <string name="share_twentyminutes_label">you will receive 20 minutes of free driving </string>
+    <string name="share_invite_button">Invite now</string>
+    <string name="share_text">Hey! Use the Share\'ngo app</string>
+
+    <!-- FAQ -->
+    <string name="faq_title_label">FAQ</string>
+    <string name="faq_tutorial_action">App tutorial</string>
+    <string name="faq_close_alert">Want to exit the tutorial?\nYou will be able to watch it again any time from the \"Faq &amp; tutorial"\ section in the menu</string>
+    <string name="faq_exit_action">Exit</string>
+    <string name="faq_stay_action">Stay</string>
+    <string name="faq_backalert_action">Back</string>
+    <string name="faq_tutorialalert_action">Tutorial</string>
+
 </resources>
