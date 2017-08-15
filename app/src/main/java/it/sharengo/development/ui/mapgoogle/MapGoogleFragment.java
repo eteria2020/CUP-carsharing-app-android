@@ -15,6 +15,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -1679,7 +1680,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Metodo per aprire le portiere
     private void openDoors(){
-        
+
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
@@ -2435,6 +2436,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             String text = String.valueOf(markersCount);
             paint.getTextBounds(text, 0, text.length(), bounds);
+            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
             float x = bitmap.getWidth() / 2.0f;
             float y = (bitmap.getHeight() - bounds.height()) / 2.0f - bounds.top;
 
