@@ -755,7 +755,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     private Observable<ResponsePutReservation> buildReservationRequest(Car car) {
-        return mReservationRequest = mUserRepository.postReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, car.id)
+        return mReservationRequest = mUserRepository.postReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, car.id, 0, 0)
                 .first()
                 .compose(this.<ResponsePutReservation>handleDataRequest())
                 .doOnCompleted(new Action0() {

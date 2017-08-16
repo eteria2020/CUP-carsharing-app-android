@@ -1253,6 +1253,17 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         poiMarkers = new ArrayList<>();
 
        boolean bookedCarFind = false;
+
+        //Verifico se ci sono marker da rimuovere dalla mappa perché non più presenti rispetto alla zona visualizzata
+        /*for(com.androidmapsextensions.Marker markerOnMap : poiMarkers){
+            boolean find = false;
+            for(MarkerOptions markerCar : poiMarkersToAdd){
+                if(((Car) markerCar.getData()).id.equals(((Car) markerOnMap.getData()).id)) find = true;
+            }
+            //se non l'ho trovato, lo devo eliminare dalla mappa
+            if(!find) markerOnMap.remove();
+        }*/
+
         for(MarkerOptions markerCar : poiMarkersToAdd){
             com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
             myMarker.setClusterGroup(ClusterGroup.DEFAULT);
@@ -1752,7 +1763,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Metodo richiamato per prenotare una macchina selezionata
     private void bookingCar(){
-        mPresenter.bookingCar(carSelected, getContext());
+        float user_lat = 0;
+        float user_lon = 0;
+        if(userLocation != null){
+            user_lat = (float) userLocation.getLatitude();
+            user_lon = (float) userLocation.getLongitude();
+        }
+        mPresenter.bookingCar(carSelected, user_lat, user_lon, getContext());
     }
 
     //Metodo per mostrare le informazioni sulla prenotazione

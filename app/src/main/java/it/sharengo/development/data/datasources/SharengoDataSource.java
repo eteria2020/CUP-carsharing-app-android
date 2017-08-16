@@ -25,7 +25,7 @@ public interface SharengoDataSource {
 
     Observable<ResponseReservation> getReservations(String auth);
 
-    Observable<ResponsePutReservation> postReservations(String auth, String plate);
+    Observable<ResponsePutReservation> postReservations(String auth, String plate, float user_lat, float user_lon);
 
     Observable<ResponsePutReservation> deleteReservations(String auth, int id);
 

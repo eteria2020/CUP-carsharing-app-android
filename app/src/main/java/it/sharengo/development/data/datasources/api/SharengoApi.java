@@ -57,7 +57,7 @@ public interface SharengoApi {
 
     @FormUrlEncoded
     @POST("reservations")
-    Observable<Result<ResponsePutReservation>> postReservations(@Header("Authorization") String auth, @Field("plate") String plate);
+    Observable<Result<ResponsePutReservation>> postReservations(@Header("Authorization") String auth, @Field("plate") String plate, @Field("user_lat") float user_lat, @Field("user_lon") float user_lon);
 
     @DELETE("reservations/{id}")
     Observable<Result<ResponsePutReservation>> deleteReservations(@Header("Authorization") String auth, @Path("id") int id);

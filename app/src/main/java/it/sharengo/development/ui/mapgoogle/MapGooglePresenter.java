@@ -531,7 +531,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onNext(Response responseList) {
 
-                if(responseList.reason.isEmpty()){
+                if(responseList.reason.isEmpty() && mResponse != null){
                     mCachedPlates = mResponse.data;
                 }
 
@@ -769,18 +769,18 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //                                              Booking car
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void bookingCar(Car car, Context context){
+    public void bookingCar(Car car, float user_lat, float user_lon, Context context){
 
         hideLoading = false;
 
         if( mReservationRequest == null) {
-            mReservationRequest = buildReservationRequest(car);
+            mReservationRequest = buildReservationRequest(car, user_lat, user_lon);
             addSubscription(mReservationRequest.unsafeSubscribe(getReservationSubscriber(context)));
         }
     }
 
-    private Observable<ResponsePutReservation> buildReservationRequest(Car car) {
-        return mReservationRequest = mUserRepository.postReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, car.id)
+    private Observable<ResponsePutReservation> buildReservationRequest(Car car, float user_lat, float user_lon) {
+        return mReservationRequest = mUserRepository.postReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, car.id, user_lat, user_lon)
                 .first()
                 .compose(this.<ResponsePutReservation>handleDataRequest())
                 .doOnCompleted(new Action0() {

@@ -185,9 +185,9 @@ public class UserRepository {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    public Observable<ResponsePutReservation> postReservations(String username, String password, String plate) {
+    public Observable<ResponsePutReservation> postReservations(String username, String password, String plate, float user_lat, float user_lon) {
 
-        return mRemoteDataSource.postReservations(Credentials.basic(username, StringsUtils.md5(password)), plate)
+        return mRemoteDataSource.postReservations(Credentials.basic(username, StringsUtils.md5(password)), plate, user_lat, user_lon)
                 .doOnNext(new Action1<ResponsePutReservation>() {
                     @Override
                     public void call(ResponsePutReservation response) {

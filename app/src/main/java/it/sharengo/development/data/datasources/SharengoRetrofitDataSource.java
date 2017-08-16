@@ -64,8 +64,8 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
     }
 
     @Override
-    public Observable<ResponsePutReservation> postReservations(String auth, String plate) {
-        return mSharengoApi.postReservations(auth, plate)
+    public Observable<ResponsePutReservation> postReservations(String auth, String plate, float user_lat, float user_lon) {
+        return mSharengoApi.postReservations(auth, plate, user_lat, user_lon)
                 .compose(this.<ResponsePutReservation>handleRetrofitRequest());
     }
 
