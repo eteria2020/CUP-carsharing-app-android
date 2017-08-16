@@ -306,26 +306,26 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void refreshCars(Context context, float latitude, float longitude, int radius){
+    public void refreshCars(Context context, float latitude, float longitude, float user_lat, float user_lon, int radius){
         hideLoading = true;
-        loadCars(latitude, longitude, radius);
+        loadCars(latitude, longitude, user_lat, user_lon, radius);
         if(isFeeds)
             loadFeeds(context, latitude, longitude, radius);
     }
 
-    public void loadCars(float latitude, float longitude, int radius) {
+    public void loadCars(float latitude, float longitude, float user_lat, float user_lon, int radius) {
 
         if( mCarsRequest == null) {
 
             mCarsRequest = null;
-            mCarsRequest = buildCarsRequest(latitude, longitude, radius);
+            mCarsRequest = buildCarsRequest(latitude, longitude, user_lat, user_lon, radius);
             addSubscription(mCarsRequest.unsafeSubscribe(getCarsSubscriber()));
         }
     }
 
 
-    private Observable<Response> buildCarsRequest(float latitude, float longitude, int radius) {
-        return mCarsRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, latitude, longitude, radius)
+    private Observable<Response> buildCarsRequest(float latitude, float longitude, float user_lat, float user_lon, int radius) {
+        return mCarsRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, latitude, longitude, user_lat, user_lon, radius)
                 .first()
                 .compose(this.<Response>handleDataRequest())
                 .doOnCompleted(new Action0() {

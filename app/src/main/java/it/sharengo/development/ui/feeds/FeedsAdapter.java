@@ -123,6 +123,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
 
         public void render(Feed feed) {
 
+            int feedColor = Color.parseColor(feed.appearance.color.rgb);
+
+            if(!feed.informations.sponsored.equals("true")) feedColor = Color.parseColor(feed.appearance.color.rgb_default);
+
             //Immagine copertina
             Glide.with(feedImageView.getContext())
                     .load(feed.media.images.image.uri)
@@ -132,10 +136,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
                     .into(feedImageView);
 
             //Overlay copertina
-            feedTrapezoidImageView.setColorFilter(Color.parseColor(feed.appearance.color.rgb));
+            feedTrapezoidImageView.setColorFilter(feedColor);
 
             //Advantage
-            feedTriangleImageView.setColorFilter(Color.parseColor(feed.appearance.color.rgb));
+            feedTriangleImageView.setColorFilter(feedColor);
             if(feed.informations.advantage_top.isEmpty()) {
                 feedTriangleView.setVisibility(View.GONE);
             }else {
@@ -146,7 +150,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             //Icona
             ImageUtils.loadImage(feedIconImageView, feed.category.media.images.icon.uri);
             GradientDrawable backgroundShape = (GradientDrawable) feedIconImageView.getBackground();
-            backgroundShape.setColor(Color.parseColor(feed.appearance.color.rgb));
+            backgroundShape.setColor(feedColor);
 
             //Data
             feedDateTextView.setText(feed.informations.date.friendly);
@@ -156,7 +160,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
                 feedLaunchTitleTextView.setVisibility(View.GONE);
             }else{
                 feedLaunchTitleTextView.setText(feed.informations.launch_title);
-                feedLaunchTitleTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
+                feedLaunchTitleTextView.setTextColor(feedColor);
             }
 
             //Titolo
@@ -178,8 +182,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             }else{
                 feedAdvantageBottomTextView.setText(feed.informations.advantage_bottom);
 
-                if(feed.appearance.color.enforce.equals("true"))
-                    feedAdvantageBottomTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
+                if(feed.appearance.color.enforce != null && feed.appearance.color.enforce.equals("true"))
+                    feedAdvantageBottomTextView.setTextColor(feedColor);
             }
 
             //Interessi

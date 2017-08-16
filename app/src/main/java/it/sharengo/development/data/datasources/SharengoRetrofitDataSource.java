@@ -26,6 +26,13 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
                 .compose(this.<Response>handleRetrofitRequest());
     }
 
+
+    @Override
+    public Observable<Response> getCars(String auth, float latitude, float longitude, float user_lat, float user_lon, int radius) {
+        return mSharengoApi.getCars(auth, latitude, longitude, user_lat, user_lon, radius)
+                .compose(this.<Response>handleRetrofitRequest());
+    }
+
     @Override
     public Observable<ResponseCar> getCars(String auth, String plate) {
         return mSharengoApi.getCars(auth, plate)

@@ -307,7 +307,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
 
     private Observable<Response> buildCarsRequest(float latitude, float longitude, int radius) {
-        return mCarsRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, latitude, longitude, radius)
+        return mCarsRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, latitude, longitude, 0, 0, radius)
                 .first()
                 .compose(this.<Response>handleDataRequest())
                 .doOnCompleted(new Action0() {

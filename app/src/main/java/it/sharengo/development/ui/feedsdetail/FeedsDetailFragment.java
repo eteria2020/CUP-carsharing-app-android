@@ -178,6 +178,11 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void showInformations(Feed feed){
 
+        int feedColor = Color.parseColor(feed.appearance.color.rgb);
+
+        if(!feed.informations.sponsored.equals("true")) feedColor = Color.parseColor(feed.appearance.color.rgb_default);
+
+        Log.w("AAA",": "+feed.informations.sponsored.equals("true"));
 
         //Categoria
         feedHeaderTextView.setText(feed.category.name);
@@ -192,10 +197,10 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
 
 
         //Overlay copertina
-        feedTrapezoidImageView.setColorFilter(Color.parseColor(feed.appearance.color.rgb));
+        feedTrapezoidImageView.setColorFilter(feedColor);
 
         //Advantage
-        feedTriangleImageView.setColorFilter(Color.parseColor(feed.appearance.color.rgb));
+        feedTriangleImageView.setColorFilter(feedColor);
         if(feed.informations.advantage_top.isEmpty()) {
             feedTriangleView.setVisibility(View.GONE);
         }else {
@@ -206,7 +211,7 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
         //Icona
         ImageUtils.loadImage(feedIconImageView, feed.category.media.images.icon.uri);
         GradientDrawable backgroundShape = (GradientDrawable) feedIconImageView.getBackground();
-        backgroundShape.setColor(Color.parseColor(feed.appearance.color.rgb));
+        backgroundShape.setColor(feedColor);
 
         //Data
         feedDateTextView.setText(feed.informations.date.friendly);
@@ -216,7 +221,7 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
             feedLaunchTitleTextView.setVisibility(View.GONE);
         }else{
             feedLaunchTitleTextView.setText(feed.informations.launch_title);
-            feedLaunchTitleTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
+            feedLaunchTitleTextView.setTextColor(feedColor);
         }
 
         //Titolo
@@ -239,7 +244,7 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
             feedAdvantageBottomTextView.setText(feed.informations.advantage_bottom);
 
             if(feed.appearance.color.enforce != null && feed.appearance.color.enforce.equals("true"))
-                feedAdvantageBottomTextView.setTextColor(Color.parseColor(feed.appearance.color.rgb));
+                feedAdvantageBottomTextView.setTextColor(feedColor);
         }
 
         //Descrizione

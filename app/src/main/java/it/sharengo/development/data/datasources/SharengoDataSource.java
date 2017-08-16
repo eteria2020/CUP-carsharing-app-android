@@ -13,6 +13,8 @@ public interface SharengoDataSource {
 
     Observable<Response> getCars(String auth, float latitude, float longitude, int radius);
 
+    Observable<Response> getCars(String auth, float latitude, float longitude, float user_lat, float user_lon, int radius);
+
     Observable<ResponseCar> getCars(String auth, String plate);
 
     Observable<ResponseCar> openCars(String auth, String plate, String action);

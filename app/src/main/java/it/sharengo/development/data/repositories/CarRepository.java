@@ -42,9 +42,9 @@ public class CarRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Observable<Response> getCars(String username, String password, float latitude, float longitude, int radius) {
+    public Observable<Response> getCars(String username, String password, float latitude, float longitude, float user_lat, float user_lon, int radius) {
 
-        return mRemoteDataSource.getCars(Credentials.basic(username, StringsUtils.md5(password)), latitude, longitude, radius)
+        return mRemoteDataSource.getCars(Credentials.basic(username, StringsUtils.md5(password)), latitude, longitude, user_lat, user_lon, radius)
                 .doOnNext(new Action1<Response>() {
                     @Override
                     public void call(Response response) {
