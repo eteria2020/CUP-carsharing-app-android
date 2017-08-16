@@ -559,7 +559,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void providerDisabled(){
 
         userLocation = null;
-        moveMapCameraToDefaultLocation();
+        //moveMapCameraToDefaultLocation();
 
         carnextMarker = null;
         final Handler handler = new Handler();
