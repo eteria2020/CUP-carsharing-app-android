@@ -401,7 +401,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //Setup animazione menu circolare
         setupCircleMenu();
 
-
         showCarsWithFeeds = false;
 
         return view;
@@ -735,7 +734,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         hideSoftKeyboard();
 
         //Muovo la mappa
-        moveMapCameraToPoitWithZoom((double) searchItem.latitude, (double) searchItem.longitude, 17);
+        moveMapCameraToPoitWithZoom((double) searchItem.latitude, (double) searchItem.longitude, 19);
 
         //Se è una targa, apro il popup
         if(searchItem.type.equals("plate")){
@@ -1337,7 +1336,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 }
             });
         }else {
-            moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 17);
+            moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
             showPopupCar(car);
         }
     }
@@ -1797,7 +1796,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         carbookingMarker = myMarker;
 
-        moveMapCameraToPoitWithZoom((double) carSelected.latitude, (double) carSelected.longitude, 17);
+        moveMapCameraToPoitWithZoom((double) carSelected.latitude, (double) carSelected.longitude, 19);
 
         setMarkerAnimation();
 
@@ -2013,7 +2012,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         carbookingMarker = myMarker;
 
 
-        moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 17);
+        moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
 
 
         setMarkerAnimation();
@@ -2054,7 +2053,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             //Creo il marker
             com.androidmapsextensions.Marker markerFeed = mMap.addMarker(new MarkerOptions().position(new LatLng(feed.informations.address.latitude, feed.informations.address.longitudef)));
             markerFeed.setIcon(getBitmapDescriptor(R.drawable.ic_cluster_transparent));
-            markerFeed.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
+            markerFeed.setClusterGroup(2);
             markerFeed.setData(feed);
 
             feedsMarker.add(markerFeed);
@@ -2122,7 +2121,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             onCloseFeedPopup();
 
-            moveMapCameraToPoitWithZoom((double) carNext.latitude, (double) carNext.longitude, 17);
+            moveMapCameraToPoitWithZoom((double) carNext.latitude, (double) carNext.longitude, 19);
             showPopupCar(carNext);
         }else{
             final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
@@ -2149,7 +2148,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(!feed.informations.sponsored.equals("true")) feedColor = Color.parseColor(feed.appearance.color.rgb_default);
 
         //Zoom sulla mappa
-        moveMapCameraToPoitWithZoom((double) feed.informations.address.latitude, (double) feed.informations.address.longitudef, 17);
+        moveMapCameraToPoitWithZoom((double) feed.informations.address.latitude, (double) feed.informations.address.longitudef, 19);
 
         //Immagine copertina
         ImageUtils.loadImage(feedImageView, feed.media.images.image.uri);
@@ -2436,7 +2435,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     public class DemoClusterOptionsProvider implements ClusterOptionsProvider {
 
         private final int[] res = {R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster};
-        private final int[] res_transparent = {R.drawable.ic_cluster_transparent, R.drawable.ic_cluster_transparent, R.drawable.ic_cluster_transparent, R.drawable.ic_cluster_transparent, R.drawable.ic_cluster_transparent};
+        private final int[] res_transparent = {R.drawable.ic_cluster_feed, R.drawable.ic_cluster_feed, R.drawable.ic_cluster_feed, R.drawable.ic_cluster_feed, R.drawable.ic_cluster_feed};
 
         private final int[] forCounts = {10, 100, 1000, 10000, Integer.MAX_VALUE};
 
@@ -2457,9 +2456,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             }
             baseBitmapsFeeds = new Bitmap[res_transparent.length];
             for (int i = 0; i < res_transparent.length; i++) {
-                baseBitmapsFeeds[i] = BitmapFactory.decodeResource(resources, res[i]);
+                baseBitmapsFeeds[i] = BitmapFactory.decodeResource(resources, res_transparent[i]);
             }
-            paint.setColor(ContextCompat.getColor(getContext(), R.color.darkpastelgreen));
             paint.setTextAlign(Paint.Align.CENTER);
             paint.setTextSize(15 * getResources().getDisplayMetrics().density);
         }
@@ -2474,10 +2472,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             }
 
             Bitmap base;
+            int textColor = R.color.darkpastelgreen;
             int i = 0;
             do {
                 if(markers.get(i).getData().getClass().equals(Feed.class)){
                     base = baseBitmapsFeeds[i];
+                    textColor = R.color.colorAccent;
                 }else {
                     base = baseBitmaps[i];
                 }
@@ -2487,6 +2487,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             String text = String.valueOf(markersCount);
             paint.getTextBounds(text, 0, text.length(), bounds);
+            paint.setColor(ContextCompat.getColor(getContext(), textColor));
             paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
             float x = bitmap.getWidth() / 2.0f;
             float y = (bitmap.getHeight() - bounds.height()) / 2.0f - bounds.top;

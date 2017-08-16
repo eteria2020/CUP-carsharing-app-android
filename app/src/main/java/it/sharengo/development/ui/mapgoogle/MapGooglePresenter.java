@@ -469,17 +469,15 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         if(!mEventsList.isEmpty())
             feeds.addAll(mEventsList);
 
-        Log.w("EVENT","EV");
         for(Feed ff : mEventsList){
-            Log.w("E",": "+ff.title);
+
         }
 
         if(!mOffersList.isEmpty())
             feeds.addAll(mOffersList);
 
-        Log.w("OFFER","OF");
         for(Feed ff : mOffersList){
-            Log.w("O",": "+ff.title);
+
         }
 
         getMvpView().showFeeds(feeds);
@@ -1109,9 +1107,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             int diffTime = (int) (unixTime - mResponseReservation.reservations.get(0).timestamp_start);
 
 
-            if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0)
-                getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0));
-            else {
+            if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
+                //getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0)); TODO remove
+            }else {
                 getMvpView().openReservationNotification();
                 getMvpView().removeReservationInfo();
             }
