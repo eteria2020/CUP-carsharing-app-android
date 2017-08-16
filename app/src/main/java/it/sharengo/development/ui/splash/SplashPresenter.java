@@ -6,14 +6,22 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import it.sharengo.development.R;
+import it.sharengo.development.data.models.KmlServerPolygon;
 import it.sharengo.development.data.models.ResponseCity;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
+import it.sharengo.development.data.models.UserInfo;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
@@ -22,6 +30,8 @@ import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class SplashPresenter extends BasePresenter<SplashMvpView> {
 
@@ -66,7 +76,6 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
         mContext = context;
 
 
-
         //Recupero le credenziali dell'utente (se salvate)
         mUserRepository.saveUserCredentials(mPreferencesRepository.getUsername(mPref), mPreferencesRepository.getPassword(mPref));
 
@@ -82,7 +91,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
 
             if(!mUserRepository.getCachedUser().username.isEmpty()) { //Utente loggato
                 //Recupero le informazioni dell'utente
-                getUser();
+                getUser(context);
 
             }else{ //Utente non loggato
 
@@ -115,10 +124,10 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
     //                                              User info
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private void getUser(){
+    private void getUser(Context context){
         if( mUserRequest == null) {
             mUserRequest = buildUserRequest();
-            addSubscription(mUserRequest.unsafeSubscribe(getUserSubscriber()));
+            addSubscription(mUserRequest.unsafeSubscribe(getUserSubscriber(context)));
         }
     }
 
@@ -136,7 +145,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                 });
     }
 
-    private Subscriber<ResponseUser> getUserSubscriber(){
+    private Subscriber<ResponseUser> getUserSubscriber(final Context context){
         return new Subscriber<ResponseUser>() {
             @Override
             public void onCompleted() {
@@ -147,6 +156,15 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             public void onError(Throwable e) {
                 mUserRequest = null;
                 Log.w("User",": error");
+
+                //Provo a prelevare i dati dell'utente dalle preferenze
+                SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
+                Type fooType = new TypeToken<UserInfo>() {}.getType();
+                Gson gson = new Gson();
+                String json = mPref.getString(context.getString(R.string.preference_userinfo), "");
+                UserInfo obj = (UserInfo) gson.fromJson(json, fooType);
+                if(obj != null && mUserRepository.getCachedUser() != null) mUserRepository.getCachedUser().userInfo = obj;
+
                 getMvpView().navigateToHome(mAppRepository.getLang());
             }
 

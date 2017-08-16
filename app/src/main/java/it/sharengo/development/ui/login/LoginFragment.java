@@ -2,7 +2,6 @@ package it.sharengo.development.ui.login;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.osmdroid.views.MapView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,11 +21,11 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import it.sharengo.development.R;
 import it.sharengo.development.data.common.ErrorResponse;
+import it.sharengo.development.data.models.KmlServerPolygon;
+import it.sharengo.development.data.models.UserInfo;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.home.HomeFragment;
-import it.sharengo.development.ui.map.MapFragment;
 
 import static android.content.Context.MODE_PRIVATE;
 import static it.sharengo.development.data.common.ErrorResponse.ErrorType.HTTP;
@@ -207,7 +210,15 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         });
     }
 
-    public void loginCompleted(String username, String password){
+    public void loginCompleted(String username, String password, UserInfo mCachedUser){
+
+        SharedPreferences mPref = getActivity().getSharedPreferences(getActivity().getString(R.string.preference_file_key), MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPref.edit();
+        Type fooType = new TypeToken<UserInfo>() {}.getType();
+        Gson gson = new Gson();
+        String json = gson.toJson(mCachedUser, fooType);
+        prefsEditor.putString(getActivity().getString(R.string.preference_userinfo), json);
+        prefsEditor.commit();
 
         //Salvo nelle preferenze e prelevo i dati dell'utente
         mPresenter.saveCredentials(username, password, getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));

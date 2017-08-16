@@ -86,10 +86,9 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-
                         if(mCachedUser.enabled) {
                             //Salvo le credenziali dell'utente
-                            getMvpView().loginCompleted(username, password);
+                            getMvpView().loginCompleted(username, password, mCachedUser);
                         }else{
                             getMvpView().showEnabledError();
                         }

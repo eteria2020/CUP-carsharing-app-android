@@ -185,6 +185,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     /* Map */
     private int mapRadius;
+    private LatLng defaultLocation;
     private com.androidmapsextensions.Marker userMarker;
     private List<com.androidmapsextensions.Marker> poiMarkers;
     private List<MarkerOptions> poiMarkersToAdd;
@@ -368,6 +369,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         //Init
         hasInit = false;
+        defaultLocation = new LatLng(41.931543, 12.503420);
         mAdapter = new MapSearchListAdapter(mActionListener);
         isBookingCar = false;
         isTripStart = false;
@@ -574,6 +576,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }, 100);
         enabledCenterMap(false);
 
+        if(!hasInit) {
+            moveMapCameraToPoitWithZoom(defaultLocation.latitude, defaultLocation.longitude, 5);
+        }
+
         if(carPreSelected != null){
 
             moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
@@ -589,35 +595,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(45.510349);
-        userLocation.setLongitude(9.093254);
+        //userLocation.setLatitude(45.510349);
+        //userLocation.setLongitude(9.093254);
 
         //First time
         if (!hasInit){
-
-            //TODO Google inserire pin user
-            /*pinUser = new OverlayItem("Title", "Description", userLocation);
-            ArrayList<OverlayItem> userOverleyList = new ArrayList<OverlayItem>();
-            userOverleyList.add(pinUser);
-            mOverlayUser = new ItemizedOverlayWithFocus<OverlayItem>(
-                    getActivity(), userOverleyList,
-                    new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                        @Override
-                        public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                            //do something
-                            return true;
-                        }
-                        @Override
-                        public boolean onItemLongPress(final int index, final OverlayItem item) {
-                            return false;
-                        }
-                    });
-
-            mMapView.getOverlays().add(mOverlayUser);
-
-            displayMyCurrentLocationOverlay();
-            */
-
 
             if(mMap != null)
                 moveMapCameraTo((double) userLocation.getLatitude(), (double) userLocation.getLongitude());
@@ -627,11 +609,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         hasInit = true;
-
-        //TODO Google
-        //pinUser = new OverlayItem("Title", "Description", userLocation);
-
-
 
         if(carPreSelected != null){
 

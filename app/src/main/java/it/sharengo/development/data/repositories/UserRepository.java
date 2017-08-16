@@ -84,7 +84,6 @@ public class UserRepository {
 
     public Observable<ResponseUser> getUser(String username, String password) {
 
-        Log.w("md5",": "+StringsUtils.md5(password));
         return mRemoteDataSource.getUser(Credentials.basic(username, StringsUtils.md5(password)))
                 .doOnNext(new Action1<ResponseUser>() {
                     @Override
@@ -101,7 +100,6 @@ public class UserRepository {
             mCachedUser = new User();
         }
         mCachedUser.userInfo = response.user;
-
     }
 
     private Observable.Transformer<ResponseUser, ResponseUser> logSource(final String source) {

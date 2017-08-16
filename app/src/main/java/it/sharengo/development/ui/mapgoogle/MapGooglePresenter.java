@@ -1229,7 +1229,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
             if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
-                //getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0)); TODO remove
+                getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0)); //TODO remove
             }else {
                 getMvpView().openReservationNotification();
                 getMvpView().removeReservationInfo();
@@ -1325,23 +1325,35 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
         if( mCityRequest == null) {
             mCityRequest = buildCitiesRequest(context);
-            addSubscription(mCityRequest.unsafeSubscribe(getCitiesSubscriber()));
+            addSubscription(mCityRequest.unsafeSubscribe(getCitiesSubscriber(context)));
         }
     }
 
-    private Observable<ResponseCity> buildCitiesRequest(Context context) {
+    private Observable<ResponseCity> buildCitiesRequest(final Context context) {
         return mCityRequest = mAppRepository.getCities(context)
                 .first()
                 .compose(this.<ResponseCity>handleDataRequest())
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
+
+                        Log.w("City","OK");
+
+                        //Memorizzo le città sul dispositivo in caso di mancata connessione ad internet
+                        SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
+                        SharedPreferences.Editor prefsEditor = mPref.edit();
+                        Type fooType = new TypeToken<List<City>>() {}.getType();
+                        Gson gson = new Gson();
+                        String json = gson.toJson(mCitiesList, fooType);
+                        prefsEditor.putString(context.getString(R.string.preference_city), json);
+                        prefsEditor.commit();
+
                         getMvpView().showCity(mCitiesList);
                     }
                 });
     }
 
-    private Subscriber<ResponseCity> getCitiesSubscriber(){
+    private Subscriber<ResponseCity> getCitiesSubscriber(final Context context){
         return new Subscriber<ResponseCity>() {
             @Override
             public void onCompleted() {
@@ -1351,6 +1363,15 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onError(Throwable e) {
                 mCityRequest = null;
+
+                //Provo a recuperare le città dal dispositivo
+                SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
+                Type fooType = new TypeToken<List<City>>() {}.getType();
+                Gson gson = new Gson();
+                String json = mPref.getString(context.getString(R.string.preference_city), "");
+                List<City> obj = (ArrayList<City>) gson.fromJson(json, fooType);
+
+                if(obj != null) getMvpView().showCity(obj);
             }
 
             @Override
