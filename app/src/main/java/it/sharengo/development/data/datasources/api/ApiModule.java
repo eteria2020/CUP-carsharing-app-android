@@ -94,6 +94,7 @@ public class ApiModule {
         return retrofit.create(SharengoMapApi.class);
     }
 
+
     @Provides
     @Singleton
     CitiesApi provideCitiesApi(@ApplicationContext Context context, SchedulerProvider schedulerProvider) {
@@ -119,6 +120,34 @@ public class ApiModule {
                 .build();
 
         return retrofit.create(CitiesApi.class);
+    }
+
+
+    @Provides
+    @Singleton
+    KmlApi provideKmlApi(@ApplicationContext Context context, SchedulerProvider schedulerProvider) {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        if (BuildConfig.DEBUG) {
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        } else {
+            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+        }
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(logging);
+
+        Gson gson = new GsonBuilder()
+                .addSerializationExclusionStrategy(new SerializationExclusionStrategy())
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(context.getString(R.string.endpointSharengoKML))
+                .client(httpClient.build())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(schedulerProvider.io()))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        return retrofit.create(KmlApi.class);
     }
 
 

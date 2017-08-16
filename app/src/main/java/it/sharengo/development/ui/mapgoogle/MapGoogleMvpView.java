@@ -5,11 +5,11 @@ import java.util.List;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.City;
 import it.sharengo.development.data.models.Feed;
+import it.sharengo.development.data.models.KmlServerPolygon;
 import it.sharengo.development.data.models.Reservation;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.ui.base.map.MvpMapView;
-import it.sharengo.development.ui.base.presenters.MvpView;
 
 public interface MapGoogleMvpView extends MvpMapView {
 
@@ -32,4 +32,5 @@ public interface MapGoogleMvpView extends MvpMapView {
     void showCity(List<City> cityList);
     void setFeedInters();
     void setNextCar(List<Car> carsList);
+    void showPolygon(List<KmlServerPolygon> polygonList);
 }

@@ -8,6 +8,7 @@ import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.CityRepository;
+import it.sharengo.development.data.repositories.KmlRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
@@ -350,13 +351,14 @@ public class MvpFragmentModule {
     MapGooglePresenter provideMapGooglePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository,
                                                  PostRepository postRepository, CarRepository carRepository,
                                                  AddressRepository addressRepository, PreferencesRepository preferencesRepository,
-                                                 UserRepository userRepository, CityRepository cityRepository) {
+                                                 UserRepository userRepository, CityRepository cityRepository,
+                                                 KmlRepository kmlRepository) {
         MapGooglePresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new MapGooglePresenter(schedulerProvider, appRepository, postRepository, carRepository, addressRepository, preferencesRepository, userRepository, cityRepository);
+            presenter = new MapGooglePresenter(schedulerProvider, appRepository, postRepository, carRepository, addressRepository, preferencesRepository, userRepository, cityRepository, kmlRepository);
         }
         return presenter;
     }

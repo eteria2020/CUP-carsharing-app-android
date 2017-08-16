@@ -12,6 +12,7 @@ import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.CityRepository;
+import it.sharengo.development.data.repositories.KmlRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
@@ -47,6 +48,7 @@ public interface ApplicationComponent {
     PreferencesRepository preferencesRepository();
     UserRepository userRepository();
     CityRepository cityRepository();
+    KmlRepository kmlRepository();
     //SampleRetrofitDataSource sampleRetrofitDataSource();
     //JsonPlaceholderRetrofitDataSource jsonPlaceholderRetrofitDataSource();
 

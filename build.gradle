@@ -91,4 +91,5 @@ ext {
     androidGifDrawable = '1.2.7'
     squareupPicasso = '2.5.2'
     googleMapsUtils = '0.5+'
+    volley = '1.0.0'
 }

@@ -6,6 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 import it.sharengo.development.data.datasources.api.CitiesApi;
 import it.sharengo.development.data.datasources.api.JsonPlaceholderApi;
+import it.sharengo.development.data.datasources.api.KmlApi;
 import it.sharengo.development.data.datasources.api.SharengoApi;
 import it.sharengo.development.data.datasources.api.SharengoMapApi;
 
@@ -34,6 +35,12 @@ public class DataSourceModule {
     @Singleton
     CitiesDataSource provideCitiesRemoteDataSource(CitiesApi api) {
         return new CitiesRetrofitDataSource(api);
+    }
+
+    @Provides
+    @Singleton
+    KmlDataSource provideKmlRemoteDataSource(KmlApi api) {
+        return new KmlRetrofitDataSource(api);
     }
     
 }

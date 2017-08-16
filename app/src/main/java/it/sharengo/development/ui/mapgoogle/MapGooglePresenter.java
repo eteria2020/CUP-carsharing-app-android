@@ -6,8 +6,20 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,6 +29,8 @@ import it.sharengo.development.data.models.Address;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.City;
 import it.sharengo.development.data.models.Feed;
+import it.sharengo.development.data.models.Kml;
+import it.sharengo.development.data.models.KmlServerPolygon;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.Post;
 import it.sharengo.development.data.models.Reservation;
@@ -33,11 +47,11 @@ import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.CarRepository;
 import it.sharengo.development.data.repositories.CityRepository;
+import it.sharengo.development.data.repositories.KmlRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.base.map.BaseMapPresenter;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
@@ -59,6 +73,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private final PreferencesRepository mPreferencesRepository;
     private final UserRepository mUserRepository;
     private final CityRepository mCityRepository;
+    private final KmlRepository mKmlRepository;
 
     /*
      *  REQUEST
@@ -76,6 +91,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private Observable<ResponsePutReservation> mReservationRequest;
     private Observable<ResponseCity> mCityRequest;
     private Observable<ResponseFeed> mFeedRequest;
+    private Observable<Kml> mKmlRequest;
 
     /*
      *  VAR
@@ -120,7 +136,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                               AddressRepository addressRepository,
                               PreferencesRepository preferencesRepository,
                               UserRepository userRepository,
-                              CityRepository cityRepository) {
+                              CityRepository cityRepository,
+                              KmlRepository kmlRepository) {
         super(schedulerProvider);
         mPostRepository = postRepository;
         mCarRepository = carRepository;
@@ -129,6 +146,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         mUserRepository = userRepository;
         mAppRepository = appRepository;
         mCityRepository = cityRepository;
+        mKmlRepository = kmlRepository;
 
         mAppRepository.selectMenuItem(MenuItem.Section.BOOKING);
     }
@@ -311,6 +329,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         loadCars(latitude, longitude, user_lat, user_lon, radius);
         if(isFeeds)
             loadFeeds(context, latitude, longitude, radius);
+
+        loadKml(context);
     }
 
     public void loadCars(float latitude, float longitude, float user_lat, float user_lon, int radius) {
@@ -362,6 +382,90 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         }else{
             getMvpView().noCarsFound();
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Load Kml
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void loadKml(Context context){
+
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, "http://www.sharengo.it/zone", null, new com.android.volley.Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        Log.w("response",": "+response);
+                        parseKml(response);
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Log.w("error",": "+error);
+
+                    }
+                }){
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(jsObjRequest);
+    }
+
+    private void parseKml(JSONObject response){
+
+        List<KmlServerPolygon> polygons = new ArrayList<>();
+
+        Iterator<String> iter = response.keys();
+        while (iter.hasNext()) {
+
+            String key = iter.next();
+            JSONObject item = null;
+            try {
+                //Provo a prendere un oggetto
+                item = response.getJSONObject(key);
+            } catch (JSONException e) {}
+
+
+            if(item != null){
+
+                JSONArray coordinates = null;
+                try {
+                    coordinates = new JSONObject(item.getString("areaUse")).getJSONArray("coordinates").getJSONArray(0);
+                } catch (JSONException e) {}
+                try {
+                    coordinates = item.getJSONArray("coordinates").getJSONArray(0);
+                } catch (JSONException e) {}
+
+                if(coordinates != null){
+
+                    List<LatLng> latLngs = new ArrayList<>();
+
+                    for(int i = 0; i < coordinates.length(); i++){
+                        try {
+                            JSONArray coords = coordinates.getJSONArray(i);
+                            latLngs.add(new LatLng(coords.getDouble(1),coords.getDouble(0)));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if(latLngs != null && latLngs.size() > 0) {
+                        KmlServerPolygon poly = new KmlServerPolygon(latLngs);
+                        polygons.add(poly);
+                    }
+
+                }
+            }
+        }
+
+        Log.w("kmls",": "+polygons.size());
+        getMvpView().showPolygon(polygons);
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -48,4 +48,5 @@ dependencies {
     compile "pl.droidsonroids.gif:android-gif-drawable:$rootProject.ext.androidGifDrawable"
     compile "com.squareup.picasso:picasso:$rootProject.ext.squareupPicasso"
     compile "com.google.maps.android:android-maps-utils:$rootProject.ext.googleMapsUtils"
+    compile "com.android.volley:volley:$rootProject.ext.volley"
 }

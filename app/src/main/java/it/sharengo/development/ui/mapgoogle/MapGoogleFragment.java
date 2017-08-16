@@ -35,6 +35,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v4.util.LruCache;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -63,13 +64,13 @@ import com.androidmapsextensions.ClusteringSettings;
 import com.androidmapsextensions.GoogleMap;
 import com.androidmapsextensions.MarkerOptions;
 import com.androidmapsextensions.OnMapReadyCallback;
+import com.androidmapsextensions.PolygonOptions;
 import com.example.x.circlelayout.CircleLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.maps.android.clustering.ClusterItem;
@@ -96,6 +97,7 @@ import it.sharengo.development.R;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.City;
 import it.sharengo.development.data.models.Feed;
+import it.sharengo.development.data.models.KmlServerPolygon;
 import it.sharengo.development.data.models.Reservation;
 import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.models.Trip;
@@ -103,7 +105,6 @@ import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.map.BaseMapFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.ui.map.MapActivity;
-import it.sharengo.development.ui.map.MapFragment;
 import it.sharengo.development.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
 import it.sharengo.development.utils.ImageUtils;
 
@@ -189,6 +190,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private List<MarkerOptions> poiMarkersToAdd;
     private List<com.androidmapsextensions.Marker> feedsMarker;
     private List<com.androidmapsextensions.Marker> poiCityMarkers;
+    private List<com.androidmapsextensions.Polygon> polygonsMaps;
     private ClusterManager<ClusterItem> mClusterManager;
     private String carnext_id;
     private Car carNext;
@@ -1028,6 +1030,16 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
     }
 
+    //Rimuovo un gruppo di poligoni dalla mappa
+    private void removePolygons(List<com.androidmapsextensions.Polygon> polygons) {
+        if(polygons != null) {
+            for (com.androidmapsextensions.Polygon polygon : polygons) {
+                polygon.remove();
+            }
+            polygons.clear();
+        }
+    }
+
     //Metodo richiamato quando viene eseguito il tap su un marker presente nella mappa
     @Override
     public boolean onMarkerClick(com.androidmapsextensions.Marker marker) {
@@ -1477,6 +1489,36 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     showPoiMarkers();
             }
         }
+    }
+
+    //Metodo per disegnare i poligoni sulla mappa
+    private void drawPolygon(List<KmlServerPolygon> polygonList){
+
+        removePolygons(polygonsMaps);
+
+        if(polygonsMaps == null) polygonsMaps = new ArrayList<>();
+
+        //Ciclo i poligoni
+        for (KmlServerPolygon polygonss : polygonList){
+
+            //Ciclo le coordinate di ogni poligono
+            PolygonOptions polygonOptions = new PolygonOptions().strokeColor(Color.parseColor("#44ad4f")).fillColor(Color.parseColor("#1A44ad4f")).strokeWidth(4);
+            for(LatLng coords : polygonss.coordinates){
+                polygonOptions.add(coords);
+            }
+
+
+            com.androidmapsextensions.Polygon polygonGoogle = mMap.addPolygon(polygonOptions);
+            polygonsMaps.add(polygonGoogle);
+
+            //Log.w("polygonGoogle",": "+polygonGoogle);
+            /*com.androidmapsextensions.Polygon polygonGoogle = mMap.addPolygon(new PolygonOptions()
+                    .add(new LatLng(0, 0), new LatLng(0, 5), new LatLng(3, 5), new LatLng(0, 0))
+                    .strokeColor(Color.RED)
+                    .fillColor(Color.BLUE));*/
+
+        }
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2427,6 +2469,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void setNextCar(List<Car> carsList){
         findNextCar(carsList);
+    }
+
+    @Override
+    public void showPolygon(List<KmlServerPolygon> polygonList){
+        drawPolygon(polygonList);
     }
 
 
