@@ -598,8 +598,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(41.895514);
-        userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259
+        /*userLocation.setLatitude(41.895514);
+        userLocation.setLongitude(12.486259);*/ //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259
 
         enabledCenterMap(true);
 
@@ -1125,7 +1125,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Abilito / disabilito pulsante per centrare la mappa
     private void enabledCenterMap(boolean enable){
-        Log.w("enable",": "+enable);
         if(enable){
             centerMapButton.setAlpha(1.0f);
             if(mPresenter.isFeeds) ad.centerAlpha = false;
@@ -1338,18 +1337,24 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //Verifico se è attiva una prenotazione
         if(isBookingCar || isTripStart){
 
-            //Mostro un'alert di avviso
-            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
-                    getString(R.string.booking_bookedcar_alert),
-                    getString(R.string.ok),
-                    null);
-            cdd.show();
-            cdd.yes.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    cdd.dismissAlert();
-                }
-            });
+            //Se è la stessa macchina prenotata / in corsa faccio solo lo zoom
+            if(carSelected.id.equals(car.id)){
+                moveMapCameraToPoitWithZoom((double) carSelected.latitude, (double) carSelected.longitude, 17);
+            }else {
+
+                //Mostro un'alert di avviso
+                final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                        getString(R.string.booking_bookedcar_alert),
+                        getString(R.string.ok),
+                        null);
+                cdd.show();
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismissAlert();
+                    }
+                });
+            }
         }else {
             moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
             showPopupCar(car);
@@ -2067,6 +2072,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void showNotification(int start, int end){
+
         int diffTime = (int) (end - start);
 
         co2 = ((float) diffTime)/60/60*17*106;  //((minuti÷60)×17)×106

@@ -178,7 +178,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     public void onMapIsReady() {
         mMapIsReady = true;
-        Log.w("onMapIsReady","YES");
         viewCreated();
     }
 
@@ -186,7 +185,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         mLocationIsReady = true;
         mLatitude = lat;
         mLongitude = lng;
-        Log.w("onLocationIsReady","YES");
     }
 
 
@@ -201,7 +199,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
         loadCarpopup();
 
-        Log.w("viewCreated","A");
         if(!mUserRepository.getCachedUser().username.isEmpty())
             getReservations(false);
 
@@ -1152,9 +1149,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private void checkReservationsResult(){
-        Log.w("checkReservationsResult","A");
+
         if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
-            Log.w("checkReservationsResult","B");
             loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
             isBookingExists = true;
         }else{
@@ -1186,7 +1182,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
     private Observable<ResponseCar> buildCarsReservationRequest(String plate) {
-        Log.w("plate",": "+plate);
+
         return mCarsReservationRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
@@ -1248,7 +1244,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void loadCarsTrip(String plate) {
-        Log.w("loadCarsTrip","A");
+
         hideLoading = false;
 
         mCarsReservationRequest = null;
@@ -1337,7 +1333,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     @Override
                     public void call() {
 
-                        Log.w("City","OK");
 
                         //Memorizzo le città sul dispositivo in caso di mancata connessione ad internet
                         SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
