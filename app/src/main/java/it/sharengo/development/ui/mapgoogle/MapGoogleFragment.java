@@ -50,6 +50,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -523,6 +524,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             moveMapCameraTo(location.getLatitude(), location.getLongitude());
         }
 
+        enabledCenterMap(true);
+
         //markerUser
         drawUserMarker();
 
@@ -574,7 +577,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 refreshCars();
             }
         }, 100);
-        enabledCenterMap(false);
+        //enabledCenterMap(false);
 
         if(!hasInit) {
             moveMapCameraToPoitWithZoom(defaultLocation.latitude, defaultLocation.longitude, 5);
@@ -595,8 +598,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(45.510349);
-        //userLocation.setLongitude(9.093254);
+        userLocation.setLatitude(41.895514);
+        userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259
+
+        enabledCenterMap(true);
 
         //First time
         if (!hasInit){
@@ -783,6 +788,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Microfono
     private void startSpeechToText() {
+
+        InputMethodManager imm = (InputMethodManager)  getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -810,7 +819,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     String text = result.get(0);
                     searchEditText.setText(text);
                     initMapSearch();
-
                     getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
                 }
@@ -927,6 +935,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void setRotationButton(float rotation){
 
+        if(mPresenter.isFeeds){
+            ad.rotation = -rotation;
+            circularLayout.init();
+        }
         orientationMapButton.setRotation(-rotation);
     }
 
@@ -1062,6 +1074,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             zoomCarmeraIn(marker.getPosition().latitude, marker.getPosition().longitude);
         }
 
+        //Chiudo la ricerca
+        hideSoftKeyboard();
+
         return true;
     }
 
@@ -1110,7 +1125,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Abilito / disabilito pulsante per centrare la mappa
     private void enabledCenterMap(boolean enable){
-
+        Log.w("enable",": "+enable);
         if(enable){
             centerMapButton.setAlpha(1.0f);
             if(mPresenter.isFeeds) ad.centerAlpha = false;
@@ -2374,7 +2389,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void showSearchResult(List<SearchItem> searchItemList) {
         setSearchViewHeight();
-        mAdapter.setData(searchItemList);
+        if(searchItemList.size() > 15)
+            mAdapter.setData(searchItemList.subList(0, 15));
+        else
+            mAdapter.setData(searchItemList);
     }
 
     @Override

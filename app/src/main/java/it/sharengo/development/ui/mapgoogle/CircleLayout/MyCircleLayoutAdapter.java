@@ -20,6 +20,7 @@ public class MyCircleLayoutAdapter extends CircleLayoutAdapter {
     public boolean carAlpha = true;
     public boolean centerAlpha = false;
     public boolean animationRefresh = false;
+    public float rotation = 0.0f;
 
     private OnItemActionListener mListener;
 
@@ -93,12 +94,16 @@ public class MyCircleLayoutAdapter extends CircleLayoutAdapter {
         //Cars
         if(index == 3 && carAlpha) civ.setAlpha(0.4f);
 
+        //Refresh
+        if(index == 2 && animationRefresh) civ.startRotateAnimation();
+        else civ.stopRotateAnimation();
+
         //Center
         if(index == 1 && centerAlpha) civ.setAlpha(0.4f);
 
+        //Compass
+        if(index == 0) civ.setRotation(rotation);
 
-        if(index == 2 && animationRefresh) civ.startRotateAnimation();
-        else civ.stopRotateAnimation();
 
         return civ;
     }
