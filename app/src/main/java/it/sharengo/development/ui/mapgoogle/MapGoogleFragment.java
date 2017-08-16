@@ -201,6 +201,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private List<String> drawableAnimGreenArray;
     private List<String> drawableAnimYellowArray;
     private float currentRotation;
+    private boolean cityClusterVisible;
 
     @BindView(R.id.mapView)
     FrameLayout mMapContainer;
@@ -375,6 +376,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         tripTimestampStart = 0;
         co2 = 0f;
         currentRotation = 0f;
+        cityClusterVisible = false;
         drawableAnimGreenArray = new ArrayList<>();
         drawableAnimYellowArray = new ArrayList<>();
         for(int i = 0; i <= NUM_ANIM; i++){
@@ -997,6 +999,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             mPresenter.loadCity(getActivity());
 
+            if(polygonsMaps != null){
+                removePolygons(polygonsMaps);
+                cityClusterVisible = false;
+            }
 
         }else {
 
@@ -1015,6 +1021,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     mPresenter.refreshCars(getActivity(), (float) getMapCenter().latitude, (float) getMapCenter().longitude, user_lat, user_lon, getFixMapRadius());
                 } catch (NullPointerException e) {
                 }
+            }
+
+            if(!cityClusterVisible){
+                mPresenter.loadKml(getContext());
+                cityClusterVisible = true;
             }
         }
 
@@ -1507,15 +1518,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 polygonOptions.add(coords);
             }
 
-
             com.androidmapsextensions.Polygon polygonGoogle = mMap.addPolygon(polygonOptions);
             polygonsMaps.add(polygonGoogle);
-
-            //Log.w("polygonGoogle",": "+polygonGoogle);
-            /*com.androidmapsextensions.Polygon polygonGoogle = mMap.addPolygon(new PolygonOptions()
-                    .add(new LatLng(0, 0), new LatLng(0, 5), new LatLng(3, 5), new LatLng(0, 0))
-                    .strokeColor(Color.RED)
-                    .fillColor(Color.BLUE));*/
 
         }
 

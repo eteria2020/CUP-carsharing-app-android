@@ -8,6 +8,7 @@
     <string name="preference_lang">lang</string>
     <string name="preference_feeds">feeds</string>
     <string name="preference_tutorial">tutorial</string>
+    <string name="preference_kml">kml</string>
 
     <!--PERMISSION-->
     <string name="msg_rational_location_permission">The app needs your permission to access your position.</string>

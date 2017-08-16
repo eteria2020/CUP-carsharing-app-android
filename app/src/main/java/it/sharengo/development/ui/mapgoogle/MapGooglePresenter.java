@@ -12,11 +12,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -56,6 +59,8 @@ import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
@@ -329,8 +334,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         loadCars(latitude, longitude, user_lat, user_lon, radius);
         if(isFeeds)
             loadFeeds(context, latitude, longitude, radius);
-
-        loadKml(context);
     }
 
     public void loadCars(float latitude, float longitude, float user_lat, float user_lon, int radius) {
@@ -389,34 +392,41 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //                                              Load Kml
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void loadKml(Context context){
+    public void loadKml(final Context context){
 
+        SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, "http://www.sharengo.it/zone", null, new com.android.volley.Response.Listener<JSONObject>() {
+        Type fooType = new TypeToken<List<KmlServerPolygon>>() {}.getType();
 
-                    @Override
-                    public void onResponse(JSONObject response) {
+        Gson gson = new Gson();
+        String json = mPref.getString(context.getString(R.string.preference_kml), "");
+        List<KmlServerPolygon> obj = (ArrayList<KmlServerPolygon>) gson.fromJson(json, fooType);
 
-                        Log.w("response",": "+response);
-                        parseKml(response);
-                    }
-                }, new com.android.volley.Response.ErrorListener() {
+        if(obj != null) getMvpView().showPolygon(obj);
+        else {
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.GET, "http://www.sharengo.it/zone", null, new com.android.volley.Response.Listener<JSONObject>() {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                        @Override
+                        public void onResponse(JSONObject response) {
 
-                        Log.w("error",": "+error);
+                            parseKml(context, response);
+                        }
+                    }, new com.android.volley.Response.ErrorListener() {
 
-                    }
-                }){
-        };
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
-        queue.add(jsObjRequest);
+                        }
+                    }) {
+            };
+
+            RequestQueue queue = Volley.newRequestQueue(context);
+            queue.add(jsObjRequest);
+        }
     }
 
-    private void parseKml(JSONObject response){
+    private void parseKml(Context context, JSONObject response){
 
         List<KmlServerPolygon> polygons = new ArrayList<>();
 
@@ -463,7 +473,14 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             }
         }
 
-        Log.w("kmls",": "+polygons.size());
+        SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPref.edit();
+        Type fooType = new TypeToken<List<KmlServerPolygon>>() {}.getType();
+        Gson gson = new Gson();
+        String json = gson.toJson(polygons, fooType);
+        prefsEditor.putString(context.getString(R.string.preference_kml), json);
+        prefsEditor.commit();
+
         getMvpView().showPolygon(polygons);
 
     }
