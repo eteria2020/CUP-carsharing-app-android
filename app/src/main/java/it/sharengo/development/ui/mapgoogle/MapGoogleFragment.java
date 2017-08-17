@@ -882,17 +882,17 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             roundMenuMapView.setVisibility(View.VISIBLE);
             roundMenuFeedsView.setVisibility(View.GONE);
 
-            orientationMapButtonView.setTranslationX(-157.0f);
-            orientationMapButtonView.setTranslationY(12.0f);
+            //orientationMapButtonView.setTranslationX(-157.0f);
+            //orientationMapButtonView.setTranslationY(12.0f);
 
-            centerMapButtonView.setTranslationX(-100.0f);
-            centerMapButtonView.setTranslationY(65.0f);
+            //centerMapButtonView.setTranslationX(-100.0f);
+            //centerMapButtonView.setTranslationY(65.0f);
 
-            refreshMapButtonView.setTranslationX(-65.0f);
-            refreshMapButtonView.setTranslationY(100.0f);
+            //refreshMapButtonView.setTranslationX(-65.0f);
+            //refreshMapButtonView.setTranslationY(100.0f);
 
-            carFeedMapButtonView.setTranslationX(-20.0f);
-            carFeedMapButtonView.setTranslationY(100.0f);
+            //carFeedMapButtonView.setTranslationX(-20.0f);
+            //carFeedMapButtonView.setTranslationY(100.0f);
         }
     }
     private void onCircleMenuClick(int i){
@@ -1378,7 +1378,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         String car_id = "";
         float distance = 10000000000000000000000.0f;
 
-        if(userLocation != null) {
+        if(userLocation != null && carsList != null) {
 
             for (Car car : carsList) {
 

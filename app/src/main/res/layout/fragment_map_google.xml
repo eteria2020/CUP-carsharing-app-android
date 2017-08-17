@@ -42,8 +42,8 @@
             android:layout_width="32.0dp"
             android:layout_height="32.0dp"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="-55dp">
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="5dp">
             <ImageView
                 android:id="@+id/orientationMapButton"
                 android:layout_width="32.0dp"
@@ -56,9 +56,8 @@
             android:id="@+id/centerMapButtonView"
             android:layout_width="32.0dp"
             android:layout_height="32.0dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp">
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="30dp">
             <ImageView
                 android:id="@+id/centerMapButton"
                 android:layout_width="32.0dp"
@@ -71,8 +70,8 @@
             android:id="@+id/refreshMapButtonView"
             android:layout_width="32.0dp"
             android:layout_height="32.0dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp">
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="70dp">
             <ImageView
                 android:id="@+id/refreshMapButton"
                 android:layout_width="32.0dp"
@@ -87,7 +86,8 @@
             android:layout_height="32.0dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="5dp"
+            android:visibility="gone">
             <ImageView
                 android:id="@+id/carFeedMapButton"
                 android:layout_width="32.0dp"
