@@ -99,7 +99,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
             }
         };
 
-        timer1min.schedule(timerTask1min, 10000, 10000); //60000 TODO
+        timer1min.schedule(timerTask1min, 3000, 20000); //60000 TODO
 
     }
 
@@ -190,6 +190,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
             }
             getTrips(true);
         }
+
     }
 
 
@@ -245,7 +246,6 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
             timestamp_start = mResponseTrip.trips.get(0).timestamp_start;
             isTripExists = true;
         }else{
-
             if(isTripExists){
                 isTripExists = false;
 

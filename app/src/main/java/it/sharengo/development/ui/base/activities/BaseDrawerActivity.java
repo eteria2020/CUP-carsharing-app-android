@@ -247,13 +247,15 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
 
     public void showNotification(String notification, View.OnClickListener mNotificationListener){
 
+        Log.w("RESER","showNotification BASE ACTIVITY");
+
         ((TextView) findViewById(R.id.notificationTextView)).setText(notification);
         final ViewGroup notificationView = (ViewGroup) findViewById(R.id.notificationView);
         notificationView.setVisibility(View.VISIBLE);
         notificationView.setOnClickListener(mNotificationListener);
 
         notificationView.animate().translationY(0);
-
+        Log.w("RESER","STOP");
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

@@ -3,6 +3,7 @@ package it.sharengo.development.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ public class HomeActivity extends BaseDrawerActivity {
 
     @Override
     public void showNotification(String notification, View.OnClickListener mNotificationListener){
+        Log.w("RESER","showNotification ACTIVITY");
         super.showNotification(notification, mNotificationListener);
     }
 

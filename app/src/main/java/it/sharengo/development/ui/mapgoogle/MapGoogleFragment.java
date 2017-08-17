@@ -598,8 +598,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(44.975330);
-        userLocation.setLongitude(7.617876); //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        //userLocation.setLatitude(44.975330);
+        //userLocation.setLongitude(7.617876); //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1628,7 +1628,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         try {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if(!addresses.isEmpty())
-                address = addresses.get(0).getAddressLine(0)+", "+addresses.get(0).getLocality();
+                address = addresses.get(0).getAddressLine(0);/*+", "+addresses.get(0).getLocality()*/
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -2057,7 +2057,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         carbookingMarker = myMarker;
 
 
-        moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
+        moveMapCameraToPoitWithZoom((double) car.latitude + 0.0002, (double) car.longitude, 19);
 
 
         setMarkerAnimation();
@@ -2075,11 +2075,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void showNotification(int start, int end){
 
+
         int diffTime = (int) (end - start);
 
         co2 = ((float) diffTime)/60/60*17*106;  //((minuti÷60)×17)×106
 
-        ((MapActivity) getActivity()).showNotification(String.format(getString(R.string.tripend_notification_label), diffTime/60), mNotificationListener);
+        ((MapGoogleActivity) getActivity()).showNotification(String.format(getString(R.string.tripend_notification_label), diffTime/60), mNotificationListener);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

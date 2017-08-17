@@ -451,17 +451,15 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
         if(!mEventsList.isEmpty())
             feeds.addAll(mEventsList);
 
-        Log.w("EVENT","EV");
         for(Feed ff : mEventsList){
-            Log.w("E",": "+ff.title);
+
         }
 
         if(!mOffersList.isEmpty())
             feeds.addAll(mOffersList);
 
-        Log.w("OFFER","OF");
         for(Feed ff : mOffersList){
-            Log.w("O",": "+ff.title);
+
         }
 
         getMvpView().showFeeds(feeds);
