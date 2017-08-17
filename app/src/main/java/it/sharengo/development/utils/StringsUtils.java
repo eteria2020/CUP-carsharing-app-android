@@ -3,6 +3,7 @@ package it.sharengo.development.utils;
 import android.app.Activity;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -46,6 +47,16 @@ public class StringsUtils {
             md5 = "0"+md5;
         }
         return md5;
+    }
+
+
+    public static String fromHTML(String s){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            s = String.valueOf(Html.fromHtml(s, Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            s = String.valueOf(Html.fromHtml(s));
+        }
+        return s;
     }
 
 }

@@ -108,6 +108,7 @@ import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.ui.map.MapActivity;
 import it.sharengo.development.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
 import it.sharengo.development.utils.ImageUtils;
+import it.sharengo.development.utils.StringsUtils;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -598,8 +599,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(44.975330);
-        //userLocation.setLongitude(7.617876); //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.895514);
+        userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1627,8 +1628,17 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-            if(!addresses.isEmpty())
-                address = addresses.get(0).getAddressLine(0);/*+", "+addresses.get(0).getLocality()*/
+
+
+            if(!addresses.isEmpty() && addresses.get(0) != null) {
+
+                String street = addresses.get(0).getThoroughfare(); //Nome della via
+                String number = addresses.get(0).getSubThoroughfare(); //Numero civico
+
+                if(street != null) address = street;
+                if(address.length() > 0 && number != null) address += ", ";
+                if(number != null) address += number;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -2209,7 +2219,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             feedTriangleView.setVisibility(View.GONE);
         }else {
             feedTriangleView.setVisibility(View.VISIBLE);
-            feedAdvantageTextView.setText(feed.informations.advantage_top);
+            feedAdvantageTextView.setText(StringsUtils.fromHTML(feed.informations.advantage_top));
         }
 
         //Icona
@@ -2218,29 +2228,29 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         backgroundShape.setColor(feedColor);
 
         //Data
-        feedDateTextView.setText(feed.informations.date.friendly);
+        feedDateTextView.setText(StringsUtils.fromHTML(feed.informations.date.friendly));
 
         //Launch title
         if(feed.informations.launch_title.isEmpty()){
             feedLaunchTitleTextView.setVisibility(View.GONE);
         }else{
             feedLaunchTitleTextView.setVisibility(View.VISIBLE);
-            feedLaunchTitleTextView.setText(feed.informations.launch_title);
+            feedLaunchTitleTextView.setText(StringsUtils.fromHTML(feed.informations.launch_title));
             feedLaunchTitleTextView.setTextColor(feedColor);
         }
 
         //Titolo
-        feedTitleTextView.setText(feed.title);
+        feedTitleTextView.setText(StringsUtils.fromHTML(feed.title));
 
         //Location
-        feedLocationTextView.setText(feed.informations.location + ", " +  feed.informations.address.friendly +  ", " + feed.informations.city.name);
+        feedLocationTextView.setText(StringsUtils.fromHTML(feed.informations.location + ", " +  feed.informations.address.friendly +  ", " + feed.informations.city.name));
 
         //Advantage bottom
         if(feed.informations.advantage_bottom.isEmpty()){
             feedAdvantageBottomTextView.setVisibility(View.GONE);
         }else{
             feedAdvantageBottomTextView.setVisibility(View.VISIBLE);
-            feedAdvantageBottomTextView.setText(feed.informations.advantage_bottom);
+            feedAdvantageBottomTextView.setText(StringsUtils.fromHTML(feed.informations.advantage_bottom));
 
             if(feed.informations.sponsored.equals("true"))
                 feedAdvantageBottomTextView.setTextColor(feedColor);

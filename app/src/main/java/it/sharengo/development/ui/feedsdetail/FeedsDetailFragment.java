@@ -30,6 +30,7 @@ import it.sharengo.development.R;
 import it.sharengo.development.data.models.Feed;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.utils.ImageUtils;
+import it.sharengo.development.utils.StringsUtils;
 import jp.wasabeef.glide.transformations.MaskTransformation;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -185,7 +186,7 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
         Log.w("AAA",": "+feed.informations.sponsored.equals("true"));
 
         //Categoria
-        feedHeaderTextView.setText(feed.category.name);
+        feedHeaderTextView.setText(StringsUtils.fromHTML(feed.category.name));
 
         //Immagine copertina
         Glide.with(feedImageView.getContext())
@@ -205,7 +206,7 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
             feedTriangleView.setVisibility(View.GONE);
         }else {
             feedTriangleView.setVisibility(View.VISIBLE);
-            feedAdvantageTextView.setText(feed.informations.advantage_top);
+            feedAdvantageTextView.setText(StringsUtils.fromHTML(feed.informations.advantage_top));
         }
 
         //Icona
@@ -214,34 +215,34 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
         backgroundShape.setColor(feedColor);
 
         //Data
-        feedDateTextView.setText(feed.informations.date.friendly);
+        feedDateTextView.setText(StringsUtils.fromHTML(feed.informations.date.friendly));
 
         //Launch title
         if(feed.informations.launch_title.isEmpty()){
             feedLaunchTitleTextView.setVisibility(View.GONE);
         }else{
-            feedLaunchTitleTextView.setText(feed.informations.launch_title);
+            feedLaunchTitleTextView.setText(StringsUtils.fromHTML(feed.informations.launch_title));
             feedLaunchTitleTextView.setTextColor(feedColor);
         }
 
         //Titolo
-        feedTitleTextView.setText(feed.title);
+        feedTitleTextView.setText(StringsUtils.fromHTML(feed.title));
 
         //Abstract
         if(feed.informations.abstract_text.isEmpty()){
             feedAbstractTextView.setVisibility(View.GONE);
         }else{
-            feedAbstractTextView.setText(feed.informations.abstract_text);
+            feedAbstractTextView.setText(StringsUtils.fromHTML(feed.informations.abstract_text));
         }
 
         //Location
-        feedLocationTextView.setText(feed.informations.location + ", " +  feed.informations.address.friendly +  ", " + feed.informations.city.name);
+        feedLocationTextView.setText(StringsUtils.fromHTML(feed.informations.location + ", " +  feed.informations.address.friendly +  ", " + feed.informations.city.name));
 
         //Advantage bottom
         if(feed.informations.advantage_bottom.isEmpty()){
             feedAdvantageBottomTextView.setVisibility(View.GONE);
         }else{
-            feedAdvantageBottomTextView.setText(feed.informations.advantage_bottom);
+            feedAdvantageBottomTextView.setText(StringsUtils.fromHTML(feed.informations.advantage_bottom));
 
             if(feed.appearance.color.enforce != null && feed.appearance.color.enforce.equals("true"))
                 feedAdvantageBottomTextView.setTextColor(feedColor);
@@ -251,7 +252,7 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
         if(feed.informations.description.isEmpty()){
             feedDescriptionTextView.setVisibility(View.GONE);
         }else{
-            feedDescriptionTextView.setText(feed.informations.description);
+            feedDescriptionTextView.setText(StringsUtils.fromHTML(feed.informations.description));
         }
 
         //Mi interessa
