@@ -24,14 +24,17 @@ public class PageFragment extends Fragment {
     private static final String TAG = PageFragment.class.getSimpleName();
 
     public static final String ARG_PAGE = "ARG_PAGE";
+    public static final String ARG_LANG = "ARG_LANG";
 
     private int page = 0;
+    private String lang = "";
 
 
-    public static PageFragment newInstance(int page) {
+    public static PageFragment newInstance(int page, String lang) {
         PageFragment fragment = new PageFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);
+        args.putString(ARG_LANG, lang);
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,6 +46,7 @@ public class PageFragment extends Fragment {
 
         if(getArguments() != null){
             page = getArguments().getInt(ARG_PAGE);
+            lang = getArguments().getString(ARG_LANG);
         }
     }
 
@@ -56,9 +60,10 @@ public class PageFragment extends Fragment {
         ImageView slideImageView = (ImageView) rootView.findViewById(R.id.slideImageView);
 
 
-        String lang = Locale.getDefault().getLanguage();
+        /*String lang = Locale.getDefault().getLanguage();
 
-        if(!lang.equals("it")) lang = "en";
+        if(!lang.equals("it")) lang = "en";*/
+
 
         switch (page){
             case 1:

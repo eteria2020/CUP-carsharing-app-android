@@ -106,7 +106,7 @@ public class TutorialFragment extends BaseMvpFragment<TutorialPresenter> impleme
             super(fm);
             pagerFragments = new ArrayList<>();
             for (int i = 0; i < NUM_PAGES; i++) {
-                pagerFragments.add(PageFragment.newInstance(i+1));
+                pagerFragments.add(PageFragment.newInstance(i+1, mPresenter.mAppRepository.getLang()));
             }
         }
 

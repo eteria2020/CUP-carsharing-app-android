@@ -9,7 +9,7 @@ public class TutorialPresenter extends BasePresenter<TutorialMvpView> {
 
     private static final String TAG = TutorialPresenter.class.getSimpleName();
 
-    private final AppRepository mAppRepository;
+    public final AppRepository mAppRepository;
 
 
     public TutorialPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository) {
