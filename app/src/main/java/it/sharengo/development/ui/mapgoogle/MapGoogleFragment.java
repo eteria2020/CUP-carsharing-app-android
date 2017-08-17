@@ -598,8 +598,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        /*userLocation.setLatitude(41.895514);
-        userLocation.setLongitude(12.486259);*/ //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259
+        userLocation.setLatitude(44.975330);
+        userLocation.setLongitude(7.617876); //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1071,6 +1071,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             }
         }else{ //Cluster
 
+            if(marker != null)
             zoomCarmeraIn(marker.getPosition().latitude, marker.getPosition().longitude);
         }
 
@@ -1279,7 +1280,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         for(MarkerOptions markerCar : poiMarkersToAdd){
             com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
-            myMarker.setClusterGroup(ClusterGroup.DEFAULT);
+            myMarker.setClusterGroup(101);
             poiMarkers.add(myMarker);
 
             Car car = (Car) markerCar.getData();
@@ -1389,6 +1390,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     carNext = car;
                 }
             }
+
         }
 
         carnext_id = car_id;
@@ -1839,7 +1841,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         carbookingMarker = myMarker;
 
-        moveMapCameraToPoitWithZoom((double) carSelected.latitude, (double) carSelected.longitude, 19);
+        moveMapCameraToPoitWithZoom((double) carSelected.latitude + 0.0002, (double) carSelected.longitude, 19);
 
         setMarkerAnimation();
 
@@ -2097,7 +2099,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             //Creo il marker
             com.androidmapsextensions.Marker markerFeed = mMap.addMarker(new MarkerOptions().position(new LatLng(feed.informations.address.latitude, feed.informations.address.longitudef)));
             markerFeed.setIcon(getBitmapDescriptor(R.drawable.ic_cluster_transparent));
-            markerFeed.setClusterGroup(2);
+            markerFeed.setClusterGroup(202);
             markerFeed.setData(feed);
 
             feedsMarker.add(markerFeed);
@@ -2519,19 +2521,20 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             int markersCount = markers.size();
             BitmapDescriptor cachedIcon = cache.get(markersCount);
-            if (cachedIcon != null) {
+            /*if (cachedIcon != null) {
                 return clusterOptions.icon(cachedIcon);
-            }
+            }*/
 
-            Bitmap base;
+            Bitmap base = null;
             int textColor = R.color.darkpastelgreen;
             int i = 0;
             do {
-                if(markers.get(i).getData().getClass().equals(Feed.class)){
+                if(markers.get(i).getData().getClass().equals(Car.class)) {
+                    base = baseBitmaps[i];
+                    textColor = R.color.darkpastelgreen;
+                }else if(markers.get(i).getData().getClass().equals(Feed.class)){
                     base = baseBitmapsFeeds[i];
                     textColor = R.color.colorAccent;
-                }else {
-                    base = baseBitmaps[i];
                 }
             } while (markersCount >= forCounts[i++]);
 

@@ -225,7 +225,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             }
         };
 
-        timer.schedule(timerTask, 300000, 300000);
+        timer.schedule(timerTask, 300000, 300000); //300000
 
 
         //1 minuto
@@ -626,7 +626,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     @Override
                     public void call() {
                         //checkResult();
-                        getMvpView().setNextCar(mResponse.data);
+
                     }
                 });
     }
@@ -636,6 +636,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onCompleted() {
                 mPlatesRequest = null;
+                getMvpView().setNextCar(mCachedPlates);
             }
 
             @Override
@@ -646,9 +647,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
             @Override
             public void onNext(Response responseList) {
-
                 if(responseList.reason.isEmpty() && mResponse != null){
-                    mCachedPlates = mResponse.data;
+                    mCachedPlates = responseList.data;
                 }
 
             }
@@ -1110,7 +1110,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     void getReservations(boolean refreshInfo){
-        Log.w("getReservations","A");
         if( mReservationsRequest == null) {
             mReservationsRequest = buildReservationsRequest(refreshInfo);
             addSubscription(mReservationsRequest.unsafeSubscribe(getReservationsSubscriber()));
@@ -1225,7 +1224,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
             if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
-                getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0)); //TODO remove
+                //getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0)); //TODO remove
             }else {
                 getMvpView().openReservationNotification();
                 getMvpView().removeReservationInfo();
