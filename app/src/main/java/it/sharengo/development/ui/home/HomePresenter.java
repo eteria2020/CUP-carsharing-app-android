@@ -79,6 +79,9 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
         stoptimertask();
     }
 
+    /**
+     * Start timer for check reservation or course available.
+     */
     public void startTimer() {
 
         //1 minuto
@@ -103,6 +106,9 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
 
     }
 
+    /**
+     * Stop timer
+     */
     public void stoptimertask() {
 
         if (timer1min != null) {
@@ -111,23 +117,52 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
         }
     }
 
+    /**
+     * Check if user is authenticated.
+     *
+     * @return      result of check user authentication.
+     * @see         boolean
+     */
     public boolean isAuth(){
         if(!mUserRepository.getCachedUser().username.isEmpty()) return true;
         return false;
     }
 
+    /**
+     * Retrieve from cache information of user authenticated.
+     *
+     * @return      user object.
+     * @see         User
+     */
     public User getUserInfo(){
         return mUserRepository.getCachedUser();
     }
 
+    /**
+     * Check status home's animation.
+     *
+     * @return      status of animation of home.
+     * @see         boolean
+     */
     public boolean animateHome(){
         return mAppRepository.animateHome();
     }
 
+    /**
+     * Save status home's animation (if need execute or not execute).
+     *
+     * @param  animate  boolean of status animation.
+     */
     public void setAnimateHome(boolean animate){
         mAppRepository.setAnimateHome(animate);
     }
 
+    /**
+     * Retrieve preference of city.
+     *
+     * @return      object with city's preference.
+     * @see         City
+     */
     public City getCityPreference(){
         return mAppRepository.getCityPreference();
     }
@@ -138,6 +173,11 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     //                                              GET Reservations
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Retrieve from server auto's reservation.
+     *
+     * @param  refreshInfo  boolean if refresh information.
+     */
     void getReservations(boolean refreshInfo){
 
         if( mReservationsRequest == null) {
@@ -199,6 +239,12 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     //                                              GET Trips
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Retrieve from server trips available.
+     *
+     * @param  refreshInfo  boolean if refresh information.
+     */
     void getTrips(boolean refreshInfo){
 
         if( mTripsRequest == null) {
