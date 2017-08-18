@@ -16,6 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+
+
     </RelativeLayout>
 
     <!--The navigation drawer-->
@@ -24,5 +26,13 @@
         android:layout_width="@dimen/drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="right" />
+
+    <!--<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f00"
+        android:alpha="0.5">
+
+    </RelativeLayout>-->
 
 </android.support.v4.widget.DrawerLayout>

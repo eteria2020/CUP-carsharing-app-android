@@ -2,6 +2,7 @@ package it.sharengo.development.ui.base.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import it.handroix.core.base.HdxBaseActivity;
 import it.sharengo.development.R;
@@ -19,6 +20,7 @@ public abstract class BaseActivity extends HdxBaseActivity {
     }
 
     public void showLoading() {
+        Log.w("SHOW","LOADING");
         super.showLoading();
     }
 
