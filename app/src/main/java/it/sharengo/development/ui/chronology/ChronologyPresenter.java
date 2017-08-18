@@ -1,8 +1,6 @@
 package it.sharengo.development.ui.chronology;
 
 
-import android.os.Handler;
-
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.UserRepository;
@@ -64,6 +62,10 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
     //                                              GET Trips
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Retrieve from server user's trips list.
+     */
     public void getTrips(){
 
         hideLoading = true;

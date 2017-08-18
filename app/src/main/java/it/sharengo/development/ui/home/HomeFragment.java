@@ -358,6 +358,14 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         }
     }
 
+    /**
+     * Launch map only if permission set true. Invoke check if set to false.
+     *
+     * @param  requestCode  int of requestCode for set permission
+     * @param  permissions  array of permission
+     * @param  grantResults array of permission status
+     *
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -513,11 +521,17 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     //         BUTTERKNIFE
     //
     ////////////////////////////////////
+    /**
+     * Check map permission.
+     */
     @OnClick(R.id.searchCarsButton)
     public void onSendClick() {
         checkMapPermission();
     }
 
+    /**
+     * Open user profile if user is authenticated; if not authenticated open login view.
+     */
     @OnClick(R.id.profileUserButton)
     public void onProfileClick() {
 
@@ -535,6 +549,9 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
     }
 
+    /**
+     * Open feeds.
+     */
     @OnClick(R.id.cityButton)
     public void onUnknownClick(){
         openFeeds();

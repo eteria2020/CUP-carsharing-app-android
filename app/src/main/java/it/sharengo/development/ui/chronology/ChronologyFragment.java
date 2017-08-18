@@ -101,6 +101,11 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Show activity of Google Maps.
+     */
+
     @OnClick(R.id.goToMapButton)
     public void onMapClick(){
         //Navigator.launchMap(this, Navigator.REQUEST_MAP_DEFAULT);
@@ -113,6 +118,12 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
     //                                              Mvp Methods
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Show user trip performed.
+     *
+     * @param  tripList  user trip to show
+     */
     @Override
     public void showList(final List<Trip> tripList) {
         emptyChronLayout.setVisibility(View.GONE);
@@ -125,12 +136,18 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
 
     }
 
+    /**
+     * Show empty view if not exist user trips.
+     */
     @Override
     public void showEmptyResult(){
         emptyChronLayout.setVisibility(View.VISIBLE);
         mRv.setVisibility(View.GONE);
     }
 
+    /**
+     * Show dialog if there's a network error.
+     */
     @Override
     public void showChronError(Throwable e){
         //Mostro un messaggio di errore

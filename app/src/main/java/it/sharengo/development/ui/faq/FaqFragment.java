@@ -113,6 +113,11 @@ public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvp
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Show tutorial view.
+     */
+
     @OnClick(R.id.tutorialButton)
     public void onTutorialClick(){
         Navigator.launchTutorial(this);

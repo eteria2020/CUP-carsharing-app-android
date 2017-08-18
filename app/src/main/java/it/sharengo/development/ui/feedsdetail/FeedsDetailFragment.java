@@ -137,11 +137,17 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Go back section.
+     */
     @OnClick(R.id.backImageView)
     public void onBackClick(){
         getActivity().finish();
     }
 
+    /**
+     * Save id of feed selected by user.
+     */
     @OnClick(R.id.interestedButton)
     public void onInterestedClick(){
 
@@ -177,6 +183,11 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
     //                                              Mvp Methods
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Show and create field of any information of feed passing as param.
+     *
+     * @param  feed  feed to show
+     */
     public void showInformations(Feed feed){
 
         int feedColor = Color.parseColor(feed.appearance.color.rgb);

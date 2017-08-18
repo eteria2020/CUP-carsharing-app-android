@@ -122,6 +122,12 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             ButterKnife.bind(this, v);
         }
 
+
+        /**
+         * Render in view the information of feed selected.
+         *
+         * @param  feed  feed to render in view.
+         */
         public void render(Feed feed) {
 
             int feedColor = Color.parseColor(feed.appearance.color.rgb);
@@ -207,6 +213,9 @@ public class FeedsAdapter extends RecyclerView.Adapter<FeedsAdapter.ViewHolder> 
             }
         }
 
+        /**
+         * Manage click on element of list.
+         */
         @OnClick(R.id.feedView)
         void onClick() {
             mListener.onItemClick(mData.get(getAdapterPosition()));

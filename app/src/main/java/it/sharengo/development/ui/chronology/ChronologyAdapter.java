@@ -112,6 +112,11 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
             ButterKnife.bind(this, v);
         }
 
+        /**
+         * Render in view the info of user's trip.
+         *
+         * @param  trip  trip of user to render in view.
+         */
         public void render(Trip trip) {
             //Numero prenotazione
             bookingNTextView.setText(String.format(mActivity.getString(R.string.chronology_bookingn_label), trip.id+""));
@@ -155,6 +160,9 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
             carTextView.setText(String.format(mActivity.getString(R.string.chronology_sharengo_label), trip.plate));
         }
 
+        /**
+         * Open detail view for showing details of user's trip.
+         */
         @OnClick(R.id.chronView)
         void onClick() {
 

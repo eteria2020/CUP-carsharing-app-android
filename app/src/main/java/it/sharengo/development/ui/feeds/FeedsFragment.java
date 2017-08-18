@@ -244,6 +244,14 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
         Navigator.launchMapGoogle(this, Navigator.REQUEST_MAP_FEEDS);
     }
 
+    /**
+     * Launch map only if permission set true. Invoke check if set to false.
+     *
+     * @param  requestCode  int of requestCode for set permission
+     * @param  permissions  array of permission
+     * @param  grantResults array of permission status
+     *
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -313,23 +321,36 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Show list of feed available.
+     */
     @OnClick(R.id.feedButton)
     public void onFeedClick(){
         tabSelected = 0;
         showFeedsList();
     }
 
+    /**
+     * Show feed categories available.
+     */
     @OnClick(R.id.categoriesButton)
     public void onCategoriesClick(){
         tabSelected = 1;
         showFeedsCategories();
     }
 
+    /**
+     * Go Back section.
+     */
     @OnClick(R.id.backImageView)
     public void onBackClick(){
         getActivity().finish();
     }
 
+    /**
+     * Check map permission.
+     */
     @OnClick(R.id.aroundMeButton)
     public void onAroungMeClick(){
         checkMapPermission();
@@ -341,15 +362,29 @@ public class FeedsFragment extends BaseMvpFragment<FeedsPresenter> implements Fe
     //                                              Mvp Methods
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Show list of feeds category available.
+     *
+     * @param  feedsCategoryList  list of feeds category
+     */
     public void showCategoriesList(List<FeedCategory> feedsCategoryList){
         mCategoriesAdapter.setData(feedsCategoryList);
     }
 
+    /**
+     * Show list all type of feeds.
+     *
+     * @param  feedsList  list of feeds
+     */
     public void showAllFeedsList(List<Feed> feedsList){
         isEmpty = false;
         mFeedsAdapter.setData(feedsList);
     }
 
+    /**
+     * Show dialog if not present any feed for this city.
+     */
     public void showEmptyMessage(){
 
         isEmpty = true;

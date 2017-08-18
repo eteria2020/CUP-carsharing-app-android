@@ -86,10 +86,13 @@ public class FeedsCategoriesAdapter extends RecyclerView.Adapter<FeedsCategories
             ButterKnife.bind(this, v);
         }
 
+        /**
+         * Render in view the category of feed selected.
+         *
+         * @param  category category's feed to render
+         */
         public void render(FeedCategory category) {
             nameTextview.setText(category.name);
-
-
 
             //Sfondo icona
             GradientDrawable backgroundShape = (GradientDrawable) bkgCategoryItem.getBackground();
@@ -116,6 +119,9 @@ public class FeedsCategoriesAdapter extends RecyclerView.Adapter<FeedsCategories
             }
         }
 
+        /**
+         * Manage click on element of list.
+         */
         @OnClick(R.id.categoryView)
         void onClick() {
             mListener.onItemClick(mData.get(getAdapterPosition()));

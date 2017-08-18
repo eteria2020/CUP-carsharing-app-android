@@ -39,6 +39,12 @@ public class HomeActivity extends BaseDrawerActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Show message of notification.
+     *
+     * @param  notification  string of notification received.
+     * @param  mNotificationListener listener for intercept click user of notification banner.
+     */
     @Override
     public void showNotification(String notification, View.OnClickListener mNotificationListener){
         Log.w("RESER","showNotification ACTIVITY");

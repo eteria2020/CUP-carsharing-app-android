@@ -42,9 +42,6 @@ public class MenuRadiusButton extends RelativeLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.w("AAA", ": " + event.getAction());
-        Log.w("flagTouch", ": " + flagTouch);
-
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
 
             case MotionEvent.ACTION_MOVE: {

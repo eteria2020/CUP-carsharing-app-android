@@ -50,6 +50,12 @@ public class AssistanceFragment extends BaseMvpFragment<AssistancePresenter> imp
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Check if device can use telephony module. Answer is show to user by a dialog.
+     *
+     */
+
     @OnClick(R.id.callAssistanceButton)
     public void onAssistanceClick(){
 

@@ -32,6 +32,9 @@ public class FeedsDetailPresenter extends BasePresenter<FeedsDetailMvpView> {
 
     }
 
+    /**
+     * Load view for show the information of feed.
+     */
     public void loadData(){
         getMvpView().showInformations(feed);
     }

@@ -86,6 +86,12 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
     //                                              LOAD Categories
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Load from server categories list.
+     *
+     * @param  context  context of application.
+     */
     public void loadCategoriesList(Context context) {
 
         hideLoading = false;
@@ -133,6 +139,13 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
     //                                              LOAD Offers
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Load from server the offers available for city passing as param.
+     *
+     * @param  context  context of application.
+     * @param  id_city id of city necessary for retrieve offers.
+     */
     public void loadOffersList(Context context, String id_city) {
 
         hideLoading = true;
@@ -181,6 +194,12 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
     //                                              LOAD Events
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Load from server the events available for city passing as param.
+     *
+     * @param  context  context of application.
+     * @param  id_city id of city necessary for retrieve events.
+     */
     public void loadEventsList(Context context, String id_city) {
 
         hideLoading = true;
