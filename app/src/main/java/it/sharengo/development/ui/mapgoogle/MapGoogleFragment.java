@@ -63,6 +63,7 @@ import com.androidmapsextensions.ClusterOptions;
 import com.androidmapsextensions.ClusterOptionsProvider;
 import com.androidmapsextensions.ClusteringSettings;
 import com.androidmapsextensions.GoogleMap;
+import com.androidmapsextensions.Marker;
 import com.androidmapsextensions.MarkerOptions;
 import com.androidmapsextensions.OnMapReadyCallback;
 import com.androidmapsextensions.PolygonOptions;
@@ -198,7 +199,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private String carnext_id;
     private Car carNext;
     private Car carSelected;
-    private com.androidmapsextensions.Marker carnextMarker, carbookingMarker;
+    private com.androidmapsextensions.Marker carnextMarker, carbookingMarker, carNextCluster;
+    private MarkerOptions carNextClusterOptions;
     private int currentDrawable = 0; //frame dell'animazione della macchiana più vicina
     private int NUM_ANIM = 46;
     private List<String> drawableAnimGreenArray;
@@ -612,8 +614,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(41.895514);
-        userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(45.510349);
+        userLocation.setLongitude(9.093254); //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1058,6 +1060,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public boolean onMarkerClick(com.androidmapsextensions.Marker marker) {
 
+
         if(marker != null && marker.getData() != null) {
 
             //City
@@ -1083,11 +1086,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 onTapFeedMarker((Feed) marker.getData());
 
             }
-        }else{ //Cluster
+        }else if(marker.isCluster()){ //Cluster
 
             if(marker != null)
             zoomCarmeraIn(marker.getPosition().latitude, marker.getPosition().longitude);
         }
+
 
         //Chiudo la ricerca
         hideSoftKeyboard();
@@ -1464,6 +1468,19 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                         }catch (NullPointerException e){
                                             carnextMarker = null;
                                         }
+
+                                        /**/
+
+                                        if(carNextClusterOptions != null && carNextCluster == null) {
+                                            Log.w("CLUSTER",":"+carNextClusterOptions);
+                                            carNextCluster = mMap.addMarker(carNextClusterOptions);
+                                            //carNextCluster.setIcon(getBitmapDescriptor(R.drawable.ic_invita_amico));
+                                            carNextCluster.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
+                                            //carNextCluster.setData(markerOnCluster.getData());
+                                        }else if(carNextCluster != null){
+
+                                        }
+                                        /**/
 
                                     }
                                 }
@@ -2519,7 +2536,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         private Bitmap[] baseBitmaps;
         private Bitmap[] baseBitmapsFeeds;
-        private LruCache<Integer, BitmapDescriptor> cache = new LruCache<Integer, BitmapDescriptor>(128);
 
         private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         private Rect bounds = new Rect();
@@ -2544,10 +2560,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         public ClusterOptions getClusterOptions(List<com.androidmapsextensions.Marker> markers) {
 
             int markersCount = markers.size();
-            BitmapDescriptor cachedIcon = cache.get(markersCount);
-            /*if (cachedIcon != null) {
-                return clusterOptions.icon(cachedIcon);
-            }*/
 
             Bitmap base = null;
             int textColor = R.color.darkpastelgreen;
@@ -2560,9 +2572,34 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     base = baseBitmapsFeeds[i];
                     textColor = R.color.colorAccent;
                 }
+
+
             } while (markersCount >= forCounts[i++]);
 
             Bitmap bitmap = base.copy(Bitmap.Config.ARGB_8888, true);
+            //Log.w("CLUSTERING","HO CREATO UN NUOVO CLUSTER");
+
+            //Verifico se all'interno dei gruppo di marker c'è quello relativo alla macchina più vicina
+            boolean findNextCar = false;
+            for(Marker markerOnCluster : markers){
+                if(markerOnCluster.getData().getClass().equals(Car.class)){
+                    /*if(((Car) markerOnCluster.getData()).id.equals("EH43459")){
+                        findNextCar = true;
+                    }*/
+                    if(((Car) markerOnCluster.getData()).id.equals(carnext_id)){
+                        findNextCar = true;
+
+                        carNextClusterOptions = new MarkerOptions().position(new LatLng(((Car) markerOnCluster.getData()).latitude, ((Car) markerOnCluster.getData()).longitude));
+
+                        //carNextCluster = mMap.addMarker();
+                        //markerFeed.setIcon(getBitmapDescriptor(R.drawable.ic_cluster_transparent));
+                        //carNextCluster.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
+                        //carNextCluster.setData(markerOnCluster.getData());
+
+                        //carnextMarker = carNextCluster;
+                    }
+                }
+            }
 
             String text = String.valueOf(markersCount);
             paint.getTextBounds(text, 0, text.length(), bounds);
@@ -2576,7 +2613,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
 
             BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(bitmap);
-            cache.put(markersCount, icon);
+            if(findNextCar){
+                clusterOptions.alpha(0.0f);
+            }
+            else{
+                clusterOptions.alpha(1.0f);
+            }
 
             return clusterOptions.icon(icon);
         }
