@@ -207,6 +207,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private List<String> drawableAnimYellowArray;
     private float currentRotation;
     private boolean cityClusterVisible;
+    boolean findNextCarIntoCluster;
 
     @BindView(R.id.mapView)
     FrameLayout mMapContainer;
@@ -383,6 +384,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         co2 = 0f;
         currentRotation = 0f;
         cityClusterVisible = false;
+        findNextCarIntoCluster = false;
         drawableAnimGreenArray = new ArrayList<>();
         drawableAnimYellowArray = new ArrayList<>();
         for(int i = 0; i <= NUM_ANIM; i++){
@@ -980,6 +982,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void refreshCars(){
 
+        findNextCarIntoCluster = false;
 
         refreshMapButton.startAnimation(anim);
 
@@ -1470,16 +1473,31 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                         }
 
                                         /**/
+                                        Log.w("findNextCarIntoCluster",": "+findNextCarIntoCluster);
+                                        if(findNextCarIntoCluster && carNext != null){
+                                            Log.w("XXXXXXXX",": ");
+                                            if(carNextCluster == null){
+                                                carNextCluster = mMap.addMarker(new MarkerOptions().position(new LatLng(carNext.latitude, carNext.longitude)));
+                                                carNextCluster.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
+                                            }else{
+                                                carNextCluster.setPosition(new LatLng(carNext.latitude, carNext.longitude));
+                                            }
+                                        }else{
+                                            if(carNextCluster != null) carNextCluster.remove();
+                                        }
 
-                                        if(carNextClusterOptions != null && carNextCluster == null) {
-                                            Log.w("CLUSTER",":"+carNextClusterOptions);
+                                        /*if(carNext != null && ) {
+
+                                            carNextClusterOptions = new MarkerOptions().position(new LatLng(carNext.latitude, carNext.longitude));
                                             carNextCluster = mMap.addMarker(carNextClusterOptions);
                                             //carNextCluster.setIcon(getBitmapDescriptor(R.drawable.ic_invita_amico));
                                             carNextCluster.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
                                             //carNextCluster.setData(markerOnCluster.getData());
-                                        }else if(carNextCluster != null){
 
-                                        }
+                                        }else if(carNext != null && carNextCluster != null){
+                                            carNextCluster.setPosition(new LatLng(carNext.latitude, carNext.longitude));
+                                        }*/
+
                                         /**/
 
                                     }
@@ -2588,9 +2606,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     }*/
                     if(((Car) markerOnCluster.getData()).id.equals(carnext_id)){
                         findNextCar = true;
-
-                        carNextClusterOptions = new MarkerOptions().position(new LatLng(((Car) markerOnCluster.getData()).latitude, ((Car) markerOnCluster.getData()).longitude));
-
+                        findNextCarIntoCluster = true;
                         //carNextCluster = mMap.addMarker();
                         //markerFeed.setIcon(getBitmapDescriptor(R.drawable.ic_cluster_transparent));
                         //carNextCluster.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
