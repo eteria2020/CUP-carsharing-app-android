@@ -45,6 +45,9 @@ public class MapGoogleActivity extends BaseDrawerActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Intercept if user press any button of action bar.
+     */
     @Override
     public void actionBarInteraction(){
         super.actionBarInteraction();
@@ -54,10 +57,15 @@ public class MapGoogleActivity extends BaseDrawerActivity {
         }
     }
 
+    /**
+     * Show message of notification.
+     *
+     * @param  notification  string of notification received.
+     * @param  mNotificationListener listener for intercept click user of notification banner.
+     */
     @Override
     public void showNotification(String notification, View.OnClickListener mNotificationListener){
         Log.w("TRIP","showNotification ACTIVITY");
         super.showNotification(notification, mNotificationListener);
     }
-
 }

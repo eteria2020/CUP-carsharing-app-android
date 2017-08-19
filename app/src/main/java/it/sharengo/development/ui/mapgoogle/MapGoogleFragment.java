@@ -467,6 +467,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Set every information on instance of Google Maps.
+     * Set cluster, camera, rotation and refresh car available.
+     *
+     * @param  googleMap instance of Google Maps.
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
@@ -489,7 +495,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     }
 
-
+    /**
+     * Change user position if needed.
+     *
+     * @param  location new location of user.
+     */
     @Override
     public void onNewLocation(Location location) {
         super.onNewLocation(location);
@@ -497,6 +507,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         locationChange(location);
     }
 
+    /**
+     * Send "message" location unvailable.
+     */
     @Override
     public void onLocationUnavailable() {
         super.onLocationUnavailable();
@@ -504,17 +517,17 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             providerDisabled();
     }
 
-    @Override
-    public void onMyLocationChange(Location location) {
-
-
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Location listener
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * When location changed set new camera and center on map.
+     *
+     * @param  location  new location of user
+     */
     @Override
     public void onLocationChanged(Location location) {
         //mPresenter.onLocationIsReady(location.getLatitude(), location.getLongitude());
