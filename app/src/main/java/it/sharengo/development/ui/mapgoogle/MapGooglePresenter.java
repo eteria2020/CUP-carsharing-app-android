@@ -176,19 +176,27 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             return super.showCustomLoading();
     }
 
+
+    /**
+     * Create view when map is ready.
+     */
     public void onMapIsReady() {
         mMapIsReady = true;
         viewCreated();
     }
 
+    /**
+     * Set variable with latitude and longitude of current position of user
+     * and boolean with location ready set to true.
+     *
+     * @param  lat  latitude of current position of user.
+     * @param  lng  longitude of current position of user.
+     */
     public void onLocationIsReady(Double lat, Double lng) {
         mLocationIsReady = true;
         mLatitude = lat;
         mLongitude = lng;
     }
-
-
-
 
     void viewCreated() {
 
@@ -209,7 +217,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         stoptimertask();
     }
 
-
+    /**
+     * Timer for checking reservation or active trips.
+     */
     public void startTimer() {
 
         timer = new Timer();
@@ -256,6 +266,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     }
 
+    /**
+     * Stop timer if different from null.
+     */
     public void stoptimertask() {
         if (timer != null) {
             timer.cancel();
@@ -268,6 +281,12 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         }
     }
 
+    /**
+     * Check if user is authenticated.
+     *
+     * @return      status of user authentication
+     * @see         boolean
+     */
     public boolean isAuth(){
         if(!mUserRepository.getCachedUser().username.isEmpty()) return true;
         return false;
@@ -326,6 +345,16 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Refresh cars (in view) available in map zone by latitude and longitude.
+     *
+     * @param  context   context of application.
+     * @param  latitude  latitude of map's center.
+     * @param  longitude longitude of map's center.
+     * @param  user_lat  latitude of user.
+     * @param  user_lon  longitude of user.
+     * @param  radius    radius of map.
+     */
     public void refreshCars(Context context, float latitude, float longitude, float user_lat, float user_lon, int radius){
         hideLoading = true;
         loadCars(latitude, longitude, user_lat, user_lon, radius);
@@ -333,6 +362,15 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             loadFeeds(context, latitude, longitude, radius);
     }
 
+    /**
+     * Load cars from server available in map zone by latitude and longitude.
+     *
+     * @param  latitude  latitude of map's center.
+     * @param  longitude longitude of map's center.
+     * @param  user_lat  latitude of user.
+     * @param  user_lon  longitude of user.
+     * @param  radius    radius of map.
+     */
     public void loadCars(float latitude, float longitude, float user_lat, float user_lon, int radius) {
 
         if( mCarsRequest == null) {
@@ -389,6 +427,12 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //                                              Load Kml
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Load from server kml for determinate region on GMaps.
+     *
+     * @param  context  context of application.
+     */
     public void loadKml(final Context context){
 
         SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
@@ -487,6 +531,17 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //                                              Load Offers
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Load feeds from server available in map zone by latitude and longitude.
+     *
+     * @param  context   context of application.
+     * @param  latitude  latitude of map's center.
+     * @param  longitude longitude of map's center.
+     * @param  user_lat  latitude of user.
+     * @param  user_lon  longitude of user.
+     * @param  radius    radius of map.
+     */
     public void loadFeeds(Context context, float latitude, float longitude, int radius){
         loadOffersList(context, latitude, longitude, radius);
     }
@@ -538,6 +593,15 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //                                              LOAD Events
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Load events from server available in map zone by latitude and longitude.
+     *
+     * @param  context   context of application.
+     * @param  latitude  latitude of map's center.
+     * @param  longitude longitude of map's center.
+     * @param  radius    radius of map.
+     */
     public void loadEventsList(Context context, float latitude, float longitude, int radius) {
 
         hideLoading = true;
@@ -608,6 +672,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Load cars from server.
+     */
     public void loadPlates() {
         hideLoading = true;
 
@@ -616,7 +683,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             addSubscription(mPlatesRequest.unsafeSubscribe(getPlatesSubscriber()));
         }
     }
-
 
     private Observable<Response> buildPlatesRequest() {
         return mPlatesRequest = mCarRepository.getPlates(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
@@ -663,6 +729,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Find on server car by plate.
+     *
+     * @param  searchText  plate to search.
+     */
     public void findPlates(String searchText) {
         hideLoading = true;
 
@@ -724,6 +795,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Search car by ID and return to app the car's object.
+     *
+     * @param  plate  context of application.
+     * @return        car object.
+     * @see           Car
+     */
     public Car findPlateByID(String plate) {
         Car carFind = null;
 
@@ -742,6 +820,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Find address on server by text search by user.
+     *
+     * @param  searchText  context of application.
+     */
     public void findAddress(String searchText) {
         hideLoading = true;
 
@@ -810,6 +893,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Retrieve from server element search by user.
+     *
+     * @param  searchText text to search.
+     * @param  context    context of application.
+     * @param  mPrefs     preference of app.
+     */
     public void getSearchItems(String searchText, Context context, SharedPreferences mPrefs) {
         hideLoading = true;
 
@@ -866,6 +956,12 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         getMvpView().showSearchResult(historicItems);
     }
 
+    /**
+     * Save historic of search value.
+     *
+     * @param  mPref       preference of app.
+     * @param  searchItem  item to search.
+     */
     public void saveSearchResultOnHistoric(SharedPreferences mPref, SearchItem searchItem){
         mPreferencesRepository.saveSearchResultOnHistoric(mPref, searchItem);
     }
@@ -875,6 +971,12 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //                                              User
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Return the user's object to app.
+     *
+     * @return   user object.
+     * @see      User
+     */
     public User getUser(){
         return mUserRepository.getCachedUser();
     }
@@ -885,6 +987,15 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //                                              Booking car
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Save on server booking information for car selected.
+     *
+     * @param  car       car for retrieve booking information.
+     * @param  user_lat  latitude of user.
+     * @param  user_lon  longitude of user.
+     * @param  context   context of application.
+     */
     public void bookingCar(Car car, float user_lat, float user_lon, Context context){
 
         hideLoading = false;
@@ -942,6 +1053,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Delete on server booking information for car selected.
+     *
+     * @param  id  id of booking car.
+     */
     public void deleteBookingCar(int id){
 
         hideLoading = false;
@@ -991,6 +1107,12 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Send command for open door of car.
+     *
+     * @param  car     car to open.
+     * @param  action  action to execute.
+     */
     public void openDoor(Car car, String action) {
 
         if( mCarsTripRequest == null) {
@@ -1169,6 +1291,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Load from server car reservation by plate.
+     *
+     * @param  plate  plate for car reservation.
+     */
     public void loadCarsReservation(String plate) {
 
         if( mCarsReservationRequest == null) {
@@ -1242,6 +1369,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Load from server car trip by plate.
+     *
+     * @param  plate  plate for car's trip.
+     */
     public void loadCarsTrip(String plate) {
 
         hideLoading = false;
@@ -1304,6 +1436,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Set car to selected (popover).
+     *
+     * @param  cs  car to select.
+     */
     public void setCarSelected(Car cs){
         mCarRepository.setCarSelected(cs);
     }
@@ -1314,6 +1451,12 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //                                              LOAD City
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Load city from server.
+     *
+     * @param  context  context of application.
+     */
     public void loadCity(Context context) {
 
         hideLoading = true;

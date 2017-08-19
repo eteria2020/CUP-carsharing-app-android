@@ -97,30 +97,48 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Hide keyboard and check if login it's correct.
+     */
     @OnClick(R.id.loginButton)
     public void onLoginClick(){
         hideSoftKeyboard();
         checkFormLogin();
     }
 
+    /**
+     * Open Home view and close login.
+     */
     @OnClick(R.id.continueButton)
     public void onContinue(){
         Navigator.launchHome(getActivity());
         getActivity().finish();
     }
 
+    /**
+     * Open slideshow of introductive animation and close login.
+     */
     @OnClick(R.id.registerButton)
     public void onRegister(){
         Navigator.launchSlideshow(this);
         getActivity().finish();
     }
 
+    /**
+     * Open view for recovery password and close login.
+     */
     @OnClick(R.id.forgotButton)
     public void onRecoveryPassword(){
         Navigator.launchPasswordRecovery(this);
         getActivity().finish();
     }
 
+    /**
+     * If user tap "Done" on keyboard invoke check login method.
+     *
+     * @return      status of operation.
+     * @see         boolean
+     */
     @OnEditorAction(R.id.passwordEditText)
     public boolean OnEditorAction(){
         onLoginClick();
@@ -132,6 +150,12 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
     //                                              Mvp Methods
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Show dialog if login it's wrong with correct error message.
+     *
+     * @param  throwable for manage exception.
+     */
     public void showLoginError(Throwable throwable){
 
         if(!(throwable instanceof ErrorResponse)) {
@@ -196,6 +220,9 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         }
     }
 
+    /**
+     * Show dialog to user for service not enabled.
+     */
     public void showEnabledError(){
         final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                 getString(R.string.login_enabled_alert),
@@ -210,6 +237,13 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         });
     }
 
+    /**
+     * Retrieve user info and save to preference password and username of user.
+     *
+     * @param username  string of username.
+     * @param password  string of password.
+     * @param mCachedUser object for caching user info.
+     */
     public void loginCompleted(String username, String password, UserInfo mCachedUser){
 
         SharedPreferences mPref = getActivity().getSharedPreferences(getActivity().getString(R.string.preference_file_key), MODE_PRIVATE);
@@ -225,6 +259,9 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
 
     }
 
+    /**
+     * According to type launch correct view. Example Home, Login Profile or other.
+     */
     public void navigateTo(){
 
         switch (type){

@@ -72,6 +72,11 @@ public class MapSearchListAdapter extends RecyclerView.Adapter<RecyclerView.View
             ButterKnife.bind(this, v);
         }
 
+        /**
+         * Render field and icon for result founded.
+         *
+         * @param  searchItem  element use for search.
+         */
         public void render(SearchItem searchItem) {
 
             //Icona
@@ -111,6 +116,9 @@ public class MapSearchListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         }
 
+        /**
+         * Manage click on list item.
+         */
         @OnClick(R.id.container)
         void onClick() {
             mListener.onItemClick(mData.get(getAdapterPosition()));

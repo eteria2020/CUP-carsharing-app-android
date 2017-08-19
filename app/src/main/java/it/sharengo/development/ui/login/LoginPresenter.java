@@ -72,6 +72,13 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
     //                                              Login
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Check with server if login and password it's correct.
+     *
+     * @param  username  username to check.
+     * @param  password  password to check.
+     */
     public void login(String username, String password){
         if( mUserRequest == null) {
             mUserRequest = buildUserRequest(username, password);
@@ -121,6 +128,14 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
     //                                              SAVE CREDENTIALS
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Save credentials to preference and retrieve reservation of user from server.
+     *
+     * @param  username  username to save.
+     * @param  password  password to save.
+     * @param  mPref     preference of app.
+     */
     public void saveCredentials(String username, String password, SharedPreferences mPref){
         mPreferencesRepository.saveCredentials(username, password, mPref);
         mUserRepository.saveUserCredentials(username, password);
@@ -132,7 +147,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
     //                                              Reservation
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    void getReservation(){
+    private void getReservation(){
 
         if( mReservationsRequest == null) {
             mReservationsRequest = buildReservationsRequest();
