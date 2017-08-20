@@ -262,7 +262,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             }
         };
 
-        timer1min.schedule(timerTask1min, 5000, 60000); //60000 TODO
+        timer1min.schedule(timerTask1min, 5000, 60000); //TODO 60000
 
     }
 
@@ -1280,7 +1280,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 isBookingExists = false;
                 getMvpView().openReservationNotification();
             }
-            //getTrips(true); //TODO Remove
+            getTrips(true); //TODO Remove
         }
     }
 
@@ -1351,7 +1351,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
             if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
-                //getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0)); //TODO remove
+                getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0)); //TODO remove
             }else {
                 getMvpView().openReservationNotification();
                 getMvpView().removeReservationInfo();

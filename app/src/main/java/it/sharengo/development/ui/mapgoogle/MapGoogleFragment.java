@@ -999,7 +999,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         if(userLocation != null){
             com.androidmapsextensions.Marker mMarkerUser = mMap.addMarker(new MarkerOptions().position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude())));
-            mMarkerUser.setIcon(getBitmapDescriptor(R.drawable.ic_user));
+            if(!isTripStart)
+                mMarkerUser.setIcon(getBitmapDescriptor(R.drawable.ic_user));
+
             mMarkerUser.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
             userMarker = mMarkerUser;
         }
@@ -1359,7 +1361,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 Car car = (Car) markerCar.getData();
 
                 //Verifico se è attiva una prenotazione e se la targa dell'overley corrisponde a quella della macchina prenotata
-                if(isBookingCar || isTripStart){
+                //if(isBookingCar || isTripStart){
+                if(isBookingCar){
                     if(car.id.equals(carSelected.id)) {
                         carbookingMarker = myMarker;
                         bookedCarFind = true;
@@ -1386,7 +1389,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }*/
 
         //Se è attiva una prenotazione, ma la macchina non è presente tra i risultati restituiti dal server aggiungo la macchina alla lista
-        if((isBookingCar || isTripStart) && !bookedCarFind){
+        //if((isBookingCar || isTripStart) && !bookedCarFind){
+        if(isBookingCar && !bookedCarFind){
 
             //Creo il marker
             MarkerOptions markerCar = new MarkerOptions().position(new LatLng(carSelected.latitude, carSelected.longitude));
@@ -1519,7 +1523,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Animazione del maker più vicino
     private void setMarkerAnimation(){
 
-        if(carnextMarker != null || carbookingMarker != null) {
+        if(carnextMarker != null || carbookingMarker != null || isTripStart) {
             if (timer != null) timer.cancel();
 
             timer = new Timer();
@@ -1543,12 +1547,18 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                 //Ogni x millisecondi cambio il frame
                                 if (isBookingCar || isTripStart) {
 
-                                    if (carbookingMarker != null)
+                                    if (carbookingMarker != null && isBookingCar) {
                                         try {
                                             carbookingMarker.setIcon(getBitmapDescriptor(resizeMapIcons(drawableAnimArray.get(currentDrawable), 500, 500)));
-                                        }catch (NullPointerException e){
+                                        } catch (NullPointerException e) {
                                             carbookingMarker = null;
                                         }
+                                    }
+                                    if(isTripStart){
+                                        try {
+                                            userMarker.setIcon(getBitmapDescriptor(resizeMapIcons(drawableAnimArray.get(currentDrawable), 500, 500)));
+                                        } catch (NullPointerException e) {}
+                                    }
                                     if (carnextMarker != null)
                                         try {
                                             carnextMarker.setIcon(getBitmapDescriptor(R.drawable.ic_auto));
@@ -1557,6 +1567,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                         }
                                 } else {
 
+                                    drawUserMarker();
+
                                     if (carbookingMarker != null)
                                         try {
                                             carbookingMarker.setIcon(getBitmapDescriptor(R.drawable.ic_auto));
@@ -1564,7 +1576,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                             carbookingMarker = null;
                                         }
                                     if (carnextMarker != null) {
-
                                         try {
                                             carnextMarker.setIcon(getBitmapDescriptor(resizeMapIcons(drawableAnimArray.get(currentDrawable), 500, 500)));
                                         }catch (NullPointerException e){
@@ -2173,7 +2184,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
 
         //Aggiungo la macchina
-        MarkerOptions markerCar = new MarkerOptions().position(new LatLng(car.latitude, car.longitude));
+        /*MarkerOptions markerCar = new MarkerOptions().position(new LatLng(car.latitude, car.longitude));
         markerCar.icon(getBitmapDescriptor(R.drawable.autopulse0001));
         markerCar.data(car);
         poiMarkersToAdd.add(markerCar);
@@ -2182,10 +2193,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         poiMarkers.add(myMarker);
 
 
-        carbookingMarker = myMarker;
+        carbookingMarker = myMarker;*/
 
 
-        moveMapCameraToPoitWithZoom((double) car.latitude + 0.0002, (double) car.longitude, 19);
+        moveMapCameraToPoitWithZoom((double) userLocation.getLatitude() + 0.0002, (double) userLocation.getLongitude(), 19);
 
 
         setMarkerAnimation();
