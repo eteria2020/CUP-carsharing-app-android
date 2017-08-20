@@ -41,4 +41,10 @@ public class LoginActivity extends BaseDrawerActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.fade_out);
+    }
+
 }
