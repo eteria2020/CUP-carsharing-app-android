@@ -1008,6 +1008,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 cityClusterVisible = false;
             }
 
+            if(carNextCluster != null)
+            {
+                carNextCluster.remove();
+                carNextCluster = null;
+            }
+
         }else {
 
             drawUserMarker();
@@ -1085,7 +1091,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 onTapFeedMarker((Feed) marker.getData());
 
             }
-        }else if(marker.isCluster()){ //Cluster
+        }else if(marker != null && marker.isCluster()){ //Cluster
 
             if(marker != null)
             zoomCarmeraIn(marker.getPosition().latitude, marker.getPosition().longitude);
@@ -1326,21 +1332,46 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             carbookingMarker = myMarker;
         }
 
-        //Ciclo i marker disegnati per trovare l'auto vicina
-          if(poiMarkers != null && poiMarkers.size() > 0){
-                for(com.androidmapsextensions.Marker markerNext : poiMarkers){
-                    if(((Car) markerNext.getData()).id.equals(carnext_id)){
-                        carnextMarker = markerNext;
-                    }
-                }
+        setAnimatedMarker();
+        setMarkerAnimation();
 
-                setMarkerAnimation();
-            }else{
-                carnextMarker = null;
+    }
+
+    private void setAnimatedMarker(){
+        //Ciclo i marker disegnati per trovare l'auto vicina
+        if(poiMarkers != null && poiMarkers.size() > 0){
+
+            for(com.androidmapsextensions.Marker markerNext : poiMarkers){
+                if(((Car) markerNext.getData()).id.equals(carnext_id)){
+                    carnextMarker = markerNext;
+                }
             }
 
-          setMarkerAnimation();
+            //Imposto anche l'animazione del cluster in cui è contenuto il marker dell'auto più vicina
+            if (mMap.getCameraPosition().zoom >= 13.5)
+            {
+                if(carNextCluster != null)
+                {
+                    carNextCluster.remove();
+                    carNextCluster = null;
+                }
 
+                //findNextCarIntoCluster = false;
+            }else if(carNext != null){
+
+                if(carNextCluster == null){
+                    carNextCluster = mMap.addMarker(new MarkerOptions().position(new LatLng(carNext.latitude, carNext.longitude)));
+                    carNextCluster.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
+                }else{
+                    carNextCluster.setPosition(new LatLng(carNext.latitude, carNext.longitude));
+                }
+
+            }
+
+            setMarkerAnimation();
+        }else{
+            carnextMarker = null;
+        }
     }
 
     //Metodo per nascondere i pin sulla mappa (richiamato in genere dal pulsante del menu radiale)
@@ -1471,7 +1502,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                                         /**/
 
-                                        if(findNextCarIntoCluster && carNext != null){
+                                        /*if(findNextCarIntoCluster && carNext != null){
 
                                             if(carNextCluster == null){
                                                 carNextCluster = mMap.addMarker(new MarkerOptions().position(new LatLng(carNext.latitude, carNext.longitude)));
@@ -1492,7 +1523,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                             }
 
                                             findNextCarIntoCluster = false;
-                                        }
+                                        }*/
                                     }
                                 }
 
@@ -2527,6 +2558,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void setNextCar(List<Car> carsList){
         findNextCar(carsList);
+        setAnimatedMarker();
     }
 
     @Override
