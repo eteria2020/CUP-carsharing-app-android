@@ -396,7 +396,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 drawableAnimYellowArray.add("autopulseyellow00" + i);
             }
         }
-
     }
 
     @Override
@@ -484,6 +483,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         //Clustering
         mMap.setClustering(new ClusteringSettings().clusterOptionsProvider(new DemoClusterOptionsProvider(getResources())));
+
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
@@ -968,7 +968,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void drawUserMarker(){
-
         if(userMarker != null) userMarker.remove();
 
         if(userLocation != null){
@@ -981,9 +980,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void refreshCars(){
-
-        findNextCarIntoCluster = false;
-
         refreshMapButton.startAnimation(anim);
 
         mapRadius = getMapRadius();
@@ -1344,6 +1340,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             }
 
           setMarkerAnimation();
+
     }
 
     //Metodo per nascondere i pin sulla mappa (richiamato in genere dal pulsante del menu radiale)
@@ -1473,9 +1470,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                         }
 
                                         /**/
-                                        Log.w("findNextCarIntoCluster",": "+findNextCarIntoCluster);
+
                                         if(findNextCarIntoCluster && carNext != null){
-                                            Log.w("XXXXXXXX",": ");
+
                                             if(carNextCluster == null){
                                                 carNextCluster = mMap.addMarker(new MarkerOptions().position(new LatLng(carNext.latitude, carNext.longitude)));
                                                 carNextCluster.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
@@ -1486,23 +1483,18 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                             if(carNextCluster != null) carNextCluster.remove();
                                         }
 
-                                        /*if(carNext != null && ) {
+                                        if (mMap.getCameraPosition().zoom >= 13.5)
+                                        {
+                                            if(carNextCluster != null)
+                                            {
+                                                carNextCluster.remove();
+                                                carNextCluster = null;
+                                            }
 
-                                            carNextClusterOptions = new MarkerOptions().position(new LatLng(carNext.latitude, carNext.longitude));
-                                            carNextCluster = mMap.addMarker(carNextClusterOptions);
-                                            //carNextCluster.setIcon(getBitmapDescriptor(R.drawable.ic_invita_amico));
-                                            carNextCluster.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
-                                            //carNextCluster.setData(markerOnCluster.getData());
-
-                                        }else if(carNext != null && carNextCluster != null){
-                                            carNextCluster.setPosition(new LatLng(carNext.latitude, carNext.longitude));
-                                        }*/
-
-                                        /**/
-
+                                            findNextCarIntoCluster = false;
+                                        }
                                     }
                                 }
-
 
                                 if (currentDrawable < drawableAnimArray.size() - 1)
                                     currentDrawable++;
@@ -2605,6 +2597,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         findNextCar = true;
                     }*/
                     if(((Car) markerOnCluster.getData()).id.equals(carnext_id)){
+                        Log.w("findNextCarIntoCluster","DENTRO");
                         findNextCar = true;
                         findNextCarIntoCluster = true;
                         //carNextCluster = mMap.addMarker();
@@ -2626,7 +2619,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             Canvas canvas = new Canvas(bitmap);
             canvas.drawText(text, x, y, paint);
-
 
             BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(bitmap);
             if(findNextCar){
