@@ -27,14 +27,23 @@
         android:layout_height="match_parent"
         android:layout_gravity="right" />
 
+    <!-- Loader -->
     <RelativeLayout
         android:id="@+id/customLoading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clickable="true"
+        android:background="@drawable/loader_bkg_001"
         android:visibility="gone">
 
         <ImageView
             android:id="@+id/customBkgLoading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/customLoadingAnim"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
