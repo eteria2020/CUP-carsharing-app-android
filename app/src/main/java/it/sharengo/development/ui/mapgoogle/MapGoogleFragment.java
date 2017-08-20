@@ -25,6 +25,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -95,6 +97,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import it.handroix.map.HdxFragmentMapHelper;
+import it.sharengo.development.App;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.City;
@@ -417,7 +420,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         setupCircleMenu();
 
         showCarsWithFeeds = false;
-
+        Log.w("onCreateView","BABABA");
         return view;
     }
 
@@ -448,16 +451,31 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void onResume() {
         super.onResume();
+        Log.w("onResume","BABABA");
+
+        ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        Log.w("isConnected",": "+isConnected);
+        if(!isConnected) {
+            Log.w("onProviderEnabled","YES");
+            onProviderDisabled("");
+        }
+
         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         try {
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
-                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);
+                //lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);
                 return;
             }
 
         }
-        catch (Exception ex){}
+        catch (Exception ex){
+
+        }
+
+
     }
 
     @Override
@@ -496,8 +514,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 setRotationButton(oldPos.bearing);
 
 
-                refreshMapButton.startAnimation(anim);
                 refreshCars();
+
             }
         });
 
@@ -588,6 +606,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void providerDisabled(){
 
+
         userLocation = null;
         //moveMapCameraToDefaultLocation();
 
@@ -596,7 +615,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                refreshCars();
+
+
+                //moveMapCameraToPoitWithZoom(defaultLocation.latitude, defaultLocation.longitude, 5);
+                //refreshCars();
             }
         }, 100);
         //enabledCenterMap(false);
@@ -943,6 +965,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void refreshMap(){
         if(getMapRadius() < 35000) {
+            Log.w("refreshMap","AA");
             refreshMapButton.startAnimation(anim);
 
             float user_lat = 0;
@@ -984,7 +1007,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void refreshCars(){
-        refreshMapButton.startAnimation(anim);
+
+        ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        if(isConnected) {
+            refreshMapButton.startAnimation(anim);
+
+        }
+
 
         mapRadius = getMapRadius();
 

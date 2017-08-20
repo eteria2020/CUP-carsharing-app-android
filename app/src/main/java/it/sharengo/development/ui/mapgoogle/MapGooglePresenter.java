@@ -405,6 +405,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             public void onError(Throwable e) {
                 mCarsRequest = null;
                 getMvpView().showError(e);
+                getMvpView().noCarsFound();
             }
 
             @Override
@@ -538,8 +539,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  context   context of application.
      * @param  latitude  latitude of map's center.
      * @param  longitude longitude of map's center.
-     * @param  user_lat  latitude of user.
-     * @param  user_lon  longitude of user.
      * @param  radius    radius of map.
      */
     public void loadFeeds(Context context, float latitude, float longitude, int radius){
