@@ -27,12 +27,14 @@
         android:layout_height="match_parent"
         android:layout_gravity="right" />
 
-    <!--<RelativeLayout
+    <RelativeLayout
+        android:id="@+id/customLoading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#f00"
-        android:alpha="0.5">
+        android:alpha="0.5"
+        android:visibility="gone">
 
-    </RelativeLayout>-->
+    </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>

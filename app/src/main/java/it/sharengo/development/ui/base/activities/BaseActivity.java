@@ -3,6 +3,7 @@ package it.sharengo.development.ui.base.activities;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
 
 import it.handroix.core.base.HdxBaseActivity;
 import it.sharengo.development.R;
@@ -21,11 +22,13 @@ public abstract class BaseActivity extends HdxBaseActivity {
 
     public void showLoading() {
         Log.w("SHOW","LOADING");
-        super.showLoading();
+        findViewById(R.id.customLoading).setVisibility(View.VISIBLE);
+        //super.showLoading();
     }
 
     public void hideLoading() {
-        super.hideLoading();
+        //super.hideLoading();
+        findViewById(R.id.customLoading).setVisibility(View.GONE);
     }
 
     public void replaceFragment(Fragment fragment) {
