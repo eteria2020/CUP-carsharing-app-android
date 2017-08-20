@@ -12,6 +12,7 @@ import java.util.Locale;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.repositories.AppRepository;
+import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 
@@ -22,11 +23,13 @@ public class SettingsLangPresenter extends BasePresenter<SettingsLangMvpView> {
     private static final String TAG = SettingsLangPresenter.class.getSimpleName();
 
     private final AppRepository mAppRepository;
+    private final UserRepository mUserRepository;
 
 
-    public SettingsLangPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository) {
-        super(schedulerProvider);
+    public SettingsLangPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+        super(schedulerProvider, userRepository);
         mAppRepository = appRepository;
+        this.mUserRepository = userRepository;
 
         mAppRepository.selectMenuItem(MenuItem.Section.SETTINGS);
     }

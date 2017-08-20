@@ -116,13 +116,13 @@ public class MvpFragmentModule {
     }
 
     @Provides
-    TripEndPresenter provideTripEndPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    TripEndPresenter provideTripEndPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         TripEndPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new TripEndPresenter(schedulerProvider, appRepository);
+            presenter = new TripEndPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
@@ -144,133 +144,133 @@ public class MvpFragmentModule {
 
     @Provides
     ProfilePresenter provideProfilePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider,
-                                             AppRepository appRepository) {
+                                             AppRepository appRepository, UserRepository userRepository) {
         ProfilePresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new ProfilePresenter(schedulerProvider, appRepository);
+            presenter = new ProfilePresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    SlideshowPresenter provideSlideshowPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    SlideshowPresenter provideSlideshowPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         SlideshowPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SlideshowPresenter(schedulerProvider, appRepository);
+            presenter = new SlideshowPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    PasswordRecoveryPresenter providePasswordRecoveryPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    PasswordRecoveryPresenter providePasswordRecoveryPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         PasswordRecoveryPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new PasswordRecoveryPresenter(schedulerProvider, appRepository);
+            presenter = new PasswordRecoveryPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    SignupPresenter provideSignupPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    SignupPresenter provideSignupPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         SignupPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SignupPresenter(schedulerProvider, appRepository);
+            presenter = new SignupPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    LongIntroPresenter provideLongIntroPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    LongIntroPresenter provideLongIntroPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         LongIntroPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new LongIntroPresenter(schedulerProvider, appRepository);
+            presenter = new LongIntroPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    ShortIntroPresenter provideShortIntroPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider) {
+    ShortIntroPresenter provideShortIntroPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, UserRepository userRepository) {
         ShortIntroPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new ShortIntroPresenter(schedulerProvider);
+            presenter = new ShortIntroPresenter(schedulerProvider, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    SettingsPresenter provideSettingsPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    SettingsPresenter provideSettingsPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         SettingsPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SettingsPresenter(schedulerProvider, appRepository);
+            presenter = new SettingsPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    SettingsCitiesPresenter provideSettingsCitiesPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    SettingsCitiesPresenter provideSettingsCitiesPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         SettingsCitiesPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SettingsCitiesPresenter(schedulerProvider, appRepository);
+            presenter = new SettingsCitiesPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    SettingsLangPresenter provideSettingsLangPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    SettingsLangPresenter provideSettingsLangPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         SettingsLangPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SettingsLangPresenter(schedulerProvider, appRepository);
+            presenter = new SettingsLangPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    SettingsAddressesPresenter provideSettingsAddressesPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, PreferencesRepository preferencesRepository) {
+    SettingsAddressesPresenter provideSettingsAddressesPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, PreferencesRepository preferencesRepository, UserRepository userRepository) {
         SettingsAddressesPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SettingsAddressesPresenter(schedulerProvider, appRepository, preferencesRepository);
+            presenter = new SettingsAddressesPresenter(schedulerProvider, appRepository, preferencesRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    SettingsAddressesNewPresenter provideSettingsAddressesNewPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, AddressRepository addressRepository, PreferencesRepository preferencesRepository) {
+    SettingsAddressesNewPresenter provideSettingsAddressesNewPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, AddressRepository addressRepository, PreferencesRepository preferencesRepository, UserRepository userRepository) {
         SettingsAddressesNewPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SettingsAddressesNewPresenter(schedulerProvider, appRepository, addressRepository, preferencesRepository);
+            presenter = new SettingsAddressesNewPresenter(schedulerProvider, appRepository, addressRepository, preferencesRepository, userRepository);
         }
         return presenter;
     }
@@ -288,61 +288,61 @@ public class MvpFragmentModule {
     }
 
     @Provides
-    OnboardingPresenter provideOnboardingPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    OnboardingPresenter provideOnboardingPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         OnboardingPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new OnboardingPresenter(schedulerProvider, appRepository);
+            presenter = new OnboardingPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    FeedsPresenter provideFeedsPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, CityRepository cityRepository) {
+    FeedsPresenter provideFeedsPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, CityRepository cityRepository, UserRepository userRepository) {
         FeedsPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new FeedsPresenter(schedulerProvider, appRepository, cityRepository);
+            presenter = new FeedsPresenter(schedulerProvider, appRepository, cityRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    FeedsDetailPresenter provideFeedsDetailPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    FeedsDetailPresenter provideFeedsDetailPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         FeedsDetailPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new FeedsDetailPresenter(schedulerProvider, appRepository);
+            presenter = new FeedsDetailPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    AssistancePresenter provideAssistancePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    AssistancePresenter provideAssistancePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         AssistancePresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new AssistancePresenter(schedulerProvider, appRepository);
+            presenter = new AssistancePresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    SharePresenter providesharePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    SharePresenter providesharePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         SharePresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new SharePresenter(schedulerProvider, appRepository);
+            presenter = new SharePresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
@@ -364,25 +364,25 @@ public class MvpFragmentModule {
     }
 
     @Provides
-    FaqPresenter provideFaqPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    FaqPresenter provideFaqPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         FaqPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new FaqPresenter(schedulerProvider, appRepository);
+            presenter = new FaqPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }
 
     @Provides
-    TutorialPresenter provideTutorialPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository) {
+    TutorialPresenter provideTutorialPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         TutorialPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new TutorialPresenter(schedulerProvider, appRepository);
+            presenter = new TutorialPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }

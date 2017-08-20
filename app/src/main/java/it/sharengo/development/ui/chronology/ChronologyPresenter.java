@@ -26,7 +26,7 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
     public ChronologyPresenter(SchedulerProvider schedulerProvider,
                                AppRepository appRepository,
                                UserRepository userRepository) {
-        super(schedulerProvider);
+        super(schedulerProvider,userRepository);
         mAppRepository = appRepository;
         mUserRepository = userRepository;
         //mAppRepository.selectMenuItem(MenuItem.Section.HOME);

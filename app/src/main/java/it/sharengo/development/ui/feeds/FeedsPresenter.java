@@ -18,6 +18,7 @@ import it.sharengo.development.data.models.ResponseFeed;
 import it.sharengo.development.data.models.ResponseFeedCategory;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.CityRepository;
+import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
@@ -30,6 +31,7 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
 
     private final AppRepository mAppRepository;
     private final CityRepository mCityRepository;
+    private final UserRepository mUserRepository;
 
     private Observable<ResponseFeedCategory> mCategoriesRequest;
     private Observable<ResponseFeed> mFeedRequest;
@@ -43,10 +45,11 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
     private List<Feed> mEventsList;
 
 
-    public FeedsPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, CityRepository cityRepository) {
-        super(schedulerProvider);
+    public FeedsPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, CityRepository cityRepository, UserRepository userRepository) {
+        super(schedulerProvider,userRepository);
         mAppRepository = appRepository;
         mCityRepository = cityRepository;
+        mUserRepository = userRepository;
         //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
     }
 

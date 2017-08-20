@@ -245,4 +245,8 @@
     <string name="faq_backalert_action">Indietro</string>
     <string name="faq_tutorialalert_action">Tutorial</string>
 
+    <!-- Non tradotti -->
+    <string name="alert_logoutError">È avvenuto un errore con la tua email e password</string>
+    <string name="btn_login">ACCEDI</string>
+
 </resources>

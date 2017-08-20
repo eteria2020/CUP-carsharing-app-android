@@ -33,7 +33,7 @@ public class MenuPresenter extends BasePresenter<MenuMvpView> {
     private List<MenuItem> mMenuItemList;
 
     public MenuPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
-        super(schedulerProvider);
+        super(schedulerProvider, userRepository);
         this.mAppRepository = appRepository;
         this.mUserRepository = userRepository;
     }

@@ -12,6 +12,7 @@ import it.sharengo.development.data.models.City;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.ResponseCity;
 import it.sharengo.development.data.repositories.AppRepository;
+import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
@@ -25,16 +26,18 @@ public class SettingsCitiesPresenter extends BasePresenter<SettingsCitiesMvpView
     private static final String TAG = SettingsCitiesPresenter.class.getSimpleName();
 
     private final AppRepository mAppRepository;
+    private final UserRepository mUserRepository;
 
     private Observable<ResponseCity> mCityRequest;
     private boolean hideLoading;
 
     private List<City> mCitiesList;
 
-    public SettingsCitiesPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository) {
-        super(schedulerProvider);
+    public SettingsCitiesPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+        super(schedulerProvider, userRepository);
 
         mAppRepository = appRepository;
+        this.mUserRepository = userRepository;
 
         mAppRepository.selectMenuItem(MenuItem.Section.SETTINGS);
     }

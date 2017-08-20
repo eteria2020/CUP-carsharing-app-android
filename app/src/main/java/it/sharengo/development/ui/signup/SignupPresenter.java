@@ -3,6 +3,7 @@ package it.sharengo.development.ui.signup;
 
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.repositories.AppRepository;
+import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 
@@ -11,12 +12,14 @@ public class SignupPresenter extends BasePresenter<SignupMvpView> {
     private static final String TAG = SignupPresenter.class.getSimpleName();
 
     private final AppRepository mAppRepository;
+    private final UserRepository mUserRepository;
 
     public SignupPresenter(SchedulerProvider schedulerProvider,
-                           AppRepository appRepository) {
-        super(schedulerProvider);
+                           AppRepository appRepository, UserRepository userRepository) {
+        super(schedulerProvider, userRepository);
 
         mAppRepository = appRepository;
+        this.mUserRepository = userRepository;
 
         mAppRepository.selectMenuItem(MenuItem.Section.SIGNUP);
     }

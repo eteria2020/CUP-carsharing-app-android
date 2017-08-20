@@ -46,7 +46,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     public HomePresenter(SchedulerProvider schedulerProvider,
                          AppRepository appRepository,
                          UserRepository userRepository) {
-        super(schedulerProvider);
+        super(schedulerProvider, userRepository);
         mUserRepository = userRepository;
         mAppRepository = appRepository;
 

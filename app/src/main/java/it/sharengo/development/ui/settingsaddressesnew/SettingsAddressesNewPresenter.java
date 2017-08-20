@@ -16,6 +16,7 @@ import it.sharengo.development.data.models.SearchItem;
 import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
+import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
@@ -29,6 +30,7 @@ public class SettingsAddressesNewPresenter extends BasePresenter<SettingsAddress
     private final AppRepository mAppRepository;
     private final AddressRepository mAddressRepository;
     private final PreferencesRepository mPreferencesRepository;
+    private final UserRepository mUserRepository;
 
     private Observable<List<Address>> mFindAddressRequest;
     private Observable<List<SearchItem>> mFindSearchRequest;
@@ -42,11 +44,13 @@ public class SettingsAddressesNewPresenter extends BasePresenter<SettingsAddress
     public SettingsAddressesNewPresenter(SchedulerProvider schedulerProvider,
                                          AppRepository appRepository,
                                          AddressRepository addressRepository,
-                                         PreferencesRepository preferencesRepository) {
-        super(schedulerProvider);
+                                         PreferencesRepository preferencesRepository,
+                                         UserRepository userRepository) {
+        super(schedulerProvider, userRepository);
         mAppRepository = appRepository;
         mAddressRepository = addressRepository;
         mPreferencesRepository = preferencesRepository;
+        this.mUserRepository = userRepository;
 
         mAppRepository.selectMenuItem(MenuItem.Section.SETTINGS);
     }

@@ -48,7 +48,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
     private Context mContext;
 
     public SplashPresenter(SchedulerProvider schedulerProvider, PreferencesRepository preferencesRepository, UserRepository userRepository, AppRepository appRepository) {
-        super(schedulerProvider);
+        super(schedulerProvider, userRepository);
         mPreferencesRepository = preferencesRepository;
         mUserRepository = userRepository;
         mAppRepository = appRepository;

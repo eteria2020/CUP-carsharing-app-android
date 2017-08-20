@@ -9,14 +9,21 @@ import android.view.inputmethod.InputMethodManager;
 import javax.inject.Inject;
 
 import it.sharengo.development.App;
+import it.sharengo.development.R;
+import it.sharengo.development.data.common.ErrorResponse;
 import it.sharengo.development.injection.components.DaggerMvpFragmentComponent;
 import it.sharengo.development.injection.components.MvpFragmentComponent;
 import it.sharengo.development.injection.modules.MvpFragmentModule;
+import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.activities.BaseActivity;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.ui.base.presenters.MvpView;
 import it.sharengo.development.ui.base.presenters.PresenterManager;
+import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.utils.UiUtils;
+
+import static android.content.Context.MODE_PRIVATE;
+import static it.sharengo.development.data.common.ErrorResponse.ErrorType.HTTP;
 
 public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragment implements MvpView {
 
@@ -42,6 +49,9 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
         if(!mPresenter.isViewAttached()) {
             mPresenter.attachView(this, mBundle != null);
         }
+
+        if(mPresenter.isAuth())
+            mPresenter.getUpdateUser(getActivity());
     }
 
     @Override
@@ -104,6 +114,47 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
     @Override
     public void showError(Throwable throwable) {
         UiUtils.showErrorMsg(getActivity(), throwable);
+    }
+
+    @Override
+    public void showUserError(Throwable throwable){
+        /*
+        * if response.status == 404, let code = response.code {
+        if code == "not_found" {
+        LOGOUT!
+        if let msg = response.msg {
+        if msg == "invalid_credentials" {
+        LOGOUT
+        if msg == "user_disabled" {
+        LOGOUT
+        * */
+
+        if(!(throwable instanceof ErrorResponse)) {
+            return;
+        }
+
+        ErrorResponse errorResponse = (ErrorResponse) throwable;
+
+
+        if(errorResponse.errorType.equals(HTTP)){
+
+            //Mostro un messaggio di errore
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(R.string.alert_logoutError),
+                    getString(R.string.btn_login),
+                    null);
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mPresenter.logout(getActivity(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
+                    cdd.dismissAlert();
+
+                    Navigator.launchHome(getActivity());
+                    getActivity().finish();
+                }
+            });
+        }
     }
 
 }

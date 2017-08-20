@@ -15,4 +15,5 @@ public interface MvpView {
     void showError();
     void showError(Throwable errorResponse);
     void showError(String errorMessage);
+    void showUserError(Throwable e);
 }

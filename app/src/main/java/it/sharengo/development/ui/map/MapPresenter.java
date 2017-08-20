@@ -118,7 +118,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                         PreferencesRepository preferencesRepository,
                         UserRepository userRepository,
                         CityRepository cityRepository) {
-        super(schedulerProvider);
+        super(schedulerProvider, userRepository);
         mPostRepository = postRepository;
         mCarRepository = carRepository;
         mAddressRepository = addressRepository;

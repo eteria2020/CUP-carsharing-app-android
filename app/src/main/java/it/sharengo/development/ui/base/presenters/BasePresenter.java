@@ -1,16 +1,31 @@
 package it.sharengo.development.ui.base.presenters;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import it.sharengo.development.R;
+import it.sharengo.development.data.models.ResponseUser;
+import it.sharengo.development.data.models.UserInfo;
+import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Base class that implements the Presenter interface and provides a base implementation for
@@ -22,13 +37,17 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
     public static final String TAG = BasePresenter.class.getSimpleName();
 
     private final SchedulerProvider mSchedulerProvider;
+    private final UserRepository mUserRepository;
+
+    private Observable<ResponseUser> mUserRequest;
 
     private T mMvpView;
     private CompositeSubscription mSubscriptions;
     private int mLoaderDebounce = 150;
 
-    public BasePresenter(SchedulerProvider schedulerProvider) {
+    public BasePresenter(SchedulerProvider schedulerProvider, UserRepository userRepository) {
         mSchedulerProvider = schedulerProvider;
+        mUserRepository = userRepository;
     }
 
     @Override
@@ -44,6 +63,8 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
         if(recreation) {
             restoreDataOnConfigurationChange();
         }
+
+        Log.w("AAA","AAA");
     }
 
     @Override
@@ -150,6 +171,71 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
                         });
             }
         };
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              User info
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void getUpdateUser(Context context){
+        if( mUserRequest == null) {
+            mUserRequest = buildUserRequest();
+            addSubscription(mUserRequest.unsafeSubscribe(getUserSubscriber(context)));
+        }
+    }
+
+    private Observable<ResponseUser> buildUserRequest() {
+
+
+        return mUserRequest = mUserRepository.getUser(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
+                .first()
+                .compose(this.<ResponseUser>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        //getReservation();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseUser> getUserSubscriber(final Context context){
+        return new Subscriber<ResponseUser>() {
+            @Override
+            public void onCompleted() {
+                mUserRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mUserRequest = null;
+                getMvpView().showUserError(e);
+            }
+
+            @Override
+            public void onNext(ResponseUser response) {
+                Log.w("User BAAAASE",": "+response.reason);
+            }
+        };
+    }
+
+    public boolean isAuth(){
+        if(!mUserRepository.getCachedUser().username.isEmpty()) return true;
+        return false;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //          LOGOUT
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void logout(Context context, SharedPreferences mPref){
+
+        //mAppRepository.putLang(Locale.getDefault().getLanguage());
+
+        mUserRepository.logoutUser(mPref);
     }
 
 }

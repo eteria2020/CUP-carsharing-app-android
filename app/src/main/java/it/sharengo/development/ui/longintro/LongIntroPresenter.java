@@ -2,6 +2,7 @@ package it.sharengo.development.ui.longintro;
 
 
 import it.sharengo.development.data.repositories.AppRepository;
+import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 
@@ -10,11 +11,13 @@ public class LongIntroPresenter extends BasePresenter<LongIntroMvpView> {
     private static final String TAG = LongIntroPresenter.class.getSimpleName();
 
     private final AppRepository mAppRepository;
+    private final UserRepository mUserRepository;
 
-    public LongIntroPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository) {
-        super(schedulerProvider);
+    public LongIntroPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+        super(schedulerProvider, userRepository);
 
         mAppRepository = appRepository;
+        this.mUserRepository = userRepository;
 
         //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
     }

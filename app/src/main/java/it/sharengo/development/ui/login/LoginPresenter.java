@@ -41,7 +41,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
                           AppRepository appRepository,
                           UserRepository userRepository,
                           PreferencesRepository preferencesRepository) {
-        super(schedulerProvider);
+        super(schedulerProvider, userRepository);
 
         mUserRepository = userRepository;
         mPreferencesRepository = preferencesRepository;

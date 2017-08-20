@@ -217,4 +217,8 @@
     <string name="faq_backalert_action">Back</string>
     <string name="faq_tutorialalert_action">Tutorial</string>
 
+    <!-- Non tradotti -->
+    <string name="alert_logoutError">An error occurred with your email and password</string>
+    <string name="btn_login">LOGIN</string>
+
 </resources>

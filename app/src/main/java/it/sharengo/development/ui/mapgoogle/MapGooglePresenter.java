@@ -143,7 +143,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                               UserRepository userRepository,
                               CityRepository cityRepository,
                               KmlRepository kmlRepository) {
-        super(schedulerProvider);
+        super(schedulerProvider,userRepository);
         mPostRepository = postRepository;
         mCarRepository = carRepository;
         mAddressRepository = addressRepository;

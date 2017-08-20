@@ -3,6 +3,7 @@ package it.sharengo.development.ui.feedsdetail;
 
 import it.sharengo.development.data.models.Feed;
 import it.sharengo.development.data.repositories.AppRepository;
+import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 
@@ -11,12 +12,14 @@ public class FeedsDetailPresenter extends BasePresenter<FeedsDetailMvpView> {
     private static final String TAG = FeedsDetailPresenter.class.getSimpleName();
 
     private final AppRepository mAppRepository;
+    private final UserRepository mUserRepository;
 
     public Feed feed;
 
-    public FeedsDetailPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository) {
-        super(schedulerProvider);
+    public FeedsDetailPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+        super(schedulerProvider,userRepository);
         mAppRepository = appRepository;
+        mUserRepository = userRepository;
         //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
     }
 

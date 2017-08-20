@@ -2,6 +2,7 @@ package it.sharengo.development.ui.login;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -186,6 +187,7 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
                 errorCode: : 405
                 erroreMessage: : {"msg":"user_disabled"}
             */
+
 
             switch (errorResponse.httpStatus){
                 case 404:
