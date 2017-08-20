@@ -42,10 +42,11 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
 
     @Override
     protected boolean showCustomLoading() {
-        if(hideLoading)
+        /*if(hideLoading)
             return true;
         else
-            return super.showCustomLoading();
+            return super.showCustomLoading();*/
+        return true;
     }
 
 
@@ -68,7 +69,7 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
      */
     public void getTrips(){
 
-        hideLoading = true;
+        hideLoading = false;
         //getMvpView().showStandardLoading();
 
         if( mTripsRequest == null) {

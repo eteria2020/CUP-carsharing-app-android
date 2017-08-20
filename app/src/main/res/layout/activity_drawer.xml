@@ -50,4 +50,27 @@
 
     </RelativeLayout>
 
+    <!-- Loader -->
+    <RelativeLayout
+        android:id="@+id/customLoadingChronology"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:background="@drawable/loader_bkg_001"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/customBkgLoadingChronology"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/customLoadingAnimChronology"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+    </RelativeLayout>
+
 </android.support.v4.widget.DrawerLayout>

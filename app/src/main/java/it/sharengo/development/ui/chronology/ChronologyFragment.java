@@ -22,6 +22,7 @@ import butterknife.OnClick;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.routing.Navigator;
+import it.sharengo.development.ui.base.activities.BaseActivity;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
 
@@ -64,6 +65,7 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         View view = inflater.inflate(R.layout.fragment_chronology, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
+        ((BaseActivity) getActivity()).showLoadingChronology();
 
         mRv.setHasFixedSize(true);
         final LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -129,10 +131,10 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         emptyChronLayout.setVisibility(View.GONE);
         mRv.setVisibility(View.VISIBLE);
 
+        //((BaseActivity) getActivity()).showLoading();
 
         mTripsList = tripList;
         new LongOperation().execute();
-
 
     }
 
@@ -184,7 +186,8 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         @Override
         protected void onPostExecute(String result) {
 
-            progressBarList.setVisibility(View.GONE);
+            //progressBarList.setVisibility(View.GONE);
+            ((BaseActivity) getActivity()).hideLoadingChronology();
 
 
             final Handler handler = new Handler();

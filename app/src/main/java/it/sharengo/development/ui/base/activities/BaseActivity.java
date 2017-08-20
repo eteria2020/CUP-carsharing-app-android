@@ -50,33 +50,45 @@ public abstract class BaseActivity extends HdxBaseActivity {
 
     public void hideLoading() {
         //super.hideLoading();
-        //findViewById(R.id.customLoading).setVisibility(View.GONE);
-
-        //Background
-        /*ImageView customBkgLoading = (ImageView)findViewById(R.id.customBkgLoading);
-        customBkgLoading.setBackgroundResource(R.drawable.loader_bkg_animation);
-
-        AnimationDrawable frameAnimation = (AnimationDrawable) customBkgLoading.getBackground();
-        frameAnimation.start();
-
-        checkIfAnimationDone(frameAnimation);*/
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
 
-                hideLoaderAnimation();
+                hideLoaderAnimation((RelativeLayout) findViewById(R.id.customLoading));
             }
         }, 700);
 
+    }
+
+    public void showLoadingChronology() {
 
 
+        findViewById(R.id.customLoadingChronology).setAlpha(1.0f);
+        findViewById(R.id.customLoadingChronology).setVisibility(View.VISIBLE);
+
+        ImageView customLoadingAnim = (ImageView)findViewById(R.id.customLoadingAnimChronology);
+        customLoadingAnim.setBackgroundResource(R.drawable.loader_animation);
+
+        AnimationDrawable frameAnimation = (AnimationDrawable) customLoadingAnim.getBackground();
+        frameAnimation.start();
+    }
+
+    public void hideLoadingChronology() {
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                hideLoaderAnimation((RelativeLayout) findViewById(R.id.customLoadingChronology));
+            }
+        }, 700);
 
     }
 
-    private void hideLoaderAnimation(){
-        RelativeLayout customLoading = (RelativeLayout) findViewById(R.id.customLoading);
+    private void hideLoaderAnimation(final RelativeLayout customLoading){
 
         if(customLoading != null) {
 
@@ -93,7 +105,7 @@ public abstract class BaseActivity extends HdxBaseActivity {
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
                     //mAnimationSet.start();
-                    findViewById(R.id.customLoading).setVisibility(View.GONE);
+                    customLoading.setVisibility(View.GONE);
                 }
             });
             mAnimationSet.start();
