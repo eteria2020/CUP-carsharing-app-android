@@ -119,6 +119,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private static final String TAG = MapGoogleFragment.class.getSimpleName();
 
 
+    //TODO DA cambiare
+    double fanculo = 0.0f;
+
+
     public static final String ARG_TYPE = "ARG_TYPE";
     private int type = 0;
 
@@ -1344,19 +1348,23 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             for(com.androidmapsextensions.Marker markerNext : poiMarkers){
                 if(((Car) markerNext.getData()).id.equals(carnext_id)){
                     carnextMarker = markerNext;
+                    /*if (fanculo == 0.0) {
+                        fanculo = (mMap.getMinZoomLevelNotClustered(carnextMarker) - 0.5);
+                    }*/
                 }
             }
 
+
             //Imposto anche l'animazione del cluster in cui è contenuto il marker dell'auto più vicina
-            if (mMap.getCameraPosition().zoom >= 13.5)
+            /*if (mMap.getCameraPosition().zoom >= fanculo)
             {
                 if(carNextCluster != null)
                 {
                     carNextCluster.remove();
                     carNextCluster = null;
+                    fanculo = 0.0;
                 }
 
-                //findNextCarIntoCluster = false;
             }else if(carNext != null){
 
                 if(carNextCluster == null){
@@ -1365,8 +1373,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 }else{
                     carNextCluster.setPosition(new LatLng(carNext.latitude, carNext.longitude));
                 }
-
-            }
+            }*/
 
             setMarkerAnimation();
         }else{
@@ -1500,30 +1507,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                             carnextMarker = null;
                                         }
 
-                                        /**/
-
-                                        /*if(findNextCarIntoCluster && carNext != null){
-
-                                            if(carNextCluster == null){
-                                                carNextCluster = mMap.addMarker(new MarkerOptions().position(new LatLng(carNext.latitude, carNext.longitude)));
-                                                carNextCluster.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
-                                            }else{
-                                                carNextCluster.setPosition(new LatLng(carNext.latitude, carNext.longitude));
-                                            }
-                                        }else{
-                                            if(carNextCluster != null) carNextCluster.remove();
-                                        }
-
-                                        if (mMap.getCameraPosition().zoom >= 13.5)
-                                        {
-                                            if(carNextCluster != null)
-                                            {
-                                                carNextCluster.remove();
-                                                carNextCluster = null;
-                                            }
-
-                                            findNextCarIntoCluster = false;
-                                        }*/
                                     }
                                 }
 
@@ -2619,25 +2602,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             } while (markersCount >= forCounts[i++]);
 
             Bitmap bitmap = base.copy(Bitmap.Config.ARGB_8888, true);
-            //Log.w("CLUSTERING","HO CREATO UN NUOVO CLUSTER");
 
             //Verifico se all'interno dei gruppo di marker c'è quello relativo alla macchina più vicina
             boolean findNextCar = false;
             for(Marker markerOnCluster : markers){
                 if(markerOnCluster.getData().getClass().equals(Car.class)){
-                    /*if(((Car) markerOnCluster.getData()).id.equals("EH43459")){
-                        findNextCar = true;
-                    }*/
                     if(((Car) markerOnCluster.getData()).id.equals(carnext_id)){
-                        Log.w("findNextCarIntoCluster","DENTRO");
                         findNextCar = true;
-                        findNextCarIntoCluster = true;
-                        //carNextCluster = mMap.addMarker();
-                        //markerFeed.setIcon(getBitmapDescriptor(R.drawable.ic_cluster_transparent));
-                        //carNextCluster.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
-                        //carNextCluster.setData(markerOnCluster.getData());
-
-                        //carnextMarker = carNextCluster;
                     }
                 }
             }
@@ -2653,12 +2624,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             canvas.drawText(text, x, y, paint);
 
             BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(bitmap);
-            if(findNextCar){
+            /*if(findNextCar){
                 clusterOptions.alpha(0.0f);
             }
             else{
                 clusterOptions.alpha(1.0f);
-            }
+            }*/
 
             return clusterOptions.icon(icon);
         }
