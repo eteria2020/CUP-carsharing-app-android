@@ -404,6 +404,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onError(Throwable e) {
                 mCarsRequest = null;
+                Log.w("eee",": "+e);
                 getMvpView().showError(e);
                 getMvpView().noCarsFound();
             }

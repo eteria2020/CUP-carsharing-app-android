@@ -1273,8 +1273,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void showCarsOnMap(List<Car> carsList){
 
         //Rimuovo i marker dalla mappa
-        if(poiMarkers != null)
-            removeMarkers(poiMarkers);
+        /*if(poiMarkers != null)
+            removeMarkers(poiMarkers);*/
 
         if(poiCityMarkers != null)
             removeMarkers(poiCityMarkers);
@@ -1322,21 +1322,54 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Mostri i pin sulla mappa
     private void showPoiMarkers(){
 
-        poiMarkers = new ArrayList<>();
+        if(poiMarkers == null)
+            poiMarkers = new ArrayList<>();
 
        boolean bookedCarFind = false;
 
         //Verifico se ci sono marker da rimuovere dalla mappa perché non più presenti rispetto alla zona visualizzata
-        /*for(com.androidmapsextensions.Marker markerOnMap : poiMarkers){
+        List<Marker> copiaMarkers = new ArrayList<>(poiMarkers);
+        for(com.androidmapsextensions.Marker markerOnMap : copiaMarkers){
+
             boolean find = false;
             for(MarkerOptions markerCar : poiMarkersToAdd){
                 if(((Car) markerCar.getData()).id.equals(((Car) markerOnMap.getData()).id)) find = true;
             }
-            //se non l'ho trovato, lo devo eliminare dalla mappa
-            if(!find) markerOnMap.remove();
-        }*/
 
+            //se non l'ho trovato, lo devo eliminare dalla mappa
+            if(!find){
+                poiMarkers.remove(markerOnMap);
+                markerOnMap.remove();
+            }
+        }
+
+        //Verifico se i marker che devo disegnare sono già presenti nella mappa. Se non sono presenti, li devo aggiungere
         for(MarkerOptions markerCar : poiMarkersToAdd){
+
+            boolean find = false;
+            for(com.androidmapsextensions.Marker markerOnMap : poiMarkers){
+                if(((Car) markerCar.getData()).id.equals(((Car) markerOnMap.getData()).id)) find = true;
+            }
+
+            if(!find) {
+                com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
+                myMarker.setClusterGroup(101);
+                poiMarkers.add(myMarker);
+
+                Car car = (Car) markerCar.getData();
+
+                //Verifico se è attiva una prenotazione e se la targa dell'overley corrisponde a quella della macchina prenotata
+                if(isBookingCar || isTripStart){
+                    if(car.id.equals(carSelected.id)) {
+                        carbookingMarker = myMarker;
+                        bookedCarFind = true;
+                    }
+                }
+            }
+
+        }
+
+        /*for(MarkerOptions markerCar : poiMarkersToAdd){
             com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
             myMarker.setClusterGroup(101);
             poiMarkers.add(myMarker);
@@ -1350,7 +1383,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     bookedCarFind = true;
                 }
             }
-        }
+        }*/
 
         //Se è attiva una prenotazione, ma la macchina non è presente tra i risultati restituiti dal server aggiungo la macchina alla lista
         if((isBookingCar || isTripStart) && !bookedCarFind){
