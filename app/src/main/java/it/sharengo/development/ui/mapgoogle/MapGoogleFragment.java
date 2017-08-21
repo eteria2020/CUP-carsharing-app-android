@@ -1977,21 +1977,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(poiMarkersToAdd == null) poiMarkersToAdd = new ArrayList<>();
         if(poiMarkers == null) poiMarkers = new ArrayList<>();
 
-        //Aggiungo la macchina
-        MarkerOptions markerCar = new MarkerOptions().position(new LatLng(mCar.latitude, mCar.longitude));
-        markerCar.icon(getBitmapDescriptor(R.drawable.autopulse0001));
-        markerCar.data(mCar);
-        poiMarkersToAdd.add(markerCar);
-
-        com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
-        poiMarkers.add(myMarker);
-
-
-        carbookingMarker = myMarker;
 
         moveMapCameraToPoitWithZoom((double) carSelected.latitude + 0.0002, (double) carSelected.longitude, 19);
 
-        setMarkerAnimation();
+        //setMarkerAnimation();
 
         onClosePopup();
         openViewBookingCar();
@@ -2104,10 +2093,21 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
 
+
         for(com.androidmapsextensions.Marker marker : poiMarkers){
             if(((Car) marker.getData()).id.equals(plateBooking)){
                 carbookingMarker = marker;
             }
+        }
+        if(carbookingMarker == null){
+            //Aggiungo la macchina
+            MarkerOptions markerCar = new MarkerOptions().position(new LatLng(carSelected.latitude, carSelected.longitude));
+            markerCar.icon(getBitmapDescriptor(R.drawable.autopulse0001));
+            markerCar.data(carSelected);
+            poiMarkersToAdd.add(markerCar);
+
+            carbookingMarker = mMap.addMarker(markerCar);
+            poiMarkers.add(carbookingMarker);
         }
 
         carFeedMapButton.setAlpha(1.0f);
@@ -2205,10 +2205,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         carbookingMarker = myMarker;*/
 
 
-        moveMapCameraToPoitWithZoom((double) userLocation.getLatitude() + 0.0002, (double) userLocation.getLongitude(), 19);
+        moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
 
 
-        setMarkerAnimation();
+        //setMarkerAnimation();
 
         openViewBookingCar();
     }
@@ -2570,7 +2570,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void showTripInfo(Car car, int timestamp_start) {
-        Log.w("showTripInfo",": "+timestamp_start);
         tripInfo(car, timestamp_start);
     }
 

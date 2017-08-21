@@ -1000,7 +1000,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  context   context of application.
      */
     public void bookingCar(Car car, float user_lat, float user_lon, Context context){
-
+        Log.w("bookingCar",": "+car);
         //hideLoading = false;
 
         if( mReservationRequest == null) {
@@ -1138,7 +1138,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     @Override
                     public void call() {
 
-                        Log.w("TRIPTIME","openDoor");
                         timestamp_start = (int) (System.currentTimeMillis() / 1000L);
                         loadCarsTrip(car.id);
                     }
@@ -1213,7 +1212,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private void checkTripsResult(){
-        Log.w("TRIPTIME","checkTripsResult");
+
         if(mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0){
 
             timestamp_start = mResponseTrip.trips.get(0).timestamp_start;
