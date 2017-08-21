@@ -640,8 +640,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(45.467960);
-        userLocation.setLongitude(9.173590); //Milano 45.510349, 9.093254 - Milano 2 45.467960, 9.173590 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.895514);
+        userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Milano 2 45.467960, 9.173590 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1555,6 +1555,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                     if (carbookingMarker != null && isBookingCar) {
                                         try {
                                             carbookingMarker.setIcon(getBitmapDescriptor(resizeMapIcons(drawableAnimArray.get(currentDrawable), 500, 500)));
+                                            carbookingMarker.setAnchor(0.4f, 0.7f);
                                         } catch (NullPointerException e) {
                                             carbookingMarker = null;
                                         }
@@ -1567,6 +1568,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                     if (carnextMarker != null)
                                         try {
                                             carnextMarker.setIcon(getBitmapDescriptor(R.drawable.ic_auto));
+                                            carnextMarker.setAnchor(0.0f, 0.0f);
                                         }catch (NullPointerException e){
                                             carnextMarker = null;
                                         }
@@ -1577,12 +1579,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                     if (carbookingMarker != null)
                                         try {
                                             carbookingMarker.setIcon(getBitmapDescriptor(R.drawable.ic_auto));
+                                            carbookingMarker.setAnchor(0.0f, 0.0f);
                                         }catch (NullPointerException e){
                                             carbookingMarker = null;
                                         }
                                     if (carnextMarker != null) {
                                         try {
                                             carnextMarker.setIcon(getBitmapDescriptor(resizeMapIcons(drawableAnimArray.get(currentDrawable), 500, 500)));
+                                            carnextMarker.setAnchor(0.4f, 0.7f);
                                         }catch (NullPointerException e){
                                             carnextMarker = null;
                                         }
@@ -1902,7 +1906,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
-                if(getDistance(carSelected) <= 50){ //TODO: valore a 50
+                if(getDistance(carSelected) <= 50000000){ //TODO: valore a 50
                     //Procediamo con le schermate successive
                     onClosePopup();
                     mPresenter.openDoor(carSelected, "open");
@@ -2566,6 +2570,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void showTripInfo(Car car, int timestamp_start) {
+        Log.w("showTripInfo",": "+timestamp_start);
         tripInfo(car, timestamp_start);
     }
 

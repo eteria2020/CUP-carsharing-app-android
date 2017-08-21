@@ -1136,6 +1136,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     @Override
                     public void call() {
 
+                        Log.w("TRIPTIME","openDoor");
+                        timestamp_start = (int) (System.currentTimeMillis() / 1000L);
                         loadCarsTrip(car.id);
                     }
                 });
@@ -1168,7 +1170,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     void getTrips(boolean refreshInfo){
 
-        //hideLoading = false;
+        hideLoading = false;
 
         if( mTripsRequest == null) {
             mTripsRequest = buildTripsRequest(refreshInfo);
@@ -1209,12 +1211,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private void checkTripsResult(){
-
+        Log.w("TRIPTIME","checkTripsResult");
         if(mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0){
-            loadCarsTrip(mResponseTrip.trips.get(0).plate);
 
             timestamp_start = mResponseTrip.trips.get(0).timestamp_start;
             isTripExists = true;
+
+            loadCarsTrip(mResponseTrip.trips.get(0).plate);
         }else{
 
             if(isTripExists){
@@ -1348,6 +1351,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         if(mResponseReservationCar.reason.isEmpty() && mResponseReservationCar.data != null){
 
             //mResponseReservation.reservations.get(0).length = 700;
+
 
             long unixTime = System.currentTimeMillis() / 1000L;
             int diffTime = (int) (unixTime - mResponseReservation.reservations.get(0).timestamp_start);
