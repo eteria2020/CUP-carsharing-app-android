@@ -1001,7 +1001,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      */
     public void bookingCar(Car car, float user_lat, float user_lon, Context context){
 
-        hideLoading = false;
+        //hideLoading = false;
 
         if( mReservationRequest == null) {
             mReservationRequest = buildReservationRequest(car, user_lat, user_lon);
@@ -1063,7 +1063,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      */
     public void deleteBookingCar(int id){
 
-        hideLoading = false;
+        //hideLoading = false;
 
         isBookingExists = false;
 
@@ -1118,6 +1118,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      */
     public void openDoor(Car car, String action) {
 
+        isBookingExists = false;
+
         if( mCarsTripRequest == null) {
 
             mCarsTripRequest = null;
@@ -1170,7 +1172,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     void getTrips(boolean refreshInfo){
 
-        hideLoading = false;
+        hideLoading = true;
 
         if( mTripsRequest == null) {
             mTripsRequest = buildTripsRequest(refreshInfo);
@@ -1383,7 +1385,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      */
     public void loadCarsTrip(String plate) {
 
-        hideLoading = false;
+        hideLoading = true;
 
         mCarsReservationRequest = null;
         mCarsReservationRequest = buildCarsTripRequest(plate);

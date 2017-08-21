@@ -1299,7 +1299,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                 //Verifico se la vettura è la più vicina oppure se è una vettura prenotata
                 if(car.id.equals(carnext_id) || ((isBookingCar || isTripStart) && car.id.equals(carSelected.id))){
-                    icon_marker = R.drawable.autopulse0001;
+                    icon_marker = R.drawable.ic_auto;
                 }
 
                 //Creo il marker
@@ -1399,7 +1399,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             //Creo il marker
             MarkerOptions markerCar = new MarkerOptions().position(new LatLng(carSelected.latitude, carSelected.longitude));
-            markerCar.icon(getBitmapDescriptor(R.drawable.autopulse0001));
+            markerCar.icon(getBitmapDescriptor(R.drawable.ic_auto));
             markerCar.data(carSelected);
             poiMarkersToAdd.add(markerCar);
 
