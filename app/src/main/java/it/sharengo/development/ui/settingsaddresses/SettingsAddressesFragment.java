@@ -112,6 +112,11 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
         }
     };
 
+    /**
+     * Set view for confirm of favorite's element to add.
+     *
+     * @param  searchItem  item to search
+     */
     public void setAddFavorite(SearchItem searchItem){
         searchItemSelected = searchItem;
 
@@ -121,6 +126,11 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
         editLayout.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Set view for confirm of favorite's element to edit.
+     *
+     * @param  searchItem  item to search
+     */
     public void setEditFavorite(SearchItem searchItem){
         searchItemSelected = searchItem;
 
@@ -131,6 +141,11 @@ public class SettingsAddressesFragment extends BaseMvpFragment<SettingsAddresses
         editLayout.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Set view for confirm of favorite's element to delete.
+     *
+     * @param  searchItem  item to search
+     */
     public void setDeleteFavorite(SearchItem searchItem){
         searchItemSelected = searchItem;
 

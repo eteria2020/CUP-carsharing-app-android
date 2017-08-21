@@ -74,6 +74,12 @@ public class SettingsAddressesPresenter extends BasePresenter<SettingsAddressesM
             return super.showCustomLoading();
     }
 
+    /**
+     * Load historic data.
+     *
+     * @param  context context of application
+     * @param  mPrefs  shared preference of app
+     */
     public void loadData(Context context, SharedPreferences mPrefs){
 
         hideLoading = true;
@@ -81,14 +87,18 @@ public class SettingsAddressesPresenter extends BasePresenter<SettingsAddressesM
         getHistoric(context, mPrefs);
     }
 
-
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              GET historic
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Retrieve from server historic data.
+     *
+     * @param  context  context of application
+     * @param  mPrefs   shared preference of app
+     */
     public void getHistoric(Context context, SharedPreferences mPrefs) {
         hideLoading = true;
 
@@ -159,21 +169,40 @@ public class SettingsAddressesPresenter extends BasePresenter<SettingsAddressesM
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Edit result search of favourite.
+     *
+     * @param  mPref       shared preference of app
+     * @param  searchItem  item to search
+     * @param  name        new value for name
+     * @param  address     new value for address
+     */
     public void editFavourite(SharedPreferences mPref, SearchItem searchItem, String name, String address){
         mPreferencesRepository.editSearchResultOnFavourites(mPref, searchItem, name, address);
         getHistoric(mContext, pref);
     }
 
+    /**
+     * Add result search of favourite.
+     *
+     * @param  mPref       shared preference of app
+     * @param  searchItem  item to search
+     * @param  name        new value for name
+     * @param  address     new value for address
+     */
     public void addFavourite(SharedPreferences mPref, SearchItem searchItem, String name, String address){
         mPreferencesRepository.addSearchResultOnFavourites(mPref, searchItem, name, address);
         getHistoric(mContext, pref);
     }
 
+    /**
+     * Delete result search of favourite.
+     *
+     * @param  mPref       shared preference of app
+     * @param  searchItem  item to search
+     */
     public void deleteFavourite(SharedPreferences mPref, SearchItem searchItem){
         mPreferencesRepository.deleteSearchResultOnFavourites(mPref, searchItem);
         getHistoric(mContext, pref);
     }
 }
-
-
-

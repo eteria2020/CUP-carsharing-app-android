@@ -52,6 +52,11 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
         mPresenter.loadData(getContext());
     }
 
+    /**
+     * Show list by language's setting.
+     *
+     * @param  lang  lang tapped
+     */
     public void showList(String lang){
         if(lang.equals("it")){
             itCheckImageView.setVisibility(View.VISIBLE);
@@ -62,6 +67,9 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
         }
     }
 
+    /**
+     * Reload language's setting view.
+     */
     public void reloadApp(){
         Navigator.launchSettingsLang(this);
         getActivity().finish();
@@ -72,17 +80,27 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Back previous view.
+     */
     @OnClick(R.id.backImageView)
     public void onBackClick(){
         Navigator.launchSettings(this);
         getActivity().finish();
     }
 
+    /**
+     * Set it language.
+     */
     @OnClick(R.id.itButton)
     public void onITClick(){
         mPresenter.setLang(getContext(), "it");
     }
 
+    /**
+     * Set en language.
+     */
     @OnClick(R.id.enButton)
     public void onENClick(){
         mPresenter.setLang(getContext(), "en");

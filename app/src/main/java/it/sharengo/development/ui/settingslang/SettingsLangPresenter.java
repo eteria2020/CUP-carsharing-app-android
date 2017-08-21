@@ -46,11 +46,21 @@ public class SettingsLangPresenter extends BasePresenter<SettingsLangMvpView> {
 
     }
 
+    /**
+     * Load data of language setting
+     *
+     * @param  context  context of application
+     */
     public void loadData(Context context){
         SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
         getMvpView().showList(mPref.getString(context.getString(R.string.preference_lang), "it"));
     }
 
+    /**
+     * Edit data of language setting
+     *
+     * @param  context  context of application
+     */
     public void setLang(Context context, String lang){
         SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
@@ -62,7 +72,6 @@ public class SettingsLangPresenter extends BasePresenter<SettingsLangMvpView> {
 
         getMvpView().reloadApp();
     }
-
 }
 
 
