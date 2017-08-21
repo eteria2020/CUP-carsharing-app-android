@@ -640,8 +640,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(45.510349);
-        //userLocation.setLongitude(9.093254); //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(45.467960);
+        userLocation.setLongitude(9.173590); //Milano 45.510349, 9.093254 - Milano 2 45.467960, 9.173590 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -993,15 +993,17 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void drawUserMarker(){
-        if(userMarker != null) userMarker.remove();
+        if(userMarker == null){
+            userMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude())));
+            userMarker.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
+        }
 
         if(userLocation != null){
-            com.androidmapsextensions.Marker mMarkerUser = mMap.addMarker(new MarkerOptions().position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude())));
-            if(!isTripStart)
-                mMarkerUser.setIcon(getBitmapDescriptor(R.drawable.ic_user));
+            userMarker.setPosition(new LatLng(userLocation.getLatitude(), userLocation.getLongitude()));
 
-            mMarkerUser.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
-            userMarker = mMarkerUser;
+            if(!isTripStart)
+                userMarker.setIcon(getBitmapDescriptor(R.drawable.ic_user));
+
         }
 
     }
