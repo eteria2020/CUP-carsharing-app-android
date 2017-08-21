@@ -42,16 +42,28 @@ public class SettingsFragment extends BaseMvpFragment<SettingsPresenter> impleme
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Open setting's city.
+     */
     @OnClick(R.id.cityButton)
     public void onCityClick(){
         Navigator.launchSettingsCities(this, false);
         //getActivity().finish();
     }
+
+    /**
+     * Open setting's address.
+     */
     @OnClick(R.id.addressButton)
     public void onAddressClick(){
         Navigator.launchSettingsAddresses(this);
         //getActivity().finish();
     }
+
+    /**
+     * Open setting's language.
+     */
     @OnClick(R.id.langButton)
     public void onLangClick(){
         Navigator.launchSettingsLang(this);

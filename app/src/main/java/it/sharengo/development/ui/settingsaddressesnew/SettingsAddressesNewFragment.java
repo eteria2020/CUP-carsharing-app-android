@@ -315,6 +315,10 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Back previous view.
+     */
     @OnClick(R.id.backImageView)
     public void onBackClick(){
         getActivity().finish();
@@ -322,11 +326,13 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
 
     private Timer timerEditText=new Timer();
     private final long DELAY = 500;
+
+    /**
+     * Start new timer and init map.
+     */
     @OnTextChanged(value = R.id.searchEditText,
             callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     public void searchEditText() {
-
-
         timerEditText.cancel();
         timerEditText = new Timer();
         timerEditText.schedule(
@@ -340,11 +346,17 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
         );
     }
 
+    /**
+     * Manage tap on speak microphone.
+     */
     @OnClick(R.id.microphoneImageView)
     public void onSearchMicrophone(){
         startSpeechToText();
     }
 
+    /**
+     * Manage tap (or change of focus) on address button.
+     */
     @OnFocusChange(R.id.addressEditText)
     @OnClick(R.id.addressEditText)
     public void onAddressClick(){
@@ -360,11 +372,17 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
         }
     }
 
+    /**
+     * Manage tap on save button.
+     */
     @OnClick(R.id.saveButton)
     public void onSaveClick(){
         checkFormValidation();
     }
 
+    /**
+     * Manage tap on cancel button.
+     */
     @OnClick(R.id.cancelButton)
     public void onCancelClick(){
         getActivity().finish();
@@ -375,6 +393,12 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
     //                                              Mvp Methods
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Show list item searched.
+     *
+     * @param  searchItemList  list item searched
+     */
     @Override
     public void showSearchResult(List<SearchItem> searchItemList) {
 

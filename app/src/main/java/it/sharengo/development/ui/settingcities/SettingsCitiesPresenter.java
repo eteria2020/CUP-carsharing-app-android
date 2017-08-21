@@ -66,7 +66,11 @@ public class SettingsCitiesPresenter extends BasePresenter<SettingsCitiesMvpView
             return super.showCustomLoading();
     }
 
-
+    /**
+     * Load list of city from server.
+     *
+     * @param  context  context of application
+     */
     public void loadList(Context context) {
 
         hideLoading = true;

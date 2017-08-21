@@ -79,6 +79,11 @@ public class SettingsCitiesAdapter extends RecyclerView.Adapter<SettingsCitiesAd
             ButterKnife.bind(this, v);
         }
 
+        /**
+         * Render image, visibility and color of city's object received as param.
+         *
+         * @param  city  city object to render
+         */
         public void render(City city) {
             nameTextview.setText(city.name);
             ImageUtils.loadImage(iconImageView, city.media.images.icon.uri);
@@ -96,6 +101,9 @@ public class SettingsCitiesAdapter extends RecyclerView.Adapter<SettingsCitiesAd
             }
         }
 
+        /**
+         * Manage click on list item.
+         */
         @OnClick(R.id.cityView)
         void onClick() {
             mListener.onItemClick(mData.get(getAdapterPosition()));
