@@ -83,6 +83,11 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             ButterKnife.bind(this, v);
         }
 
+        /**
+         * Render in view text and icon of menu item.
+         *
+         * @param  menuItem menuItem to render.
+         */
         public void render(MenuItem menuItem) {
             text.setText(ResourceProvider.getMenuItemLabel(
                     text.getContext(),
@@ -106,6 +111,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             //icon.setBackground(ContextCompat.getDrawable(icon.getContext(), R.drawable.btn_bkg_darkjunglegreen_bordered));
         }
 
+        /**
+         * Manage click on list item.
+         */
         @OnClick(R.id.text)
         void onClick() {
             mListener.onItemClick(mData.get(getAdapterPosition()));
