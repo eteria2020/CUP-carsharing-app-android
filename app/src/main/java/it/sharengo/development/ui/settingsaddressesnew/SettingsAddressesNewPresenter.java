@@ -81,6 +81,12 @@ public class SettingsAddressesNewPresenter extends BasePresenter<SettingsAddress
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Save search result on preference.
+     *
+     * @param  mPref       shared preference of app
+     * @param  searchItem  item to search
+     */
     public void saveFavourite(SharedPreferences mPref, SearchItem searchItem){
         mPreferencesRepository.saveSearchResultOnFavourites(mPref, searchItem);
     }
@@ -92,6 +98,13 @@ public class SettingsAddressesNewPresenter extends BasePresenter<SettingsAddress
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Retrieve from search historic data by text searched.
+     *
+     * @param  searchText  text to search
+     * @param  context     context of application
+     * @param  mPrefs      shared preference of app
+     */
     public void getHistoric(String searchText, Context context, SharedPreferences mPrefs) {
         hideLoading = true;
 

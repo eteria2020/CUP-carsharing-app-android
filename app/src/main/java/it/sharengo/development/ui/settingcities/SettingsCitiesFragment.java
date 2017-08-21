@@ -115,6 +115,10 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Close actual view and open Settings.
+     */
     @OnClick(R.id.backImageView)
     public void onBackClick(){
         Navigator.launchSettings(this);
@@ -127,6 +131,12 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
     //                                              Mvp Methods
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Set the list of citt and notify if data is changed.
+     *
+     * @param  citiesList  list of city
+     */
     @Override
     public void showList(List<City> citiesList) {
         mAdapter.setData(citiesList);

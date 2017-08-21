@@ -93,6 +93,11 @@ public class SettingsAddressesAdapter extends RecyclerView.Adapter<SettingsAddre
             ButterKnife.bind(this, v);
         }
 
+        /**
+         * Render view of address favorite setting.
+         *
+         * @param  searchItem  item to search
+         */
         public void render(SearchItem searchItem) {
 
             if(searchItem.name != null && !searchItem.name.isEmpty()) {
@@ -145,16 +150,25 @@ public class SettingsAddressesAdapter extends RecyclerView.Adapter<SettingsAddre
             //mListener.onItemClick(mData.get(getAdapterPosition()));
         }
 
+        /**
+         * Manage favorites button.
+         */
         @OnClick(R.id.favoriteButton)
         void onFavoriteClick(){
             mFragment.setAddFavorite(mData.get(getAdapterPosition()));
         }
 
+        /**
+         * Manage edit button.
+         */
         @OnClick(R.id.editButton)
         void onEditClick(){
             mFragment.setEditFavorite(mData.get(getAdapterPosition()));
         }
 
+        /**
+         * Manage delete button.
+         */
         @OnClick(R.id.deleteButton)
         void onDeleteClick(){
             mFragment.setDeleteFavorite(mData.get(getAdapterPosition()));
