@@ -99,6 +99,9 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
         mPresenter.loadMenu(sectionString);
     }
 
+    /**
+     * When user tap logout close view and open Home.
+     */
     public void logoutUser(){
         Navigator.launchHome(this);
         getActivity().finish();
@@ -110,6 +113,9 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Close actual view and open Profile.
+     */
     @OnClick(R.id.profileButton)
     public void onProfileClick(){
         ((BaseDrawerActivity) getActivity()).closeRightDrawerFrame();
@@ -127,6 +133,12 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Set menu with list item and show a message to user.
+     * The message contain name if user is authenticated.
+     *
+     * @param  menuItemList  list of menu's item
+     */
     @Override
     public void showList(List<MenuItem> menuItemList) {
         mAdapter.setData(menuItemList);

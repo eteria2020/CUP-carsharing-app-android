@@ -62,6 +62,11 @@ public class MenuPresenter extends BasePresenter<MenuMvpView> {
         return true;
     }
 
+    /**
+     * Load menu with different value if user is authenticated or not.
+     *
+     * @param  sectionString  sectionString to selected.
+     */
     public void loadMenu(String sectionString) {
 
         final MenuItem.Section selectedSection = MenuItem.Section.toSection(sectionString);
@@ -143,15 +148,33 @@ public class MenuPresenter extends BasePresenter<MenuMvpView> {
         };
     }
 
+    /**
+     * Check actual status of authentication of user.
+     *
+     * @return      status of authentication of user.
+     * @see         boolean
+     */
     public boolean isAuth(){
         if(!mUserRepository.getCachedUser().username.isEmpty()) return true;
         return false;
     }
 
+    /**
+     * Retrieve from cache the user info.
+     *
+     * @return      object with user info.
+     * @see         UserInfo
+     */
     public UserInfo getUserInfo(){
         return mUserRepository.getCachedUser().userInfo;
     }
 
+    /**
+     * Return actual item selected from menu.
+     *
+     * @return      actual menu item selected.
+     * @see         MenuItem.Section
+     */
     public MenuItem.Section getMenuSelection(){
         return mAppRepository.getSelectMenuItem();
     }
@@ -162,6 +185,12 @@ public class MenuPresenter extends BasePresenter<MenuMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Execute logout of user from app. Delete any information from cache.
+     *
+     * @param  context  context of application
+     * @param  mPref    shared preference of app
+     */
     public void logout(Context context, SharedPreferences mPref){
 
         /*SharedPreferences.Editor editor = mPref.edit();

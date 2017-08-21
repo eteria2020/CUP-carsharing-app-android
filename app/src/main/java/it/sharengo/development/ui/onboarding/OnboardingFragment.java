@@ -418,7 +418,9 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * Method for manage swipe on onboarding view.
+     */
     public class OnSwipeTouchListener implements View.OnTouchListener {
 
         private final GestureDetector gestureDetector;
