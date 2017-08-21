@@ -404,9 +404,10 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onError(Throwable e) {
                 mCarsRequest = null;
-                Log.w("eee",": "+e);
-                getMvpView().showError(e);
-                getMvpView().noCarsFound();
+                try {
+                    getMvpView().showError(e);
+                    getMvpView().noCarsFound();
+                }catch (NullPointerException c){}
             }
 
             @Override
@@ -702,7 +703,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onCompleted() {
                 mPlatesRequest = null;
-                getMvpView().setNextCar(mCachedPlates);
+                try {
+                    getMvpView().setNextCar(mCachedPlates);
+                }catch (NullPointerException e){}
             }
 
             @Override
