@@ -2,6 +2,7 @@ package it.sharengo.development.ui.login;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -265,31 +266,59 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
      * According to type launch correct view. Example Home, Login Profile or other.
      */
     public void navigateTo(){
+        Handler handler = new Handler();
 
         switch (type){
             case Navigator.REQUEST_LOGIN_START:
-                Navigator.launchHome(getActivity());
-                getActivity().finish();
+                handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Navigator.launchHome(getActivity());
+                        getActivity().finish();
+                    }
+                }, 1300);
                 break;
             case Navigator.REQUEST_LOGIN_PROFILE:
-                Navigator.launchProfile(LoginFragment.this);
-                getActivity().finish();
+
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Navigator.launchProfile(LoginFragment.this);
+                        getActivity().finish();
+                    }
+                }, 1300);
                 break;
             case Navigator.REQUEST_LOGIN_MAPS:
-                Navigator.launchMapGoogle(LoginFragment.this, Navigator.REQUEST_MAP_DEFAULT);
-                getActivity().finish();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Navigator.launchMapGoogle(LoginFragment.this, Navigator.REQUEST_MAP_DEFAULT);
+                        getActivity().finish();
+                    }
+                }, 1300);
                 break;
             case Navigator.REQUEST_LOGIN_FEEDS:
                 //Verifico se la città preferita è stata impostata
                 SharedPreferences mPref = getActivity().getSharedPreferences(getActivity().getString(R.string.preference_file_key), MODE_PRIVATE);
                 if (mPref.getString(getActivity().getString(R.string.preference_citiesfavourites), "").isEmpty()) {
                     //Apro i settings
-                    Navigator.launchSettingsCities(LoginFragment.this, true);
-                    getActivity().finish();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Navigator.launchSettingsCities(LoginFragment.this, true);
+                            getActivity().finish();
+                        }
+                    }, 1300);
                 } else {
                     //Apro i feed
-                    Navigator.launchFeeds(LoginFragment.this, "0", "");
-                    getActivity().finish();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Navigator.launchFeeds(LoginFragment.this, "0", "");
+                            getActivity().finish();
+                        }
+                    }, 1300);
                 }
                 break;
         }

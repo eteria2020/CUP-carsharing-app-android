@@ -58,7 +58,7 @@ public abstract class BaseActivity extends HdxBaseActivity {
 
                 hideLoaderAnimation((RelativeLayout) findViewById(R.id.customLoading));
             }
-        }, 700);
+        }, 2000);
 
     }
 
