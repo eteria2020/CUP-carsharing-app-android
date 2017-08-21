@@ -1185,7 +1185,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Abilito / disabilito pulsante per centrare la mappa
     private void enabledCenterMap(boolean enable){
         Log.w("enabledCenterMap",": "+enable);
-        if(enable){
+        if(enable && centerMapButton != null){
 
             centerMapButton.setAlpha(1.0f);
             if(mPresenter.isFeeds && ad != null) ad.centerAlpha = false;
@@ -2347,8 +2347,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         //Advantage
         feedTriangleImageView.setColorFilter(feedColor);
-        if(feed.informations.advantage_top.isEmpty()) {
+        if(feed.informations.advantage_top == null) {
+
             feedTriangleView.setVisibility(View.GONE);
+
+        }else if(feed.informations.advantage_top.isEmpty()) {
+
+            feedTriangleView.setVisibility(View.GONE);
+
         }else {
             feedTriangleView.setVisibility(View.VISIBLE);
             feedAdvantageTextView.setText(StringsUtils.fromHTML(feed.informations.advantage_top));
