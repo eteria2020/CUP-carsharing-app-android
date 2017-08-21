@@ -462,7 +462,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             onProviderDisabled("");
         }
 
-        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        /*LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         try {
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
@@ -473,7 +473,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
         catch (Exception ex){
 
-        }
+        }*/
 
 
     }
@@ -481,8 +481,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void onPause(){
         super.onPause();
-        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        lm.removeUpdates(this);
+        /*LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        lm.removeUpdates(this);*/
 
     }
 
@@ -642,8 +642,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(45.510349);
-        userLocation.setLongitude(9.093254); //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        //userLocation.setLatitude(45.510349);
+        //userLocation.setLongitude(9.093254); //Milano 45.510349, 9.093254 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
