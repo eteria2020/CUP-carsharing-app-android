@@ -420,7 +420,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         setupCircleMenu();
 
         showCarsWithFeeds = false;
-        Log.w("onCreateView","BABABA");
+
         return view;
     }
 
@@ -451,18 +451,16 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void onResume() {
         super.onResume();
-        Log.w("onResume","BABABA");
 
         ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        Log.w("isConnected",": "+isConnected);
+
         if(!isConnected) {
-            Log.w("onProviderEnabled","YES");
             onProviderDisabled("");
         }
 
-        /*LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         try {
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
@@ -473,7 +471,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
         catch (Exception ex){
 
-        }*/
+        }
 
 
     }
@@ -965,7 +963,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void refreshMap(){
         if(getMapRadius() < 35000) {
-            Log.w("refreshMap","AA");
+
             refreshMapButton.startAnimation(anim);
 
             float user_lat = 0;
@@ -1186,12 +1184,17 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Abilito / disabilito pulsante per centrare la mappa
     private void enabledCenterMap(boolean enable){
+        Log.w("enabledCenterMap",": "+enable);
         if(enable){
+
             centerMapButton.setAlpha(1.0f);
-            if(mPresenter.isFeeds) ad.centerAlpha = false;
-        }else{
+            if(mPresenter.isFeeds && ad != null) ad.centerAlpha = false;
+
+        }else if(centerMapButton != null){
+
             centerMapButton.setAlpha(.4f);
-            if(mPresenter.isFeeds) ad.centerAlpha = true;
+            if(mPresenter.isFeeds && ad != null) ad.centerAlpha = true;
+
         }
 
         if(mPresenter.isFeeds){
