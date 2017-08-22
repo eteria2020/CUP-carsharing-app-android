@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -28,7 +29,9 @@ import it.sharengo.development.R;
 import it.sharengo.development.data.models.City;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.utils.ImageUtils;
+import it.sharengo.development.utils.ResourceProvider;
 
 import static android.R.attr.value;
 import static android.content.Context.MODE_PRIVATE;
@@ -41,6 +44,9 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     int sizeCircleView = 0;
     int marginCircle = 0;
     private float co2 = 0f;
+
+    private boolean profileEcoStatusEnabled = false;
+    private boolean feedsAbilitatiEnabled = false;
 
     private View.OnClickListener mNotificationListener = new View.OnClickListener() {
         @Override
@@ -66,12 +72,6 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
     @BindView(R.id.welcomeTextView)
     TextView welcomeTextView;
-
-    @BindView(R.id.testRot)
-    ImageView testRot;
-
-    @BindView(R.id.testRotView)
-    ViewGroup testRotView;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -112,6 +112,16 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
             cityButton.setPadding(padding,padding,padding,padding);
         }
 
+        //Verifico se il pulsante dei feed deve esssere abilitato
+        if(!feedsAbilitatiEnabled){
+            cityButton.setBackground(ResourceProvider.getDrawable(getActivity(), R.drawable.btn_bkg_homegrey));
+        }
+
+        //Verifico se il pulsante del profilo deve essere abilitato
+        if(!profileEcoStatusEnabled && mPresenter.isAuth()){
+            profileUserButton.setBackground(ResourceProvider.getDrawable(getActivity(), R.drawable.btn_bkg_homegrey));
+        }
+
 
         //Animo la home solo all'apertura dell'applicazione
         if(mPresenter.animateHome()) {
@@ -129,50 +139,6 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
             showElements();
         }
 
-
-        testRotView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View arg0, MotionEvent event) {
-
-                switch (event.getAction() & MotionEvent.ACTION_MASK) {
-
-
-                    case MotionEvent.ACTION_MOVE:
-
-                        touchX = (int) event.getX();
-                        touchY = (int) event.getY();
-
-                        deltaX = touchX - oldX;
-                        deltaY = touchY - oldY;
-
-                        oldX = touchX;
-                        oldY = touchY;
-
-                        mHandler.removeCallbacksAndMessages(null);
-                        if (event.getActionMasked() != MotionEvent.ACTION_UP) {
-                            mHandler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    deltaX = 0;
-                                    deltaY = 0;
-                                }
-                            }, FINGER_STOP_THRESHOLD);
-                        }
-
-
-                        value += 0.00001 * (deltaY / 10);
-                        //Log.w("value", ": " + value);
-                        Log.w("value", ": " + value);
-                        if (value >= 0.5f || value <= 1) {
-                            testRot.setTranslationX(-(float) (150 * Math.sin(value * Math.PI)));
-                            testRot.setTranslationY((float) (200 * Math.cos(value * Math.PI)) + 200);
-                        }
-
-                    break;
-
-                }
-                return true;
-            }
-        });
 
         return view;
     }
@@ -538,7 +504,21 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         if(mPresenter.isAuth()) {
 
             //Apro il profilo
-            launchProfile();
+            if(profileEcoStatusEnabled){
+                launchProfile();
+            }else{
+                final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                        getString(R.string.general_notenabled_alert),
+                        getString(R.string.ok),
+                        null);
+                cdd.show();
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismissAlert();
+                    }
+                });
+            }
 
         }else{
 
@@ -550,43 +530,27 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     }
 
     /**
-     * Open feeds.
+     * Open feeds section.
      */
     @OnClick(R.id.cityButton)
     public void onUnknownClick(){
-        openFeeds();
+        if(feedsAbilitatiEnabled) openFeeds();
+        else{
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(R.string.general_notenabled_alert),
+                    getString(R.string.ok),
+                    null);
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                }
+            });
+        }
     }
 
-    @OnClick(R.id.testRot)
-    public void onTestClick(){
-        Log.w("YYY INIT",": "+testRot.getY());
 
-        final Float bubuX = Float.valueOf(testRotView.getWidth());
-        final Float bubuY = Float.valueOf(testRotView.getHeight());
-
-        Log.w("bubuX",": "+bubuX);
-        Log.w("bubuY",": "+bubuY);
-
-        ValueAnimator animator;
-        animator = ValueAnimator.ofFloat(1, 0.5f); // values from 0 to 1
-        animator.setDuration(3000); // 5 seconds duration from 0 to 1
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
-        {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = ((Float) (animation.getAnimatedValue()))
-                        .floatValue();
-                Log.w("value",": "+value);
-                // Set translation of your view here. Position can be calculated
-                // out of value. This code should move the view in a half circle.
-                testRot.setTranslationX(- (float)(150 * Math.sin(value*Math.PI)));
-                testRot.setTranslationY((float)(200 * Math.cos(value*Math.PI)) + 200 );
-
-                Log.w("YYY",": "+testRot.getY());
-            }
-        });
-        animator.start();
-    }
 
     ////////////////////////////////////
     //

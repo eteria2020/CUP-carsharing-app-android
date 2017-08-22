@@ -83,7 +83,7 @@ public class ResourceProvider {
         return null;
     }
 
-    private static Drawable getDrawable(Context context, int icon){
+    public static Drawable getDrawable(Context context, int icon){
         Drawable drawable = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             drawable = (Drawable) context.getDrawable(icon);

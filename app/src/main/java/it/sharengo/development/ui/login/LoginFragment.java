@@ -284,7 +284,7 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Navigator.launchProfile(LoginFragment.this);
+                        Navigator.launchHome(LoginFragment.this);
                         getActivity().finish();
                     }
                 }, 1300);

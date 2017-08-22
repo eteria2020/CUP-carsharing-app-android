@@ -97,27 +97,6 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/testRotView"
-        android:layout_width="105.0dp"
-        android:layout_height="105.0dp"
-        android:layout_centerInParent="true" android:visibility="gone"
-        android:background="#f00">
-        <!-- Round -->
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.7"
-            android:src="@drawable/bkg_menu_round"/>
-        <ImageView
-            android:id="@+id/testRot"
-            android:layout_width="32.0dp"
-            android:layout_height="32.0dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/ic_compass"/>
-    </RelativeLayout>
 
 
 

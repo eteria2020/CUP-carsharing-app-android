@@ -147,7 +147,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
         if(mPresenter.isAuth()){
             welcomeTextView.setText(String.format(getString(R.string.menu_welcome_login), mPresenter.getUserInfo().name));
 
-            profileButton.setVisibility(View.VISIBLE);
+            //profileButton.setVisibility(View.VISIBLE);
             scoreTextView.setText("+75");
             scoreTextView.setVisibility(View.GONE);
         }else{
