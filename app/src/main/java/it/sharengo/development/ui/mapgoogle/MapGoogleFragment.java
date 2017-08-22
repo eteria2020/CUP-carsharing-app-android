@@ -656,8 +656,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(41.923490);
-        userLocation.setLongitude(12.496197); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        //userLocation.setLatitude(41.923490);
+        //userLocation.setLongitude(12.496197); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1374,7 +1374,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             boolean find = false;
             for(MarkerOptions markerCar : poiMarkersToAdd){
-                if(((Car) markerCar.getData()).id.equals(((Car) markerOnMap.getData()).id)) find = true;
+                try {
+                    if (((Car) markerCar.getData()).id.equals(((Car) markerOnMap.getData()).id))
+                        find = true;
+                }catch (IllegalStateException e){}
             }
 
             //se non l'ho trovato, lo devo eliminare dalla mappa
@@ -2027,7 +2030,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
-                if(getDistance(carSelected) <= 50000000){ //TODO: valore a 50
+                if(getDistance(carSelected) <= 50){ //TODO: valore a 50
                     //Procediamo con le schermate successive
                     onClosePopup();
                     mPresenter.openDoor(carSelected, "open");
