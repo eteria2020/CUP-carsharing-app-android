@@ -209,7 +209,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private com.androidmapsextensions.Marker carnextMarker, carbookingMarker, carNextCluster;
     private MarkerOptions carNextClusterOptions;
     private int currentDrawable = 0; //frame dell'animazione della macchiana più vicina
-    private int NUM_ANIM = 46;
+    private int NUM_ANIM = 46; //46
     private List<BitmapDescriptor> drawableAnimGreenArray;
     private List<BitmapDescriptor> drawableAnimYellowArray;
     private BitmapDescriptor bitmapAuto;
@@ -505,15 +505,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         drawableAnimYellowArray = new ArrayList<>();
         for(int i = 0; i <= NUM_ANIM; i++){
             if(i < 10) {
-                drawableAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse000" + i, 500, 500)));
-                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow000" + i, 500, 500)));
+                drawableAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse000" + i, 400, 400)));
+                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow000" + i, 400, 400)));
             }else {
-                drawableAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse00" + i, 500, 500)));
-                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow00" + i, 500, 500)));
+                drawableAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse00" + i, 400, 400)));
+                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow00" + i, 400, 400)));
             }
         }
 
-        bitmapAuto = getBitmapDescriptor(R.drawable.ic_auto);
+        bitmapAuto = getBitmapDescriptor(resizeMapIcons("ic_auto", 132, 159));
 
         mPresenter.onMapIsReady();
 
@@ -657,8 +657,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(45.467960);
-        //userLocation.setLongitude(9.173590); //Milano 45.510349, 9.093254 - Milano 2 45.467960, 9.173590 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(45.467960);
+        userLocation.setLongitude(9.173590); //Milano 45.510349, 9.093254 - Milano 2 45.467960, 9.173590 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
