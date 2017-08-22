@@ -1010,7 +1010,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void drawUserMarker(){
-        if(userMarker == null){
+        if(userMarker == null && userLocation != null){
             userMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude())));
             userMarker.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
         }
