@@ -581,8 +581,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         enabledCenterMap(true);
 
         //markerUser
-        if(getMapRadius() <= 35000)
-            drawUserMarker();
+        drawUserMarker();
 
         prevLocationDisabled = false;
 
@@ -657,8 +656,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(45.467960);
-        userLocation.setLongitude(9.173590); //Milano 45.510349, 9.093254 - Milano 2 45.467960, 9.173590 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(45.464116);
+        userLocation.setLongitude(9.191425); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -666,7 +665,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if (!hasInit){
 
             if(mMap != null)
-                moveMapCameraTo((double) userLocation.getLatitude(), (double) userLocation.getLongitude());
+                moveMapCameraToPoitWithZoom((double) userLocation.getLatitude(), (double) userLocation.getLongitude(), 17);
 
 
             refreshCars();
@@ -1048,10 +1047,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             carnextMarker = null;
 
-            if(userMarker != null){
+            /*if(userMarker != null){
                 userMarker.remove();
                 userMarker = null;
-            }
+            }*/
 
             if(poiMarkers != null)
                 removeMarkers(poiMarkers);
@@ -1079,7 +1078,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         }else {
 
-            drawUserMarker();
+            //drawUserMarker();
 
             if(poiCityMarkers != null)  removeMarkers(poiCityMarkers);
 
@@ -1679,8 +1678,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                         }
                                 } else {
 
-                                    if(getMapRadius() <= 35000)
-                                        drawUserMarker();
+                                    drawUserMarker();
 
                                     if (carbookingMarker != null)
                                         try {
@@ -2601,7 +2599,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @OnClick(R.id.refreshMapButtonView)
     public void onRefreshMap() {
-        refreshMap();
+        if(mMap != null)
+            refreshMap();
     }
 
     @OnClick(R.id.centerMapButtonView)
@@ -2642,7 +2641,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void showCars(List<Car> carsList) {
-        showCarsOnMap(carsList);
+        if(getMapRadius() < 35000)
+            showCarsOnMap(carsList);
     }
 
     @Override

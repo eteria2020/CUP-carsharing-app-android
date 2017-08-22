@@ -222,7 +222,7 @@
     <string name="assistance_call_action">Chiama ora</string>
     <string name="assistance_phonenumber_label">+3905861975772</string>
     <string name="assistance_alertcall_action">Chiama</string>
-    <string name="assistance_cancelcall_action">Anulla</string>
+    <string name="assistance_cancelcall_action">Annulla</string>
     <string name="assistance_devicenotenabled_alert">Il tuo dispositivo non è abilitato alle chiamate</string>
     
     <!-- Share -->
@@ -246,7 +246,7 @@
     <string name="faq_tutorialalert_action">Tutorial</string>
 
     <!-- Non tradotti -->
-    <string name="alert_logoutError">È avvenuto un errore con la tua email e password</string>
+    <string name="alert_logoutError">Attenzione si è verificato un errore. Ti invitiamo ad accedere nuovamente.</string>
     <string name="btn_login">ACCEDI</string>
 
 </resources>

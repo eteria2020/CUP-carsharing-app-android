@@ -221,7 +221,7 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
     }
 
     public boolean isAuth(){
-        if(!mUserRepository.getCachedUser().username.isEmpty()) return true;
+        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) return true;
         return false;
     }
 

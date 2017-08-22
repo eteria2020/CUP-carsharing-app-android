@@ -57,7 +57,7 @@ public class AppRepository {
 
         List<MenuItem> menuItems = new ArrayList<>();
 
-        menuItems.add(new MenuItem(MenuItem.Section.PROFILE));
+        //menuItems.add(new MenuItem(MenuItem.Section.PROFILE));
         menuItems.add(new MenuItem(MenuItem.Section.BOOKING));
         menuItems.add(new MenuItem(MenuItem.Section.HISTORIC));
         menuItems.add(new MenuItem(MenuItem.Section.HELP));

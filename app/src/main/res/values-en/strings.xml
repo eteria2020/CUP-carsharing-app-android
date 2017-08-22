@@ -52,28 +52,28 @@
     <string name="search_favoriteempty_label">No favorite\nnotmemorize in the settings section</string>
 
     <!-- Prenotazione -->
-    <string name="booking_userpin_label">Il tuo pin utente: %s</string>
-    <string name="booking_active_label">Prenotazione attiva</string>
-    <string name="booking_plate_label">Targa %s</string>
-    <string name="booking_expirationtime">Scade tra <![CDATA[<br><b>%s</b>]]> min</string>
-    <string name="booking_opendoor_action">Apri portiere</string>
-    <string name="booking_delete_action">Elimina</string>
-    <string name="booking_delete_alert">Eliminando questa prenotazione, non potrai più prenotare la stessa auto nelle prossime 4 ore. Confermi di voler cancellare la prenotazione?</string>
-    <string name="booking_deleteconfirm_alert">La tua prenotazione è stata annullata correttamente</string>
-    <string name="booking_bookedcar_alert">Hai già una prenotazione attiva</string>
-    <string name="booking_alreadybookedcar_alert">Non puoi prenotare questa auto fino a che non saranno passate 4 ore da quando hai annullato la prenotazione</string>
-    <string name="booking_durationtrip_label">Durata corsa:</string>
-    <string name="booking_tripactive_label">Corsa attiva</string>
-    <string name="booking_timeend_label">Il tempo di prenotazione è scaduto, la tua prenotazione è stata annullata. Prenota un\'altra auto in mappa</string>
+    <string name="booking_userpin_label">Your user pin: %s</string>
+    <string name="booking_active_label">Booking active</string>
+    <string name="booking_plate_label">Plate %s</string>
+    <string name="booking_expirationtime">Expires in <![CDATA[<br><b>%s</b>]]> min</string>
+    <string name="booking_opendoor_action">Open doors</string>
+    <string name="booking_delete_action">Cancel </string>
+    <string name="booking_delete_alert">By canceling this booking, you will not be able to book the same car in the next 4 hours. Do you confirm the booking cancelation? </string>
+    <string name="booking_deleteconfirm_alert">Your booking has been canceled correctly</string>
+    <string name="booking_bookedcar_alert">You already have an active booking</string>
+    <string name="booking_alreadybookedcar_alert">You cannot book this car until 4 hours have passed since your last canceled your booking</string>
+    <string name="booking_durationtrip_label">Trip duration:</string>
+    <string name="booking_tripactive_label">Trip active</string>
+    <string name="booking_timeend_label">Booking time expired, your booking has been canceled. Book another car on the map</string>
 
     <!-- Corsa -->
-    <string name="tripend_title_label">Hai completato il tuo noleggio</string>
-    <string name="tripend_text1_label">Attendi la chiusura delle portiere fuori dell\'auto.</string>
-    <string name="tripend_text2_label">Riceverai via mail la conferma di transazione avvenuta entro 24 ore.</string>
-    <string name="tripend_thanks_label">Grazie!</string>
-    <string name="tripend_text3_label" formatted="false">CON IL TUO VIAGGIO HAI RISPARMIATO %.1f CO2!</string>
-    <string name="tripend_historic_action">Storico corse</string>
-    <string name="tripend_notification_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente. Ti ringraziamo per aver usato Share\'ngo</string>
+    <string name="tripend_title_label">You ended your trip</string>
+    <string name="tripend_text1_label">Please wait doors closing outside the car</string>
+    <string name="tripend_text2_label">You will be notified via mail the transaction confirmation within 24h</string>
+    <string name="tripend_thanks_label">Thank you!</string>
+    <string name="tripend_text3_label" formatted="false">YOU SAVED %.1f CO2 BY THIS TRIP!</string>
+    <string name="tripend_historic_action">Trip history</string>
+    <string name="tripend_notification_label">Trip ended. The trip lasted %d minutes and ended correctly. Thank you for using Share\'ngo</string>
 
     <!-- Login -->
     <string name="login_fillfields_label">Please fill out the fields to log in </string>
@@ -94,13 +94,13 @@
     <string name="signup_title_label">Sign up to Share\'ngo</string>
     <string name="signup_description_label">The subscription to the service costs 10 € per 30 minutes (standard conditions, unless promotions). If your need help in the sign-up process please use the chat button!  </string>
     <string name="signup_subscribe_action">SIGN UP </string>
-    <string name="signup_step1text1_action">To sign up you need to have at hand:</string>
+    <string name="signup_step1text1_action">To sign up you need\nto have at hand:</string>
     <string name="signup_step1text2_action">PERSONAL I.D.</string>
-    <string name="signup_step2text1_action">To sign up you need to have at hand:</string>
+    <string name="signup_step2text1_action">To sign up you need\nto have at hand:</string>
     <string name="signup_step2text2_action">FISCAL CODE </string>
-    <string name="signup_step3text1_action">To sign up you need to have at hand:</string>
+    <string name="signup_step3text1_action">To sign up you need\nto have at hand:</string>
     <string name="signup_step3text2_action">DRIVING LICENSE </string>
-    <string name="signup_step4text1_action">To sign up you need to have at hand:</string>
+    <string name="signup_step4text1_action">To sign up you need\nto have at hand:</string>
     <string name="signup_step4text2_action">CREDIT CARD </string>
 
     <!-- Intro -->
@@ -218,7 +218,7 @@
     <string name="faq_tutorialalert_action">Tutorial</string>
 
     <!-- Non tradotti -->
-    <string name="alert_logoutError">An error occurred with your email and password</string>
+    <string name="alert_logoutError">Careful, an error occured. Please login again.</string>
     <string name="btn_login">LOGIN</string>
 
 </resources>
