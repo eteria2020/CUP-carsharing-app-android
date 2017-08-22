@@ -155,7 +155,7 @@ public class MenuPresenter extends BasePresenter<MenuMvpView> {
      * @see         boolean
      */
     public boolean isAuth(){
-        if(!mUserRepository.getCachedUser().username.isEmpty()) return true;
+        if(mUserRepository.getCachedUser() != null && mUserRepository.getCachedUser().username != null && !mUserRepository.getCachedUser().username.isEmpty()) return true;
         return false;
     }
 

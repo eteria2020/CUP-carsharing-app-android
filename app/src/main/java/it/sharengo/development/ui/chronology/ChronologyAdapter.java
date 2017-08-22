@@ -72,6 +72,16 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
         return mData == null ? 0 : mData.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.chronView)

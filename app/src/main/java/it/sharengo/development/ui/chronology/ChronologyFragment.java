@@ -65,7 +65,9 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         View view = inflater.inflate(R.layout.fragment_chronology, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        ((BaseActivity) getActivity()).showLoadingChronology();
+        try {
+            ((BaseActivity) getActivity()).showLoadingChronology();
+        }catch (OutOfMemoryError e){}
 
         mRv.setHasFixedSize(true);
         final LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -187,6 +189,7 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         protected void onPostExecute(String result) {
 
             //progressBarList.setVisibility(View.GONE);
+            if((BaseActivity) getActivity() != null)
             ((BaseActivity) getActivity()).hideLoadingChronology();
 
 
