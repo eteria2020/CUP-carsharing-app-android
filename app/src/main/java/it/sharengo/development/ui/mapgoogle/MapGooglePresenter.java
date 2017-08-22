@@ -1000,12 +1000,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  context   context of application.
      */
     public void bookingCar(Car car, float user_lat, float user_lon, Context context){
-        Log.w("bookingCar",": "+car);
         //hideLoading = false;
 
-        if( mReservationRequest == null) {
-            mReservationRequest = buildReservationRequest(car, user_lat, user_lon);
-            addSubscription(mReservationRequest.unsafeSubscribe(getReservationSubscriber(context)));
+        if(car != null) {
+            if (mReservationRequest == null) {
+                mReservationRequest = buildReservationRequest(car, user_lat, user_lon);
+                addSubscription(mReservationRequest.unsafeSubscribe(getReservationSubscriber(context)));
+            }
         }
     }
 
