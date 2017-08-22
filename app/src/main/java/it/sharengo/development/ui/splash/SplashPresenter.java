@@ -71,6 +71,12 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
         return true;
     }
 
+    /**
+     * Load data from preference.
+     *
+     * @param  mPref   shared preference of app
+     * @param  context context of application
+     */
     public void loadData(SharedPreferences mPref, Context context) {
 
         mContext = context;
@@ -111,10 +117,22 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
         }
     }
 
+    /**
+     * Check if first access to app.
+     *
+     * @param  mPrefs  shared preference of app
+     * @return         true if first access to app
+     * @see            boolean
+     */
     public boolean isFirstAccess(SharedPreferences mPrefs){
         return mPreferencesRepository.getFirstAccess(mPrefs);
     }
 
+    /**
+     * Set boolean of first access to app at false.
+     *
+     * @param  mPrefs  shared preference of app
+     */
     public void setFirstAccess(SharedPreferences mPrefs){
         mPreferencesRepository.saveFirstAccess(false, mPrefs);
     }
@@ -180,6 +198,10 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
     //                                              Reservation
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Retrieve from server all reservation of user.
+     */
     void getReservation(){
 
         if( mReservationsRequest == null) {
@@ -226,6 +248,10 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
     //                                              Trips
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Retrieve from server all trips of user.
+     */
     void getTrips(){
         if( mTripsRequest == null) {
             mTripsRequest = buildTripsRequest();
@@ -272,6 +298,10 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
     //                                              Cities
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Retrieve from server all cities.
+     */
     void getCities(){
         if( mCityRequest == null) {
             mCityRequest = buildCitiesRequest();

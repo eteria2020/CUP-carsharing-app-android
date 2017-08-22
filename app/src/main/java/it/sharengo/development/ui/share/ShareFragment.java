@@ -42,6 +42,10 @@ public class ShareFragment extends BaseMvpFragment<SharePresenter> implements Sh
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Start activity for show sharing options.
+     */
     @OnClick(R.id.shareButton)
     public void shareButton(){
         Intent sendIntent = new Intent();

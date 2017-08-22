@@ -69,6 +69,10 @@ public class TripEndFragment extends BaseMvpFragment<TripEndPresenter> implement
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Close current view and open Chronology.
+     */
     @OnClick(R.id.historicButton)
     public void historicButton(){
         Navigator.launchChronology(this);

@@ -132,6 +132,10 @@ public class TutorialFragment extends BaseMvpFragment<TutorialPresenter> impleme
     //                                              ButterKnife
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Manage tap on close tutorial button.
+     */
     @OnClick(R.id.closeTutorialButton)
     public void closeTutorialButton(){
         final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
@@ -148,6 +152,9 @@ public class TutorialFragment extends BaseMvpFragment<TutorialPresenter> impleme
         });
     }
 
+    /**
+     * Manage tap on previous page of tutorial button.
+     */
     @OnClick(R.id.prevTutorialButton)
     public void onPrevButton(){
         int tab = mPager.getCurrentItem();
@@ -159,6 +166,9 @@ public class TutorialFragment extends BaseMvpFragment<TutorialPresenter> impleme
         }
     }
 
+    /**
+     * Manage tap on next page of tutorial button.
+     */
     @OnClick(R.id.nextTutorialButton)
     public void onNextButton(){
         int tab = mPager.getCurrentItem();

@@ -10,7 +10,6 @@ import it.sharengo.development.R;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 
-
 public class SettingsLangActivity extends BaseDrawerActivity {
 
     private static final String TAG = SettingsLangActivity.class.getSimpleName();
