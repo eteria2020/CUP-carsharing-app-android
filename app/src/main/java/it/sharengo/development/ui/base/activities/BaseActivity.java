@@ -20,6 +20,8 @@ import android.widget.RelativeLayout;
 
 import it.handroix.core.base.HdxBaseActivity;
 import it.sharengo.development.R;
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 public abstract class BaseActivity extends HdxBaseActivity {
 
@@ -38,12 +40,6 @@ public abstract class BaseActivity extends HdxBaseActivity {
 
         findViewById(R.id.customLoading).setAlpha(1.0f);
         findViewById(R.id.customLoading).setVisibility(View.VISIBLE);
-
-        ImageView customLoadingAnim = (ImageView)findViewById(R.id.customLoadingAnim);
-        customLoadingAnim.setBackgroundResource(R.drawable.loader_animation);
-
-        AnimationDrawable frameAnimation = (AnimationDrawable) customLoadingAnim.getBackground();
-        frameAnimation.start();
 
         //super.showLoading();
     }
@@ -64,15 +60,8 @@ public abstract class BaseActivity extends HdxBaseActivity {
 
     public void showLoadingChronology() {
 
-
         findViewById(R.id.customLoadingChronology).setAlpha(1.0f);
         findViewById(R.id.customLoadingChronology).setVisibility(View.VISIBLE);
-
-        ImageView customLoadingAnim = (ImageView)findViewById(R.id.customLoadingAnimChronology);
-        customLoadingAnim.setBackgroundResource(R.drawable.loader_animation);
-
-        AnimationDrawable frameAnimation = (AnimationDrawable) customLoadingAnim.getBackground();
-        frameAnimation.start();
     }
 
     public void hideLoadingChronology() {

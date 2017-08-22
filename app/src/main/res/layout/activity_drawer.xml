@@ -33,20 +33,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:background="@drawable/loader_bkg_001"
         android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/customBkgLoading"
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/customLoadingGif"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
-
-        <ImageView
-            android:id="@+id/customLoadingAnim"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/custom_loader" />
 
     </RelativeLayout>
 
@@ -56,20 +50,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:background="@drawable/loader_bkg_001"
         android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/customBkgLoadingChronology"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
 
-        <ImageView
-            android:id="@+id/customLoadingAnimChronology"
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/customLoadingGifChronology"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/custom_loader" />
 
     </RelativeLayout>
 
