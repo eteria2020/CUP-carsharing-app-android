@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,7 +76,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
         mUnbinder = ButterKnife.bind(this, view);
 
         SharedPreferences mPref = getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
-        lang = mPref.getString(getString(R.string.preference_lang), "it");
+        lang = mPref.getString(getString(R.string.preference_lang), Locale.getDefault().getLanguage());
 
         gifDrawable = (GifDrawable) mGif.getDrawable();
 
@@ -203,7 +204,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
     //Car 1
     private void startAnimationCar1Ingresso(){
 
-        int da = (lang.equals("it")) ? R.drawable.auto_a_ingresso : R.drawable.auto_a_ingresso;
+        int da = (lang.equals("it")) ? R.drawable.auto_a_ingresso : R.drawable.auto_a_ingresso_en;
 
         try {
             gifDrawable = new GifDrawable(getResources(), da);
@@ -224,7 +225,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
         textTextView.setText(getString(R.string.onboarding_car1_label));
         textTextView.animate().setDuration(100).alpha(1.0f).setListener(null);
 
-        int da = (lang.equals("it")) ? R.drawable.auto_a_loop : R.drawable.auto_a_loop;
+        int da = (lang.equals("it")) ? R.drawable.auto_a_loop : R.drawable.auto_a_loop_en;
 
         try {
             gifDrawable = new GifDrawable(getResources(), da);
@@ -243,7 +244,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
 
         textTextView.animate().alpha(0.0f).setListener(null);
 
-        int da = (lang.equals("it")) ? R.drawable.auto_a_uscita : R.drawable.auto_a_uscita;
+        int da = (lang.equals("it")) ? R.drawable.auto_a_uscita : R.drawable.auto_a_uscita_en;
 
         try {
             gifDrawable = new GifDrawable(getResources(), da);
@@ -262,7 +263,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
     //Car 2
     private void startAnimationCar2Ingresso(){
 
-        int da = (lang.equals("it")) ? R.drawable.auto_b_ingresso : R.drawable.auto_b_ingresso;
+        int da = (lang.equals("it")) ? R.drawable.auto_b_ingresso : R.drawable.auto_b_ingresso_en;
 
         try {
             gifDrawable = new GifDrawable(getResources(), da);
@@ -283,7 +284,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
         textTextView.setText(getString(R.string.onboarding_car2_label));
         textTextView.animate().setDuration(100).alpha(1.0f).setListener(null);
 
-        int da = (lang.equals("it")) ? R.drawable.auto_b_loop : R.drawable.auto_b_loop;
+        int da = (lang.equals("it")) ? R.drawable.auto_b_loop : R.drawable.auto_b_loop_en;
 
         try {
             gifDrawable = new GifDrawable(getResources(), da);
@@ -302,7 +303,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
 
         textTextView.animate().alpha(0.0f).setListener(null);
 
-        int da = (lang.equals("it")) ? R.drawable.auto_b_uscita : R.drawable.auto_b_uscita;
+        int da = (lang.equals("it")) ? R.drawable.auto_b_uscita : R.drawable.auto_b_uscita_en;
 
         try {
             gifDrawable = new GifDrawable(getResources(), da);
@@ -325,7 +326,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
     //Car 3
     private void startAnimationCar3Ingresso(){
 
-        int da = (lang.equals("it")) ? R.drawable.auto_c_ingresso : R.drawable.auto_c_ingresso;
+        int da = (lang.equals("it")) ? R.drawable.auto_c_ingresso : R.drawable.auto_c_ingresso_en;
 
         try {
             gifDrawable = new GifDrawable(getResources(), da);
@@ -346,7 +347,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
         textTextView.setText(getString(R.string.onboarding_car3_label));
         textTextView.animate().setDuration(100).alpha(1.0f).setListener(null);
 
-        int da = (lang.equals("it")) ? R.drawable.auto_c_loop : R.drawable.auto_c_loop;
+        int da = (lang.equals("it")) ? R.drawable.auto_c_loop : R.drawable.auto_c_loop_en;
 
         try {
             gifDrawable = new GifDrawable(getResources(), da);
@@ -365,7 +366,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
 
         textTextView.animate().alpha(0.0f).setListener(null);
 
-        int da = (lang.equals("it")) ? R.drawable.auto_c_uscita : R.drawable.auto_c_uscita;
+        int da = (lang.equals("it")) ? R.drawable.auto_c_uscita : R.drawable.auto_c_uscita_en;
 
         try {
             gifDrawable = new GifDrawable(getResources(), da);
