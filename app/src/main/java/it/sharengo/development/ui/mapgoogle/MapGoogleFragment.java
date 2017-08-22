@@ -708,6 +708,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             //Setto l'altezza della view dei risultati di ricerca
             setSearchViewHeight();
 
+            searchEditText.requestFocus();
+
             //Verifico se la view era precedentemente aperta
             if(!searchViewOpen) {
 
@@ -1682,7 +1684,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                                 carbookingMarker = null;
                                             }
 
-                                        } catch (NullPointerException e) {Log.w("userMarker","ABC catch");}
+                                        } catch (NullPointerException e) {}
                                     }
                                     if (carnextMarker != null)
                                         try {

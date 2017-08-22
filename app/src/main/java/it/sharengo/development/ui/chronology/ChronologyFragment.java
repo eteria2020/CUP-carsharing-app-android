@@ -147,6 +147,7 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
     public void showEmptyResult(){
         emptyChronLayout.setVisibility(View.VISIBLE);
         mRv.setVisibility(View.GONE);
+        ((BaseActivity) getActivity()).hideLoadingChronology();
     }
 
     /**
