@@ -207,7 +207,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
         loadCarpopup();
 
-        if(!mUserRepository.getCachedUser().username.isEmpty())
+        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
             getReservations(false);
 
         startTimer();
@@ -248,7 +248,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     public void run() {
 
                         Log.w("PASSATO","1 MINUTO");
-                        if(!mUserRepository.getCachedUser().username.isEmpty())
+                        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
                             getReservations(true);
 
                         //getTrips(true);

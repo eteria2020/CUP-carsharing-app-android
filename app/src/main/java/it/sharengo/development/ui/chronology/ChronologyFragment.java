@@ -33,6 +33,7 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
 
     private ChronologyAdapter mAdapter;
     private List<Trip> mTripsList;
+    private LongOperation longOperation;
 
     @BindView(R.id.chronRecyclerView)
     RecyclerView mRv;
@@ -87,6 +88,12 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         //mPresenter.getTrips();
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        longOperation.cancel(true);
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //          LISTENERS
@@ -136,7 +143,8 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         //((BaseActivity) getActivity()).showLoading();
 
         mTripsList = tripList;
-        new LongOperation().execute();
+        longOperation = new LongOperation();
+        longOperation.execute();
 
     }
 

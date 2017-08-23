@@ -94,7 +94,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
                     public void run() {
 
                         Log.w("PASSATO HOME","1 MINUTO");
-                        if(!mUserRepository.getCachedUser().username.isEmpty())
+                        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
                             getReservations(true);
 
                     }
@@ -124,7 +124,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
      * @see         boolean
      */
     public boolean isAuth(){
-        if(!mUserRepository.getCachedUser().username.isEmpty()) return true;
+        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) return true;
         return false;
     }
 

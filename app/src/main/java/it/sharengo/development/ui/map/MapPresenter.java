@@ -161,7 +161,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
 
         loadCarpopup();
 
-        if(!mUserRepository.getCachedUser().username.isEmpty())
+        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
             getReservations(false);
 
         startTimer();
@@ -200,7 +200,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                     public void run() {
 
                         Log.w("PASSATO","1 MINUTO");
-                        if(!mUserRepository.getCachedUser().username.isEmpty())
+                        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
                             getReservations(true);
 
                         //getTrips(true);
@@ -231,7 +231,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     public boolean isAuth(){
-        if(!mUserRepository.getCachedUser().username.isEmpty()) return true;
+        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) return true;
         return false;
     }
 

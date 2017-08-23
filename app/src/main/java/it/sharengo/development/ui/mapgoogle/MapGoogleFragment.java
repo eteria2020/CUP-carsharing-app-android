@@ -581,7 +581,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         enabledCenterMap(true);
 
         //markerUser
-        drawUserMarker();
+        if(mMap != null){
+            if(!isTripStart || (isTripStart && getMapRadius() < 35000)){
+                drawUserMarker();
+            }
+        }
 
         prevLocationDisabled = false;
 
@@ -656,8 +660,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(41.923490);
-        //userLocation.setLongitude(12.496197); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(45.510349);
+        userLocation.setLongitude(7.617876); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
