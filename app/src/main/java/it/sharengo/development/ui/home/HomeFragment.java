@@ -118,7 +118,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         }
 
         //Verifico se il pulsante del profilo deve essere abilitato
-        if(!profileEcoStatusEnabled && mPresenter.isAuth()){
+        if(!profileEcoStatusEnabled){
             profileUserButton.setBackground(ResourceProvider.getDrawable(getActivity(), R.drawable.btn_bkg_homegrey));
         }
 
@@ -501,30 +501,26 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     @OnClick(R.id.profileUserButton)
     public void onProfileClick() {
 
-        if(mPresenter.isAuth()) {
-
-            //Apro il profilo
-            if(profileEcoStatusEnabled){
+        if(profileEcoStatusEnabled){
+            if(mPresenter.isAuth()) {
                 launchProfile();
             }else{
-                final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
-                        getString(R.string.general_notenabled_alert),
-                        getString(R.string.ok),
-                        null);
-                cdd.show();
-                cdd.yes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cdd.dismissAlert();
-                    }
-                });
+                //Mostro il login
+                Navigator.launchLogin(HomeFragment.this, Navigator.REQUEST_LOGIN_PROFILE);
+                getActivity().finish();
             }
-
         }else{
-
-            //Mostro il login
-            Navigator.launchLogin(HomeFragment.this, Navigator.REQUEST_LOGIN_PROFILE);
-            getActivity().finish();
+            final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    getString(R.string.general_notenabled_alert),
+                    getString(R.string.ok),
+                    null);
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                }
+            });
         }
 
     }

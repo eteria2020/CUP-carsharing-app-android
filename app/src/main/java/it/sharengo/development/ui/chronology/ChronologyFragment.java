@@ -92,7 +92,7 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
     @Override
     public void onPause(){
         super.onPause();
-        longOperation.cancel(true);
+        if(longOperation != null) longOperation.cancel(true);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

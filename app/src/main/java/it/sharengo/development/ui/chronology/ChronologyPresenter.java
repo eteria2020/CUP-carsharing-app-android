@@ -116,7 +116,6 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
         if(mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0){
             //getMvpView().showStandardLoading();
             getMvpView().showList(mResponseTrip.trips);
-
         }else{
 
             getMvpView().showEmptyResult();
