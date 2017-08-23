@@ -1,6 +1,7 @@
 package it.sharengo.development.ui.faq;
 
 
+import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
@@ -18,7 +19,7 @@ public class FaqPresenter extends BasePresenter<FaqMvpView> {
         super(schedulerProvider,userRepository);
         mAppRepository = appRepository;
         mUserRepository = userRepository;
-        //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
+        mAppRepository.selectMenuItem(MenuItem.Section.FAQ);
     }
 
 

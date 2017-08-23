@@ -171,6 +171,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
     };
     
     private void startActivityDelayed(final MenuItem menuItem) {
+
         if(menuItem.section == mPresenter.getMenuSelection()) {
             return;
         }

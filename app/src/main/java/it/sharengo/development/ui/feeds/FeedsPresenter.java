@@ -14,6 +14,7 @@ import java.util.List;
 
 import it.sharengo.development.data.models.Feed;
 import it.sharengo.development.data.models.FeedCategory;
+import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.ResponseFeed;
 import it.sharengo.development.data.models.ResponseFeedCategory;
 import it.sharengo.development.data.repositories.AppRepository;

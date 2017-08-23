@@ -1,6 +1,7 @@
 package it.sharengo.development.ui.chronology;
 
 
+import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.UserRepository;
@@ -29,7 +30,7 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
         super(schedulerProvider,userRepository);
         mAppRepository = appRepository;
         mUserRepository = userRepository;
-        //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
+        mAppRepository.selectMenuItem(MenuItem.Section.HISTORIC);
     }
 
 

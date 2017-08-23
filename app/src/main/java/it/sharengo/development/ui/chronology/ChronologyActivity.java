@@ -12,7 +12,7 @@ import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 
 public class ChronologyActivity extends BaseDrawerActivity {
 
-    //private static final String TAG = ChronologyActivity.class.getSimpleName();
+    private static final String TAG = ChronologyActivity.class.getSimpleName();
 
     public static Intent getCallingIntent(Context context) {
         Intent i = new Intent(context, ChronologyActivity.class);
