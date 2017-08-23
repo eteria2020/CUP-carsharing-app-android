@@ -16,6 +16,14 @@ public class SharengoMapRetrofitDataSource extends BaseRetrofitDataSource implem
         this.mSharengoMapApi = mSharengoMapApi;
     }
 
+    /**
+     * Returns an observable object (List<Address>) for manage API searchAddress.
+     *
+     * @param   address  identification credentials
+     * @param   format   latitude to search
+     * @return           list address observable object
+     * @see              Observable<List<Address>>
+     */
     @Override
     public Observable<List<Address>> searchAddress(String address, String format) {
         return mSharengoMapApi.searchAddress(address, format)
