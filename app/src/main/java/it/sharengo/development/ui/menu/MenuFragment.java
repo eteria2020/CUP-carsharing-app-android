@@ -94,7 +94,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
             String sectionArg = getArguments().getString(ARG_MENU_ITEM);
             sectionString = sectionArg != null ? sectionArg : sectionString;
         }
-
+        Log.w("MENU",": "+sectionString);
 
         mPresenter.loadMenu(sectionString);
     }
@@ -166,13 +166,14 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
     private MenuAdapter.OnItemActionListener mActionListener = new MenuAdapter.OnItemActionListener() {
         @Override
         public void onItemClick(MenuItem menuItem) {
+            Log.w("MENU","mActionListener");
             ((BaseDrawerActivity) getActivity()).closeRightDrawerFrame();
             startActivityDelayed(menuItem);
         }
     };
     
     private void startActivityDelayed(final MenuItem menuItem) {
-        
+        Log.w("MENU","startActivityDelayed");
         if(menuItem.section == mPresenter.getMenuSelection()) {
             return;
         }

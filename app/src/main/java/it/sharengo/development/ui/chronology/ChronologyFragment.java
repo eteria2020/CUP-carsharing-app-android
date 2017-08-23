@@ -25,6 +25,7 @@ import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.activities.BaseActivity;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.development.ui.menu.MenuFragment;
 
 
 public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> implements ChronologyMvpView {
