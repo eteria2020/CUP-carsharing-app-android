@@ -28,7 +28,13 @@ public class KmlRepository {
         this.mRemoteDataSource = remoteDataSource;
     }
 
-
+    /**
+     * Invoke API from retrieve Kml zone to draw on map.
+     *
+     * @param  context  context of application
+     * @return          observable kml object
+     * @see             Observable<Kml>
+     */
     public Observable<Kml> zone(Context context) {
 
         return mRemoteDataSource.zone()

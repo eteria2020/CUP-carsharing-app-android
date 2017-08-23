@@ -27,7 +27,14 @@ public class AddressRepository {
         this.mRemoteDataSource = remoteDataSource;
     }
 
-
+    /**
+     * Invoke API searchAddress with params received from app.
+     *
+     * @param  address  address to search
+     * @param  format   format of address
+     * @return          list address observable object
+     * @see             Observable<List<Address>>
+     */
     public Observable<List<Address>> searchAddress(String address, String format) {
 
         return mRemoteDataSource.searchAddress(address, format)

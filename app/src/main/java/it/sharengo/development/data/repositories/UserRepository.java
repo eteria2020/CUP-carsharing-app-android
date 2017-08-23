@@ -48,6 +48,13 @@ public class UserRepository {
     //                                              User credentials
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Save user credentials or update if also exist.
+     *
+     * @param  username  username of user
+     * @param  password  password of user
+     */
     public void saveUserCredentials(String username, String password){
         if(mCachedUser == null)
             mCachedUser = new User(username, password, "");
@@ -62,6 +69,12 @@ public class UserRepository {
     //                                              Logout
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Delete from preference login data of user.
+     *
+     * @param  prefs  shared preference of app
+     */
     public void logoutUser(SharedPreferences prefs){
         mCachedUser = new User("", "", "");
 
@@ -78,10 +91,24 @@ public class UserRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Return from cache user's object.
+     *
+     * @return      user's object
+     * @see         User
+     */
     public User getCachedUser(){
         return mCachedUser;
     }
 
+    /**
+     * Returns user information after invoke method to comunicate with server for API getUser.
+     *
+     * @param  username  username of user
+     * @param  password  password of user
+     * @return           response user of observable object
+     * @see              Observable<ResponseUser>
+     */
     public Observable<ResponseUser> getUser(String username, String password) {
 
         return mRemoteDataSource.getUser(Credentials.basic(username, StringsUtils.md5(password)))
@@ -129,6 +156,15 @@ public class UserRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Retrieve reservation from server if refreshInfo if true else retrieve from cache.
+     *
+     * @param  username     username of user
+     * @param  password     password of user
+     * @param  refreshInfo  refresh or not the information
+     * @return              response reservation observable object
+     * @see                 Observable<ResponseReservation>
+     */
     public Observable<ResponseReservation> getReservations(String username, String password, boolean refreshInfo) {
 
 
@@ -182,7 +218,17 @@ public class UserRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * Invoke API postReservations with params received from app.
+     *
+     * @param  username  username of user
+     * @param  password  password of user
+     * @param  plate     plate
+     * @param  user_lat  latitude of user
+     * @param  user_lon  longitude of user
+     * @return           response put reservation observable object
+     * @see              Observable<ResponsePutReservation>
+     */
     public Observable<ResponsePutReservation> postReservations(String username, String password, String plate, float user_lat, float user_lon) {
 
         return mRemoteDataSource.postReservations(Credentials.basic(username, StringsUtils.md5(password)), plate, user_lat, user_lon)
@@ -232,6 +278,14 @@ public class UserRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Invoke API deleteReservations with params received from app.
+     *
+     * @param  username  username of user
+     * @param  password  password of user
+     * @return           response put reservation observable object
+     * @see              Observable<ResponsePutReservation>
+     */
     public Observable<ResponsePutReservation> deleteReservations(String username, String password, int id) {
 
         return mRemoteDataSource.deleteReservations(Credentials.basic(username, StringsUtils.md5(password)), id)
@@ -251,6 +305,17 @@ public class UserRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Invoke API getTrips with params received from app. Retrieve from cache if
+     * refreshInfo it's false.
+     *
+     * @param  username     username of user
+     * @param  password     password of user
+     * @param  active       status of trip
+     * @param  refreshInfo  boolean for retrieve data from server or cache
+     * @return              response trip observable object
+     * @see                 Observable<ResponseTrip>
+     */
     public Observable<ResponseTrip> getTrips(String username, String password, boolean active, boolean refreshInfo) {
 
         if(mCachedTrips == null || refreshInfo) {
@@ -301,6 +366,14 @@ public class UserRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Invoke API getTrips with params received from app by chron setting.
+     *
+     * @param  username     username of user
+     * @param  password     password of user
+     * @return              response trip observable object
+     * @see                 Observable<ResponseTrip>
+     */
     public Observable<ResponseTrip> getChronTrips(String username, String password) {
 
         return mRemoteDataSource.getTrips(Credentials.basic(username, StringsUtils.md5(password)), false)

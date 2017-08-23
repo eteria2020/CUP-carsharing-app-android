@@ -42,7 +42,11 @@ public class PreferencesRepository {
 
     }
 
-
+    /**
+     * Clear shared preferences of app.
+     *
+     * @param  prefs  shared preference of app
+     */
     public void clear(SharedPreferences prefs) {
         prefs.edit().clear().apply();
     }
@@ -78,15 +82,37 @@ public class PreferencesRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Retrieve status of variable "firstAccess" to app.
+     *
+     * @param  prefs  shared preference of app
+     * @return        status of variable "firstAccess" to app
+     * @see           Boolean
+     */
     public boolean getFirstAccess(SharedPreferences prefs) {
         return prefs.getBoolean(KEY_FIRST_ACCESS, true);
     }
 
+    /**
+     * Save value for variable "firstAccess" to app.
+     *
+     * @param  firstAccess  value to set
+     * @param  prefs        shared preference of app
+     * @return              status of variable after operation
+     * @see                 boolean
+     */
     public boolean saveFirstAccess(boolean firstAccess, SharedPreferences prefs) {
         mPref = prefs;
         return setBoolean(KEY_FIRST_ACCESS, firstAccess);
     }
 
+    /**
+     * Save credentials to preference.
+     *
+     * @param  username  username of user
+     * @param  password  password of user
+     * @param  prefs     shared preference of app
+     */
     public void saveCredentials(String username, String password, SharedPreferences prefs) {
 
         SharedPreferences.Editor editor = prefs.edit();
@@ -95,10 +121,24 @@ public class PreferencesRepository {
         editor.commit();
     }
 
+    /**
+     * Retrieve username of user.
+     *
+     * @param  prefs        shared preference of app
+     * @return              username of user
+     * @see                 String
+     */
     public String getUsername(SharedPreferences prefs){
         return prefs.getString(KEY_USERNAME, "");
     }
 
+    /**
+     * Retrieve password of user.
+     *
+     * @param  prefs        shared preference of app
+     * @return              password of user
+     * @see                 String
+     */
     public String getPassword(SharedPreferences prefs){
         return prefs.getString(KEY_PASSWORD, "");
     }

@@ -133,7 +133,7 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Set the list of citt and notify if data is changed.
+     * Set the list of city and notify if data is changed.
      *
      * @param  citiesList  list of city
      */

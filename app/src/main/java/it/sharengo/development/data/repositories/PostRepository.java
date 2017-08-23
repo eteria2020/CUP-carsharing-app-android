@@ -38,7 +38,12 @@ public class PostRepository {
 
     }*/
 
-
+    /**
+     * Invoke API getPosts for retrieve data.
+     *
+     * @return              list post observable object
+     * @see                 Observable<List<Post>>
+     */
     public Observable<List<Post>> getPosts() {
 
         return Observable

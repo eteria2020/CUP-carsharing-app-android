@@ -42,6 +42,19 @@ public class CarRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Invoke API getCars with params received from app.
+     *
+     * @param  username   username of user
+     * @param  password   password of user
+     * @param  latitude   latitude to search
+     * @param  longitude  longitude to search
+     * @param  user_lat   latitude of user
+     * @param  user_lon   longitude of user
+     * @param  radius     radius to search
+     * @return            response observable object
+     * @see               Observable<Response>
+     */
     public Observable<Response> getCars(String username, String password, float latitude, float longitude, float user_lat, float user_lon, int radius) {
 
         return mRemoteDataSource.getCars(Credentials.basic(username, StringsUtils.md5(password)), latitude, longitude, user_lat, user_lon, radius)
@@ -69,6 +82,15 @@ public class CarRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Invoke API getCars with params received from app.
+     *
+     * @param  username   username of user
+     * @param  password   password of user
+     * @param  plate      plate to search
+     * @return            response car observable object
+     * @see               Observable<ResponseCar>
+     */
     public Observable<ResponseCar> getCars(String username, String password, String plate) {
 
         return mRemoteDataSource.getCars(Credentials.basic(username, StringsUtils.md5(password)), plate)
@@ -96,6 +118,16 @@ public class CarRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Invoke API openCars with params received from app.
+     *
+     * @param  username   username of user
+     * @param  password   password of user
+     * @param  plate      plate to open
+     * @param  action     action to execute
+     * @return            response car observable object
+     * @see               Observable<ResponseCar>
+     */
     public Observable<ResponseCar> openCars(String username, String password, String plate, String action) {
 
         return mRemoteDataSource.openCars(Credentials.basic(username, StringsUtils.md5(password)), plate, action)
@@ -114,6 +146,13 @@ public class CarRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Invoke API findPlates with params received from app.
+     *
+     * @param  searchText  text to search
+     * @return             list car observable object
+     * @see                Observable<List<Car>>
+     */
     public Observable<List<Car>> findPlates(final String searchText) {
             return Observable.from(mCachedPlate)
                     .filter(new Func1<Car, Boolean>() {
@@ -124,6 +163,14 @@ public class CarRepository {
                     }).toList();
     }
 
+    /**
+     * Invoke API getPlates with params received from app.
+     *
+     * @param  username   username of user
+     * @param  password   password of user
+     * @return            response observable object
+     * @see               Observable<Response>
+     */
     public Observable<Response> getPlates(String username, String password) {
 
         return mRemoteDataSource.getPlates(Credentials.basic(username, StringsUtils.md5(password)))
@@ -192,10 +239,21 @@ public class CarRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Set car selected with params received from app.
+     *
+     * @param  cs  car to selected
+     */
     public void setCarSelected(Car cs){
         carSelected = cs;
     }
 
+    /**
+     * Return car selected.
+     *
+     * @return            car object
+     * @see               Car
+     */
     public Car getCarSelected(){
         return carSelected;
     }

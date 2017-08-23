@@ -42,6 +42,13 @@ public class CityRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Invoke API getCategories for retrieve data.
+     *
+     * @param  context  context of application
+     * @return          response feed category observable object
+     * @see             Observable<ResponseFeedCategory>
+     */
     public Observable<ResponseFeedCategory> getCategories(final Context context) {
 
         return mRemoteDataSource.getCategories(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)))
@@ -68,6 +75,15 @@ public class CityRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Invoke API getOffers with params received from app.
+     *
+     * @param  context      context of application
+     * @param  id_category  id of category
+     * @param  id_city      id of city
+     * @return              response feed observable object
+     * @see                 Observable<ResponseFeed>
+     */
     public Observable<ResponseFeed> getOffers(final Context context, String id_category, String id_city) {
 
         return mRemoteDataSource.getOffers(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)), id_category, id_city)
@@ -94,6 +110,15 @@ public class CityRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Invoke API getOffersByCoordinates with params received from app.
+     *
+     * @param  context    context of application
+     * @param  latitude   latitude to search
+     * @param  longitude  longitude to search
+     * @return            response feed observable object
+     * @see               Observable<ResponseFeed>
+     */
     public Observable<ResponseFeed> getOffersByCoordinates(final Context context, Float latitude, Float longitude, int radius) {
 
         return mRemoteDataSource.getOffersByCoordinates(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)), latitude, longitude, radius)
@@ -120,6 +145,15 @@ public class CityRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Invoke API getEvents with params received from app.
+     *
+     * @param  context      context of application
+     * @param  id_category  id of category
+     * @param  id_city      id of city
+     * @return              response feed observable object
+     * @see                 Observable<ResponseFeed>
+     */
     public Observable<ResponseFeed> getEvents(final Context context, String id_category, String id_city) {
 
         return mRemoteDataSource.getEvents(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)), id_category, id_city)
@@ -146,6 +180,16 @@ public class CityRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Invoke API getEventsByCoordinates with params received from app.
+     *
+     * @param  context    context of application
+     * @param  latitude   latitude to search
+     * @param  longitude  longitude to search
+     * @param  radius     radius to search
+     * @return            response feed observable object
+     * @see               Observable<ResponseFeed>
+     */
     public Observable<ResponseFeed> getEventsByCoordinates(final Context context, Float latitude, Float longitude, int radius) {
 
         return mRemoteDataSource.getEventsByCoordinates(Credentials.basic(context.getString(R.string.endpointCitiesUser), context.getString(R.string.endpointCitiesPass)), latitude, longitude, radius)
