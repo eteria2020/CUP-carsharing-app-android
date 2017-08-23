@@ -62,6 +62,7 @@ public abstract class BaseActivity extends HdxBaseActivity {
 
         findViewById(R.id.customLoadingChronology).setAlpha(1.0f);
         findViewById(R.id.customLoadingChronology).setVisibility(View.VISIBLE);
+
     }
 
     public void hideLoadingChronology() {

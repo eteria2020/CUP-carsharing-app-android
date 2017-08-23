@@ -216,7 +216,6 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
     private View.OnClickListener mNavigationOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             if (mDrawerArrowDrawable != null && mDrawerArrowDrawable.isFlipped()) {
                 //DRAWER MODE  open/close drawer
                 if (mDrawerLayout.isDrawerVisible(GravityCompat.START)) {

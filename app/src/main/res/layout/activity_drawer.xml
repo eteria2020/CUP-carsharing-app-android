@@ -17,15 +17,7 @@
             android:layout_height="match_parent" />
 
 
-
     </RelativeLayout>
-
-    <!--The navigation drawer-->
-    <FrameLayout
-        android:id="@+id/menu_frame"
-        android:layout_width="@dimen/drawer_width"
-        android:layout_height="match_parent"
-        android:layout_gravity="right" />
 
     <!-- Loader -->
     <RelativeLayout
@@ -61,5 +53,15 @@
             android:src="@drawable/custom_loader" />
 
     </RelativeLayout>
+
+
+    <!--The navigation drawer-->
+    <FrameLayout
+        android:id="@+id/menu_frame"
+        android:layout_width="@dimen/drawer_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="right" />
+
+
 
 </android.support.v4.widget.DrawerLayout>
