@@ -37,6 +37,12 @@ public class SearchItem {
         this.display_name = display_name;
         this.type = type;
     }
+
+    public SearchItem(String name, String display_name, String type, float longitude, float latitude){
+        this.name = name;
+        this.display_name = display_name;
+        this.type = type;
+    }
 }
 
 

@@ -51,6 +51,7 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
 
     private View view;
     private boolean searchViewOpen = false;
+    private SearchItem searchItemSelected;
 
     private MapSearchListAdapter mAdapter;
     private MapSearchListAdapter.OnItemActionListener mActionListener = new MapSearchListAdapter.OnItemActionListener() {
@@ -181,7 +182,9 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
         }
 
         //Se è tutto ok procedo con il salvataggio
-        mPresenter.saveFavourite(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE), new SearchItem(name, address, "favorite"));
+        searchItemSelected.type = "favorite";
+        searchItemSelected.name = name;
+        mPresenter.saveFavourite(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE), searchItemSelected);
         getActivity().finish();
     }
 
@@ -308,6 +311,8 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
 
         //Inserisco nella casella di testo il valore cercato
         addressEditText.setText(searchItem.display_name);
+
+        searchItemSelected = searchItem;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
