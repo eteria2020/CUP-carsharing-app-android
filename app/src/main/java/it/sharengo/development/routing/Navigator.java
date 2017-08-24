@@ -8,6 +8,7 @@ import it.sharengo.development.data.models.Feed;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.ui.assistance.AssistanceActivity;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
+import it.sharengo.development.ui.buyminutes.BuyMinutesActivity;
 import it.sharengo.development.ui.chronology.ChronologyActivity;
 import it.sharengo.development.ui.faq.FaqActivity;
 import it.sharengo.development.ui.feeds.FeedsActivity;
@@ -240,6 +241,13 @@ public class Navigator {
     public static void launchTutorial(Fragment fragment) {
         Intent intent = TutorialActivity.getCallingIntent(fragment.getActivity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        fragment.startActivity(intent);
+    }
+
+    public static void launchBuy(Fragment fragment) {
+        Intent intent = BuyMinutesActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
     

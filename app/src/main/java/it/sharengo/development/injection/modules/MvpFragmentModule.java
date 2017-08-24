@@ -12,6 +12,7 @@ import it.sharengo.development.data.repositories.KmlRepository;
 import it.sharengo.development.data.repositories.PostRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;
 import it.sharengo.development.data.repositories.UserRepository;
+import it.sharengo.development.ui.buyminutes.BuyMinutesPresenter;
 import it.sharengo.development.ui.assistance.AssistancePresenter;
 import it.sharengo.development.ui.chronology.ChronologyPresenter;
 import it.sharengo.development.ui.faq.FaqPresenter;
@@ -383,6 +384,18 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new TutorialPresenter(schedulerProvider, appRepository, userRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    BuyMinutesPresenter provideBuyMinutesPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+        BuyMinutesPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new BuyMinutesPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }

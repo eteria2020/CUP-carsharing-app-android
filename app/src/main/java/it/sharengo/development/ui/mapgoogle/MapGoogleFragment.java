@@ -503,17 +503,19 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         drawableAnimGreenArray = new ArrayList<>();
         drawableAnimYellowArray = new ArrayList<>();
+        int sizeMarkerAnim = (int) (133 * getResources().getDisplayMetrics().density); Log.w("sizeMarkerAnim",": "+sizeMarkerAnim);
         for(int i = 0; i <= NUM_ANIM; i++){
             if(i < 10) {
-                drawableAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse000" + i, 400, 400)));
-                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow000" + i, 400, 400)));
+                drawableAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse000" + i, sizeMarkerAnim, sizeMarkerAnim)));
+                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow000" + i, sizeMarkerAnim, sizeMarkerAnim)));
             }else {
-                drawableAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse00" + i, 400, 400)));
-                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow00" + i, 400, 400)));
+                drawableAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse00" + i, sizeMarkerAnim, sizeMarkerAnim)));
+                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow00" + i, sizeMarkerAnim, sizeMarkerAnim)));
             }
         }
 
-        bitmapAuto = getBitmapDescriptor(resizeMapIcons("ic_auto", 132, 159));
+        bitmapAuto = getBitmapDescriptor(resizeMapIcons("ic_auto", (int) (44 * getResources().getDisplayMetrics().density), (int) (53 * getResources().getDisplayMetrics().density)));
+        //bitmapAuto = getBitmapDescriptor(R.drawable.ic_auto);
 
         mPresenter.onMapIsReady();
 
@@ -660,8 +662,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(45.510349);
-        //userLocation.setLongitude(9.093254); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(45.510349);
+        userLocation.setLongitude(9.093254); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 

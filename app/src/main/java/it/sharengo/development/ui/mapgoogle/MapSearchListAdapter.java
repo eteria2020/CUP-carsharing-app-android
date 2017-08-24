@@ -99,7 +99,10 @@ public class MapSearchListAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             //Nome
-            displayNameTextView.setText(searchItem.display_name);
+            if(searchItem.type.equals("favorite"))
+                displayNameTextView.setText(searchItem.name);
+            else
+                displayNameTextView.setText(searchItem.display_name);
 
             //In caso di targa
             if(searchItem.type.equals("plate"))

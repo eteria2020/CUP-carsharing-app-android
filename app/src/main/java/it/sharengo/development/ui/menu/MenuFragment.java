@@ -223,6 +223,9 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                     case FAQ:
                         Navigator.launchFaq(MenuFragment.this);
                         break;
+                    case BUY:
+                        Navigator.launchBuy(MenuFragment.this);
+                        break;
                 }
 
 
