@@ -515,7 +515,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         bitmapAuto = getBitmapDescriptor(resizeMapIcons("ic_auto", (int) (44 * getResources().getDisplayMetrics().density), (int) (53 * getResources().getDisplayMetrics().density)));
-        //bitmapAuto = getBitmapDescriptor(R.drawable.ic_auto);
 
         mPresenter.onMapIsReady();
 
@@ -576,7 +575,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         locationChange(location);
 
-        if(prevLocationDisabled && !isTripStart && !isBookingCar && userLocation != null){
+        if(mMap != null && prevLocationDisabled && !isTripStart && !isBookingCar && userLocation != null){
             moveMapCameraTo(location.getLatitude(), location.getLongitude());
         }
 
@@ -605,7 +604,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         prevLocationDisabled = true;
 
         if(!isTripStart && !isBookingCar){
-            if(userLocation != null)
+            if(userLocation != null && mMap != null)
                 moveMapCameraTo(userLocation.getLatitude(), userLocation.getLongitude());
         }
 
@@ -674,7 +673,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 moveMapCameraToPoitWithZoom((double) userLocation.getLatitude(), (double) userLocation.getLongitude(), 17);
 
 
-            refreshCars();
+            if(mMap != null)
+                refreshCars();
         }
 
         hasInit = true;

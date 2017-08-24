@@ -686,6 +686,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private Observable<Response> buildPlatesRequest() {
+        Log.w("USERNAME",": "+mUserRepository.getCachedUser().username);
         return mPlatesRequest = mCarRepository.getPlates(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
                 .first()
                 .compose(this.<Response>handleDataRequest())

@@ -98,6 +98,11 @@ public class UserRepository {
      * @see         User
      */
     public User getCachedUser(){
+        if(mCachedUser == null){
+            mCachedUser = new User();
+            mCachedUser.username = "";
+            mCachedUser.password = "";
+        }
         return mCachedUser;
     }
 
