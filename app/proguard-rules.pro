@@ -272,13 +272,12 @@
 
 
 #UNITY
--dontwarn it.synesthesia.my_app.ui.selfiedistelle.**
--dontwarn it.synesthesia.my_app.components.UnityPlayerWrapper
--keep class it.synesthesia.my_app.ui.selfiedistelle.** {*;}
--keep class it.synesthesia.my_app.components.UnityPlayerWrapper {*;}
+-dontwarn it.sharengo.development.ui.selfiedistelle.**
+-dontwarn it.sharengo.development.components.UnityPlayerWrapper
+-keep class it.sharengo.development.ui.selfiedistelle.** {*;}
+-keep class it.sharengo.development.components.UnityPlayerWrapper {*;}
 
 #MODEL X serializzazione
--keep class it.synesthesia.my_app.data.models.** { *;}
--keep class it.synesthesia.my_app.data.common.DELETE_WITH_BODY { *;}
--keep class it.synesthesia.my_app.data.ExcludeSerialization { *;}
-
+-keep class it.sharengo.development.data.models.** { *;}
+-keep class it.sharengo.development.data.common.DELETE_WITH_BODY { *;}
+-keep class it.sharengo.development.data.ExcludeSerialization { *;}

@@ -118,6 +118,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
 
             @Override
             public void onNext(ResponseUser response) {
+
                 mCachedUser = response.user;
             }
         };

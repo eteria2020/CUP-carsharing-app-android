@@ -128,11 +128,11 @@ public class UserRepository {
     }
 
     private void createOrUpdateInMemory(ResponseUser response) {
-        Log.w("mCachedUser",": "+mCachedUser);
+
         if (mCachedUser == null) {
             mCachedUser = new User();
         }
-        Log.w("response.user",": "+response.user);
+
         mCachedUser.userInfo = response.user;
     }
 
