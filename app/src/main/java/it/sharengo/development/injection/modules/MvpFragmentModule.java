@@ -40,6 +40,7 @@ import it.sharengo.development.ui.slideshow.SlideshowPresenter;
 import it.sharengo.development.ui.splash.SplashPresenter;
 import it.sharengo.development.ui.tripend.TripEndPresenter;
 import it.sharengo.development.ui.tutorial.TutorialPresenter;
+import it.sharengo.development.ui.userarea.UserAreaPresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 
 @Module
@@ -396,6 +397,18 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new BuyMinutesPresenter(schedulerProvider, appRepository, userRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    UserAreaPresenter provideUserAreaPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+        UserAreaPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new UserAreaPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }

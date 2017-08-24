@@ -30,6 +30,7 @@ import it.sharengo.development.ui.slideshow.SlideshowFragment;
 import it.sharengo.development.ui.splash.SplashFragment;
 import it.sharengo.development.ui.tripend.TripEndFragment;
 import it.sharengo.development.ui.tutorial.TutorialFragment;
+import it.sharengo.development.ui.userarea.UserAreaFragment;
 
 /**
  * This component inject dependencies to all MvpFragments across the application
@@ -89,4 +90,6 @@ public interface MvpFragmentComponent {
     void inject(TutorialFragment fragment);
 
     void inject(BuyMinutesFragment fragment);
+
+    void inject(UserAreaFragment fragment);
 }

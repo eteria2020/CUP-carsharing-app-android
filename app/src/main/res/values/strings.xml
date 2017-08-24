@@ -30,7 +30,7 @@
     <string name="menu_login">Login</string>
     <string name="menu_signup">Iscrizione</string>
     <string name="menu_rates">Tariffe</string>
-    <string name="menu_profile">Profilo</string>
+    <string name="menu_profile">Area personale</string>
     <string name="menu_booking">Prenota un\'auto</string>
     <string name="menu_historic">Cronologia corse</string>
     <string name="menu_help">Richiedi assistenza</string>

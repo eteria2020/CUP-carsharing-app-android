@@ -57,12 +57,13 @@ public class AppRepository {
 
         List<MenuItem> menuItems = new ArrayList<>();
 
-        //menuItems.add(new MenuItem(MenuItem.Section.PROFILE));
+        menuItems.add(new MenuItem(MenuItem.Section.PROFILE));
         menuItems.add(new MenuItem(MenuItem.Section.BOOKING));
         menuItems.add(new MenuItem(MenuItem.Section.HISTORIC));
         menuItems.add(new MenuItem(MenuItem.Section.HELP));
         menuItems.add(new MenuItem(MenuItem.Section.FAQ));
-        menuItems.add(new MenuItem(MenuItem.Section.BUY));
+        menuItems.add(new MenuItem(MenuItem.Section.RATES));
+        //menuItems.add(new MenuItem(MenuItem.Section.BUY));
         //menuItems.add(new MenuItem(MenuItem.Section.SHARE));
         menuItems.add(new MenuItem(MenuItem.Section.SETTINGS));
         menuItems.add(new MenuItem(MenuItem.Section.LOGOUT));

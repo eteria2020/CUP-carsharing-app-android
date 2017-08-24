@@ -32,6 +32,7 @@ import it.sharengo.development.ui.signup.SignupActivity;
 import it.sharengo.development.ui.slideshow.SlideshowActivity;
 import it.sharengo.development.ui.tripend.TripEndActivity;
 import it.sharengo.development.ui.tutorial.TutorialActivity;
+import it.sharengo.development.ui.userarea.UserAreaActivity;
 
 public class Navigator {
 
@@ -107,6 +108,13 @@ public class Navigator {
 
     public static void launchProfile(Fragment fragment) {
         Intent intent = ProfileActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchUserArea(Fragment fragment) {
+        Intent intent = UserAreaActivity.getCallingIntent(fragment.getActivity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);

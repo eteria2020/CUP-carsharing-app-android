@@ -17,7 +17,7 @@
     <string name="menu_login">Login</string>
     <string name="menu_signup">Signup </string>
     <string name="menu_rates">Rates</string>
-    <string name="menu_profile">Profile </string>
+    <string name="menu_profile">User area</string>
     <string name="menu_booking">Book a car</string>
     <string name="menu_historic">Trip History </string>
     <string name="menu_help">Request Assistance</string>
