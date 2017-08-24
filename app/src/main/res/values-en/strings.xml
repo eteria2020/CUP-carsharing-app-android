@@ -49,10 +49,10 @@
 
     <!-- Ricerca -->
     <string name="search_platesharengo_label">Share\'ngo Plate</string>
-    <string name="search_favoriteempty_label">No favorite\nnotmemorize in the settings section</string>
+    <string name="search_favoriteempty_label">No favorite\nmemorize in the settings section</string>
 
     <!-- Prenotazione -->
-    <string name="booking_userpin_label">Your user pin: %s</string>
+    <string name="booking_userpin_label">Your pin number: %s</string>
     <string name="booking_active_label">Booking active</string>
     <string name="booking_plate_label">Plate %s</string>
     <string name="booking_expirationtime">Expires in <![CDATA[<br><b>%s</b>]]> min</string>
@@ -63,7 +63,7 @@
     <string name="booking_bookedcar_alert">You already have an active booking</string>
     <string name="booking_alreadybookedcar_alert">You cannot book this car until 4 hours have passed since your last canceled your booking</string>
     <string name="booking_durationtrip_label">Trip duration:</string>
-    <string name="booking_tripactive_label">Trip active</string>
+    <string name="booking_tripactive_label">Active trip</string>
     <string name="booking_timeend_label">Booking time expired, your booking has been canceled. Book another car on the map</string>
 
     <!-- Corsa -->
@@ -71,7 +71,7 @@
     <string name="tripend_text1_label">Please wait doors closing outside the car</string>
     <string name="tripend_text2_label">You will be notified via mail the transaction confirmation within 24h</string>
     <string name="tripend_thanks_label">Thank you!</string>
-    <string name="tripend_text3_label" formatted="false">YOU SAVED %.1f CO2 BY THIS TRIP!</string>
+    <string name="tripend_text3_label" formatted="false">YOU SAVED %.1f GRAMS CO2 BY THIS TRIP!</string>
     <string name="tripend_historic_action">Trip history</string>
     <string name="tripend_notification_label">Trip ended. The trip lasted %d minutes and ended correctly. Thank you for using Share\'ngo</string>
 
@@ -125,7 +125,7 @@
     <string name="settingsaddress_title_label">Set up you favorite addresses</string>
     <string name="settingsaddress_new_action">Set up a new address</string>
     <string name="settingsaddress_empty_title">Too bad!</string>
-    <string name="settingsaddress_empty_description">You haven’t set up any favorite o recent address yet! Set up your most frequent destinations and save time as you choose where to go.</string>
+    <string name="settingsaddress_empty_description">You haven\'t set up any favorite o recent address yet! Set up your most frequent destinations and save time as you choose where to go.</string>
     <string name="settingsaddress_title2_label">Set up your favorite addresses</string>
     <string name="settingsaddress_description2_label">and make your searches quicker</string>
     <string name="settingsaddress_edittitle_label">Would you like to change your favorite address?</string>
@@ -211,7 +211,7 @@
     <!-- FAQ -->
     <string name="faq_title_label">FAQ</string>
     <string name="faq_tutorial_action">App tutorial</string>
-    <string name="faq_close_alert">Want to exit the tutorial?\nYou will be able to watch it again any time from the \"Faq &amp; tutorial"\ section in the menu</string>
+    <string name="faq_close_alert">Want to exit the tutorial?\nYou will be able to watch it again any time from the \"Faq and tutorial"\ section in the menu</string>
     <string name="faq_exit_action">Exit</string>
     <string name="faq_stay_action">Stay</string>
     <string name="faq_backalert_action">Back</string>
@@ -220,5 +220,6 @@
     <!-- Non tradotti -->
     <string name="alert_logoutError">Careful, an error occured. Please login again.</string>
     <string name="btn_login">LOGIN</string>
+    <string name="tripend_parkerdcar_label">Car parkerd</string>
 
 </resources>

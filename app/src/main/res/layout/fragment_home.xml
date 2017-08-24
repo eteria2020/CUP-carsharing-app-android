@@ -60,7 +60,7 @@
                 android:src="@drawable/ic_utente_home"
                 android:padding="15dp"
                 android:alpha="0.0"
-                android:tint="@color/white"
+                android:tint="#b8afa8"
                 android:background="@drawable/btn_bkg_darkpastelgreen"/>
 
             <ImageView
@@ -72,7 +72,7 @@
                 android:src="@drawable/ic_imposta_citta"
                 android:padding="15dp"
                 android:alpha="0.0"
-                android:tint="@color/white"
+                android:tint="#b8afa8"
                 android:background="@drawable/btn_bkg_darkpastelgreen"/> <!-- btn_bkg_homegrey -->
 
         </RelativeLayout>

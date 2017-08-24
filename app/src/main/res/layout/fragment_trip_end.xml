@@ -40,6 +40,7 @@
         app:font_name="poppinsRegular"
         android:textAlignment="center"
         android:textColor="@color/darkjunglegreen"
+        android:visibility="gone"
         android:text="@string/tripend_text1_label"/>
 
     <it.sharengo.development.ui.components.CustomTextView

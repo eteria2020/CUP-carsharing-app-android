@@ -53,6 +53,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -123,7 +124,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
 
     //TODO DA cambiare
-    double fanculo = 0.0f;
+    //double fanculo = 0.0f;
 
 
     public static final String ARG_TYPE = "ARG_TYPE";
@@ -183,6 +184,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private CountDownTimer countDownTimer;
     private boolean isBookingCar;
     private boolean isTripStart;
+    private boolean isTripParked;
     private Reservation reservation;
     private int tripTimestampStart;
     private float co2;
@@ -213,6 +215,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private List<BitmapDescriptor> drawableAnimGreenArray;
     private List<BitmapDescriptor> drawableAnimYellowArray;
     private BitmapDescriptor bitmapAuto;
+    private BitmapDescriptor bitmapUser;
     private float currentRotation;
     private boolean cityClusterVisible;
     boolean findNextCarIntoCluster;
@@ -358,6 +361,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @BindView(R.id.popupFeedView)
     View popupFeedView;
 
+    @BindView(R.id.deleteBookingButton)
+    Button deleteBookingButton;
+
 
     public static MapGoogleFragment newInstance(int type) {
         MapGoogleFragment fragment = new MapGoogleFragment();
@@ -386,6 +392,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         mAdapter = new MapSearchListAdapter(mActionListener);
         isBookingCar = false;
         isTripStart = false;
+        isTripParked = false;
         prevLocationDisabled = false;
         mapRadius = 0;
         tripTimestampStart = 0;
@@ -515,6 +522,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         bitmapAuto = getBitmapDescriptor(resizeMapIcons("ic_auto", (int) (44 * getResources().getDisplayMetrics().density), (int) (53 * getResources().getDisplayMetrics().density)));
+        bitmapUser = getBitmapDescriptor(R.drawable.ic_user);
 
         mPresenter.onMapIsReady();
 
@@ -583,7 +591,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         //markerUser
         if(mMap != null){
-            if(!isTripStart || (isTripStart && getMapRadius() < 35000)){
+            if(!isTripStart || (isTripStart && getMapRadius() < 35000) || (isTripStart && isTripParked)){
                 drawUserMarker();
             }
         }
@@ -661,8 +669,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(45.510349);
-        userLocation.setLongitude(9.093254); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        //userLocation.setLatitude(41.895514);
+        //userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1684,7 +1692,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                         }
                                     }
 
-                                    if(isTripStart){
+                                    if(isTripStart && !isTripParked){
                                         try {
                                             userMarker.setIcon(drawableAnimArray.get(currentDrawable));
 
@@ -1694,7 +1702,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                             }
 
                                         } catch (NullPointerException e) {}
+                                    }else if(isTripStart && isTripParked){
+                                        try {
+                                            userMarker.setIcon(bitmapUser);
+                                            carbookingMarker.setIcon(bitmapAuto);
+
+                                        } catch (NullPointerException e) {}
                                     }
+
                                     if (carnextMarker != null)
                                         try {
                                             carnextMarker.setIcon(bitmapAuto);
@@ -2198,7 +2213,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
 
         if(isTripStart){
-            bookingTitleTextView.setText(getString(R.string.booking_tripactive_label));
+            if(!carSelected.parking) bookingTitleTextView.setText(getString(R.string.booking_tripactive_label));
+            else bookingTitleTextView.setText(getString(R.string.tripend_parkerdcar_label));
+
             bookingAddressTextView.setText(getString(R.string.booking_durationtrip_label));
             timeIconImageView.setImageDrawable(getIconMarker(R.drawable.ic_time_2));
         }else{
@@ -2216,8 +2233,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(isTripStart){
             expiringTimeTextView.setVisibility(View.GONE);
             tripDurationTextView.setVisibility(View.VISIBLE);
-            openButtonBookingView.setVisibility(View.GONE);
+            if(!carSelected.parking){
+                openButtonBookingView.setVisibility(View.GONE);
+            }else{
+                deleteBookingButton.setVisibility(View.GONE);
+            }
         }else{
+            openButtonBookingView.setVisibility(View.VISIBLE);
+            deleteBookingButton.setVisibility(View.VISIBLE);
             expiringTimeTextView.setVisibility(View.VISIBLE);
             tripDurationTextView.setVisibility(View.GONE);
         }
@@ -2315,8 +2338,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Metodo richiamato quando c'è una corsa attiva e occorre mostrare la grafica
     private void tripInfo(final Car car, int timestamp_start){
+
+        //car.parking = true; //TODO Remove
+
         isTripStart = true;
         isBookingCar = false;
+        isTripParked = car.parking;
         tripTimestampStart = timestamp_start;
         carSelected = car;
 
@@ -2326,19 +2353,27 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
 
         //Aggiungo la macchina
-        /*MarkerOptions markerCar = new MarkerOptions().position(new LatLng(car.latitude, car.longitude));
-        markerCar.icon(getBitmapDescriptor(R.drawable.autopulse0001));
-        markerCar.data(car);
-        poiMarkersToAdd.add(markerCar);
+        if(isTripParked) {
+            if(carbookingMarker == null) {
+                MarkerOptions markerCar = new MarkerOptions().position(new LatLng(car.latitude, car.longitude));
+                markerCar.icon(getBitmapDescriptor(R.drawable.ic_auto));
+                markerCar.data(car);
+                poiMarkersToAdd.add(markerCar);
 
-        com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
-        poiMarkers.add(myMarker);
+                com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
+                poiMarkers.add(myMarker);
 
+                carbookingMarker = myMarker;
+            }else{
+                carbookingMarker.setIcon(bitmapAuto);
+                carbookingMarker.setPosition(new LatLng(car.latitude, car.longitude));
+            }
+        }
 
-        carbookingMarker = myMarker;*/
-
-
-        moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
+        if(isTripParked)
+            moveMapCameraToPoitWithZoom(carSelected.latitude + 0.0002, (double) carSelected.longitude, 19);
+        else
+            moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
 
 
         setMarkerAnimation();

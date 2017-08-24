@@ -99,7 +99,7 @@
     <string name="tripend_text1_label">Attendi la chiusura delle portiere fuori dell\'auto.</string>
     <string name="tripend_text2_label">Riceverai via mail la conferma di transazione avvenuta entro 24 ore.</string>
     <string name="tripend_thanks_label">Grazie!</string>
-    <string name="tripend_text3_label" formatted="false">CON IL TUO VIAGGIO HAI RISPARMIATO %.1f CO2!</string>
+    <string name="tripend_text3_label" formatted="false">CON IL TUO VIAGGIO HAI RISPARMIATO %.1f GRAMMI DI CO2!</string>
     <string name="tripend_historic_action">Storico corse</string>
     <string name="tripend_notification_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente. Ti ringraziamo per aver usato Share\'ngo</string>
 
@@ -248,5 +248,6 @@
     <!-- Non tradotti -->
     <string name="alert_logoutError">Attenzione si è verificato un errore. Ti invitiamo ad accedere nuovamente.</string>
     <string name="btn_login">ACCEDI</string>
+    <string name="tripend_parkerdcar_label">Auto in sosta</string>
 
 </resources>
