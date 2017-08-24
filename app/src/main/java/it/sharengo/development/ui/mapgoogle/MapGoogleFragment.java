@@ -211,7 +211,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private com.androidmapsextensions.Marker carnextMarker, carbookingMarker, carNextCluster;
     private MarkerOptions carNextClusterOptions;
     private int currentDrawable = 0; //frame dell'animazione della macchiana più vicina
-    private int NUM_ANIM = 46; //46
+    private int NUM_ANIM = 40; //46
     private List<BitmapDescriptor> drawableAnimGreenArray;
     private List<BitmapDescriptor> drawableAnimYellowArray;
     private BitmapDescriptor bitmapAuto;
@@ -510,7 +510,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         drawableAnimGreenArray = new ArrayList<>();
         drawableAnimYellowArray = new ArrayList<>();
-        int sizeMarkerAnim = (int) (133 * getResources().getDisplayMetrics().density); Log.w("sizeMarkerAnim",": "+sizeMarkerAnim);
+        int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().density); Log.w("sizeMarkerAnim",": "+sizeMarkerAnim);
         for(int i = 0; i <= NUM_ANIM; i++){
             if(i < 10) {
                 drawableAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse000" + i, sizeMarkerAnim, sizeMarkerAnim)));
@@ -669,8 +669,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(41.895514);
-        //userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.895514);
+        userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1234,7 +1234,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Abilito / disabilito pulsante per centrare la mappa
     private void enabledCenterMap(boolean enable){
-        Log.w("enabledCenterMap",": "+enable);
+
         if(enable && centerMapButton != null){
 
             centerMapButton.setAlpha(1.0f);
@@ -1256,7 +1256,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void centerMap(){
 
         if(userLocation != null) {
-            moveMapCameraTo(userLocation.getLatitude(), userLocation.getLongitude());
+            moveMapCameraToPoitWithZoom(userLocation.getLatitude(), userLocation.getLongitude(), 17);
         }else{
 
             final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
