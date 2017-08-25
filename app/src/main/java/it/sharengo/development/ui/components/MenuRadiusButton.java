@@ -2,17 +2,9 @@ package it.sharengo.development.ui.components;
 
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
-import it.handroix.baseuiwidgets.widgets.HdxTextView;
-import it.sharengo.development.R;
-import it.sharengo.development.utils.TypeFactory;
 
 /**
  * Created by greta on 29/05/17.

@@ -3,7 +3,6 @@ package it.sharengo.development.ui.settingsaddressesnew;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;

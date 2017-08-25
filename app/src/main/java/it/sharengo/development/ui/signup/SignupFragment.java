@@ -1,16 +1,12 @@
 package it.sharengo.development.ui.signup;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -22,7 +18,6 @@ import it.sharengo.development.R;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryFragment;
 
 
 public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements SignupMvpView {

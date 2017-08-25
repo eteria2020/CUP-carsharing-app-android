@@ -1,11 +1,5 @@
 package it.sharengo.development.ui.map.CircleLayout;
 
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
-
 import com.example.x.circlelayout.CircleLayoutAdapter;
 import com.example.x.circlelayout.CircularLayoutItem;
 

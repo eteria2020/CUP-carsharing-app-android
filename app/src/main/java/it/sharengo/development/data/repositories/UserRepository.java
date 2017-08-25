@@ -3,27 +3,22 @@ package it.sharengo.development.data.repositories;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import it.sharengo.development.data.datasources.SharengoDataSource;
-import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.Reservation;
-import it.sharengo.development.data.models.Response;
 import it.sharengo.development.data.models.ResponsePutReservation;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
-import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.data.models.User;
 import it.sharengo.development.utils.StringsUtils;
 import okhttp3.Credentials;
 import rx.Observable;
 import rx.functions.Action1;
-import rx.functions.Func1;
 
 @Singleton
 public class UserRepository {

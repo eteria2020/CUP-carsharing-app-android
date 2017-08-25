@@ -4,8 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import it.sharengo.development.data.common.ExcludeSerialization;
-
 public class City implements Serializable {
 
     @SerializedName("tid")

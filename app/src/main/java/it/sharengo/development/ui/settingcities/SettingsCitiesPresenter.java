@@ -2,12 +2,9 @@ package it.sharengo.development.ui.settingcities;
 
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.util.List;
 
-import it.sharengo.development.R;
 import it.sharengo.development.data.models.City;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.ResponseCity;
@@ -18,8 +15,6 @@ import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class SettingsCitiesPresenter extends BasePresenter<SettingsCitiesMvpView> {
 

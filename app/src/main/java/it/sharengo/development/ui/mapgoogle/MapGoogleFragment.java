@@ -37,8 +37,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.ColorUtils;
-import android.support.v4.util.LruCache;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -110,7 +108,6 @@ import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.map.BaseMapFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.map.MapActivity;
 import it.sharengo.development.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
 import it.sharengo.development.utils.ImageUtils;
 import it.sharengo.development.utils.StringsUtils;
@@ -218,6 +215,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private float currentRotation;
     private boolean cityClusterVisible;
     boolean findNextCarIntoCluster;
+    private boolean unparkAction;
 
     @BindView(R.id.mapView)
     FrameLayout mMapContainer;
@@ -395,6 +393,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         isBookingCar = false;
         isTripStart = false;
         isTripParked = false;
+        unparkAction = false;
         prevLocationDisabled = false;
         mapRadius = 0;
         tripTimestampStart = 0;
@@ -671,8 +670,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(41.895514);
-        //userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.905623);
+        userLocation.setLongitude(12.444353); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1957,10 +1956,19 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
+                Log.w("userLocation",": "+userLocation);
+                Log.w("carSelected.latitude",": "+carSelected.latitude);
+                Log.w("carSelected.longitude",": "+carSelected.longitude);
+                Log.w("DISTANZA",": "+getDistance(carSelected));
                 if(getDistance(carSelected) <= 50){ //TODO: valore a 50
                     //Procediamo con le schermate successive
                     onClosePopup();
-                    mPresenter.openDoor(carSelected, "open");
+                    if(isTripStart && isTripParked) {
+                        unparkAction = true;
+                        mPresenter.openDoor(carSelected, "unpark");
+                    }else
+                        unparkAction = false;
+                        mPresenter.openDoor(carSelected, "open");
                 }else{
                     CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                             getString(R.string.maps_opendoordistance_alert),
@@ -2258,10 +2266,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Metodo richiamato quando c'è una corsa attiva e occorre mostrare la grafica
     private void tripInfo(final Car car, int timestamp_start){
 
+        if(unparkAction){
+            car.parking = false;
+            unparkAction = false;
+        }
+
         //TODO Remove
-        /*car.parking = test_corsa;
+        car.parking = test_corsa;
         if(test_corsa) test_corsa = false;
-        else test_corsa = true;*/
+        else test_corsa = true;
         //---
 
         isTripStart = true;
@@ -2277,6 +2290,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         //Aggiungo la macchina
         if(isTripParked) {
+            Log.w("carbookingMarker",": "+carbookingMarker);
             if(carbookingMarker == null) {
                 boolean find = false;
                 for(Marker markerOnMap : poiMarkers){
@@ -2285,18 +2299,23 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         carbookingMarker = markerOnMap;
                     }
                 }
-                if(!find) {
-                    MarkerOptions markerCar = new MarkerOptions().position(new LatLng(car.latitude, car.longitude));
-                    markerCar.icon(getBitmapDescriptor(R.drawable.ic_auto));
-                    markerCar.data(car);
-                    poiMarkersToAdd.add(markerCar);
+                Log.w("find",": "+find);
 
-                    com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
-                    poiMarkers.add(myMarker);
-
-                    carbookingMarker = myMarker;
+                if(find){
+                    carbookingMarker.remove();
                 }
+
+                MarkerOptions markerCar = new MarkerOptions().position(new LatLng(car.latitude, car.longitude));
+                markerCar.icon(getBitmapDescriptor(R.drawable.ic_auto));
+                markerCar.data(car);
+                poiMarkersToAdd.add(markerCar);
+
+                com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
+                poiMarkers.add(myMarker);
+
+                carbookingMarker = myMarker;
             }else{
+                Log.w("car.latitude",": "+car.latitude);
                 carbookingMarker.setIcon(bitmapAuto);
                 carbookingMarker.setPosition(new LatLng(car.latitude, car.longitude));
             }
@@ -2318,6 +2337,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         isTripStart = false;
         isBookingCar = false;
         carSelected = null;
+        Log.w("hideTripInfo",": "+carSelected);
         closeViewBookingCar();
     }
 

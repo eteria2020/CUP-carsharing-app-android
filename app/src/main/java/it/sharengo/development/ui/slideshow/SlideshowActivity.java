@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 import it.sharengo.development.R;
-import it.sharengo.development.ui.base.activities.BaseBackActivity;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 
 

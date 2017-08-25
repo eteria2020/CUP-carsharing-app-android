@@ -12,7 +12,6 @@ import butterknife.ButterKnife;
 import it.sharengo.development.R;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.buyminutes.BuyMinutesFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
 
 
@@ -77,7 +76,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             }
         });
 
-        webview.loadUrl("http://support.sharengo.it/home");
+        webview.loadUrl("https://www.sharengo.it/area-utente/mobile");
 
     }
 

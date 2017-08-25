@@ -2,7 +2,6 @@ package it.sharengo.development.ui.home;
 
 import android.Manifest;
 import android.animation.Animator;
-import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -10,10 +9,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -33,7 +30,6 @@ import it.sharengo.development.ui.components.CustomDialogClass;
 import it.sharengo.development.utils.ImageUtils;
 import it.sharengo.development.utils.ResourceProvider;
 
-import static android.R.attr.value;
 import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends BaseMvpFragment<HomePresenter> implements HomeMvpView {

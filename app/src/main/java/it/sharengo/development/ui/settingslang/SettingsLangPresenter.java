@@ -3,11 +3,6 @@ package it.sharengo.development.ui.settingslang;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
-import android.util.Log;
-
-import java.util.Locale;
 
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.MenuItem;

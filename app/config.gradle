@@ -6,6 +6,12 @@ android {
             keyAlias "androiddebugkey"
             keyPassword "android"
         }
+        /*debug {
+            storeFile file("keystore/sharengo.keystore.jks")
+            storePassword "Sharengo1"
+            keyAlias "sharengo.user"
+            keyPassword "Sharengo1"
+        }*/
         release {
             storeFile file("keystore/sharengo.keystore.jks")
             storePassword "Sharengo1"

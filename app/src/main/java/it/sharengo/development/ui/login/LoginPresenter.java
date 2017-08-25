@@ -8,7 +8,6 @@ import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
-import it.sharengo.development.data.models.User;
 import it.sharengo.development.data.models.UserInfo;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.PreferencesRepository;

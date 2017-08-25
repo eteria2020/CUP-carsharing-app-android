@@ -1,19 +1,16 @@
 package it.sharengo.development.ui.chronology;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,7 +22,6 @@ import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.activities.BaseActivity;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.menu.MenuFragment;
 
 
 public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> implements ChronologyMvpView {

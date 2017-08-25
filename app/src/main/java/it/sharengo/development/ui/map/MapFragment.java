@@ -1,8 +1,6 @@
 package it.sharengo.development.ui.map;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -37,16 +35,13 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
@@ -109,10 +104,7 @@ import it.sharengo.development.ui.map.CircleLayout.MyCircleLayoutAdapter;
 import it.sharengo.development.utils.ImageUtils;
 
 import static android.content.Context.MODE_PRIVATE;
-import static android.os.Build.VERSION_CODES.M;
 import static it.sharengo.development.R.id.deleteBookingButton;
-import static it.sharengo.development.R.id.interestedButton;
-import static java.lang.Math.atan2;
 
 public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvpView, LocationListener {
 

@@ -6,12 +6,7 @@ import java.util.Map;
 
 import it.sharengo.development.data.models.Post;
 import retrofit2.adapter.rxjava.Result;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 

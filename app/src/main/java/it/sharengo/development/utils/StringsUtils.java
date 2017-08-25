@@ -1,18 +1,10 @@
 package it.sharengo.development.utils;
 
-import android.app.Activity;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.text.Html;
-import android.text.TextUtils;
-import android.view.View;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import it.sharengo.development.R;
-import it.sharengo.development.data.common.ErrorResponse;
 
 public class StringsUtils {
 

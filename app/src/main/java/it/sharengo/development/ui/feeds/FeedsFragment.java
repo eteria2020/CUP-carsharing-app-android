@@ -29,7 +29,6 @@ import it.sharengo.development.data.models.FeedCategory;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.home.HomeFragment;
 
 import static android.content.Context.MODE_PRIVATE;
 

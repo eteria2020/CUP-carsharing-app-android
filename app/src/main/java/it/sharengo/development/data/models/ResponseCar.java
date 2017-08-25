@@ -1,7 +1,5 @@
 package it.sharengo.development.data.models;
 
-import java.util.List;
-
 import it.sharengo.development.data.common.ExcludeSerialization;
 
 public class ResponseCar {

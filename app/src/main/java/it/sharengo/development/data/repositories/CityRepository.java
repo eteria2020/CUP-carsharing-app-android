@@ -11,13 +11,11 @@ import javax.inject.Singleton;
 import it.sharengo.development.R;
 import it.sharengo.development.data.datasources.CitiesDataSource;
 import it.sharengo.development.data.models.Feed;
-import it.sharengo.development.data.models.Post;
 import it.sharengo.development.data.models.ResponseFeed;
 import it.sharengo.development.data.models.ResponseFeedCategory;
 import okhttp3.Credentials;
 import rx.Observable;
 import rx.functions.Action1;
-import rx.functions.Func1;
 
 @Singleton
 public class CityRepository {

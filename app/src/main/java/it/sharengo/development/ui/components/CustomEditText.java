@@ -7,7 +7,6 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 import it.handroix.baseuiwidgets.widgets.HdxEditText;
-import it.handroix.baseuiwidgets.widgets.HdxTextView;
 import it.sharengo.development.R;
 import it.sharengo.development.utils.TypeFactory;
 

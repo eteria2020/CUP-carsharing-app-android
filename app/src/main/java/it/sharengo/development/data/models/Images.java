@@ -1,7 +1,5 @@
 package it.sharengo.development.data.models;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 public class Images implements Serializable {

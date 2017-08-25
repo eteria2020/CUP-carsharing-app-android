@@ -6,7 +6,6 @@ import it.sharengo.development.data.models.ResponsePutReservation;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.ResponseUser;
-import it.sharengo.development.data.models.User;
 import rx.Observable;
 
 public interface SharengoDataSource {

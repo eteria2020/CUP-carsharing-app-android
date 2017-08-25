@@ -13,7 +13,6 @@ import it.sharengo.development.R;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.faq.FaqFragment;
 
 
 public class BuyMinutesFragment extends BaseMvpFragment<BuyMinutesPresenter> implements BuyMinutesMvpView {

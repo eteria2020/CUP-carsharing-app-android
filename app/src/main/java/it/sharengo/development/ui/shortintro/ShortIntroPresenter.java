@@ -1,7 +1,6 @@
 package it.sharengo.development.ui.shortintro;
 
 
-import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.ui.base.presenters.BasePresenter;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;

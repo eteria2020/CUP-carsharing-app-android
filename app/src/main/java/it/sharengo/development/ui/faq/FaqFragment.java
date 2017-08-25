@@ -1,15 +1,9 @@
 package it.sharengo.development.ui.faq;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -20,9 +14,6 @@ import it.sharengo.development.R;
 import it.sharengo.development.routing.Navigator;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryFragment;
-import it.sharengo.development.ui.signup.SignupFragment;
-import it.sharengo.development.ui.tutorial.TutorialActivity;
 
 
 public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvpView {

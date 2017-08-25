@@ -8,7 +8,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,7 +28,6 @@ import it.sharengo.development.data.models.ResponsePutReservation;
 import it.sharengo.development.data.models.ResponseReservation;
 import it.sharengo.development.data.models.ResponseTrip;
 import it.sharengo.development.data.models.SearchItem;
-import it.sharengo.development.data.models.Trip;
 import it.sharengo.development.data.models.User;
 import it.sharengo.development.data.repositories.AddressRepository;
 import it.sharengo.development.data.repositories.AppRepository;
@@ -43,8 +41,6 @@ import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class MapPresenter extends BasePresenter<MapMvpView> {
 

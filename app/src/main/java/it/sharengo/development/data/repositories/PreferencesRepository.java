@@ -2,7 +2,6 @@ package it.sharengo.development.data.repositories;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -20,8 +19,6 @@ import it.sharengo.development.R;
 import it.sharengo.development.data.models.SearchItem;
 import rx.Observable;
 import rx.functions.Func1;
-
-import static android.os.Build.VERSION_CODES.M;
 
 @Singleton
 public class PreferencesRepository {

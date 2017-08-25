@@ -1,22 +1,13 @@
 package it.sharengo.development.ui.menu;
 
-import android.content.Context;
-import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,13 +15,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.handroix.core.utils.HdxUiUtility;
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.MenuItem;
 import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.activities.BaseBackActivity;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
-import it.sharengo.development.ui.base.activities.BaseToolbarActivity;
 import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
 
 import static android.content.Context.MODE_PRIVATE;

@@ -2,7 +2,6 @@ package it.sharengo.development.ui.map.CircleLayout;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.Toast;
 
 import com.example.x.circlelayout.CircleLayout;
 import com.example.x.circlelayout.CircularLayoutItem;

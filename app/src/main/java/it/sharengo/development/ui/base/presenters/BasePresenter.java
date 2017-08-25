@@ -1,20 +1,12 @@
 package it.sharengo.development.ui.base.presenters;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import it.sharengo.development.R;
 import it.sharengo.development.data.models.ResponseUser;
-import it.sharengo.development.data.models.UserInfo;
 import it.sharengo.development.data.repositories.UserRepository;
 import it.sharengo.development.utils.schedulers.SchedulerProvider;
 import rx.Observable;
@@ -24,8 +16,6 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Base class that implements the Presenter interface and provides a base implementation for

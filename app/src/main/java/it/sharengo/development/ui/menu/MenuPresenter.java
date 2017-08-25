@@ -2,14 +2,11 @@ package it.sharengo.development.ui.menu;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.util.List;
 import java.util.Locale;
 
-import it.sharengo.development.R;
 import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.data.models.User;
 import it.sharengo.development.data.models.UserInfo;
 import it.sharengo.development.data.repositories.AppRepository;
 import it.sharengo.development.data.repositories.UserRepository;
@@ -20,8 +17,6 @@ import rx.Subscriber;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class MenuPresenter extends BasePresenter<MenuMvpView> {
 

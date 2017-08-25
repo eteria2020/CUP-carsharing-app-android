@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.View;
 
 import it.sharengo.development.R;
-import it.sharengo.development.ui.base.activities.BaseActivity;
 import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
 
 public class HomeActivity extends BaseDrawerActivity {

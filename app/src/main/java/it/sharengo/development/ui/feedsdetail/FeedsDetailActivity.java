@@ -3,11 +3,8 @@ package it.sharengo.development.ui.feedsdetail;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
-
-import java.io.Serializable;
 
 import it.sharengo.development.R;
 import it.sharengo.development.data.models.Feed;

@@ -1,8 +1,5 @@
 package it.sharengo.development.ui.login;
 
-import java.util.List;
-
-import it.sharengo.development.data.models.Car;
 import it.sharengo.development.data.models.UserInfo;
 import it.sharengo.development.ui.base.presenters.MvpView;
 
