@@ -124,7 +124,9 @@ public class MapSearchListAdapter extends RecyclerView.Adapter<RecyclerView.View
          */
         @OnClick(R.id.container)
         void onClick() {
-            mListener.onItemClick(mData.get(getAdapterPosition()));
+            if(getAdapterPosition() >= 0) {
+                mListener.onItemClick(mData.get(getAdapterPosition()));
+            }
         }
 
     }

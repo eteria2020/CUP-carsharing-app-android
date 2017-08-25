@@ -525,7 +525,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         prefsEditor.putString(context.getString(R.string.preference_kml), json);
         prefsEditor.commit();
 
-        getMvpView().showPolygon(polygons);
+        try {
+            getMvpView().showPolygon(polygons);
+        }catch (NullPointerException e){}
 
     }
 
