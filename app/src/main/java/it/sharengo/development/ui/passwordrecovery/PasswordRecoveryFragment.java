@@ -100,7 +100,7 @@ public class PasswordRecoveryFragment extends BaseMvpFragment<PasswordRecoveryPr
             }
         });
 
-        webview.loadUrl("https://www.sharengo.it/forgot-password");
+        webview.loadUrl("https://www.sharengo.it/forgot-password/mobile");
 
     }
 
