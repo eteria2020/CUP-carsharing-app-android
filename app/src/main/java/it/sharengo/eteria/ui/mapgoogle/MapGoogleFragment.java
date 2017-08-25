@@ -511,7 +511,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         drawableAnimGreenArray = new ArrayList<>();
         drawableAnimYellowArray = new ArrayList<>();
-        int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().density); Log.w("sizeMarkerAnim",": "+sizeMarkerAnim);
+        int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().density);
         for(int i = 0; i <= NUM_ANIM; i++){
             if(i < 10) {
                 drawableAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse000" + i, sizeMarkerAnim, sizeMarkerAnim)));
@@ -670,8 +670,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(41.909350);
-        userLocation.setLongitude(12.436249); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        //userLocation.setLatitude(41.909350);
+        //userLocation.setLongitude(12.436249); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1956,10 +1956,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
-                Log.w("userLocation",": "+userLocation);
-                Log.w("carSelected.latitude",": "+carSelected.latitude);
-                Log.w("carSelected.longitude",": "+carSelected.longitude);
-                Log.w("DISTANZA",": "+getDistance(carSelected));
                 if(getDistance(carSelected) <= 50){ //TODO: valore a 50
                     //Procediamo con le schermate successive
                     onClosePopup();
@@ -2272,9 +2268,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //TODO Remove
-        car.parking = test_corsa;
+        /*car.parking = test_corsa;
         if(test_corsa) test_corsa = false;
-        else test_corsa = true;
+        else test_corsa = true;*/
         //---
 
         isTripStart = true;
@@ -2290,7 +2286,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         //Aggiungo la macchina
         if(isTripParked) {
-            Log.w("carbookingMarker",": "+carbookingMarker);
+
             if(carbookingMarker == null) {
                 boolean find = false;
                 for(Marker markerOnMap : poiMarkers){
@@ -2299,7 +2295,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         carbookingMarker = markerOnMap;
                     }
                 }
-                Log.w("find",": "+find);
 
                 if(find){
                     carbookingMarker.remove();
@@ -2315,7 +2310,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                 carbookingMarker = myMarker;
             }else{
-                Log.w("car.latitude",": "+car.latitude);
                 carbookingMarker.setIcon(bitmapAuto);
                 carbookingMarker.setPosition(new LatLng(car.latitude, car.longitude));
             }
@@ -2337,7 +2331,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         isTripStart = false;
         isBookingCar = false;
         carSelected = null;
-        Log.w("hideTripInfo",": "+carSelected);
+
         closeViewBookingCar();
     }
 
