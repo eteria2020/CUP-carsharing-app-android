@@ -101,7 +101,7 @@
                         android:textSize="11sp"
                         android:textColor="@color/darkjunglegreen"
                         app:font_name="poppinsMedium"
-                        android:text="autonomia: 55 km"/>
+                        android:text="-"/>
                 </LinearLayout>
 
                 <!-- /Car -->
@@ -122,7 +122,7 @@
                         <it.sharengo.eteria.ui.components.CustomTextView
                             android:id="@+id/addressTextView"
                             style="@style/popupcar_info_box_text"
-                            android:text="Via Taormina 162, Milano"/>
+                            android:text="-"/>
                     </LinearLayout>
                     <!-- Distance -->
                     <LinearLayout
@@ -134,7 +134,7 @@
                         <it.sharengo.eteria.ui.components.CustomTextView
                             android:id="@+id/distanceTextView"
                             style="@style/popupcar_info_box_text"
-                            android:text="300 mt di distanza"/>
+                            android:text="-"/>
                     </LinearLayout>
                     <!-- Time -->
                     <LinearLayout
@@ -146,7 +146,7 @@
                         <it.sharengo.eteria.ui.components.CustomTextView
                             android:id="@+id/timeTextView"
                             style="@style/popupcar_info_box_text"
-                            android:text="3 minuti a piedi"/>
+                            android:text="-"/>
                     </LinearLayout>
                 </LinearLayout>
                 <!-- /Info -->

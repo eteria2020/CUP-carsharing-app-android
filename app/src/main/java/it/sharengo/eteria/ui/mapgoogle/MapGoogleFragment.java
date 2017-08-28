@@ -673,8 +673,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(45.510349);
-        userLocation.setLongitude(9.093254); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.899974);
+        userLocation.setLongitude(12.481692); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1400,6 +1400,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             if(carbookingMarker != null){
                 if(carbookingMarker == markerOnMap){
+                    Log.w("showPoiMarkers","TROVATO");
+                    bookedCarFind = true;
                     find = true;
                 }
             }
@@ -1456,8 +1458,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         //Se è attiva una prenotazione, ma la macchina non è presente tra i risultati restituiti dal server aggiungo la macchina alla lista
         //if((isBookingCar || isTripStart) && !bookedCarFind){
+        Log.w("bookedCarFind",": "+bookedCarFind);
+        Log.w("isBookingCar",": "+isBookingCar);
         if(isBookingCar && !bookedCarFind){
-
+            Log.w("AGGIUNGO","MACCHINA PRENOTATA");
             //Creo il marker
             MarkerOptions markerCar = new MarkerOptions().position(new LatLng(carSelected.latitude, carSelected.longitude));
             markerCar.icon(bitmapAuto);
@@ -1775,8 +1779,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     public Bitmap resizeMapIcons(String iconName,int width, int height){
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
-        options.inDither = false;
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getActivity().getPackageName()), options);  //BitmapFactory.decodeResource(a.getResources(), path, options);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
@@ -2275,9 +2277,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //TODO Remove
-        /*car.parking = test_corsa;
+        car.parking = test_corsa;
         if(test_corsa) test_corsa = false;
-        else test_corsa = true;*/
+        else test_corsa = true;
         //---
 
         isTripStart = true;

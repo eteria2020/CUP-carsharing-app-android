@@ -202,6 +202,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
         isTripExists = false;
         isBookingExists = false;
+        timestamp_start = 0;
 
         loadPlates();
 
@@ -1142,7 +1143,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     @Override
                     public void call() {
 
-                        timestamp_start = (int) (System.currentTimeMillis() / 1000L);
+                        if(timestamp_start == 0) timestamp_start = (int) (System.currentTimeMillis() / 1000L);
                         loadCarsTrip(car.id);
                     }
                 });
@@ -1229,6 +1230,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 isTripExists = false;
 
                 getMvpView().openNotification(timestamp_start, (int) (System.currentTimeMillis() / 1000L));
+
+                timestamp_start = 0;
                 //timerTask1min.cancel();
                 //timer.cancel();
             }
