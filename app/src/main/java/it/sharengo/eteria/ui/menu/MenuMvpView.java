@@ -1,9 +1,9 @@
-package it.sharengo.development.ui.menu;
+package it.sharengo.eteria.ui.menu;
 
 import java.util.List;
 
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface MenuMvpView extends MvpView {
 

@@ -7,7 +7,7 @@
     android:background="@color/whitesmoke"
     android:orientation="vertical">
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -28,7 +28,7 @@
         style="@style/login_form_inputlayout"
         app:font_name="poppinsRegular">
 
-        <it.sharengo.development.ui.components.CustomEditText
+        <it.sharengo.eteria.ui.components.CustomEditText
             android:id="@+id/emailEditText"
             style="@style/login_form_input"
             app:font_name="poppinsRegular"
@@ -62,7 +62,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <!-- Forgot -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/forgotButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2">
-        <it.sharengo.development.ui.components.CustomButton
+        <it.sharengo.eteria.ui.components.CustomButton
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -107,7 +107,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -118,7 +118,7 @@
             android:textSize="12.5sp"
             android:text="@string/login_notregistered_label"/>
 
-        <it.sharengo.development.ui.components.CustomButton
+        <it.sharengo.eteria.ui.components.CustomButton
             android:id="@+id/registerButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -133,7 +133,7 @@
     </LinearLayout>
 
     <!-- Continue -->
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:id="@+id/continueButton"
         android:layout_width="match_parent"
         android:layout_height="45dp"

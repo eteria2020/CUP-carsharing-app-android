@@ -1,4 +1,4 @@
-package it.sharengo.development.data.models.base;
+package it.sharengo.eteria.data.models.base;
 
 import java.io.Serializable;
 

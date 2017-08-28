@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.splash;
+package it.sharengo.eteria.ui.splash;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +10,9 @@ import android.view.animation.Animation;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.sharengo.development.R;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 
 import static android.content.Context.MODE_PRIVATE;
 

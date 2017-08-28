@@ -83,7 +83,7 @@
             android:layout_height="0dp"
             android:layout_weight="2">
 
-            <it.sharengo.development.ui.components.CustomTextView
+            <it.sharengo.eteria.ui.components.CustomTextView
                 android:id="@+id/welcomeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

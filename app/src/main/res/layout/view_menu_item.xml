@@ -17,7 +17,7 @@
         android:tint="@color/darkjunglegreen"
         android:background="@drawable/btn_bkg_darkjunglegreen_bordered" />
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:id="@+id/text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

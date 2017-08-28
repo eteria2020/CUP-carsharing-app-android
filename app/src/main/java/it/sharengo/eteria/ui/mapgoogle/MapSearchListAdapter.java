@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.mapgoogle;
+package it.sharengo.eteria.ui.mapgoogle;
 
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -15,8 +15,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.SearchItem;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.SearchItem;
 
 public class MapSearchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     

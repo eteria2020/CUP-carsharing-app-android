@@ -17,7 +17,7 @@
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_corsa" />
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:id="@+id/bookingNTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/darkjunglegreen"/>
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:id="@+id/minutesTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/darkjunglegreen"/>
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:id="@+id/dateTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
         android:orientation="vertical">
 
         <!-- Indirizzo di partenza -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/addressStartTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
             app:font_name="poppinsRegular"/>
 
         <!-- Fine -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/endTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
             app:font_name="poppinsBold"/>
 
         <!-- Indirizzo di arrivo -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/addressEndTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
             app:font_name="poppinsRegular"/>
 
         <!-- KM percorsi -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/kmTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
             app:font_name="poppinsBold"/>
 
         <!-- Macchina -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/carTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

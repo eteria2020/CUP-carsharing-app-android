@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.login;
+package it.sharengo.eteria.ui.login;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,15 +19,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
-import it.sharengo.development.R;
-import it.sharengo.development.data.common.ErrorResponse;
-import it.sharengo.development.data.models.UserInfo;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.common.ErrorResponse;
+import it.sharengo.eteria.data.models.UserInfo;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
 
 import static android.content.Context.MODE_PRIVATE;
-import static it.sharengo.development.data.common.ErrorResponse.ErrorType.HTTP;
+import static it.sharengo.eteria.data.common.ErrorResponse.ErrorType.HTTP;
 
 
 public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements LoginMvpView {
@@ -83,8 +83,8 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         mUnbinder = ButterKnife.bind(this, view);
 
         //TODO
-        //emailEditText.setText("francesco.galatro@gmail.com"); //francesco.galatro@gmail.com   emilio.cristiano@tiscali.it
-        //passwordEditText.setText("AppTest2017"); //AppTest2017    Sharengo2016!
+        emailEditText.setText("francesco.galatro@gmail.com"); //francesco.galatro@gmail.com   emilio.cristiano@tiscali.it
+        passwordEditText.setText("AppTest2017"); //AppTest2017    Sharengo2016!
 
         return view;
     }

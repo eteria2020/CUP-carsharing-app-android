@@ -1,4 +1,4 @@
-package it.sharengo.development.data.repositories;
+package it.sharengo.eteria.data.repositories;
 
 import android.util.Log;
 
@@ -8,8 +8,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import it.sharengo.development.data.datasources.SharengoMapDataSource;
-import it.sharengo.development.data.models.Address;
+import it.sharengo.eteria.data.datasources.SharengoMapDataSource;
+import it.sharengo.eteria.data.models.Address;
 import rx.Observable;
 import rx.functions.Action1;
 

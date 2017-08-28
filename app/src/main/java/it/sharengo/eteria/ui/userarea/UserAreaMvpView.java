@@ -1,6 +1,6 @@
-package it.sharengo.development.ui.userarea;
+package it.sharengo.eteria.ui.userarea;
 
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface UserAreaMvpView extends MvpView {
 

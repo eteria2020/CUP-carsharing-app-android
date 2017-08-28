@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:orientation="vertical">
-            <it.sharengo.development.ui.components.CustomTextView
+            <it.sharengo.eteria.ui.components.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -26,7 +26,7 @@
                 android:textAlignment="center"
                 app:font_name="poppinsSemiBold"
                 android:text="@string/settingsaddress_title2_label" />
-            <it.sharengo.development.ui.components.CustomTextView
+            <it.sharengo.eteria.ui.components.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"

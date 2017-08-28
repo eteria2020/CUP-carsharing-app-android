@@ -25,7 +25,7 @@
         android:orientation="vertical">
 
         <!-- Title -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/editTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
             style="@style/form_inputlayoutwhite"
             app:font_name="poppinsRegular">
 
-            <it.sharengo.development.ui.components.CustomEditText
+            <it.sharengo.eteria.ui.components.CustomEditText
                 android:id="@+id/nameEditText"
                 style="@style/form_input"
                 app:font_name="poppinsRegular"
@@ -68,7 +68,7 @@
             android:textColorHint="@color/white"
             app:font_name="poppinsRegular">
 
-            <it.sharengo.development.ui.components.CustomEditText
+            <it.sharengo.eteria.ui.components.CustomEditText
                 android:id="@+id/addressEditText"
                 style="@style/form_input"
                 app:font_name="poppinsRegular"
@@ -81,7 +81,7 @@
 
 
         <!-- Ok Button -->
-        <it.sharengo.development.ui.components.CustomButton
+        <it.sharengo.eteria.ui.components.CustomButton
             android:id="@+id/okSaveButton"
             style="@style/button_primary"
             android:layout_width="130dp"
@@ -91,7 +91,7 @@
             android:text="@string/settingsaddress_editok_label"/>
 
         <!-- Cancel Button -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/closeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

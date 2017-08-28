@@ -1,11 +1,11 @@
-package it.sharengo.development.data.datasources.api;
+package it.sharengo.eteria.data.datasources.api;
 
-import it.sharengo.development.data.models.Response;
-import it.sharengo.development.data.models.ResponseCar;
-import it.sharengo.development.data.models.ResponsePutReservation;
-import it.sharengo.development.data.models.ResponseReservation;
-import it.sharengo.development.data.models.ResponseTrip;
-import it.sharengo.development.data.models.ResponseUser;
+import it.sharengo.eteria.data.models.Response;
+import it.sharengo.eteria.data.models.ResponseCar;
+import it.sharengo.eteria.data.models.ResponsePutReservation;
+import it.sharengo.eteria.data.models.ResponseReservation;
+import it.sharengo.eteria.data.models.ResponseTrip;
+import it.sharengo.eteria.data.models.ResponseUser;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;

@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.assistance;
+package it.sharengo.eteria.ui.assistance;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
 
 
 public class AssistanceFragment extends BaseMvpFragment<AssistancePresenter> implements AssistanceMvpView {

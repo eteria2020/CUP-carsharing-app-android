@@ -12,7 +12,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/intro_long_part1" />
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:id="@+id/introTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:visibility="gone"
         android:text="@string/intro_power_label" />
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:id="@+id/intro2TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         android:visibility="gone"
         android:text="@string/intro_shared_label" />
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:id="@+id/intro3TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

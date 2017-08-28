@@ -1,4 +1,4 @@
-package it.sharengo.development.data.datasources.api;
+package it.sharengo.eteria.data.datasources.api;
 
 import android.content.Context;
 
@@ -24,11 +24,11 @@ import javax.net.ssl.X509TrustManager;
 
 import dagger.Module;
 import dagger.Provides;
-import it.sharengo.development.BuildConfig;
-import it.sharengo.development.R;
-import it.sharengo.development.data.common.SerializationExclusionStrategy;
-import it.sharengo.development.injection.ApplicationContext;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.BuildConfig;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.common.SerializationExclusionStrategy;
+import it.sharengo.eteria.injection.ApplicationContext;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;

@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.chronology;
+package it.sharengo.eteria.ui.chronology;
 
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
@@ -23,8 +23,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.Trip;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.Trip;
 
 public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.ViewHolder> {
 

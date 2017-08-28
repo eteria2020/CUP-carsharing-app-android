@@ -31,7 +31,7 @@
             android:layout_marginRight="10dp"
             android:orientation="vertical">
 
-            <it.sharengo.development.ui.components.CustomTextView
+            <it.sharengo.eteria.ui.components.CustomTextView
                 android:id="@+id/displayNameTextView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -44,7 +44,7 @@
                 android:gravity="center_vertical"
                 app:font_name="poppinsRegular" />
 
-            <it.sharengo.development.ui.components.CustomTextView
+            <it.sharengo.eteria.ui.components.CustomTextView
                 android:id="@+id/subNameTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

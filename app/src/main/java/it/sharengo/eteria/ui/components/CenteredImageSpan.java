@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.components;
+package it.sharengo.eteria.ui.components;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -1,4 +1,4 @@
-package it.sharengo.development.data.common;
+package it.sharengo.eteria.data.common;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;

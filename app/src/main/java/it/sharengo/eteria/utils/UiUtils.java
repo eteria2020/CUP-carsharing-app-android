@@ -1,4 +1,4 @@
-package it.sharengo.development.utils;
+package it.sharengo.eteria.utils;
 
 import android.app.Activity;
 import android.support.design.widget.Snackbar;
@@ -7,8 +7,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
-import it.sharengo.development.R;
-import it.sharengo.development.data.common.ErrorResponse;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.common.ErrorResponse;
 
 public class UiUtils {
 

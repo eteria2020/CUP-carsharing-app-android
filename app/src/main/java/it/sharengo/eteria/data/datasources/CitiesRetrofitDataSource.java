@@ -1,10 +1,10 @@
-package it.sharengo.development.data.datasources;
+package it.sharengo.eteria.data.datasources;
 
-import it.sharengo.development.data.datasources.api.CitiesApi;
-import it.sharengo.development.data.datasources.base.BaseRetrofitDataSource;
-import it.sharengo.development.data.models.ResponseCity;
-import it.sharengo.development.data.models.ResponseFeed;
-import it.sharengo.development.data.models.ResponseFeedCategory;
+import it.sharengo.eteria.data.datasources.api.CitiesApi;
+import it.sharengo.eteria.data.datasources.base.BaseRetrofitDataSource;
+import it.sharengo.eteria.data.models.ResponseCity;
+import it.sharengo.eteria.data.models.ResponseFeed;
+import it.sharengo.eteria.data.models.ResponseFeedCategory;
 import rx.Observable;
 
 public class CitiesRetrofitDataSource extends BaseRetrofitDataSource implements CitiesDataSource {

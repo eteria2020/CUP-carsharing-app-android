@@ -1,9 +1,9 @@
-package it.sharengo.development.data.datasources;
+package it.sharengo.eteria.data.datasources;
 
 import java.util.List;
 import java.util.Map;
 
-import it.sharengo.development.data.models.Post;
+import it.sharengo.eteria.data.models.Post;
 import rx.Observable;
 
 public interface JsonPlaceholderDataSource {

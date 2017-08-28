@@ -1,6 +1,6 @@
-package it.sharengo.development.data.datasources.api;
+package it.sharengo.eteria.data.datasources.api;
 
-import it.sharengo.development.data.models.Kml;
+import it.sharengo.eteria.data.models.Kml;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.GET;
 import rx.Observable;

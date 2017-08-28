@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.map;
+package it.sharengo.eteria.ui.map;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
@@ -90,21 +90,21 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.Car;
-import it.sharengo.development.data.models.City;
-import it.sharengo.development.data.models.Feed;
-import it.sharengo.development.data.models.Reservation;
-import it.sharengo.development.data.models.SearchItem;
-import it.sharengo.development.data.models.Trip;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.map.CircleLayout.MyCircleLayoutAdapter;
-import it.sharengo.development.utils.ImageUtils;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.Car;
+import it.sharengo.eteria.data.models.City;
+import it.sharengo.eteria.data.models.Feed;
+import it.sharengo.eteria.data.models.Reservation;
+import it.sharengo.eteria.data.models.SearchItem;
+import it.sharengo.eteria.data.models.Trip;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
+import it.sharengo.eteria.ui.map.CircleLayout.MyCircleLayoutAdapter;
+import it.sharengo.eteria.utils.ImageUtils;
 
 import static android.content.Context.MODE_PRIVATE;
-import static it.sharengo.development.R.id.deleteBookingButton;
+import static it.sharengo.eteria.R.id.deleteBookingButton;
 
 public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvpView, LocationListener {
 

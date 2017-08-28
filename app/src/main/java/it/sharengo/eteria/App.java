@@ -1,4 +1,4 @@
-package it.sharengo.development;
+package it.sharengo.eteria;
 
 import android.content.Context;
 import android.os.Build;
@@ -7,10 +7,10 @@ import android.support.multidex.MultiDexApplication;
 import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
-import it.sharengo.development.data.datasources.api.ApiModule;
-import it.sharengo.development.injection.components.ApplicationComponent;
-import it.sharengo.development.injection.components.DaggerApplicationComponent;
-import it.sharengo.development.injection.modules.ApplicationModule;
+import it.sharengo.eteria.data.datasources.api.ApiModule;
+import it.sharengo.eteria.injection.components.ApplicationComponent;
+import it.sharengo.eteria.injection.components.DaggerApplicationComponent;
+import it.sharengo.eteria.injection.modules.ApplicationModule;
 
 public class App extends MultiDexApplication {
 
@@ -21,7 +21,7 @@ public class App extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
 
         if (instance == null) {
             instance = this;

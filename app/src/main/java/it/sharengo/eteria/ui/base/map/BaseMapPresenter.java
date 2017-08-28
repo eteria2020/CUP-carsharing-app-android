@@ -1,10 +1,10 @@
-package it.sharengo.development.ui.base.map;
+package it.sharengo.eteria.ui.base.map;
 
 
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.ui.base.presenters.Presenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.ui.base.presenters.Presenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 
 /**
  * Base class that implements the Presenter interface and provides a base implementation for

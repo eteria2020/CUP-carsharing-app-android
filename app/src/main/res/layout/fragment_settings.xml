@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <!-- Title -->
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:id="@+id/userPinTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
                 android:id="@+id/cityImageView"
                 style="@style/settings_box_icon"
                 android:src="@drawable/ic_imposta_citta"/>
-            <it.sharengo.development.ui.components.CustomTextView
+            <it.sharengo.eteria.ui.components.CustomTextView
                 style="@style/settings_box_title"
                 app:font_name="poppinsBold"
                 android:text="@string/settings_city_action" />
@@ -52,7 +52,7 @@
                 android:id="@+id/addressImageView"
                 style="@style/settings_box_icon"
                 android:src="@drawable/ic_imposta_indirizzi"/>
-            <it.sharengo.development.ui.components.CustomTextView
+            <it.sharengo.eteria.ui.components.CustomTextView
                 style="@style/settings_box_title"
                 app:font_name="poppinsBold"
                 android:text="@string/settings_address_action" />
@@ -72,7 +72,7 @@
                 android:id="@+id/langImageView"
                 style="@style/settings_box_icon"
                 android:src="@drawable/ic_imposta_lingua"/>
-            <it.sharengo.development.ui.components.CustomTextView
+            <it.sharengo.eteria.ui.components.CustomTextView
                 style="@style/settings_box_title"
                 app:font_name="poppinsBold"
                 android:text="@string/settings_lang_action" />

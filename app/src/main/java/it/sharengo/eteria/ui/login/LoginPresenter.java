@@ -1,19 +1,19 @@
-package it.sharengo.development.ui.login;
+package it.sharengo.eteria.ui.login;
 
 
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.data.models.ResponseReservation;
-import it.sharengo.development.data.models.ResponseTrip;
-import it.sharengo.development.data.models.ResponseUser;
-import it.sharengo.development.data.models.UserInfo;
-import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.PreferencesRepository;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.data.models.ResponseReservation;
+import it.sharengo.eteria.data.models.ResponseTrip;
+import it.sharengo.eteria.data.models.ResponseUser;
+import it.sharengo.eteria.data.models.UserInfo;
+import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.PreferencesRepository;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;

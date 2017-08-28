@@ -1,4 +1,4 @@
-package it.sharengo.development.data.repositories;
+package it.sharengo.eteria.data.repositories;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,11 +9,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import it.sharengo.development.R;
-import it.sharengo.development.data.datasources.CitiesDataSource;
-import it.sharengo.development.data.models.City;
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.data.models.ResponseCity;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.datasources.CitiesDataSource;
+import it.sharengo.eteria.data.models.City;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.data.models.ResponseCity;
 import okhttp3.Credentials;
 import rx.Observable;
 import rx.functions.Action1;

@@ -1,4 +1,4 @@
-package it.sharengo.development.data.datasources.api;
+package it.sharengo.eteria.data.datasources.api;
 
 import android.content.Context;
 
@@ -6,8 +6,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import it.sharengo.development.injection.ApplicationContext;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.injection.ApplicationContext;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 
 /**
  * Provide data-level dependencies.

@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.profile;
+package it.sharengo.eteria.ui.profile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
-import it.sharengo.development.R;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 
 
 public class ProfileFragment extends BaseMvpFragment<ProfilePresenter> implements ProfileMvpView {

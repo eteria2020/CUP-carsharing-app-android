@@ -1,4 +1,4 @@
-package it.sharengo.development.utils;
+package it.sharengo.eteria.utils;
 
 import android.content.Context;
 import android.graphics.Typeface;

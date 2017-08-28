@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.mapgoogle;
+package it.sharengo.eteria.ui.mapgoogle;
 
 
 import android.content.Context;
@@ -27,35 +27,35 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.Address;
-import it.sharengo.development.data.models.Car;
-import it.sharengo.development.data.models.City;
-import it.sharengo.development.data.models.Feed;
-import it.sharengo.development.data.models.Kml;
-import it.sharengo.development.data.models.KmlServerPolygon;
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.data.models.Post;
-import it.sharengo.development.data.models.Reservation;
-import it.sharengo.development.data.models.Response;
-import it.sharengo.development.data.models.ResponseCar;
-import it.sharengo.development.data.models.ResponseCity;
-import it.sharengo.development.data.models.ResponseFeed;
-import it.sharengo.development.data.models.ResponsePutReservation;
-import it.sharengo.development.data.models.ResponseReservation;
-import it.sharengo.development.data.models.ResponseTrip;
-import it.sharengo.development.data.models.SearchItem;
-import it.sharengo.development.data.models.User;
-import it.sharengo.development.data.repositories.AddressRepository;
-import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.CarRepository;
-import it.sharengo.development.data.repositories.CityRepository;
-import it.sharengo.development.data.repositories.KmlRepository;
-import it.sharengo.development.data.repositories.PostRepository;
-import it.sharengo.development.data.repositories.PreferencesRepository;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.map.BaseMapPresenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.Address;
+import it.sharengo.eteria.data.models.Car;
+import it.sharengo.eteria.data.models.City;
+import it.sharengo.eteria.data.models.Feed;
+import it.sharengo.eteria.data.models.Kml;
+import it.sharengo.eteria.data.models.KmlServerPolygon;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.data.models.Post;
+import it.sharengo.eteria.data.models.Reservation;
+import it.sharengo.eteria.data.models.Response;
+import it.sharengo.eteria.data.models.ResponseCar;
+import it.sharengo.eteria.data.models.ResponseCity;
+import it.sharengo.eteria.data.models.ResponseFeed;
+import it.sharengo.eteria.data.models.ResponsePutReservation;
+import it.sharengo.eteria.data.models.ResponseReservation;
+import it.sharengo.eteria.data.models.ResponseTrip;
+import it.sharengo.eteria.data.models.SearchItem;
+import it.sharengo.eteria.data.models.User;
+import it.sharengo.eteria.data.repositories.AddressRepository;
+import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.CarRepository;
+import it.sharengo.eteria.data.repositories.CityRepository;
+import it.sharengo.eteria.data.repositories.KmlRepository;
+import it.sharengo.eteria.data.repositories.PostRepository;
+import it.sharengo.eteria.data.repositories.PreferencesRepository;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.map.BaseMapPresenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
@@ -1520,7 +1520,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 String json = mPref.getString(context.getString(R.string.preference_city), "");
                 List<City> obj = (ArrayList<City>) gson.fromJson(json, fooType);
 
-                if(obj != null) getMvpView().showCity(obj);
+                try {
+                    if (obj != null) getMvpView().showCity(obj);
+                }catch (NullPointerException er){}
             }
 
             @Override

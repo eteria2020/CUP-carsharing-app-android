@@ -1,14 +1,14 @@
-package it.sharengo.development.data.datasources;
+package it.sharengo.eteria.data.datasources;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import it.sharengo.development.data.datasources.api.CitiesApi;
-import it.sharengo.development.data.datasources.api.JsonPlaceholderApi;
-import it.sharengo.development.data.datasources.api.KmlApi;
-import it.sharengo.development.data.datasources.api.SharengoApi;
-import it.sharengo.development.data.datasources.api.SharengoMapApi;
+import it.sharengo.eteria.data.datasources.api.CitiesApi;
+import it.sharengo.eteria.data.datasources.api.JsonPlaceholderApi;
+import it.sharengo.eteria.data.datasources.api.KmlApi;
+import it.sharengo.eteria.data.datasources.api.SharengoApi;
+import it.sharengo.eteria.data.datasources.api.SharengoMapApi;
 
 @Module
 public class DataSourceModule {

@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.userarea;
+package it.sharengo.eteria.ui.userarea;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,10 +9,10 @@ import android.webkit.WebViewClient;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.sharengo.development.R;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
 
 
 public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> implements UserAreaMvpView {

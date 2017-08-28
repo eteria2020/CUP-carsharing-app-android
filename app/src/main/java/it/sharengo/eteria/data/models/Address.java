@@ -1,10 +1,10 @@
-package it.sharengo.development.data.models;
+package it.sharengo.eteria.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import it.sharengo.development.data.common.ExcludeSerialization;
+import it.sharengo.eteria.data.common.ExcludeSerialization;
 
 public class Address implements Serializable {
 

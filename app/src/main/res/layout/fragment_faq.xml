@@ -10,7 +10,7 @@
     <!-- Header -->
     <RelativeLayout
         style="@style/header_view">
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             style="@style/header_title"
             app:font_name="poppinsBold"
             android:text="@string/faq_title_label" />
@@ -22,7 +22,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <it.sharengo.development.ui.components.CustomButton
+    <it.sharengo.eteria.ui.components.CustomButton
         android:id="@+id/tutorialButton"
         style="@style/button_third"
         android:layout_width="match_parent"

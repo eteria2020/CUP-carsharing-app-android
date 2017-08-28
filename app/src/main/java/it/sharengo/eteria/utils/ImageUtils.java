@@ -1,4 +1,4 @@
-package it.sharengo.development.utils;
+package it.sharengo.eteria.utils;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import it.sharengo.development.Environment;
+import it.sharengo.eteria.Environment;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class ImageUtils {

@@ -1,8 +1,8 @@
-package it.sharengo.development.ui.splash;
+package it.sharengo.eteria.ui.splash;
 
 import android.os.Bundle;
 
-import it.sharengo.development.ui.base.activities.BaseActivity;
+import it.sharengo.eteria.ui.base.activities.BaseActivity;
 
 public class SplashActivity extends BaseActivity {
 

@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.feedsdetail;
+package it.sharengo.eteria.ui.feedsdetail;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -26,11 +26,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.Feed;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.utils.ImageUtils;
-import it.sharengo.development.utils.StringsUtils;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.Feed;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.utils.ImageUtils;
+import it.sharengo.eteria.utils.StringsUtils;
 import jp.wasabeef.glide.transformations.MaskTransformation;
 
 import static android.content.Context.MODE_PRIVATE;

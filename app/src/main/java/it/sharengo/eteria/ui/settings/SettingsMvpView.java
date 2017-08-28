@@ -1,6 +1,6 @@
-package it.sharengo.development.ui.settings;
+package it.sharengo.eteria.ui.settings;
 
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface SettingsMvpView extends MvpView {
 

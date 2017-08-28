@@ -1,4 +1,4 @@
-package it.sharengo.development.data.common;
+package it.sharengo.eteria.data.common;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

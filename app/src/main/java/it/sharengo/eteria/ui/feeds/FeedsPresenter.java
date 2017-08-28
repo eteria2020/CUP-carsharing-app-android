@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.feeds;
+package it.sharengo.eteria.ui.feeds;
 
 
 import android.content.Context;
@@ -12,15 +12,15 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import it.sharengo.development.data.models.Feed;
-import it.sharengo.development.data.models.FeedCategory;
-import it.sharengo.development.data.models.ResponseFeed;
-import it.sharengo.development.data.models.ResponseFeedCategory;
-import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.CityRepository;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.data.models.Feed;
+import it.sharengo.eteria.data.models.FeedCategory;
+import it.sharengo.eteria.data.models.ResponseFeed;
+import it.sharengo.eteria.data.models.ResponseFeedCategory;
+import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.CityRepository;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;

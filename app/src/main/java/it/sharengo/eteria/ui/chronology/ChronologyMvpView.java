@@ -1,9 +1,9 @@
-package it.sharengo.development.ui.chronology;
+package it.sharengo.eteria.ui.chronology;
 
 import java.util.List;
 
-import it.sharengo.development.data.models.Trip;
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.data.models.Trip;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface ChronologyMvpView extends MvpView {
 

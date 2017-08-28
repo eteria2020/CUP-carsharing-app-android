@@ -10,7 +10,7 @@
     <!-- Header -->
     <RelativeLayout
         style="@style/header_view">
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             style="@style/header_title"
             app:font_name="poppinsBold"
             android:text="@string/share_title_label" />
@@ -29,7 +29,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.1"/>
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="13sp"
@@ -38,7 +38,7 @@
         android:textColor="@color/mediumseagreen"
         android:text="@string/share_invitefriend_label"/>
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="12sp"
@@ -47,7 +47,7 @@
         android:textColor="@color/darkjunglegreen"
         android:text="@string/share_timeregister_label"/>
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
@@ -63,7 +63,7 @@
         android:textColor="@color/darkjunglegreen"
         android:text="@string/share_tenminutes_label"/>
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -73,7 +73,7 @@
         android:textColor="@color/darkjunglegreen"
         android:text="@string/share_giftwelcome_label"/>
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -83,7 +83,7 @@
         android:textColor="@color/mediumseagreen"
         android:text="@string/share_friendregistration_label"/>
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
@@ -104,7 +104,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.1"/>
 
-    <it.sharengo.development.ui.components.CustomButton
+    <it.sharengo.eteria.ui.components.CustomButton
         android:id="@+id/shareButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"

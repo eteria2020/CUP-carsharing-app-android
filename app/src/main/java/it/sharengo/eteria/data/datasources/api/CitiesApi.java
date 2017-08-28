@@ -1,8 +1,8 @@
-package it.sharengo.development.data.datasources.api;
+package it.sharengo.eteria.data.datasources.api;
 
-import it.sharengo.development.data.models.ResponseCity;
-import it.sharengo.development.data.models.ResponseFeed;
-import it.sharengo.development.data.models.ResponseFeedCategory;
+import it.sharengo.eteria.data.models.ResponseCity;
+import it.sharengo.eteria.data.models.ResponseFeed;
+import it.sharengo.eteria.data.models.ResponseFeedCategory;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.GET;
 import retrofit2.http.Header;

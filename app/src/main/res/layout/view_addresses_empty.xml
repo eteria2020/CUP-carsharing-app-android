@@ -30,7 +30,7 @@
         android:layout_marginRight="30dp"
         android:orientation="vertical">
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -39,7 +39,7 @@
             app:font_name="poppinsBold"
             android:text="@string/settingsaddress_empty_title"/>
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

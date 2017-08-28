@@ -1,4 +1,4 @@
-package it.sharengo.development.utils.schedulers;
+package it.sharengo.eteria.utils.schedulers;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

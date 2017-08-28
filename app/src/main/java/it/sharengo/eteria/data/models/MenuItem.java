@@ -1,4 +1,4 @@
-package it.sharengo.development.data.models;
+package it.sharengo.eteria.data.models;
 
 public class MenuItem {
     

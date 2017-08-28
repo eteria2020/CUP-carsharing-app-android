@@ -25,7 +25,7 @@
         android:layout_marginRight="30dp"
         android:orientation="vertical">
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/nameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:textSize="13sp"
             android:textColor="@color/mediumseagreen"/>
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/addressTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,6 +1,6 @@
-package it.sharengo.development.ui.onboarding;
+package it.sharengo.eteria.ui.onboarding;
 
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface OnboardingMvpView extends MvpView {
 

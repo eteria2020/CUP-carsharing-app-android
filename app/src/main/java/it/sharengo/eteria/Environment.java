@@ -1,4 +1,4 @@
-package it.sharengo.development;
+package it.sharengo.eteria;
 
 public class Environment {
 

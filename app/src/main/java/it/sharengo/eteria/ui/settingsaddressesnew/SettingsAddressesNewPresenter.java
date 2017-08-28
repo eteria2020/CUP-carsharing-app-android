@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.settingsaddressesnew;
+package it.sharengo.eteria.ui.settingsaddressesnew;
 
 
 import android.content.Context;
@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.Address;
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.data.models.SearchItem;
-import it.sharengo.development.data.repositories.AddressRepository;
-import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.PreferencesRepository;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.Address;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.data.models.SearchItem;
+import it.sharengo.eteria.data.repositories.AddressRepository;
+import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.PreferencesRepository;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;

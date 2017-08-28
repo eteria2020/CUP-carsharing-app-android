@@ -1,12 +1,12 @@
-package it.sharengo.development.ui.chronology;
+package it.sharengo.eteria.ui.chronology;
 
 
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.data.models.ResponseTrip;
-import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.data.models.ResponseTrip;
+import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;

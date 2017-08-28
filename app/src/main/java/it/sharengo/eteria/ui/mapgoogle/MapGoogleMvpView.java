@@ -1,15 +1,15 @@
-package it.sharengo.development.ui.mapgoogle;
+package it.sharengo.eteria.ui.mapgoogle;
 
 import java.util.List;
 
-import it.sharengo.development.data.models.Car;
-import it.sharengo.development.data.models.City;
-import it.sharengo.development.data.models.Feed;
-import it.sharengo.development.data.models.KmlServerPolygon;
-import it.sharengo.development.data.models.Reservation;
-import it.sharengo.development.data.models.SearchItem;
-import it.sharengo.development.data.models.Trip;
-import it.sharengo.development.ui.base.map.MvpMapView;
+import it.sharengo.eteria.data.models.Car;
+import it.sharengo.eteria.data.models.City;
+import it.sharengo.eteria.data.models.Feed;
+import it.sharengo.eteria.data.models.KmlServerPolygon;
+import it.sharengo.eteria.data.models.Reservation;
+import it.sharengo.eteria.data.models.SearchItem;
+import it.sharengo.eteria.data.models.Trip;
+import it.sharengo.eteria.ui.base.map.MvpMapView;
 
 public interface MapGoogleMvpView extends MvpMapView {
 

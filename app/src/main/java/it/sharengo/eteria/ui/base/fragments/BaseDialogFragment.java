@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.base.fragments;
+package it.sharengo.eteria.ui.base.fragments;
 
 import android.os.Bundle;
 

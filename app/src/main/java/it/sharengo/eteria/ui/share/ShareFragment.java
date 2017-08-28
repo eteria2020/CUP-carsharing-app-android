@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.share;
+package it.sharengo.eteria.ui.share;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 
 
 public class ShareFragment extends BaseMvpFragment<SharePresenter> implements ShareMvpView {

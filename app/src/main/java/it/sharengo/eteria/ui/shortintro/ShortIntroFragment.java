@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.shortintro;
+package it.sharengo.eteria.ui.shortintro;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import it.sharengo.development.R;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import pl.droidsonroids.gif.AnimationListener;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;

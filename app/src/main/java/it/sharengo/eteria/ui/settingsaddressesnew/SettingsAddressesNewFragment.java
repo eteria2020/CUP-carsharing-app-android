@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.settingsaddressesnew;
+package it.sharengo.eteria.ui.settingsaddressesnew;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -34,11 +34,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.SearchItem;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.map.MapSearchListAdapter;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.SearchItem;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
+import it.sharengo.eteria.ui.map.MapSearchListAdapter;
 
 import static android.content.Context.MODE_PRIVATE;
 

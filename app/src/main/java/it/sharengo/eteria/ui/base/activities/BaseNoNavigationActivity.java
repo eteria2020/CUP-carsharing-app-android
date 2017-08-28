@@ -1,10 +1,10 @@
-package it.sharengo.development.ui.base.activities;
+package it.sharengo.eteria.ui.base.activities;
 
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import it.sharengo.development.R;
+import it.sharengo.eteria.R;
 
 public abstract class BaseNoNavigationActivity extends BaseToolbarActivity {
 

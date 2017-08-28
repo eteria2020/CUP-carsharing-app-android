@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.menu;
+package it.sharengo.eteria.ui.menu;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +14,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.utils.ResourceProvider;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.utils.ResourceProvider;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 

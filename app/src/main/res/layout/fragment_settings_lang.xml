@@ -13,7 +13,7 @@
         <ImageView
             android:id="@+id/backImageView"
             style="@style/header_back" />
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             style="@style/header_title"
             app:font_name="poppinsBold"
             android:text="@string/settingslang_title_label"/>
@@ -44,7 +44,7 @@
                 android:visibility="gone"
                 android:src="@drawable/ic_citta_selezionata"/>
 
-            <it.sharengo.development.ui.components.CustomTextView
+            <it.sharengo.eteria.ui.components.CustomTextView
                 android:id="@+id/itTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                 android:visibility="gone"
                 android:src="@drawable/ic_citta_selezionata"/>
 
-            <it.sharengo.development.ui.components.CustomTextView
+            <it.sharengo.eteria.ui.components.CustomTextView
                 android:id="@+id/enTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -10,7 +10,7 @@
     <!-- Header -->
     <RelativeLayout
         style="@style/header_view">
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             style="@style/header_title"
             app:font_name="poppinsBold"
             android:text="@string/assistance_title_label" />
@@ -29,7 +29,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.1"/>
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -55,7 +55,7 @@
         android:paddingBottom="40dp"
         android:background="@color/white">
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
@@ -64,7 +64,7 @@
             android:textColor="@color/taupegray"
             android:text="@string/assistance_talkoperator_label"/>
 
-        <it.sharengo.development.ui.components.CustomButton
+        <it.sharengo.eteria.ui.components.CustomButton
             android:id="@+id/callAssistanceButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"

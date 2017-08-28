@@ -1,4 +1,4 @@
-package it.sharengo.development.data.repositories;
+package it.sharengo.eteria.data.repositories;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,8 +15,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.SearchItem;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.SearchItem;
 import rx.Observable;
 import rx.functions.Func1;
 

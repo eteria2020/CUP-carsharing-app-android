@@ -1,12 +1,12 @@
-package it.sharengo.development.data.datasources;
+package it.sharengo.eteria.data.datasources;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import it.sharengo.development.data.datasources.api.JsonPlaceholderApi;
-import it.sharengo.development.data.datasources.base.BaseRetrofitDataSource;
-import it.sharengo.development.data.models.Post;
+import it.sharengo.eteria.data.datasources.api.JsonPlaceholderApi;
+import it.sharengo.eteria.data.datasources.base.BaseRetrofitDataSource;
+import it.sharengo.eteria.data.models.Post;
 import rx.Observable;
 
 public class JsonPlaceholderRetrofitDataSource extends BaseRetrofitDataSource implements JsonPlaceholderDataSource {

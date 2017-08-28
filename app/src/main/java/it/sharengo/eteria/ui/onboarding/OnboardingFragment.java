@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.onboarding;
+package it.sharengo.eteria.ui.onboarding;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,8 +18,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import pl.droidsonroids.gif.AnimationListener;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;

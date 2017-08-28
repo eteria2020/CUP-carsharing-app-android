@@ -1,11 +1,11 @@
-package it.sharengo.development.ui.tripend;
+package it.sharengo.eteria.ui.tripend;
 
 
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 
 public class TripEndPresenter extends BasePresenter<TripEndMvpView> {
 

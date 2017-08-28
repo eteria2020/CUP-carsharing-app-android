@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.feeds;
+package it.sharengo.eteria.ui.feeds;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -16,9 +16,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.FeedCategory;
-import it.sharengo.development.utils.ImageUtils;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.FeedCategory;
+import it.sharengo.eteria.utils.ImageUtils;
 
 public class FeedsCategoriesAdapter extends RecyclerView.Adapter<FeedsCategoriesAdapter.ViewHolder> {
 

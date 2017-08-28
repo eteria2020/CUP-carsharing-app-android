@@ -1,26 +1,26 @@
-package it.sharengo.development.injection.components;
+package it.sharengo.eteria.injection.components;
 
 import android.content.Context;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
-import it.sharengo.development.App;
-import it.sharengo.development.data.datasources.DataSourceModule;
-import it.sharengo.development.data.datasources.api.ApiModule;
-import it.sharengo.development.data.repositories.AddressRepository;
-import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.CarRepository;
-import it.sharengo.development.data.repositories.CityRepository;
-import it.sharengo.development.data.repositories.KmlRepository;
-import it.sharengo.development.data.repositories.PostRepository;
-import it.sharengo.development.data.repositories.PreferencesRepository;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.injection.ApplicationContext;
-import it.sharengo.development.injection.modules.ApplicationModule;
-import it.sharengo.development.ui.base.fragments.BaseFragment;
-import it.sharengo.development.ui.base.presenters.PresenterManager;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.App;
+import it.sharengo.eteria.data.datasources.DataSourceModule;
+import it.sharengo.eteria.data.datasources.api.ApiModule;
+import it.sharengo.eteria.data.repositories.AddressRepository;
+import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.CarRepository;
+import it.sharengo.eteria.data.repositories.CityRepository;
+import it.sharengo.eteria.data.repositories.KmlRepository;
+import it.sharengo.eteria.data.repositories.PostRepository;
+import it.sharengo.eteria.data.repositories.PreferencesRepository;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.injection.ApplicationContext;
+import it.sharengo.eteria.injection.modules.ApplicationModule;
+import it.sharengo.eteria.ui.base.fragments.BaseFragment;
+import it.sharengo.eteria.ui.base.presenters.PresenterManager;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 
 @Singleton
 @Component(

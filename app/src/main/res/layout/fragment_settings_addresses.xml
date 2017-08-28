@@ -18,7 +18,7 @@
             <ImageView
                 android:id="@+id/backImageView"
                 style="@style/header_back" />
-            <it.sharengo.development.ui.components.CustomTextView
+            <it.sharengo.eteria.ui.components.CustomTextView
                 style="@style/header_title"
                 app:font_name="poppinsBold"
                 android:text="@string/settingsaddress_title_label"/>
@@ -28,7 +28,7 @@
 
         <include layout="@layout/view_addresses_empty" />
 
-        <it.sharengo.development.ui.components.CustomButton
+        <it.sharengo.eteria.ui.components.CustomButton
             android:id="@+id/newAddressButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

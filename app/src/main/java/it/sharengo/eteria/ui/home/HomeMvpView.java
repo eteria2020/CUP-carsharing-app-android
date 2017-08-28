@@ -1,6 +1,6 @@
-package it.sharengo.development.ui.home;
+package it.sharengo.eteria.ui.home;
 
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface HomeMvpView extends MvpView {
 

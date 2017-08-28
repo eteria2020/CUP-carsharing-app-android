@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.mapgoogle;
+package it.sharengo.eteria.ui.mapgoogle;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -96,21 +97,21 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import it.handroix.map.HdxFragmentMapHelper;
-import it.sharengo.development.App;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.Car;
-import it.sharengo.development.data.models.City;
-import it.sharengo.development.data.models.Feed;
-import it.sharengo.development.data.models.KmlServerPolygon;
-import it.sharengo.development.data.models.Reservation;
-import it.sharengo.development.data.models.SearchItem;
-import it.sharengo.development.data.models.Trip;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.map.BaseMapFragment;
-import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
-import it.sharengo.development.utils.ImageUtils;
-import it.sharengo.development.utils.StringsUtils;
+import it.sharengo.eteria.App;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.Car;
+import it.sharengo.eteria.data.models.City;
+import it.sharengo.eteria.data.models.Feed;
+import it.sharengo.eteria.data.models.KmlServerPolygon;
+import it.sharengo.eteria.data.models.Reservation;
+import it.sharengo.eteria.data.models.SearchItem;
+import it.sharengo.eteria.data.models.Trip;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.map.BaseMapFragment;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
+import it.sharengo.eteria.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
+import it.sharengo.eteria.utils.ImageUtils;
+import it.sharengo.eteria.utils.StringsUtils;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -522,6 +523,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             }
         }
 
+        //Log.w("sizeMarkerAnim",": "+sizeMarkerAnim);
+
         bitmapAuto = getBitmapDescriptor(resizeMapIcons("ic_auto", (int) (44 * getResources().getDisplayMetrics().density), (int) (53 * getResources().getDisplayMetrics().density)));
         bitmapUser = getBitmapDescriptor(R.drawable.ic_user);
 
@@ -670,8 +673,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(41.909350);
-        //userLocation.setLongitude(12.436249); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(45.510349);
+        userLocation.setLongitude(9.093254); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1770,7 +1773,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Metodo che permette di modificare la dimensione dell'immagine del pin presente sulla mappa
     public Bitmap resizeMapIcons(String iconName,int width, int height){
-        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getActivity().getPackageName()));
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false;
+        options.inDither = false;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getActivity().getPackageName()), options);  //BitmapFactory.decodeResource(a.getResources(), path, options);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
     }
