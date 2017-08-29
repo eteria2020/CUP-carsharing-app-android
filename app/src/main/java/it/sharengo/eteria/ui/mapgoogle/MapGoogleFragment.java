@@ -1345,7 +1345,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         for(final Car car : carsList){
             //Verifico che la macchina sia in status = operative
-            if(car.status.equals("operative")) {
+            //if(car.status.equals("operative")) {
                 int icon_marker = R.drawable.ic_auto;
 
 
@@ -1362,7 +1362,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                 poiMarkersToAdd.add(markerCar);
 
-            }
+            //}
         }
 
 
@@ -1400,7 +1400,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             if(carbookingMarker != null){
                 if(carbookingMarker == markerOnMap){
-                    Log.w("showPoiMarkers","TROVATO");
                     bookedCarFind = true;
                     find = true;
                 }
@@ -1440,28 +1439,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         }
 
-        /*for(MarkerOptions markerCar : poiMarkersToAdd){
-            com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
-            myMarker.setClusterGroup(101);
-            poiMarkers.add(myMarker);
-
-            Car car = (Car) markerCar.getData();
-
-            //Verifico se è attiva una prenotazione e se la targa dell'overley corrisponde a quella della macchina prenotata
-            if(isBookingCar || isTripStart){
-                if(car.id.equals(carSelected.id)) {
-                    carbookingMarker = myMarker;
-                    bookedCarFind = true;
-                }
-            }
-        }*/
 
         //Se è attiva una prenotazione, ma la macchina non è presente tra i risultati restituiti dal server aggiungo la macchina alla lista
-        //if((isBookingCar || isTripStart) && !bookedCarFind){
-        Log.w("bookedCarFind",": "+bookedCarFind);
-        Log.w("isBookingCar",": "+isBookingCar);
         if(isBookingCar && !bookedCarFind){
-            Log.w("AGGIUNGO","MACCHINA PRENOTATA");
             //Creo il marker
             MarkerOptions markerCar = new MarkerOptions().position(new LatLng(carSelected.latitude, carSelected.longitude));
             markerCar.icon(bitmapAuto);
@@ -1887,7 +1867,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         plateTextView.setText(car.id);
 
         //Autonomia
-        autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), (int) car.autonomy)));
+        loadCarAutonomy(car.autonomy);
+        mPresenter.loadCarInfoPopup(car.id);
 
         //Indirizzo
         String address = getAddress(car.latitude, car.longitude);
@@ -1946,6 +1927,22 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }else{
             closestcarView.setVisibility(View.GONE);
         }
+    }
+
+    private void loadCarInfo(Car car){
+        Log.w("loadCarInfo",": "+car);
+        loadCarAutonomy(car.autonomy);
+    }
+
+    private void loadCarAutonomy(int autonomy){
+        autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), (int) autonomy)));
+        if(autonomy == 0){
+            autonomyTextView.setVisibility(View.GONE);
+        }else{
+            autonomyTextView.setVisibility(View.VISIBLE);
+        }
+
+        Log.w("autonomy",": "+autonomy);
     }
 
     //Metodo per chiudere il popup che mostra le informazioni della macchina
@@ -2781,6 +2778,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 cdd.dismissAlert();
             }
         });
+    }
+
+    @Override
+    public void onLoadCarInfo(Car car){
+        loadCarInfo(car);
     }
 
 

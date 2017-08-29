@@ -1055,7 +1055,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         plateTextView.setText(car.id);
 
         //Autonomia
-        autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), (int) car.autonomy)));
+        //autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), (int) car.autonomy)));
 
         //Indirizzo
         String address = getAddress(car.latitude, car.longitude);
@@ -1855,7 +1855,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         boolean bookedCarFind = false;
         for(final Car car : carsList){
             //Verifico che la macchina sia in status = operative
-            if(car.status.equals("operative")) {
+            //if(car.status.equals("operative")) {
                 int icon_marker = R.drawable.ic_auto;
 
                 //Verifico se la vettura è la più vicina oppure se è una vettura prenotata
@@ -1897,7 +1897,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
                 //items.add(overlayItem);
 
-            }
+            //}
         }
 
         //Se è attiva una prenotazione, ma la macchina non è presente tra i risultati restituiti dal server aggiungo la macchina alla lista

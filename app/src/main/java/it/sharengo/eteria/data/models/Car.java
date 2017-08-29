@@ -11,8 +11,13 @@ public class Car {
 
     public String manufactures;
     public String model;
+
+    @SerializedName("lon")
     public float longitude;
+
+    @SerializedName("lat")
     public float latitude;
+
     public String status;
     public boolean parking;
 

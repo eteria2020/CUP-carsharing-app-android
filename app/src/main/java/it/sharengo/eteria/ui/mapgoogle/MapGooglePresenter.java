@@ -86,6 +86,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private Observable<List<Post>> mPostsRequest;
     private Observable<Response> mCarsRequest;
     private Observable<ResponseCar> mCarsReservationRequest;
+    private Observable<ResponseCar> mCarsInfoRequest;
     private Observable<ResponseCar> mCarsTripRequest;
     private Observable<Response> mPlatesRequest;
     private Observable<List<Car>> mFindPlatesRequest;
@@ -105,6 +106,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private Response mResponse;
     private ResponseCar mResponseReservationCar;
     private ResponseTrip mResponseTrip;
+    private ResponseCar mResponseInfo;
     private ResponseReservation mResponseReservation;
     private Reservation mReservation;
     private List<Car> mPlates;
@@ -689,7 +691,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private Observable<Response> buildPlatesRequest() {
-        Log.w("USERNAME",": "+mUserRepository.getCachedUser().username);
         return mPlatesRequest = mCarRepository.getPlates(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
                 .first()
                 .compose(this.<Response>handleDataRequest())
@@ -820,6 +821,68 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
         return carFind;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              GET Car reservation
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Load from server car information (detail)
+     *
+     * @param  plate  plate for car reservation.
+     */
+    public void loadCarInfoPopup(String plate) {
+
+        hideLoading = true;
+
+        mCarsInfoRequest = null;
+        mCarsInfoRequest = buildCarsInfoRequest(plate);
+        addSubscription(mCarsInfoRequest.unsafeSubscribe(getCarsInfoSubscriber()));
+    }
+
+
+    private Observable<ResponseCar> buildCarsInfoRequest(String plate) {
+
+        return mCarsInfoRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate)
+                .first()
+                .compose(this.<ResponseCar>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkCarInfoResult();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseCar> getCarsInfoSubscriber(){
+        return new Subscriber<ResponseCar>() {
+            @Override
+            public void onCompleted() {
+                mCarsInfoRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mCarsInfoRequest = null;
+                Log.w("ERRORE",": "+e);
+            }
+
+            @Override
+            public void onNext(ResponseCar responseList) {
+                mResponseInfo = responseList;
+            }
+        };
+    }
+
+    private void checkCarInfoResult(){
+
+        if(mResponseInfo.reason.isEmpty() && mResponseInfo.data != null){
+            getMvpView().onLoadCarInfo(mResponseInfo.data);
+        }
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
