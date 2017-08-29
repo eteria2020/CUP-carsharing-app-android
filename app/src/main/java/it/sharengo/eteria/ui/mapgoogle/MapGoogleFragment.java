@@ -673,8 +673,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(41.899974);
-        userLocation.setLongitude(12.481692); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.895514);
+        userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1577,87 +1577,91 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                    if(getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
 
-                            if(getActivity() != null) {
+                                if (getActivity() != null) {
 
-                                List<BitmapDescriptor> drawableAnimArray = null;
+                                    List<BitmapDescriptor> drawableAnimArray = null;
 
-                                //Verifico se una prenotazione è attiva: il colore dell'animazione è giallo se c'è una prenotazione, altrimenti verde
-                                if (isBookingCar || isTripStart)
-                                    drawableAnimArray = drawableAnimYellowArray;
-                                else drawableAnimArray = drawableAnimGreenArray;
+                                    //Verifico se una prenotazione è attiva: il colore dell'animazione è giallo se c'è una prenotazione, altrimenti verde
+                                    if (isBookingCar || isTripStart)
+                                        drawableAnimArray = drawableAnimYellowArray;
+                                    else drawableAnimArray = drawableAnimGreenArray;
 
-                                //Ogni x millisecondi cambio il frame
-                                if (isBookingCar || isTripStart) {
+                                    //Ogni x millisecondi cambio il frame
+                                    if (isBookingCar || isTripStart) {
 
 
-                                    if (carbookingMarker != null && isBookingCar && !isTripStart) {
-                                        try {
-                                            carbookingMarker.setIcon(drawableAnimArray.get(currentDrawable));
-                                            carbookingMarker.setAnchor(0.4f, 0.7f);
-                                        } catch (NullPointerException e) {
-                                            carbookingMarker = null;
-                                        }
-                                    }
-
-                                    if(isTripStart && !isTripParked){
-                                        try {
-                                            userMarker.setIcon(drawableAnimArray.get(currentDrawable));
-
-                                            if(carbookingMarker != null){
-                                                carbookingMarker.remove();
+                                        if (carbookingMarker != null && isBookingCar && !isTripStart) {
+                                            try {
+                                                carbookingMarker.setIcon(drawableAnimArray.get(currentDrawable));
+                                                carbookingMarker.setAnchor(0.4f, 0.7f);
+                                            } catch (NullPointerException e) {
                                                 carbookingMarker = null;
                                             }
+                                        }
 
-                                        } catch (NullPointerException e) {}
-                                    }else if(isTripStart && isTripParked){
-                                        try {
-                                            userMarker.setIcon(bitmapUser);
-                                            carbookingMarker.setIcon(drawableAnimArray.get(currentDrawable));
-                                            carbookingMarker.setAnchor(0.4f, 0.7f);
+                                        if (isTripStart && !isTripParked) {
+                                            try {
+                                                userMarker.setIcon(drawableAnimArray.get(currentDrawable));
 
-                                        } catch (NullPointerException e) {}
+                                                if (carbookingMarker != null) {
+                                                    carbookingMarker.remove();
+                                                    carbookingMarker = null;
+                                                }
+
+                                            } catch (NullPointerException e) {
+                                            }
+                                        } else if (isTripStart && isTripParked) {
+                                            try {
+                                                userMarker.setIcon(bitmapUser);
+                                                carbookingMarker.setIcon(drawableAnimArray.get(currentDrawable));
+                                                carbookingMarker.setAnchor(0.4f, 0.7f);
+
+                                            } catch (NullPointerException e) {
+                                            }
+                                        }
+
+                                        if (carnextMarker != null)
+                                            try {
+                                                carnextMarker.setIcon(bitmapAuto);
+                                                carnextMarker.setAnchor(0.0f, 0.0f);
+                                            } catch (NullPointerException e) {
+                                                carnextMarker = null;
+                                            }
+                                    } else {
+
+                                        drawUserMarker();
+
+                                        if (carbookingMarker != null)
+                                            try {
+                                                carbookingMarker.setIcon(bitmapAuto);
+                                                carbookingMarker.setAnchor(0.0f, 0.0f);
+                                            } catch (NullPointerException e) {
+                                                carbookingMarker = null;
+                                            }
+                                        if (carnextMarker != null) {
+                                            try {
+                                                carnextMarker.setIcon(drawableAnimArray.get(currentDrawable));
+                                                carnextMarker.setAnchor(0.4f, 0.7f);
+                                            } catch (NullPointerException e) {
+                                                carnextMarker = null;
+                                            }
+
+                                        }
                                     }
 
-                                    if (carnextMarker != null)
-                                        try {
-                                            carnextMarker.setIcon(bitmapAuto);
-                                            carnextMarker.setAnchor(0.0f, 0.0f);
-                                        }catch (NullPointerException e){
-                                            carnextMarker = null;
-                                        }
-                                } else {
-
-                                    drawUserMarker();
-
-                                    if (carbookingMarker != null)
-                                        try {
-                                            carbookingMarker.setIcon(bitmapAuto);
-                                            carbookingMarker.setAnchor(0.0f, 0.0f);
-                                        }catch (NullPointerException e){
-                                            carbookingMarker = null;
-                                        }
-                                    if (carnextMarker != null) {
-                                        try {
-                                            carnextMarker.setIcon(drawableAnimArray.get(currentDrawable));
-                                            carnextMarker.setAnchor(0.4f, 0.7f);
-                                        }catch (NullPointerException e){
-                                            carnextMarker = null;
-                                        }
-
-                                    }
+                                    if (currentDrawable < drawableAnimArray.size() - 1)
+                                        currentDrawable++;
+                                    else currentDrawable = 0;
                                 }
 
-                                if (currentDrawable < drawableAnimArray.size() - 1)
-                                    currentDrawable++;
-                                else currentDrawable = 0;
                             }
-
-                        }
-                    });
+                        });
+                    }
                 }
             }, 100, 30);
         }
@@ -2277,9 +2281,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //TODO Remove
-        car.parking = test_corsa;
+        /*car.parking = test_corsa;
         if(test_corsa) test_corsa = false;
-        else test_corsa = true;
+        else test_corsa = true;*/
         //---
 
         isTripStart = true;
@@ -2762,6 +2766,21 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void showPolygon(List<KmlServerPolygon> polygonList){
         drawPolygon(polygonList);
+    }
+
+    @Override
+    public void carAlreadyBooked(){
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.booking_alreadybookedcar_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+            }
+        });
     }
 
 

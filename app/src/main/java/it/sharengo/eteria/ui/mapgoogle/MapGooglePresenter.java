@@ -1048,7 +1048,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     mReservation = response.reservation;
                 else {
                     mReservation = null;
-                    getMvpView().showError(context.getString(R.string.booking_alreadybookedcar_alert)); // Error: reservation:false - status:false - trip:false - limit:false - limit_archive:true
+                    getMvpView().carAlreadyBooked(); // Error: reservation:false - status:false - trip:false - limit:false - limit_archive:true
                 }
             }
         };

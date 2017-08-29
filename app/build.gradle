@@ -37,8 +37,8 @@ android {
         applicationId project.APPLICATION_ID
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
-        versionCode 93
-        versionName "0.9.3"
+        versionCode 931
+        versionName "0.9.3.1"
 
         multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
