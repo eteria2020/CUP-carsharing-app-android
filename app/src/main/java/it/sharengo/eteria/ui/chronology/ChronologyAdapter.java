@@ -132,7 +132,7 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
 
             //Minuti
             int diffTime = (int) (trip.timestamp_end - trip.timestamp_start);
-            minutesTextView.setText(String.format(mActivity.getString(R.string.chronology_minutes_label), (diffTime/60)+""));
+            minutesTextView.setText(String.format(mActivity.getString(R.string.chronology_minutes_label), (diffTime/60)+"", trip.total_cost));
 
             //Giorno e ora
             Date date = new Date(trip.timestamp_start*1000L);
