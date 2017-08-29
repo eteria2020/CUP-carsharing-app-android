@@ -7,14 +7,18 @@ public class UserInfo {
     public String name;
     public String surname;
     public boolean enabled;
+    public int discount_rate;
+    public int bonus;
 
     public UserInfo() {
     }
 
 
-    public UserInfo(int pin, String name, String surname, boolean enabled) {
+    public UserInfo(int pin, String name, String surname, boolean enabled, int discount_rate, int bonus) {
         this.pin = pin;
         this.enabled = enabled;
+        this.discount_rate = discount_rate;
+        this.bonus = bonus;
     }
 
     /*
