@@ -214,6 +214,10 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                     case BUY:
                         Navigator.launchBuy(MenuFragment.this);
                         break;
+                    case RATES:
+                        Navigator.launchRates(MenuFragment.this);
+                        getActivity().finish();
+                        break;
                 }
 
 

@@ -28,6 +28,7 @@ import it.sharengo.eteria.ui.menu.MenuPresenter;
 import it.sharengo.eteria.ui.onboarding.OnboardingPresenter;
 import it.sharengo.eteria.ui.passwordrecovery.PasswordRecoveryPresenter;
 import it.sharengo.eteria.ui.profile.ProfilePresenter;
+import it.sharengo.eteria.ui.rates.RatesPresenter;
 import it.sharengo.eteria.ui.settingcities.SettingsCitiesPresenter;
 import it.sharengo.eteria.ui.settings.SettingsPresenter;
 import it.sharengo.eteria.ui.settingsaddresses.SettingsAddressesPresenter;
@@ -409,6 +410,18 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new UserAreaPresenter(schedulerProvider, appRepository, userRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    RatesPresenter provideRatesPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+        RatesPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new RatesPresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }

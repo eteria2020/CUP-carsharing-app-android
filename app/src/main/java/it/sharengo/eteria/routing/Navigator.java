@@ -21,6 +21,7 @@ import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
 import it.sharengo.eteria.ui.onboarding.OnboardingActivity;
 import it.sharengo.eteria.ui.passwordrecovery.PasswordRecoveryActivity;
 import it.sharengo.eteria.ui.profile.ProfileActivity;
+import it.sharengo.eteria.ui.rates.RatesActivity;
 import it.sharengo.eteria.ui.settingcities.SettingsCitiesActivity;
 import it.sharengo.eteria.ui.settings.SettingsActivity;
 import it.sharengo.eteria.ui.settingsaddresses.SettingsAddressesActivity;
@@ -254,6 +255,13 @@ public class Navigator {
 
     public static void launchBuy(Fragment fragment) {
         Intent intent = BuyMinutesActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchRates(Fragment fragment) {
+        Intent intent = RatesActivity.getCallingIntent(fragment.getActivity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);

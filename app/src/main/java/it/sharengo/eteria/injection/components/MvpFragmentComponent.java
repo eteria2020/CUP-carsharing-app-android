@@ -18,6 +18,7 @@ import it.sharengo.eteria.ui.menu.MenuFragment;
 import it.sharengo.eteria.ui.onboarding.OnboardingFragment;
 import it.sharengo.eteria.ui.passwordrecovery.PasswordRecoveryFragment;
 import it.sharengo.eteria.ui.profile.ProfileFragment;
+import it.sharengo.eteria.ui.rates.RatesFragment;
 import it.sharengo.eteria.ui.settingcities.SettingsCitiesFragment;
 import it.sharengo.eteria.ui.settings.SettingsFragment;
 import it.sharengo.eteria.ui.settingsaddresses.SettingsAddressesFragment;
@@ -92,4 +93,6 @@ public interface MvpFragmentComponent {
     void inject(BuyMinutesFragment fragment);
 
     void inject(UserAreaFragment fragment);
+
+    void inject(RatesFragment fragment);
 }

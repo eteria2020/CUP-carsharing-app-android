@@ -249,5 +249,16 @@
     <string name="alert_logoutError">Attenzione si è verificato un errore. Ti invitiamo ad accedere nuovamente.</string>
     <string name="btn_login">ACCEDI</string>
     <string name="tripend_parkerdcar_label">Auto in sosta</string>
+    <string name="rates_titleauth_label">Tariffe</string>
+    <string name="rates_titlenoauth_label">Tariffe e bonus</string>
+    <string name="rates_rates_label">Ecco le tariffe Share\'ngo:</string>
+    <string name="rates_yourrates_label">Ecco la tua tariffa:</string>
+    <string name="rates_base_label">Tariffa base della corsa: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_hour_label">Tariffa per 1 ora: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_day_label">Tariffa giornaliera: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_booking_label">Tariffa di prenotazione: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_bonus_label">I tuoi minuti bonus:</string>
+    <string name="rates_bonusmin_label">%s minuti</string>
+    <string name="rates_signup_action">Iscriviti subito</string>
 
 </resources>
