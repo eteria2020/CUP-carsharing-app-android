@@ -32,7 +32,7 @@
     <string name="maps_permissionlocation_alert">Share\'ngo needs permissions to access your position. Would you like to open settings and enable geolocation? </string>
     <string name="maps_opendoor_action">Open doors </string>
     <string name="maps_bookingcar_action">Book car </string>
-    <string name="maps_autonomy_label">autonomy: <![CDATA[<b>%d%%</b>]]></string>
+    <string name="maps_autonomy_label">autonomy: <![CDATA[<b>%d km</b>]]></string>
     <string name="maps_distance_label">%d m away</string>
     <string name="maps_distancekm_label">%.2f km away</string>
     <string name="maps_time_label">%d minutes on foot </string>

@@ -144,8 +144,8 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
             int diffTime = (int) (trip.timestamp_end - trip.timestamp_start);
             String sCost = "";
             if(trip.cost_computed){
-                sCost = String.format("%.2f", trip.total_cost);
-                sCost = " - € " + sCost.replace(",00","");
+                sCost = String.format("%.2f", trip.total_cost / 100);
+                sCost = " - € " + sCost.replace(",00","").replace(".00","");
             }
             minutesTextView.setText(String.format(mActivity.getString(R.string.chronology_minutes_label), (diffTime/60)+"", sCost));
 
@@ -182,7 +182,7 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
             //Tariffa al minuto
             float baseRates = (float) (0.28 - (0.28 * discount_rate/100));
             String sBase = String.format("%.2f", baseRates);
-            sBase = sBase.replace(",00","");
+            sBase = sBase.replace(",00","").replace(".00","");
             rateMinTextView.setText(String.format(mActivity.getString(R.string.chronology_ratesmin_label), ""+sBase));
 
             //Macchina

@@ -721,7 +721,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
             @Override
             public void onNext(Response responseList) {
-                if(responseList.reason.isEmpty() && mResponse != null){
+                if(responseList.reason.isEmpty() && responseList.data != null){
                     mCachedPlates = responseList.data;
                 }
 
@@ -1429,7 +1429,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
             if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
-                getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0)); //TODO remove
+                //getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0)); //TODO remove
             }else {
                 getMvpView().openReservationNotification();
                 getMvpView().removeReservationInfo();

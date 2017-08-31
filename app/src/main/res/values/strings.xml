@@ -60,7 +60,7 @@
     <string name="maps_permissionlocation_alert">Share\'ngo ha bisogno dei permessi per accedere alla tua posizione. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
     <string name="maps_opendoor_action">Apri portiere</string>
     <string name="maps_bookingcar_action">Prenota auto</string>
-    <string name="maps_autonomy_label">autonomia: <![CDATA[<b>%d%%</b>]]></string>
+    <string name="maps_autonomy_label">autonomia: <![CDATA[<b>%d km</b>]]></string>
     <string name="maps_distance_label">%d mt di distanza</string>
     <string name="maps_distancekm_label">%.2f km di distanza</string>
     <string name="maps_time_label">%d minuti a piedi</string>

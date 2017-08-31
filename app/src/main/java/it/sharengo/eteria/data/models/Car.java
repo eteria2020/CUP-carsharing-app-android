@@ -12,10 +12,10 @@ public class Car {
     public String manufactures;
     public String model;
 
-    @SerializedName("lon")
+    @SerializedName(value="lon", alternate={"longitude"})
     public float longitude;
 
-    @SerializedName("lat")
+    @SerializedName(value="lat", alternate={"latitude"})
     public float latitude;
 
     public String status;

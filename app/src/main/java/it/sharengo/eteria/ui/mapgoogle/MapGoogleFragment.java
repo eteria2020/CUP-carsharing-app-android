@@ -525,7 +525,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             }
         }
 
-        //Log.w("sizeMarkerAnim",": "+sizeMarkerAnim);
 
         bitmapAuto = getBitmapDescriptor(resizeMapIcons("ic_auto", (int) (44 * getResources().getDisplayMetrics().density), (int) (53 * getResources().getDisplayMetrics().density)));
         bitmapUser = getBitmapDescriptor(R.drawable.ic_user);
@@ -675,8 +674,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(41.895514);
-        //userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.895514);
+        userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1290,8 +1289,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void drawCityMarkerOnMap(List<City> cityList){
         for(City cA : cityList){
 
+            /*
+            * Bitmap base = BitmapFactory.decodeResource(resources, res[i]);
+            * Bitmap bitmap = base.copy(Bitmap.Config.ARGB_8888, true);
+            * BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(bitmap);
+            * */
+
             com.androidmapsextensions.Marker markerCity = mMap.addMarker(new MarkerOptions().position(new LatLng(cA.informations.address.latitude, cA.informations.address.longitude)));
-            markerCity.setIcon(getBitmapDescriptor(R.drawable.ic_cluster));
+            //markerCity.setIcon(getBitmapDescriptor(R.drawable.ic_cluster));
             markerCity.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
             markerCity.setData(cA);
 
@@ -1464,7 +1469,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void setAnimatedMarker(){
         //Ciclo i marker disegnati per trovare l'auto vicina
         if(poiMarkers != null && poiMarkers.size() > 0){
-
             for(com.androidmapsextensions.Marker markerNext : poiMarkers){
                 if(((Car) markerNext.getData()).id.equals(carnext_id)){
                     carnextMarker = markerNext;
@@ -1784,11 +1788,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Metodo per inserire un'icona sovrapposta al marker base (cerchio giallo con bordo verde)
     public Drawable makeBasicMarker(Bitmap bitmap) {
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 65, 65, false);
         Drawable[] layers = new Drawable[2];
         layers[0] = new BitmapDrawable(getResources(),
                 BitmapFactory.decodeResource(getResources(), R.drawable.ic_cluster));
 
-        layers[1] = new BitmapDrawable(getResources(), tintImage(bitmap));
+        layers[1] = new BitmapDrawable(getResources(), tintImage(resizedBitmap));
         LayerDrawable ld = new LayerDrawable(layers);
         ld.setLayerInset(1, 10, 10, 10, 10); // xx would be the values needed so bitmap ends in the upper part of the image
         return ld;
@@ -1932,7 +1937,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void loadCarInfo(Car car){
-        Log.w("loadCarInfo",": "+car);
         loadCarAutonomy(car.autonomy);
     }
 
@@ -1944,7 +1948,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             autonomyTextView.setVisibility(View.VISIBLE);
         }
 
-        Log.w("autonomy",": "+autonomy);
     }
 
     //Metodo per chiudere il popup che mostra le informazioni della macchina

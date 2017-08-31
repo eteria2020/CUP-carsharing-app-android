@@ -141,19 +141,21 @@ public class RatesFragment extends BaseMvpFragment<RatesPresenter> implements Ra
 
         float discount_rate = userInfo.discount_rate;
 
+        //Le tariffe vanno sistemate così. /100 e poi check su ,00 per rimuoverlo se è un numero intero (es. 140 diventa 1.4 mentre 1800 diventa 18,00 ovvero 18)
+
         //Tariffa base
         float baseRates = (float) (0.28 - (0.28 * discount_rate/100));
-        String sBase = String.format("%.2f", baseRates).replace(",00","");
+        String sBase = String.format("%.2f", baseRates).replace(",00","").replace(".00","");
         baseTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_base_label), sBase)));
 
         //Tariffa oraria
         float hourRates = (float) (12.00 - (12.00 * discount_rate/100));
-        String sHour = String.format("%.2f", hourRates).replace(",00","");
+        String sHour = String.format("%.2f", hourRates).replace(",00","").replace(".00","");
         hourTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_hour_label), sHour)));
 
         //Tariffa giornaliera
         float dayRates = (float) (50.00 - (50.00 * discount_rate/100));
-        String sDay = String.format("%.2f", dayRates).replace(",00","");
+        String sDay = String.format("%.2f", dayRates).replace(",00","").replace(".00","");
         dayTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_day_label), sDay)));
 
         /*
