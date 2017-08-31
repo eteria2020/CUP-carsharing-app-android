@@ -510,6 +510,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
 
+        mMap.setIndoorEnabled(false);
+
         drawableAnimGreenArray = new ArrayList<>();
         drawableAnimYellowArray = new ArrayList<>();
         int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().density);
