@@ -1,11 +1,15 @@
 package it.sharengo.eteria.ui.userarea;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -21,6 +25,8 @@ import it.sharengo.eteria.ui.components.CustomDialogClass;
 public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> implements UserAreaMvpView {
 
     private static final String TAG = UserAreaFragment.class.getSimpleName();
+
+    private boolean isLogin;
 
     @BindView(R.id.userareaWebView)
     WebView webview;
@@ -43,7 +49,6 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
         View view = inflater.inflate(R.layout.fragment_user_area, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        loadWebView();
 
         return view;
     }
@@ -52,8 +57,23 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         ((BaseActivity) getActivity()).showLoadingChronology();
-        //mPresenter.checkUserLogin(getActivity());
+
+        //Pulisco la sessione
+        CookieManager cookieManager = CookieManager.getInstance();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cookieManager.removeSessionCookies(new ValueCallback<Boolean>() {
+                @Override
+                public void onReceiveValue(Boolean aBoolean) {
+                    loadWebView();
+                }
+            });
+        }else{
+            cookieManager.removeSessionCookie();
+            loadWebView();
+        }
+
     }
 
 
@@ -71,14 +91,12 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
     //                                              Mvp Methods
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void loadWebView(){
+    private void loadWebView(){
 
-
+        isLogin = false;
 
         webview.getSettings().setJavaScriptEnabled(true);
         webview.getSettings().setDomStorageEnabled(true);
-        //webview.addJavascriptInterface(new MyJavaScriptInterface(), "MYOBJECT");
 
         webview.setWebViewClient(new WebViewClient() {
 
@@ -91,18 +109,22 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
 
-                String username = mPresenter.getUserInfo().username;
-                String password = mPresenter.getUserInfo().password;
-                view.loadUrl("javascript:document.getElementsByName('identity')[0].value = '" + username + "';javascript:document.getElementsByName('credential')[0].value = '" + password + "';javascript:document.getElementsByTagName('form')[0].submit();");
+                if(!isLogin) {
+                    String username = mPresenter.getUserInfo().username;
+                    String password = mPresenter.getUserInfo().password;
 
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((BaseActivity) getActivity()).hideLoadingChronology();
-                    }
-                }, 5000);
+                    view.loadUrl("javascript:document.getElementsByName('identity')[0].value = '" + username + "';javascript:document.getElementsByName('credential')[0].value = '" + password + "';javascript:document.getElementsByTagName('form')[0].submit();");
 
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((BaseActivity) getActivity()).hideLoadingChronology();
+                        }
+                    }, 2000);
+                }
+
+                isLogin = true;
             }
         });
 
@@ -110,8 +132,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
 
     }
 
-    @Override
-    public void hideWebView(){
+    private void hideWebView(){
         final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                 getString(R.string.error_msg_network_general),
                 getString(R.string.ok),

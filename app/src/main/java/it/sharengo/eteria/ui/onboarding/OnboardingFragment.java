@@ -32,6 +32,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
     private static final String TAG = OnboardingFragment.class.getSimpleName();
 
     private GifDrawable gifDrawable;
+    private GifDrawable gifBkgDrawable;
     private int nextAnimation;
     private boolean backAnimation;
     private String lang;
@@ -39,6 +40,9 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
 
     @BindView(R.id.animImageView)
     GifImageView mGif;
+
+    @BindView(R.id.backgroundImageView)
+    GifImageView backgroundImageView;
 
     @BindView(R.id.onboardLayout)
     ViewGroup onboardLayout;
@@ -78,6 +82,9 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
         lang = mPref.getString(getString(R.string.preference_lang), Locale.getDefault().getLanguage());
 
         gifDrawable = (GifDrawable) mGif.getDrawable();
+        gifBkgDrawable = (GifDrawable) backgroundImageView.getDrawable();
+
+        gifBkgDrawable.setLoopCount(0);
 
         animation = false;
         nextAnimation = 0;

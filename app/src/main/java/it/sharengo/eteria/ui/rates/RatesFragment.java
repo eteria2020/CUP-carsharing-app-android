@@ -127,7 +127,7 @@ public class RatesFragment extends BaseMvpFragment<RatesPresenter> implements Ra
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @OnClick(R.id.ratesSignupButton)
     public void onSignUp(){
-        Navigator.launchSignup(this);
+        Navigator.launchSlideshow(this);
         getActivity().finish();
     }
 
