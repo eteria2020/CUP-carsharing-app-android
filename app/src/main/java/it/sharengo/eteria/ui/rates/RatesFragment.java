@@ -89,16 +89,16 @@ public class RatesFragment extends BaseMvpFragment<RatesPresenter> implements Ra
         }
 
         //Tariffa base
-        baseTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_base_label), 0.28)));
+        baseTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_base_label), "0.28")));
 
         //Tariffa oraria
-        hourTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_hour_label), 12f)));
+        hourTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_hour_label), "12")));
 
         //Tariffa giornaliera
-        dayTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_day_label), 50f)));
+        dayTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_day_label), "50")));
 
         //Tariffa di prenotazione
-        bookingTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_booking_label), 0f)));
+        bookingTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_booking_label), "0")));
 
         //Iscriviti subito
         if(mPresenter.isAuth()){
@@ -143,20 +143,18 @@ public class RatesFragment extends BaseMvpFragment<RatesPresenter> implements Ra
 
         //Tariffa base
         float baseRates = (float) (0.28 - (0.28 * discount_rate/100));
-        baseTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_base_label), baseRates)));
+        String sBase = String.format("%.2f", baseRates).replace(",00","");
+        baseTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_base_label), sBase)));
 
         //Tariffa oraria
         float hourRates = (float) (12.00 - (12.00 * discount_rate/100));
-        hourTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_hour_label), hourRates)));
+        String sHour = String.format("%.2f", hourRates).replace(",00","");
+        hourTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_hour_label), sHour)));
 
         //Tariffa giornaliera
         float dayRates = (float) (50.00 - (50.00 * discount_rate/100));
-        /*float result = x - (int)x;
-        if (result != 0)
-        {
-            //If the value of `result` is not equal to zero, then, you have a decimal portion which is not equal to 0.
-        }*/
-        dayTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_day_label), dayRates)));
+        String sDay = String.format("%.2f", dayRates).replace(",00","");
+        dayTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_day_label), sDay)));
 
         /*
         * TARIFFA MINUTO = 0,28

@@ -223,4 +223,16 @@
     <string name="tripend_parkerdcar_label">Car parkerd</string>
     <string name="chronology_ratesmin_label">Minute fare: € %s</string>
 
+    <string name="rates_titleauth_label">Fares</string>
+    <string name="rates_titlenoauth_label">Fares and Bonuses</string>
+    <string name="rates_rates_label">Here are the Share\'ngo fares:</string>
+    <string name="rates_yourrates_label">HERE\'S YOUR FARE:</string>
+    <string name="rates_base_label">Trip basic fare: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_hour_label">1h Fare: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_day_label">Daily Fare: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_booking_label">Booking Fare: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_bonus_label">Your bonus minutes:</string>
+    <string name="rates_bonusmin_label">%s minutes</string>
+    <string name="rates_signup_action">SUBSCRIBE NOW</string>
+
 </resources>
