@@ -7,6 +7,7 @@ import android.location.Geocoder;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import butterknife.OnClick;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.models.Trip;
 
+
 public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.ViewHolder> {
 
     private OnItemActionListener mListener;
@@ -37,6 +39,7 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
     private ViewGroup detailViewSelected;
     private ImageView arrowImageViewSelected;
 
+    private float discount_rate = 0.0f;
 
 
     public interface OnItemActionListener {
@@ -81,6 +84,10 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
         return position;
     }
 
+    public void setDiscountRate(float discount_rate){
+        this.discount_rate = discount_rate;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.chronView)
@@ -104,8 +111,8 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
         @BindView(R.id.addressEndTextView)
         TextView addressEndTextView;
 
-        @BindView(R.id.kmTextView)
-        TextView kmTextView;
+        /*@BindView(R.id.kmTextView)
+        TextView kmTextView;*/
 
         @BindView(R.id.carTextView)
         TextView carTextView;
@@ -115,6 +122,9 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
 
         @BindView(R.id.arrowImageView)
         ImageView arrowImageView;
+
+        @BindView(R.id.rateMinTextView)
+        TextView rateMinTextView;
 
         public ViewHolder(View v) {
             super(v);
@@ -132,13 +142,17 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
 
             //Minuti
             int diffTime = (int) (trip.timestamp_end - trip.timestamp_start);
-            minutesTextView.setText(String.format(mActivity.getString(R.string.chronology_minutes_label), (diffTime/60)+"", trip.total_cost));
+            String sCost = "";
+            if(trip.cost_computed){
+                sCost = String.format("%.2f", trip.total_cost);
+                sCost = " - € " + sCost.replace(",00","");
+            }
+            minutesTextView.setText(String.format(mActivity.getString(R.string.chronology_minutes_label), (diffTime/60)+"", sCost));
 
             //Giorno e ora
             Date date = new Date(trip.timestamp_start*1000L);
             SimpleDateFormat sdfDay = new SimpleDateFormat("dd MMMM yyyy");
             SimpleDateFormat sdfH = new SimpleDateFormat("HH:mm");
-            //sdf.setTimeZone(TimeZone.getTimeZone("GMT-4"));
             String formattedDay = sdfDay.format(date);
             String formattedH = sdfH.format(date);
             dateTextView.setText(String.format(mActivity.getString(R.string.chronology_date_label), formattedDay, formattedH));
@@ -162,8 +176,14 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
             addressEndTextView.setText(getAddress(trip.latitude_end, trip.longitude_end));
 
             //Km percorsi
-            int km = trip.km_end - trip.km_start;
-            kmTextView.setText(String.format(mActivity.getString(R.string.chronology_km_label), km+""));
+            /*int km = trip.km_end - trip.km_start;
+            kmTextView.setText(String.format(mActivity.getString(R.string.chronology_km_label), km+""));*/
+
+            //Tariffa al minuto
+            float baseRates = (float) (0.28 - (0.28 * discount_rate/100));
+            String sBase = String.format("%.2f", baseRates);
+            sBase = sBase.replace(",00","");
+            rateMinTextView.setText(String.format(mActivity.getString(R.string.chronology_ratesmin_label), ""+sBase));
 
             //Macchina
             carTextView.setText(String.format(mActivity.getString(R.string.chronology_sharengo_label), trip.plate));
@@ -201,8 +221,17 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
             Geocoder geocoder = new Geocoder(mActivity, Locale.getDefault());
             try {
                 List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                if(!addresses.isEmpty())
-                    address = addresses.get(0).getAddressLine(0)+", "+addresses.get(0).getLocality();
+
+
+                if(!addresses.isEmpty() && addresses.get(0) != null) {
+
+                    String street = addresses.get(0).getThoroughfare(); //Nome della via
+                    String number = addresses.get(0).getSubThoroughfare(); //Numero civico
+
+                    if(street != null) address = street;
+                    if(address.length() > 0 && number != null) address += ", ";
+                    if(number != null) address += number;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -156,7 +156,7 @@
     <!-- Chronology -->
     <string name="chronology_title_label">Trip history</string>
     <string name="chronology_bookingn_label">Booking n. %s</string>
-    <string name="chronology_minutes_label" formatted="false">%s minutes - € %.2f</string>
+    <string name="chronology_minutes_label" formatted="false">%s minuti%s</string>
     <string name="chronology_date_label" formatted="false">%s - hours %s</string>
     <string name="chronology_end_label" formatted="false">End: %s - hours %s</string>
     <string name="chronology_rate_label">Rate by the minute: %s</string>
@@ -221,5 +221,6 @@
     <string name="alert_logoutError">Careful, an error occured. Please login again.</string>
     <string name="btn_login">LOGIN</string>
     <string name="tripend_parkerdcar_label">Car parkerd</string>
+    <string name="chronology_ratesmin_label">Minute fare: € %s</string>
 
 </resources>

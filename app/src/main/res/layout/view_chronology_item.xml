@@ -101,9 +101,20 @@
             android:textColor="@color/darkjunglegreen"
             app:font_name="poppinsRegular"/>
 
-        <!-- KM percorsi -->
+        <!-- KM percorsi
         <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/kmTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="13sp"
+            android:textAlignment="center"
+            android:textColor="@color/taupegray"
+            app:font_name="poppinsBold"/>-->
+
+        <!-- Fine -->
+        <it.sharengo.eteria.ui.components.CustomTextView
+            android:id="@+id/rateMinTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"

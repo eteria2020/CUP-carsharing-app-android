@@ -32,6 +32,8 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
     private List<Trip> mTripsList;
     private LongOperation longOperation;
 
+    private float discount_rate;
+
     @BindView(R.id.chronRecyclerView)
     RecyclerView mRv;
 
@@ -133,7 +135,10 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
      * @param  tripList  user trip to show
      */
     @Override
-    public void showList(final List<Trip> tripList) {
+    public void showList(final List<Trip> tripList, float discount_rate) {
+
+        this.discount_rate = discount_rate;
+
         emptyChronLayout.setVisibility(View.GONE);
         mRv.setVisibility(View.VISIBLE);
 
@@ -204,6 +209,7 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
                 @Override
                 public void run() {
                     // Do something after 5s = 5000ms
+                    mAdapter.setDiscountRate(discount_rate);
                     mAdapter.setData(mTripsList);
                     progressList.setVisibility(View.GONE);
                 }

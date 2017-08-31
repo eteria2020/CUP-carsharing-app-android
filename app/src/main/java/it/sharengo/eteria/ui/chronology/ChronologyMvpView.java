@@ -7,7 +7,7 @@ import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface ChronologyMvpView extends MvpView {
 
-    void showList(List<Trip> tripList);
+    void showList(List<Trip> tripList, float discount_rate);
     void showEmptyResult();
     void showChronError(Throwable e);
 
