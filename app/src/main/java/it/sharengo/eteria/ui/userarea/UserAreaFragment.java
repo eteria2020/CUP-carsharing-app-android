@@ -1,17 +1,23 @@
 package it.sharengo.eteria.ui.userarea;
 
+import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +26,7 @@ import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
+import it.sharengo.eteria.ui.signup.SignupFragment;
 
 
 public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> implements UserAreaMvpView {
@@ -98,37 +105,43 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
         webview.getSettings().setJavaScriptEnabled(true);
         webview.getSettings().setDomStorageEnabled(true);
 
+
+        String username = mPresenter.getUserInfo().username;
+        String password = mPresenter.getUserInfo().password;
+
+        String url = "https://www.sharengo.it/user/login";
+        String postData = null;
+        try {
+            postData = "identity=" + URLEncoder.encode(username, "UTF-8") + "&credential=" + URLEncoder.encode(password, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+   
         webview.setWebViewClient(new WebViewClient() {
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                //showError(getString(R.string.error_generic_msg));
                 webview.setVisibility(View.GONE);
                 hideWebView();
             }
 
+            @SuppressWarnings("deprecation")
             @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl("https://www.sharengo.it/area-utente/mobile");
+                ((BaseActivity) getActivity()).hideLoadingChronology();
+                return false;
+            }
 
-                if(!isLogin) {
-                    String username = mPresenter.getUserInfo().username;
-                    String password = mPresenter.getUserInfo().password;
-
-                    view.loadUrl("javascript:document.getElementsByName('identity')[0].value = '" + username + "';javascript:document.getElementsByName('credential')[0].value = '" + password + "';javascript:document.getElementsByTagName('form')[0].submit();");
-
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            ((BaseActivity) getActivity()).hideLoadingChronology();
-                        }
-                    }, 2000);
-                }
-
-                isLogin = true;
+            @TargetApi(Build.VERSION_CODES.N)
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                view.loadUrl("https://www.sharengo.it/area-utente/mobile");
+                ((BaseActivity) getActivity()).hideLoadingChronology();
+                return false;
             }
         });
-
-        webview.loadUrl("https://www.sharengo.it/area-utente/mobile");
+        webview.postUrl(url,postData.getBytes());
 
     }
 

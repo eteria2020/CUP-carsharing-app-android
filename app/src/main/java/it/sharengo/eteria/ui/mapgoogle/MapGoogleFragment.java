@@ -673,8 +673,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(41.898746);
-        userLocation.setLongitude(12.484280); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        //userLocation.setLatitude(41.937276);
+        //userLocation.setLongitude(12.469127); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1046,8 +1046,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 } catch (NullPointerException e) {
                 }
 
-                if (!isTripStart)
-                    userMarker.setIcon(getBitmapDescriptor(R.drawable.ic_user));
+                if (!isTripStart) {
+                    if(userMarker != null)
+                        userMarker.setIcon(getBitmapDescriptor(R.drawable.ic_user));
+                }
 
             }
         }
@@ -1616,6 +1618,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                             try {
                                                 carnextMarker.setIcon(bitmapAuto);
                                                 carnextMarker.setAnchor(0.0f, 0.0f);
+                                                carnextMarker = null; //ADD
                                             } catch (NullPointerException e) {
                                                 carnextMarker = null;
                                             }
@@ -1627,6 +1630,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                             try {
                                                 carbookingMarker.setIcon(bitmapAuto);
                                                 carbookingMarker.setAnchor(0.0f, 0.0f);
+                                                carbookingMarker = null; //ADD
                                             } catch (NullPointerException e) {
                                                 carbookingMarker = null;
                                             }
