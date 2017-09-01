@@ -1866,7 +1866,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         carSelected = car;
 
-        Log.w("CAR",": "+car.latitude+", "+car.longitude);
+
 
         carFeedMapButton.setAlpha(1.0f);
         showCarsWithFeeds = true;

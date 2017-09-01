@@ -93,7 +93,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
                 handler1min.post(new Runnable() {
                     public void run() {
 
-                        Log.w("PASSATO HOME","1 MINUTO");
+
                         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
                             getReservations(true);
 

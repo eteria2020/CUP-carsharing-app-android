@@ -552,7 +552,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     @Override
     public void openNotification(int start, int end){
 
-        Log.w("TRIP","openNotification");
+
         int diffTime = (int) (end - start);
 
         co2 = ((float) diffTime)/60/60*17*106;  //((minuti÷60)×17)×106

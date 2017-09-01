@@ -116,7 +116,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-   
+
         webview.setWebViewClient(new WebViewClient() {
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {

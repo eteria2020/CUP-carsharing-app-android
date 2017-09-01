@@ -37,7 +37,7 @@ android {
         applicationId project.APPLICATION_ID
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
-        versionCode 302
+        versionCode 303
         versionName "3.0.0"
 
         multiDexEnabled true
@@ -50,16 +50,22 @@ android {
             signingConfig signingConfigs.debug
             
             testCoverageEnabled true
+
+            applicationIdSuffix ".development"
+            resValue "string", "google_map_api_key", "AIzaSyA9fVUH1nET8pjHgceS6lyf65NZPsFnaCo"
         }
 
         release {
-            minifyEnabled false
+            minifyEnabled true
             signingConfig signingConfigs.release
 
             ext.betaDistributionReleaseNotesFilePath = "app/fabric/release_note.txt"
             ext.betaDistributionGroupAliasesFilePath = "app/fabric/testers_group.txt"
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationIdSuffix ".eteria"
+            resValue "string", "google_map_api_key", "AIzaSyDO5blXgSSM7hvNnsde0qM_rnK7nkdICUA"
         }
     }
 

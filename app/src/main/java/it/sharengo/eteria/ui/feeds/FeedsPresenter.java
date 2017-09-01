@@ -67,7 +67,7 @@ public class FeedsPresenter extends BasePresenter<FeedsMvpView> {
 
 
     @Override
-    protected void subscribeRequestsOnResume() { Log.w("BB","::::");
+    protected void subscribeRequestsOnResume() {
         if (mCategoriesRequest != null) {
             addSubscription(mCategoriesRequest.subscribe(getCategoriesSubscriber()));
         }

@@ -65,7 +65,7 @@ public class MapGoogleActivity extends BaseDrawerActivity {
      */
     @Override
     public void showNotification(String notification, View.OnClickListener mNotificationListener){
-        Log.w("TRIP","showNotification ACTIVITY");
+
         super.showNotification(notification, mNotificationListener);
     }
 }

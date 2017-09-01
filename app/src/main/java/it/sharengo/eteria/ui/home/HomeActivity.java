@@ -46,7 +46,7 @@ public class HomeActivity extends BaseDrawerActivity {
      */
     @Override
     public void showNotification(String notification, View.OnClickListener mNotificationListener){
-        Log.w("RESER","showNotification ACTIVITY");
+
         super.showNotification(notification, mNotificationListener);
     }
 

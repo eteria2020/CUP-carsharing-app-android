@@ -168,7 +168,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             @Override
             public void onError(Throwable e) {
                 mUserRequest = null;
-                Log.w("User",": error");
+
 
                 //Provo a prelevare i dati dell'utente dalle preferenze
                 SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
@@ -183,7 +183,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
 
             @Override
             public void onNext(ResponseUser response) {
-                Log.w("User",": "+response.reason);
+
             }
         };
     }
@@ -227,13 +227,13 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             @Override
             public void onError(Throwable e) {
                 mReservationsRequest = null;
-                Log.w("Reservation",": error");
+
                 getMvpView().navigateToHome(mAppRepository.getLang());
             }
 
             @Override
             public void onNext(ResponseReservation response) {
-                Log.w("Reservation",": "+response.reason);
+
             }
         };
     }
@@ -276,13 +276,13 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             @Override
             public void onError(Throwable e) {
                 mTripsRequest = null;
-                Log.w("Trip",": error");
+
                 getMvpView().navigateToHome(mAppRepository.getLang());
             }
 
             @Override
             public void onNext(ResponseTrip response) {
-                Log.w("Trip",": "+response.reason);
+
             }
         };
     }
@@ -326,13 +326,13 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             @Override
             public void onError(Throwable e) {
                 mCityRequest = null;
-                Log.w("Cities",": error");
+
                 getMvpView().navigateToHome(mAppRepository.getLang());
             }
 
             @Override
             public void onNext(ResponseCity response) {
-                Log.w("Cities",": "+response.status);
+
             }
         };
     }

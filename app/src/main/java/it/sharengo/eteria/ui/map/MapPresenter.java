@@ -195,7 +195,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                 handler1min.post(new Runnable() {
                     public void run() {
 
-                        Log.w("PASSATO","1 MINUTO");
+
                         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
                             getReservations(true);
 

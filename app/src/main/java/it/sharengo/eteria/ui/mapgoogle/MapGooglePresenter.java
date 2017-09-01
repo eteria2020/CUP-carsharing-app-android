@@ -250,7 +250,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 handler1min.post(new Runnable() {
                     public void run() {
 
-                        Log.w("PASSATO","1 MINUTO");
+
                         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
                             getReservations(true);
 
@@ -866,7 +866,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onError(Throwable e) {
                 mCarsInfoRequest = null;
-                Log.w("ERRORE",": "+e);
+
             }
 
             @Override
@@ -1185,7 +1185,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  action  action to execute.
      */
     public void openDoor(Car car, String action) {
-        Log.w("openDoor",": "+action);
+
         isBookingExists = false;
 
         if( mCarsTripRequest == null) {
@@ -1408,7 +1408,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             public void onError(Throwable e) {
                 mCarsReservationRequest = null;
                 //getMvpView().showError(e);
-                Log.w("onError",": "+e);
+
             }
 
             @Override
@@ -1486,7 +1486,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             public void onError(Throwable e) {
                 mCarsReservationRequest = null;
                 //getMvpView().showError(e);
-                Log.w("ERRORE",": "+e);
+
             }
 
             @Override

@@ -28,7 +28,7 @@ public class UiUtils {
     }
 
     public static void showErrorMsg(Activity activity, String errorMessage) {
-        Log.w("errorMessage",": "+errorMessage);
+
         Snackbar snackbar = Snackbar.make(
                 activity.findViewById(R.id.content_frame),
                 errorMessage,

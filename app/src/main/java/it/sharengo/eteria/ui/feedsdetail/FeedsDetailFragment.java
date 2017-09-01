@@ -194,7 +194,7 @@ public class FeedsDetailFragment extends BaseMvpFragment<FeedsDetailPresenter> i
 
         if(!feed.informations.sponsored.equals("true")) feedColor = Color.parseColor(feed.appearance.color.rgb_default);
 
-        Log.w("AAA",": "+feed.informations.sponsored.equals("true"));
+
 
         //Categoria
         feedHeaderTextView.setText(StringsUtils.fromHTML(feed.category.name));

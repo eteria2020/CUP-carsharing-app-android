@@ -71,7 +71,7 @@ public class SlideshowFragment extends BaseMvpFragment<SlideshowPresenter> imple
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.w("position",": "+position);
+
                 if(position == 0){
                     arrowLeftImageView.setVisibility(View.GONE);
                 }else{

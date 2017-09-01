@@ -27,7 +27,6 @@ android {
             resValue "string", "endpointCities", "http://universo-sharengo.thedigitalproject.it/"
             resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
-            resValue "string", "google_map_api_key", "AIzaSyDO5blXgSSM7hvNnsde0qM_rnK7nkdICUA" /*AIzaSyA9fVUH1nET8pjHgceS6lyf65NZPsFnaCo*/
         }
     }
 }

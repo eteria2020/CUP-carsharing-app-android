@@ -250,7 +250,7 @@ public class UserRepository {
         }
         mCachedReservations = response.reservations;*/
 
-        Log.w("RES",": "+response);
+
     }
 
     private Observable.Transformer<ResponsePutReservation, ResponsePutReservation> logSourcePutReservation(final String source) {

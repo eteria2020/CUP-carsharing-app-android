@@ -80,7 +80,7 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
     @Override
     public void onFineLocationDenied() {
         // STUB
-        Log.w("LOCATION","onFineLocationDenied");
+
     }
 
     //*********************************

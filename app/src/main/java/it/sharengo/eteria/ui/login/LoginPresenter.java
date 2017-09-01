@@ -177,13 +177,13 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
             @Override
             public void onError(Throwable e) {
                 mReservationsRequest = null;
-                Log.w("Reservation",": error");
+
                 getMvpView().navigateTo();
             }
 
             @Override
             public void onNext(ResponseReservation response) {
-                Log.w("Reservation",": "+response.reason);
+
             }
         };
     }
@@ -222,13 +222,13 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
             @Override
             public void onError(Throwable e) {
                 mTripsRequest = null;
-                Log.w("Trip",": error");
+
                 getMvpView().navigateTo();
             }
 
             @Override
             public void onNext(ResponseTrip response) {
-                Log.w("Trip",": "+response.reason);
+
             }
         };
     }

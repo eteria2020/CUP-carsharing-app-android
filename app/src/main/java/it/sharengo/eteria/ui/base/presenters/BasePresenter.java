@@ -54,7 +54,7 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
             restoreDataOnConfigurationChange();
         }
 
-        Log.w("AAA","AAA");
+
     }
 
     @Override
@@ -205,7 +205,7 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
 
             @Override
             public void onNext(ResponseUser response) {
-                Log.w("User BAAAASE",": "+response.reason);
+
             }
         };
     }

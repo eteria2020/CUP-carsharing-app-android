@@ -422,7 +422,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 public boolean onScroll(ScrollEvent event) {
 
                     if(hasInit) {
-                        Log.w("refreshCars","onScroll");
+
                         refreshCars();
 
                         setRotationButton(mMapView.getMapOrientation());
@@ -432,13 +432,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
                 @Override
                 public boolean onZoom(ZoomEvent event) {
-                    Log.w("onZoom","onZoom");
-                    Log.w("hasInit",": "+hasInit);
+
+
                     if(hasInit) {
 
                         refreshMapButton.startAnimation(anim);
 
-                        Log.w("refreshCars","onZoom");
+
                         refreshCars();
                     }
                     return false;
@@ -724,7 +724,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @Override
     public void onLocationChanged(Location location) {
 
-        Log.w("INIT","onLocationChanged");
+
 
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
 
@@ -766,7 +766,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
             if(!isTripStart && !isBookingCar) centerMap();
 
-            Log.w("refreshCars","onLocationChanged");
+
             refreshCars();
         }
 
@@ -801,7 +801,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @Override
     public void onProviderDisabled(String s) {
 
-        Log.w("INIT","onProviderDisabled");
+
 
         userLocation = null;
 
@@ -813,7 +813,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Log.w("refreshCars","onProviderDisabled");
+
                     refreshCars();
                 }
             }, 100);
@@ -1546,8 +1546,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
                                 long unixTime = System.currentTimeMillis() / 1000L;
                                 int diffTime = (int) (unixTime - tripTimestampStart) * 1000;
-                                Log.w("unixTime", ": " + unixTime);
-                                Log.w("diffTime", ": " + diffTime);
+
 
                                 int hh = (int) (diffTime / 1000 / 60 / 60);
                                 int mn = (int) (diffTime / 1000 / 60 % 60);
