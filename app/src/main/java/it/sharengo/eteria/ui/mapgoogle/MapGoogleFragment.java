@@ -674,8 +674,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(41.895514);
-        userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.898746);
+        userLocation.setLongitude(12.484280); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1059,8 +1059,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
         if(isConnected) {
-            refreshMapButton.startAnimation(anim);
-
+            if(refreshMapButton != null) refreshMapButton.startAnimation(anim);
         }
 
         //drawUserMarker();
@@ -1861,6 +1860,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         carSelected = car;
 
+        Log.w("CAR",": "+car.latitude+", "+car.longitude);
+
         carFeedMapButton.setAlpha(1.0f);
         showCarsWithFeeds = true;
 
@@ -2085,7 +2086,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         countDownTimer.cancel();
                         return;
                     }
-
+                    Log.w("TIMER",": "+mnStr+":"+secStr);
                     if(getActivity() != null)
                         expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), mnStr+":"+secStr)));
                     else if(countDownTimer != null) countDownTimer.cancel();

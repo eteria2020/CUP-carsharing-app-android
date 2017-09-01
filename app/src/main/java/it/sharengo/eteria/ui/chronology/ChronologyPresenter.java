@@ -41,7 +41,7 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
 
     @Override
     protected void restoreDataOnConfigurationChange() {
-        if(mResponseTrip.trips != null) {
+        if(mResponseTrip != null && mResponseTrip.trips != null) {
             getMvpView().showList(mResponseTrip.trips, discount_rate);
         }else{
             getTrips();

@@ -271,8 +271,10 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Navigator.launchHome(getActivity());
-                        getActivity().finish();
+                        if(getActivity() != null) {
+                            Navigator.launchHome(getActivity());
+                            getActivity().finish();
+                        }
                     }
                 }, 1300);
                 break;
@@ -281,8 +283,10 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Navigator.launchHome(LoginFragment.this);
-                        getActivity().finish();
+                        if(getActivity() != null) {
+                            Navigator.launchHome(LoginFragment.this);
+                            getActivity().finish();
+                        }
                     }
                 }, 1300);
                 break;
@@ -290,8 +294,10 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Navigator.launchMapGoogle(LoginFragment.this, Navigator.REQUEST_MAP_DEFAULT);
-                        getActivity().finish();
+                        if(getActivity() != null) {
+                            Navigator.launchMapGoogle(LoginFragment.this, Navigator.REQUEST_MAP_DEFAULT);
+                            getActivity().finish();
+                        }
                     }
                 }, 1300);
                 break;
@@ -303,8 +309,10 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Navigator.launchSettingsCities(LoginFragment.this, true);
-                            getActivity().finish();
+                            if(getActivity() != null) {
+                                Navigator.launchSettingsCities(LoginFragment.this, true);
+                                getActivity().finish();
+                            }
                         }
                     }, 1300);
                 } else {
@@ -312,8 +320,10 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Navigator.launchFeeds(LoginFragment.this, "0", "");
-                            getActivity().finish();
+                            if(getActivity() != null) {
+                                Navigator.launchFeeds(LoginFragment.this, "0", "");
+                                getActivity().finish();
+                            }
                         }
                     }, 1300);
                 }
