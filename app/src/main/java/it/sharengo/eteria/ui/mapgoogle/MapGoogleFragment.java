@@ -660,9 +660,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         if(carPreSelected != null){
-
-            moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
             showPopupCar(carPreSelected);
+            moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
         }
 
         hasInit = true;
@@ -694,10 +693,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         if(carPreSelected != null){
 
+            showPopupCar(carPreSelected);
+
             if(mMap != null)
                 moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
 
-            showPopupCar(carPreSelected);
         }
     }
 
@@ -1513,8 +1513,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 });
             }
         }else {
-            moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
+
             showPopupCar(car);
+
+            moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
         }
     }
 
@@ -2072,6 +2074,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             long unixTime = System.currentTimeMillis() / 1000L;
             int diffTime = (int) (unixTime - reservation.timestamp_start);
 
+            if(countDownTimer != null) countDownTimer.cancel();
             countDownTimer = new CountDownTimer((reservation.length - diffTime) * 1000, 1000) {
 
                 public void onTick(long millisUntilFinished) {
@@ -2086,7 +2089,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         countDownTimer.cancel();
                         return;
                     }
-                    Log.w("TIMER",": "+mnStr+":"+secStr);
+                
                     if(getActivity() != null)
                         expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), mnStr+":"+secStr)));
                     else if(countDownTimer != null) countDownTimer.cancel();
@@ -2226,6 +2229,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Nasconde le informazioni della prenotazione
     private void closeViewBookingCar(){
 
+        if(countDownTimer != null) countDownTimer.cancel();
+
         //Nascondo le informazioni della prenotazione cancellata
         if(bookingCarView != null)
             bookingCarView.setVisibility(View.GONE);
@@ -2253,6 +2258,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Metodo per nascondere le informazioni delle prenotazione
     private void hideReservationInfo(){
+
         isBookingCar = false;
         carSelected = null;
         if(countDownTimer != null) countDownTimer.cancel();
@@ -2446,8 +2452,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             onCloseFeedPopup();
 
-            moveMapCameraToPoitWithZoom((double) carNext.latitude, (double) carNext.longitude, 19);
             showPopupCar(carNext);
+
+            moveMapCameraToPoitWithZoom((double) carNext.latitude, (double) carNext.longitude, 19);
+
         }else{
             final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                     getString(R.string.maps_permissionlocation_alert),

@@ -92,7 +92,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
 
         final ViewGroup notificationView = (ViewGroup) findViewById(R.id.notificationView);
         notificationView.setVisibility(View.VISIBLE);
-        notificationView.setY(-500f);
+        notificationView.setY(-1000f);
     }
 
     @Override
@@ -256,7 +256,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                notificationView.animate().translationY(-500);
+                notificationView.animate().translationY(-1000f);
                 notificationView.setOnClickListener(null);
                 notificationView.setVisibility(View.GONE);
             }
