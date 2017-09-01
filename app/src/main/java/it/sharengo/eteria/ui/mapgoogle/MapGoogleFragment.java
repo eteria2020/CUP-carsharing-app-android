@@ -2089,7 +2089,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         countDownTimer.cancel();
                         return;
                     }
-                
+
                     if(getActivity() != null)
                         expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), mnStr+":"+secStr)));
                     else if(countDownTimer != null) countDownTimer.cancel();
