@@ -16,6 +16,8 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -136,7 +138,12 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             @TargetApi(Build.VERSION_CODES.N)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                view.loadUrl("https://www.sharengo.it/area-utente/mobile");
+                //Forzo l'aggiunta di /mobile solo nel caso in cui vado su area-utente, negli altri casi è già presente
+                String mobileUrl = request.getUrl().toString();
+                if(StringUtils.equals(mobileUrl, "https://www.sharengo.it/area-utente")){
+                    mobileUrl = mobileUrl + "/mobile";
+                }
+                view.loadUrl(mobileUrl);
                 ((BaseActivity) getActivity()).hideLoadingChronology();
                 return false;
             }
