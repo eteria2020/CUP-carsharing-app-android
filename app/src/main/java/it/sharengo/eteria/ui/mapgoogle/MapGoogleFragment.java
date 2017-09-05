@@ -673,8 +673,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(41.937276);
-        //userLocation.setLongitude(12.469127); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+//        userLocation.setLatitude(41.819837);
+//        userLocation.setLongitude(12.477019); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -2356,7 +2356,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void hideTripInfo(){
         isTripStart = false;
         isBookingCar = false;
-        carSelected = null;
+//        carSelected = null;
 
         closeViewBookingCar();
     }
