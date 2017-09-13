@@ -94,6 +94,33 @@ public class ApiModule {
         return retrofit.create(SharengoMapApi.class);
     }
 
+    @Provides
+    @Singleton
+    GoogleApi provideGoogleApi(@ApplicationContext Context context, SchedulerProvider schedulerProvider) {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        if (BuildConfig.DEBUG) {
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        } else {
+            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+        }
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(logging);
+
+        Gson gson = new GsonBuilder()
+                .addSerializationExclusionStrategy(new SerializationExclusionStrategy())
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(context.getString(R.string.endpointGoogle))
+                .client(httpClient.build())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(schedulerProvider.io()))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        return retrofit.create(GoogleApi.class);
+    }
+
 
     @Provides
     @Singleton

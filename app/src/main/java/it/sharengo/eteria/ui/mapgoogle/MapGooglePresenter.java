@@ -3,6 +3,7 @@ package it.sharengo.eteria.ui.mapgoogle;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Handler;
 import android.util.Log;
 
@@ -32,6 +33,7 @@ import it.sharengo.eteria.data.models.Address;
 import it.sharengo.eteria.data.models.Car;
 import it.sharengo.eteria.data.models.City;
 import it.sharengo.eteria.data.models.Feed;
+import it.sharengo.eteria.data.models.GooglePlace;
 import it.sharengo.eteria.data.models.Kml;
 import it.sharengo.eteria.data.models.KmlServerPolygon;
 import it.sharengo.eteria.data.models.MenuItem;
@@ -41,6 +43,7 @@ import it.sharengo.eteria.data.models.Response;
 import it.sharengo.eteria.data.models.ResponseCar;
 import it.sharengo.eteria.data.models.ResponseCity;
 import it.sharengo.eteria.data.models.ResponseFeed;
+import it.sharengo.eteria.data.models.ResponseGooglePlace;
 import it.sharengo.eteria.data.models.ResponsePutReservation;
 import it.sharengo.eteria.data.models.ResponseReservation;
 import it.sharengo.eteria.data.models.ResponseTrip;
@@ -71,7 +74,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private Double mLatitude;
     private Double mLongitude;
 
-    private final AppRepository mAppRepository;
+    public final AppRepository mAppRepository;
     private final PostRepository mPostRepository;
     private final CarRepository mCarRepository;
     private final AddressRepository mAddressRepository;
@@ -91,6 +94,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private Observable<Response> mPlatesRequest;
     private Observable<List<Car>> mFindPlatesRequest;
     private Observable<List<Address>> mFindAddressRequest;
+    private Observable<ResponseGooglePlace> mFindPlacesRequest;
     private Observable<List<SearchItem>> mFindSearchRequest;
     private Observable<ResponseTrip> mTripsRequest;
     private Observable<ResponseReservation> mReservationsRequest;
@@ -114,6 +118,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private List<Address> mAddress;
     private List<SearchItem> mSearchItems;
     private List<SearchItem> historicItems;
+    private ResponseGooglePlace mGooglePlace;
     private List<Post> mPosts;
     private boolean hideLoading;
     private boolean isTripExists;
@@ -951,6 +956,100 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 }
 
             mSearchItems.add(new SearchItem(address.display_name, type, address.longitude, address.latitude));
+        }
+
+        getMvpView().showSearchResult(mSearchItems);
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Find Address
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Find place with Google Place API by text search by user.
+     *
+     * @param  searchText  context of application.
+     */
+    public void searchPlace(Context context, String searchText, Location location, String lang) {
+        hideLoading = true;
+
+        if( mFindPlacesRequest == null) {
+            mFindPlacesRequest = buildFindPlacesRequest(context, searchText, location, lang);
+            addSubscription(mFindPlacesRequest.unsafeSubscribe(getFindPlacesSubscriber()));
+        }
+    }
+
+
+    private Observable<ResponseGooglePlace> buildFindPlacesRequest(Context context, String searchText, Location location, String lang) {
+        return mFindPlacesRequest = mAddressRepository.searchPlace(searchText, location.getLatitude()+", "+location.getLongitude(), lang, context.getString(R.string.google_place_api_key))
+                .first()
+                .compose(this.<ResponseGooglePlace>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkPlacesResult();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseGooglePlace> getFindPlacesSubscriber(){
+        return new Subscriber<ResponseGooglePlace>() {
+            @Override
+            public void onCompleted() {
+                mFindPlacesRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mFindPlacesRequest = null;
+                //getMvpView().showError(e);
+            }
+
+            @Override
+            public void onNext(ResponseGooglePlace addressList) {
+                //mAddress = addressList; TODO
+                mGooglePlace = addressList;
+            }
+        };
+    }
+
+    private void checkPlacesResult(){
+
+        /*mSearchItems = new ArrayList<SearchItem>();
+
+        for (Address address : mAddress){
+
+            String type = "address";
+
+            if(historicItems != null)
+                for (SearchItem sI : historicItems) {
+                    if (address.display_name.equals(sI.display_name)) type = "historic";
+                }
+
+            mSearchItems.add(new SearchItem(address.display_name, type, address.longitude, address.latitude));
+        }
+
+        getMvpView().showSearchResult(mSearchItems);*/
+
+        mSearchItems = new ArrayList<SearchItem>();
+
+        if(mGooglePlace != null && mGooglePlace.results != null){
+
+            for(int i = 0; i < mGooglePlace.results.size(); i++){
+
+                GooglePlace gPlace = mGooglePlace.results.get(i);
+                String type = "address";
+
+                if(historicItems != null)
+                    for (SearchItem sI : historicItems) {
+                        if (gPlace.address.equals(sI.display_name)) type = "historic";
+                    }
+
+                mSearchItems.add(new SearchItem(gPlace.address, type, gPlace.geometry.location.longitude, gPlace.geometry.location.latitude));
+            }
         }
 
         getMvpView().showSearchResult(mSearchItems);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.location.Location;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
@@ -229,8 +230,10 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
 
         //Verifico prima di tutto che l'utente abbia scritto 3 caratteri. La ricerca parte nel momento in cui vengono digitati 3 caratteri
         if (searchMapText.length() > 2) {
-
-            mPresenter.findAddress(searchMapText);
+            Location placeLocation = new Location("place");
+            placeLocation.setLatitude(41.931543);
+            placeLocation.setLongitude(12.503420);
+            mPresenter.searchPlace(getActivity(), searchMapText, placeLocation, mPresenter.mAppRepository.getLang());
 
             getActivity().runOnUiThread(new Runnable() {
                 @Override

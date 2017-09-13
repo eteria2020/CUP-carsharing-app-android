@@ -21,6 +21,7 @@ android {
         }
         prod {
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
+            resValue "string", "endpointGoogle", "https://maps.googleapis.com/maps/api/"
             resValue "string", "endpointSharengo", "https://api.sharengo.it:8023/"
             resValue "string", "endpointSharengoMaps", "http://maps.sharengo.it/"
             resValue "string", "endpointSharengoKML", "http://www.sharengo.it/"

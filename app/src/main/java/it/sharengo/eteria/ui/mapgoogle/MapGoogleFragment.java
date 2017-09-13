@@ -60,6 +60,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.androidmapsextensions.ClusterGroup;
 import com.androidmapsextensions.ClusterOptions;
 import com.androidmapsextensions.ClusterOptionsProvider;
@@ -83,6 +88,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -673,8 +679,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-//        userLocation.setLatitude(41.819837);
-//        userLocation.setLongitude(12.477019); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.890251);
+        userLocation.setLongitude(12.492373); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -768,7 +774,37 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     && StringUtils.isNumeric(searchMapText.substring(2))){
                 mPresenter.findPlates(searchMapText);
             }else{
-                mPresenter.findAddress(searchMapText);
+                //mPresenter.findAddress(searchMapText);
+                Location placeLocation = new Location("place");
+                placeLocation.setLatitude(41.931543);
+                placeLocation.setLongitude(12.503420);
+                if(userLocation != null){
+                    placeLocation.setLatitude(userLocation.getLatitude());
+                    placeLocation.setLongitude(userLocation.getLongitude());
+                }
+                mPresenter.searchPlace(getActivity(), searchMapText, placeLocation, mPresenter.mAppRepository.getLang());
+
+                /*String placeUrl = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+in+Sydney&key=AIzaSyAnVjGP9ZCkSkBVkrX-5SBdmNW9AwE_Gew";
+                JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                        (Request.Method.GET, placeUrl, null, new com.android.volley.Response.Listener<JSONObject>() {
+
+                            @Override
+                            public void onResponse(JSONObject response) {
+
+                                //parseKml(context, response);
+                                Log.w("GOOGLE PLACES",": "+response);
+                            }
+                        }, new com.android.volley.Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.w("GOOGLE PLACES",": "+error);
+                            }
+                        }) {
+                };
+
+                RequestQueue queue = Volley.newRequestQueue(getActivity());
+                queue.add(jsObjRequest);*/
             }
 
             getActivity().runOnUiThread(new Runnable() {

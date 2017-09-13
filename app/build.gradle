@@ -53,6 +53,7 @@ android {
 
             applicationIdSuffix ".development"
             resValue "string", "google_map_api_key", "AIzaSyA9fVUH1nET8pjHgceS6lyf65NZPsFnaCo"
+            resValue "string", "google_place_api_key", "AIzaSyAnVjGP9ZCkSkBVkrX-5SBdmNW9AwE_Gew"
         }
 
         release {
@@ -66,6 +67,7 @@ android {
 
             applicationIdSuffix ".eteria"
             resValue "string", "google_map_api_key", "AIzaSyDO5blXgSSM7hvNnsde0qM_rnK7nkdICUA"
+            resValue "string", "google_place_api_key", "AIzaSyAnVjGP9ZCkSkBVkrX-5SBdmNW9AwE_Gew"
         }
     }
 

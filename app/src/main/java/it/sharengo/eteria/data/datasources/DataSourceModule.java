@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import it.sharengo.eteria.data.datasources.api.CitiesApi;
+import it.sharengo.eteria.data.datasources.api.GoogleApi;
 import it.sharengo.eteria.data.datasources.api.JsonPlaceholderApi;
 import it.sharengo.eteria.data.datasources.api.KmlApi;
 import it.sharengo.eteria.data.datasources.api.SharengoApi;
@@ -41,6 +42,12 @@ public class DataSourceModule {
     @Singleton
     KmlDataSource provideKmlRemoteDataSource(KmlApi api) {
         return new KmlRetrofitDataSource(api);
+    }
+
+    @Provides
+    @Singleton
+    GoogleDataSource provideGoogleRemoteDataSource(GoogleApi api) {
+        return new GoogleRetrofitDataSource(api);
     }
     
 }
