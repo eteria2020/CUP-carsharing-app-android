@@ -1,12 +1,13 @@
-package it.sharengo.development.ui.chronology;
+package it.sharengo.eteria.ui.chronology;
 
 
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.data.models.ResponseTrip;
-import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.data.models.ResponseTrip;
+import it.sharengo.eteria.data.models.ResponseUser;
+import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
@@ -19,8 +20,12 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
     private final UserRepository mUserRepository;
 
     private Observable<ResponseTrip> mTripsRequest;
+    private Observable<ResponseUser> mUserRequest;
 
     private ResponseTrip mResponseTrip;
+    private ResponseUser responseUser;
+
+    private float discount_rate = 0.28f;
 
     private boolean hideLoading;
 
@@ -36,8 +41,10 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
 
     @Override
     protected void restoreDataOnConfigurationChange() {
-        if(mResponseTrip.trips != null) {
-            getMvpView().showList(mResponseTrip.trips);
+        if(mResponseTrip != null && mResponseTrip.trips != null) {
+            getMvpView().showList(mResponseTrip.trips, discount_rate);
+        }else{
+            getTrips();
         }
     }
 
@@ -114,8 +121,8 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
     private void checkTripsResult(){
 
         if(mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0){
-            //getMvpView().showStandardLoading();
-            getMvpView().showList(mResponseTrip.trips);
+
+            getRatesInfo();
         }else{
 
             getMvpView().showEmptyResult();
@@ -124,6 +131,57 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
 
     public void hideLoading(){
         getMvpView().hideStandardLoading();
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              GET User info
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void getRatesInfo(){
+        if( mUserRequest == null) {
+            mUserRequest = buildUserRequest();
+            addSubscription(mUserRequest.unsafeSubscribe(getUserSubscriber()));
+        }
+    }
+
+    private Observable<ResponseUser> buildUserRequest() {
+        return mUserRequest = mUserRepository.getUser(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
+                .first()
+                .compose(this.<ResponseUser>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+
+                        if(responseUser.reason != null && responseUser.reason.isEmpty() && responseUser.user != null){
+                            discount_rate = responseUser.user.discount_rate;
+                        }
+
+                        getMvpView().showList(mResponseTrip.trips, discount_rate);
+                    }
+                });
+    }
+
+    private Subscriber<ResponseUser> getUserSubscriber(){
+        return new Subscriber<ResponseUser>() {
+            @Override
+            public void onCompleted() {
+                mUserRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mUserRequest = null;
+                getMvpView().showList(mResponseTrip.trips, 0.28f);
+            }
+
+            @Override
+            public void onNext(ResponseUser response) {
+
+                responseUser = response;
+            }
+        };
     }
 
 }

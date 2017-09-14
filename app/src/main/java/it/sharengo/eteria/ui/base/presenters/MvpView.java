@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.base.presenters;
+package it.sharengo.eteria.ui.base.presenters;
 
 /**
  * Base interface that any class that wants to act as a View in the MVP (Model View Presenter)

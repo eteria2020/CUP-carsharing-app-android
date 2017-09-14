@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.base.activities;
+package it.sharengo.eteria.ui.base.activities;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -16,11 +16,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import it.sharengo.development.R;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.drawer.DrawerArrowDrawable;
-import it.sharengo.development.ui.base.drawer.DrawerSlideListener;
-import it.sharengo.development.ui.menu.MenuFragment;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.drawer.DrawerArrowDrawable;
+import it.sharengo.eteria.ui.base.drawer.DrawerSlideListener;
+import it.sharengo.eteria.ui.menu.MenuFragment;
 
 public abstract class BaseDrawerActivity extends BaseToolbarActivity implements DrawerSlideListener {
 
@@ -92,7 +92,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
 
         final ViewGroup notificationView = (ViewGroup) findViewById(R.id.notificationView);
         notificationView.setVisibility(View.VISIBLE);
-        notificationView.setY(-500f);
+        notificationView.setY(-1000f);
     }
 
     @Override
@@ -256,7 +256,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                notificationView.animate().translationY(-500);
+                notificationView.animate().translationY(-1000f);
                 notificationView.setOnClickListener(null);
                 notificationView.setVisibility(View.GONE);
             }

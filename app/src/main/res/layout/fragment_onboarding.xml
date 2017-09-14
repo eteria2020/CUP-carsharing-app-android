@@ -37,7 +37,7 @@
         android:background="@drawable/bg_onboard">
 
         <!-- Skip -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/skipButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             android:text="@string/onboarding_skip_action" />
 
         <!-- Text -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/textTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.base.activities;
+package it.sharengo.eteria.ui.base.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import it.handroix.core.base.HdxBaseActivity;
-import it.sharengo.development.R;
+import it.sharengo.eteria.R;
 
 public abstract class BaseActivity extends HdxBaseActivity {
 

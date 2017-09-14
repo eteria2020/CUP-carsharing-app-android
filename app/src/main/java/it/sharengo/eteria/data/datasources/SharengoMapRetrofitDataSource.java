@@ -1,10 +1,10 @@
-package it.sharengo.development.data.datasources;
+package it.sharengo.eteria.data.datasources;
 
 import java.util.List;
 
-import it.sharengo.development.data.datasources.api.SharengoMapApi;
-import it.sharengo.development.data.datasources.base.BaseRetrofitDataSource;
-import it.sharengo.development.data.models.Address;
+import it.sharengo.eteria.data.datasources.api.SharengoMapApi;
+import it.sharengo.eteria.data.datasources.base.BaseRetrofitDataSource;
+import it.sharengo.eteria.data.models.Address;
 import rx.Observable;
 
 public class SharengoMapRetrofitDataSource extends BaseRetrofitDataSource implements SharengoMapDataSource {

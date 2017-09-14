@@ -1,7 +1,7 @@
-package it.sharengo.development.ui.base.map;
+package it.sharengo.eteria.ui.base.map;
 
 
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 /**
  * Base interface that any class that wants to act as a View in the MVP (Model View Presenter)

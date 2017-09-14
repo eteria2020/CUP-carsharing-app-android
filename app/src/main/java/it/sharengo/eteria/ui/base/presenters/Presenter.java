@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.base.presenters;
+package it.sharengo.eteria.ui.base.presenters;
 
 /**
  * Every presenter in the app must either implement this interface or extend BasePresenter

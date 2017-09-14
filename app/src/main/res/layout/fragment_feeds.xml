@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/backImageView"
             style="@style/header_back" />
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/feedHeaderTextView"
             style="@style/header_title"
             app:font_name="poppinsBold"/>
@@ -33,7 +33,7 @@
             android:id="@+id/feedButton"
             style="@style/feed_button">
 
-            <it.sharengo.development.ui.components.CustomTextView
+            <it.sharengo.eteria.ui.components.CustomTextView
                 android:id="@+id/feedTextView"
                 style="@style/feed_button_text"
                 app:font_name="poppinsBold"
@@ -50,7 +50,7 @@
             android:id="@+id/categoriesButton"
             style="@style/feed_button">
 
-            <it.sharengo.development.ui.components.CustomTextView
+            <it.sharengo.eteria.ui.components.CustomTextView
                 android:id="@+id/categoriesTextView"
                 style="@style/feed_button_text"
                 app:font_name="poppinsBold"
@@ -74,7 +74,7 @@
     <include layout="@layout/view_feeds_empty" />
 
     <!-- Intorno a me -->
-    <it.sharengo.development.ui.components.CustomButton
+    <it.sharengo.eteria.ui.components.CustomButton
         android:id="@+id/aroundMeButton"
         style="@style/button_third"
         android:layout_width="match_parent"

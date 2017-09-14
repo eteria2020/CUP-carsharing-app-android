@@ -1,38 +1,39 @@
-package it.sharengo.development.routing;
+package it.sharengo.eteria.routing;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-import it.sharengo.development.data.models.Feed;
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.ui.assistance.AssistanceActivity;
-import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
-import it.sharengo.development.ui.buyminutes.BuyMinutesActivity;
-import it.sharengo.development.ui.chronology.ChronologyActivity;
-import it.sharengo.development.ui.faq.FaqActivity;
-import it.sharengo.development.ui.feeds.FeedsActivity;
-import it.sharengo.development.ui.feedsdetail.FeedsDetailActivity;
-import it.sharengo.development.ui.home.HomeActivity;
-import it.sharengo.development.ui.login.LoginActivity;
-import it.sharengo.development.ui.longintro.LongIntroActivity;
-import it.sharengo.development.ui.map.MapActivity;
-import it.sharengo.development.ui.mapgoogle.MapGoogleActivity;
-import it.sharengo.development.ui.onboarding.OnboardingActivity;
-import it.sharengo.development.ui.passwordrecovery.PasswordRecoveryActivity;
-import it.sharengo.development.ui.profile.ProfileActivity;
-import it.sharengo.development.ui.settingcities.SettingsCitiesActivity;
-import it.sharengo.development.ui.settings.SettingsActivity;
-import it.sharengo.development.ui.settingsaddresses.SettingsAddressesActivity;
-import it.sharengo.development.ui.settingsaddressesnew.SettingsAddressesNewActivity;
-import it.sharengo.development.ui.settingslang.SettingsLangActivity;
-import it.sharengo.development.ui.share.ShareActivity;
-import it.sharengo.development.ui.shortintro.ShortIntroActivity;
-import it.sharengo.development.ui.signup.SignupActivity;
-import it.sharengo.development.ui.slideshow.SlideshowActivity;
-import it.sharengo.development.ui.tripend.TripEndActivity;
-import it.sharengo.development.ui.tutorial.TutorialActivity;
-import it.sharengo.development.ui.userarea.UserAreaActivity;
+import it.sharengo.eteria.data.models.Feed;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.ui.assistance.AssistanceActivity;
+import it.sharengo.eteria.ui.base.activities.BaseDrawerActivity;
+import it.sharengo.eteria.ui.buyminutes.BuyMinutesActivity;
+import it.sharengo.eteria.ui.chronology.ChronologyActivity;
+import it.sharengo.eteria.ui.faq.FaqActivity;
+import it.sharengo.eteria.ui.feeds.FeedsActivity;
+import it.sharengo.eteria.ui.feedsdetail.FeedsDetailActivity;
+import it.sharengo.eteria.ui.home.HomeActivity;
+import it.sharengo.eteria.ui.login.LoginActivity;
+import it.sharengo.eteria.ui.longintro.LongIntroActivity;
+import it.sharengo.eteria.ui.map.MapActivity;
+import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
+import it.sharengo.eteria.ui.onboarding.OnboardingActivity;
+import it.sharengo.eteria.ui.passwordrecovery.PasswordRecoveryActivity;
+import it.sharengo.eteria.ui.profile.ProfileActivity;
+import it.sharengo.eteria.ui.rates.RatesActivity;
+import it.sharengo.eteria.ui.settingcities.SettingsCitiesActivity;
+import it.sharengo.eteria.ui.settings.SettingsActivity;
+import it.sharengo.eteria.ui.settingsaddresses.SettingsAddressesActivity;
+import it.sharengo.eteria.ui.settingsaddressesnew.SettingsAddressesNewActivity;
+import it.sharengo.eteria.ui.settingslang.SettingsLangActivity;
+import it.sharengo.eteria.ui.share.ShareActivity;
+import it.sharengo.eteria.ui.shortintro.ShortIntroActivity;
+import it.sharengo.eteria.ui.signup.SignupActivity;
+import it.sharengo.eteria.ui.slideshow.SlideshowActivity;
+import it.sharengo.eteria.ui.tripend.TripEndActivity;
+import it.sharengo.eteria.ui.tutorial.TutorialActivity;
+import it.sharengo.eteria.ui.userarea.UserAreaActivity;
 
 public class Navigator {
 
@@ -254,6 +255,13 @@ public class Navigator {
 
     public static void launchBuy(Fragment fragment) {
         Intent intent = BuyMinutesActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchRates(Fragment fragment) {
+        Intent intent = RatesActivity.getCallingIntent(fragment.getActivity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);

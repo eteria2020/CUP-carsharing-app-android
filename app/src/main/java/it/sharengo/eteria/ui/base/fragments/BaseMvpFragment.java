@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.base.fragments;
+package it.sharengo.eteria.ui.base.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,22 +8,22 @@ import android.view.inputmethod.InputMethodManager;
 
 import javax.inject.Inject;
 
-import it.sharengo.development.App;
-import it.sharengo.development.R;
-import it.sharengo.development.data.common.ErrorResponse;
-import it.sharengo.development.injection.components.DaggerMvpFragmentComponent;
-import it.sharengo.development.injection.components.MvpFragmentComponent;
-import it.sharengo.development.injection.modules.MvpFragmentModule;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.activities.BaseActivity;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.ui.base.presenters.MvpView;
-import it.sharengo.development.ui.base.presenters.PresenterManager;
-import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.utils.UiUtils;
+import it.sharengo.eteria.App;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.common.ErrorResponse;
+import it.sharengo.eteria.injection.components.DaggerMvpFragmentComponent;
+import it.sharengo.eteria.injection.components.MvpFragmentComponent;
+import it.sharengo.eteria.injection.modules.MvpFragmentModule;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.activities.BaseActivity;
+import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
+import it.sharengo.eteria.ui.base.presenters.PresenterManager;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
+import it.sharengo.eteria.utils.UiUtils;
 
 import static android.content.Context.MODE_PRIVATE;
-import static it.sharengo.development.data.common.ErrorResponse.ErrorType.HTTP;
+import static it.sharengo.eteria.data.common.ErrorResponse.ErrorType.HTTP;
 
 public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragment implements MvpView {
 

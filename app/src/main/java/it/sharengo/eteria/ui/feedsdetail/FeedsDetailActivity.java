@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.feedsdetail;
+package it.sharengo.eteria.ui.feedsdetail;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.Feed;
-import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.Feed;
+import it.sharengo.eteria.ui.base.activities.BaseDrawerActivity;
 
 
 public class FeedsDetailActivity extends BaseDrawerActivity {

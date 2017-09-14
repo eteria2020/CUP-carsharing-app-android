@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.slideshow;
+package it.sharengo.eteria.ui.slideshow;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,11 +20,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.components.CenteredImageSpan;
-import it.sharengo.development.ui.slideshow.page.PageFragment;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.components.CenteredImageSpan;
+import it.sharengo.eteria.ui.slideshow.page.PageFragment;
 
 
 public class SlideshowFragment extends BaseMvpFragment<SlideshowPresenter> implements SlideshowMvpView {
@@ -71,7 +71,7 @@ public class SlideshowFragment extends BaseMvpFragment<SlideshowPresenter> imple
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.w("position",": "+position);
+
                 if(position == 0){
                     arrowLeftImageView.setVisibility(View.GONE);
                 }else{

@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.map.CircleLayout;
+package it.sharengo.eteria.ui.map.CircleLayout;
 
 import android.content.Context;
 import android.util.AttributeSet;

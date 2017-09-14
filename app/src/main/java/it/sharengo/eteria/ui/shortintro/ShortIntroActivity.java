@@ -1,11 +1,11 @@
-package it.sharengo.development.ui.shortintro;
+package it.sharengo.eteria.ui.shortintro;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import it.sharengo.development.R;
-import it.sharengo.development.ui.base.activities.BaseActivity;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.ui.base.activities.BaseActivity;
 
 
 public class ShortIntroActivity extends BaseActivity {

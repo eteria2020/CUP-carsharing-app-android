@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.home;
+package it.sharengo.eteria.ui.home;
 
 import android.os.Handler;
 import android.util.Log;
@@ -6,16 +6,16 @@ import android.util.Log;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import it.sharengo.development.data.models.City;
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.data.models.ResponseReservation;
-import it.sharengo.development.data.models.ResponseTrip;
-import it.sharengo.development.data.models.ResponseUser;
-import it.sharengo.development.data.models.User;
-import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.data.models.City;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.data.models.ResponseReservation;
+import it.sharengo.eteria.data.models.ResponseTrip;
+import it.sharengo.eteria.data.models.ResponseUser;
+import it.sharengo.eteria.data.models.User;
+import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
@@ -93,7 +93,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
                 handler1min.post(new Runnable() {
                     public void run() {
 
-                        Log.w("PASSATO HOME","1 MINUTO");
+
                         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
                             getReservations(true);
 

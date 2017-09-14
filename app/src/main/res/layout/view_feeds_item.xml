@@ -34,7 +34,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/triangle" />
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/feedAdvantageTextView"
             android:layout_width="100dp"
             android:layout_height="130dp"
@@ -81,14 +81,14 @@
 
         </RelativeLayout>
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/feedLaunchTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:font_name="poppinsBold"
             android:textSize="12sp"/>
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/feedDateTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
             android:textSize="12sp"
             android:textColor="@color/taupegray"/>
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/feedTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
             android:textSize="12sp"
             android:textColor="@color/darkjunglegreen"/>
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/feedAbstractTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
             android:textSize="12sp"
             android:textColor="@color/darkjunglegreen"/>
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/feedLocationTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
             android:textSize="12sp"
             android:textColor="@color/darkjunglegreen"/>
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/feedAdvantageBottomTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

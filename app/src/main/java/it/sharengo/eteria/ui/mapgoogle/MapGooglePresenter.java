@@ -1,8 +1,9 @@
-package it.sharengo.development.ui.mapgoogle;
+package it.sharengo.eteria.ui.mapgoogle;
 
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Handler;
 import android.util.Log;
 
@@ -27,35 +28,37 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.Address;
-import it.sharengo.development.data.models.Car;
-import it.sharengo.development.data.models.City;
-import it.sharengo.development.data.models.Feed;
-import it.sharengo.development.data.models.Kml;
-import it.sharengo.development.data.models.KmlServerPolygon;
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.data.models.Post;
-import it.sharengo.development.data.models.Reservation;
-import it.sharengo.development.data.models.Response;
-import it.sharengo.development.data.models.ResponseCar;
-import it.sharengo.development.data.models.ResponseCity;
-import it.sharengo.development.data.models.ResponseFeed;
-import it.sharengo.development.data.models.ResponsePutReservation;
-import it.sharengo.development.data.models.ResponseReservation;
-import it.sharengo.development.data.models.ResponseTrip;
-import it.sharengo.development.data.models.SearchItem;
-import it.sharengo.development.data.models.User;
-import it.sharengo.development.data.repositories.AddressRepository;
-import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.CarRepository;
-import it.sharengo.development.data.repositories.CityRepository;
-import it.sharengo.development.data.repositories.KmlRepository;
-import it.sharengo.development.data.repositories.PostRepository;
-import it.sharengo.development.data.repositories.PreferencesRepository;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.map.BaseMapPresenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.Address;
+import it.sharengo.eteria.data.models.Car;
+import it.sharengo.eteria.data.models.City;
+import it.sharengo.eteria.data.models.Feed;
+import it.sharengo.eteria.data.models.GooglePlace;
+import it.sharengo.eteria.data.models.Kml;
+import it.sharengo.eteria.data.models.KmlServerPolygon;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.data.models.Post;
+import it.sharengo.eteria.data.models.Reservation;
+import it.sharengo.eteria.data.models.Response;
+import it.sharengo.eteria.data.models.ResponseCar;
+import it.sharengo.eteria.data.models.ResponseCity;
+import it.sharengo.eteria.data.models.ResponseFeed;
+import it.sharengo.eteria.data.models.ResponseGooglePlace;
+import it.sharengo.eteria.data.models.ResponsePutReservation;
+import it.sharengo.eteria.data.models.ResponseReservation;
+import it.sharengo.eteria.data.models.ResponseTrip;
+import it.sharengo.eteria.data.models.SearchItem;
+import it.sharengo.eteria.data.models.User;
+import it.sharengo.eteria.data.repositories.AddressRepository;
+import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.CarRepository;
+import it.sharengo.eteria.data.repositories.CityRepository;
+import it.sharengo.eteria.data.repositories.KmlRepository;
+import it.sharengo.eteria.data.repositories.PostRepository;
+import it.sharengo.eteria.data.repositories.PreferencesRepository;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.map.BaseMapPresenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
@@ -71,7 +74,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private Double mLatitude;
     private Double mLongitude;
 
-    private final AppRepository mAppRepository;
+    public final AppRepository mAppRepository;
     private final PostRepository mPostRepository;
     private final CarRepository mCarRepository;
     private final AddressRepository mAddressRepository;
@@ -86,10 +89,12 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private Observable<List<Post>> mPostsRequest;
     private Observable<Response> mCarsRequest;
     private Observable<ResponseCar> mCarsReservationRequest;
+    private Observable<ResponseCar> mCarsInfoRequest;
     private Observable<ResponseCar> mCarsTripRequest;
     private Observable<Response> mPlatesRequest;
     private Observable<List<Car>> mFindPlatesRequest;
     private Observable<List<Address>> mFindAddressRequest;
+    private Observable<ResponseGooglePlace> mFindPlacesRequest;
     private Observable<List<SearchItem>> mFindSearchRequest;
     private Observable<ResponseTrip> mTripsRequest;
     private Observable<ResponseReservation> mReservationsRequest;
@@ -105,6 +110,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private Response mResponse;
     private ResponseCar mResponseReservationCar;
     private ResponseTrip mResponseTrip;
+    private ResponseCar mResponseInfo;
     private ResponseReservation mResponseReservation;
     private Reservation mReservation;
     private List<Car> mPlates;
@@ -112,6 +118,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private List<Address> mAddress;
     private List<SearchItem> mSearchItems;
     private List<SearchItem> historicItems;
+    private ResponseGooglePlace mGooglePlace;
     private List<Post> mPosts;
     private boolean hideLoading;
     private boolean isTripExists;
@@ -202,6 +209,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
         isTripExists = false;
         isBookingExists = false;
+        timestamp_start = 0;
 
         loadPlates();
 
@@ -247,7 +255,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 handler1min.post(new Runnable() {
                     public void run() {
 
-                        Log.w("PASSATO","1 MINUTO");
+
                         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
                             getReservations(true);
 
@@ -688,7 +696,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private Observable<Response> buildPlatesRequest() {
-        Log.w("USERNAME",": "+mUserRepository.getCachedUser().username);
         return mPlatesRequest = mCarRepository.getPlates(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
                 .first()
                 .compose(this.<Response>handleDataRequest())
@@ -719,7 +726,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
             @Override
             public void onNext(Response responseList) {
-                if(responseList.reason.isEmpty() && mResponse != null){
+                if(responseList != null && responseList.reason.isEmpty() && responseList.data != null){
                     mCachedPlates = responseList.data;
                 }
 
@@ -822,6 +829,68 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
+    //                                              GET Car reservation
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Load from server car information (detail)
+     *
+     * @param  plate  plate for car reservation.
+     */
+    public void loadCarInfoPopup(String plate) {
+
+        hideLoading = true;
+
+        mCarsInfoRequest = null;
+        mCarsInfoRequest = buildCarsInfoRequest(plate);
+        addSubscription(mCarsInfoRequest.unsafeSubscribe(getCarsInfoSubscriber()));
+    }
+
+
+    private Observable<ResponseCar> buildCarsInfoRequest(String plate) {
+
+        return mCarsInfoRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate)
+                .first()
+                .compose(this.<ResponseCar>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkCarInfoResult();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseCar> getCarsInfoSubscriber(){
+        return new Subscriber<ResponseCar>() {
+            @Override
+            public void onCompleted() {
+                mCarsInfoRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mCarsInfoRequest = null;
+
+            }
+
+            @Override
+            public void onNext(ResponseCar responseList) {
+                mResponseInfo = responseList;
+            }
+        };
+    }
+
+    private void checkCarInfoResult(){
+
+        if(mResponseInfo.reason.isEmpty() && mResponseInfo.data != null){
+            getMvpView().onLoadCarInfo(mResponseInfo.data);
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
     //                                              Find Address
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -887,6 +956,100 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 }
 
             mSearchItems.add(new SearchItem(address.display_name, type, address.longitude, address.latitude));
+        }
+
+        getMvpView().showSearchResult(mSearchItems);
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Find Address
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Find place with Google Place API by text search by user.
+     *
+     * @param  searchText  context of application.
+     */
+    public void searchPlace(Context context, String searchText, Location location, String lang) {
+        hideLoading = true;
+
+        if( mFindPlacesRequest == null) {
+            mFindPlacesRequest = buildFindPlacesRequest(context, searchText, location, lang);
+            addSubscription(mFindPlacesRequest.unsafeSubscribe(getFindPlacesSubscriber()));
+        }
+    }
+
+
+    private Observable<ResponseGooglePlace> buildFindPlacesRequest(Context context, String searchText, Location location, String lang) {
+        return mFindPlacesRequest = mAddressRepository.searchPlace(searchText, location.getLatitude()+", "+location.getLongitude(), lang, context.getString(R.string.google_place_api_key))
+                .first()
+                .compose(this.<ResponseGooglePlace>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkPlacesResult();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseGooglePlace> getFindPlacesSubscriber(){
+        return new Subscriber<ResponseGooglePlace>() {
+            @Override
+            public void onCompleted() {
+                mFindPlacesRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mFindPlacesRequest = null;
+                //getMvpView().showError(e);
+            }
+
+            @Override
+            public void onNext(ResponseGooglePlace addressList) {
+                //mAddress = addressList; TODO
+                mGooglePlace = addressList;
+            }
+        };
+    }
+
+    private void checkPlacesResult(){
+
+        /*mSearchItems = new ArrayList<SearchItem>();
+
+        for (Address address : mAddress){
+
+            String type = "address";
+
+            if(historicItems != null)
+                for (SearchItem sI : historicItems) {
+                    if (address.display_name.equals(sI.display_name)) type = "historic";
+                }
+
+            mSearchItems.add(new SearchItem(address.display_name, type, address.longitude, address.latitude));
+        }
+
+        getMvpView().showSearchResult(mSearchItems);*/
+
+        mSearchItems = new ArrayList<SearchItem>();
+
+        if(mGooglePlace != null && mGooglePlace.results != null){
+
+            for(int i = 0; i < mGooglePlace.results.size(); i++){
+
+                GooglePlace gPlace = mGooglePlace.results.get(i);
+                String type = "address";
+
+                if(historicItems != null)
+                    for (SearchItem sI : historicItems) {
+                        if (gPlace.address.equals(sI.display_name)) type = "historic";
+                    }
+
+                mSearchItems.add(new SearchItem(gPlace.address, type, gPlace.geometry.location.longitude, gPlace.geometry.location.latitude));
+            }
         }
 
         getMvpView().showSearchResult(mSearchItems);
@@ -1047,7 +1210,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     mReservation = response.reservation;
                 else {
                     mReservation = null;
-                    getMvpView().showError(context.getString(R.string.booking_alreadybookedcar_alert)); // Error: reservation:false - status:false - trip:false - limit:false - limit_archive:true
+                    getMvpView().carAlreadyBooked(); // Error: reservation:false - status:false - trip:false - limit:false - limit_archive:true
                 }
             }
         };
@@ -1142,7 +1305,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     @Override
                     public void call() {
 
-                        timestamp_start = (int) (System.currentTimeMillis() / 1000L);
+                        if(timestamp_start == 0) timestamp_start = (int) (System.currentTimeMillis() / 1000L);
                         loadCarsTrip(car.id);
                     }
                 });
@@ -1229,6 +1392,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 isTripExists = false;
 
                 getMvpView().openNotification(timestamp_start, (int) (System.currentTimeMillis() / 1000L));
+
+                timestamp_start = 0;
                 //timerTask1min.cancel();
                 //timer.cancel();
             }
@@ -1342,7 +1507,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             public void onError(Throwable e) {
                 mCarsReservationRequest = null;
                 //getMvpView().showError(e);
-                Log.w("onError",": "+e);
+
             }
 
             @Override
@@ -1420,7 +1585,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             public void onError(Throwable e) {
                 mCarsReservationRequest = null;
                 //getMvpView().showError(e);
-                Log.w("ERRORE",": "+e);
+
             }
 
             @Override
@@ -1520,7 +1685,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 String json = mPref.getString(context.getString(R.string.preference_city), "");
                 List<City> obj = (ArrayList<City>) gson.fromJson(json, fooType);
 
-                if(obj != null) getMvpView().showCity(obj);
+                try {
+                    if (obj != null) getMvpView().showCity(obj);
+                }catch (NullPointerException er){}
             }
 
             @Override

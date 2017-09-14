@@ -1,12 +1,12 @@
-package it.sharengo.development.utils;
+package it.sharengo.eteria.utils;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.MenuItem;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.MenuItem;
 
 public class ResourceProvider {
     

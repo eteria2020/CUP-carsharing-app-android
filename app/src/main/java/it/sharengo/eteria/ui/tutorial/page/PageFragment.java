@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.tutorial.page;
+package it.sharengo.eteria.ui.tutorial.page;
 
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import it.sharengo.development.R;
+import it.sharengo.eteria.R;
 
 /**
  * Created by gretaiaconisi on 20/06/17.

@@ -1,13 +1,13 @@
-package it.sharengo.development.injection.modules;
+package it.sharengo.eteria.injection.modules;
 
 import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
-import it.sharengo.development.App;
-import it.sharengo.development.injection.ApplicationContext;
-import it.sharengo.development.utils.schedulers.AndroidSchedulerProvider;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.App;
+import it.sharengo.eteria.injection.ApplicationContext;
+import it.sharengo.eteria.utils.schedulers.AndroidSchedulerProvider;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 
 /**
  * Provide application-level dependencies.

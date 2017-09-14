@@ -1,6 +1,6 @@
-package it.sharengo.development.ui.buyminutes;
+package it.sharengo.eteria.ui.buyminutes;
 
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface BuyMinutesMvpView extends MvpView {
 

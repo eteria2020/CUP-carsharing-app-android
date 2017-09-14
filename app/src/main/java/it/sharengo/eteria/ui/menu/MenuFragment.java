@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.menu;
+package it.sharengo.eteria.ui.menu;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,11 +15,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.activities.BaseDrawerActivity;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -213,6 +213,10 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                         break;
                     case BUY:
                         Navigator.launchBuy(MenuFragment.this);
+                        break;
+                    case RATES:
+                        Navigator.launchRates(MenuFragment.this);
+                        getActivity().finish();
                         break;
                 }
 

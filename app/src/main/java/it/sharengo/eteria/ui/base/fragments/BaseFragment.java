@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.base.fragments;
+package it.sharengo.eteria.ui.base.fragments;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -10,8 +10,8 @@ import java.util.Locale;
 
 import butterknife.Unbinder;
 import it.handroix.core.base.HdxBaseFragment;
-import it.sharengo.development.App;
-import it.sharengo.development.R;
+import it.sharengo.eteria.App;
+import it.sharengo.eteria.R;
 
 import static android.content.Context.MODE_PRIVATE;
 

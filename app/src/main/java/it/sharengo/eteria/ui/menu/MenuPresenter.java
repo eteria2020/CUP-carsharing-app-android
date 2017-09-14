@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.menu;
+package it.sharengo.eteria.ui.menu;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,12 +6,12 @@ import android.content.SharedPreferences;
 import java.util.List;
 import java.util.Locale;
 
-import it.sharengo.development.data.models.MenuItem;
-import it.sharengo.development.data.models.UserInfo;
-import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.data.models.UserInfo;
+import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;

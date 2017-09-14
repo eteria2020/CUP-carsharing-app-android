@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.tutorial;
+package it.sharengo.eteria.ui.tutorial;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,10 +16,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.tutorial.page.PageFragment;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
+import it.sharengo.eteria.ui.tutorial.page.PageFragment;
 
 
 public class TutorialFragment extends BaseMvpFragment<TutorialPresenter> implements TutorialMvpView {

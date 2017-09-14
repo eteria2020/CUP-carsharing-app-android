@@ -1,6 +1,6 @@
-package it.sharengo.development.ui.tripend;
+package it.sharengo.eteria.ui.tripend;
 
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface TripEndMvpView extends MvpView {
 

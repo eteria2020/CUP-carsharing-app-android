@@ -6,7 +6,7 @@
     android:background="@color/whitesmoke"
     android:layout_marginTop="@dimen/hdx_toolbarHeight">
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

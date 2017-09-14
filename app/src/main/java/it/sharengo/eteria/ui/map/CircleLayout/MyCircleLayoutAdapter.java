@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.map.CircleLayout;
+package it.sharengo.eteria.ui.map.CircleLayout;
 
 import com.example.x.circlelayout.CircleLayoutAdapter;
 import com.example.x.circlelayout.CircularLayoutItem;

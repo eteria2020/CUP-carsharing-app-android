@@ -20,7 +20,7 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
         classpath "it.handroix:gradle-plugin:1.1"
     }

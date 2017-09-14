@@ -1,4 +1,4 @@
-package it.sharengo.development.data.repositories;
+package it.sharengo.eteria.data.repositories;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,8 +6,8 @@ import android.util.Log;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import it.sharengo.development.data.datasources.KmlDataSource;
-import it.sharengo.development.data.models.Kml;
+import it.sharengo.eteria.data.datasources.KmlDataSource;
+import it.sharengo.eteria.data.models.Kml;
 import rx.Observable;
 import rx.functions.Action1;
 

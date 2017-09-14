@@ -1,6 +1,6 @@
-package it.sharengo.development.ui.shortintro;
+package it.sharengo.eteria.ui.shortintro;
 
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface ShortIntroMvpView extends MvpView {
 

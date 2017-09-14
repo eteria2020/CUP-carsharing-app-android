@@ -1,9 +1,9 @@
-package it.sharengo.development.ui.settingsaddresses;
+package it.sharengo.eteria.ui.settingsaddresses;
 
 import java.util.List;
 
-import it.sharengo.development.data.models.SearchItem;
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.data.models.SearchItem;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface SettingsAddressesMvpView extends MvpView {
 

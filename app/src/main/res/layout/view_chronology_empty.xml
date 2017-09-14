@@ -31,7 +31,7 @@
         android:layout_marginRight="30dp"
         android:orientation="vertical">
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -40,7 +40,7 @@
             app:font_name="poppinsBold"
             android:text="@string/chronology_emptytitle_label"/>
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -64,7 +64,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"
@@ -73,7 +73,7 @@
             app:font_name="poppinsBold"
             android:text="@string/chronology_emptyquestion_label"/>
 
-        <it.sharengo.development.ui.components.CustomButton
+        <it.sharengo.eteria.ui.components.CustomButton
             android:id="@+id/goToMapButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

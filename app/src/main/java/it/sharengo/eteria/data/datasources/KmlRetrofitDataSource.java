@@ -1,8 +1,8 @@
-package it.sharengo.development.data.datasources;
+package it.sharengo.eteria.data.datasources;
 
-import it.sharengo.development.data.datasources.api.KmlApi;
-import it.sharengo.development.data.datasources.base.BaseRetrofitDataSource;
-import it.sharengo.development.data.models.Kml;
+import it.sharengo.eteria.data.datasources.api.KmlApi;
+import it.sharengo.eteria.data.datasources.base.BaseRetrofitDataSource;
+import it.sharengo.eteria.data.models.Kml;
 import rx.Observable;
 
 public class KmlRetrofitDataSource extends BaseRetrofitDataSource implements KmlDataSource {

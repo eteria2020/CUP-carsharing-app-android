@@ -25,7 +25,7 @@
         android:orientation="vertical">
 
         <!-- Title -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -38,7 +38,7 @@
             android:text="@string/settingsaddress_deletetitle_label"/>
 
         <!-- Nome -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/nameDeleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             app:font_name="poppinsBold"/>
 
         <!-- Indirizzo -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/addressDeleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
 
 
         <!-- Ok Button -->
-        <it.sharengo.development.ui.components.CustomButton
+        <it.sharengo.eteria.ui.components.CustomButton
             android:id="@+id/deleteButton"
             style="@style/button_primary"
             android:layout_width="130dp"
@@ -75,7 +75,7 @@
             android:text="@string/settingsaddress_editdelete_label"/>
 
         <!-- Cancel Button -->
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             android:id="@+id/closeDeleteButton"
             android:layout_width="match_parent"
             android:layout_height="20dp"

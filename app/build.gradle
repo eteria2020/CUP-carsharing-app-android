@@ -37,8 +37,8 @@ android {
         applicationId project.APPLICATION_ID
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
-        versionCode 93
-        versionName "0.9.3"
+        versionCode 304
+        versionName "3.0.1"
 
         multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
@@ -50,6 +50,10 @@ android {
             signingConfig signingConfigs.debug
             
             testCoverageEnabled true
+
+            applicationIdSuffix ".development"
+            resValue "string", "google_map_api_key", "AIzaSyA9fVUH1nET8pjHgceS6lyf65NZPsFnaCo"
+            resValue "string", "google_place_api_key", "AIzaSyAnVjGP9ZCkSkBVkrX-5SBdmNW9AwE_Gew"
         }
 
         release {
@@ -60,6 +64,10 @@ android {
             ext.betaDistributionGroupAliasesFilePath = "app/fabric/testers_group.txt"
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationIdSuffix ".eteria"
+            resValue "string", "google_map_api_key", "AIzaSyDO5blXgSSM7hvNnsde0qM_rnK7nkdICUA"
+            resValue "string", "google_place_api_key", "AIzaSyAnVjGP9ZCkSkBVkrX-5SBdmNW9AwE_Gew"
         }
     }
 

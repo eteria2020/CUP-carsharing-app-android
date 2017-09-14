@@ -7,7 +7,7 @@
     android:layout_marginTop="@dimen/hdx_toolbarHeight"
     android:orientation="vertical">
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -21,7 +21,7 @@
         app:font_name="poppinsBold"
         android:text="@string/signup_title_label"/>
 
-    <it.sharengo.development.ui.components.CustomTextView
+    <it.sharengo.eteria.ui.components.CustomTextView
         android:id="@+id/signupDescrTextView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -78,7 +78,7 @@
         android:layout_height="0dp"
         android:layout_weight="2">
 
-        <it.sharengo.development.ui.components.CustomButton
+        <it.sharengo.eteria.ui.components.CustomButton
             android:id="@+id/subscribeButton"
             style="@style/button_primary"
             android:layout_width="match_parent"

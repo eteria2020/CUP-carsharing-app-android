@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.base.presenters;
+package it.sharengo.eteria.ui.base.presenters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,9 +6,9 @@ import android.util.Log;
 
 import java.util.concurrent.TimeUnit;
 
-import it.sharengo.development.data.models.ResponseUser;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.data.models.ResponseUser;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -54,7 +54,7 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
             restoreDataOnConfigurationChange();
         }
 
-        Log.w("AAA","AAA");
+
     }
 
     @Override
@@ -205,7 +205,7 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
 
             @Override
             public void onNext(ResponseUser response) {
-                Log.w("User BAAAASE",": "+response.reason);
+
             }
         };
     }

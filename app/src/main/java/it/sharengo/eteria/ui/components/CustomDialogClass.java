@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.components;
+package it.sharengo.eteria.ui.components;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 
-import it.sharengo.development.R;
+import it.sharengo.eteria.R;
 
 /**
  * Created by greta on 29/05/17.

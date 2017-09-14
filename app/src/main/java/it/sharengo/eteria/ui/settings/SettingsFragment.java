@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.settings;
+package it.sharengo.eteria.ui.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 
 
 public class SettingsFragment extends BaseMvpFragment<SettingsPresenter> implements SettingsMvpView {

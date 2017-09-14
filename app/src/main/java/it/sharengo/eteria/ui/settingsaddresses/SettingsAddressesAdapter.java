@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.settingsaddresses;
+package it.sharengo.eteria.ui.settingsaddresses;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -16,8 +16,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.SearchItem;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.SearchItem;
 
 
 public class SettingsAddressesAdapter extends RecyclerView.Adapter<SettingsAddressesAdapter.ViewHolder> {

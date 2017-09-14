@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.base.drawer;
+package it.sharengo.eteria.ui.base.drawer;
 
 /**
  * Created by luca on 28/11/14.

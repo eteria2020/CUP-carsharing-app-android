@@ -1,4 +1,4 @@
-package it.sharengo.development.data.datasources.base;
+package it.sharengo.eteria.data.datasources.base;
 
 import android.util.Log;
 
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-import it.sharengo.development.data.common.ErrorResponse;
+import it.sharengo.eteria.data.common.ErrorResponse;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
@@ -28,7 +28,7 @@ public abstract class BaseRetrofitDataSource {
 
                         if (r.isError()) {
                             Throwable throwable = r.error();
-                            Log.w("throwable",": "+throwable);
+
                             if (throwable instanceof IOException) {
                                 if (throwable instanceof java.net.ConnectException) {
                                     return Observable.error(new ErrorResponse(ErrorResponse.ErrorType.NO_NETWORK));
@@ -55,7 +55,7 @@ public abstract class BaseRetrofitDataSource {
                                 }
                                 ErrorResponse errorResponse = new ErrorResponse(ErrorResponse.ErrorType.HTTP);
                                 errorResponse.httpStatus = code;
-                                errorResponse.rawMessage = message;  Log.w("errorCode",": "+code); Log.w("erroreMessage",": "+message);
+                                errorResponse.rawMessage = message;
                                 return Observable.error(errorResponse);
                             }
                         }

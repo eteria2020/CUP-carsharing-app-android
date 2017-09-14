@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.settingsaddresses;
+package it.sharengo.eteria.ui.settingsaddresses;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,11 +15,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.SearchItem;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.SearchItem;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
 
 import static android.content.Context.MODE_PRIVATE;
 

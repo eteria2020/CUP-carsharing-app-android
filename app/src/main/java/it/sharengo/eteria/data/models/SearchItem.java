@@ -1,6 +1,6 @@
-package it.sharengo.development.data.models;
+package it.sharengo.eteria.data.models;
 
-import it.sharengo.development.data.common.ExcludeSerialization;
+import it.sharengo.eteria.data.common.ExcludeSerialization;
 
 public class SearchItem {
 

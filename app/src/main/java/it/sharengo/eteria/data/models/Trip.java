@@ -1,4 +1,4 @@
-package it.sharengo.development.data.models;
+package it.sharengo.eteria.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -27,10 +27,13 @@ public class Trip {
     public int km_end;
     public int km_start;
 
+    public float total_cost;
+    public boolean cost_computed;
+
     public Trip() {
     }
 
-    public Trip(String plate, float latitude, float longitude, float latitude_end, float longitude_end, int timestamp_start, int timestamp_end, int km_end, int km_start) {
+    public Trip(String plate, float latitude, float longitude, float latitude_end, float longitude_end, int timestamp_start, int timestamp_end, int km_end, int km_start, float total_cost, boolean cost_computed) {
         this.plate = plate;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -40,6 +43,8 @@ public class Trip {
         this.timestamp_end = timestamp_end;
         this.km_end = km_end;
         this.km_start = km_start;
+        this.total_cost = total_cost;
+        this.cost_computed = cost_computed;
     }
 
 }

@@ -1,4 +1,4 @@
-package it.sharengo.development.data.repositories;
+package it.sharengo.eteria.data.repositories;
 
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -8,14 +8,14 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import it.sharengo.development.data.datasources.SharengoDataSource;
-import it.sharengo.development.data.models.Reservation;
-import it.sharengo.development.data.models.ResponsePutReservation;
-import it.sharengo.development.data.models.ResponseReservation;
-import it.sharengo.development.data.models.ResponseTrip;
-import it.sharengo.development.data.models.ResponseUser;
-import it.sharengo.development.data.models.User;
-import it.sharengo.development.utils.StringsUtils;
+import it.sharengo.eteria.data.datasources.SharengoDataSource;
+import it.sharengo.eteria.data.models.Reservation;
+import it.sharengo.eteria.data.models.ResponsePutReservation;
+import it.sharengo.eteria.data.models.ResponseReservation;
+import it.sharengo.eteria.data.models.ResponseTrip;
+import it.sharengo.eteria.data.models.ResponseUser;
+import it.sharengo.eteria.data.models.User;
+import it.sharengo.eteria.utils.StringsUtils;
 import okhttp3.Credentials;
 import rx.Observable;
 import rx.functions.Action1;
@@ -250,7 +250,7 @@ public class UserRepository {
         }
         mCachedReservations = response.reservations;*/
 
-        Log.w("RES",": "+response);
+
     }
 
     private Observable.Transformer<ResponsePutReservation, ResponsePutReservation> logSourcePutReservation(final String source) {

@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.map;
+package it.sharengo.eteria.ui.map;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
@@ -90,21 +90,21 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.Car;
-import it.sharengo.development.data.models.City;
-import it.sharengo.development.data.models.Feed;
-import it.sharengo.development.data.models.Reservation;
-import it.sharengo.development.data.models.SearchItem;
-import it.sharengo.development.data.models.Trip;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.ui.map.CircleLayout.MyCircleLayoutAdapter;
-import it.sharengo.development.utils.ImageUtils;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.Car;
+import it.sharengo.eteria.data.models.City;
+import it.sharengo.eteria.data.models.Feed;
+import it.sharengo.eteria.data.models.Reservation;
+import it.sharengo.eteria.data.models.SearchItem;
+import it.sharengo.eteria.data.models.Trip;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
+import it.sharengo.eteria.ui.map.CircleLayout.MyCircleLayoutAdapter;
+import it.sharengo.eteria.utils.ImageUtils;
 
 import static android.content.Context.MODE_PRIVATE;
-import static it.sharengo.development.R.id.deleteBookingButton;
+import static it.sharengo.eteria.R.id.deleteBookingButton;
 
 public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvpView, LocationListener {
 
@@ -422,7 +422,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
                 public boolean onScroll(ScrollEvent event) {
 
                     if(hasInit) {
-                        Log.w("refreshCars","onScroll");
+
                         refreshCars();
 
                         setRotationButton(mMapView.getMapOrientation());
@@ -432,13 +432,13 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
                 @Override
                 public boolean onZoom(ZoomEvent event) {
-                    Log.w("onZoom","onZoom");
-                    Log.w("hasInit",": "+hasInit);
+
+
                     if(hasInit) {
 
                         refreshMapButton.startAnimation(anim);
 
-                        Log.w("refreshCars","onZoom");
+
                         refreshCars();
                     }
                     return false;
@@ -724,7 +724,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @Override
     public void onLocationChanged(Location location) {
 
-        Log.w("INIT","onLocationChanged");
+
 
         userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
 
@@ -766,7 +766,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
             if(!isTripStart && !isBookingCar) centerMap();
 
-            Log.w("refreshCars","onLocationChanged");
+
             refreshCars();
         }
 
@@ -801,7 +801,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
     @Override
     public void onProviderDisabled(String s) {
 
-        Log.w("INIT","onProviderDisabled");
+
 
         userLocation = null;
 
@@ -813,7 +813,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Log.w("refreshCars","onProviderDisabled");
+
                     refreshCars();
                 }
             }, 100);
@@ -1055,7 +1055,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         plateTextView.setText(car.id);
 
         //Autonomia
-        autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), (int) car.autonomy)));
+        //autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), (int) car.autonomy)));
 
         //Indirizzo
         String address = getAddress(car.latitude, car.longitude);
@@ -1546,8 +1546,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
                                 long unixTime = System.currentTimeMillis() / 1000L;
                                 int diffTime = (int) (unixTime - tripTimestampStart) * 1000;
-                                Log.w("unixTime", ": " + unixTime);
-                                Log.w("diffTime", ": " + diffTime);
+
 
                                 int hh = (int) (diffTime / 1000 / 60 / 60);
                                 int mn = (int) (diffTime / 1000 / 60 % 60);
@@ -1855,7 +1854,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
         boolean bookedCarFind = false;
         for(final Car car : carsList){
             //Verifico che la macchina sia in status = operative
-            if(car.status.equals("operative")) {
+            //if(car.status.equals("operative")) {
                 int icon_marker = R.drawable.ic_auto;
 
                 //Verifico se la vettura è la più vicina oppure se è una vettura prenotata
@@ -1897,7 +1896,7 @@ public class MapFragment extends BaseMvpFragment<MapPresenter> implements MapMvp
 
                 //items.add(overlayItem);
 
-            }
+            //}
         }
 
         //Se è attiva una prenotazione, ma la macchina non è presente tra i risultati restituiti dal server aggiungo la macchina alla lista

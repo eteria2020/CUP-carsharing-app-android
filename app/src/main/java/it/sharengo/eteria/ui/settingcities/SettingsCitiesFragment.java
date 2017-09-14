@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.settingcities;
+package it.sharengo.eteria.ui.settingcities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,10 +15,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.City;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.City;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 
 import static android.content.Context.MODE_PRIVATE;
 

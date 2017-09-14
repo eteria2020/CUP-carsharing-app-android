@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.feeds;
+package it.sharengo.eteria.ui.feeds;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -23,12 +23,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.Feed;
-import it.sharengo.development.data.models.FeedCategory;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.Feed;
+import it.sharengo.eteria.data.models.FeedCategory;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
 
 import static android.content.Context.MODE_PRIVATE;
 

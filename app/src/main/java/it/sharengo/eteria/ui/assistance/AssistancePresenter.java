@@ -1,10 +1,11 @@
-package it.sharengo.development.ui.assistance;
+package it.sharengo.eteria.ui.assistance;
 
 
-import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 
 public class AssistancePresenter extends BasePresenter<AssistanceMvpView> {
 
@@ -18,7 +19,7 @@ public class AssistancePresenter extends BasePresenter<AssistanceMvpView> {
         super(schedulerProvider,userRepository);
         mAppRepository = appRepository;
         mUserRepository = userRepository;
-        //mAppRepository.selectMenuItem(MenuItem.Section.HOME);
+        mAppRepository.selectMenuItem(MenuItem.Section.HELP);
     }
 
 

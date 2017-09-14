@@ -60,7 +60,7 @@
     <string name="maps_permissionlocation_alert">Share\'ngo ha bisogno dei permessi per accedere alla tua posizione. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
     <string name="maps_opendoor_action">Apri portiere</string>
     <string name="maps_bookingcar_action">Prenota auto</string>
-    <string name="maps_autonomy_label">autonomia: <![CDATA[<b>%d%%</b>]]></string>
+    <string name="maps_autonomy_label">autonomia: <![CDATA[<b>%d km</b>]]></string>
     <string name="maps_distance_label">%d mt di distanza</string>
     <string name="maps_distancekm_label">%.2f km di distanza</string>
     <string name="maps_time_label">%d minuti a piedi</string>
@@ -184,7 +184,7 @@
     <!-- Chronology -->
     <string name="chronology_title_label">Cronologia corse</string>
     <string name="chronology_bookingn_label">Prenotazione n. %s</string>
-    <string name="chronology_minutes_label">%s minuti</string>
+    <string name="chronology_minutes_label" formatted="false">%s minuti%s</string>
     <string name="chronology_date_label" formatted="false">%s - ore %s</string>
     <string name="chronology_end_label" formatted="false">Fine: %s - ore %s</string>
     <string name="chronology_rate_label">Tariffa al minuto: %s</string>
@@ -249,5 +249,18 @@
     <string name="alert_logoutError">Attenzione si è verificato un errore. Ti invitiamo ad accedere nuovamente.</string>
     <string name="btn_login">ACCEDI</string>
     <string name="tripend_parkerdcar_label">Auto in sosta</string>
+    <string name="chronology_ratesmin_label">Tariffa al minuto: € %s</string>
+
+    <string name="rates_titleauth_label">Tariffe</string>
+    <string name="rates_titlenoauth_label">Tariffe e bonus</string>
+    <string name="rates_rates_label">Ecco le tariffe Share\'ngo:</string>
+    <string name="rates_yourrates_label">Ecco la tua tariffa:</string>
+    <string name="rates_base_label">Tariffa base della corsa: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_hour_label">Tariffa per 1 ora: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_day_label">Tariffa giornaliera: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_booking_label">Tariffa di prenotazione: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_bonus_label">I tuoi minuti bonus:</string>
+    <string name="rates_bonusmin_label">%s minuti</string>
+    <string name="rates_signup_action">Iscriviti subito</string>
 
 </resources>

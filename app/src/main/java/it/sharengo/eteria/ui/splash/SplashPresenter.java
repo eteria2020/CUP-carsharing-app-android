@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.splash;
+package it.sharengo.eteria.ui.splash;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,17 +11,17 @@ import java.lang.reflect.Type;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.ResponseCity;
-import it.sharengo.development.data.models.ResponseReservation;
-import it.sharengo.development.data.models.ResponseTrip;
-import it.sharengo.development.data.models.ResponseUser;
-import it.sharengo.development.data.models.UserInfo;
-import it.sharengo.development.data.repositories.AppRepository;
-import it.sharengo.development.data.repositories.PreferencesRepository;
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.ResponseCity;
+import it.sharengo.eteria.data.models.ResponseReservation;
+import it.sharengo.eteria.data.models.ResponseTrip;
+import it.sharengo.eteria.data.models.ResponseUser;
+import it.sharengo.eteria.data.models.UserInfo;
+import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.PreferencesRepository;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
@@ -168,7 +168,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             @Override
             public void onError(Throwable e) {
                 mUserRequest = null;
-                Log.w("User",": error");
+
 
                 //Provo a prelevare i dati dell'utente dalle preferenze
                 SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
@@ -183,7 +183,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
 
             @Override
             public void onNext(ResponseUser response) {
-                Log.w("User",": "+response.reason);
+
             }
         };
     }
@@ -227,13 +227,13 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             @Override
             public void onError(Throwable e) {
                 mReservationsRequest = null;
-                Log.w("Reservation",": error");
+
                 getMvpView().navigateToHome(mAppRepository.getLang());
             }
 
             @Override
             public void onNext(ResponseReservation response) {
-                Log.w("Reservation",": "+response.reason);
+
             }
         };
     }
@@ -276,13 +276,13 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             @Override
             public void onError(Throwable e) {
                 mTripsRequest = null;
-                Log.w("Trip",": error");
+
                 getMvpView().navigateToHome(mAppRepository.getLang());
             }
 
             @Override
             public void onNext(ResponseTrip response) {
-                Log.w("Trip",": "+response.reason);
+
             }
         };
     }
@@ -326,13 +326,13 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             @Override
             public void onError(Throwable e) {
                 mCityRequest = null;
-                Log.w("Cities",": error");
+
                 getMvpView().navigateToHome(mAppRepository.getLang());
             }
 
             @Override
             public void onNext(ResponseCity response) {
-                Log.w("Cities",": "+response.status);
+
             }
         };
     }

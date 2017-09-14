@@ -1,8 +1,8 @@
-package it.sharengo.development.data.datasources.api;
+package it.sharengo.eteria.data.datasources.api;
 
 import java.util.List;
 
-import it.sharengo.development.data.models.Address;
+import it.sharengo.eteria.data.models.Address;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

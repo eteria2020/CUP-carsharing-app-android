@@ -272,12 +272,12 @@
 
 
 #UNITY
--dontwarn it.sharengo.development.ui.selfiedistelle.**
--dontwarn it.sharengo.development.components.UnityPlayerWrapper
--keep class it.sharengo.development.ui.selfiedistelle.** {*;}
--keep class it.sharengo.development.components.UnityPlayerWrapper {*;}
+-dontwarn it.sharengo.eteria.ui.selfiedistelle.**
+-dontwarn it.sharengo.eteria.components.UnityPlayerWrapper
+-keep class it.sharengo.eteria.ui.selfiedistelle.** {*;}
+-keep class it.sharengo.eteria.components.UnityPlayerWrapper {*;}
 
 #MODEL X serializzazione
--keep class it.sharengo.development.data.models.** { *;}
--keep class it.sharengo.development.data.common.DELETE_WITH_BODY { *;}
--keep class it.sharengo.development.data.ExcludeSerialization { *;}
+-keep class it.sharengo.eteria.data.models.** { *;}
+-keep class it.sharengo.eteria.data.common.DELETE_WITH_BODY { *;}
+-keep class it.sharengo.eteria.data.ExcludeSerialization { *;}

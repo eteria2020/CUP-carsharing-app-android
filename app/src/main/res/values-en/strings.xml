@@ -32,7 +32,7 @@
     <string name="maps_permissionlocation_alert">Share\'ngo needs permissions to access your position. Would you like to open settings and enable geolocation? </string>
     <string name="maps_opendoor_action">Open doors </string>
     <string name="maps_bookingcar_action">Book car </string>
-    <string name="maps_autonomy_label">autonomy: <![CDATA[<b>%d%%</b>]]></string>
+    <string name="maps_autonomy_label">autonomy: <![CDATA[<b>%d km</b>]]></string>
     <string name="maps_distance_label">%d m away</string>
     <string name="maps_distancekm_label">%.2f km away</string>
     <string name="maps_time_label">%d minutes on foot </string>
@@ -156,7 +156,7 @@
     <!-- Chronology -->
     <string name="chronology_title_label">Trip history</string>
     <string name="chronology_bookingn_label">Booking n. %s</string>
-    <string name="chronology_minutes_label">%s minutes</string>
+    <string name="chronology_minutes_label" formatted="false">%s minuti%s</string>
     <string name="chronology_date_label" formatted="false">%s - hours %s</string>
     <string name="chronology_end_label" formatted="false">End: %s - hours %s</string>
     <string name="chronology_rate_label">Rate by the minute: %s</string>
@@ -221,5 +221,18 @@
     <string name="alert_logoutError">Careful, an error occured. Please login again.</string>
     <string name="btn_login">LOGIN</string>
     <string name="tripend_parkerdcar_label">Car parkerd</string>
+    <string name="chronology_ratesmin_label">Minute fare: € %s</string>
+
+    <string name="rates_titleauth_label">Fares</string>
+    <string name="rates_titlenoauth_label">Fares and Bonuses</string>
+    <string name="rates_rates_label">Here are the Share\'ngo fares:</string>
+    <string name="rates_yourrates_label">HERE\'S YOUR FARE:</string>
+    <string name="rates_base_label">Trip basic fare: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_hour_label">1h Fare: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_day_label">Daily Fare: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_booking_label">Booking Fare: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_bonus_label">Your bonus minutes:</string>
+    <string name="rates_bonusmin_label">%s minutes</string>
+    <string name="rates_signup_action">SUBSCRIBE NOW</string>
 
 </resources>

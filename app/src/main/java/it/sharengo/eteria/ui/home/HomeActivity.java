@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.home;
+package it.sharengo.eteria.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +8,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
-import it.sharengo.development.R;
-import it.sharengo.development.ui.base.activities.BaseDrawerActivity;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.ui.base.activities.BaseDrawerActivity;
 
 public class HomeActivity extends BaseDrawerActivity {
 
@@ -46,7 +46,7 @@ public class HomeActivity extends BaseDrawerActivity {
      */
     @Override
     public void showNotification(String notification, View.OnClickListener mNotificationListener){
-        Log.w("RESER","showNotification ACTIVITY");
+
         super.showNotification(notification, mNotificationListener);
     }
 

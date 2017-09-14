@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package it.sharengo.development.ui.base.drawer;
+package it.sharengo.eteria.ui.base.drawer;
 
 import android.app.Activity;
 import android.content.Context;

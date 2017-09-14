@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.base.activities;
+package it.sharengo.eteria.ui.base.activities;
 
 import android.content.Context;
 import android.os.Build;
@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import it.handroix.core.utils.HdxUiUtility;
-import it.sharengo.development.R;
+import it.sharengo.eteria.R;
 
 public abstract class BaseToolbarActivity extends BaseActivity {
 

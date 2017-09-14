@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.base.map;
+package it.sharengo.eteria.ui.base.map;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,8 +18,8 @@ import it.handroix.core.base.HdxBaseActivity;
 import it.handroix.location.HdxActivityLocationHelper;
 import it.handroix.location.HdxLocationUpdateListener;
 import it.handroix.map.HdxFragmentMapHelper;
-import it.sharengo.development.R;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 
 public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMvpFragment<T>
         implements MvpMapView, HdxLocationUpdateListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMyLocationChangeListener {
@@ -80,7 +80,7 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
     @Override
     public void onFineLocationDenied() {
         // STUB
-        Log.w("LOCATION","onFineLocationDenied");
+
     }
 
     //*********************************

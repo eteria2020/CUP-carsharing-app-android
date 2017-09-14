@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.home;
+package it.sharengo.eteria.ui.home;
 
 import android.Manifest;
 import android.animation.Animator;
@@ -22,13 +22,13 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.City;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.components.CustomDialogClass;
-import it.sharengo.development.utils.ImageUtils;
-import it.sharengo.development.utils.ResourceProvider;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.City;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
+import it.sharengo.eteria.utils.ImageUtils;
+import it.sharengo.eteria.utils.ResourceProvider;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -552,7 +552,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     @Override
     public void openNotification(int start, int end){
 
-        Log.w("TRIP","openNotification");
+
         int diffTime = (int) (end - start);
 
         co2 = ((float) diffTime)/60/60*17*106;  //((minuti÷60)×17)×106

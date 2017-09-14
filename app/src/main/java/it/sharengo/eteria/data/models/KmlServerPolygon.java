@@ -1,4 +1,4 @@
-package it.sharengo.development.data.models;
+package it.sharengo.eteria.data.models;
 
 import com.google.android.gms.maps.model.LatLng;
 

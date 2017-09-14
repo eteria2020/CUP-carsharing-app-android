@@ -10,7 +10,7 @@
     <!-- Header -->
     <RelativeLayout
         style="@style/header_view">
-        <it.sharengo.development.ui.components.CustomTextView
+        <it.sharengo.eteria.ui.components.CustomTextView
             style="@style/header_title"
             app:font_name="poppinsBold"
             android:text="@string/menu_profile" />

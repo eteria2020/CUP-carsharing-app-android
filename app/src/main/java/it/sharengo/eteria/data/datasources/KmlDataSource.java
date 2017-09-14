@@ -1,6 +1,6 @@
-package it.sharengo.development.data.datasources;
+package it.sharengo.eteria.data.datasources;
 
-import it.sharengo.development.data.models.Kml;
+import it.sharengo.eteria.data.models.Kml;
 import rx.Observable;
 
 public interface KmlDataSource {

@@ -1,10 +1,10 @@
-package it.sharengo.development.ui.feeds;
+package it.sharengo.eteria.ui.feeds;
 
 import java.util.List;
 
-import it.sharengo.development.data.models.Feed;
-import it.sharengo.development.data.models.FeedCategory;
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.data.models.Feed;
+import it.sharengo.eteria.data.models.FeedCategory;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface FeedsMvpView extends MvpView {
 

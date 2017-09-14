@@ -1,9 +1,9 @@
-package it.sharengo.development.ui.shortintro;
+package it.sharengo.eteria.ui.shortintro;
 
 
-import it.sharengo.development.data.repositories.UserRepository;
-import it.sharengo.development.ui.base.presenters.BasePresenter;
-import it.sharengo.development.utils.schedulers.SchedulerProvider;
+import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 
 public class ShortIntroPresenter extends BasePresenter<ShortIntroMvpView> {
 

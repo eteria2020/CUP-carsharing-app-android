@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:orientation="vertical">
-                <it.sharengo.development.ui.components.CustomTextView
+                <it.sharengo.eteria.ui.components.CustomTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/darkjunglegreen"
@@ -80,7 +80,7 @@
                         android:layout_height="58dp"
                         android:background="@color/whitesmoke"
                         android:src="@drawable/img_car"/>
-                    <it.sharengo.development.ui.components.CustomTextView
+                    <it.sharengo.eteria.ui.components.CustomTextView
                         android:id="@+id/plateTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                         android:textColor="@color/darkjunglegreen"
                         app:font_name="poppinsBold"
                         android:text="EF8877123"/>
-                    <it.sharengo.development.ui.components.CustomTextView
+                    <it.sharengo.eteria.ui.components.CustomTextView
                         android:id="@+id/autonomyTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                         android:textSize="11sp"
                         android:textColor="@color/darkjunglegreen"
                         app:font_name="poppinsMedium"
-                        android:text="autonomia: 55 km"/>
+                        android:text="-"/>
                 </LinearLayout>
 
                 <!-- /Car -->
@@ -119,10 +119,10 @@
                         <ImageView
                             style="@style/popupcar_info_box_icon"
                             android:src="@drawable/ic_location"/>
-                        <it.sharengo.development.ui.components.CustomTextView
+                        <it.sharengo.eteria.ui.components.CustomTextView
                             android:id="@+id/addressTextView"
                             style="@style/popupcar_info_box_text"
-                            android:text="Via Taormina 162, Milano"/>
+                            android:text="-"/>
                     </LinearLayout>
                     <!-- Distance -->
                     <LinearLayout
@@ -131,10 +131,10 @@
                         <ImageView
                             style="@style/popupcar_info_box_icon"
                             android:src="@drawable/ic_distance" />
-                        <it.sharengo.development.ui.components.CustomTextView
+                        <it.sharengo.eteria.ui.components.CustomTextView
                             android:id="@+id/distanceTextView"
                             style="@style/popupcar_info_box_text"
-                            android:text="300 mt di distanza"/>
+                            android:text="-"/>
                     </LinearLayout>
                     <!-- Time -->
                     <LinearLayout
@@ -143,10 +143,10 @@
                         <ImageView
                             style="@style/popupcar_info_box_icon"
                             android:src="@drawable/ic_timebyfeet" />
-                        <it.sharengo.development.ui.components.CustomTextView
+                        <it.sharengo.eteria.ui.components.CustomTextView
                             android:id="@+id/timeTextView"
                             style="@style/popupcar_info_box_text"
-                            android:text="3 minuti a piedi"/>
+                            android:text="-"/>
                     </LinearLayout>
                 </LinearLayout>
                 <!-- /Info -->
@@ -160,7 +160,7 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
-                <it.sharengo.development.ui.components.CustomButton
+                <it.sharengo.eteria.ui.components.CustomButton
                     android:id="@+id/openDoorButton"
                     style="@style/button_primary"
                     android:layout_width="0dp"
@@ -169,7 +169,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="7.5dp"
                     android:text="@string/maps_opendoor_action" />
-                <it.sharengo.development.ui.components.CustomButton
+                <it.sharengo.eteria.ui.components.CustomButton
                     android:id="@+id/bookingCarButton"
                     style="@style/button_primary"
                     android:layout_width="0dp"

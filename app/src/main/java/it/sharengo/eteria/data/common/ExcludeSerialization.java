@@ -1,4 +1,4 @@
-package it.sharengo.development.data.common;
+package it.sharengo.eteria.data.common;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

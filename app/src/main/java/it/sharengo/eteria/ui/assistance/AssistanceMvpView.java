@@ -1,6 +1,6 @@
-package it.sharengo.development.ui.assistance;
+package it.sharengo.eteria.ui.assistance;
 
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface AssistanceMvpView extends MvpView {
 

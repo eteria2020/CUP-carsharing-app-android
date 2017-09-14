@@ -1,6 +1,6 @@
-package it.sharengo.development.ui.signup;
+package it.sharengo.eteria.ui.signup;
 
-import it.sharengo.development.ui.base.presenters.MvpView;
+import it.sharengo.eteria.ui.base.presenters.MvpView;
 
 public interface SignupMvpView extends MvpView {
 

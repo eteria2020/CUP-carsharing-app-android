@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.components;
+package it.sharengo.eteria.ui.components;
 
 
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 import it.handroix.baseuiwidgets.widgets.HdxButton;
-import it.sharengo.development.R;
-import it.sharengo.development.utils.TypeFactory;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.utils.TypeFactory;
 
 /**
  * Created by greta on 29/05/17.

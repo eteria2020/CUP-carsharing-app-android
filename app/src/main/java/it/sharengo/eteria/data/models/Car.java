@@ -1,8 +1,8 @@
-package it.sharengo.development.data.models;
+package it.sharengo.eteria.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import it.sharengo.development.data.common.ExcludeSerialization;
+import it.sharengo.eteria.data.common.ExcludeSerialization;
 
 public class Car {
 
@@ -11,8 +11,13 @@ public class Car {
 
     public String manufactures;
     public String model;
+
+    @SerializedName(value="lon", alternate={"longitude"})
     public float longitude;
+
+    @SerializedName(value="lat", alternate={"latitude"})
     public float latitude;
+
     public String status;
     public boolean parking;
 

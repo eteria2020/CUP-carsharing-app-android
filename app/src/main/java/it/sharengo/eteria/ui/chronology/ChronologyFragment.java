@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.chronology;
+package it.sharengo.eteria.ui.chronology;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,12 +16,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.Trip;
-import it.sharengo.development.routing.Navigator;
-import it.sharengo.development.ui.base.activities.BaseActivity;
-import it.sharengo.development.ui.base.fragments.BaseMvpFragment;
-import it.sharengo.development.ui.components.CustomDialogClass;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.Trip;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.activities.BaseActivity;
+import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
 
 
 public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> implements ChronologyMvpView {
@@ -31,6 +31,8 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
     private ChronologyAdapter mAdapter;
     private List<Trip> mTripsList;
     private LongOperation longOperation;
+
+    private float discount_rate;
 
     @BindView(R.id.chronRecyclerView)
     RecyclerView mRv;
@@ -133,7 +135,10 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
      * @param  tripList  user trip to show
      */
     @Override
-    public void showList(final List<Trip> tripList) {
+    public void showList(final List<Trip> tripList, float discount_rate) {
+
+        this.discount_rate = discount_rate;
+
         emptyChronLayout.setVisibility(View.GONE);
         mRv.setVisibility(View.VISIBLE);
 
@@ -204,6 +209,7 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
                 @Override
                 public void run() {
                     // Do something after 5s = 5000ms
+                    mAdapter.setDiscountRate(discount_rate);
                     mAdapter.setData(mTripsList);
                     progressList.setVisibility(View.GONE);
                 }

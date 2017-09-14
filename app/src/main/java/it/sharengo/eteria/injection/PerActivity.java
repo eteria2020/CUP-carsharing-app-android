@@ -1,4 +1,4 @@
-package it.sharengo.development.injection;
+package it.sharengo.eteria.injection;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

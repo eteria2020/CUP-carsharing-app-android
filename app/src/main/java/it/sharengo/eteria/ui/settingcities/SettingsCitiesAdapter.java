@@ -1,4 +1,4 @@
-package it.sharengo.development.ui.settingcities;
+package it.sharengo.eteria.ui.settingcities;
 
 import android.app.Activity;
 import android.support.v4.content.ContextCompat;
@@ -15,9 +15,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import it.sharengo.development.R;
-import it.sharengo.development.data.models.City;
-import it.sharengo.development.utils.ImageUtils;
+import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.City;
+import it.sharengo.eteria.utils.ImageUtils;
 
 public class SettingsCitiesAdapter extends RecyclerView.Adapter<SettingsCitiesAdapter.ViewHolder> {
 
