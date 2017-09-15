@@ -715,7 +715,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //Aggiorno la Walk Navigation
-        getWalkingNavigation();
+        if(getMapRadius() < 35000) getWalkingNavigation();
     }
 
 
@@ -1150,6 +1150,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 carNextCluster = null;
             }
 
+            //removeWalkingNavigation();
+            if(polyWalking != null) polyWalking.remove();
+
         }else {
 
             drawUserMarker();
@@ -1174,6 +1177,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     mPresenter.loadKml(getContext());
                 }catch (NullPointerException e){}
                 cityClusterVisible = true;
+            }
+
+            //Aggiorno la Walk Navigation
+            if(!isTripStart || (isTripStart && carSelected.parking)){
+                //carWalkingNavigation = carSelected;
+                if(carWalkingNavigation != null) getWalkingNavigation();
             }
         }
 
