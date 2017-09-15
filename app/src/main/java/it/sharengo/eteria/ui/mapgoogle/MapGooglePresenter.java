@@ -44,6 +44,7 @@ import it.sharengo.eteria.data.models.ResponseCar;
 import it.sharengo.eteria.data.models.ResponseCity;
 import it.sharengo.eteria.data.models.ResponseFeed;
 import it.sharengo.eteria.data.models.ResponseGooglePlace;
+import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import it.sharengo.eteria.data.models.ResponsePutReservation;
 import it.sharengo.eteria.data.models.ResponseReservation;
 import it.sharengo.eteria.data.models.ResponseTrip;
@@ -95,6 +96,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private Observable<List<Car>> mFindPlatesRequest;
     private Observable<List<Address>> mFindAddressRequest;
     private Observable<ResponseGooglePlace> mFindPlacesRequest;
+    private Observable<ResponseGoogleRoutes> mFindRoutesRequest;
     private Observable<List<SearchItem>> mFindSearchRequest;
     private Observable<ResponseTrip> mTripsRequest;
     private Observable<ResponseReservation> mReservationsRequest;
@@ -119,6 +121,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private List<SearchItem> mSearchItems;
     private List<SearchItem> historicItems;
     private ResponseGooglePlace mGooglePlace;
+    private ResponseGoogleRoutes mGoogleRoutes;
     private List<Post> mPosts;
     private boolean hideLoading;
     private boolean isTripExists;
@@ -888,80 +891,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         }
     }
 
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    //                                              Find Address
-    //
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Find address on server by text search by user.
-     *
-     * @param  searchText  context of application.
-     */
-    public void findAddress(String searchText) {
-        hideLoading = true;
-
-        if( mFindAddressRequest == null) {
-            mFindAddressRequest = buildFindAddressRequest(searchText);
-            addSubscription(mFindAddressRequest.unsafeSubscribe(getFindAddressSubscriber()));
-        }
-    }
-
-
-    private Observable<List<Address>> buildFindAddressRequest(String searchText) {
-        return mFindAddressRequest = mAddressRepository.searchAddress(searchText,"json")
-                .first()
-                .compose(this.<List<Address>>handleDataRequest())
-                .doOnCompleted(new Action0() {
-                    @Override
-                    public void call() {
-                        checkAddressResult();
-                    }
-                });
-    }
-
-    private Subscriber<List<Address>> getFindAddressSubscriber(){
-        return new Subscriber<List<Address>>() {
-            @Override
-            public void onCompleted() {
-                mFindAddressRequest = null;
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                mFindAddressRequest = null;
-                //getMvpView().showError(e);
-            }
-
-            @Override
-            public void onNext(List<Address> addressList) {
-                mAddress = addressList;
-            }
-        };
-    }
-
-    private void checkAddressResult(){
-
-        mSearchItems = new ArrayList<SearchItem>();
-
-        for (Address address : mAddress){
-
-            String type = "address";
-
-            if(historicItems != null)
-                for (SearchItem sI : historicItems) {
-                    if (address.display_name.equals(sI.display_name)) type = "historic";
-                }
-
-            mSearchItems.add(new SearchItem(address.display_name, type, address.longitude, address.latitude));
-        }
-
-        getMvpView().showSearchResult(mSearchItems);
-
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Find Address
@@ -971,7 +900,10 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     /**
      * Find place with Google Place API by text search by user.
      *
-     * @param  searchText  context of application.
+     * @param  context  context of application.
+     * @param  searchText  text serch by user.
+     * @param  location  user location. Format: lan,long.
+     * @param  lang  language
      */
     public void searchPlace(Context context, String searchText, Location location, String lang) {
         hideLoading = true;
@@ -1134,6 +1066,65 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     public void saveSearchResultOnHistoric(SharedPreferences mPref, SearchItem searchItem){
         mPreferencesRepository.saveSearchResultOnHistoric(mPref, searchItem);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Get Routes
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the walking route from one point to another with Google Directions API.
+     *
+     * @param  context  context of application.
+     * @param   origin        latitude/longitude for the first point. Formato: lat,lon
+     * @param   destination   latitude/longitude for the second point. Formato: lat,lon
+     * @param   mode        the mode of transport to use when calculating directions (see: https://developers.google.com/maps/documentation/directions/intro#TravelModes)
+     */
+    public void getRoutes(Context context, Location origin, Location destination, String mode) {
+        hideLoading = true;
+
+        if( mFindRoutesRequest == null) {
+            mFindRoutesRequest = buildFindRoutesRequest(context, origin, destination, mode);
+            addSubscription(mFindRoutesRequest.unsafeSubscribe(getFindRoutesSubscriber()));
+        }
+    }
+
+
+    private Observable<ResponseGoogleRoutes> buildFindRoutesRequest(Context context, Location origin, Location destination, String lang) {
+        return mFindRoutesRequest = mAddressRepository.getRoutes(origin.getLatitude()+", "+origin.getLongitude(),
+                                                                destination.getLatitude()+", "+destination.getLongitude(),
+                                                                lang,
+                                                                context.getString(R.string.google_place_api_key))
+                .first()
+                .compose(this.<ResponseGoogleRoutes>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        getMvpView().onUpdateWalkingNavigation(mGoogleRoutes);
+                    }
+                });
+    }
+
+    private Subscriber<ResponseGoogleRoutes> getFindRoutesSubscriber(){
+        return new Subscriber<ResponseGoogleRoutes>() {
+            @Override
+            public void onCompleted() {
+                mFindRoutesRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mFindRoutesRequest = null;
+            }
+
+            @Override
+            public void onNext(ResponseGoogleRoutes routes) {
+                mGoogleRoutes = routes;
+            }
+        };
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //

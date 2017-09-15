@@ -13,6 +13,7 @@ import it.sharengo.eteria.data.datasources.SharengoMapDataSource;
 import it.sharengo.eteria.data.models.Address;
 import it.sharengo.eteria.data.models.GooglePlace;
 import it.sharengo.eteria.data.models.ResponseGooglePlace;
+import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import rx.Observable;
 import rx.functions.Action1;
 
@@ -26,12 +27,19 @@ public class AddressRepository {
 
     private List<Address> mCachedAddress;
     private List<GooglePlace> mCachedPlace;
+    private ResponseGoogleRoutes mGoogleRoutes;
 
     @Inject
     public AddressRepository(SharengoMapDataSource remoteDataSource, GoogleDataSource googleRemoteDataSource) {
         this.mRemoteDataSource = remoteDataSource;
         this.mGoogleRemoteDataSource = googleRemoteDataSource;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              FIND address
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Invoke API searchAddress with params received from app.
@@ -41,7 +49,7 @@ public class AddressRepository {
      * @return          list address observable object
      * @see             Observable<List<Address>>
      */
-    public Observable<List<Address>> searchAddress(String address, String format) {
+    /*public Observable<List<Address>> searchAddress(String address, String format) {
 
         return mRemoteDataSource.searchAddress(address, format)
                 .doOnNext(new Action1<List<Address>>() {
@@ -84,7 +92,7 @@ public class AddressRepository {
                         });
             }
         };
-    }
+    }*/
 
     /**
      * Invoke API searchPlace with params received from app (Google Place service)
@@ -138,4 +146,60 @@ public class AddressRepository {
         };
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              GET routes
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Invoke API getRoutes with params received from app (Google Place service)
+     *
+     * @param   origin        latitude/longitude for the first point. Formato: lat,lon
+     * @param   destination   latitude/longitude for the second point. Formato: lat,lon
+     * @param   mode        the mode of transport to use when calculating directions (see: https://developers.google.com/maps/documentation/directions/intro#TravelModes)
+     * @param   key        Google API KEY
+     * @return           response observable object (ResponseGoogleRoutes)
+     * @see              Observable<ResponseGoogleRoutes>
+     */
+    public Observable<ResponseGoogleRoutes> getRoutes(String origin, String destination, String mode, String key) {
+
+        return mGoogleRemoteDataSource.getRoutes(origin, destination, mode, key)
+                .doOnNext(new Action1<ResponseGoogleRoutes>() {
+                    @Override
+                    public void call(ResponseGoogleRoutes response) {
+
+                        createOrUpdateRoutesInMemory(response);
+                    }
+                })
+                .compose(logSourceRoutes("NETWORK"));
+    }
+
+
+    private void createOrUpdateRoutesInMemory(ResponseGoogleRoutes response) {
+        if (mGoogleRoutes == null) {
+            mGoogleRoutes = new ResponseGoogleRoutes();
+        }
+        mGoogleRoutes = response;
+    }
+
+
+    private Observable.Transformer<ResponseGoogleRoutes, ResponseGoogleRoutes> logSourceRoutes(final String source) {
+        return new Observable.Transformer<ResponseGoogleRoutes, ResponseGoogleRoutes>() {
+            @Override
+            public Observable<ResponseGoogleRoutes> call(Observable<ResponseGoogleRoutes> postObservable) {
+                return postObservable
+                        .doOnNext(new Action1<ResponseGoogleRoutes>() {
+                            @Override
+                            public void call(ResponseGoogleRoutes placeResult) {
+                                if (placeResult == null) {
+                                    Log.d("TEST", source + " does not have any data.");
+                                }
+                                else {
+                                    Log.d("TEST", source + " has the data you are looking for!");
+                                }
+                            }
+                        });
+            }
+        };
+    }
 }

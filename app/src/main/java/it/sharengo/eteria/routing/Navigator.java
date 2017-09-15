@@ -16,7 +16,6 @@ import it.sharengo.eteria.ui.feedsdetail.FeedsDetailActivity;
 import it.sharengo.eteria.ui.home.HomeActivity;
 import it.sharengo.eteria.ui.login.LoginActivity;
 import it.sharengo.eteria.ui.longintro.LongIntroActivity;
-import it.sharengo.eteria.ui.map.MapActivity;
 import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
 import it.sharengo.eteria.ui.onboarding.OnboardingActivity;
 import it.sharengo.eteria.ui.passwordrecovery.PasswordRecoveryActivity;
@@ -82,13 +81,6 @@ public class Navigator {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         intent.putExtra(EXTRA_LOGIN, type);
-        fragment.startActivity(intent);
-    }
-
-    public static void launchMap(Fragment fragment, int type) {
-        Intent intent = MapActivity.getCallingIntent(fragment.getActivity(), type);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
 

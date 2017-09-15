@@ -11,7 +11,6 @@ import it.sharengo.eteria.ui.feeds.FeedsFragment;
 import it.sharengo.eteria.ui.feedsdetail.FeedsDetailFragment;
 import it.sharengo.eteria.ui.login.LoginFragment;
 import it.sharengo.eteria.ui.longintro.LongIntroFragment;
-import it.sharengo.eteria.ui.map.MapFragment;
 import it.sharengo.eteria.ui.home.HomeFragment;
 import it.sharengo.eteria.ui.mapgoogle.MapGoogleFragment;
 import it.sharengo.eteria.ui.menu.MenuFragment;
@@ -43,8 +42,6 @@ public interface MvpFragmentComponent {
     void inject(SplashFragment fragment);
     void inject(HomeFragment fragment);
     void inject(MenuFragment fragment);
-
-    void inject(MapFragment fragment);
 
     void inject(TripEndFragment fragment);
 

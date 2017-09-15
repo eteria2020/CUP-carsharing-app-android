@@ -11,7 +11,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -60,11 +59,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.androidmapsextensions.ClusterGroup;
 import com.androidmapsextensions.ClusterOptions;
 import com.androidmapsextensions.ClusterOptionsProvider;
@@ -74,25 +68,32 @@ import com.androidmapsextensions.Marker;
 import com.androidmapsextensions.MarkerOptions;
 import com.androidmapsextensions.OnMapReadyCallback;
 import com.androidmapsextensions.PolygonOptions;
+import com.androidmapsextensions.PolylineOptions;
 import com.example.x.circlelayout.CircleLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Dot;
+import com.google.android.gms.maps.model.Gap;
+import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PatternItem;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.maps.android.PolyUtil;
 import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -110,6 +111,7 @@ import it.sharengo.eteria.data.models.City;
 import it.sharengo.eteria.data.models.Feed;
 import it.sharengo.eteria.data.models.KmlServerPolygon;
 import it.sharengo.eteria.data.models.Reservation;
+import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import it.sharengo.eteria.data.models.SearchItem;
 import it.sharengo.eteria.data.models.Trip;
 import it.sharengo.eteria.routing.Navigator;
@@ -119,6 +121,7 @@ import it.sharengo.eteria.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
 import it.sharengo.eteria.utils.ImageUtils;
 import it.sharengo.eteria.utils.StringsUtils;
 
+import static android.R.attr.mode;
 import static android.content.Context.MODE_PRIVATE;
 
 
@@ -211,6 +214,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private String carnext_id;
     private Car carNext;
     private Car carSelected;
+    private Car carWalkingNavigation;
     private com.androidmapsextensions.Marker carnextMarker, carbookingMarker, carNextCluster;
     private MarkerOptions carNextClusterOptions;
     private int currentDrawable = 0; //frame dell'animazione della macchiana più vicina
@@ -223,6 +227,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private boolean cityClusterVisible;
     boolean findNextCarIntoCluster;
     private boolean unparkAction;
+    private Location walkingDestination;
+    private PolylineOptions polyWalkingOptions;
+    private com.androidmapsextensions.Polyline polyWalking;
 
     @BindView(R.id.mapView)
     FrameLayout mMapContainer;
@@ -408,6 +415,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         currentRotation = 0f;
         cityClusterVisible = false;
         findNextCarIntoCluster = false;
+        walkingDestination = new Location("destination");
         /*drawableAnimGreenArray = new ArrayList<>();
         drawableAnimYellowArray = new ArrayList<>();
         for(int i = 0; i <= NUM_ANIM; i++){
@@ -705,6 +713,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
 
         }
+
+        //Aggiorno la Walk Navigation
+        getWalkingNavigation();
     }
 
 
@@ -1901,8 +1912,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void showPopupCar(Car car){
 
         carSelected = car;
+        carWalkingNavigation = car;
 
-
+        //Aggiorno la Walk Navigation
+        getWalkingNavigation();
 
         carFeedMapButton.setAlpha(1.0f);
         showCarsWithFeeds = true;
@@ -1997,6 +2010,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void closePopup(){
         mPresenter.setCarSelected(null);
         popupCarView.animate().translationY(popupCarView.getHeight());
+        removeWalkingNavigation();
     }
 
     //Metodo per verificare se è possibile aprire le portiere (utente autenticato)
@@ -2014,7 +2028,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
-                if(getDistance(carSelected) <= 50){ //TODO: valore a 50
+                if(getDistance(carSelected) <= 50000000){ //TODO: valore a 50
                     //Procediamo con le schermate successive
                     onClosePopup();
                     if(isTripStart && isTripParked) {
@@ -2049,6 +2063,47 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Walking Navigation
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void getWalkingNavigation(){
+        if(userLocation != null && carWalkingNavigation != null) {
+            walkingDestination.setLatitude(carWalkingNavigation.latitude);
+            walkingDestination.setLongitude(carWalkingNavigation.longitude);
+
+            mPresenter.getRoutes(getActivity(), userLocation, walkingDestination, "walking");
+        }
+    }
+
+    //Aggiorno la Walk Navigation
+    private void updateWalkingNavigation(ResponseGoogleRoutes googleRoutes){
+
+        if(carWalkingNavigation != null) {
+            if (polyWalking != null) polyWalking.remove();
+
+            if (googleRoutes.routes != null && googleRoutes.routes.size() > 0) {
+                List<LatLng> m_path = PolyUtil.decode(googleRoutes.routes.get(0).overview_polyline.points);
+                polyWalkingOptions = new PolylineOptions().addAll(m_path);
+                polyWalkingOptions.color(Color.parseColor("#336633"));
+                polyWalkingOptions.jointType(JointType.ROUND);
+                List<PatternItem> pattern = Arrays.<PatternItem>asList(
+                        new Dot(), new Gap(15)); //new Dot(), new Gap(20), new Dash(30), new Gap(20)
+                polyWalkingOptions.pattern(pattern);
+                polyWalkingOptions.width(20);
+                polyWalking = mMap.addPolyline(polyWalkingOptions);
+            }
+        }
+    }
+
+    //Elimino il Walk Navigation
+    private void removeWalkingNavigation(){
+        carWalkingNavigation = null;
+        if(polyWalking != null) polyWalking.remove();
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2247,6 +2302,21 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         carFeedMapButton.setAlpha(1.0f);
+
+
+        //Aggiorno la Walk Navigation
+        if(isTripStart){
+
+            if(!carSelected.parking) { //Auto in corsa
+                removeWalkingNavigation();
+            }else{ //Auto parcheggiata
+                carWalkingNavigation = carSelected;
+                getWalkingNavigation();
+            }
+        }else {
+            carWalkingNavigation = carSelected;
+            getWalkingNavigation();
+        }
     }
 
     //Metodo chiamato quando l'utente decide di annullare la prenotazione
@@ -2277,6 +2347,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         //Tolgo l'animazione al pin
         setMarkerAnimation();
+
+        //Aggiorno la Walking Animation
+        removeWalkingNavigation();
     }
 
     //Metodo quando arriva dal server la conferma che la prenotaizone è stata annullata
@@ -2839,6 +2912,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         loadCarInfo(car);
     }
 
+    @Override
+    public void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes){
+        updateWalkingNavigation(googleRoutes);
+    }
 
 
     //Classe per customizzare il cluster

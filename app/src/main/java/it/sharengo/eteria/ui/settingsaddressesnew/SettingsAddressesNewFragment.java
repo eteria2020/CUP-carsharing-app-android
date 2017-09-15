@@ -39,7 +39,7 @@ import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.models.SearchItem;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
-import it.sharengo.eteria.ui.map.MapSearchListAdapter;
+import it.sharengo.eteria.ui.mapgoogle.MapSearchListAdapter;
 
 import static android.content.Context.MODE_PRIVATE;
 

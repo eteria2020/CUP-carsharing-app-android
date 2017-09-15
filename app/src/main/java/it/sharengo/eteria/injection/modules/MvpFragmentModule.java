@@ -20,7 +20,6 @@ import it.sharengo.eteria.ui.feeds.FeedsPresenter;
 import it.sharengo.eteria.ui.feedsdetail.FeedsDetailPresenter;
 import it.sharengo.eteria.ui.login.LoginPresenter;
 import it.sharengo.eteria.ui.longintro.LongIntroPresenter;
-import it.sharengo.eteria.ui.map.MapPresenter;
 import it.sharengo.eteria.ui.base.presenters.PresenterManager;
 import it.sharengo.eteria.ui.home.HomePresenter;
 import it.sharengo.eteria.ui.mapgoogle.MapGooglePresenter;
@@ -103,20 +102,6 @@ public class MvpFragmentModule {
         return presenter;
     }
 
-    @Provides
-    MapPresenter provideMapPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository,
-                                     PostRepository postRepository, CarRepository carRepository,
-                                     AddressRepository addressRepository, PreferencesRepository preferencesRepository,
-                                     UserRepository userRepository, CityRepository cityRepository) {
-        MapPresenter presenter = null;
-        if (mBundle != null) {
-            presenter = presenterManager.restorePresenter(mBundle);
-        }
-        if (presenter == null) {
-            presenter = new MapPresenter(schedulerProvider, appRepository, postRepository, carRepository, addressRepository, preferencesRepository, userRepository, cityRepository);
-        }
-        return presenter;
-    }
 
     @Provides
     TripEndPresenter provideTripEndPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {

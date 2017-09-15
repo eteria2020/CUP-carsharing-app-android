@@ -7,6 +7,7 @@ import it.sharengo.eteria.data.models.City;
 import it.sharengo.eteria.data.models.Feed;
 import it.sharengo.eteria.data.models.KmlServerPolygon;
 import it.sharengo.eteria.data.models.Reservation;
+import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import it.sharengo.eteria.data.models.SearchItem;
 import it.sharengo.eteria.data.models.Trip;
 import it.sharengo.eteria.ui.base.map.MvpMapView;
@@ -35,4 +36,5 @@ public interface MapGoogleMvpView extends MvpMapView {
     void showPolygon(List<KmlServerPolygon> polygonList);
     void carAlreadyBooked();
     void onLoadCarInfo(Car car);
+    void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes);
 }
