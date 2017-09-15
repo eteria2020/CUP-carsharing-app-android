@@ -1549,6 +1549,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Metodo richiamato quando si preme sul pin di un macchina
     private void onTapMarker(Car car){
+
+        //Pulisco il percorso a piedi
+        removeWalkingNavigation();
+
         //Verifico se è attiva una prenotazione
         if(isBookingCar || isTripStart){
 
@@ -2090,6 +2094,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void getWalkingNavigation(){
+        Log.w("AAA","getWalkingNavigation");
         if(userLocation != null && carWalkingNavigation != null) {
             walkingDestination.setLatitude(carWalkingNavigation.latitude);
             walkingDestination.setLongitude(carWalkingNavigation.longitude);
@@ -2101,7 +2106,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Aggiorno la Walk Navigation
     private void updateWalkingNavigation(ResponseGoogleRoutes googleRoutes){
 
-        Log.w("googleRoutes",": "+googleRoutes.routes.get(0).legs.get(0));
+
         if(carWalkingNavigation != null) {
             if (polyWalking != null) polyWalking.remove();
 
@@ -2901,6 +2906,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void openReservationNotification() {
+        removeWalkingNavigation();
         ((MapGoogleActivity) getActivity()).showNotification(getString(R.string.booking_timeend_label), null);
     }
 
