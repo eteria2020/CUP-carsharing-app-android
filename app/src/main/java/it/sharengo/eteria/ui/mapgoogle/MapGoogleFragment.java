@@ -1940,17 +1940,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         //Distanza
         if(userLocation != null){
-            String distanceString = "";
             float distance = getDistance(car);
-            if(distance < 1000){
-                distance = Math.round(distance);
-                distanceString = String.format(getString(R.string.maps_distance_label), (int) distance);
-            }
-            else{
-                distanceString = String.format(getString(R.string.maps_distancekm_label), distance/1000);
-            }
-
-            distanceTextView.setText(distanceString);
+            showCarDistance(distance);
         }else{
             distanceView.setVisibility(View.GONE);
         }
@@ -1958,28 +1949,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //Time
         if(userLocation != null){
             int timeF = Math.round(getDistance(car)/100);
-            String timeFString = "";
-
-            if(timeF < 60){
-                timeFString = String.format(getString(R.string.maps_time_label), timeF);
-            }else if(timeF == 60){
-                timeFString = getString(R.string.maps_timeh60_label);
-            }else if(timeF > 60){
-                int hh = timeF / 60;
-                int mm = timeF % 60;
-
-                if(mm == 0){
-                    timeFString = String.format(getString(R.string.maps_timeh_label), hh);
-                }else {
-                    if(hh == 1){
-                        timeFString = String.format(getString(R.string.maps_timehsm_label), hh, mm);
-                    }else {
-                        timeFString = String.format(getString(R.string.maps_timehm_label), hh, mm);
-                    }
-                }
-            }
-
-            timeTextView.setText(timeFString);
+            showCarDuration(timeF);
         }else{
             timeView.setVisibility(View.GONE);
         }
@@ -1990,6 +1960,45 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }else{
             closestcarView.setVisibility(View.GONE);
         }
+    }
+
+    private void showCarDistance(float distance){
+        String distanceString = "";
+
+        if(distance < 1000){
+            distance = Math.round(distance);
+            distanceString = String.format(getString(R.string.maps_distance_label), (int) distance);
+        }
+        else{
+            distanceString = String.format(getString(R.string.maps_distancekm_label), distance/1000);
+        }
+
+        distanceTextView.setText(distanceString);
+    }
+
+    private void showCarDuration(int timeF){
+        String timeFString = "";
+
+        if(timeF < 60){
+            timeFString = String.format(getString(R.string.maps_time_label), timeF);
+        }else if(timeF == 60){
+            timeFString = getString(R.string.maps_timeh60_label);
+        }else if(timeF > 60){
+            int hh = timeF / 60;
+            int mm = timeF % 60;
+
+            if(mm == 0){
+                timeFString = String.format(getString(R.string.maps_timeh_label), hh);
+            }else {
+                if(hh == 1){
+                    timeFString = String.format(getString(R.string.maps_timehsm_label), hh, mm);
+                }else {
+                    timeFString = String.format(getString(R.string.maps_timehm_label), hh, mm);
+                }
+            }
+        }
+
+        timeTextView.setText(timeFString);
     }
 
     private void loadCarInfo(Car car){
@@ -2010,6 +2019,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void closePopup(){
         mPresenter.setCarSelected(null);
         popupCarView.animate().translationY(popupCarView.getHeight());
+
         removeWalkingNavigation();
     }
 
@@ -2082,6 +2092,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Aggiorno la Walk Navigation
     private void updateWalkingNavigation(ResponseGoogleRoutes googleRoutes){
 
+        Log.w("googleRoutes",": "+googleRoutes.routes.get(0).legs.get(0));
         if(carWalkingNavigation != null) {
             if (polyWalking != null) polyWalking.remove();
 
@@ -2097,6 +2108,24 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 polyWalking = mMap.addPolyline(polyWalkingOptions);
             }
         }
+
+        //Aggiorno distanza popover
+        try{
+            distanceView.setVisibility(View.VISIBLE);
+
+            float distance = googleRoutes.routes.get(0).legs.get(0).distance.value;
+            showCarDistance(distance);
+
+        }catch (NullPointerException e){}
+
+        //Aggiorno la durata popover
+        try{
+            timeView.setVisibility(View.VISIBLE);
+
+            int duration = googleRoutes.routes.get(0).legs.get(0).duration.value;
+            showCarDuration(duration/60);
+        }catch (NullPointerException e){}
+
     }
 
     //Elimino il Walk Navigation
@@ -2347,9 +2376,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         //Tolgo l'animazione al pin
         setMarkerAnimation();
-
-        //Aggiorno la Walking Animation
-        removeWalkingNavigation();
     }
 
     //Metodo quando arriva dal server la conferma che la prenotaizone è stata annullata
@@ -2365,6 +2391,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 cdd.dismissAlert();
                 isBookingCar = false;
                 closeViewBookingCar();
+
+                //Aggiorno la Walking Animation
+                removeWalkingNavigation();
             }
         });
     }
