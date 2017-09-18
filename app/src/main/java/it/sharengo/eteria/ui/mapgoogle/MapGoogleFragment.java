@@ -1608,6 +1608,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     distance = dist;
                     car_id = car.id;
                     carNext = car;
+
+                    carWalkingNavigation = carNext;
+                    getWalkingNavigation();
                 }
             }
 
@@ -2051,7 +2054,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
-                if(getDistance(carSelected) <= 50000000){ //TODO: valore a 50
+                if(getDistance(carSelected) <= 50){ //TODO: valore a 50
                     //Procediamo con le schermate successive
                     onClosePopup();
                     if(isTripStart && isTripParked) {
@@ -2094,8 +2097,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void getWalkingNavigation(){
-        Log.w("AAA","getWalkingNavigation");
-        if(userLocation != null && carWalkingNavigation != null) {
+
+        if(userLocation != null && carWalkingNavigation != null && getDistance(carWalkingNavigation) <= 10000) {
             walkingDestination.setLatitude(carWalkingNavigation.latitude);
             walkingDestination.setLongitude(carWalkingNavigation.longitude);
 
@@ -2145,7 +2148,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Elimino il Walk Navigation
     private void removeWalkingNavigation(){
         carWalkingNavigation = null;
-        if(polyWalking != null) polyWalking.remove();
+
+        if(carNext != null){
+            carWalkingNavigation = carNext;
+            getWalkingNavigation();
+        }
+        else if(polyWalking != null) polyWalking.remove();
     }
 
 
