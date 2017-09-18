@@ -691,8 +691,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(41.890251);
-        userLocation.setLongitude(12.492373); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.895514);
+        userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1534,7 +1534,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //Ciclo i marker disegnati per trovare l'auto vicina
         if(poiMarkers != null && poiMarkers.size() > 0){
             for(com.androidmapsextensions.Marker markerNext : poiMarkers){
-                if(((Car) markerNext.getData()).id.equals(carnext_id)){
+                Car markerNextData = ((Car) markerNext.getData());
+                boolean freeCar = false;
+                if(markerNextData.bonus != null&& !markerNextData.bonus.isEmpty() && markerNextData.bonus.get(0).status && markerNextData.bonus.get(0).type.equals("nouse")) freeCar = true;
+                if(markerNextData.id.equals(carnext_id) && !freeCar){
+
                     carnextMarker = markerNext;
                 }
             }
@@ -1615,15 +1619,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     distance = dist;
                     car_id = car.id;
                     carNext = car;
-
-                    carWalkingNavigation = carNext;
-                    getWalkingNavigation();
                 }
             }
 
         }
 
         carnext_id = car_id;
+
+        carWalkingNavigation = carNext;
+        getWalkingNavigation();
     }
 
     private void setMarkerAnimation(){
