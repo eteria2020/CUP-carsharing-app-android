@@ -119,6 +119,7 @@ import it.sharengo.eteria.ui.base.map.BaseMapFragment;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 import it.sharengo.eteria.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
 import it.sharengo.eteria.utils.ImageUtils;
+import it.sharengo.eteria.utils.ResourceProvider;
 import it.sharengo.eteria.utils.StringsUtils;
 
 import static android.R.attr.mode;
@@ -1420,7 +1421,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                 //Creo il marker
                 MarkerOptions markerCar = new MarkerOptions().position(new LatLng(car.latitude, car.longitude));
-                markerCar.icon(bitmapAuto);
+                if(car.bonus != null&& !car.bonus.isEmpty() && car.bonus.get(0).status && car.bonus.get(0).type.equals("nouse")){ //Macchina con minuti free
+                    markerCar.icon(getBitmapDescriptor(makeFreeMarker(ResourceProvider.getDrawable(getActivity(), R.drawable.ic_auto_free), String.valueOf(car.bonus.get(0).value), 53, 53)));
+                }else
+                    markerCar.icon(bitmapAuto);
                 markerCar.data(car);
 
 
@@ -1834,7 +1838,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     //Metodo che permette di modificare la dimensione dell'immagine del pin presente sulla mappa
-    public Bitmap resizeMapIcons(String iconName,int width, int height){
+    private Bitmap resizeMapIcons(String iconName,int width, int height){
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getActivity().getPackageName()), options);  //BitmapFactory.decodeResource(a.getResources(), path, options);
@@ -1854,8 +1858,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         return drawable;
     }
 
-    //Metodo per inserire un'icona sovrapposta al marker base (cerchio giallo con bordo verde)
-    public Drawable makeBasicMarker(Bitmap bitmap) {
+    //Metodo per inserire un'icona sovrapposta al marker base (cerchio giallo con bordo verde) nel caso del marker delle città
+    private Drawable makeBasicMarker(Bitmap bitmap) {
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 65, 65, false);
         Drawable[] layers = new Drawable[2];
         layers[0] = new BitmapDrawable(getResources(),
@@ -1867,8 +1871,49 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         return ld;
     }
 
+    //Metodo per inserire un'icona sovrapposta al marker base nel caso del marker dell'auto con minuti free
+    /*private Drawable makeFreeMarker() {
+        //Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 65, 65, false);
+        Drawable[] layers = new Drawable[1];
+        layers[0] = new BitmapDrawable(getResources(),
+                BitmapFactory.decodeResource(getResources(), R.drawable.ic_auto_free));
+
+        //layers[1] = new BitmapDrawable(getResources(), tintImage(resizedBitmap));
+
+        LayerDrawable ld = new LayerDrawable(layers);
+        ld.setLayerInset(0, 10, 10, 10, 10); // xx would be the values needed so bitmap ends in the upper part of the image
+        return ld;
+    }*/
+
+    private Drawable makeFreeMarker(Drawable backgroundImage, String text,
+                                      int width, int height) {
+
+        Bitmap canvasBitmap = Bitmap.createBitmap(width, height,
+                Bitmap.Config.ARGB_8888);
+        // Create a canvas, that will draw on to canvasBitmap.
+        Canvas imageCanvas = new Canvas(canvasBitmap);
+
+        // Set up the paint for use with our Canvas
+        Paint imagePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        imagePaint.setTextAlign(Paint.Align.CENTER);
+        imagePaint.setColor(ContextCompat.getColor(getActivity(), R.color.white));
+        imagePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        imagePaint.setTextSize(4 * getResources().getDisplayMetrics().density);
+
+        // Draw the image to our canvas
+        backgroundImage.draw(imageCanvas);
+
+        // Draw the text on top of our image
+        imageCanvas.drawText(text, width / 2, 25, imagePaint);
+
+        // Combine background and text to a LayerDrawable
+        LayerDrawable layerDrawable = new LayerDrawable(
+                new Drawable[]{backgroundImage, new BitmapDrawable(canvasBitmap)});
+        return layerDrawable;
+    }
+
     //Metodo per modificare il colore di una bitmap
-    public  Bitmap tintImage(Bitmap bitmap) {
+    private  Bitmap tintImage(Bitmap bitmap) {
         Paint paint = new Paint();
         paint.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(getActivity(), R.color.mediumseagreen), PorterDuff.Mode.SRC_ATOP));
         Bitmap bitmapResult = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);

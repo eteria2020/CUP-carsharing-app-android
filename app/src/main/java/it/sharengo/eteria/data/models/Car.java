@@ -2,6 +2,8 @@ package it.sharengo.eteria.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 import it.sharengo.eteria.data.common.ExcludeSerialization;
 
 public class Car {
@@ -24,6 +26,7 @@ public class Car {
     @SerializedName("battery")
     public int autonomy;
 
+    public List<Bonus> bonus;
 
     @ExcludeSerialization
     public boolean favourite;
@@ -31,7 +34,7 @@ public class Car {
     public Car() {
     }
 
-    public Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy, boolean parking) {
+    public Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy, boolean parking, List<Bonus> bonus) {
         this.id = id;
         this.manufactures = manufactures;
         this.model = model;
@@ -40,6 +43,7 @@ public class Car {
         this.status = status;
         this.autonomy = autonomy;
         this.parking = parking;
+        this.bonus = bonus;
     }
 
     public Car(String id, float longitude, float latitude) {
