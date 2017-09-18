@@ -2067,6 +2067,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void loadCarAutonomy(int autonomy){
+        if(autonomy < 50) autonomy = autonomy - 10;
         autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), (int) autonomy)));
         if(autonomy == 0){
             autonomyTextView.setVisibility(View.GONE);
