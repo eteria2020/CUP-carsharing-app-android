@@ -379,6 +379,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @BindView(R.id.openDoorBookingButton)
     Button openDoorBookingButton;
 
+    @BindView(R.id.closestcarTextView)
+    TextView closestcarTextView;
+
 
     public static MapGoogleFragment newInstance(int type) {
         MapGoogleFragment fragment = new MapGoogleFragment();
@@ -2016,7 +2019,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //Tipologia popup
-        if(car.id.equals(carnext_id)){
+        if(car.bonus != null&& !car.bonus.isEmpty() && car.bonus.get(0).status && car.bonus.get(0).type.equals("nouse")){
+            closestcarTextView.setText(getString(R.string.maps_freecar_label));
+            closestcarView.setVisibility(View.VISIBLE);
+        }
+        else if(car.id.equals(carnext_id)){
+            closestcarTextView.setText(getString(R.string.maps_closestcar_label));
             closestcarView.setVisibility(View.VISIBLE);
         }else{
             closestcarView.setVisibility(View.GONE);
@@ -2231,6 +2239,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Metodo per mostrare le informazioni sulla prenotazione
     private void reservationInfo(Car mCar, Reservation mReservation){
+
+        if(!isBookingCar){
+            //moveMapCameraToPoitWithZoom((double) carSelected.latitude + 0.0002, (double) carSelected.longitude, 19);
+            if(userLocation != null)
+                moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
+        }
+
         isBookingCar = true;
         ad.carAlpha = false;
         circularLayout.init();
@@ -2242,8 +2257,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(poiMarkersToAdd == null) poiMarkersToAdd = new ArrayList<>();
         if(poiMarkers == null) poiMarkers = new ArrayList<>();
 
-
-        moveMapCameraToPoitWithZoom((double) carSelected.latitude + 0.0002, (double) carSelected.longitude, 19);
 
         setMarkerAnimation();
 
