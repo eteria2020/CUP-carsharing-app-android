@@ -256,17 +256,19 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                //Verifico se devo mostrare il tutorial (solo la seconda volta)
-                SharedPreferences mPref = getActivity().getSharedPreferences(getActivity().getString(R.string.preference_file_key), MODE_PRIVATE);
-                SharedPreferences.Editor editor = mPref.edit();
-                String prefKey = getActivity().getString(R.string.preference_tutorial);
+                if(getActivity() != null) {
+                    //Verifico se devo mostrare il tutorial (solo la seconda volta)
+                    SharedPreferences mPref = getActivity().getSharedPreferences(getActivity().getString(R.string.preference_file_key), MODE_PRIVATE);
+                    SharedPreferences.Editor editor = mPref.edit();
+                    String prefKey = getActivity().getString(R.string.preference_tutorial);
 
-                if (mPref.getInt(prefKey, 0) == 0){
-                    editor.putInt(prefKey, 1);
-                    editor.commit();
+                    if (mPref.getInt(prefKey, 0) == 0) {
+                        editor.putInt(prefKey, 1);
+                        editor.commit();
 
-                    Navigator.launchTutorial(HomeFragment.this);
+                        Navigator.launchTutorial(HomeFragment.this);
 
+                    }
                 }
 
             }

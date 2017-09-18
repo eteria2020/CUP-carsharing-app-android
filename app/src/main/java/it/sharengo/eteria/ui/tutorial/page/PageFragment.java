@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,10 +57,7 @@ public class PageFragment extends Fragment {
         ImageView slideImageView = (ImageView) rootView.findViewById(R.id.slideImageView);
 
 
-        /*String lang = Locale.getDefault().getLanguage();
-
-        if(!lang.equals("it")) lang = "en";*/
-
+        if(!lang.equals("en") && !lang.equals("it")) lang = "it";
 
         switch (page){
             case 1:

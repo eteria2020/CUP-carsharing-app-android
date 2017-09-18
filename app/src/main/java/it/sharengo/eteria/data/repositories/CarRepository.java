@@ -154,13 +154,19 @@ public class CarRepository {
      * @see                Observable<List<Car>>
      */
     public Observable<List<Car>> findPlates(final String searchText) {
-            return Observable.from(mCachedPlate)
-                    .filter(new Func1<Car, Boolean>() {
-                        @Override
-                        public Boolean call(Car car) {
-                            return car.id.toLowerCase().contains(searchText.toLowerCase()); //filtering
-                        }
-                    }).toList();
+
+        if(mCachedPlate == null){
+            mCachedPlate = new ArrayList<>();
+        }
+
+        return Observable.from(mCachedPlate)
+                .filter(new Func1<Car, Boolean>() {
+                    @Override
+                    public Boolean call(Car car) {
+
+                        return car.id.toLowerCase().contains(searchText.toLowerCase()); //filtering
+                    }
+                }).toList();
     }
 
     /**

@@ -65,7 +65,9 @@ public class SettingsLangPresenter extends BasePresenter<SettingsLangMvpView> {
         mAppRepository.putLang(lang);
 
 
-        getMvpView().reloadApp();
+        try {
+            getMvpView().reloadApp();
+        }catch (NullPointerException e){}
     }
 }
 

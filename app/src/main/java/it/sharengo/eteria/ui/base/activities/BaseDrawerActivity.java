@@ -104,7 +104,9 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
                 if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
                     mDrawerLayout.closeDrawers();
                 } else {
-                    mDrawerLayout.openDrawer(GravityCompat.END);
+                    try {
+                        mDrawerLayout.openDrawer(GravityCompat.END);
+                    }catch (IllegalArgumentException e){}
                 }
             }
             returnValue = true;
@@ -127,7 +129,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
 
     public Boolean closeDrawer() {
         Boolean drawerClosed = Boolean.FALSE;
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerClosed = Boolean.TRUE;
             closeRightDrawerFrame();
         }
