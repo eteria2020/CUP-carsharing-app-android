@@ -1102,8 +1102,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 }
 
                 if (!isTripStart) {
-                    if(userMarker != null)
+                    try {
                         userMarker.setIcon(getBitmapDescriptor(R.drawable.ic_user));
+                    }catch (NullPointerException e){}
                 }
 
             }
@@ -2889,7 +2890,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @OnClick(R.id.orientationMapButtonView)
     public void onOrientationMap() {
-        orientationMap();
+        if(mMap != null) orientationMap();
     }
 
     @OnClick(R.id.carFeedMapButtonView)
