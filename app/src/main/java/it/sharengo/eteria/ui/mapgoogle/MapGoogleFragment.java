@@ -2033,8 +2033,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //Tipologia popup
-        if(car.bonus != null&& !car.bonus.isEmpty() && car.bonus.get(0).status && car.bonus.get(0).type.equals("nouse")){
-            closestcarTextView.setText(getString(R.string.maps_freecar_label));
+        boolean isCarBonus = (car.bonus != null&& !car.bonus.isEmpty() && car.bonus.get(0).status && car.bonus.get(0).type.equals("nouse")) ? true : false;
+        if(isCarBonus && car.id.equals(carnext_id)){
+            closestcarTextView.setText(getString(R.string.maps_closestcar_label) + "\n" + String.format(getString(R.string.maps_freecar_label), ""+car.bonus.get(0).value));
+            closestcarView.setVisibility(View.VISIBLE);
+        }
+        else if(isCarBonus){
+            closestcarTextView.setText(String.format(getString(R.string.maps_freecar_label), ""+car.bonus.get(0).value));
             closestcarView.setVisibility(View.VISIBLE);
         }
         else if(car.id.equals(carnext_id)){

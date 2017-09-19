@@ -222,7 +222,7 @@
     <string name="btn_login">LOGIN</string>
     <string name="tripend_parkerdcar_label">Car parkerd</string>
     <string name="chronology_ratesmin_label">Minute fare: € %s</string>
-    <string name="maps_freecar_label">Auto con minuti gratuiti</string>
+    <string name="maps_freecar_label">%s minutes free drive</string>
 
     <string name="rates_titleauth_label">Fares</string>
     <string name="rates_titlenoauth_label">Fares and Bonuses</string>

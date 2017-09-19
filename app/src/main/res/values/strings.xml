@@ -250,7 +250,7 @@
     <string name="btn_login">ACCEDI</string>
     <string name="tripend_parkerdcar_label">Auto in sosta</string>
     <string name="chronology_ratesmin_label">Tariffa al minuto: € %s</string>
-    <string name="maps_freecar_label">Auto con minuti gratuiti</string>
+    <string name="maps_freecar_label">%s minuti di guida gratuita!</string>
 
     <string name="rates_titleauth_label">Tariffe</string>
     <string name="rates_titlenoauth_label">Tariffe e bonus</string>
