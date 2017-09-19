@@ -546,7 +546,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
 
-        bitmapAuto = getBitmapDescriptor(resizeMapIcons("ic_auto", (int) (44 * getResources().getDisplayMetrics().density), (int) (53 * getResources().getDisplayMetrics().density)));
+        bitmapAuto = getBitmapDescriptor(resizeMapIcons("ic_auto", (int) (39 * getResources().getDisplayMetrics().density), (int) (48 * getResources().getDisplayMetrics().density)));
         bitmapUser = getBitmapDescriptor(R.drawable.ic_user);
 
         mPresenter.onMapIsReady();
@@ -721,7 +721,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //Aggiorno la Walk Navigation
-        if(getMapRadius() < 35000) getWalkingNavigation();
+        if(mMap != null && getMapRadius() < 35000){
+            getWalkingNavigation();
+        }
     }
 
 
@@ -1156,8 +1158,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 carNextCluster = null;
             }
 
-            //removeWalkingNavigation();
-            if(polyWalking != null) polyWalking.remove();
+            if(polyWalking != null){
+                polyWalking.setVisible(false);
+            }
 
         }else {
 
@@ -1187,8 +1190,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             //Aggiorno la Walk Navigation
             if(!isTripStart || (isTripStart && carSelected.parking)){
-                //carWalkingNavigation = carSelected;
-                if(carWalkingNavigation != null) getWalkingNavigation();
+                if(polyWalking != null){
+                    polyWalking.setVisible(true);
+                }
             }
         }
 
@@ -1427,7 +1431,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 //Creo il marker
                 MarkerOptions markerCar = new MarkerOptions().position(new LatLng(car.latitude, car.longitude));
                 if(car.bonus != null&& !car.bonus.isEmpty() && car.bonus.get(0).status && car.bonus.get(0).type.equals("nouse")){ //Macchina con minuti free
-                    markerCar.icon(getBitmapDescriptor(makeFreeMarker(ResourceProvider.getDrawable(getActivity(), R.drawable.ic_auto_free), String.valueOf(car.bonus.get(0).value), 53, 53)));
+                    markerCar.icon(getBitmapDescriptor(makeFreeMarker(ResourceProvider.getDrawable(getActivity(), R.drawable.ic_auto_free), String.valueOf(car.bonus.get(0).value), 100, 100)));
                 }else
                     markerCar.icon(bitmapAuto);
                 markerCar.data(car);
@@ -1563,8 +1567,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Metodo richiamato quando si preme sul pin di un macchina
     private void onTapMarker(Car car){
 
-        //Pulisco il percorso a piedi
-        removeWalkingNavigation();
 
         //Verifico se è attiva una prenotazione
         if(isBookingCar || isTripStart){
@@ -1628,8 +1630,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         carnext_id = car_id;
 
-        carWalkingNavigation = carNext;
-        getWalkingNavigation();
+        if(!isBookingCar && !isTripStart) {
+            if (carWalkingNavigation == null || (carWalkingNavigation != null && !carWalkingNavigation.id.equals(carNext.id))) {
+                carWalkingNavigation = carNext;
+
+                getWalkingNavigation();
+            }
+        }
     }
 
     private void setMarkerAnimation(){
@@ -1907,13 +1914,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         imagePaint.setTextAlign(Paint.Align.CENTER);
         imagePaint.setColor(ContextCompat.getColor(getActivity(), R.color.white));
         imagePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        imagePaint.setTextSize(4 * getResources().getDisplayMetrics().density);
+        imagePaint.setTextSize(8 * getResources().getDisplayMetrics().density);
 
         // Draw the image to our canvas
         backgroundImage.draw(imageCanvas);
 
         // Draw the text on top of our image
-        imageCanvas.drawText(text, width / 2, 25, imagePaint);
+        imageCanvas.drawText(text, width / 2, 48, imagePaint);
 
         // Combine background and text to a LayerDrawable
         LayerDrawable layerDrawable = new LayerDrawable(
@@ -1985,6 +1992,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         carWalkingNavigation = car;
 
         //Aggiorno la Walk Navigation
+        Log.w("showPopupCar","X");
         getWalkingNavigation();
 
         carFeedMapButton.setAlpha(1.0f);
@@ -2114,7 +2122,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
-                if(getDistance(carSelected) <= 50){ //TODO: valore a 50
+                if(getDistance(carSelected) <= 500000000){ //TODO: valore a 50
                     //Procediamo con le schermate successive
                     onClosePopup();
                     if(isTripStart && isTripParked) {
@@ -2157,7 +2165,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void getWalkingNavigation(){
-
+        Log.w("getWalkingNavigation","getWalkingNavigation");
         if(userLocation != null && carWalkingNavigation != null && getDistance(carWalkingNavigation) <= 10000) {
             walkingDestination.setLatitude(carWalkingNavigation.latitude);
             walkingDestination.setLongitude(carWalkingNavigation.longitude);
@@ -2209,11 +2217,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void removeWalkingNavigation(){
         carWalkingNavigation = null;
 
-        if(carNext != null){
+        if(!isTripStart && !isBookingCar && carNext != null){
+            Log.w("removeWalkingNavigation","XXX");
             carWalkingNavigation = carNext;
             getWalkingNavigation();
         }
-        else if(polyWalking != null) polyWalking.remove();
+        else{
+            if(polyWalking != null) polyWalking.remove();
+        }
     }
 
 
@@ -2422,9 +2433,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         //Aggiorno la Walk Navigation
         if(isTripStart){
-
             if(!carSelected.parking) { //Auto in corsa
-                removeWalkingNavigation();
+                if (polyWalking != null) polyWalking.remove();
             }else{ //Auto parcheggiata
                 carWalkingNavigation = carSelected;
                 getWalkingNavigation();
@@ -2583,6 +2593,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         isBookingCar = false;
 //        carSelected = null;
 
+        removeWalkingNavigation();
         closeViewBookingCar();
     }
 
@@ -3031,6 +3042,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes){
+        Log.w("googleRoutes",": "+googleRoutes);
         updateWalkingNavigation(googleRoutes);
     }
 

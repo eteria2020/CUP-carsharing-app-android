@@ -1083,7 +1083,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      */
     public void getRoutes(Context context, Location origin, Location destination, String mode) {
         hideLoading = true;
-        Log.w("getRoutes",": "+mFindRoutesRequest);
         if( mFindRoutesRequest == null) {
             mFindRoutesRequest = buildFindRoutesRequest(context, origin, destination, mode);
             addSubscription(mFindRoutesRequest.unsafeSubscribe(getFindRoutesSubscriber()));
