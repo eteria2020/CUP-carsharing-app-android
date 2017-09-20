@@ -693,8 +693,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(41.895514);
-        userLocation.setLongitude(12.486259); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        //userLocation.setLatitude(41.890378);
+        //userLocation.setLongitude(12.492392); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1634,7 +1634,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(!isBookingCar && !isTripStart) {
             if (carWalkingNavigation == null || (carWalkingNavigation != null && !carWalkingNavigation.id.equals(carNext.id))) {
                 carWalkingNavigation = carNext;
-
+                Log.w("findNextCar",": "+isTripStart);
                 getWalkingNavigation();
             }
         }
@@ -2128,7 +2128,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
-                if(getDistance(carSelected) <= 500000000){ //TODO: valore a 50
+                if(getDistance(carSelected) <= 50){ //TODO: valore a 50
                     //Procediamo con le schermate successive
                     onClosePopup();
                     if(isTripStart && isTripParked) {
@@ -3049,7 +3049,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes){
         Log.w("googleRoutes",": "+googleRoutes);
-        updateWalkingNavigation(googleRoutes);
+        if(!isTripStart) updateWalkingNavigation(googleRoutes);
     }
 
 
