@@ -1495,6 +1495,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             if(!find){
                 poiMarkers.remove(markerOnMap);
                 markerOnMap.remove();
+            }else{
+                setClusteringZoom(markerOnMap);
             }
         }
 
@@ -1508,7 +1510,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             if(!find) {
                 com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
-                myMarker.setClusterGroup(101);
+
+                //Clusterizzo o meno in base al livello di zoom
+                setClusteringZoom(myMarker);
+
                 poiMarkers.add(myMarker);
 
                 Car car = (Car) markerCar.getData();
@@ -1543,6 +1548,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         setAnimatedMarker();
         setMarkerAnimation();
 
+    }
+
+    private void setClusteringZoom(com.androidmapsextensions.Marker mMarker){
+        if(mMap.getCameraPosition().zoom >=14){
+            mMarker.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
+        }else{
+            mMarker.setClusterGroup(101);
+        }
     }
 
     private void setAnimatedMarker(){
