@@ -30,6 +30,7 @@ public class UserRepository {
     private User mCachedUser;
     private List<Reservation> mCachedReservations;
     private ResponseTrip mCachedTrips;
+    private ResponseTrip mCachedCurrentTrip;
     private ResponseTrip mCachedTripsChron;
     private ResponseReservation mCachedReservation;
 
@@ -343,6 +344,60 @@ public class UserRepository {
     }
 
     private Observable.Transformer<ResponseTrip, ResponseTrip> logSourceTrips(final String source) {
+        return new Observable.Transformer<ResponseTrip, ResponseTrip>() {
+            @Override
+            public Observable<ResponseTrip> call(Observable<ResponseTrip> postObservable) {
+                return postObservable
+                        .doOnNext(new Action1<ResponseTrip>() {
+                            @Override
+                            public void call(ResponseTrip postList) {
+                                if (postList == null) {
+                                    Log.d("TEST", source + " does not have any data.");
+                                }
+                                else {
+                                    Log.d("TEST", source + " has the data you are looking for!");
+                                }
+                            }
+                        });
+            }
+        };
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Current trip
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Invoke API getCurrentTrips with params received from app.
+     *
+     * @param  username     username of user
+     * @param  password     password of user
+     * @return              response trip observable object
+     * @see                 Observable<ResponseTrip>
+     */
+    public Observable<ResponseTrip> getCurrentTrips(String username, String password) {
+
+        return mRemoteDataSource.getCurrentTrips(Credentials.basic(username, StringsUtils.md5(password)))
+                .doOnNext(new Action1<ResponseTrip>() {
+                    @Override
+                    public void call(ResponseTrip response) {
+
+                        createOrUpdateCurrentTripsInMemory(response);
+                    }
+                })
+                .compose(logSourceCurrentTrips("NETWORK"));
+    }
+
+    private void createOrUpdateCurrentTripsInMemory(ResponseTrip response) {
+        if (mCachedCurrentTrip == null) {
+            mCachedCurrentTrip = new ResponseTrip();
+        }
+        mCachedCurrentTrip = response;
+    }
+
+    private Observable.Transformer<ResponseTrip, ResponseTrip> logSourceCurrentTrips(final String source) {
         return new Observable.Transformer<ResponseTrip, ResponseTrip>() {
             @Override
             public Observable<ResponseTrip> call(Observable<ResponseTrip> postObservable) {

@@ -27,6 +27,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -116,6 +117,7 @@ import it.sharengo.eteria.data.models.SearchItem;
 import it.sharengo.eteria.data.models.Trip;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.map.BaseMapFragment;
+import it.sharengo.eteria.ui.chronology.ChronologyFragment;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 import it.sharengo.eteria.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
 import it.sharengo.eteria.utils.ImageUtils;
@@ -532,6 +534,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         mMap.setIndoorEnabled(false);
 
+
         drawableAnimGreenArray = new ArrayList<>();
         drawableAnimYellowArray = new ArrayList<>();
         int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().density);
@@ -549,6 +552,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         bitmapAuto = getBitmapDescriptor(resizeMapIcons("ic_auto", (int) (39 * getResources().getDisplayMetrics().density), (int) (48 * getResources().getDisplayMetrics().density)));
         bitmapUser = getBitmapDescriptor(R.drawable.ic_user);
 
+
+        setMapReady();
+
+    }
+
+    private void setMapReady(){
         mPresenter.onMapIsReady();
 
         //Clustering
@@ -566,7 +575,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             }
         });
-
     }
 
     /**
@@ -693,8 +701,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(41.890378);
-        //userLocation.setLongitude(12.492392); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.890378);
+        userLocation.setLongitude(12.492392); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -2128,7 +2136,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
-                if(getDistance(carSelected) <= 50){ //TODO: valore a 50
+                if(getDistance(carSelected) <= 500000000){ //TODO: valore a 50
                     //Procediamo con le schermate successive
                     onClosePopup();
                     if(isTripStart && isTripParked) {

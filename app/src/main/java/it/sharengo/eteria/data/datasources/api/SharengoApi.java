@@ -67,4 +67,9 @@ public interface SharengoApi {
     @GET("v3/trips")
     Observable<Result<ResponseTrip>> getTrips(@Header("Authorization") String auth, @Query("active") boolean active);
 
+    @GET("v2/trips/current")
+    Observable<Result<ResponseTrip>> getCurrentTrips(@Header("Authorization") String auth);
+
+
+
 }

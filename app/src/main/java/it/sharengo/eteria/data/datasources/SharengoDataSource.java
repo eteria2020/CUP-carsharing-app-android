@@ -30,4 +30,6 @@ public interface SharengoDataSource {
 
     Observable<ResponseTrip> getTrips(String auth, boolean active);
 
+    Observable<ResponseTrip> getCurrentTrips(String auth);
+
 }

@@ -143,6 +143,10 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private TimerTask timerTask1min;
     private final Handler handler1min = new Handler();
 
+    private int timerInterval;
+    private int INT_1_MIN = 60000;
+    private int INT_10_SEC = 10000;
+
 
     public MapGooglePresenter(SchedulerProvider schedulerProvider,
                               AppRepository appRepository,
@@ -231,7 +235,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     /**
      * Timer for checking reservation or active trips.
      */
-    public void startTimer() {
+    private void startTimer() {
+
 
         timer = new Timer();
 
@@ -249,7 +254,15 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         timer.schedule(timerTask, 300000, 300000); //300000
 
 
-        //1 minuto
+        setTimerReservertionTrip(INT_1_MIN);
+    }
+
+    private void setTimerReservertionTrip(int interval){
+
+        timerInterval = interval;
+
+        if(timer1min != null) timer1min.cancel();
+
         timer1min = new Timer();
 
         timerTask1min = new TimerTask() {
@@ -258,29 +271,22 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 handler1min.post(new Runnable() {
                     public void run() {
 
-
+                        Log.w("TIMER","setTimerReservertionTrip");
                         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
                             getReservations(true);
 
-                        //getTrips(true);
-
-                        //getMvpView().openTripEnd(1497253171);
-                        /*getMvpView().openNotification(1497257941, (int) (System.currentTimeMillis() / 1000L));
-                        timerTask1min.cancel();
-                        timer.cancel();*/
                     }
                 });
             }
         };
 
-        timer1min.schedule(timerTask1min, 5000, 60000); //TODO 60000
-
+        timer1min.schedule(timerTask1min, 5000, interval);
     }
 
     /**
      * Stop timer if different from null.
      */
-    public void stoptimertask() {
+    private void stoptimertask() {
         if (timer != null) {
             timer.cancel();
             timer = null;
@@ -1337,12 +1343,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private Observable<ResponseTrip> buildTripsRequest(boolean refreshInfo) {
-        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, true, refreshInfo) //TODO, il valore deve essere true
+        return mTripsRequest = mUserRepository.getCurrentTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
                 .first()
                 .compose(this.<ResponseTrip>handleDataRequest())
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
+                        Log.w("TRIP","checkTripsResult");
                         checkTripsResult();
                     }
                 });
@@ -1359,6 +1366,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             public void onError(Throwable e) {
                 mTripsRequest = null;
                 //getMvpView().showError(e);
+                Log.w("TRIP","ERROR");
             }
 
             @Override
@@ -1376,6 +1384,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             isTripExists = true;
 
             loadCarsTrip(mResponseTrip.trips.get(0).plate);
+
+            //Timer
+            if(timerInterval == INT_1_MIN) setTimerReservertionTrip(INT_10_SEC);
         }else{
 
             if(isTripExists){
@@ -1388,6 +1399,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 //timer.cancel();
             }
             getMvpView().removeTripInfo();
+
+            //Timer
+            if(timerInterval == INT_10_SEC) setTimerReservertionTrip(INT_1_MIN);
         }
     }
 
