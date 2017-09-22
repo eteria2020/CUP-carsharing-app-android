@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,18 +143,24 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.w("onActivityResult","MICR");
         switch (requestCode) {
             case SPEECH_RECOGNITION_CODE: {
                 if (resultCode == getActivity().RESULT_OK && null != data) {
 
+                    searchEditText.requestFocus();
+                    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                    searchView.setVisibility(View.VISIBLE);
+                    searchMapResultView.setVisibility(View.VISIBLE);
+
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    String text = result.get(0);
+                    String text = result.get(0); Log.w("onActivityResult",": "+text);
                     searchEditText.setText(text);
                     initMapSearch();
 
-                    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                    //searchEditText.requestFocus();
+                    //getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
                 }
                 break;
