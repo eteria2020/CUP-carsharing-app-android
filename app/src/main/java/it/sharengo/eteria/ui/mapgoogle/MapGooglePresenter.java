@@ -1367,7 +1367,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        Log.w("TRIP","checkTripsResult");
                         checkTripsResult();
                     }
                 });
@@ -1383,8 +1382,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onError(Throwable e) {
                 mTripsRequest = null;
-                //getMvpView().showError(e);
-                Log.w("TRIP","ERROR");
             }
 
             @Override
@@ -1626,8 +1623,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         }else{
             getMvpView().removeReservationInfo();
         }
-
-        //getTrips(true);
     }
 
 

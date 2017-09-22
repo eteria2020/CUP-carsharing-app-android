@@ -705,8 +705,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(41.890378);
-        userLocation.setLongitude(12.492392); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.914133);
+        userLocation.setLongitude(12.440425); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1564,14 +1564,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void setAnimatedMarker(){
+        Log.w("carnext_id",": "+carnext_id);
         //Ciclo i marker disegnati per trovare l'auto vicina
         if(poiMarkers != null && poiMarkers.size() > 0){
+
             for(com.androidmapsextensions.Marker markerNext : poiMarkers){
                 Car markerNextData = ((Car) markerNext.getData());
                 boolean freeCar = false;
                 if(markerNextData.bonus != null&& !markerNextData.bonus.isEmpty() && markerNextData.bonus.get(0).status && markerNextData.bonus.get(0).type.equals("nouse")) freeCar = true;
                 if(markerNextData.id.equals(carnext_id) && !freeCar){
-
                     carnextMarker = markerNext;
                 }
             }
@@ -1667,7 +1668,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void setMarkerAnimation(){
-
+        Log.w("carnextMarker",": "+carnextMarker);
         if(carnextMarker != null || carbookingMarker != null || isTripStart) {
             if (timer != null) timer.cancel();
 
@@ -2502,8 +2503,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(bookingCarView != null)
             bookingCarView.setVisibility(View.GONE);
 
+
         //Tolgo l'animazione al pin
-        setMarkerAnimation();
+        setAnimatedMarker();
+        //setMarkerAnimation();
     }
 
     //Metodo quando arriva dal server la conferma che la prenotaizone è stata annullata
@@ -2565,6 +2568,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         else test_corsa = true;*/
         //---
 
+        if(!isTripStart) {
+            if (isTripParked)
+                moveMapCameraToPoitWithZoom(carSelected.latitude + 0.0002, (double) carSelected.longitude, 19);
+            else
+                moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
+        }
+
         isTripStart = true;
         isBookingCar = false;
         isTripParked = car.parking;
@@ -2607,10 +2617,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             }
         }
 
-        if(isTripParked)
-            moveMapCameraToPoitWithZoom(carSelected.latitude + 0.0002, (double) carSelected.longitude, 19);
-        else
-            moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
+
 
 
         setMarkerAnimation();
