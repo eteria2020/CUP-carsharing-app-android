@@ -705,8 +705,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(41.914133);
-        userLocation.setLongitude(12.440425); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        //userLocation.setLatitude(41.890250);
+        //userLocation.setLongitude(12.492295); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -2154,7 +2154,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(carSelected != null){
             if(userLocation != null){
                 //Calcolo la distanza
-                if(getDistance(carSelected) <= 500000000){ //TODO: valore a 50
+                if(getDistance(carSelected) <= 50){ //TODO: valore a 50
                     //Procediamo con le schermate successive
                     onClosePopup();
                     if(isTripStart && isTripParked) {

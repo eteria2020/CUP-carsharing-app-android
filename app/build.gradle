@@ -37,8 +37,8 @@ android {
         applicationId project.APPLICATION_ID
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
-        versionCode 96
-        versionName "0.9.6"
+        versionCode 306
+        versionName "3.0.1"
 
         multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
@@ -54,7 +54,7 @@ android {
             applicationIdSuffix ".development"
             resValue "string", "google_map_api_key", "AIzaSyA9fVUH1nET8pjHgceS6lyf65NZPsFnaCo"
             resValue "string", "google_place_api_key", "AIzaSyAnVjGP9ZCkSkBVkrX-5SBdmNW9AwE_Gew"
-            resValue "string", "google_direction_api_key", "AIzaSyDhmBbYzyu--l_FSKB8ANonc4fscGw4xzk" /*AIzaSyBEMZPnKaJgmjXnzeWpitYuqBrUtDf_Asg*/
+            resValue "string", "google_direction_api_key", "AIzaSyBEMZPnKaJgmjXnzeWpitYuqBrUtDf_Asg"
         }
 
         release {

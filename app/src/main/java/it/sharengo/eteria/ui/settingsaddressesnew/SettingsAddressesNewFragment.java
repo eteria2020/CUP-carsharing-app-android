@@ -59,7 +59,7 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
     private MapSearchListAdapter.OnItemActionListener mActionListener = new MapSearchListAdapter.OnItemActionListener() {
         @Override
         public void onItemClick(SearchItem searchItem) {
-            if(!searchItem.type.equals("none"))
+            if(!searchItem.type.equals("none") && !searchItem.type.equals("settings"))
                 setSearchItemSelected(searchItem);
         }
     };
