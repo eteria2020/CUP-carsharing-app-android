@@ -19,7 +19,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.0"
+        android:layout_weight="0.9"
         android:layout_margin="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/mizzie_06_pianificazione"/>
@@ -32,7 +32,7 @@
     <it.sharengo.eteria.ui.components.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="19sp"
         app:font_name="poppinsBold"
         android:textAlignment="center"
         android:textColor="@color/mediumseagreen"
@@ -66,9 +66,10 @@
         <it.sharengo.eteria.ui.components.CustomButton
             android:id="@+id/callAssistanceButton"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
+            android:layout_height="45dp"
             android:layout_marginTop="15dp"
             style="@style/button_primary"
+            android:textSize="20sp"
             android:text="@string/assistance_call_action"/>
 
     </LinearLayout>
@@ -76,6 +77,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.1"/>
+        android:layout_weight="0.4"/>
 
 </LinearLayout>

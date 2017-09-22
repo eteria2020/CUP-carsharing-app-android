@@ -1097,6 +1097,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             if (userMarker == null && userLocation != null) {
                 userMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(userLocation.getLatitude(), userLocation.getLongitude())));
                 userMarker.setClusterGroup(ClusterGroup.NOT_CLUSTERED);
+                userMarker.setZIndex(2);
             }
 
 
@@ -2626,12 +2627,19 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void showNotification(int start, int end){
 
-
         int diffTime = (int) (end - start);
 
         co2 = ((float) diffTime)/60/60*17*106;  //((minuti÷60)×17)×106
 
-        ((MapGoogleActivity) getActivity()).showNotification(String.format(getString(R.string.tripend_notification_label), diffTime/60), mNotificationListener);
+
+        float timeRide = diffTime/60.0f;
+        double dec = timeRide - Math.floor(timeRide);
+
+        diffTime = diffTime/60;
+        if(dec > 0.5) diffTime++;
+
+
+        ((MapGoogleActivity) getActivity()).showNotification(String.format(getString(R.string.tripend_notification_label), diffTime), mNotificationListener);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

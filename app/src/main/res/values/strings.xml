@@ -183,7 +183,7 @@
     
     <!-- Chronology -->
     <string name="chronology_title_label">Cronologia corse</string>
-    <string name="chronology_bookingn_label">Prenotazione n. %s</string>
+    <string name="chronology_bookingn_label">Corsa n. %s</string>
     <string name="chronology_minutes_label" formatted="false">%s minuti%s</string>
     <string name="chronology_date_label" formatted="false">%s - ore %s</string>
     <string name="chronology_end_label" formatted="false">Fine: %s - ore %s</string>
