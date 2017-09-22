@@ -1118,7 +1118,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         return mFindRoutesRequest = mAddressRepository.getRoutes(origin.getLatitude()+", "+origin.getLongitude(),
                                                                 destination.getLatitude()+", "+destination.getLongitude(),
                                                                 lang,
-                                                                context.getString(R.string.google_place_api_key))
+                                                                context.getString(R.string.google_direction_api_key))
                 .first()
                 .compose(this.<ResponseGoogleRoutes>handleDataRequest())
                 .doOnCompleted(new Action0() {
