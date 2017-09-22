@@ -179,7 +179,21 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     @Override
     protected void subscribeRequestsOnResume() {
+        Log.w("ON","RESUME");
         getMvpView().setFeedInters();
+
+
+        isTripExists = false;
+        isBookingExists = false;
+        timestamp_start = 0;
+
+        //getMvpView().removeReservationInfo();
+        //getMvpView().removeTripInfo();
+
+        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
+            getReservations(false);
+
+        startTimer();
     }
 
     @Override
@@ -222,14 +236,19 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
         loadCarpopup();
 
-        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
-            getReservations(false);
+        /*if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
+            getReservations(false);*/
 
-        startTimer();
+        //startTimer();
     }
 
     void viewDestroy() {
         stoptimertask();
+    }
+
+    void viewOnPause(){
+        stoptimertask();
+        mUserRepository.mCachedReservation = null;
     }
 
     /**
@@ -271,7 +290,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 handler1min.post(new Runnable() {
                     public void run() {
 
-                        Log.w("TIMER","setTimerReservertionTrip");
                         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
                             getReservations(true);
 
@@ -1452,10 +1470,12 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private void checkReservationsResult(){
 
         if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
+            Log.w("RESERVATION",": "+mResponseReservation.reservations.get(0).car_plate);
             loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
             isBookingExists = true;
         }else{
             //getMvpView().removeReservationInfo();
+            Log.w("RESERVATION","NOOOOO"+isBookingExists);
             if(isBookingExists){
                 isBookingExists = false;
                 getMvpView().openReservationNotification();

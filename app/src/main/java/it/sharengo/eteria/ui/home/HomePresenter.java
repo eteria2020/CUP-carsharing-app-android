@@ -218,7 +218,6 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     }
 
     private void checkReservationsResult(){
-
         if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
 
             isBookingExists = true;

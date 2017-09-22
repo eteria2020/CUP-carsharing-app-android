@@ -32,7 +32,7 @@ public class UserRepository {
     private ResponseTrip mCachedTrips;
     private ResponseTrip mCachedCurrentTrip;
     private ResponseTrip mCachedTripsChron;
-    private ResponseReservation mCachedReservation;
+    public ResponseReservation mCachedReservation;
 
     @Inject
     public UserRepository(SharengoDataSource remoteDataSource) {

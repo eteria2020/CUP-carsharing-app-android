@@ -359,7 +359,12 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     @Override
     public void onDestroyView(){
         super.onDestroyView();
+        mPresenter.viewDestroy();
+    }
 
+    @Override
+    public void onPause(){
+        super.onPause();
         mPresenter.viewDestroy();
     }
 

@@ -512,6 +512,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         lm.removeUpdates(this);
 
+        mPresenter.viewOnPause();
+
+        removeTripInfo();
+        removeReservationInfo();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1656,7 +1660,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(!isBookingCar && !isTripStart) {
             if (carWalkingNavigation == null || (carWalkingNavigation != null && !carWalkingNavigation.id.equals(carNext.id))) {
                 carWalkingNavigation = carNext;
-                Log.w("findNextCar",": "+isTripStart);
+
                 getWalkingNavigation();
             }
         }
@@ -2015,7 +2019,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         carWalkingNavigation = car;
 
         //Aggiorno la Walk Navigation
-        Log.w("showPopupCar","X");
         getWalkingNavigation();
 
         carFeedMapButton.setAlpha(1.0f);
@@ -2193,7 +2196,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void getWalkingNavigation(){
-        Log.w("getWalkingNavigation","getWalkingNavigation");
+
         if(userLocation != null && carWalkingNavigation != null && getDistance(carWalkingNavigation) <= 10000) {
             walkingDestination.setLatitude(carWalkingNavigation.latitude);
             walkingDestination.setLongitude(carWalkingNavigation.longitude);
@@ -2246,7 +2249,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         carWalkingNavigation = null;
 
         if(!isTripStart && !isBookingCar && carNext != null){
-            Log.w("removeWalkingNavigation","XXX");
+
             carWalkingNavigation = carNext;
             getWalkingNavigation();
         }
@@ -3077,7 +3080,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes){
-        Log.w("googleRoutes",": "+googleRoutes);
         if(!isTripStart) updateWalkingNavigation(googleRoutes);
     }
 
