@@ -80,15 +80,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="58dp"
                         android:background="@color/whitesmoke"
+                        android:layout_gravity="center_horizontal"
                         android:src="@drawable/img_car"/>
                     <it.sharengo.eteria.ui.components.CustomTextView
                         android:id="@+id/plateTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="15dp"
                         android:textAlignment="center"
                         android:textStyle="bold"
-                        android:textSize="11sp"
+                        android:textSize="15sp"
                         android:textColor="@color/darkjunglegreen"
                         app:font_name="poppinsBold"
                         android:text="EF8877123"/>
@@ -96,7 +97,7 @@
                         android:id="@+id/autonomyTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:textAlignment="center"
                         android:textStyle="bold"
                         android:textSize="11sp"

@@ -18,11 +18,11 @@
             android:id="@+id/userPinTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="8dp"
             android:background="@color/darkjunglegreen"
             android:textAllCaps="true"
-            android:textSize="12sp"
-            android:textColor="@color/aureolin"
+            android:textSize="14sp"
+            android:textColor="@color/white"
             android:textAlignment="center"/>
 
         <!-- Content -->

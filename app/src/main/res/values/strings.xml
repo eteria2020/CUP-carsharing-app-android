@@ -27,6 +27,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_welcome">Ciao, benvenuto!</string>
     <string name="menu_welcome_login">Ciao %s, bentornato!</string>
+    <string name="menu_welcomef_login">Ciao %s, bentornata!</string>
     <string name="menu_login">Login</string>
     <string name="menu_signup">Iscrizione</string>
     <string name="menu_rates">Tariffe</string>
@@ -89,6 +90,7 @@
     <string name="booking_delete_alert">Eliminando questa prenotazione, non potrai più prenotare la stessa auto nelle prossime 4 ore. Confermi di voler cancellare la prenotazione?</string>
     <string name="booking_deleteconfirm_alert">La tua prenotazione è stata annullata correttamente</string>
     <string name="booking_bookedcar_alert">Hai già una prenotazione attiva</string>
+    <string name="booking_tripcar_alert">Hai già una corsa attiva</string>
     <string name="booking_alreadybookedcar_alert">Non puoi prenotare questa auto fino a che non saranno passate 4 ore da quando hai annullato la prenotazione</string>
     <string name="booking_durationtrip_label">Durata corsa:</string>
     <string name="booking_tripactive_label">Corsa attiva</string>
@@ -138,7 +140,9 @@
 
     <!-- Home -->
     <string name="home_welcome_label">Benvenuto!</string>
+    <string name="home_welcomef_label">BenvenutA!</string>
     <string name="home_welcomeauth_label">Bentornato %s!</string>
+    <string name="home_welcomeauthf_label">Bentornata %s!</string>
 
     <!-- Settings -->
     <string name="settings_title_label">Impostazioni</string>

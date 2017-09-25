@@ -66,10 +66,11 @@
         <it.sharengo.eteria.ui.components.CustomButton
             android:id="@+id/callAssistanceButton"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="52dp"
             android:layout_marginTop="15dp"
             style="@style/button_primary"
             android:textSize="20sp"
+            android:gravity="center"
             android:text="@string/assistance_call_action"/>
 
     </LinearLayout>

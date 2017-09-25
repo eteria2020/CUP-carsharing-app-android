@@ -6,9 +6,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,7 +94,8 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
         //Scritta di benvenuto
         if(mPresenter.isAuth()){
-            welcomeTextView.setText(String.format(getString(R.string.home_welcomeauth_label), mPresenter.getUserInfo().userInfo.name));
+            String sexWelcome = (mPresenter.getUserInfo().userInfo.gender.equals("female")) ? getString(R.string.home_welcomeauthf_label) : getString(R.string.home_welcomeauth_label);
+            welcomeTextView.setText(String.format(sexWelcome, mPresenter.getUserInfo().userInfo.name));
         }else{
             welcomeTextView.setText(getString(R.string.home_welcome_label));
         }
@@ -106,6 +109,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
             ImageUtils.loadImage(cityButton, favouritesCity.media.images.icon.uri);
             int padding = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
             cityButton.setPadding(padding,padding,padding,padding);
+            cityButton.setColorFilter(Color.parseColor("#b8afa8"), android.graphics.PorterDuff.Mode.MULTIPLY);
         }
 
         //Verifico se il pulsante dei feed deve esssere abilitato

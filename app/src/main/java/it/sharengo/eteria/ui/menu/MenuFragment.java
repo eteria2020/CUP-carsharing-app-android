@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,7 +133,9 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
 
         //Messaggio benvenuto
         if(mPresenter.isAuth()){
-            welcomeTextView.setText(String.format(getString(R.string.menu_welcome_login), mPresenter.getUserInfo().name));
+
+            String sexWelcome = (mPresenter.getUserInfo().gender.equals("female")) ? getString(R.string.menu_welcomef_login) : getString(R.string.menu_welcome_login);
+            welcomeTextView.setText(String.format(sexWelcome, mPresenter.getUserInfo().name));
 
             //profileButton.setVisibility(View.VISIBLE);
             scoreTextView.setText("+75");
