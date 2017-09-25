@@ -253,7 +253,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     }
 
     private Observable<ResponseTrip> buildTripsRequest(boolean refreshInfo) {
-        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, true, refreshInfo) //TODO, il valore deve essere true
+        return mTripsRequest = mUserRepository.getCurrentTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
                 .first()
                 .compose(this.<ResponseTrip>handleDataRequest())
                 .doOnCompleted(new Action0() {

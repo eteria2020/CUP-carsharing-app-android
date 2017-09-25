@@ -65,9 +65,9 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         View view = inflater.inflate(R.layout.fragment_chronology, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        try {
+        /*try {
             ((BaseActivity) getActivity()).showLoadingChronology();
-        }catch (OutOfMemoryError e){}
+        }catch (OutOfMemoryError e){}*/
 
         mRv.setHasFixedSize(true);
         final LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -75,7 +75,7 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         mRv.setLayoutManager(lm);
         mRv.setAdapter(mAdapter);
         //mRv.addItemDecoration(new DividerItemDecoration(mRv.getContext(), lm.getOrientation()));
-
+        progressList.setVisibility(View.GONE);
 
         return view;
     }
@@ -142,11 +142,14 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         emptyChronLayout.setVisibility(View.GONE);
         mRv.setVisibility(View.VISIBLE);
 
-        //((BaseActivity) getActivity()).showLoading();
 
         mTripsList = tripList;
-        longOperation = new LongOperation();
-        longOperation.execute();
+
+        mAdapter.setDiscountRate(discount_rate);
+        mAdapter.setData(mTripsList);
+
+        //longOperation = new LongOperation();
+        //longOperation.execute();
 
     }
 

@@ -93,6 +93,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) { //Utente loggato
                 //Recupero le informazioni dell'utente
                 getUser(context);
+                getTrips();
 
             }else{ //Utente non loggato
 
@@ -212,7 +213,8 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        getTrips();
+                        getCities();
+                        //getTrips();
                     }
                 });
     }
@@ -255,13 +257,13 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
     }
 
     private Observable<ResponseTrip> buildTripsRequest() {
-        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, true, true) //TODO, deve essere true
+        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, false, true) //TODO, deve essere true
                 .first()
                 .compose(this.<ResponseTrip>handleDataRequest())
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        getCities();
+                        //getCities();
                     }
                 });
     }
@@ -277,7 +279,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             public void onError(Throwable e) {
                 mTripsRequest = null;
 
-                getMvpView().navigateToHome(mAppRepository.getLang());
+                //getMvpView().navigateToHome(mAppRepository.getLang());
             }
 
             @Override

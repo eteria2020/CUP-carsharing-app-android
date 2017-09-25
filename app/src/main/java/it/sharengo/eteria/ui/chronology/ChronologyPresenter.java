@@ -1,6 +1,8 @@
 package it.sharengo.eteria.ui.chronology;
 
 
+import android.util.Log;
+
 import it.sharengo.eteria.data.models.MenuItem;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.ResponseUser;
@@ -54,7 +56,7 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
             return true;
         else
             return super.showCustomLoading();*/
-        return true;
+        return false;
     }
 
 
@@ -87,7 +89,7 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
     }
 
     private Observable<ResponseTrip> buildTripsRequest() {
-        return mTripsRequest = mUserRepository.getChronTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
+        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, false, false)
                 .first()
                 .compose(this.<ResponseTrip>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -119,7 +121,6 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
     }
 
     private void checkTripsResult(){
-
         if(mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0){
 
             getRatesInfo();

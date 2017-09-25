@@ -332,6 +332,7 @@ public class UserRepository {
                     })
                     .compose(logSourceTrips("NETWORK"));
         }else{
+            Log.w("getTrips",": "+mCachedTrips.reason);
             return Observable.just(mCachedTrips);
         }
     }
@@ -340,6 +341,7 @@ public class UserRepository {
         if (mCachedTrips == null) {
             mCachedTrips = new ResponseTrip();
         }
+        Log.w("response",": "+response.reason);
         mCachedTrips = response;
     }
 
@@ -394,6 +396,7 @@ public class UserRepository {
         if (mCachedCurrentTrip == null) {
             mCachedCurrentTrip = new ResponseTrip();
         }
+
         mCachedCurrentTrip = response;
     }
 
