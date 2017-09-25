@@ -88,6 +88,12 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        mPresenter.mContext = getActivity();
+    }
+
+    @Override
     public void onPause(){
         super.onPause();
         if(longOperation != null) longOperation.cancel(true);

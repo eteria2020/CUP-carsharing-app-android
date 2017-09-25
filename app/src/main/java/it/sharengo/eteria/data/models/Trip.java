@@ -30,6 +30,17 @@ public class Trip {
     public float total_cost;
     public boolean cost_computed;
 
+    /*---*/
+    public int diffTime;
+    public String sCost;
+    public String formattedDay;
+    public String formattedH;
+    public String formattedEndDay;
+    public String formattedEndH;
+    public String sBase;
+    public String addressStart;
+    public String addressEnd;
+
     public Trip() {
     }
 

@@ -1,11 +1,22 @@
 package it.sharengo.eteria.ui.chronology;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.util.Log;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import it.sharengo.eteria.data.models.MenuItem;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.ResponseUser;
+import it.sharengo.eteria.data.models.Trip;
 import it.sharengo.eteria.data.repositories.AppRepository;
 import it.sharengo.eteria.data.repositories.UserRepository;
 import it.sharengo.eteria.ui.base.presenters.BasePresenter;
@@ -30,6 +41,8 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
     private float discount_rate = 0.28f;
 
     private boolean hideLoading;
+    private boolean background = false;
+    public Context mContext;
 
     public ChronologyPresenter(SchedulerProvider schedulerProvider,
                                AppRepository appRepository,
@@ -79,7 +92,8 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
      */
     public void getTrips(){
 
-        hideLoading = false;
+        Log.w("background",": "+background);
+        hideLoading = background;
         //getMvpView().showStandardLoading();
 
         if( mTripsRequest == null) {
@@ -89,7 +103,7 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
     }
 
     private Observable<ResponseTrip> buildTripsRequest() {
-        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, false, false)
+        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, background, false)
                 .first()
                 .compose(this.<ResponseTrip>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -159,7 +173,7 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
                             discount_rate = responseUser.user.discount_rate;
                         }
 
-                        getMvpView().showList(mResponseTrip.trips, discount_rate);
+                        renderChronList();
                     }
                 });
     }
@@ -183,6 +197,79 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
                 responseUser = response;
             }
         };
+    }
+
+    private void renderChronList(){
+
+        /*for(Trip trip : mResponseTrip.trips){
+
+            int diffTime = (int) (trip.timestamp_end - trip.timestamp_start);
+            String sCost = "";
+            if(trip.cost_computed){
+                sCost = String.format("%.2f", trip.total_cost / 100);
+                sCost = " - € " + sCost.replace(",00","").replace(".00","");
+            }
+
+            trip.diffTime = diffTime / 60;
+            trip.sCost = sCost;
+
+            //Giorno e ora
+            Date date = new Date(trip.timestamp_start*1000L);
+            SimpleDateFormat sdfDay = new SimpleDateFormat("dd MMMM yyyy");
+            SimpleDateFormat sdfH = new SimpleDateFormat("HH:mm");
+            String formattedDay = sdfDay.format(date);
+            String formattedH = sdfH.format(date);
+            trip.formattedDay = formattedDay;
+            trip.formattedH = formattedH;
+
+            //Fine
+            date = new Date(trip.timestamp_end*1000L);
+            trip.formattedEndDay = sdfDay.format(date);
+            trip.formattedEndH = sdfH.format(date);
+
+            //Tariffa al minuto
+            float baseRates = (float) (0.28 - (0.28 * discount_rate/100));
+            String sBase = String.format("%.2f", baseRates);
+            sBase = sBase.replace(",00","").replace(".00","");
+            trip.sBase = sBase;
+
+            //Indirizzo partenza
+            trip.addressStart = getAddress(trip.latitude, trip.longitude);
+
+            //Indirizzo arrivo
+            trip.addressEnd = getAddress(trip.latitude_end, trip.longitude_end);
+        }*/
+
+        getMvpView().showList(mResponseTrip.trips, discount_rate);
+
+        if(!background) {
+            background = true;
+            getTrips();
+        }
+    }
+
+    private String getAddress(float latitude, float longitude){
+        String address = "";
+
+        Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+
+            if(!addresses.isEmpty() && addresses.get(0) != null) {
+
+                String street = addresses.get(0).getThoroughfare(); //Nome della via
+                String number = addresses.get(0).getSubThoroughfare(); //Numero civico
+
+                if(street != null) address = street;
+                if(address.length() > 0 && number != null) address += ", ";
+                if(number != null) address += number;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return address;
     }
 
 }

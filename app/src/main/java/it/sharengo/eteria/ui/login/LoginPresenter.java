@@ -201,7 +201,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
     }
 
     private Observable<ResponseTrip> buildTripsRequest() {
-        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, true, true) //TODO, deve essere true
+        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, false, true) //TODO, deve essere true
                 .first()
                 .compose(this.<ResponseTrip>handleDataRequest())
                 .doOnCompleted(new Action0() {
