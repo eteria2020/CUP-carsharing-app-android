@@ -81,7 +81,7 @@
     <string name="search_favoriteempty_label">Nessun preferito\nmemorizzali nella sezione impostazioni</string>
 
     <!-- Prenotazione -->
-    <string name="booking_userpin_label">Il tuo pin utente: %s</string>
+    <string name="booking_userpin_label">Il tuo pin utente: </string>
     <string name="booking_active_label">Prenotazione attiva</string>
     <string name="booking_plate_label">Targa %s</string>
     <string name="booking_expirationtime">Scade tra <![CDATA[<br><b>%s</b>]]> min</string>
@@ -92,7 +92,7 @@
     <string name="booking_bookedcar_alert">Hai già una prenotazione attiva</string>
     <string name="booking_tripcar_alert">Hai già una corsa attiva</string>
     <string name="booking_alreadybookedcar_alert">Non puoi prenotare questa auto fino a che non saranno passate 4 ore da quando hai annullato la prenotazione</string>
-    <string name="booking_durationtrip_label">Durata corsa:</string>
+    <string name="booking_durationtrip_label">Durata corsa: <![CDATA[<br><b>%s</b>]]></string>
     <string name="booking_tripactive_label">Corsa attiva</string>
     <string name="booking_timeend_label">Il tempo di prenotazione è scaduto, la tua prenotazione è stata annullata. Prenota un\'altra auto in mappa</string>
 

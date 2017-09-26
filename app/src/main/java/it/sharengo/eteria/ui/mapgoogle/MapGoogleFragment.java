@@ -2428,7 +2428,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
 
                                 if (getActivity() != null)
-                                    tripDurationTextView.setText(hhStr + ":" + mnStr + ":" + secStr);
+                                    tripDurationTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_durationtrip_label), hhStr + ":" + mnStr + ":" + secStr)));
                                 else if (countDownTimer != null) countDownTimer.cancel();
 
                             }
@@ -2440,7 +2440,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //----
 
         //Popolo le informazioni
-        userPinTextView.setText(String.format(getString(R.string.booking_userpin_label), ""+pinUser));
+        userPinTextView.setText(""+pinUser);//pinUser
         bookingPlateTextView.setText(String.format(getString(R.string.booking_plate_label), plateBooking));
 
 
@@ -2448,11 +2448,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             if(!carBooked.parking) bookingTitleTextView.setText(getString(R.string.booking_tripactive_label));
             else bookingTitleTextView.setText(getString(R.string.tripend_parkerdcar_label));
 
-            bookingAddressTextView.setText(getString(R.string.booking_durationtrip_label));
+            bookingAddressTextView.setVisibility(View.GONE); //getString(R.string.booking_durationtrip_label)
             timeIconImageView.setImageDrawable(getIconMarker(R.drawable.ic_time_2));
         }else{
             bookingTitleTextView.setText(getString(R.string.booking_active_label));
             bookingAddressTextView.setText(addressBooking);
+            bookingAddressTextView.setVisibility(View.VISIBLE);
             expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), timingBookin)));
             timeIconImageView.setImageDrawable(getIconMarker(R.drawable.ic_time));
         }

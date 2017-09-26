@@ -63,7 +63,7 @@
     <string name="booking_bookedcar_alert">You already have an active booking</string>
     <string name="booking_tripcar_alert">You already have an active booking</string>
     <string name="booking_alreadybookedcar_alert">You cannot book this car until 4 hours have passed since your last canceled your booking</string>
-    <string name="booking_durationtrip_label">Trip duration:</string>
+    <string name="booking_durationtrip_label">Trip duration: <![CDATA[<br><b>%s</b>]]></string>
     <string name="booking_tripactive_label">Active trip</string>
     <string name="booking_timeend_label">Booking time expired, your booking has been canceled. Book another car on the map</string>
 

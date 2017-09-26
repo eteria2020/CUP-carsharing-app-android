@@ -1394,7 +1394,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private void checkTripsResult(){
 
         if(mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0){
-
             timestamp_start = mResponseTrip.trips.get(0).timestamp_start;
             isTripExists = true;
 
