@@ -61,7 +61,7 @@
     <string name="booking_delete_alert">By canceling this booking, you will not be able to book the same car in the next 4 hours. Do you confirm the booking cancelation? </string>
     <string name="booking_deleteconfirm_alert">Your booking has been canceled correctly</string>
     <string name="booking_bookedcar_alert">You already have an active booking</string>
-    <string name="booking_tripcar_alert">You already have an active booking</string>
+    <string name="booking_tripcar_alert">Your trip is already active</string>
     <string name="booking_alreadybookedcar_alert">You cannot book this car until 4 hours have passed since your last canceled your booking</string>
     <string name="booking_durationtrip_label">Trip duration: <![CDATA[<br><b>%s</b>]]></string>
     <string name="booking_tripactive_label">Active trip</string>

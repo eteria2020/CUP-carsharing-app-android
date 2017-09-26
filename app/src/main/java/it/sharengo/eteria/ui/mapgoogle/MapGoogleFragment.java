@@ -197,6 +197,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private Reservation reservation;
     private int tripTimestampStart;
     private float co2;
+    private boolean openDoorFromBooking;
     private View.OnClickListener mNotificationListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -419,6 +420,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         mapRadius = 0;
         tripTimestampStart = 0;
         co2 = 0f;
+        openDoorFromBooking = false;
         currentRotation = 0f;
         cityClusterVisible = false;
         findNextCarIntoCluster = false;
@@ -1237,7 +1239,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public boolean onMarkerClick(com.androidmapsextensions.Marker marker) {
 
-
         if(marker != null && marker.getData() != null) {
 
             //City
@@ -1598,7 +1599,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
 
         //Verifico se è attiva una prenotazione
-        if(isBookingCar || isTripStart){
+        /*if(isBookingCar || isTripStart){
 
             //Se è la stessa macchina prenotata / in corsa faccio solo lo zoom
             if(carBooked.id.equals(car.id)){
@@ -1612,7 +1613,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             showPopupCar(car);
             moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
-        }
+        }*/
+
+        showPopupCar(car);
+
+        if(isTripStart && userLocation != null && ((Car) userMarker.getData()).id.equals(car.id))
+            moveMapCameraToPoitWithZoom((double) userLocation.getLatitude(), (double) userLocation.getLongitude(), 19);
+        else
+            moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
     }
 
     //Metodo richiamato se il server non restituisce macchina da mostrare: stoppo l'animazione del pulsante "refresh"
@@ -2151,7 +2159,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //Log.w("carBooked",": "+carBooked.id);
 
 
-        if(isBookingCar || isTripStart){
+        if(openDoorFromBooking) openDoorOk = true;
+        else if(isBookingCar || isTripStart){
 
             if(carSelected != null && carBooked != null){
 
@@ -2613,7 +2622,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //TODO Remove
-        car.parking = true;
         /*car.parking = test_corsa;
         if(test_corsa) test_corsa = false;
         else test_corsa = true;*/
@@ -2640,6 +2648,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //Aggiungo la macchina
         if(isTripParked) {
 
+            userMarker.setData(null);
+
             if(carbookingMarker == null) {
                 boolean find = false;
                 for(Marker markerOnMap : poiMarkers){
@@ -2659,6 +2669,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 poiMarkersToAdd.add(markerCar);
 
                 com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
+                myMarker.setData(car);
                 poiMarkers.add(myMarker);
 
                 carbookingMarker = myMarker;
@@ -2666,6 +2677,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 carbookingMarker.setIcon(bitmapAuto);
                 carbookingMarker.setPosition(new LatLng(car.latitude, car.longitude));
             }
+        }else{
+            userMarker.setData(car);
         }
 
 
@@ -2926,6 +2939,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @OnClick(R.id.openDoorButton)
     public void onOpenDoor(){
+        openDoorFromBooking = false;
         checkOpenDoor();
     }
 
@@ -3001,6 +3015,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @OnClick(R.id.openDoorBookingButton)
     public void openDoorBookingButton(){
+        openDoorFromBooking = true;
         checkOpenDoor();
     }
 
