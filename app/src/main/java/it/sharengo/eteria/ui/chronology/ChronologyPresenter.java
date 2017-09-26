@@ -91,7 +91,7 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
      */
     public void getTrips(){
 
-        Log.w("background",": "+background);
+
         hideLoading = true;
         //getMvpView().showStandardLoading();
 
@@ -102,7 +102,8 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
     }
 
     private Observable<ResponseTrip> buildTripsRequest() {
-        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, background, false)
+        Log.w("background",": "+background);
+        return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, false, background)
                 .first()
                 .compose(this.<ResponseTrip>handleDataRequest())
                 .doOnCompleted(new Action0() {

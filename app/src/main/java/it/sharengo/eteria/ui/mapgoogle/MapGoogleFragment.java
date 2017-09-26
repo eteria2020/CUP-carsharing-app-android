@@ -235,6 +235,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private Location walkingDestination;
     private PolylineOptions polyWalkingOptions;
     private com.androidmapsextensions.Polyline polyWalking;
+    private Timer timerUpadateMap;
 
     @BindView(R.id.mapView)
     FrameLayout mMapContainer;
@@ -454,6 +455,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         showCarsWithFeeds = false;
 
+
         return view;
     }
 
@@ -479,6 +481,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(timerTripDuration != null) timerTripDuration.cancel();
         if(countDownTimer != null) countDownTimer.cancel();
         if(timerEditText != null) timerEditText.cancel();
+        if(timerUpadateMap != null) timerUpadateMap.cancel();
     }
 
     @Override
@@ -582,6 +585,27 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             }
         });
+
+        //Avvio il timer che controlla se c'è una corsa attiva e nel caso centro la mappa sull'utente
+        timerUpadateMap = new Timer();
+
+        timerUpadateMap.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if(isTripStart && !isTripParked && mMap != null){
+                                moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
+                            }
+
+                        }
+                    });
+                }
+            }
+        }, 1000, 5000);
     }
 
     /**

@@ -320,8 +320,8 @@ public class UserRepository {
      * @see                 Observable<ResponseTrip>
      */
     public Observable<ResponseTrip> getTrips(String username, String password, boolean active, boolean refreshInfo) {
-
-        if(mCachedTrips == null || refreshInfo) {
+        Log.w("getTrips",": "+refreshInfo);
+        if(mCachedTrips == null || refreshInfo) { Log.w("getTrips","REFRESH");
             return mRemoteDataSource.getTrips(Credentials.basic(username, StringsUtils.md5(password)), active)
                     .doOnNext(new Action1<ResponseTrip>() {
                         @Override
@@ -332,7 +332,7 @@ public class UserRepository {
                     })
                     .compose(logSourceTrips("NETWORK"));
         }else{
-            Log.w("getTrips",": "+mCachedTrips.reason);
+            Log.w("getTrips","CACHE");
             return Observable.just(mCachedTrips);
         }
     }
