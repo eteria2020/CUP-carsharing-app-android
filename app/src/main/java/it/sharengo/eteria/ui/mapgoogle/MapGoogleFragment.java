@@ -597,7 +597,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         @Override
                         public void run() {
 
-                            if(isTripStart && !isTripParked && mMap != null){
+                            if(isTripStart && !isTripParked && mMap != null && userLocation != null){
                                 moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
                             }
 
@@ -1690,7 +1690,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void setMarkerAnimation(){
-        Log.w("carnextMarker",": "+carnextMarker);
+        Log.w("carnextMarker",": "+carbookingMarker);
         if(carnextMarker != null || carbookingMarker != null || isTripStart) {
             if (timer != null) timer.cancel();
 
@@ -1703,7 +1703,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
+                                Log.w("carnextMarker","XXX");
                                 if (getActivity() != null) {
 
                                     List<BitmapDescriptor> drawableAnimArray = null;
@@ -1728,7 +1728,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                                         if (isTripStart && !isTripParked) {
                                             try {
-                                                userMarker.setIcon(drawableAnimArray.get(currentDrawable));
+                                                if(userMarker != null) userMarker.setIcon(drawableAnimArray.get(currentDrawable));
 
                                                 if (carbookingMarker != null) {
                                                     carbookingMarker.remove();
@@ -1739,7 +1739,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                             }
                                         } else if (isTripStart && isTripParked) {
                                             try {
-                                                userMarker.setIcon(bitmapUser);
+                                                if(userMarker != null) userMarker.setIcon(bitmapUser);
                                                 carbookingMarker.setIcon(drawableAnimArray.get(currentDrawable));
                                                 carbookingMarker.setAnchor(0.4f, 0.7f);
 
@@ -2204,7 +2204,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             if(carToOpen != null){
                 if(userLocation != null){
                     //Calcolo la distanza
-                    if(getDistance(carToOpen) <= 500000000){ //TODO: valore a 50
+                    if(getDistance(carToOpen) <= 50){ //TODO: valore a 50
+
                         //Procediamo con le schermate successive
                         onClosePopup();
                         if(isTripStart && isTripParked) {
@@ -2213,6 +2214,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         }else
                             unparkAction = false;
                         mPresenter.openDoor(carToOpen, "open");
+
                     }else{
                         CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                                 getString(R.string.maps_opendoordistance_alert),
@@ -2222,7 +2224,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     }
                 }else{
                     //Informo l'utente che la localizzazione non è attiva
-                    final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                    /*final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                             getString(R.string.maps_permissionopendoor_alert),
                             getString(R.string.ok),
                             getString(R.string.cancel));
@@ -2233,7 +2235,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                             cdd.dismissAlert();
                             openSettings();
                         }
-                    });
+                    });*/
+                    //Procediamo con le schermate successive
+                    onClosePopup();
+                    if(isTripStart && isTripParked) {
+                        unparkAction = true;
+                        mPresenter.openDoor(carToOpen, "unpark");
+                    }else
+                        unparkAction = false;
+                    mPresenter.openDoor(carToOpen, "open");
 
                 }
             }
@@ -2398,7 +2408,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Visualizzio le informazioni della prenotazione
     private void openViewBookingCar(){
-
+        Log.w("openViewBookingCar","XXX");
         int pinUser = mPresenter.getUser().userInfo.pin;
         String plateBooking = carBooked.id;
         String addressBooking = getAddress(carBooked.latitude, carBooked.longitude);
@@ -2655,7 +2665,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             if (isTripParked)
                 moveMapCameraToPoitWithZoom(carBooked.latitude + 0.0002, (double) carBooked.longitude, 19);
             else
-                moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
+                if(userLocation != null) moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
         }
 
         isTripStart = true;
@@ -2672,7 +2682,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //Aggiungo la macchina
         if(isTripParked) {
 
-            userMarker.setData(null);
+            if(userMarker != null) userMarker.setData(null);
 
             if(carbookingMarker == null) {
                 boolean find = false;
@@ -2702,11 +2712,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 carbookingMarker.setPosition(new LatLng(car.latitude, car.longitude));
             }
         }else{
-            userMarker.setData(car);
+            if(userMarker != null) userMarker.setData(car);
         }
-
-
-
 
         setMarkerAnimation();
 

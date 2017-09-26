@@ -179,7 +179,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     @Override
     protected void subscribeRequestsOnResume() {
-        Log.w("ON","RESUME");
         getMvpView().setFeedInters();
 
 
@@ -1466,12 +1465,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private void checkReservationsResult(){
 
         if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
-            Log.w("RESERVATION",": "+mResponseReservation.reservations.get(0).car_plate);
             loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
             isBookingExists = true;
         }else{
             //getMvpView().removeReservationInfo();
-            Log.w("RESERVATION","NOOOOO"+isBookingExists);
+
             if(isBookingExists){
                 isBookingExists = false;
                 getMvpView().openReservationNotification();
