@@ -236,5 +236,6 @@
     <string name="rates_bonus_label">Your bonus minutes:</string>
     <string name="rates_bonusmin_label">%s minutes</string>
     <string name="rates_signup_action">SUBSCRIBE NOW</string>
+    <string name="maps_enablegps_label">Enable the GPS for more information</string>
 
 </resources>

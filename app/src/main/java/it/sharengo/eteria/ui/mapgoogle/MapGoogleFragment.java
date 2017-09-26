@@ -2072,7 +2072,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             float distance = getDistance(car);
             showCarDistance(distance);
         }else{
-            distanceView.setVisibility(View.GONE);
+            distanceTextView.setText(getString(R.string.maps_enablegps_label));
         }
 
         //Time

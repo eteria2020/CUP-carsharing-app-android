@@ -267,5 +267,6 @@
     <string name="rates_bonus_label">I tuoi minuti bonus:</string>
     <string name="rates_bonusmin_label">%s minuti</string>
     <string name="rates_signup_action">Iscriviti subito</string>
+    <string name="maps_enablegps_label">Abilitare il GPS per maggiori informazioni</string>
 
 </resources>
