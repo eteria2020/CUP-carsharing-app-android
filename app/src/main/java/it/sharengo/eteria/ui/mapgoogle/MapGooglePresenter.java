@@ -131,6 +131,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     public boolean isFeeds;
     private List<Feed> mOffersList;
     private List<Feed> mEventsList;
+    private long seconds;
 
     /*
      *  Timer
@@ -185,6 +186,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         isTripExists = false;
         isBookingExists = false;
         timestamp_start = 0;
+        seconds = 0;
 
         //getMvpView().removeReservationInfo();
         //getMvpView().removeTripInfo();
@@ -230,6 +232,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         isTripExists = false;
         isBookingExists = false;
         timestamp_start = 0;
+        seconds = 0;
 
         loadPlates();
 
@@ -289,8 +292,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 handler1min.post(new Runnable() {
                     public void run() {
 
-                        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
-                            getReservations(true);
+                        Log.w("currentTimeMillis",": "+((System.currentTimeMillis() - seconds) / 1000));
+
+                        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) {
+                            if(seconds == 0 || ((System.currentTimeMillis() - seconds) / 1000) > 60) getReservations(true); //Deve essere passato almeno un minuto dall'azione compiuta dall'utente (apertura porte o prenotazione)
+                        }
 
                     }
                 });
@@ -1181,6 +1187,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     public void bookingCar(Car car, float user_lat, float user_lon, Context context){
         //hideLoading = false;
 
+        seconds = System.currentTimeMillis();
+
         if(car != null) {
             if (mReservationRequest == null) {
                 mReservationRequest = buildReservationRequest(car, user_lat, user_lon);
@@ -1297,6 +1305,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  action  action to execute.
      */
     public void openDoor(Car car, String action) {
+
+        seconds = System.currentTimeMillis();
 
         isBookingExists = false;
 
@@ -1425,6 +1435,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     void getReservations(boolean refreshInfo){
+        Log.w("getReservations","XXX");
         if( mReservationsRequest == null) {
             mReservationsRequest = buildReservationsRequest(refreshInfo);
             addSubscription(mReservationsRequest.unsafeSubscribe(getReservationsSubscriber()));
