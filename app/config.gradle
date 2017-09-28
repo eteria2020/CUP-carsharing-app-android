@@ -25,7 +25,7 @@ android {
             resValue "string", "endpointSharengo", "https://api.sharengo.it:8023/"
             resValue "string", "endpointSharengoMaps", "http://maps.sharengo.it/"
             resValue "string", "endpointSharengoKML", "http://www.sharengo.it/"
-            resValue "string", "endpointCities", "http://universo-sharengo.thedigitalproject.it/"
+            resValue "string", "endpointCities", "https://www.sharengo.it/"
             resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
         }
