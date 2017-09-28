@@ -292,10 +292,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 handler1min.post(new Runnable() {
                     public void run() {
 
-                        Log.w("currentTimeMillis",": "+((System.currentTimeMillis() - seconds) / 1000));
 
                         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) {
-                            if(seconds == 0 || ((System.currentTimeMillis() - seconds) / 1000) > 60) getReservations(true); //Deve essere passato almeno un minuto dall'azione compiuta dall'utente (apertura porte o prenotazione)
+                            if(seconds == 0 || ((System.currentTimeMillis() - seconds) / 1000) > 59) getReservations(true); //Deve essere passato almeno un minuto dall'azione compiuta dall'utente (apertura porte o prenotazione)
                         }
 
                     }
@@ -1435,7 +1434,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     void getReservations(boolean refreshInfo){
-        Log.w("getReservations","XXX");
+
         if( mReservationsRequest == null) {
             mReservationsRequest = buildReservationsRequest(refreshInfo);
             addSubscription(mReservationsRequest.unsafeSubscribe(getReservationsSubscriber()));

@@ -518,7 +518,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         try {
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-                Log.w("LOCATION","updateLocation");
                 return;
             }
 
@@ -622,7 +621,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         super.onNewLocation(location);
 
         locationChange(location);
-        Log.w("LOCATION","onNewLocation");
+
     }
 
     /**
@@ -633,7 +632,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         super.onLocationUnavailable();
         if(mMap != null)
             providerDisabled();
-        Log.w("LOCATION","onLocationUnavailable");
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -650,7 +649,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void onLocationChanged(Location location) {
         //mPresenter.onLocationIsReady(location.getLatitude(), location.getLongitude());
-        Log.w("LOCATION","onLocationChanged");
+
         locationChange(location);
 
         if(mMap != null && prevLocationDisabled && !isTripStart && !isBookingCar && userLocation != null){
@@ -678,7 +677,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void onProviderEnabled(String s) {
-        Log.w("LOCATION","onProviderEnabled");
+
         //updateLocation();
 
         prevLocationDisabled = true;
@@ -693,7 +692,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void onProviderDisabled(String s) {
-        Log.w("LOCATION","onProviderDisabled");
+
         prevLocationDisabled = false;
 
         if(mMap != null)
@@ -2191,6 +2190,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //Log.w("carBooked",": "+carBooked.id);
 
 
+
         if(openDoorFromBooking) openDoorOk = true;
         else if(isBookingCar || isTripStart){
 
@@ -2207,7 +2207,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(openDoorOk){
 
             Car carToOpen = carSelected;
-            if(isBookingCar) carToOpen = carBooked;
+            if(isBookingCar || isTripStart) carToOpen = carBooked;
 
             if(carToOpen != null){
                 if(userLocation != null){
@@ -2219,9 +2219,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         if(isTripStart && isTripParked) {
                             unparkAction = true;
                             mPresenter.openDoor(carToOpen, "unpark");
-                        }else
+                        }else {
                             unparkAction = false;
-                        mPresenter.openDoor(carToOpen, "open");
+                            mPresenter.openDoor(carToOpen, "open");
+                        }
 
                     }else{
                         CustomDialogClass cdd=new CustomDialogClass(getActivity(),
@@ -2249,9 +2250,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     if(isTripStart && isTripParked) {
                         unparkAction = true;
                         mPresenter.openDoor(carToOpen, "unpark");
-                    }else
+                    }else {
                         unparkAction = false;
-                    mPresenter.openDoor(carToOpen, "open");
+                        mPresenter.openDoor(carToOpen, "open");
+                    }
 
                 }
             }
