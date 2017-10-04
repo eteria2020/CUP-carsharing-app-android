@@ -58,6 +58,7 @@ import it.sharengo.eteria.data.repositories.KmlRepository;
 import it.sharengo.eteria.data.repositories.PostRepository;
 import it.sharengo.eteria.data.repositories.PreferencesRepository;
 import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.map.BaseMapPresenter;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
@@ -124,6 +125,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private ResponseGoogleRoutes mGoogleRoutes;
     private List<Post> mPosts;
     private boolean hideLoading;
+    private boolean isPause;
     private boolean isTripExists;
     private boolean isBookingExists;
     private int timestamp_start;
@@ -191,6 +193,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         //getMvpView().removeReservationInfo();
         //getMvpView().removeTripInfo();
 
+        if(isPause){
+            getMvpView().showLoading();
+        }
+        isPause = false;
+
         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
             getReservations(false);
 
@@ -251,6 +258,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     void viewOnPause(){
         stoptimertask();
         mUserRepository.mCachedReservation = null;
+        //hideLoading = false;
+        isPause = true;
     }
 
     /**
@@ -1143,6 +1152,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onError(Throwable e) {
                 mFindRoutesRequest = null;
+                try{getMvpView().hideLoading();} catch (NullPointerException ex){}
             }
 
             @Override

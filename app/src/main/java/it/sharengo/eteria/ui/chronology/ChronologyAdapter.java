@@ -143,7 +143,7 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
             //Minuti
             int diffTime = (int) (trip.timestamp_end - trip.timestamp_start);
             String sCost = "";
-            if(trip.cost_computed){
+            if(trip.cost_computed && trip.total_cost != 0){
                 sCost = String.format("%.2f", trip.total_cost / 100);
                 sCost = " - € " + sCost.replace(",00","").replace(".00","");
             }

@@ -105,7 +105,8 @@ public class SettingsCitiesAdapter extends RecyclerView.Adapter<SettingsCitiesAd
          */
         @OnClick(R.id.cityView)
         void onClick() {
-            mListener.onItemClick(mData.get(getAdapterPosition()));
+            if(getAdapterPosition() >= 0)
+                mListener.onItemClick(mData.get(getAdapterPosition()));
         }
     }
 }

@@ -112,7 +112,9 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
             @Override
             public void onError(Throwable e) {
                 mUserRequest = null;
-                getMvpView().showLoginError(e);
+                try {
+                    getMvpView().showLoginError(e);
+                }catch (NullPointerException ex){}
             }
 
             @Override

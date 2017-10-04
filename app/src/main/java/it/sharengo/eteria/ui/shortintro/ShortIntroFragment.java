@@ -57,7 +57,8 @@ public class ShortIntroFragment extends BaseMvpFragment<ShortIntroPresenter> imp
     @Override
     public void onAnimationCompleted(int loopNumber) {
         //Navigator.launchOnboarding(ShortIntroFragment.this);
-        getActivity().finish();
+        if(getActivity() != null)
+            getActivity().finish();
     }
 
 

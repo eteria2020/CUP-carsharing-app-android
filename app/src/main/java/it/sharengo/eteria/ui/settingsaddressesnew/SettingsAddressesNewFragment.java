@@ -143,7 +143,7 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.w("onActivityResult","MICR");
+
         switch (requestCode) {
             case SPEECH_RECOGNITION_CODE: {
                 if (resultCode == getActivity().RESULT_OK && null != data) {
@@ -155,7 +155,7 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
 
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    String text = result.get(0); Log.w("onActivityResult",": "+text);
+                    String text = result.get(0);
                     searchEditText.setText(text);
                     initMapSearch();
 
@@ -232,6 +232,8 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
 
     //Metodo richiamato quando viene scritto qualcosa nella casella di ricerca
     private void initMapSearch(){
+
+        if(!isAdded()) return;
 
         String searchMapText = searchEditText.getText().toString();
 

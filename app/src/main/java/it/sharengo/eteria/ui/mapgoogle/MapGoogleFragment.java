@@ -116,6 +116,7 @@ import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import it.sharengo.eteria.data.models.SearchItem;
 import it.sharengo.eteria.data.models.Trip;
 import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.map.BaseMapFragment;
 import it.sharengo.eteria.ui.chronology.ChronologyFragment;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
@@ -2570,6 +2571,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(isTripStart){
             if(!carBooked.parking) { //Auto in corsa
                 if (polyWalking != null) polyWalking.remove();
+                hideLoading();
             }else{ //Auto parcheggiata
                 carWalkingNavigation = carBooked;
                 getWalkingNavigation();
@@ -2610,6 +2612,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //Tolgo l'animazione al pin
         setAnimatedMarker();
         //setMarkerAnimation();
+
+        hideLoading();
     }
 
     //Metodo quando arriva dal server la conferma che la prenotaizone è stata annullata
@@ -3143,6 +3147,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void openReservationNotification() {
         removeWalkingNavigation();
+        hideLoading();
         ((MapGoogleActivity) getActivity()).showNotification(getString(R.string.booking_timeend_label), null);
     }
 
@@ -3193,8 +3198,19 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     @Override
-    public void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes){
+    public void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes){ Log.w("LOADING","onUpdateWalkingNavigation");
         if(!isTripStart) updateWalkingNavigation(googleRoutes);
+        hideLoading();
+    }
+
+    @Override
+    public void showLoading(){
+        ((BaseActivity) getActivity()).showLoadingChronology();
+    }
+
+    @Override
+    public void hideLoading(){
+        ((BaseActivity) getActivity()).hideLoadingChronology();
     }
 
 
