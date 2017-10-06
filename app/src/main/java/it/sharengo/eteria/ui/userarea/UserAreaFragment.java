@@ -131,8 +131,8 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if(getActivity() != null) {
-                    view.loadUrl("https://www.sharengo.it/area-utente/mobile");
-                    ((BaseActivity) getActivity()).hideLoadingChronology();
+
+                    loadUrl(view, url);
                 }
                 return false;
             }
@@ -141,19 +141,22 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 if(getActivity() != null) {
-                    //Forzo l'aggiunta di /mobile solo nel caso in cui vado su area-utente, negli altri casi è già presente
                     String mobileUrl = request.getUrl().toString();
-                    if (StringUtils.equals(mobileUrl, "https://www.sharengo.it/area-utente")) {
-                        mobileUrl = mobileUrl + "/mobile";
-                    }
-                    view.loadUrl(mobileUrl);
-                    ((BaseActivity) getActivity()).hideLoadingChronology();
+                    loadUrl(view, mobileUrl);
                 }
                 return false;
             }
         });
         webview.postUrl(url,postData.getBytes());
 
+    }
+
+    private void loadUrl(WebView view, String mobileUrl){
+        if (StringUtils.equals(mobileUrl, "https://www.sharengo.it/area-utente")) {
+            mobileUrl = mobileUrl + "/mobile";
+        }
+        view.loadUrl(mobileUrl);
+        ((BaseActivity) getActivity()).hideLoadingChronology();
     }
 
     private void hideWebView(){
