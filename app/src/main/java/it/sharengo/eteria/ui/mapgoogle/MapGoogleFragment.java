@@ -581,11 +581,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
 
-                CameraPosition oldPos = mMap.getCameraPosition();
-                setRotationButton(oldPos.bearing);
+                if(getActivity() != null) {
 
+                    CameraPosition oldPos = mMap.getCameraPosition();
+                    setRotationButton(oldPos.bearing);
 
-                refreshCars();
+                    refreshCars();
+                }
 
             }
         });
@@ -1238,7 +1240,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             }
 
             //Aggiorno la Walk Navigation
-            if(!isTripStart || (isTripStart && carBooked.parking)){
+            if(!isTripStart || (isTripStart && carBooked != null && carBooked.parking)){
                 if(polyWalking != null){
                     polyWalking.setVisible(true);
                 }
@@ -1338,11 +1340,16 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Metodo per resettare l'orientamento della mappa se l'utente l'ha ruotata
     private void orientationMap(){
 
-        CameraPosition oldPos = mMap.getCameraPosition();
-        CameraPosition pos = CameraPosition.builder(oldPos).bearing(0.0f).build();
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos));
+        if(!isAdded()) return;
 
-        orientationMapButton.setRotation(0.0f);
+        if(mMap != null) {
+
+            CameraPosition oldPos = mMap.getCameraPosition();
+            CameraPosition pos = CameraPosition.builder(oldPos).bearing(0.0f).build();
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos));
+
+            orientationMapButton.setRotation(0.0f);
+        }
 
         //setRotationButton(0.0f);
     }
@@ -1647,12 +1654,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
         }*/
 
-        showPopupCar(car);
+        if(car != null) {
 
-        if(isTripStart && userLocation != null && ((Car) userMarker.getData()).id.equals(car.id))
-            moveMapCameraToPoitWithZoom((double) userLocation.getLatitude(), (double) userLocation.getLongitude(), 19);
-        else
-            moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
+            showPopupCar(car);
+
+            if (isTripStart && userLocation != null && ((Car) userMarker.getData()).id.equals(car.id))
+                moveMapCameraToPoitWithZoom((double) userLocation.getLatitude(), (double) userLocation.getLongitude(), 19);
+            else
+                moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
+        }
     }
 
     //Metodo richiamato se il server non restituisce macchina da mostrare: stoppo l'animazione del pulsante "refresh"
@@ -2045,6 +2055,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void showPopupCar(Car car){
+
+        if(!isAdded()) return;
 
         carSelected = car;
 
