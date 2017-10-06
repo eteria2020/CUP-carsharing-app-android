@@ -127,21 +127,21 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
     public void moveMapCameraToPoitWithZoom(Double latitude, Double longitude, Integer zoom){
         LatLng latLng = new LatLng(latitude, longitude);
         CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
-        mMap.moveCamera(cu);
+        if(mMap != null) mMap.moveCamera(cu);
     }
 
     public void zoomCarmeraIn(Double latitude, Double longitude){
         LatLng latLng = new LatLng(latitude, longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        if(mMap != null) mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         CameraUpdate cu = CameraUpdateFactory.zoomIn();
-        mMap.moveCamera(cu);
+        if(mMap != null) mMap.moveCamera(cu);
     }
 
     @Override
     public void moveMapCameraTo(Double latitude, Double longitude) {
         LatLng latLng = new LatLng(latitude, longitude);
         CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM);
-        mMap.moveCamera(cu);
+        if(mMap != null) mMap.moveCamera(cu);
     }
 
     @Override
@@ -158,14 +158,14 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
 
         LatLng latLng = new LatLng(latitude, longitude);
         CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
-        mMap.animateCamera(cu);
+        if(mMap != null) mMap.animateCamera(cu);
     }
 
     @Override
     public void moveMapCameraToDefaultLocation() {
         LatLng latLng = new LatLng(DEFAULT_LAT, DEFAULT_LON);
         CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, DISABLEDLOCATION_ZOOM);
-        mMap.moveCamera(cu);
+        if(mMap != null) mMap.moveCamera(cu);
     }
 
     @Override

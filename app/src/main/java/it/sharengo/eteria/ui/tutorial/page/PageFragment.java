@@ -57,7 +57,8 @@ public class PageFragment extends Fragment {
         ImageView slideImageView = (ImageView) rootView.findViewById(R.id.slideImageView);
 
 
-        if(!lang.equals("en") && !lang.equals("it")) lang = "it";
+        if(lang == null) lang = "en";
+        else if(!lang.equals("en") && !lang.equals("it")) lang = "it";
 
         switch (page){
             case 1:

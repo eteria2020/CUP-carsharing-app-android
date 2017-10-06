@@ -234,6 +234,8 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
             }
 
             return address;

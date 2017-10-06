@@ -135,6 +135,8 @@ public class LongIntroFragment extends BaseMvpFragment<LongIntroPresenter> imple
 
                 animation.removeListener(this);
 
+                if(!isAdded()) return;
+
                 introTextView.animate().setStartDelay(500).alpha(0.0f).setListener(null);;
                 intro2TextView.animate().setStartDelay(500).alpha(0.0f).setListener(null);;
 
@@ -168,8 +170,7 @@ public class LongIntroFragment extends BaseMvpFragment<LongIntroPresenter> imple
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        //Navigator.launchOnboarding(LongIntroFragment.this);
-                                        getActivity().finish();
+                                        if(getActivity() != null) getActivity().finish();
                                     }
                                 }, 1000);
 

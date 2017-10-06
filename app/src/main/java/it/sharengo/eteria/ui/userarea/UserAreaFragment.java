@@ -122,9 +122,11 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
         webview.setWebViewClient(new WebViewClient() {
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                //showError(getString(R.string.error_generic_msg));
-                webview.setVisibility(View.GONE);
-                hideWebView();
+
+                if(getActivity() != null) {
+                    webview.setVisibility(View.GONE);
+                    hideWebView();
+                }
             }
 
             @SuppressWarnings("deprecation")

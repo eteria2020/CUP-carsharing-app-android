@@ -94,7 +94,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
         //Scritta di benvenuto
         if(mPresenter.isAuth()){
-            String sexWelcome = (mPresenter.getUserInfo().userInfo.gender.equals("female")) ? getString(R.string.home_welcomeauthf_label) : getString(R.string.home_welcomeauth_label);
+            String sexWelcome = (mPresenter.getUserInfo().userInfo.gender != null && mPresenter.getUserInfo().userInfo.gender.equals("female")) ? getString(R.string.home_welcomeauthf_label) : getString(R.string.home_welcomeauth_label);
             welcomeTextView.setText(String.format(sexWelcome, mPresenter.getUserInfo().userInfo.name));
         }else{
             welcomeTextView.setText(getString(R.string.home_welcome_label));
@@ -387,9 +387,11 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
             @Override
             public void onAnimationEnd(Animator animator) {
 
-                getActivity().finish();
-                //Navigator.launchMap(HomeFragment.this, Navigator.REQUEST_MAP_DEFAULT);
-                Navigator.launchMapGoogle(HomeFragment.this, Navigator.REQUEST_MAP_DEFAULT);
+                if(getActivity() != null) {
+                    getActivity().finish();
+
+                    Navigator.launchMapGoogle(HomeFragment.this, Navigator.REQUEST_MAP_DEFAULT);
+                }
             }
 
             @Override

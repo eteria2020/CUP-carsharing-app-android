@@ -195,6 +195,9 @@ public class MenuPresenter extends BasePresenter<MenuMvpView> {
         mAppRepository.putLang(Locale.getDefault().getLanguage());
 
         mUserRepository.logoutUser(mPref);
-        getMvpView().logoutUser();
+
+        try {
+            getMvpView().logoutUser();
+        }catch (NullPointerException e){}
     }
 }

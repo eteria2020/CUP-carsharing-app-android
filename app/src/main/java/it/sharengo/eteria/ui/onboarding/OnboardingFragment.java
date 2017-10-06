@@ -140,50 +140,53 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void nextAnimation(){
-        animation = true;
 
-        switch (nextAnimation){
-            case 0: //Car 1 - Ingresso
-                setIndicator(1);
-                startAnimationCar1Ingresso();
-                break;
-            case 1: //Car 1 - Loop
-                setIndicator(1);
-                startAnimationCar1Loop();
-                break;
-            case 2: //Car 1 - Uscita
-                setIndicator(1);
-                startAnimationCar1Uscita();
-                break;
-            case 3: //Car 2 - Ingresso
-                setIndicator(2);
-                startAnimationCar2Ingresso();
-                break;
-            case 4: //Car 2 - Loop
-                setIndicator(2);
-                startAnimationCar2Loop();
-                break;
-            case 5: //Car 2 - Uscita
-                setIndicator(2);
-                startAnimationCar2Uscita();
-                break;
-            case 6: //Car 3 - Ingresso
-                setIndicator(3);
-                startAnimationCar3Ingresso();
-                break;
-            case 7: //Car 3 - Loop
-                setIndicator(3);
-                startAnimationCar3Loop();
-                break;
-            case 8:
-                //Car 3 - Uscita
-                setIndicator(3);
-                startAnimationCar3Uscita();
-                break;
-            case 9:
-                getActivity().finish();
-                break;
+        if(getActivity() != null) {
+            animation = true;
 
+            switch (nextAnimation) {
+                case 0: //Car 1 - Ingresso
+                    setIndicator(1);
+                    startAnimationCar1Ingresso();
+                    break;
+                case 1: //Car 1 - Loop
+                    setIndicator(1);
+                    startAnimationCar1Loop();
+                    break;
+                case 2: //Car 1 - Uscita
+                    setIndicator(1);
+                    startAnimationCar1Uscita();
+                    break;
+                case 3: //Car 2 - Ingresso
+                    setIndicator(2);
+                    startAnimationCar2Ingresso();
+                    break;
+                case 4: //Car 2 - Loop
+                    setIndicator(2);
+                    startAnimationCar2Loop();
+                    break;
+                case 5: //Car 2 - Uscita
+                    setIndicator(2);
+                    startAnimationCar2Uscita();
+                    break;
+                case 6: //Car 3 - Ingresso
+                    setIndicator(3);
+                    startAnimationCar3Ingresso();
+                    break;
+                case 7: //Car 3 - Loop
+                    setIndicator(3);
+                    startAnimationCar3Loop();
+                    break;
+                case 8:
+                    //Car 3 - Uscita
+                    setIndicator(3);
+                    startAnimationCar3Uscita();
+                    break;
+                case 9:
+                    getActivity().finish();
+                    break;
+
+            }
         }
     }
 

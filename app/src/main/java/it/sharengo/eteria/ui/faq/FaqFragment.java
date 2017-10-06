@@ -63,28 +63,31 @@ public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvp
         webview.setWebViewClient(new WebViewClient() {
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                webview.setVisibility(View.GONE);
-                final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
-                        getString(R.string.error_msg_network_general),
-                        getString(R.string.faq_tutorialalert_action),
-                        getString(R.string.faq_backalert_action));
-                cdd.show();
-                cdd.yes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cdd.dismissAlert();
-                        Navigator.launchTutorial(FaqFragment.this);
-                        getActivity().overridePendingTransition(R.anim.slide_modal, R.anim.no_anim);
-                        getActivity().finish();
-                    }
-                });
-                cdd.no.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cdd.dismissAlert();
-                        getActivity().finish();
-                    }
-                });
+
+                if(getActivity() != null) {
+                    webview.setVisibility(View.GONE);
+                    final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                            getString(R.string.error_msg_network_general),
+                            getString(R.string.faq_tutorialalert_action),
+                            getString(R.string.faq_backalert_action));
+                    cdd.show();
+                    cdd.yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            cdd.dismissAlert();
+                            Navigator.launchTutorial(FaqFragment.this);
+                            getActivity().overridePendingTransition(R.anim.slide_modal, R.anim.no_anim);
+                            getActivity().finish();
+                        }
+                    });
+                    cdd.no.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            cdd.dismissAlert();
+                            getActivity().finish();
+                        }
+                    });
+                }
             }
 
             @Override
