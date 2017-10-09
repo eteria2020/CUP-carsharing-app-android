@@ -742,8 +742,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        //userLocation.setLatitude(41.890250);
-        //userLocation.setLongitude(12.492295); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.933039);
+        userLocation.setLongitude(12.476318); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1606,6 +1606,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void setAnimatedMarker(){
 
+
         //Ciclo i marker disegnati per trovare l'auto vicina
         if(poiMarkers != null && poiMarkers.size() > 0){
 
@@ -1623,6 +1624,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }else{
             carnextMarker = null;
         }
+
     }
 
     //Metodo per nascondere i pin sulla mappa (richiamato in genere dal pulsante del menu radiale)
@@ -1697,6 +1699,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         carnext_id = car_id;
+
 
         if(!isBookingCar && !isTripStart) {
             if (carWalkingNavigation == null || (carWalkingNavigation != null && !carWalkingNavigation.id.equals(carNext.id))) {
@@ -2630,6 +2633,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     //Metodo quando arriva dal server la conferma che la prenotaizone è stata annullata
     private void confirmDeletedCar(){
+
+        mPresenter.loadPlates();
+
         final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                 getString(R.string.booking_deleteconfirm_alert),
                 getString(R.string.ok),
@@ -3036,6 +3042,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @OnClick(R.id.deleteBookingButton)
     public void onDeleteBookingButton(){
         deleteBooking();
+        deleteBooking();
     }
 
     @OnClick(R.id.refreshMapButtonView)
@@ -3210,7 +3217,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     @Override
-    public void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes){ Log.w("LOADING","onUpdateWalkingNavigation");
+    public void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes){
         if(!isTripStart) updateWalkingNavigation(googleRoutes);
         hideLoading();
     }
