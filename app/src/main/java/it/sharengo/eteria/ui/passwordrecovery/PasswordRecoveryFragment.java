@@ -116,8 +116,10 @@ public class PasswordRecoveryFragment extends BaseMvpFragment<PasswordRecoveryPr
                     @Override
                     public void run() {
                         //Do something after 100ms
-                        Navigator.launchLogin(PasswordRecoveryFragment.this, Navigator.REQUEST_LOGIN_START);
-                        getActivity().finish();
+                        if(getActivity() != null) {
+                            Navigator.launchLogin(PasswordRecoveryFragment.this, Navigator.REQUEST_LOGIN_START);
+                            getActivity().finish();
+                        }
                     }
                 }, 3000);
             }

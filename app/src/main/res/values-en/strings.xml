@@ -42,7 +42,7 @@
     <string name="maps_timehm_label" formatted="false">%d hours and %d minutes on foot</string>
     <string name="maps_closestcar_label">Nearest car </string>
     <string name="maps_permissionopendoor_alert">Share\'ngo needs to know your position to open the doors. Would you like to open settings and enable geolocation? </string>
-    <string name="maps_opendoordistance_alert">You are too far from Saren\'go you selected. You will be able to open it as you get closer to it. </string>
+    <string name="maps_opendoordistance_alert">You are too far from Share\'ngo you selected. You will be able to open it as you get closer to it. </string>
     <string name="maps_searchmicrophone_message">Listening…</string>
     <string name="maps_feeddiscover_message">Find out more </string>
     <string name="maps_hidecars_alert">Careful! You will only be able to use this feature after ending your trip or the active booking. </string>

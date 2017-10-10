@@ -1340,6 +1340,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     @Override
                     public void call() {
 
+                        isTripExists = true;
+
                         if(timestamp_start == 0) timestamp_start = (int) (System.currentTimeMillis() / 1000L);
                         loadCarsTrip(car.id);
                     }
@@ -1427,11 +1429,15 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             if(isTripExists){
                 isTripExists = false;
 
+                loadPlates();
+
                 getMvpView().openNotification(timestamp_start, (int) (System.currentTimeMillis() / 1000L));
 
                 timestamp_start = 0;
                 //timerTask1min.cancel();
                 //timer.cancel();
+
+
             }
             getMvpView().removeTripInfo();
 

@@ -71,7 +71,7 @@
     <string name="maps_timehm_label" formatted="false">%d ore e %d minuti a piedi</string>
     <string name="maps_closestcar_label">Auto più vicina</string>
     <string name="maps_permissionopendoor_alert">Share\'ngo ha bisogno di sapere la tua posizione per aprire le portiere. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
-    <string name="maps_opendoordistance_alert">Sei troppo distante dalla Saren\'go che hai selezionato. Potrai aprirla quando sarai in prossimità dell\'auto.</string>
+    <string name="maps_opendoordistance_alert">Sei troppo distante dalla Share\'ngo che hai selezionato. Potrai aprirla quando sarai in prossimità dell\'auto.</string>
     <string name="maps_searchmicrophone_message">In ascolto...</string>
     <string name="maps_feeddiscover_message">Scopri di più</string>
     <string name="maps_hidecars_alert">Attenzione! Potrai utilizzare questa funzione solo dopo aver concluso la corsa o la prenotazione attiva</string>

@@ -742,8 +742,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO: remove
-        userLocation.setLatitude(41.933039);
-        userLocation.setLongitude(12.476318); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        //userLocation.setLatitude(41.870911);
+        //userLocation.setLongitude(12.531345); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
         enabledCenterMap(true);
 
@@ -1431,9 +1431,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 
-                    try {
-                        finalMarkerCarCity.setIcon(getBitmapDescriptor(makeBasicMarker(bitmap)));
-                    }catch (NullPointerException e){}
+                    if(getActivity() != null) {
+                        try {
+                            finalMarkerCarCity.setIcon(getBitmapDescriptor(makeBasicMarker(bitmap)));
+                        } catch (NullPointerException e) {
+                        }
+                    }
 
                 }
 
@@ -1606,7 +1609,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void setAnimatedMarker(){
 
-
         //Ciclo i marker disegnati per trovare l'auto vicina
         if(poiMarkers != null && poiMarkers.size() > 0){
 
@@ -1618,7 +1620,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     carnextMarker = markerNext;
                 }
             }
-
 
             setMarkerAnimation();
         }else{
@@ -1699,7 +1700,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         carnext_id = car_id;
-
 
         if(!isBookingCar && !isTripStart) {
             if (carWalkingNavigation == null || (carWalkingNavigation != null && !carWalkingNavigation.id.equals(carNext.id))) {
@@ -1793,7 +1793,22 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                                 carnextMarker.setIcon(drawableAnimArray.get(currentDrawable));
                                                 carnextMarker.setAnchor(0.4f, 0.7f);
                                             } catch (NullPointerException e) {
-                                                carnextMarker = null;
+
+                                                for(Marker markerOnMap : poiMarkers){
+                                                    if (((Car) carnextMarker.getData()).id.equals(((Car) markerOnMap.getData()).id)){
+                                                        poiMarkers.remove(markerOnMap);
+                                                    }
+                                                }
+
+                                                MarkerOptions markerCar = new MarkerOptions().position(new LatLng(((Car) carnextMarker.getData()).latitude, ((Car) carnextMarker.getData()).longitude));
+                                                markerCar.icon(getBitmapDescriptor(R.drawable.ic_auto));
+
+                                                com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
+                                                myMarker.setData(carnextMarker.getData());
+                                                poiMarkers.add(myMarker);
+
+                                                carnextMarker = myMarker;
+
                                             }
 
                                         }
@@ -3161,6 +3176,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void openNotification(int start, int end) {
         showNotification(start, end);
+        refreshCars();
     }
 
     @Override
