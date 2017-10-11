@@ -64,20 +64,23 @@ public class PasswordRecoveryFragment extends BaseMvpFragment<PasswordRecoveryPr
         webview.setWebViewClient(new WebViewClient() {
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                webview.setVisibility(View.GONE);
-                final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
-                        getString(R.string.error_msg_network_general),
-                        getString(R.string.ok),
-                        null);
-                cdd.show();
-                cdd.yes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cdd.dismissAlert();
-                        Navigator.launchLogin(PasswordRecoveryFragment.this, Navigator.REQUEST_LOGIN_START);
-                        getActivity().finish();
-                    }
-                });
+
+                if(getActivity() != null) {
+                    webview.setVisibility(View.GONE);
+                    final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                            getString(R.string.error_msg_network_general),
+                            getString(R.string.ok),
+                            null);
+                    cdd.show();
+                    cdd.yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            cdd.dismissAlert();
+                            Navigator.launchLogin(PasswordRecoveryFragment.this, Navigator.REQUEST_LOGIN_START);
+                            getActivity().finish();
+                        }
+                    });
+                }
             }
 
             @Override

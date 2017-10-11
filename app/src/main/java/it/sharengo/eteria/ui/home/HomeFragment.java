@@ -162,16 +162,20 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
             @Override
             public void run() {
 
-                if(homeView.getWidth() < homeView.getHeight()) sizeCircleView = homeView.getWidth();
-                else sizeCircleView = homeView.getHeight();
+                if(homeView != null) {
 
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) circleView.getLayoutParams();
-                layoutParams.height = sizeCircleView - marginCircle;
-                layoutParams.width = sizeCircleView - marginCircle;
-                layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-                circleView.setLayoutParams(layoutParams);
+                    if (homeView.getWidth() < homeView.getHeight())
+                        sizeCircleView = homeView.getWidth();
+                    else sizeCircleView = homeView.getHeight();
 
-                setButtonPosition();
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) circleView.getLayoutParams();
+                    layoutParams.height = sizeCircleView - marginCircle;
+                    layoutParams.width = sizeCircleView - marginCircle;
+                    layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+                    circleView.setLayoutParams(layoutParams);
+
+                    setButtonPosition();
+                }
         }});
 
 
