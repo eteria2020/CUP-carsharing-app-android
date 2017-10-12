@@ -94,6 +94,17 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                 //Recupero le informazioni dell'utente
                 getUser(context);
                 getTrips();
+                getCities();
+
+                //Provo a prelevare i dati dell'utente dalle preferenze
+                mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
+                Type fooType = new TypeToken<UserInfo>() {}.getType();
+                Gson gson = new Gson();
+                String json = mPref.getString(context.getString(R.string.preference_userinfo), "");
+                UserInfo obj = (UserInfo) gson.fromJson(json, fooType);
+                if(obj != null && mUserRepository.getCachedUser() != null) mUserRepository.getCachedUser().userInfo = obj;
+
+                getMvpView().navigateToHome(mAppRepository.getLang());
 
             }else{ //Utente non loggato
 
@@ -154,7 +165,8 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        getReservation();
+                        //getReservation();
+                        //getMvpView().navigateToHome(mAppRepository.getLang());
                     }
                 });
     }
@@ -170,16 +182,6 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             public void onError(Throwable e) {
                 mUserRequest = null;
 
-
-                //Provo a prelevare i dati dell'utente dalle preferenze
-                SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
-                Type fooType = new TypeToken<UserInfo>() {}.getType();
-                Gson gson = new Gson();
-                String json = mPref.getString(context.getString(R.string.preference_userinfo), "");
-                UserInfo obj = (UserInfo) gson.fromJson(json, fooType);
-                if(obj != null && mUserRepository.getCachedUser() != null) mUserRepository.getCachedUser().userInfo = obj;
-
-                getMvpView().navigateToHome(mAppRepository.getLang());
             }
 
             @Override
@@ -213,7 +215,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        getCities();
+                        //getCities();
                         //getTrips();
                     }
                 });
@@ -263,7 +265,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        //getCities();
+
                     }
                 });
     }
@@ -313,7 +315,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        getMvpView().navigateToHome(mAppRepository.getLang());
+                        //getMvpView().navigateToHome(mAppRepository.getLang());
                     }
                 });
     }
@@ -329,7 +331,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             public void onError(Throwable e) {
                 mCityRequest = null;
 
-                getMvpView().navigateToHome(mAppRepository.getLang());
+                //getMvpView().navigateToHome(mAppRepository.getLang());
             }
 
             @Override
