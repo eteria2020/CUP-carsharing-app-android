@@ -98,6 +98,17 @@
     </LinearLayout>
 
 
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:id="@+id/appVersionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        app:font_name="poppinsRegular"
+        android:textColor="@color/darkjunglegreen"
+        android:textSize="16sp"
+        android:text=""/>
 
 
 </RelativeLayout>

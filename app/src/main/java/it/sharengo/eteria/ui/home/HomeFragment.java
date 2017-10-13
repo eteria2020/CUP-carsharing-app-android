@@ -5,13 +5,12 @@ import android.animation.Animator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +69,9 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
     @BindView(R.id.welcomeTextView)
     TextView welcomeTextView;
+
+    @BindView(R.id.appVersionTextView)
+    TextView appVersionTextView;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -137,6 +139,14 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
             mPresenter.setAnimateHome(false);
         }else{
             showElements();
+        }
+
+        //Inserisco il numero di versione dell'app
+        try {
+            PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+            appVersionTextView.setText(pInfo.versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
         }
 
 
