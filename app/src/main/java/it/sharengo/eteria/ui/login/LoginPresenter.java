@@ -209,6 +209,8 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
+
+                        Log.w("LOGIN","FINITOOOOOO");
                         getMvpView().navigateTo();
                     }
                 });

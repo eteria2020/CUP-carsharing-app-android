@@ -83,8 +83,8 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         mUnbinder = ButterKnife.bind(this, view);
 
         //TODO
-        //emailEditText.setText("francesco.galatro@gmail.com"); //francesco.galatro@gmail.com   emilio.cristiano@tiscali.it
-        //passwordEditText.setText("AppTest2017"); //AppTest2017    Sharengo2016!
+        emailEditText.setText("francesco.galatro@gmail.com"); //francesco.galatro@gmail.com   emilio.cristiano@tiscali.it
+        passwordEditText.setText("AppTest2017"); //AppTest2017    Sharengo2016!
 
         return view;
     }
@@ -263,69 +263,40 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
      * According to type launch correct view. Example Home, Login Profile or other.
      */
     public void navigateTo(){
-        Handler handler = new Handler();
-
         switch (type){
             case Navigator.REQUEST_LOGIN_START:
-                handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(getActivity() != null) {
-                            Navigator.launchHome(getActivity());
-                            getActivity().finish();
-                        }
-                    }
-                }, 1300);
+                if(getActivity() != null) {
+                    Navigator.launchHome(getActivity());
+                    getActivity().finish();
+                }
                 break;
             case Navigator.REQUEST_LOGIN_PROFILE:
-
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(getActivity() != null) {
-                            Navigator.launchHome(LoginFragment.this);
-                            getActivity().finish();
-                        }
-                    }
-                }, 1300);
+                if(getActivity() != null) {
+                    Navigator.launchHome(LoginFragment.this);
+                    getActivity().finish();
+                }
                 break;
             case Navigator.REQUEST_LOGIN_MAPS:
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(getActivity() != null) {
-                            Navigator.launchMapGoogle(LoginFragment.this, Navigator.REQUEST_MAP_DEFAULT);
-                            getActivity().finish();
-                        }
-                    }
-                }, 1300);
+                if(getActivity() != null) {
+                    Navigator.launchMapGoogle(LoginFragment.this, Navigator.REQUEST_MAP_DEFAULT);
+                    getActivity().finish();
+                }
                 break;
             case Navigator.REQUEST_LOGIN_FEEDS:
                 //Verifico se la città preferita è stata impostata
                 SharedPreferences mPref = getActivity().getSharedPreferences(getActivity().getString(R.string.preference_file_key), MODE_PRIVATE);
                 if (mPref.getString(getActivity().getString(R.string.preference_citiesfavourites), "").isEmpty()) {
                     //Apro i settings
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(getActivity() != null) {
-                                Navigator.launchSettingsCities(LoginFragment.this, true);
-                                getActivity().finish();
-                            }
-                        }
-                    }, 1300);
+                    if(getActivity() != null) {
+                        Navigator.launchSettingsCities(LoginFragment.this, true);
+                        getActivity().finish();
+                    }
                 } else {
                     //Apro i feed
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(getActivity() != null) {
-                                Navigator.launchFeeds(LoginFragment.this, "0", "");
-                                getActivity().finish();
-                            }
-                        }
-                    }, 1300);
+                    if(getActivity() != null) {
+                        Navigator.launchFeeds(LoginFragment.this, "0", "");
+                        getActivity().finish();
+                    }
                 }
                 break;
         }
