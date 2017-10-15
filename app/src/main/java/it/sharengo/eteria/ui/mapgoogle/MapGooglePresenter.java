@@ -4,6 +4,8 @@ package it.sharengo.eteria.ui.mapgoogle;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.util.Log;
 
@@ -28,7 +30,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.common.ErrorResponse;
 import it.sharengo.eteria.data.models.Address;
 import it.sharengo.eteria.data.models.Car;
 import it.sharengo.eteria.data.models.City;
@@ -301,10 +305,23 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 handler1min.post(new Runnable() {
                     public void run() {
 
+                        ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
+                        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+                        if(isConnected) {
+                            if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) {
+                                if(seconds == 0 || ((System.currentTimeMillis() - seconds) / 1000) > 59) getReservations(true); //Deve essere passato almeno un minuto dall'azione compiuta dall'utente (apertura porte o prenotazione)
+                            }
+                        }else{
 
-                        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) {
-                            if(seconds == 0 || ((System.currentTimeMillis() - seconds) / 1000) > 59) getReservations(true); //Deve essere passato almeno un minuto dall'azione compiuta dall'utente (apertura porte o prenotazione)
+                            //Timer
+                            if(timerInterval == INT_10_SEC) setTimerReservertionTrip(INT_1_MIN);
+
+                            getMvpView().removeTripInfo();
+                            getMvpView().removeReservationInfo();
                         }
+
+
 
                     }
                 });
@@ -1390,6 +1407,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
+                        Log.w("getTrips","ONCOMPLETE");
                         checkTripsResult();
                     }
                 });
