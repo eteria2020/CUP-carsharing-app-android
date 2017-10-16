@@ -2,7 +2,14 @@ package it.sharengo.eteria.data.repositories;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,7 +102,29 @@ public class AppRepository {
 
     public Observable<ResponseCity> getCities(final Context context) {
 
-        if(mChachedCities != null) {
+        mChachedCities = new ResponseCity();
+
+        try {
+            InputStream is = context.getAssets().open("city.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String json = new String(buffer, "UTF-8");
+
+            Type cityType = new TypeToken<ResponseCity>() {}.getType();
+            Gson gson = new Gson();
+            mChachedCities = gson.fromJson(json, cityType);
+
+            setFavoriteCity(context);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return Observable.just(mChachedCities);
+
+        /*if(mChachedCities != null) {
 
             setFavoriteCity(context);
             return Observable.just(mChachedCities);
@@ -109,7 +138,7 @@ public class AppRepository {
                             createOrUpdateCitiesInMemory(context, response);
                         }
                     });
-        }
+        }*/
     }
 
     private void createOrUpdateCitiesInMemory(Context context, ResponseCity response) {
