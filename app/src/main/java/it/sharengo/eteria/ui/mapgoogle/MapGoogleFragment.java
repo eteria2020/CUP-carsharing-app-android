@@ -1659,12 +1659,22 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         if(car != null) {
 
-            showPopupCar(car);
 
-            if (isTripStart && userLocation != null && ((Car) userMarker.getData()).id.equals(car.id))
+            if (isTripStart && userLocation != null && ((Car) userMarker.getData()).id.equals(car.id)) {
                 moveMapCameraToPoitWithZoom((double) userLocation.getLatitude(), (double) userLocation.getLongitude(), 19);
-            else
-                moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
+                showPopupCar(car);
+            }else {
+                if(userLocation != null){
+                    if(!((Car) userMarker.getData()).id.equals(car.id)) {
+                        moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
+                        showPopupCar(car);
+                    }
+
+                }else {
+                    moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
+                    showPopupCar(car);
+                }
+            }
         }
     }
 

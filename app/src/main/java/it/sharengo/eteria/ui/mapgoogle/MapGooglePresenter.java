@@ -152,7 +152,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private int timerInterval;
     private int INT_1_MIN = 60000;
-    private int INT_10_SEC = 10000;
+    private int INT_10_SEC = 5000;
 
 
     public MapGooglePresenter(SchedulerProvider schedulerProvider,
@@ -305,6 +305,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 handler1min.post(new Runnable() {
                     public void run() {
 
+                        Log.w("TIMER","AAA");
+
                         ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
                         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
                         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
@@ -315,7 +317,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                         }else{
 
                             //Timer
-                            if(timerInterval == INT_10_SEC) setTimerReservertionTrip(INT_1_MIN);
+                            if(timerInterval == INT_1_MIN) setTimerReservertionTrip(INT_10_SEC);
 
                             getMvpView().removeTripInfo();
                             getMvpView().removeReservationInfo();
