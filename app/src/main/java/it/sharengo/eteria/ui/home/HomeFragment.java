@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -108,10 +109,28 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         //Modifico l'icona della città in base alle preferenze dell'utente
         City favouritesCity = mPresenter.getCityPreference();
         if(favouritesCity != null){
-            ImageUtils.loadImage(cityButton, favouritesCity.media.images.icon.uri);
-            int padding = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
-            cityButton.setPadding(padding,padding,padding,padding);
-            cityButton.setColorFilter(Color.parseColor("#b8afa8"), android.graphics.PorterDuff.Mode.MULTIPLY);
+            //ImageUtils.loadImage(cityButton, favouritesCity.media.images.icon.uri);
+            Drawable cityIcon = null;
+            switch (favouritesCity.id){
+                case "5":
+                    cityIcon = ResourceProvider.getDrawable(getActivity(), R.drawable.ic_milano);
+                    break;
+                case "8":
+                    cityIcon = ResourceProvider.getDrawable(getActivity(), R.drawable.ic_modena);
+                    break;
+                case "7":
+                    cityIcon = ResourceProvider.getDrawable(getActivity(), R.drawable.ic_roma);
+                    break;
+                case "6":
+                    cityIcon = ResourceProvider.getDrawable(getActivity(), R.drawable.ic_firenze);
+                    break;
+            }
+
+            if(cityIcon != null)
+                cityButton.setImageDrawable(cityIcon);
+            //int padding = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
+            //cityButton.setPadding(padding,padding,padding,padding);
+            //cityButton.setColorFilter(Color.parseColor("#b8afa8"), android.graphics.PorterDuff.Mode.MULTIPLY);
         }
 
         //Verifico se il pulsante dei feed deve esssere abilitato

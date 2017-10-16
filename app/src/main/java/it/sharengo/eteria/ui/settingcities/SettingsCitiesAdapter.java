@@ -1,6 +1,7 @@
 package it.sharengo.eteria.ui.settingcities;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import butterknife.OnClick;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.models.City;
 import it.sharengo.eteria.utils.ImageUtils;
+import it.sharengo.eteria.utils.ResourceProvider;
 
 public class SettingsCitiesAdapter extends RecyclerView.Adapter<SettingsCitiesAdapter.ViewHolder> {
 
@@ -85,7 +87,26 @@ public class SettingsCitiesAdapter extends RecyclerView.Adapter<SettingsCitiesAd
          */
         public void render(City city) {
             nameTextview.setText(city.name);
-            ImageUtils.loadImage(iconImageView, city.media.images.icon.uri);
+            //ImageUtils.loadImage(iconImageView, city.media.images.icon.uri);
+
+            Drawable cityIcon = null;
+            switch (city.id){
+                case "5":
+                    cityIcon = ResourceProvider.getDrawable(mActivity, R.drawable.ic_milano);
+                    break;
+                case "8":
+                    cityIcon = ResourceProvider.getDrawable(mActivity, R.drawable.ic_modena);
+                    break;
+                case "7":
+                    cityIcon = ResourceProvider.getDrawable(mActivity, R.drawable.ic_roma);
+                    break;
+                case "6":
+                    cityIcon = ResourceProvider.getDrawable(mActivity, R.drawable.ic_firenze);
+                    break;
+            }
+
+            if(cityIcon != null)
+                iconImageView.setImageDrawable(cityIcon);
 
             if(city.favourites){
                 checkImageView.setVisibility(View.VISIBLE);
