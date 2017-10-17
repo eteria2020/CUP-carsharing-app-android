@@ -761,8 +761,12 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        //checkResult();
 
+                        getMvpView().setNextCar(mCachedPlates);
+
+                        if(mCachedPlates == null){
+                            loadPlates();
+                        }
                     }
                 });
     }
@@ -773,11 +777,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             public void onCompleted() {
                 mPlatesRequest = null;
 
-                getMvpView().setNextCar(mCachedPlates);
-
-                if(mCachedPlates == null){
-                    loadPlates();
-                }
             }
 
             @Override
