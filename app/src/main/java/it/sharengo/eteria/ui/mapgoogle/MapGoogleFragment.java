@@ -27,7 +27,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -42,7 +41,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +78,6 @@ import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PatternItem;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.maps.android.PolyUtil;
@@ -95,6 +92,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -118,14 +116,12 @@ import it.sharengo.eteria.data.models.Trip;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.map.BaseMapFragment;
-import it.sharengo.eteria.ui.chronology.ChronologyFragment;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 import it.sharengo.eteria.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
 import it.sharengo.eteria.utils.ImageUtils;
 import it.sharengo.eteria.utils.ResourceProvider;
 import it.sharengo.eteria.utils.StringsUtils;
 
-import static android.R.attr.mode;
 import static android.content.Context.MODE_PRIVATE;
 
 
@@ -744,6 +740,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //TODO Coor
         userLocation.setLatitude(41.914993);
         userLocation.setLongitude(12.524136); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+
 
         enabledCenterMap(true);
 
@@ -1806,20 +1803,23 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                                 carnextMarker.setAnchor(0.5f, 0.65f);
                                             } catch (NullPointerException e) {
 
-                                                for(Marker markerOnMap : poiMarkers){
-                                                    if (((Car) carnextMarker.getData()).id.equals(((Car) markerOnMap.getData()).id)){
-                                                        poiMarkers.remove(markerOnMap);
+                                                try {
+                                                    for (Marker markerOnMap : poiMarkers) {
+                                                        if (((Car) carnextMarker.getData()).id.equals(((Car) markerOnMap.getData()).id)) {
+                                                            poiMarkers.remove(markerOnMap);
+                                                        }
                                                     }
-                                                }
 
-                                                MarkerOptions markerCar = new MarkerOptions().position(new LatLng(((Car) carnextMarker.getData()).latitude, ((Car) carnextMarker.getData()).longitude));
-                                                markerCar.icon(getBitmapDescriptor(R.drawable.ic_auto));
+                                                    MarkerOptions markerCar = new MarkerOptions().position(new LatLng(((Car) carnextMarker.getData()).latitude, ((Car) carnextMarker.getData()).longitude));
+                                                    markerCar.icon(getBitmapDescriptor(R.drawable.ic_auto));
 
-                                                com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
-                                                myMarker.setData(carnextMarker.getData());
-                                                poiMarkers.add(myMarker);
+                                                    com.androidmapsextensions.Marker myMarker = mMap.addMarker(markerCar);
+                                                    myMarker.setData(carnextMarker.getData());
+                                                    poiMarkers.add(myMarker);
 
-                                                carnextMarker = myMarker;
+                                                    carnextMarker = myMarker;
+
+                                                }catch (ConcurrentModificationException c){}
 
                                             }
 
