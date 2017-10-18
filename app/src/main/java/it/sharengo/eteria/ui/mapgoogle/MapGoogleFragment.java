@@ -41,6 +41,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -1657,8 +1658,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         if(car != null) {
 
-
-            if (isTripStart && userLocation != null && ((Car) userMarker.getData()).id.equals(car.id)) {
+            if (userMarker.getData() != null && isTripStart && userLocation != null && ((Car) userMarker.getData()).id.equals(car.id)) {
                 moveMapCameraToPoitWithZoom((double) userLocation.getLatitude(), (double) userLocation.getLongitude(), 19);
                 showPopupCar(car);
             }else {
@@ -2085,7 +2085,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void showPopupCar(Car car){
-        Log.w("car",": "+car.latitude+", "+car.longitude);
+
         if(!isAdded()) return;
 
         carSelected = car;
@@ -2239,7 +2239,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             if(carSelected != null && carBooked != null){
 
-                if(carSelected.id.equals(carBooked.id)){
+                if(carSelected.id.equals(carBooked.id) && (isBookingCar || (isTripStart && isTripParked))){
                     openDoorOk = true;
                 }
             }else if(carBooked != null){
