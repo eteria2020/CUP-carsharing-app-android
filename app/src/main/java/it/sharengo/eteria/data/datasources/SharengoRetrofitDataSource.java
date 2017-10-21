@@ -90,8 +90,8 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
      * @see            Observable<Response>
      */
     @Override
-    public Observable<Response> getPlates(String auth) {
-        return mSharengoApi.getPlates(auth)
+    public Observable<Response> getPlates(String auth, float user_lat, float user_lon) {
+        return mSharengoApi.getPlates(auth, user_lat, user_lon)
                 .compose(this.<Response>handleRetrofitRequest());
     }
 

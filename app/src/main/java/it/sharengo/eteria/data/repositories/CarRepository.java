@@ -177,9 +177,9 @@ public class CarRepository {
      * @return            response observable object
      * @see               Observable<Response>
      */
-    public Observable<Response> getPlates(String username, String password) {
+    public Observable<Response> getPlates(String username, String password, float user_lat, float user_lon) {
 
-        return mRemoteDataSource.getPlates(Credentials.basic(username, StringsUtils.md5(password)))
+        return mRemoteDataSource.getPlates(Credentials.basic(username, StringsUtils.md5(password)), user_lat, user_lon)
                 .doOnNext(new Action1<Response>() {
                     @Override
                     public void call(Response response) {

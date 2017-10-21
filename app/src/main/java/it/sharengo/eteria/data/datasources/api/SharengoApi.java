@@ -34,7 +34,7 @@ public interface SharengoApi {
     Observable<Result<ResponseCar>> getCars(@Header("Authorization") String auth, @Query("plate") String plate);
 
     @GET("v3/cars")
-    Observable<Result<Response>> getPlates(@Header("Authorization") String auth);
+    Observable<Result<Response>> getPlates(@Header("Authorization") String auth, @Query("user_lat") float user_lat, @Query("user_lon") float user_lon);
 
     @FormUrlEncoded
     @PUT("v2/cars/{plate}")

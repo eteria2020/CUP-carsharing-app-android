@@ -138,6 +138,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private List<Feed> mOffersList;
     private List<Feed> mEventsList;
     private long seconds;
+    public float userLat, userLon;
 
     /*
      *  Timer
@@ -244,6 +245,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         isBookingExists = false;
         timestamp_start = 0;
         seconds = 0;
+        userLat = 0;
+        userLon = 0;
 
         loadPlates();
 
@@ -285,7 +288,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             }
         };
 
-        timer.schedule(timerTask, 300000, 300000); //300000
+        timer.schedule(timerTask, 60000, 60000); //300000
 
 
         setTimerReservertionTrip(INT_1_MIN);
@@ -755,7 +758,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private Observable<Response> buildPlatesRequest() {
-        return mPlatesRequest = mCarRepository.getPlates(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
+        return mPlatesRequest = mCarRepository.getPlates(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, userLat, userLon)
                 .first()
                 .compose(this.<Response>handleDataRequest())
                 .doOnCompleted(new Action0() {
