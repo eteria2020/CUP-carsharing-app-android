@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -424,12 +425,43 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  user_lat  latitude of user.
      * @param  user_lon  longitude of user.
      * @param  radius    radius of map.
+     * @param  bounds    bounds of map.
+     * @param  refresh   update info from server.
      */
-    public void refreshCars(Context context, float latitude, float longitude, float user_lat, float user_lon, int radius){
+    public void refreshCars(Context context, float latitude, float longitude, float user_lat, float user_lon, int radius, LatLngBounds bounds, boolean refresh){
         hideLoading = true;
-        loadCars(latitude, longitude, user_lat, user_lon, radius);
-        if(isFeeds)
-            loadFeeds(context, latitude, longitude, radius);
+
+        if(refresh) { //Forzo il refresh
+            loadCars(latitude, longitude, user_lat, user_lon, radius);
+            if (isFeeds)
+                loadFeeds(context, latitude, longitude, radius);
+        }else{
+            if(mCachedPlates != null){
+
+                Log.w("REFRESH","GIA' MEMORIZZATE");
+
+                List<Car> carToShow = new ArrayList<>();
+
+                for(Car carToCheck : mCachedPlates){
+
+                    //LatLngBounds curScreen
+                    if(carToCheck.latitude <= bounds.northeast.latitude && carToCheck.latitude >= bounds.southwest.latitude && carToCheck.longitude <= bounds.northeast.longitude && carToCheck.longitude >= bounds.southwest.longitude){
+                        carToShow.add(carToCheck);
+                    }
+                }
+
+                if(carToShow.isEmpty()){
+                    getMvpView().noCarsFound();
+                }else{
+                    getMvpView().showCars(carToShow);
+                }
+
+            }else{
+
+                Log.w("REFRESH","NO AUTO");
+                loadCars(latitude, longitude, user_lat, user_lon, radius);
+            }
+        }
     }
 
     /**
@@ -758,6 +790,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private Observable<Response> buildPlatesRequest() {
+        Log.w("user coor",": "+userLat+","+userLon);
         return mPlatesRequest = mCarRepository.getPlates(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, userLat, userLon)
                 .first()
                 .compose(this.<Response>handleDataRequest())

@@ -78,6 +78,7 @@ import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.PatternItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -736,6 +737,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void locationChange(Location location){
+
+        mPresenter.userLat = (float) location.getLatitude();
+        mPresenter.userLon = (float) location.getLongitude();
+
         userLocation = location;
 
         //TODO Coor
@@ -1111,7 +1116,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 user_lat = (float) userLocation.getLatitude();
                 user_lon = (float) userLocation.getLongitude();
             }
-            mPresenter.refreshCars(getActivity(), (float) mMap.getCameraPosition().target.latitude, (float) mMap.getCameraPosition().target.longitude, user_lat, user_lon, getFixMapRadius());
+            mPresenter.refreshCars(getActivity(), (float) mMap.getCameraPosition().target.latitude, (float) mMap.getCameraPosition().target.longitude, user_lat, user_lon, getFixMapRadius(), mMap.getProjection().getVisibleRegion().latLngBounds, true);
         }
     }
 
@@ -1225,7 +1230,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         user_lat = (float) userLocation.getLatitude();
                         user_lon = (float) userLocation.getLongitude();
                     }
-                    mPresenter.refreshCars(getActivity(), (float) getMapCenter().latitude, (float) getMapCenter().longitude, user_lat, user_lon, getFixMapRadius());
+                    mPresenter.refreshCars(getActivity(), (float) getMapCenter().latitude, (float) getMapCenter().longitude, user_lat, user_lon, getFixMapRadius(), mMap.getProjection().getVisibleRegion().latLngBounds, false);
                 } catch (NullPointerException e) {
                 }
             }
@@ -2255,7 +2260,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             if(carToOpen != null){
                 if(userLocation != null){
                     //Calcolo la distanza
-                    if(getDistance(carToOpen) <= 500000000){ //TODO: valore a 50
+                    if(getDistance(carToOpen) <= 300000000){ //TODO: valore a 300
 
                         //Procediamo con le schermate successive
                         onClosePopup();
