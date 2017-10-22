@@ -39,4 +39,5 @@ public interface MapGoogleMvpView extends MvpMapView {
     void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes);
     void showLoading();
     void hideLoading();
+    void generalError();
 }

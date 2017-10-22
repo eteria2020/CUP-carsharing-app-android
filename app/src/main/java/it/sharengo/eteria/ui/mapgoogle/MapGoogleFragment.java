@@ -1750,11 +1750,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                     //Ogni x millisecondi cambio il frame
                                     if (isBookingCar || isTripStart) {
 
-
                                         if (carbookingMarker != null && isBookingCar && !isTripStart) {
                                             try {
                                                 carbookingMarker.setIcon(drawableAnimArray.get(currentDrawable));
-                                                carnextMarker.setAnchor(0.5f, 0.65f);
+                                                carbookingMarker.setAnchor(0.5f, 0.70f);
                                             } catch (NullPointerException e) {
                                                 carbookingMarker = null;
                                             }
@@ -1776,7 +1775,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                             try {
                                                 if(userMarker != null) userMarker.setIcon(bitmapUser);
                                                 carbookingMarker.setIcon(drawableAnimArray.get(currentDrawable));
-                                                carnextMarker.setAnchor(0.5f, 0.65f);
+                                                carbookingMarker.setAnchor(0.5f, 0.65f);
 
                                             } catch (NullPointerException e) {
                                             }
@@ -2091,7 +2090,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void showPopupCar(Car car){
 
-        if(!isAdded()) return;
+        if(!isAdded()) return; Log.w("car",": "+car.latitude+","+car.longitude);
 
         carSelected = car;
 
@@ -3231,6 +3230,21 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     public void carAlreadyBooked(){
         final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                 getString(R.string.booking_alreadybookedcar_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+            }
+        });
+    }
+
+    @Override
+    public void generalError(){
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.error_generalerror_alert),
                 getString(R.string.ok),
                 null);
         cdd.show();

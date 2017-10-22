@@ -22,6 +22,7 @@
     <string name="cancel">ANNULLA</string>
     <string name="login">LOGIN</string>
     <string name="error_msg_network_general">Si è verificato un errore, per favore controlla la tua connessione ad internet o riprova più tardi.</string>
+    <string name="error_generalerror_alert">Si è verificato un errore, per favore riprova più tardi o richiedi assistenza</string>
 
     <!--MENU-->
     <string name="menu_home">Home</string>

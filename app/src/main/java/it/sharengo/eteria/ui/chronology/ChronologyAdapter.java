@@ -211,7 +211,7 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
                 arrowImageView.setImageDrawable(getIcon(R.drawable.ic_arrow_drop_up));
             }
 
-            mListener.onItemClick(mData.get(getAdapterPosition()));
+            if(getAdapterPosition() >= 0) mListener.onItemClick(mData.get(getAdapterPosition()));
         }
 
 

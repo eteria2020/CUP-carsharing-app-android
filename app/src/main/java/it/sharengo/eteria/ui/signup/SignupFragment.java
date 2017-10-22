@@ -66,20 +66,23 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 //showError(getString(R.string.error_generic_msg));
-                webview.setVisibility(View.GONE);
-                final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
-                        getString(R.string.error_msg_network_general),
-                        getString(R.string.ok),
-                        null);
-                cdd.show();
-                cdd.yes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cdd.dismissAlert();
-                        Navigator.launchSlideshow(SignupFragment.this);
-                        getActivity().finish();
-                    }
-                });
+
+                if(getActivity() != null) {
+                    webview.setVisibility(View.GONE);
+                    final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                            getString(R.string.error_msg_network_general),
+                            getString(R.string.ok),
+                            null);
+                    cdd.show();
+                    cdd.yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            cdd.dismissAlert();
+                            Navigator.launchSlideshow(SignupFragment.this);
+                            getActivity().finish();
+                        }
+                    });
+                }
             }
 
             @SuppressWarnings("deprecation")

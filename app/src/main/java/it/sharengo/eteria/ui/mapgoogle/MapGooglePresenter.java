@@ -309,7 +309,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 handler1min.post(new Runnable() {
                     public void run() {
 
-                        Log.w("TIMER","AAA");
 
                         ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
                         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -438,8 +437,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         }else{
             if(mCachedPlates != null){
 
-                Log.w("REFRESH","GIA' MEMORIZZATE");
-
                 List<Car> carToShow = new ArrayList<>();
 
                 for(Car carToCheck : mCachedPlates){
@@ -458,7 +455,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
             }else{
 
-                Log.w("REFRESH","NO AUTO");
                 loadCars(latitude, longitude, user_lat, user_lon, radius);
             }
         }
@@ -790,7 +786,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private Observable<Response> buildPlatesRequest() {
-        Log.w("user coor",": "+userLat+","+userLon);
+
         return mPlatesRequest = mCarRepository.getPlates(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, userLat, userLon)
                 .first()
                 .compose(this.<Response>handleDataRequest())
@@ -1295,9 +1291,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
                 if(!response.reason.isEmpty() && response.reason.equals("Reservation created successfully"))
                     mReservation = response.reservation;
-                else {
+                else if(!response.reason.isEmpty() && response.reason.equals("Error: reservation:true - status:false - trip:false - limit:false - limit_archive:false")) {
+                    getMvpView().generalError();
+                }else{
                     mReservation = null;
-                    getMvpView().carAlreadyBooked(); // Error: reservation:false - status:false - trip:false - limit:false - limit_archive:true
+                    getMvpView().carAlreadyBooked();
                 }
             }
         };
@@ -1444,7 +1442,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        Log.w("getTrips","ONCOMPLETE");
                         checkTripsResult();
                     }
                 });
@@ -1549,8 +1546,17 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private void checkReservationsResult(){
 
         if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
-            loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
-            isBookingExists = true;
+
+            //Verifico che non sia scaduta
+            long unixTime = System.currentTimeMillis() / 1000L;
+            int diffTime = (int) (unixTime - mResponseReservation.reservations.get(0).timestamp_start);
+
+            if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
+                loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
+                isBookingExists = true;
+            }else{
+                getTrips(true);
+            }
         }else{
             //getMvpView().removeReservationInfo();
 
@@ -1558,7 +1564,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 isBookingExists = false;
                 getMvpView().openReservationNotification();
             }
-            getTrips(true); //TODO Remove
+            getTrips(true);
         }
     }
 
