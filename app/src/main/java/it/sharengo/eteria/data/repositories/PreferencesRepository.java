@@ -226,7 +226,7 @@ public class PreferencesRepository {
         List<SearchItem> results = getHistoricList(mPrefs);
 
         for(SearchItem rI : results){
-            if(rI.display_name.equals(searchItem.display_name) && rI.name.equals(searchItem.name)){
+            if(rI.display_name != null && rI.name != null && rI.display_name.equals(searchItem.display_name) && rI.name.equals(searchItem.name)){
                 rI.name = name;
                 rI.display_name = address;
             }

@@ -1157,7 +1157,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 if (!isTripStart) {
                     try {
                         userMarker.setIcon(getBitmapDescriptor(R.drawable.ic_user));
-                    }catch (NullPointerException e){}
+                    }catch (NullPointerException e){} catch (IllegalStateException e){}
                 }
 
             }
@@ -1830,7 +1830,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                         }
                                     }
 
-                                    if (currentDrawable < drawableAnimArray.size() - 1)
+                                    if (drawableAnimArray != null && currentDrawable < drawableAnimArray.size() - 1)
                                         currentDrawable++;
                                     else currentDrawable = 0;
                                 }

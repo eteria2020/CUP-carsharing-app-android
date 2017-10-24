@@ -174,7 +174,7 @@ public class SettingsAddressesNewFragment extends BaseMvpFragment<SettingsAddres
         String name     = nameEditText.getText().toString().trim();
 
         //Verifico se tutti i campi sono compilati
-        if(address.isEmpty() || name.isEmpty()){
+        if(address.isEmpty() || name.isEmpty() || searchItemSelected == null){
             final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                     getString(R.string.settingsaddressnew_empty_error),
                     getString(R.string.ok),
