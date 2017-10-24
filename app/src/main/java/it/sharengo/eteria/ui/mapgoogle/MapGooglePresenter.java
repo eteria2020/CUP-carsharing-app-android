@@ -1636,7 +1636,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
             if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
-                getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0)); //TODO remove
+                getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0));
             }else {
                 getMvpView().openReservationNotification();
                 getMvpView().removeReservationInfo();

@@ -744,8 +744,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO Coor
-        userLocation.setLatitude(41.914993);
-        userLocation.setLongitude(12.524136); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        //userLocation.setLatitude(41.914993);
+        //userLocation.setLongitude(12.524136); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
 
         enabledCenterMap(true);
@@ -1784,7 +1784,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                         if (carnextMarker != null)
                                             try {
                                                 carnextMarker.setIcon(bitmapAuto);
-                                                carnextMarker.setAnchor(0.0f, 0.0f);
+                                                //carnextMarker.setAnchor(0.0f, 0.0f);
                                                 carnextMarker = null; //ADD
                                             } catch (NullPointerException e) {
                                                 carnextMarker = null;
@@ -1796,7 +1796,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                         if (carbookingMarker != null)
                                             try {
                                                 carbookingMarker.setIcon(bitmapAuto);
-                                                carbookingMarker.setAnchor(0.0f, 0.0f);
+                                                //carbookingMarker.setAnchor(0.0f, 0.0f);
                                                 carbookingMarker = null; //ADD
                                             } catch (NullPointerException e) {
                                                 carbookingMarker = null;
@@ -2259,7 +2259,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             if(carToOpen != null){
                 if(userLocation != null){
                     //Calcolo la distanza
-                    if(getDistance(carToOpen) <= 300000000){ //TODO: valore a 300
+                    if(getDistance(carToOpen) <= 300){ //TODO: valore a 300
 
                         //Procediamo con le schermate successive
                         onClosePopup();

@@ -140,14 +140,18 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
             //Numero prenotazione
             bookingNTextView.setText(String.format(mActivity.getString(R.string.chronology_bookingn_label), trip.id+""));
 
-            //Minuti
-            int diffTime = (int) (trip.timestamp_end - trip.timestamp_start);
+            //Costo e Minuti
             String sCost = "";
             if(trip.cost_computed && trip.total_cost != 0){
                 sCost = String.format("%.2f", trip.total_cost / 100);
                 sCost = " - € " + sCost.replace(",00","").replace(".00","");
             }
-            minutesTextView.setText(String.format(mActivity.getString(R.string.chronology_minutes_label), (diffTime/60)+"", sCost));
+            int diffTime = (int) (trip.timestamp_end - trip.timestamp_start);
+            float timeRide = diffTime/60.0f;
+            double dec = timeRide - Math.floor(timeRide);
+            diffTime = diffTime/60;
+            if(dec > 0.5) diffTime++;
+            minutesTextView.setText(String.format(mActivity.getString(R.string.chronology_minutes_label), diffTime+"", sCost));
 
             //Giorno e ora
             Date date = new Date(trip.timestamp_start*1000L);
