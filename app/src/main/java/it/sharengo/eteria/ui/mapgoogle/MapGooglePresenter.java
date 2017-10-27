@@ -195,10 +195,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         isBookingExists = false;
         timestamp_start = 0;
         seconds = 0;
+        mReservationsRequest = null;
+        mTripsRequest = null;
+        mCarsReservationRequest = null;
 
         //getMvpView().removeReservationInfo();
         //getMvpView().removeTripInfo();
-
+        Log.w("isPause",": "+isPause);
         if(isPause){
             getMvpView().showLoading();
         }
@@ -1505,7 +1508,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     void getReservations(boolean refreshInfo){
-
+        Log.w("isPause","getReservations: "+mReservationsRequest);
         if( mReservationsRequest == null) {
             mReservationsRequest = buildReservationsRequest(refreshInfo);
             addSubscription(mReservationsRequest.unsafeSubscribe(getReservationsSubscriber()));
@@ -1544,7 +1547,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private void checkReservationsResult(){
-
+        Log.w("isPause","checkReservationsResult");
         if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
 
             //Verifico che non sia scaduta

@@ -141,7 +141,8 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
     public void saveCredentials(String username, String password, SharedPreferences mPref){
         mPreferencesRepository.saveCredentials(username, password, mPref);
         mUserRepository.saveUserCredentials(username, password);
-        getReservation();
+        //getReservation();
+        getMvpView().navigateTo();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
