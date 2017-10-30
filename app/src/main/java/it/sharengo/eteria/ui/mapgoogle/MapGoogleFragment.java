@@ -765,10 +765,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         if(carPreSelected != null){
 
-            showPopupCar(carPreSelected);
-
             if(mMap != null)
                 moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
+
+            showPopupCar(carPreSelected);
 
         }
 
@@ -2093,6 +2093,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(!isAdded()) return; Log.w("car",": "+car.latitude+","+car.longitude);
 
         carSelected = car;
+
+        carPreSelected = null;
 
         //Aggiorno la Walk Navigation
         if(!isBookingCar && !isTripStart){
