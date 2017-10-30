@@ -9,7 +9,7 @@
     <string name="cancel">CANCEL</string>
     <string name="login">LOGIN</string>
     <string name="error_msg_network_general">An error occurred, please check your internet connection and try again later </string>
-    <string name="error_generalerror_alert">An error occurred, please try again later or requeste assistance</string>
+    <string name="error_generalerror_alert">A connection error occurred, please try again</string>
 
     <!--MENU-->
     <string name="menu_home">Home </string>
