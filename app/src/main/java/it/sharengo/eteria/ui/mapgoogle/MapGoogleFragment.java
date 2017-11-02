@@ -772,7 +772,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         if(carPreSelected != null){
             showPopupCar(carPreSelected);
-            moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
+            moveMapCameraToPoitWithZoom((double) carPreSelected.latitude, (double) carPreSelected.longitude, 19);
         }
 
         hasInit = true;
@@ -810,7 +810,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(carPreSelected != null){
 
             if(mMap != null)
-                moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
+                moveMapCameraToPoitWithZoom((double) carPreSelected.latitude, (double) carPreSelected.longitude, 19);
 
             showPopupCar(carPreSelected);
 
