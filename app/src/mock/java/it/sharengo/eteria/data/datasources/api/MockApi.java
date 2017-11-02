@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
 import rx.functions.Func1;
-
+//NON compila
 class MockApi implements SampleApi {
 
     public static final int REQUEST_DELAY_MILLIS = 2000;
