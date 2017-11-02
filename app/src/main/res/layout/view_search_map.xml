@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="18dp"
+    android:paddingLeft="18dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/searchMapView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8.5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:background="@color/darkjunglegreen"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:src="@drawable/ic_search" />
+        <it.sharengo.eteria.ui.components.CustomEditText
+            android:id="@+id/searchEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:hint="@string/maps_search_placeholder"
+            android:textColorHint="@color/white"
+            app:font_name="poppinsRegular"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:background="@android:color/transparent"
+            android:inputType="textCapSentences"
+            android:imeOptions="actionDone"/>
+        <ImageView
+            android:id="@+id/microphoneImageView"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/btn_bkg_white"
+            android:padding="2dp"
+            android:src="@drawable/ic_microphone" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/searchMapResultView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.95"
+        android:background="@color/darkjunglegreen"
+        android:visibility="gone"
+        android:clickable="true">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/searchRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            tools:listitem="@layout/view_search_list_item" />
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feedsEmptyView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_mizzie3"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="vertical">
+
+        <it.sharengo.eteria.ui.components.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/mediumseagreen"
+            android:textAlignment="center"
+            app:font_name="poppinsBold"
+            android:text="@string/feeds_empty_title"/>
+
+        <it.sharengo.eteria.ui.components.CustomTextView
+            android:id="@+id/feedsEmptyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="12sp"
+            android:textColor="@color/darkjunglegreen"
+            android:textAlignment="center"
+            app:font_name="poppinsRegular" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"/>
+
+</LinearLayout>

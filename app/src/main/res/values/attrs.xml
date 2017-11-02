@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomTextView">
+        <attr name="font_name">
+            <enum value="1" name="poppinsBold"/>
+            <enum value="2" name="poppinsLight"/>
+            <enum value="3" name="poppinsRegular"/>
+            <enum value="4" name="poppinsMedium"/>
+            <enum value="5" name="poppinsSemiBold"/>
+        </attr>
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addressListLayout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/mediumseagreen">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+            <it.sharengo.eteria.ui.components.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:textAlignment="center"
+                app:font_name="poppinsSemiBold"
+                android:text="@string/settingsaddress_title2_label" />
+            <it.sharengo.eteria.ui.components.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                app:font_name="poppinsRegular"
+                android:text="@string/settingsaddress_description2_label" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Lista -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/addressesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:listitem="@layout/view_settings_addresses_item" />
+
+
+</LinearLayout>

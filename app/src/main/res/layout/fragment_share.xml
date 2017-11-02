@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whitesmoke"
+    android:layout_marginTop="@dimen/hdx_toolbarHeight"
+    android:orientation="vertical">
+
+    <!-- Header -->
+    <RelativeLayout
+        style="@style/header_view">
+        <it.sharengo.eteria.ui.components.CustomTextView
+            style="@style/header_title"
+            app:font_name="poppinsBold"
+            android:text="@string/share_title_label" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:layout_margin="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_mizzie"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"/>
+
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        app:font_name="poppinsBold"
+        android:textAlignment="center"
+        android:textColor="@color/mediumseagreen"
+        android:text="@string/share_invitefriend_label"/>
+
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        app:font_name="poppinsRegular"
+        android:textAlignment="center"
+        android:textColor="@color/darkjunglegreen"
+        android:text="@string/share_timeregister_label"/>
+
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:font_name="poppinsBold"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/share_border"
+        android:textAlignment="center"
+        android:textColor="@color/darkjunglegreen"
+        android:text="@string/share_tenminutes_label"/>
+
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="12sp"
+        app:font_name="poppinsRegular"
+        android:textAlignment="center"
+        android:textColor="@color/darkjunglegreen"
+        android:text="@string/share_giftwelcome_label"/>
+
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="12sp"
+        app:font_name="poppinsBold"
+        android:textAlignment="center"
+        android:textColor="@color/mediumseagreen"
+        android:text="@string/share_friendregistration_label"/>
+
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:font_name="poppinsBold"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/share_border"
+        android:textAlignment="center"
+        android:textColor="@color/darkjunglegreen"
+        android:text="@string/share_twentyminutes_label"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"/>
+
+    <it.sharengo.eteria.ui.components.CustomButton
+        android:id="@+id/shareButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        style="@style/button_primary"
+        android:text="@string/share_invite_button"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"/>
+
+</LinearLayout>

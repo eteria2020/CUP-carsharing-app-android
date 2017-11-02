@@ -1,0 +1,2 @@
+include ':app', ':circlelayout'
+project(':circlelayout').projectDir = new File('libraries/circlelayout')

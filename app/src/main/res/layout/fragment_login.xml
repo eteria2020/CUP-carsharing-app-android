@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/hdx_toolbarHeight"
+    android:background="@color/whitesmoke"
+    android:orientation="vertical">
+
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        app:font_name="poppinsBold"
+        android:textColor="@color/mediumseagreen"
+        android:textAlignment="center"
+        android:textSize="12.5sp"
+        android:text="@string/login_fillfields_label"/>
+
+    <!-- E-mail -->
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/emailInputLayout"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        style="@style/login_form_inputlayout"
+        app:font_name="poppinsRegular">
+
+        <it.sharengo.eteria.ui.components.CustomEditText
+            android:id="@+id/emailEditText"
+            style="@style/login_form_input"
+            app:font_name="poppinsRegular"
+            android:inputType="textEmailAddress"
+            android:hint="@string/login_email_placeholder"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <!-- Password -->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/passwordInputLayout"
+            android:layout_height="wrap_content"
+            style="@style/login_form_inputlayout"
+            app:font_name="poppinsRegular">
+
+            <AutoCompleteTextView
+                android:id="@+id/passwordEditText"
+                style="@style/login_form_input"
+                app:font_name="poppinsRegular"
+                android:inputType="textPassword"
+                android:imeOptions="actionDone"
+                android:hint="@string/login_password_placeholder" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Forgot -->
+        <it.sharengo.eteria.ui.components.CustomTextView
+            android:id="@+id/forgotButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            app:font_name="poppinsRegular"
+            android:textColor="@color/darkjunglegreen"
+            android:textSize="11.5sp"
+            android:text="@string/login_forgetpassword_action"/>
+
+    </LinearLayout>
+
+
+    <!-- Login -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+        <it.sharengo.eteria.ui.components.CustomButton
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            style="@style/button_primary"
+            app:font_name="poppinsBold"
+            android:text="@string/login_login_action" />
+    </RelativeLayout>
+
+    <!-- Register -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <it.sharengo.eteria.ui.components.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            app:font_name="poppinsBold"
+            android:textColor="@color/mediumseagreen"
+            android:textAlignment="center"
+            android:textSize="12.5sp"
+            android:text="@string/login_notregistered_label"/>
+
+        <it.sharengo.eteria.ui.components.CustomButton
+            android:id="@+id/registerButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="20dp"
+            style="@style/button_primary"
+            app:font_name="poppinsBold"
+            android:text="@string/login_register_action" />
+
+    </LinearLayout>
+
+    <!-- Continue -->
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:id="@+id/continueButton"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/mediumseagreen"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        android:textAlignment="center"
+        android:textSize="11.5sp"
+        android:gravity="center"
+        android:text="@string/login_continue_action"/>
+
+</LinearLayout>

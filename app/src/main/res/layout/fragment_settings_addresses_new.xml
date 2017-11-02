@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/hdx_toolbarHeight"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+            <!-- Header -->
+            <RelativeLayout
+                style="@style/header_view">
+                <ImageView
+                    android:id="@+id/backImageView"
+                    style="@style/header_back" />
+                <it.sharengo.eteria.ui.components.CustomTextView
+                    style="@style/header_title"
+                    app:font_name="poppinsBold"
+                    android:text="@string/settingsaddressnew_header_label"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.8"
+                android:layout_margin="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_mizzie"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
+
+            <it.sharengo.eteria.ui.components.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/mediumseagreen"
+                android:textAlignment="center"
+                app:font_name="poppinsBold"
+                android:text="@string/settingsaddressnew_title_label"/>
+
+            <it.sharengo.eteria.ui.components.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="11sp"
+                android:textColor="@color/darkjunglegreen"
+                android:textAlignment="center"
+                app:font_name="poppinsRegular"
+                android:text="@string/settingsaddressnew_description_label"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"/>
+
+            <!-- Imposta indirizzo -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/addressInputLayout"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                style="@style/form_inputlayout"
+                app:font_name="poppinsRegular">
+
+                <it.sharengo.eteria.ui.components.CustomEditText
+                    android:id="@+id/addressEditText"
+                    style="@style/form_input"
+                    app:font_name="poppinsRegular"
+                    android:inputType="text"
+                    android:hint="@string/settingsaddressnew_address_label"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"/>
+
+            <!-- Nome preferito -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/nameInputLayout"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                style="@style/form_inputlayout"
+                app:font_name="poppinsRegular">
+
+                <it.sharengo.eteria.ui.components.CustomEditText
+                    android:id="@+id/nameEditText"
+                    style="@style/form_input"
+                    app:font_name="poppinsRegular"
+                    android:inputType="textCapSentences"
+                    android:hint="@string/settingsaddressnew_name_label"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"/>
+
+            <it.sharengo.eteria.ui.components.CustomButton
+                android:id="@+id/saveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                style="@style/button_primary"
+                android:text="@string/settingsaddressnew_save_action" />
+
+            <it.sharengo.eteria.ui.components.CustomTextView
+                android:id="@+id/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/darkjunglegreen"
+                android:textAlignment="center"
+                android:imeOptions="actionDone"
+                app:font_name="poppinsBold"
+                android:text="@string/settingsaddressnew_cancel_action" />
+
+    </LinearLayout>
+
+    <!-- Cerca -->
+    <RelativeLayout
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.8"
+            android:background="@color/darkjunglegreen"
+            android:clickable="false" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp">
+            <include layout="@layout/view_search_map" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

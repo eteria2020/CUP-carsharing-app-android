@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item
+        type="id"
+        name="toolbar" />
+
+    <item
+        type="id"
+        name="left_frame" />
+
+    <item
+        type="id"
+        name="right_frame" />
+    <item
+        type="id"
+        name="left_frame_panel_toggle_icon" />
+</resources>

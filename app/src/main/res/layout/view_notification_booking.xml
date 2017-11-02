@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/notificationView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="invisible">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Content -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/hdx_toolbarHeight"
+            android:padding="20dp"
+            android:background="@color/whitesmoke"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:src="@drawable/ic_notification"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical">
+
+                <it.sharengo.eteria.ui.components.CustomTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/darkjunglegreen"
+                    app:font_name="poppinsBold"
+                    android:includeFontPadding="false"
+                    android:text="@string/general_notification_title"/>
+
+                <it.sharengo.eteria.ui.components.CustomTextView
+                    android:id="@+id/notificationTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/darkjunglegreen"
+                    app:font_name="poppinsRegular"
+                    android:includeFontPadding="false"
+                    android:text="@string/tripend_notification_label"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <!-- Shadow -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#33000000"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

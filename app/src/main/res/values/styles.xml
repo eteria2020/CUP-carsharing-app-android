@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <style name="button_primary">
+        <item name="android:background">@drawable/button_primary</item>
+        <item name="android:textColor">@color/darkjunglegreen</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="font_name">poppinsBold</item>
+    </style>
+    <style name="button_secondary">
+        <item name="android:background">@drawable/button_secondary</item>
+        <item name="android:textColor">@color/darkjunglegreen</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="font_name">poppinsBold</item>
+    </style>
+    <style name="button_third">
+        <item name="android:background">@drawable/button_third</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="font_name">poppinsBold</item>
+    </style>
+    <style name="button_alertdialog_positive">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:background">@drawable/button_primary</item>
+        <item name="android:textColor">@color/darkjunglegreen</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="font_name">poppinsBold</item>
+    </style>
+    <style name="popupcar_info_box">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+    <style name="popupcar_info_box_icon">
+        <item name="android:layout_width">17.5dp</item>
+        <item name="android:layout_height">17.5dp</item>
+    </style>
+    <style name="popupcar_info_box_text">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:textColor">@color/darkjunglegreen</item>
+        <item name="android:textSize">11sp</item>
+        <item name="font_name">poppinsMedium</item>
+    </style>
+    <style name="login_form_inputlayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:theme">@style/Theme_TextInputLayoutStandard</item>
+    </style>
+    <style name="login_form_input">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:theme">@style/CustomEditText</item>
+        <item name="android:textColor">@color/darkjunglegreen</item>
+    </style>
+    <style name="form_inputlayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:theme">@style/Theme_TextInputLayoutStandard</item>
+    </style>
+    <style name="form_inputlayoutwhite">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:theme">@style/Theme_TextInputLayoutWhite</item>
+    </style>
+    <style name="form_input">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:theme">@style/CustomEditText</item>
+        <item name="android:textColor">@color/darkjunglegreen</item>
+    </style>
+    <style name="settings_box">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="settings_box_center">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+    <style name="settings_box_icon">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/btn_bkg_darkpastelgreen</item>
+    </style>
+    <style name="settings_box_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/mediumseagreen</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+    <style name="header_view">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/darkjunglegreen</item>
+    </style>
+    <style name="header_back">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:src">@drawable/ic_keyboard_arrow_left</item>
+        <item name="android:tint">@color/white</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+    <style name="header_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:padding">8dp</item>
+    </style>
+    <style name="feed_button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/darkjunglegreen</item>
+    </style>
+    <style name="feed_button_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/aureolin</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="feed_button_border">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:background">@color/aureolin</item>
+        <item name="android:layout_alignParentBottom">true</item>
+    </style>
+    <style name="rates_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/darkjunglegreen</item>
+    </style>
+</resources>
+

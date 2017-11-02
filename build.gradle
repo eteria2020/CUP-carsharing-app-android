@@ -1,0 +1,95 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "http://178.79.170.22:8081/nexus/content/repositories/releases"
+            credentials {
+                username 'developer'
+                password 'v3rd3andr01d'
+            }
+        }
+
+        maven {
+            url "http://178.79.170.22:8081/nexus/content/repositories/snapshots"
+            credentials {
+                username 'developer'
+                password 'v3rd3andr01d'
+            }
+        }
+
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+        classpath "it.handroix:gradle-plugin:1.1"
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        jcenter()
+        
+        maven {
+            url "http://178.79.170.22:8081/nexus/content/repositories/releases"
+            credentials {
+                username 'developer'
+                password 'v3rd3andr01d'
+            }
+        }
+
+        maven {
+            url "http://178.79.170.22:8081/nexus/content/repositories/snapshots"
+            credentials {
+                username 'developer'
+                password 'v3rd3andr01d'
+            }
+        }
+
+        maven { url "https://jitpack.io" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+// App Dependencies Version
+ext {
+
+    // Sdk and tools
+    targetSdkVersion = 25
+    compileSdkVersion = 25
+    buildToolsVersion = '25.0.0'
+    minSdkVersion = 19
+
+    // Handroix
+    handroixVersion = '4.0.1'
+    
+    // Android
+    supportLibraryVersion = '25.3.1'
+    playServiceVersion = '10.2.4'
+    
+    // App dependencies
+    rxJavaVersion = '1.3.0'
+    rxAndroidVersion = '1.2.1'
+    guavaVersion = '20.0'
+    daggerVersion = '2.10'
+    apacheCommonsLangVersion = '3.5'
+    retrofit2Version = '2.3.0'
+    okHttp3Version = '3.8.0'
+    gsonVersion = '2.8.0'
+    butterknifeVersion = '8.5.1'
+    rxBindingsVersion = '1.0.1'
+    glideVersion = '3.8.0'
+    glideTransformationsVersion = '2.0.2'
+    androidMapExtensions = '2.4.0'
+    osmdroidVersione = '5.6.4'
+    osmbonuspackVersion = '6.3'
+    circularFloatingActionMenu = '1.0.2'
+    androidGifDrawable = '1.2.7'
+    squareupPicasso = '2.5.2'
+    googleMapsUtils = '0.5+'
+    volley = '1.0.0'
+}

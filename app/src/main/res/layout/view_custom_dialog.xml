@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/darkjunglegreen"
+    android:padding="20dp"
+    android:orientation="vertical" >
+
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:id="@+id/txt_dia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="200dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        app:font_name="poppinsRegular"
+        android:textSize="12dp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+        <it.sharengo.eteria.ui.components.CustomButton
+            android:id="@+id/btn_no"
+            style="@style/button_alertdialog_positive"
+            android:clickable="true"
+            android:text="@string/hdx_no" />
+
+        <it.sharengo.eteria.ui.components.CustomButton
+            android:id="@+id/btn_yes"
+            style="@style/button_alertdialog_positive"
+            android:clickable="true"
+            android:text="@string/hdx_yes" />
+
+    </LinearLayout>
+
+</LinearLayout>

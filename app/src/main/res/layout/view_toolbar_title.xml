@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/hdx_transparent">
+
+    <LinearLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/aureolin"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/hdx_toolbarHeight">
+
+            <ImageView
+                android:id="@+id/menuButton"
+                android:layout_width="30.5dp"
+                android:layout_height="30.5dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_menu"/>
+
+            <RelativeLayout
+                android:id="@+id/navigation_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20.0dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/logo_sharengo"/>
+
+                <it.handroix.baseuiwidgets.widgets.HdxTextView
+                    android:id="@+id/toolbar_title_tv"
+                    style="@style/HdxTextSlabBold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white"
+                    tools:text="TOOLBAR TITLE"/>
+
+            </RelativeLayout>
+            
+        </android.support.v7.widget.Toolbar>
+
+    </LinearLayout>
+
+    <include layout="@layout/view_notification_booking"/>
+
+</RelativeLayout>

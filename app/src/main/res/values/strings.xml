@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Sharengo</string>
+    <string name="mystore_password">oi8dmf0</string>
+    <string name="preference_file_key">sharengopreference</string>
+    <string name="preference_citiesfavourites">citiesfavourites</string>
+    <string name="preference_lang">lang</string>
+    <string name="preference_feeds">feeds</string>
+    <string name="preference_tutorial">tutorial</string>
+    <string name="preference_kml">kml</string>
+    <string name="preference_userinfo">userinfo</string>
+    <string name="preference_city">city</string>
+
+    <!--PERMISSION-->
+    <string name="msg_rational_location_permission">The app needs your permission to access your position.</string>
+
+    <!--GENERAL-->
+    <string name="general_login_alert">Devi effettuare l\'accesso per utilizzare questa funzionalità</string>
+    <string name="general_notenabled_alert">Questa funzione sarà disponibile prossimamente.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">ANNULLA</string>
+    <string name="login">LOGIN</string>
+    <string name="error_msg_network_general">Si è verificato un errore, per favore controlla la tua connessione ad internet o riprova più tardi.</string>
+    <string name="error_generalerror_alert">Si è verificato un errore di connessione. Per favore riprova.</string>
+
+    <!--MENU-->
+    <string name="menu_home">Home</string>
+    <string name="menu_welcome">Ciao, benvenuto!</string>
+    <string name="menu_welcome_login">Ciao %s, bentornato!</string>
+    <string name="menu_welcomef_login">Ciao %s, bentornata!</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_signup">Iscrizione</string>
+    <string name="menu_rates">Tariffe</string>
+    <string name="menu_profile">Area personale</string>
+    <string name="menu_booking">Prenota un\'auto</string>
+    <string name="menu_historic">Cronologia corse</string>
+    <string name="menu_help">Richiedi assistenza</string>
+    <string name="menu_faq">FAQ e tutorial</string>
+    <string name="menu_buy">Acquista minuti</string>
+    <string name="menu_share">Invita un amico</string>
+    <string name="menu_setting">Impostazioni</string>
+    <string name="menu_logout">Logout</string>
+
+    <!--COMMON ERRORS-->
+    <string name="error_generic_msg">Ops, something went wrong.</string>
+    <string name="error_msg_no_network">No internet connection. Please try again later</string>
+    <string name="error_msg_server_timeout">Server is unreachable. Please try again later</string>
+    <string name="error_msg_conversion">Some error occured. Please try again later</string>
+    <string name="error_unexpected">Some error occured. Please try again later</string>
+    <string name="error_msg_http_400">Your request cannot be fulfilled (400)</string>
+    <string name="error_msg_http_401">Your credentials seem to be invalid. Please try again</string>
+    <string name="error_msg_http_403">You\'re not allowed to access this content</string>
+    <string name="error_msg_http_404">Your request cannot be fulfilled (404)</string>
+    <string name="error_msg_http_406">Your request is not valid, please check your input and try again (406)</string>
+    <string name="error_msg_http_500">Some error occured. Please try again later (500)</string>
+
+    <string name="general_notification_title">Share\'ngo</string>
+
+    <!-- MAPPA -->
+    <string name="maps_search_placeholder">Cerca indirizzo o targa</string>
+    <string name="maps_permissionlocation_alert">Share\'ngo ha bisogno dei permessi per accedere alla tua posizione. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
+    <string name="maps_opendoor_action">Apri portiere</string>
+    <string name="maps_bookingcar_action">Prenota auto</string>
+    <string name="maps_autonomy_label">autonomia: <![CDATA[<b>%d km</b>]]></string>
+    <string name="maps_distance_label">%d mt di distanza</string>
+    <string name="maps_distancekm_label">%.2f km di distanza</string>
+    <string name="maps_time_label">%d minuti a piedi</string>
+    <string name="maps_timeh60_label">1 ora a piedi</string>
+    <string name="maps_timeh_label">%d ore a piedi</string>
+    <string name="maps_timehsm_label" formatted="false">%d ora e %d minuti a piedi</string>
+    <string name="maps_timehm_label" formatted="false">%d ore e %d minuti a piedi</string>
+    <string name="maps_closestcar_label">Auto più vicina</string>
+    <string name="maps_permissionopendoor_alert">Share\'ngo ha bisogno di sapere la tua posizione per aprire le portiere. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
+    <string name="maps_opendoordistance_alert">Sei troppo distante dalla Share\'ngo che hai selezionato. Potrai aprirla quando sarai in prossimità dell\'auto.</string>
+    <string name="maps_searchmicrophone_message">In ascolto...</string>
+    <string name="maps_feeddiscover_message">Scopri di più</string>
+    <string name="maps_hidecars_alert">Attenzione! Potrai utilizzare questa funzione solo dopo aver concluso la corsa o la prenotazione attiva</string>
+
+    <!-- Ricerca -->
+    <string name="search_platesharengo_label">Targa Share\'ngo</string>
+    <string name="search_favoriteempty_label">Nessun preferito\nmemorizzali nella sezione impostazioni</string>
+
+    <!-- Prenotazione -->
+    <string name="booking_userpin_label">Il tuo pin utente: </string>
+    <string name="booking_active_label">Prenotazione attiva</string>
+    <string name="booking_plate_label">Targa %s</string>
+    <string name="booking_expirationtime">Scade tra <![CDATA[<br><b>%s</b>]]> min</string>
+    <string name="booking_opendoor_action">Apri portiere</string>
+    <string name="booking_delete_action">Elimina</string>
+    <string name="booking_delete_alert">Eliminando questa prenotazione, non potrai più prenotare la stessa auto nelle prossime 4 ore. Confermi di voler cancellare la prenotazione?</string>
+    <string name="booking_deleteconfirm_alert">La tua prenotazione è stata annullata correttamente</string>
+    <string name="booking_bookedcar_alert">Hai già una prenotazione attiva</string>
+    <string name="booking_tripcar_alert">Hai già una corsa attiva</string>
+    <string name="booking_alreadybookedcar_alert">Non puoi prenotare questa auto fino a che non saranno passate 4 ore da quando hai annullato la prenotazione</string>
+    <string name="booking_durationtrip_label">Durata corsa: <![CDATA[<br><b>%s</b>]]></string>
+    <string name="booking_tripactive_label">Corsa attiva</string>
+    <string name="booking_timeend_label">Il tempo di prenotazione è scaduto, la tua prenotazione è stata annullata. Prenota un\'altra auto in mappa</string>
+
+    <!-- Corsa -->
+    <string name="tripend_title_label">Hai completato il tuo noleggio</string>
+    <string name="tripend_text1_label">Attendi la chiusura delle portiere fuori dell\'auto.</string>
+    <string name="tripend_text2_label">Riceverai via mail la conferma di transazione avvenuta entro 24 ore.</string>
+    <string name="tripend_thanks_label">Grazie!</string>
+    <string name="tripend_text3_label" formatted="false">CON IL TUO VIAGGIO HAI RISPARMIATO %.1f GRAMMI DI CO2!</string>
+    <string name="tripend_historic_action">Storico corse</string>
+    <string name="tripend_notification_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente. Ti ringraziamo per aver usato Share\'ngo</string>
+
+    <!-- Login -->
+    <string name="login_fillfields_label">Compila i campi per effettuare il login</string>
+    <string name="login_email_placeholder">email</string>
+    <string name="login_password_placeholder">password</string>
+    <string name="login_forgetpassword_action">Ho dimenticato la password</string>
+    <string name="login_login_action">Login</string>
+    <string name="login_notregistered_label">Non sei ancora iscritto?</string>
+    <string name="login_register_action">Registrati</string>
+    <string name="login_continue_action">Continua senza loggarti</string>
+    <string name="login_emptyfields_alert">Uno o più campi non sono compilati.</string>
+    <string name="login_wrongemail_alert">Attenzione! L\'indirizzo email che hai inserito non è presente nel nostro database.</string>
+    <string name="login_wrongpassword_alert">Attenzione! Password errata.</string>
+    <string name="login_userdisabled_alert">Attenzione! L\'utente non è abilitato per l\'accesso.</string>
+    <string name="login_enabled_alert">Attenzione! Non puoi utilizzare il servizio Share\'ngo. Verifica i tuoi dati o contatta l\'assistenza clienti. Grazie</string>
+
+    <!-- Registrazione -->
+    <string name="signup_title_label">Iscriviti a Share\'ngo</string>
+    <string name="signup_description_label">L\'iscrizione al servizio costa 10 euro con 30 minuti bonus (condizioni standard, salvo promozioni). Se serve aiuto durante l\'iscrizione usa il pulsante chat!</string>
+    <string name="signup_subscribe_action">ISCRIVITI</string>
+    <string name="signup_step1text1_action">Per iscriverti devi avere\na portata di mano:</string>
+    <string name="signup_step1text2_action">CARTA DI IDENTITÀ</string>
+    <string name="signup_step2text1_action">Per iscriverti devi avere\na portata di mano:</string>
+    <string name="signup_step2text2_action">CODICE FISCALE</string>
+    <string name="signup_step3text1_action">Per iscriverti devi avere\na portata di mano:</string>
+    <string name="signup_step3text2_action">PATENTE</string>
+    <string name="signup_step4text1_action">Per iscriverti devi avere\na portata di mano:</string>
+    <string name="signup_step4text2_action">CARTA DI CREDITO</string>
+
+    <!-- Intro -->
+    <string name="intro_power_label">Elettrica</string>
+    <string name="intro_shared_label">Condivisa</string>
+    <string name="intro_underhouse_label">Sotto\ncasa</string>
+
+    <!-- Home -->
+    <string name="home_welcome_label">Benvenuto!</string>
+    <string name="home_welcomef_label">BenvenutA!</string>
+    <string name="home_welcomeauth_label">Bentornato %s!</string>
+    <string name="home_welcomeauthf_label">Bentornata %s!</string>
+
+    <!-- Settings -->
+    <string name="settings_title_label">Impostazioni</string>
+    <string name="settings_city_action">Imposta città</string>
+    <string name="settings_address_action">Imposta i tuoi indirizzi preferiti</string>
+    <string name="settings_lang_action">Imposta lingua</string>
+
+    <!-- Settings - City -->
+    <string name="settingscities_title_label">Imposta città</string>
+
+    <!-- Settings - Address -->
+    <string name="settingsaddress_title_label">Imposta indirizzi preferiti</string>
+    <string name="settingsaddress_new_action">Imposta nuovo indirizzo</string>
+    <string name="settingsaddress_empty_title">Peccato!</string>
+    <string name="settingsaddress_empty_description">Non hai ancora nessun indirizzo preferito o recente! Imposta le tue destinazioni più frequenti e risparmia tempo quando scegli dove andare.</string>
+    <string name="settingsaddress_title2_label">Imposta i tuoi indirizzi preferiti</string>
+    <string name="settingsaddress_description2_label">per rendere più veloci le tue ricerche</string>
+    <string name="settingsaddress_edittitle_label">Vuoi modificare questo indirizzo preferito?</string>
+    <string name="settingsaddress_addtitle_label">Vuoi aggiungere questo indirizzo recente alla lista dei tuoi indirizzi preferiti?</string>
+    <string name="settingsaddress_deletetitle_label">Vuoi eliminare questo indirizzo\ndall\'elenco degli indirizzi preferiti?</string>
+    <string name="settingsaddress_editname_label">nome preferito</string>
+    <string name="settingsaddress_editaddress_label">imposta indirizzo</string>
+    <string name="settingsaddress_editok_label">Ok</string>
+    <string name="settingsaddress_editdelete_label">Elimina</string>
+    <string name="settingsaddress_editcancel_label">Annulla</string>
+
+    <!-- Settings - New address -->
+    <string name="settingsaddressnew_header_label">Nuovo indirizzo preferito</string>
+    <string name="settingsaddressnew_title_label">Imposta un nuovo indirizzo</string>
+    <string name="settingsaddressnew_description_label">per aggiungerlo ai tuoi preferiti</string>
+    <string name="settingsaddressnew_address_label">imposta indirizzo</string>
+    <string name="settingsaddressnew_name_label">nome preferito</string>
+    <string name="settingsaddressnew_save_action">Salva preferito</string>
+    <string name="settingsaddressnew_cancel_action">Annulla</string>
+    <string name="settingsaddressnew_empty_error">Uno o più campi non sono compilati.</string>
+    <string name="settingsaddressnew_searchempty_label">digita l\'indirizzo che vorresti\naggiungere ai tuoi preferiti</string>
+
+    <!-- Settings - Lang -->
+    <string name="settingslang_title_label">Imposta lingua</string>
+    <string name="settingslang_it_label">Italiano</string>
+    <string name="settingslang_en_label">Inglese</string>
+    
+    <!-- Chronology -->
+    <string name="chronology_title_label">Cronologia corse</string>
+    <string name="chronology_bookingn_label">Corsa n. %s</string>
+    <string name="chronology_minutes_label" formatted="false">%s minuti%s</string>
+    <string name="chronology_date_label" formatted="false">%s - ore %s</string>
+    <string name="chronology_end_label" formatted="false">Fine: %s - ore %s</string>
+    <string name="chronology_rate_label">Tariffa al minuto: %s</string>
+    <string name="chronology_minfree_label">Minuti di guida gratuita utilizzati: %s</string>
+    <string name="chronology_km_label">Chilometri percorsi: %s</string>
+    <string name="chronology_sharengo_label">SHARE\'NGO %s</string>
+    <string name="chronology_emptytitle_label">Peccato!</string>
+    <string name="chronology_emptydescription_label">Non hai ancora effettuato nessuna\ncorsa con una Share\'ngo!</string>
+    <string name="chronology_emptyquestion_label">Cosa aspetti a provare?</string>
+    <string name="chronology_tomap_action">Vai alla mappa</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip_action">Skip >></string>
+    <string name="onboarding_car1_label">Facili e divertenti\nda guidare</string>
+    <string name="onboarding_car2_label">Più ne hai bisogno\ne meno costa</string>
+    <string name="onboarding_car3_label">Ogni corsa una sorpresa\ne una scoperta</string>
+
+    <!-- Feeds -->
+    <string name="feeds_feed_action">Feed</string>
+    <string name="feeds_categories_action">Categorie</string>
+    <string name="feeds_aroundme_action">Vedi in mappa</string>
+    <string name="feeds_categorydisabled_alert">Questa categoria sarà disponibile prossimamente.</string>
+    <string name="feeds_empty_title">Peccato!</string>
+    <string name="feeds_empty_label">Al momento per la tua città non ci sono contenuti disponibili. Ti invitiamo a riprovare nei prossimi giorni</string>
+    <string name="feeds_emptycategory_label">Al momento per la tua città non ci sono contenuti disponibili nella categoria selezionata. Ti invitiamo a riprovare nei prossimi giorni.</string>
+
+    <!-- Feeds - Detail -->
+    <string name="feedsdetails_interested_action">Mi interessa</string>
+    <string name="feedsdetails_notinterested_action">Non mi interessa</string>
+
+    <!-- Assistance -->
+    <string name="assistance_title_label">Richiedi assistenza</string>
+    <string name="assistance_help_label">Siamo qui per aiutarti!</string>
+    <string name="assistance_talkoperator_label">Vuoi parlare con un operatore?</string>
+    <string name="assistance_call_action">Chiama ora</string>
+    <string name="assistance_phonenumber_label">+3905861975772</string>
+    <string name="assistance_alertcall_action">Chiama</string>
+    <string name="assistance_cancelcall_action">Annulla</string>
+    <string name="assistance_devicenotenabled_alert">Il tuo dispositivo non è abilitato alle chiamate</string>
+    
+    <!-- Share -->
+    <string name="share_title_label">Invita un amico</string>
+    <string name="share_invitefriend_label">Invita un amico e guadagna minuti!</string>
+    <string name="share_timeregister_label">Al momento dell\'iscrizione</string>
+    <string name="share_tenminutes_label">riceverà 10 minuti di guida gratuita</string>
+    <string name="share_giftwelcome_label">come omaggio di benvenuto.</string>
+    <string name="share_friendregistration_label">Per ogni amico che si iscriverà\ngrazie al tuo invito</string>
+    <string name="share_twentyminutes_label">riceverai 20 minuti di guida gratuita!</string>
+    <string name="share_invite_button">Invita subito</string>
+    <string name="share_text">Hey! Utilizza anche tu l\'applicazione Share\'ngo</string>
+
+    <!-- FAQ -->
+    <string name="faq_title_label">FAQ</string>
+    <string name="faq_tutorial_action">App tutorial</string>
+    <string name="faq_close_alert">Vuoi uscire dal tutorial?\nPotrai rivederlo quando vuoi alla sezione del menù \"Faq e tutorial\"</string>
+    <string name="faq_exit_action">Esci</string>
+    <string name="faq_stay_action">Rimani</string>
+    <string name="faq_backalert_action">Indietro</string>
+    <string name="faq_tutorialalert_action">Tutorial</string>
+
+    <!-- Non tradotti -->
+    <string name="alert_logoutError">Attenzione si è verificato un errore. Ti invitiamo ad accedere nuovamente.</string>
+    <string name="btn_login">ACCEDI</string>
+    <string name="tripend_parkerdcar_label">Auto in sosta</string>
+    <string name="chronology_ratesmin_label">Tariffa al minuto: € %s</string>
+    <string name="maps_freecar_label">%s minuti di guida gratuita!</string>
+
+    <string name="rates_titleauth_label">Tariffe</string>
+    <string name="rates_titlenoauth_label">Tariffe e bonus</string>
+    <string name="rates_rates_label">Ecco le tariffe Share\'ngo:</string>
+    <string name="rates_yourrates_label">Ecco la tua tariffa:</string>
+    <string name="rates_base_label">Tariffa base della corsa: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_hour_label">Tariffa per 1 ora: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_day_label">Tariffa giornaliera: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_booking_label">Tariffa di prenotazione: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_bonus_label">I tuoi minuti bonus:</string>
+    <string name="rates_bonusmin_label">%s minuti</string>
+    <string name="rates_signup_action">Iscriviti subito</string>
+    <string name="maps_enablegps_label">Abilitare il GPS per maggiori informazioni</string>
+
+</resources>

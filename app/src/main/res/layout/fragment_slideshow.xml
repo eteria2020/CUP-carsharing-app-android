@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whitesmoke"
+    android:layout_marginTop="@dimen/hdx_toolbarHeight"
+    android:orientation="vertical">
+
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingBottom="20dp"
+        android:textColor="@color/mediumseagreen"
+        android:textSize="13sp"
+        android:textAlignment="center"
+        android:gravity="bottom"
+        app:font_name="poppinsBold"
+        android:text="@string/signup_title_label"/>
+
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:id="@+id/signupDescrTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textSize="12.0sp"
+        app:font_name="poppinsRegular"
+        android:textColor="@color/darkjunglegreen"
+        android:textAlignment="center"
+        android:text="@string/signup_description_label"/>
+
+
+    <!-- Pager -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@color/white">
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/slideshowViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- Arrow -->
+        <ImageView
+            android:id="@+id/arrowLeftImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_keyboard_arrow_left"/>
+
+        <ImageView
+            android:id="@+id/arrowRightImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_keyboard_arrow_right"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <it.sharengo.eteria.ui.components.CustomButton
+            android:id="@+id/subscribeButton"
+            style="@style/button_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_centerInParent="true"
+            android:text="@string/signup_subscribe_action"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

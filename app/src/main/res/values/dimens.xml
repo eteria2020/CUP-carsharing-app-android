@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="toolbar_left_space">20dp</dimen>
+    <dimen name="toolbar_left_space_drawer_back">72dp</dimen>
+    
+    <dimen name="drawer_width">270dp</dimen>
+
+    <dimen name="button_height">35dp</dimen>
+
+    <dimen name="search_item_height">70dp</dimen>
+    
+</resources>

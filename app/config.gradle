@@ -1,0 +1,33 @@
+android {
+    signingConfigs {
+        debug {
+            storeFile file("keystore/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+        release {
+            storeFile file("keystore/sharengo.keystore.jks")
+            storePassword "Sharengo1"
+            keyAlias "sharengo.user"
+            keyPassword "Sharengo1"
+        }
+    }
+    
+    productFlavors {
+        mock {
+            applicationIdSuffix ".mock"
+            resValue "string", "endpoint", "MOCK_ENDPOINT"
+        }
+        prod {
+            resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
+            resValue "string", "endpointGoogle", "https://maps.googleapis.com/maps/api/"
+            resValue "string", "endpointSharengo", "https://api.sharengo.it:8023/"
+            resValue "string", "endpointSharengoMaps", "http://maps.sharengo.it/"
+            resValue "string", "endpointSharengoKML", "http://www.sharengo.it/"
+            resValue "string", "endpointCities", "https://www.sharengo.it/"
+            resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
+            resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
+        }
+    }
+}

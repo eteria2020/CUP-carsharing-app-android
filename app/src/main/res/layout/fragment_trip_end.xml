@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/hdx_toolbarHeight"
+    android:background="@color/whitesmoke"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:scaleType="centerCrop"
+        android:src="@drawable/finecorsa"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
+
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="14sp"
+        app:font_name="poppinsBold"
+        android:textAlignment="center"
+        android:textColor="@color/darkjunglegreen"
+        android:text="@string/tripend_title_label"/>
+
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="12sp"
+        app:font_name="poppinsRegular"
+        android:textAlignment="center"
+        android:textColor="@color/darkjunglegreen"
+        android:visibility="gone"
+        android:text="@string/tripend_text1_label"/>
+
+    <it.sharengo.eteria.ui.components.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="12sp"
+        app:font_name="poppinsRegular"
+        android:textAlignment="center"
+        android:textColor="@color/darkjunglegreen"
+        android:text="@string/tripend_text2_label"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="@color/white">
+
+        <it.sharengo.eteria.ui.components.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            app:font_name="poppinsBold"
+            android:textAlignment="center"
+            android:textColor="@color/mediumseagreen"
+            android:text="@string/tripend_thanks_label"/>
+
+        <it.sharengo.eteria.ui.components.CustomTextView
+            android:id="@+id/cos2TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            app:font_name="poppinsMedium"
+            android:textAlignment="center"
+            android:textColor="@color/darkjunglegreen"/>
+
+        <it.sharengo.eteria.ui.components.CustomButton
+            android:id="@+id/historicButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="10dp"
+            style="@style/button_primary"
+            android:text="@string/tripend_historic_action"/>
+
+    </LinearLayout>
+
+</LinearLayout>
