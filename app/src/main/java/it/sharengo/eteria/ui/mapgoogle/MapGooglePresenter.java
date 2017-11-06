@@ -341,8 +341,10 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                             //Timer
                             if(timerInterval != INT_5_SEC) setTimerReservertionTrip(INT_5_SEC);
 
-                            getMvpView().removeTripInfo();
-                            getMvpView().removeReservationInfo();
+                            if(getMvpView() != null) {
+                                getMvpView().removeTripInfo();
+                                getMvpView().removeReservationInfo();
+                            }
                         }
 
 

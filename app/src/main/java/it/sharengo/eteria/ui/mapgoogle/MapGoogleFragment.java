@@ -1721,7 +1721,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 moveMapCameraToPoitWithZoom((double) userLocation.getLatitude(), (double) userLocation.getLongitude(), 19);
                 showPopupCar(car);
             }else {
-                if(userLocation != null && userMarker.getData() != null){
+                if(userLocation != null && userMarker != null && userMarker.getData() != null){
                     if(!((Car) userMarker.getData()).id.equals(car.id)) {
                         moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
                         showPopupCar(car);
