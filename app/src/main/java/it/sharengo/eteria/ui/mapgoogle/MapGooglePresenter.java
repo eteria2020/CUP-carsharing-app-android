@@ -1739,7 +1739,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             long unixTime = System.currentTimeMillis() / 1000L;
             int diffTime = (int) (unixTime - mResponseReservation.reservations.get(0).timestamp_start);
 
-            if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
+            if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {Log.w("isPause","IF 2");
                 loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
                 isBookingExists = true;
                 isBookingOpening = false;
@@ -1789,7 +1789,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     public void loadCarsReservation(String plate) {
 
         if( mCarsReservationRequest == null) {
-
+            Log.w("isPause","IF loadCarsReservation");
             mCarsReservationRequest = null;
             mCarsReservationRequest = buildCarsReservationRequest(plate);
             addSubscription(mCarsReservationRequest.unsafeSubscribe(getCarsReservationSubscriber()));
@@ -1842,7 +1842,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
             if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
-                getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0));
+                getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0)); Log.w("isPause","checkCarReservationResult IF");
+                getMvpView().hideLoading();
             }else {
                 getMvpView().openReservationNotification();
                 getMvpView().removeReservationInfo();
