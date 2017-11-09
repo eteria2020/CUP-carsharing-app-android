@@ -210,12 +210,12 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         //getMvpView().removeReservationInfo();
         //getMvpView().removeTripInfo();
         Log.w("isPause",": "+isPause);
-        if(isPause){
-            getMvpView().showLoading();
-        }
-        isPause = false;
 
         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) {
+            if(isPause){
+                getMvpView().showLoading();
+            }
+            isPause = false;
             getReservations(false);
             getTrips(false);
         }
@@ -450,7 +450,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      */
     public void refreshCars(Context context, float latitude, float longitude, float user_lat, float user_lon, int radius, LatLngBounds bounds, boolean refresh){
         hideLoading = true;
-
+        Log.w("refreshCars","XXX");
         if(refresh) { //Forzo il refresh
             loadCars(latitude, longitude, user_lat, user_lon, radius);
             if (isFeeds)
@@ -491,7 +491,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  radius    radius of map.
      */
     public void loadCars(float latitude, float longitude, float user_lat, float user_lon, int radius) {
-
+        Log.w("loadCars","XXX");
         if( mCarsRequest == null) {
 
             mCarsRequest = null;
@@ -536,7 +536,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         };
     }
 
-    private void checkResult(){
+    private void checkResult(){ Log.w("reason",": "+mResponse.reason);
         if(mResponse.reason.isEmpty()){
             getMvpView().showCars(mResponse.data);
         }else{
@@ -1642,6 +1642,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 }
             }
 
+            getMvpView().hideLoading();
+
             if(isTripExists){
                 isTripExists = false;
 
@@ -1739,7 +1741,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             long unixTime = System.currentTimeMillis() / 1000L;
             int diffTime = (int) (unixTime - mResponseReservation.reservations.get(0).timestamp_start);
 
-            if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {Log.w("isPause","IF 2");
+            if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
                 loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
                 isBookingExists = true;
                 isBookingOpening = false;
@@ -1842,7 +1844,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
             if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
-                getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0)); Log.w("isPause","checkCarReservationResult IF");
+                getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0));
                 getMvpView().hideLoading();
             }else {
                 getMvpView().openReservationNotification();
@@ -1912,6 +1914,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private void checkCarTripResult(){
 
+        getMvpView().hideLoading();
         if((mResponseTripCar.reason.isEmpty() && mResponseTripCar.data != null) && (mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0)){
             getMvpView().showTripInfo(mResponseTripCar.data, mResponseTrip.trips.get(0).timestamp_start);
         }else{
