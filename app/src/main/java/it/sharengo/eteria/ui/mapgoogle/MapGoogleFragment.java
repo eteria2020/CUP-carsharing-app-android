@@ -1768,10 +1768,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         carnext_id = car_id;
 
-        if(!isBookingCar && !isTripStart) {
+        if(!isBookingCar && !isTripStart && carPreSelected == null && carSelected == null) {
             if (carWalkingNavigation == null || (carWalkingNavigation != null && !carWalkingNavigation.id.equals(carNext.id))) {
                 carWalkingNavigation = carNext;
-
                 getWalkingNavigation();
             }
         }
@@ -2144,7 +2143,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void showPopupCar(Car car){
 
-        if(!isAdded()) return; Log.w("car",": "+car.latitude+","+car.longitude);
+        if(!isAdded()) return;
 
         carSelected = car;
 
@@ -2440,7 +2439,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         if(!isTripStart && !isBookingCar && carNext != null){
 
-            carWalkingNavigation = carNext;
+            if(carSelected == null) carWalkingNavigation = carNext;
             getWalkingNavigation();
         }
         else{
@@ -2675,10 +2674,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 hideLoading();
             }else{ //Auto parcheggiata
                 carWalkingNavigation = carBooked;
+
                 getWalkingNavigation();
             }
         }else {
             carWalkingNavigation = carBooked;
+
             getWalkingNavigation();
         }
     }
@@ -3187,7 +3188,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public void showCars(List<Car> carsList) {  Log.w("showCarsOnMap","XXX2");
+    public void showCars(List<Car> carsList) {
         if(getMapRadius() < 35000)
             showCarsOnMap(carsList);
     }
