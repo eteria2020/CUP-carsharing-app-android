@@ -64,6 +64,7 @@ import it.sharengo.eteria.data.repositories.KmlRepository;
 import it.sharengo.eteria.data.repositories.PostRepository;
 import it.sharengo.eteria.data.repositories.PreferencesRepository;
 import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.map.BaseMapPresenter;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
@@ -147,6 +148,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private List<Feed> mEventsList;
     private long seconds;
     public float userLat, userLon;
+    private int reservationTime;
 
     /*
      *  Timer
@@ -206,6 +208,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         mReservationsRequest = null;
         mTripsRequest = null;
         mCarsReservationRequest = null;
+        reservationTime = 0;
 
         //getMvpView().removeReservationInfo();
         //getMvpView().removeTripInfo();
@@ -343,6 +346,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                             if(getMvpView() != null) {
                                 getMvpView().removeTripInfo();
                                 getMvpView().removeReservationInfo();
+                                reservationTime = 0;
                             }
                         }
 
@@ -1374,6 +1378,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         //hideLoading = false;
 
         isBookingExists = false;
+        reservationTime = 0;
 
         if( mReservationRequest == null) {
             mReservationRequest = buildDeleteReservationRequest(id);
@@ -1740,7 +1745,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             long unixTime = System.currentTimeMillis() / 1000L;
             int diffTime = (int) (unixTime - mResponseReservation.reservations.get(0).timestamp_start);
 
-            if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
+            reservationTime = (mResponseReservation.reservations.get(0).length - diffTime) * 1000;
+
+            if(reservationTime > 0) {
                 loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
                 isBookingExists = true;
                 isBookingOpening = false;
@@ -1760,7 +1767,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
                 }
             }
-            if(isBookingExists){
+            if(isBookingExists && reservationTime > 0){
                 isBookingExists = false;
                 getMvpView().openReservationNotification();
             }
@@ -1841,16 +1848,19 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             long unixTime = System.currentTimeMillis() / 1000L;
             int diffTime = (int) (unixTime - mResponseReservation.reservations.get(0).timestamp_start);
 
+            reservationTime = (mResponseReservation.reservations.get(0).length - diffTime) * 1000;
 
-            if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
+            if(reservationTime > 0) {
                 getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0));
                 getMvpView().hideLoading();
             }else {
+                reservationTime = 0;
                 getMvpView().openReservationNotification();
                 getMvpView().removeReservationInfo();
             }
         }else{
             getMvpView().removeReservationInfo();
+            reservationTime = 0;
         }
     }
 
@@ -1917,6 +1927,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         if((mResponseTripCar.reason.isEmpty() && mResponseTripCar.data != null) && (mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0)){
             getMvpView().showTripInfo(mResponseTripCar.data, mResponseTrip.trips.get(0).timestamp_start);
         }else{
+            reservationTime = 0;
             getMvpView().removeReservationInfo();
         }
     }
