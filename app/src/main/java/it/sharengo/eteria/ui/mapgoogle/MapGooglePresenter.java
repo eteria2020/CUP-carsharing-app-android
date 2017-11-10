@@ -209,7 +209,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
         //getMvpView().removeReservationInfo();
         //getMvpView().removeTripInfo();
-        Log.w("isPause",": "+isPause);
 
         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) {
             if(isPause){
@@ -450,7 +449,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      */
     public void refreshCars(Context context, float latitude, float longitude, float user_lat, float user_lon, int radius, LatLngBounds bounds, boolean refresh){
         hideLoading = true;
-        Log.w("refreshCars","XXX");
+
         if(refresh) { //Forzo il refresh
             loadCars(latitude, longitude, user_lat, user_lon, radius);
             if (isFeeds)
@@ -1791,7 +1790,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     public void loadCarsReservation(String plate) {
 
         if( mCarsReservationRequest == null) {
-            Log.w("isPause","IF loadCarsReservation");
+
             mCarsReservationRequest = null;
             mCarsReservationRequest = buildCarsReservationRequest(plate);
             addSubscription(mCarsReservationRequest.unsafeSubscribe(getCarsReservationSubscriber()));
