@@ -1738,7 +1738,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private void checkReservationsResult(){
-        Log.w("isPause","checkReservationsResult");
+
         if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
 
             //Verifico che non sia scaduta

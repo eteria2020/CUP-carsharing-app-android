@@ -79,7 +79,6 @@ import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.PatternItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -788,8 +787,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO Coor
-        //userLocation.setLatitude(41.914993);
-        //userLocation.setLongitude(12.524136); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        userLocation.setLatitude(41.909917);
+        userLocation.setLongitude(12.456426); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
 
         enabledCenterMap(true);
@@ -817,7 +816,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //Aggiorno la Walk Navigation
-        if(mMap != null && getMapRadius() < 35000){
+        if(mMap != null && getMapRadius() < 35000){ Log.w("SHARENGO","locationChange");
             getWalkingNavigation();
         }
     }
@@ -1767,10 +1766,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         carnext_id = car_id;
-
+        Log.w("SHARENGO","findNextCar1");
         if(!isBookingCar && !isTripStart && carPreSelected == null && carSelected == null) {
             if (carWalkingNavigation == null || (carWalkingNavigation != null && !carWalkingNavigation.id.equals(carNext.id))) {
-                carWalkingNavigation = carNext;
+                carWalkingNavigation = carNext; Log.w("SHARENGO","findNextCar2");
                 getWalkingNavigation();
             }
         }
@@ -2386,7 +2385,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void getWalkingNavigation(){
-
+        Log.w("SHARENGO","GTW - userLocation"+userLocation);
+        Log.w("SHARENGO","GTW - carWalkingNavigation"+carWalkingNavigation);
+        Log.w("SHARENGO","GTW - getDistance"+getDistance(carWalkingNavigation));
         if(userLocation != null && carWalkingNavigation != null && getDistance(carWalkingNavigation) <= 10000) {
             walkingDestination.setLatitude(carWalkingNavigation.latitude);
             walkingDestination.setLongitude(carWalkingNavigation.longitude);
@@ -2436,7 +2437,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Elimino il Walk Navigation
     private void removeWalkingNavigation(){
         carWalkingNavigation = null;
-
+        Log.w("SHARENGO","removeWalkingNavigation");
         if(!isTripStart && !isBookingCar && carNext != null){
 
             if(carSelected == null) carWalkingNavigation = carNext;
