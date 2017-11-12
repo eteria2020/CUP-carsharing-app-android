@@ -494,7 +494,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  radius    radius of map.
      */
     public void loadCars(float latitude, float longitude, float user_lat, float user_lon, int radius) {
-        Log.w("loadCars","XXX");
+
         if( mCarsRequest == null) {
 
             mCarsRequest = null;
@@ -539,7 +539,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         };
     }
 
-    private void checkResult(){ Log.w("reason",": "+mResponse.reason);
+    private void checkResult(){
         if(mResponse.reason.isEmpty()){
             getMvpView().showCars(mResponse.data);
         }else{
@@ -796,6 +796,19 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //                                              Load Plates
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void loadPlatesCached() {
+        hideLoading = true;
+
+        if( mPlatesRequest == null) {
+            mPlatesRequest = buildPlatesRequest();
+            addSubscription(mPlatesRequest.unsafeSubscribe(getPlatesSubscriber()));
+        }
+
+        if(mCachedPlates != null) getMvpView().setNextCar(mCachedPlates);
+        else{
+            loadPlates();
+        }
+    }
 
     /**
      * Load cars from server.
@@ -1196,6 +1209,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param   mode        the mode of transport to use when calculating directions (see: https://developers.google.com/maps/documentation/directions/intro#TravelModes)
      */
     public void getRoutes(Context context, Location origin, Location destination, String mode) {
+
         hideLoading = true;
         if( mFindRoutesRequest == null) {
             mFindRoutesRequest = buildFindRoutesRequest(context, origin, destination, mode);
@@ -1214,6 +1228,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
+
                         getMvpView().onUpdateWalkingNavigation(mGoogleRoutes);
                     }
                 });

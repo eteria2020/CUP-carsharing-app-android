@@ -748,7 +748,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void providerDisabled(){
 
-
         userLocation = null;
         //moveMapCameraToDefaultLocation();
 
@@ -815,8 +814,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         }
 
+        mPresenter.loadPlatesCached();
+
         //Aggiorno la Walk Navigation
-        if(mMap != null && getMapRadius() < 35000){ Log.w("SHARENGO","locationChange");
+        if(mMap != null && getMapRadius() < 35000){
             getWalkingNavigation();
         }
     }
@@ -1750,26 +1751,29 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         String car_id = "";
         float distance = 10000000000000000000000.0f;
 
+
         if(userLocation != null && carsList != null) {
 
             for (Car car : carsList) {
 
-                float dist = getDistance(car);
+                if(car != null) {
+                    float dist = getDistance(car);
 
-                if(dist < distance) {
-                    distance = dist;
-                    car_id = car.id;
-                    carNext = car;
+                    if (dist < distance) {
+                        distance = dist;
+                        car_id = car.id;
+                        carNext = car;
+                    }
                 }
             }
 
         }
 
         carnext_id = car_id;
-        Log.w("SHARENGO","findNextCar1");
+
         if(!isBookingCar && !isTripStart && carPreSelected == null && carSelected == null) {
             if (carWalkingNavigation == null || (carWalkingNavigation != null && !carWalkingNavigation.id.equals(carNext.id))) {
-                carWalkingNavigation = carNext; Log.w("SHARENGO","findNextCar2");
+                carWalkingNavigation = carNext;
                 getWalkingNavigation();
             }
         }
@@ -2385,9 +2389,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void getWalkingNavigation(){
-        Log.w("SHARENGO","GTW - userLocation"+userLocation);
-        Log.w("SHARENGO","GTW - carWalkingNavigation"+carWalkingNavigation);
-        Log.w("SHARENGO","GTW - getDistance"+getDistance(carWalkingNavigation));
+
         if(userLocation != null && carWalkingNavigation != null && getDistance(carWalkingNavigation) <= 10000) {
             walkingDestination.setLatitude(carWalkingNavigation.latitude);
             walkingDestination.setLongitude(carWalkingNavigation.longitude);
@@ -2437,7 +2439,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Elimino il Walk Navigation
     private void removeWalkingNavigation(){
         carWalkingNavigation = null;
-        Log.w("SHARENGO","removeWalkingNavigation");
+
         if(!isTripStart && !isBookingCar && carNext != null){
 
             if(carSelected == null) carWalkingNavigation = carNext;
