@@ -51,6 +51,7 @@ import it.sharengo.eteria.data.models.ResponseFeed;
 import it.sharengo.eteria.data.models.ResponseGooglePlace;
 import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import it.sharengo.eteria.data.models.ResponsePutReservation;
+import it.sharengo.eteria.data.models.ResponsePutReservation.ErrorType;
 import it.sharengo.eteria.data.models.ResponseReservation;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.SearchItem;
@@ -1294,12 +1295,45 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
                 if(!response.reason.isEmpty() && response.reason.equals("Reservation created successfully"))
                     mReservation = response.reservation;
-                else if(!response.reason.isEmpty() && response.reason.equals("Error: reservation:true - status:false - trip:false - limit:false - limit_archive:false")) {
-                    getMvpView().generalError();
-                }else{
-                    mReservation = null;
-                    getMvpView().carAlreadyBooked();
+                else{
+                    switch (response.splitMessages()){
+
+                        case noError:
+                            break;
+                        case generic:
+                            mReservation=null;
+                            getMvpView().generalError();
+                            break;
+                        case status:
+                            mReservation=null;
+                            getMvpView().carBusyError();
+                            break;
+                        case reservation:
+                            mReservation=null;
+                            getMvpView().tooManyReservationError();
+                            break;
+                        case limit:
+                            mReservation=null;
+                            getMvpView().carAlreadyBooked();
+                            break;
+                        case trip:
+                            mReservation=null;
+                            getMvpView().reserveOnTripError();
+                            break;
+                        case unauthorized:
+                            mReservation=null;
+                            getMvpView().unauthorizedError();
+                            break;
+
+                    }
                 }
+
+//                    if(!response.reason.isEmpty() && response.reason.equals("Error: reservation:true - status:false - trip:false - limit:false - limit_archive:false")) {
+//                    getMvpView().generalError();
+//                }else{
+//                    mReservation = null;
+//                    getMvpView().carAlreadyBooked();
+//                }
             }
         };
     }

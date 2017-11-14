@@ -92,7 +92,10 @@
     <string name="booking_deleteconfirm_alert">La tua prenotazione è stata annullata correttamente</string>
     <string name="booking_bookedcar_alert">Hai già una prenotazione attiva</string>
     <string name="booking_tripcar_alert">Hai già una corsa attiva</string>
+    <string name="booking_other_tripcar_alert">Qualcuno sta già utilizzando questa Share\'ngo</string>
     <string name="booking_alreadybookedcar_alert">Non puoi prenotare questa auto fino a che non saranno passate 4 ore da quando hai annullato la prenotazione</string>
+    <string name="booking_car_busy_alert">Quest\'auto non è disponibile, ci scusiamo per l\'inconveniente</string>
+    <string name="booking_user_unauthorized_alert">Quest\'auto non è disponibile, ci scusiamo per l\'inconveniente</string>
     <string name="booking_durationtrip_label">Durata corsa: <![CDATA[<br><b>%s</b>]]></string>
     <string name="booking_tripactive_label">Corsa attiva</string>
     <string name="booking_timeend_label">Il tempo di prenotazione è scaduto, la tua prenotazione è stata annullata. Prenota un\'altra auto in mappa</string>

@@ -2261,7 +2261,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             if(carToOpen != null){
                 if(userLocation != null){
                     //Calcolo la distanza
-                    if(getDistance(carToOpen) <= 300){ //TODO: valore a 300
+                    if(getDistance(carToOpen) <= 500){ //TODO: valore a 300
 
                         //Procediamo con le schermate successive
                         onClosePopup();
@@ -3241,6 +3241,70 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 cdd.dismissAlert();
             }
         });
+    }
+
+    @Override
+    public void carBusyError() {
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.booking_car_busy_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+            }
+        });
+
+    }
+
+    @Override
+    public void tooManyReservationError() {
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.booking_other_tripcar_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+            }
+        });
+
+    }
+
+    @Override
+    public void reserveOnTripError() {
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.booking_other_tripcar_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+            }
+        });
+
+    }
+
+    @Override
+    public void unauthorizedError() {
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.error_generalerror_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+            }
+        });
+
     }
 
     @Override
