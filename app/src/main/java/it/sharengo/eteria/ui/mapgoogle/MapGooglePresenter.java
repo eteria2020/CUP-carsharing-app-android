@@ -804,7 +804,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             addSubscription(mPlatesRequest.unsafeSubscribe(getPlatesSubscriber()));
         }
 
-        if(mCachedPlates != null) getMvpView().setNextCar(mCachedPlates);
+        if(mCachedPlates != null){ if(getMvpView() != null) getMvpView().setNextCar(mCachedPlates); }
         else{
             loadPlates();
         }
