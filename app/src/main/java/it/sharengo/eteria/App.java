@@ -24,7 +24,6 @@ public class App extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        //Fabric.with(this, new Crashlytics());
         Fabric.with(this, new Crashlytics());
         mStackActivity = new ArrayList<Class>();
 
