@@ -3,6 +3,8 @@ package it.sharengo.eteria.ui.components;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -23,6 +25,9 @@ public class CustomDialogClass extends Dialog implements
 
     private String message, yesString, noString;
 
+    private Handler localHandler=new Handler();
+    private int displayTime;
+
     public CustomDialogClass(Activity a, String message, String yesString, String noString) {
         super(a);
         // TODO Auto-generated constructor stub
@@ -30,6 +35,18 @@ public class CustomDialogClass extends Dialog implements
         this.message = message;
         this.yesString = yesString;
         this.noString = noString;
+        this.displayTime=0;
+    }
+
+    public CustomDialogClass(Activity a, String message, int displayTime) {
+        super(a);
+        // TODO Auto-generated constructor stub
+        this.c = a;
+        this.message = message;
+
+        this.yesString = null;
+        this.noString = null;
+        this.displayTime=displayTime;
     }
 
     @Override
@@ -50,6 +67,20 @@ public class CustomDialogClass extends Dialog implements
 
         yes.setOnClickListener(this);
         no.setOnClickListener(this);
+
+        if(displayTime>0){
+            localHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+
+                        CustomDialogClass.this.dismiss();
+                    }catch (Exception e){
+                        Log.e("BOMB","Exception while auto-dismiss dialog",e);
+                    }
+                }
+            },displayTime);
+        }
     }
 
 

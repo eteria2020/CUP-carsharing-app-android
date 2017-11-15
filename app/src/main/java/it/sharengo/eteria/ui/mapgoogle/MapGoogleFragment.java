@@ -118,6 +118,7 @@ import it.sharengo.eteria.data.models.Trip;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.map.BaseMapFragment;
+import it.sharengo.eteria.ui.components.CustomButton;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 import it.sharengo.eteria.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
 import it.sharengo.eteria.utils.ImageUtils;
@@ -382,6 +383,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @BindView(R.id.openDoorBookingButton)
     Button openDoorBookingButton;
+
+    @BindView(R.id.openDoorButton)
+    CustomButton openDoorButton;
 
     @BindView(R.id.closestcarTextView)
     TextView closestcarTextView;
@@ -3320,6 +3324,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 cdd.dismissAlert();
             }
         });
+    }
+
+    @Override
+    public void openCarNotification() {
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.tripstart_notification_label),
+                2500);
+        cdd.show();
     }
 
     @Override

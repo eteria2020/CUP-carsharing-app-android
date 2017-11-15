@@ -44,4 +44,5 @@ public interface MapGoogleMvpView extends MvpMapView {
     void showLoading();
     void hideLoading();
     void generalError();
+    void openCarNotification();
 }

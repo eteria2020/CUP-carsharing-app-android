@@ -108,6 +108,7 @@
     <string name="tripend_text3_label" formatted="false">CON IL TUO VIAGGIO HAI RISPARMIATO %.1f GRAMMI DI CO2!</string>
     <string name="tripend_historic_action">Storico corse</string>
     <string name="tripend_notification_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente. Ti ringraziamo per aver usato Share\'ngo</string>
+    <string name="tripstart_notification_label">Le portiere si apriranno fra qualche secondo.</string>
 
     <!-- Login -->
     <string name="login_fillfields_label">Compila i campi per effettuare il login</string>

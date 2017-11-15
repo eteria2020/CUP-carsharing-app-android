@@ -136,7 +136,7 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
         ErrorResponse errorResponse = (ErrorResponse) throwable;
 
 
-        if(errorResponse.errorType.equals(HTTP)){
+        if(errorResponse.errorType.equals(HTTP)){//TODO Handle errore responde type -> switch(errorResponde.httpstatus)
 
             //Mostro un messaggio di errore
             final CustomDialogClass cdd=new CustomDialogClass(getActivity(),

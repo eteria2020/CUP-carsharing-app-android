@@ -90,6 +90,9 @@ public class ResponsePutReservation {
                         case "limit":
                             error = ErrorType.limit;
                             break;
+                        case "limit_archive":
+                            error = ErrorType.limit;
+                            break;
                         case "trip":
                             error = ErrorType.trip;
                             break;

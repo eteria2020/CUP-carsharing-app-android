@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
@@ -51,7 +52,6 @@ import it.sharengo.eteria.data.models.ResponseFeed;
 import it.sharengo.eteria.data.models.ResponseGooglePlace;
 import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import it.sharengo.eteria.data.models.ResponsePutReservation;
-import it.sharengo.eteria.data.models.ResponsePutReservation.ErrorType;
 import it.sharengo.eteria.data.models.ResponseReservation;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.SearchItem;
@@ -64,12 +64,12 @@ import it.sharengo.eteria.data.repositories.KmlRepository;
 import it.sharengo.eteria.data.repositories.PostRepository;
 import it.sharengo.eteria.data.repositories.PreferencesRepository;
 import it.sharengo.eteria.data.repositories.UserRepository;
-import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.map.BaseMapPresenter;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
+import rx.functions.Action1;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -118,6 +118,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private Response mResponse;
     private ResponseCar mResponseReservationCar;
+    private ResponseCar mResponseCarTrip;
     private ResponseTrip mResponseTrip;
     private ResponseCar mResponseInfo;
     private ResponseReservation mResponseReservation;
@@ -133,7 +134,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private boolean hideLoading;
     private boolean isPause;
     private boolean isTripExists;
+    private boolean isTripOpening;
     private boolean isBookingExists;
+    private boolean isBookingOpening;
+    private int isTripOpeningCount;
+    private int isBookingOpeningCount;
     private int timestamp_start;
     private List<City> mCitiesList;
     public boolean isFeeds;
@@ -155,7 +160,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private int timerInterval;
     private int INT_1_MIN = 60000;
-    private int INT_10_SEC = 5000;
+    private int INT_5_SEC = 5000;
+    private int INT_30_SEC = 30000;
 
 
     public MapGooglePresenter(SchedulerProvider schedulerProvider,
@@ -208,8 +214,10 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         }
         isPause = false;
 
-        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
+        if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) {
             getReservations(false);
+            getTrips(false);
+        }
 
         startTimer();
     }
@@ -300,6 +308,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private void setTimerReservertionTrip(int interval){
+        Log.d("BOMB","setTimerReservertionTrip: value is " + interval);
 
         timerInterval = interval;
 
@@ -313,18 +322,23 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 handler1min.post(new Runnable() {
                     public void run() {
 
+                        Log.d("BOMB","setTimerReservertionTrip: start TimerTask");
 
                         ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
                         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
                         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
                         if(isConnected) {
                             if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) {
-                                if(seconds == 0 || ((System.currentTimeMillis() - seconds) / 1000) > 59) getReservations(true); //Deve essere passato almeno un minuto dall'azione compiuta dall'utente (apertura porte o prenotazione)
+                                //if(seconds == 0 || ((System.currentTimeMillis() - seconds) / 1000) > 59){
+                                    getReservations(true); //Deve essere passato almeno un minuto dall'azione compiuta dall'utente (apertura porte o prenotazione)
+
+                               // }
+                                getTrips(true);
                             }
                         }else{
 
                             //Timer
-                            if(timerInterval == INT_1_MIN) setTimerReservertionTrip(INT_10_SEC);
+                            if(timerInterval != INT_5_SEC) setTimerReservertionTrip(INT_5_SEC);
 
                             getMvpView().removeTripInfo();
                             getMvpView().removeReservationInfo();
@@ -1272,7 +1286,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     public void call() {
                         if(mReservation != null)
 
-                            getReservations(true);
+                            getReservations(true,500);
                     }
                 });
     }
@@ -1293,8 +1307,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onNext(ResponsePutReservation response) {
 
-                if(!response.reason.isEmpty() && response.reason.equals("Reservation created successfully"))
+                if(!response.reason.isEmpty() && response.reason.equals("Reservation created successfully")) {
                     mReservation = response.reservation;
+                    isBookingOpening=true;
+                    isBookingOpeningCount = 0;
+                }
                 else{
                     switch (response.splitMessages()){
 
@@ -1425,14 +1442,26 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         return mCarsTripRequest = mCarRepository.openCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, car.id, action)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
+                .doOnError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e("BOMB","some error occurs",throwable);
+                    }
+                })
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
+                        if(mResponseCarTrip.status.equalsIgnoreCase("200")) {
+                            getTrips(true,5000);
+                        }
+//                       if(timestamp_start == 0) timestamp_start = (int) (System.currentTimeMillis() / 1000L);
+                        //loadCarsTrip(car.id);
 
-                        isTripExists = true;
 
-                        if(timestamp_start == 0) timestamp_start = (int) (System.currentTimeMillis() / 1000L);
-                        loadCarsTrip(car.id);
+
+
+
+
                     }
                 });
     }
@@ -1447,12 +1476,72 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onError(Throwable e) {
                 mCarsTripRequest = null;
+                if(e instanceof ErrorResponse) {
+                    try {
+                        //noinspection ConstantConditions
+                        switch (ResponseCar.splitMessages(((ErrorResponse) e).rawMessage)) {
+                            case noError:
+                                break;
+                            case generic:
+                                mReservation = null;
+                                getMvpView().generalError();
+                                break;
+                            case status:
+                                mReservation = null;
+                                getMvpView().carBusyError();
+                                break;
+                            case reservation:
+                                mReservation = null;
+                                getMvpView().tooManyReservationError();
+                                break;
+                            case trip:
+                                mReservation = null;
+                                getMvpView().reserveOnTripError();
+                                break;
+
+                        }
+                    } catch (Exception ex) {
+                        Log.e("BOMB", "exception?", ex);
+                    }
+                }
                 //getMvpView().showError(e);
             }
 
             @Override
             public void onNext(ResponseCar responseList) {
-                //mResponseReservationCar = responseList;
+                mResponseCarTrip = responseList;
+
+                if(mResponseCarTrip!=null){
+                    if(mResponseCarTrip.status.equalsIgnoreCase("200")){
+                        getMvpView().openCarNotification();
+                        isTripOpening=true;
+                        isTripOpeningCount=0;
+
+                    }else if(mResponseCarTrip.status.equalsIgnoreCase("400")){
+                        switch (mResponseCarTrip.splitMessages()){
+                            case noError:
+                                break;
+                            case generic:
+                                mReservation=null;
+                                getMvpView().generalError();
+                                break;
+                            case status:
+                                mReservation=null;
+                                getMvpView().carBusyError();
+                                break;
+                            case reservation:
+                                mReservation=null;
+                                getMvpView().tooManyReservationError();
+                                break;
+                            case trip:
+                                mReservation=null;
+                                getMvpView().reserveOnTripError();
+                                break;
+
+                        }
+                    }
+
+                }
             }
         };
     }
@@ -1471,10 +1560,32 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             addSubscription(mTripsRequest.unsafeSubscribe(getTripsSubscriber()));
         }
     }
+    void getTrips(boolean refreshInfo, long delay){
+
+        hideLoading = true;
+
+        if( mTripsRequest == null) {
+            mTripsRequest = buildTripsRequest(refreshInfo,delay);
+            addSubscription(mTripsRequest.unsafeSubscribe(getTripsSubscriber()));
+        }
+    }
 
     private Observable<ResponseTrip> buildTripsRequest(boolean refreshInfo) {
         return mTripsRequest = mUserRepository.getCurrentTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
                 .first()
+                .compose(this.<ResponseTrip>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkTripsResult();
+                    }
+                });
+    }
+
+    private Observable<ResponseTrip> buildTripsRequest(boolean refreshInfo, long delay) {
+        return mTripsRequest = mUserRepository.getCurrentTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
+                .first()
+                .delaySubscription(delay,TimeUnit.MILLISECONDS)
                 .compose(this.<ResponseTrip>handleDataRequest())
                 .doOnCompleted(new Action0() {
                     @Override
@@ -1505,15 +1616,28 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private void checkTripsResult(){
 
+        Log.d("BOMB","checkTripsResult: start " + mResponseTrip.reason);
+
         if(mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0){
             timestamp_start = mResponseTrip.trips.get(0).timestamp_start;
             isTripExists = true;
+            isTripOpening = false;
 
             loadCarsTrip(mResponseTrip.trips.get(0).plate);
 
             //Timer
-            if(timerInterval == INT_1_MIN) setTimerReservertionTrip(INT_10_SEC);
+            if(timerInterval != INT_5_SEC) setTimerReservertionTrip(INT_5_SEC);
         }else{
+
+            Log.d("BOMB","checkTripsResult: check trip open  " + isTripOpening + " " + !isTripExists);
+            if(isTripOpening && !isTripExists){
+                if(isTripOpeningCount++<10) {
+                    if (timerInterval != INT_5_SEC) setTimerReservertionTrip(INT_5_SEC);
+                }else {
+                    isTripOpening=false;
+                    if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
+                }
+            }
 
             if(isTripExists){
                 isTripExists = false;
@@ -1528,10 +1652,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
             }
-            getMvpView().removeTripInfo();
 
-            //Timer
-            if(timerInterval == INT_10_SEC) setTimerReservertionTrip(INT_1_MIN);
+            if(!isTripOpening && !isBookingExists && !isBookingOpening) {
+                getMvpView().removeTripInfo();
+
+                //Timer
+                if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
+            }
         }
     }
 
@@ -1549,9 +1676,30 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         }
     }
 
+    void getReservations(boolean refreshInfo, long delay){
+        Log.w("isPause","getReservations: "+mReservationsRequest);
+        if( mReservationsRequest == null) {
+            mReservationsRequest = buildReservationsRequest(refreshInfo, delay);
+            addSubscription(mReservationsRequest.unsafeSubscribe(getReservationsSubscriber()));
+        }
+    }
+
     private Observable<ResponseReservation> buildReservationsRequest(boolean refreshInfo) {
         return mReservationsRequest = mUserRepository.getReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, refreshInfo)
                 .first()
+                .compose(this.<ResponseReservation>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkReservationsResult();
+                    }
+                });
+    }
+
+    private Observable<ResponseReservation> buildReservationsRequest(boolean refreshInfo,long delay) {
+        return mReservationsRequest = mUserRepository.getReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, refreshInfo)
+                .first()
+                .delaySubscription(delay,TimeUnit.MILLISECONDS)
                 .compose(this.<ResponseReservation>handleDataRequest())
                 .doOnCompleted(new Action0() {
                     @Override
@@ -1591,17 +1739,35 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
                 loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
                 isBookingExists = true;
+                isBookingOpening = false;
+
+                //Timer
+                if(timerInterval != INT_30_SEC) setTimerReservertionTrip(INT_30_SEC);
             }else{
-                getTrips(true);
+                //getTrips(true);
             }
         }else{
             //getMvpView().removeReservationInfo();
-
+            if(isBookingOpening && !isBookingExists){
+                if(isBookingOpeningCount++<10) {
+                    if (timerInterval != INT_5_SEC) setTimerReservertionTrip(INT_5_SEC);
+                }else {
+                    isBookingOpening=false;
+                    if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
+                }
+            }
             if(isBookingExists){
                 isBookingExists = false;
                 getMvpView().openReservationNotification();
             }
-            getTrips(true);
+
+            if(!isBookingOpening && !isTripExists && !isTripOpening) {
+                getMvpView().removeReservationInfo();
+
+                //Timer
+                if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
+            }
+            //getTrips(true);
         }
     }
 
@@ -1742,8 +1908,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private void checkCarTripResult(){
 
-        if(mResponseReservationCar.reason.isEmpty() && mResponseReservationCar.data != null){
-            getMvpView().showTripInfo(mResponseReservationCar.data, timestamp_start);
+        if((mResponseReservationCar.reason.isEmpty() && mResponseReservationCar.data != null) && (mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0)){
+            getMvpView().showTripInfo(mResponseReservationCar.data, mResponseTrip.trips.get(0).timestamp_start);
         }else{
             getMvpView().removeReservationInfo();
         }
