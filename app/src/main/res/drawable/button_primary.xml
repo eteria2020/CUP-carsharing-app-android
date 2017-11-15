@@ -5,8 +5,8 @@
             <solid
                 android:color="@color/aureolin" />
             <stroke
-                android:width="0dp"
-                android:color="@color/aureolin" />
+                android:width="1dp"
+                android:color="@color/mediumseagreen" />
             <corners
                 android:radius="3dp" />
             <padding
