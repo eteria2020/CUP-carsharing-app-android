@@ -1286,7 +1286,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  context   context of application.
      */
     public void bookingCar(Car car, float user_lat, float user_lon, Context context){
-        //hideLoading = false;
+        hideLoading = false;
 
         seconds = System.currentTimeMillis();
 
@@ -1390,7 +1390,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      */
     public void deleteBookingCar(int id){
 
-        //hideLoading = false;
+        hideLoading = false;
 
         isBookingExists = false;
         reservationTime = 0;
