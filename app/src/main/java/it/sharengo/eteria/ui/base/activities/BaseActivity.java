@@ -28,7 +28,6 @@ public abstract class BaseActivity extends HdxBaseActivity {
 
         setContentView(R.layout.activity_frame);
         setupLoadingFragment(android.R.id.content);
-        App.addActivityToStack(this.getClass());
     }
 
     public void showLoading() {
@@ -121,6 +120,12 @@ public abstract class BaseActivity extends HdxBaseActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        App.addActivityToStack(this.getClass());
+    }
+
+    @Override
     protected void onDestroy() {
         App.removeActivityToStack(this.getClass());
         super.onDestroy();
@@ -135,7 +140,7 @@ public abstract class BaseActivity extends HdxBaseActivity {
                 super.onBackPressed();
             }else {
 
-                if (!this.getClass().equals(MapGoogleActivity.class))
+                if (!this.getClass().equals(MapGoogleActivity.class) && App.getmStackActivity().contains(MapGoogleActivity.class))
                     Navigator.launchMapGoogle(BaseActivity.this, Navigator.REQUEST_MAP_DEFAULT);
                 else
                     Navigator.launchHome(BaseActivity.this);

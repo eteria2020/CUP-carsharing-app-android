@@ -179,42 +179,52 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                 switch(menuItem.section) {
                     case LOGIN:
                         Navigator.launchLogin(MenuFragment.this, Navigator.REQUEST_LOGIN_START);
+                        closeActivity();
                         break;
                     case LOGOUT:
-                        mPresenter.logout(getActivity(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
+                        mPresenter.alertLogout(getActivity(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
                         break;
                     case SIGNUP:
                         Navigator.launchSlideshow(MenuFragment.this);
+                        closeActivity();
                         break;
                     case BOOKING:
                         Navigator.launchMapGoogle(MenuFragment.this, Navigator.REQUEST_MAP_DEFAULT);
+                        closeActivity();
                         break;
                     case SETTINGS:
                         Navigator.launchSettings(MenuFragment.this);
+                        closeActivity();
                         break;
                     case HISTORIC:
                         Navigator.launchChronology(MenuFragment.this);
+                        closeActivity();
                         break;
                     case PROFILE:
                         Navigator.launchUserArea(MenuFragment.this);
+                        closeActivity();
                         break;
                     case HELP:
                         Navigator.launchAssistance(MenuFragment.this);
+                        closeActivity();
                         break;
                     case SHARE:
                         Navigator.launchShare(MenuFragment.this);
+                        closeActivity();
                         break;
                     case FAQ:
                         Navigator.launchFaq(MenuFragment.this);
+                        closeActivity();
                         break;
                     case BUY:
                         Navigator.launchBuy(MenuFragment.this);
+                        closeActivity();
                         break;
                     case RATES:
                         Navigator.launchRates(MenuFragment.this);
+                        closeActivity();
                         break;
                 }
-                closeActivity();
 
 
             }

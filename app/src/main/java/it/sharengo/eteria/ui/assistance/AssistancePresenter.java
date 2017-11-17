@@ -34,6 +34,10 @@ public class AssistancePresenter extends BasePresenter<AssistanceMvpView> {
 
     }
 
+    @Override
+    protected boolean showCustomLoading() {
+        return true;
+    }
 }
 
 

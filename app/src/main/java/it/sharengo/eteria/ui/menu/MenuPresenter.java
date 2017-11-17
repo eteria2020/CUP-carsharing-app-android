@@ -1,16 +1,20 @@
 package it.sharengo.eteria.ui.menu;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.View;
 
 import java.util.List;
 import java.util.Locale;
 
+import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.models.MenuItem;
 import it.sharengo.eteria.data.models.UserInfo;
 import it.sharengo.eteria.data.repositories.AppRepository;
 import it.sharengo.eteria.data.repositories.UserRepository;
 import it.sharengo.eteria.ui.base.presenters.BasePresenter;
+import it.sharengo.eteria.ui.components.CustomDialogClass;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
@@ -186,7 +190,7 @@ public class MenuPresenter extends BasePresenter<MenuMvpView> {
      * @param  context  context of application
      * @param  mPref    shared preference of app
      */
-    public void logout(Context context, SharedPreferences mPref){
+    public void  logout(Context context, SharedPreferences mPref){
 
         /*SharedPreferences.Editor editor = mPref.edit();
         editor.putString(context.getString(R.string.preference_lang), Locale.getDefault().getLanguage());
@@ -199,5 +203,20 @@ public class MenuPresenter extends BasePresenter<MenuMvpView> {
         try {
             getMvpView().logoutUser();
         }catch (NullPointerException e){}
+    }
+
+    public void alertLogout(Activity context, final SharedPreferences mPref){
+        final CustomDialogClass cdd=new CustomDialogClass(context,
+                context.getResources().getString(R.string.general_logout_alert),
+                context.getResources().getString(R.string.ok),
+                context.getResources().getString(R.string.cancel));
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                logout(null,mPref);
+            }
+        });
     }
 }

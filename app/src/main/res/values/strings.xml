@@ -273,5 +273,6 @@
     <string name="rates_bonusmin_label">%s minuti</string>
     <string name="rates_signup_action">Iscriviti subito</string>
     <string name="maps_enablegps_label">Abilitare il GPS per maggiori informazioni</string>
+    <string name="general_logout_alert">Sei sicuro di voler effettuare il logout?</string>
 
 </resources>

@@ -53,7 +53,7 @@
     <string name="search_favoriteempty_label">No favorite\nmemorize in the settings section</string>
 
     <!-- Prenotazione -->
-    <string name="booking_userpin_label">Your pin number: %s</string>
+    <string name="booking_userpin_label">Your pin number: </string>
     <string name="booking_active_label">Booking active</string>
     <string name="booking_plate_label">Plate %s</string>
     <string name="booking_expirationtime">Expires in <![CDATA[<br><b>%s</b>]]> min</string>
@@ -238,5 +238,6 @@
     <string name="rates_bonusmin_label">%s minutes</string>
     <string name="rates_signup_action">SUBSCRIBE NOW</string>
     <string name="maps_enablegps_label">Enable the GPS for more information</string>
+    <string name="general_logout_alert">Are you sure you want to log out?</string>
 
 </resources>

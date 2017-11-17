@@ -111,6 +111,7 @@ import it.sharengo.eteria.data.models.Car;
 import it.sharengo.eteria.data.models.City;
 import it.sharengo.eteria.data.models.Feed;
 import it.sharengo.eteria.data.models.KmlServerPolygon;
+import it.sharengo.eteria.data.models.MenuItem;
 import it.sharengo.eteria.data.models.Reservation;
 import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import it.sharengo.eteria.data.models.SearchItem;
@@ -494,7 +495,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
+        mPresenter.mAppRepository.selectMenuItem(MenuItem.Section.BOOKING);
         if(!isConnected) {
             onProviderDisabled("");
         }
@@ -2265,7 +2266,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             if(carToOpen != null){
                 if(userLocation != null){
                     //Calcolo la distanza
-                    if(getDistance(carToOpen) <= 500){ //TODO: valore a 300
+                    if(getDistance(carToOpen) <= 500 || true){ //TODO: reintegrare il controllo
 
                         //Procediamo con le schermate successive
                         onClosePopup();
@@ -3203,7 +3204,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     public void openReservationNotification() {
         removeWalkingNavigation();
         hideLoading();
-        ((MapGoogleActivity) getActivity()).showNotification(getString(R.string.booking_timeend_label), null);
+        if(System.currentTimeMillis() > (reservation.timestamp_start + reservation.length) * 1000L )
+            ((MapGoogleActivity) getActivity()).showNotification(getString(R.string.booking_timeend_label), null);
     }
 
     @Override

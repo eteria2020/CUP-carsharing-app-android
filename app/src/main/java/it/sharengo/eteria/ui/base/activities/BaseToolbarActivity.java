@@ -17,7 +17,7 @@ public abstract class BaseToolbarActivity extends BaseActivity {
 
     View mToolBarView;
     LinearLayout mToolBarContainer;
-    Toolbar mToolBar;
+    protected Toolbar mToolBar;
     TextView mToolBarTitle;
 
     @Override

@@ -64,14 +64,14 @@ public class Navigator {
 
     public static void launchHome(Activity activity) {
         Intent intent = HomeActivity.getCallingIntent(activity);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         activity.startActivity(intent);
     }
 
     public static void launchHome(Fragment fragment) {
         Intent intent = HomeActivity.getCallingIntent(fragment.getActivity());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }

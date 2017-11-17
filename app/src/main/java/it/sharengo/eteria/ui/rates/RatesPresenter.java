@@ -84,6 +84,10 @@ public class RatesPresenter extends BasePresenter<RatesMvpView> {
         };
     }
 
+    @Override
+    protected boolean showCustomLoading() {
+        return true;
+    }
 }
 
 
