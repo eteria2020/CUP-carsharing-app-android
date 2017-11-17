@@ -97,4 +97,11 @@ public class App extends MultiDexApplication {
     public static ArrayList<Class> getmStackActivity() {
         return mStackActivity;
     }
+
+    public static Class getCurrentActivity(){
+        if(mStackActivity!=null && mStackActivity.size()>0){
+            return mStackActivity.get(0);
+        }
+        return null;
+    }
 }

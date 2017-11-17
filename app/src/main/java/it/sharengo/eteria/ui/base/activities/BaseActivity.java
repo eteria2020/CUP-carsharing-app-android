@@ -14,6 +14,9 @@ import android.widget.RelativeLayout;
 import it.handroix.core.base.HdxBaseActivity;
 import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
+import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.home.HomeActivity;
+import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
 
 public abstract class BaseActivity extends HdxBaseActivity {
 
@@ -121,5 +124,23 @@ public abstract class BaseActivity extends HdxBaseActivity {
     protected void onDestroy() {
         App.removeActivityToStack(this.getClass());
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(this.getClass().equals(HomeActivity.class)) {
+            super.onBackPressed();
+        }else{
+            if(App.getmStackActivity().size()>1){
+                super.onBackPressed();
+            }else {
+
+                if (!this.getClass().equals(MapGoogleActivity.class))
+                    Navigator.launchMapGoogle(BaseActivity.this, Navigator.REQUEST_MAP_DEFAULT);
+                else
+                    Navigator.launchHome(BaseActivity.this);
+                super.onBackPressed();
+            }
+        }
     }
 }

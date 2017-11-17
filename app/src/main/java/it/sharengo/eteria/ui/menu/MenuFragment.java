@@ -16,11 +16,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.models.MenuItem;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -177,39 +179,30 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                 switch(menuItem.section) {
                     case LOGIN:
                         Navigator.launchLogin(MenuFragment.this, Navigator.REQUEST_LOGIN_START);
-                        getActivity().finish();
                         break;
                     case LOGOUT:
                         mPresenter.logout(getActivity(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
-                        getActivity().finish();
                         break;
                     case SIGNUP:
                         Navigator.launchSlideshow(MenuFragment.this);
-                        getActivity().finish();
                         break;
                     case BOOKING:
                         Navigator.launchMapGoogle(MenuFragment.this, Navigator.REQUEST_MAP_DEFAULT);
-                        getActivity().finish();
                         break;
                     case SETTINGS:
                         Navigator.launchSettings(MenuFragment.this);
-                        getActivity().finish();
                         break;
                     case HISTORIC:
                         Navigator.launchChronology(MenuFragment.this);
-                        getActivity().finish();
                         break;
                     case PROFILE:
                         Navigator.launchUserArea(MenuFragment.this);
-                        getActivity().finish();
                         break;
                     case HELP:
                         Navigator.launchAssistance(MenuFragment.this);
-                        getActivity().finish();
                         break;
                     case SHARE:
                         Navigator.launchShare(MenuFragment.this);
-                        getActivity().finish();
                         break;
                     case FAQ:
                         Navigator.launchFaq(MenuFragment.this);
@@ -219,12 +212,17 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                         break;
                     case RATES:
                         Navigator.launchRates(MenuFragment.this);
-                        getActivity().finish();
                         break;
                 }
+                closeActivity();
 
 
             }
         }, 300);
+    }
+
+    private void closeActivity(){
+        if(!getActivity().getClass().equals(MapGoogleActivity.class))
+            getActivity().finish();
     }
 }
