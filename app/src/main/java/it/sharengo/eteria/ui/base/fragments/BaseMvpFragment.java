@@ -138,9 +138,43 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
 
         if(errorResponse.errorType.equals(HTTP)){//TODO Handle errore responde type -> switch(errorResponde.httpstatus)
 
+            int errorString = 0;
+
+            /*
+                User INESISTENTE
+
+                errorCode: : 404
+                erroreMessage: : {"status":404,"code":"not_found"}
+
+                User ESISTENTE, Password ERRATA
+
+                errorCode: : 406
+                erroreMessage: : {"msg":"invalid_credentials"}
+
+                User ESISTENTE, Password CORRETTA ma il profilo è disattivato in quanto la patente non è valido
+
+                errorCode: : 405
+                erroreMessage: : {"msg":"user_disabled"}
+            */
+
+
+            switch (errorResponse.httpStatus){
+                case 404:
+                    errorString = R.string.login_wrongemail_alert;
+                    break;
+                case 405:
+                    errorString = R.string.login_userdisabled_alert;
+                    break;
+                case 406:
+                    errorString = R.string.login_wrongpassword_alert;
+                    break;
+                default:
+                    errorString = R.string.login_userdisabled_alert;
+                    break;
+            }
             //Mostro un messaggio di errore
             final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
-                    getString(R.string.alert_logoutError),
+                    getString(errorString),
                     getString(R.string.btn_login),
                     null);
             cdd.show();

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import it.handroix.core.base.HdxBaseActivity;
+import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
 
 public abstract class BaseActivity extends HdxBaseActivity {
@@ -24,6 +25,7 @@ public abstract class BaseActivity extends HdxBaseActivity {
 
         setContentView(R.layout.activity_frame);
         setupLoadingFragment(android.R.id.content);
+        App.addActivityToStack(this.getClass());
     }
 
     public void showLoading() {
@@ -113,5 +115,11 @@ public abstract class BaseActivity extends HdxBaseActivity {
                 }
             }
         }, timeBetweenChecks);
-    };
+    }
+
+    @Override
+    protected void onDestroy() {
+        App.removeActivityToStack(this.getClass());
+        super.onDestroy();
+    }
 }
