@@ -2778,11 +2778,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //TODO Remove
-        car.parking = true;
         /*car.parking = test_corsa;
         if(test_corsa) test_corsa = false;
         else test_corsa = true;*/
         //---
+
+
 
         isTripStart = true;
         isBookingCar = false;
@@ -2796,6 +2797,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             else
             if(userLocation != null) moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
         }
+
 
         //removeMarkers(poiMarkers);
         if(poiMarkersToAdd == null) poiMarkersToAdd = new ArrayList<>();

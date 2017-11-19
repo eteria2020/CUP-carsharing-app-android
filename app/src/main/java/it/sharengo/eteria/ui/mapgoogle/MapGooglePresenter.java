@@ -137,6 +137,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private boolean isPause;
     private boolean isTripExists;
     private boolean isTripOpening;
+    private boolean isParked;
     private boolean isBookingExists;
     private boolean isBookingOpening;
     private int isTripOpeningCount;
@@ -202,6 +203,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
         isTripExists = false;
+        isParked = false;
         isBookingExists = false;
         timestamp_start = 0;
         seconds = 0;
@@ -258,6 +260,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     void viewCreated() {
 
         isTripExists = false;
+        isParked = false;
         isBookingExists = false;
         timestamp_start = 0;
         seconds = 0;
@@ -1457,6 +1460,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         seconds = System.currentTimeMillis();
 
         isBookingExists = false;
+        if(action.equals("unpark")) isParked = true;
 
         if( mCarsTripRequest == null) {
 
@@ -1950,6 +1954,16 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
         getMvpView().hideLoading();
         if((mResponseTripCar.reason.isEmpty() && mResponseTripCar.data != null) && (mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0)){
+
+            //TODO Remove
+            //mResponseReservationCar.data.parking = true;
+
+            //Verifico se era in sosta e non è ancora passato un minuto
+            if(isParked && !(seconds == 0 || ((System.currentTimeMillis() - seconds) / 1000) > 59)){
+                mResponseReservationCar.data.parking = false;
+            }
+
+            isParked = false;
             getMvpView().showTripInfo(mResponseTripCar.data, mResponseTrip.trips.get(0).timestamp_start);
         }else{
             reservationTime = 0;
