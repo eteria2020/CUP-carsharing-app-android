@@ -2778,6 +2778,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //TODO Remove
+        car.parking = true;
         /*car.parking = test_corsa;
         if(test_corsa) test_corsa = false;
         else test_corsa = true;*/

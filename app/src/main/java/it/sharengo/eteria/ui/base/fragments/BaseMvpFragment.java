@@ -92,6 +92,16 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
     }
 
     @Override
+    public void showHCustomLoading() {
+        ((BaseActivity) getActivity()).showLoadingChronology();
+    }
+
+    @Override
+    public void hideCustomLoading() {
+        ((BaseActivity) getActivity()).hideLoadingChronology();
+    }
+
+    @Override
     public void hideStandardLoading() {
         ((BaseActivity) getActivity()).hideLoading();
     }

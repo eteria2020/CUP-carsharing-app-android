@@ -1286,7 +1286,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  context   context of application.
      */
     public void bookingCar(Car car, float user_lat, float user_lon, Context context){
-        hideLoading = false;
+        hideLoading = true;
+
+        getMvpView().showHCustomLoading();
 
         seconds = System.currentTimeMillis();
 
@@ -1317,12 +1319,14 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onCompleted() {
                 mReservationRequest = null;
+                getMvpView().hideCustomLoading();
             }
 
             @Override
             public void onError(Throwable e) {
                 mReservationRequest = null;
                 //getMvpView().showError(e);
+                getMvpView().hideCustomLoading();
             }
 
             @Override
@@ -1390,7 +1394,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      */
     public void deleteBookingCar(int id){
 
-        hideLoading = false;
+        getMvpView().showHCustomLoading();
 
         isBookingExists = false;
         reservationTime = 0;
@@ -1419,11 +1423,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onCompleted() {
                 mReservationRequest = null;
+                getMvpView().hideCustomLoading();
             }
 
             @Override
             public void onError(Throwable e) {
                 mReservationRequest = null;
+                getMvpView().hideCustomLoading();
             }
 
             @Override
@@ -1445,6 +1451,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  action  action to execute.
      */
     public void openDoor(Car car, String action) {
+
+        getMvpView().showHCustomLoading();
 
         seconds = System.currentTimeMillis();
 
@@ -1493,6 +1501,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onCompleted() {
                 mCarsTripRequest = null;
+                getMvpView().hideCustomLoading();
             }
 
             @Override
@@ -1527,6 +1536,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     }
                 }
                 //getMvpView().showError(e);
+                getMvpView().hideCustomLoading();
             }
 
             @Override

@@ -9,6 +9,8 @@ public interface MvpView {
 
     void showStandardLoading();
     void hideStandardLoading();
+    void showHCustomLoading();
+    void hideCustomLoading();
 
     void hideSoftKeyboard();
     void showInfo(String infoMessage);
