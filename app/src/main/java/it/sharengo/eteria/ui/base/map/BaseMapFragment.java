@@ -125,12 +125,12 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
     //
     //*********************************
 
-    public void moveMapCameraToPoitWithZoom(Double latitude, Double longitude, Integer zoom){
+    public void moveMapCameraToPoitWithZoom(Double latitude, Double longitude, Integer zoom){ Log.w("tripInfo","3a");
         LatLng latLng = new LatLng(latitude, longitude);
-
-        if(mMap != null){
-            CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
-            mMap.moveCamera(cu);
+        Log.w("tripInfo","3b");
+        if(mMap != null){ Log.w("tripInfo","3c");
+            CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, zoom); Log.w("tripInfo","3d");
+            mMap.moveCamera(cu);Log.w("tripInfo","3e");
         }
     }
 

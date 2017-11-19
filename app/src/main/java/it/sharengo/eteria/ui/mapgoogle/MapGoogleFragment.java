@@ -2784,18 +2784,18 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         else test_corsa = true;*/
         //---
 
-        if(!isTripStart) {
-            if (isTripParked)
-                moveMapCameraToPoitWithZoom(car.latitude + 0.0002, (double) car.longitude, 19);
-            else
-                if(userLocation != null) moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
-        }
-
         isTripStart = true;
         isBookingCar = false;
         isTripParked = car.parking;
         tripTimestampStart = timestamp_start;
         carBooked = car;
+
+        if(!isTripStart) {
+            if (isTripParked)
+                moveMapCameraToPoitWithZoom(carBooked.latitude + 0.0002, (double) carBooked.longitude, 19);
+            else
+            if(userLocation != null) moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
+        }
 
         //removeMarkers(poiMarkers);
         if(poiMarkersToAdd == null) poiMarkersToAdd = new ArrayList<>();
