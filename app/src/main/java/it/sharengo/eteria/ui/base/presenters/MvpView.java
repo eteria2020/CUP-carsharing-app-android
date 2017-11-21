@@ -10,7 +10,7 @@ public interface MvpView {
     void showStandardLoading();
     void hideStandardLoading();
     void showHCustomLoading();
-    void hideCustomLoading();
+    void hideHCustomLoading();
 
     void hideSoftKeyboard();
     void showInfo(String infoMessage);

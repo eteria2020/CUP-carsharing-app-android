@@ -2,7 +2,9 @@ package it.sharengo.eteria.ui.base.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -97,8 +99,16 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
     }
 
     @Override
-    public void hideCustomLoading() {
-        ((BaseActivity) getActivity()).hideLoadingChronology();
+    public void hideHCustomLoading() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Log.w("BOOOOOO","A");
+                ((BaseActivity) getActivity()).hideLoadingChronology();
+            }
+        }, 3500);
+
     }
 
     @Override

@@ -3413,7 +3413,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes){
         if(!isTripStart || (isTripStart && isTripParked)) updateWalkingNavigation(googleRoutes);
-        hideLoading();
+        //hideLoading();
     }
 
     @Override
@@ -3423,7 +3423,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void hideLoading(){
-        ((BaseActivity) getActivity()).hideLoadingChronology();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if(getActivity() != null) ((BaseActivity) getActivity()).hideLoadingChronology();
+            }
+        }, 2000);
     }
 
 

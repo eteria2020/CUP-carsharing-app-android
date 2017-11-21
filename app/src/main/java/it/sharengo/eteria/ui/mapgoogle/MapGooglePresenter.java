@@ -1242,12 +1242,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onCompleted() {
                 mFindRoutesRequest = null;
+                //getMvpView().hideHCustomLoading();
             }
 
             @Override
             public void onError(Throwable e) {
                 mFindRoutesRequest = null;
-                try{getMvpView().hideLoading();} catch (NullPointerException ex){}
+                try{ getMvpView().hideHCustomLoading(); } catch (NullPointerException ex){}
             }
 
             @Override
@@ -1322,14 +1323,14 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onCompleted() {
                 mReservationRequest = null;
-                getMvpView().hideCustomLoading();
+                //getMvpView().hideCustomLoading();
             }
 
             @Override
             public void onError(Throwable e) {
                 mReservationRequest = null;
                 //getMvpView().showError(e);
-                getMvpView().hideCustomLoading();
+                getMvpView().hideHCustomLoading();
             }
 
             @Override
@@ -1397,6 +1398,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      */
     public void deleteBookingCar(int id){
 
+        hideLoading = true;
+
         getMvpView().showHCustomLoading();
 
         isBookingExists = false;
@@ -1415,8 +1418,16 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        getMvpView().showConfirmDeletedCar();
-                        getReservations(true);
+                        getMvpView().hideHCustomLoading();
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getMvpView().showConfirmDeletedCar();
+                                getReservations(true);
+                            }
+                        }, 2500);
+
                     }
                 });
     }
@@ -1426,13 +1437,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onCompleted() {
                 mReservationRequest = null;
-                getMvpView().hideCustomLoading();
+                //getMvpView().hideCustomLoading();
             }
 
             @Override
             public void onError(Throwable e) {
                 mReservationRequest = null;
-                getMvpView().hideCustomLoading();
+                getMvpView().hideHCustomLoading();
             }
 
             @Override
@@ -1505,7 +1516,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onCompleted() {
                 mCarsTripRequest = null;
-                getMvpView().hideCustomLoading();
+                //getMvpView().hideCustomLoading();
             }
 
             @Override
@@ -1540,7 +1551,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     }
                 }
                 //getMvpView().showError(e);
-                getMvpView().hideCustomLoading();
+                getMvpView().hideHCustomLoading();
             }
 
             @Override
@@ -1757,6 +1768,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onError(Throwable e) {
                 mReservationsRequest = null;
+                getMvpView().hideHCustomLoading();
             }
 
             @Override
@@ -1858,7 +1870,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             public void onError(Throwable e) {
                 mCarsReservationRequest = null;
                 //getMvpView().showError(e);
-
+                getMvpView().hideHCustomLoading();
             }
 
             @Override
@@ -1881,7 +1893,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
             if(reservationTime > 0) {
                 getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0));
-                getMvpView().hideLoading();
+                //getMvpView().hideLoading();
             }else {
                 reservationTime = 0;
                 getMvpView().openReservationNotification();
@@ -1891,6 +1903,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             getMvpView().removeReservationInfo();
             reservationTime = 0;
         }
+
+        getMvpView().hideHCustomLoading();
     }
 
 
