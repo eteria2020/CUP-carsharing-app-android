@@ -194,10 +194,14 @@
     <string name="assistance_help_label">We are here to help!</string>
     <string name="assistance_talkoperator_label">Talk to an operator?</string>
     <string name="assistance_call_action">Call now</string>
+    <string name="assistance_mail_action">Write an e-mail </string>
     <string name="assistance_phonenumber_label">+3905861975772</string>
     <string name="assistance_alertcall_action">Call </string>
     <string name="assistance_cancelcall_action">Cancel</string>
     <string name="assistance_devicenotenabled_alert">Your device is not enabled to calling</string>
+    <string name="assistance_mail_label">servizioclienti@sharengo.eu</string>
+    <string name="assistance_write_action">Write</string>
+    <string name="assistance_cancelmail_action">Cancel</string>
 
     <!-- Share -->
     <string name="share_title_label">Invite a friend</string>

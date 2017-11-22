@@ -76,7 +76,7 @@ android {
     /*
      * Apk Name Beautifier
      */
-    applicationVariants.all { variant ->
+   applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def String fileName = project.APK_NAME + "_" + variant.baseName + "_v_" + variant.versionName + "_" + variant.versionCode
             def String apkFileName = fileName + ".apk"

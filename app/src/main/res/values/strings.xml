@@ -229,10 +229,14 @@
     <string name="assistance_help_label">Siamo qui per aiutarti!</string>
     <string name="assistance_talkoperator_label">Vuoi parlare con un operatore?</string>
     <string name="assistance_call_action">Chiama ora</string>
+    <string name="assistance_mail_action">Scrivi una mail </string>
     <string name="assistance_phonenumber_label">+3905861975772</string>
     <string name="assistance_alertcall_action">Chiama</string>
     <string name="assistance_cancelcall_action">Annulla</string>
     <string name="assistance_devicenotenabled_alert">Il tuo dispositivo non è abilitato alle chiamate</string>
+    <string name="assistance_mail_label">servizioclienti@sharengo.eu</string>
+    <string name="assistance_write_action">Scrivi</string>
+    <string name="assistance_cancelmail_action">Annulla</string>
     
     <!-- Share -->
     <string name="share_title_label">Invita un amico</string>

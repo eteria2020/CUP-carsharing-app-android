@@ -122,6 +122,7 @@ import it.sharengo.eteria.ui.base.map.BaseMapFragment;
 import it.sharengo.eteria.ui.components.CustomButton;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 import it.sharengo.eteria.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
+import it.sharengo.eteria.ui.menu.MenuFragment;
 import it.sharengo.eteria.utils.ImageUtils;
 import it.sharengo.eteria.utils.ResourceProvider;
 import it.sharengo.eteria.utils.StringsUtils;
@@ -1043,7 +1044,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             roundMenuFeedsView.setVisibility(View.VISIBLE);
 
 
-            ad.add(R.drawable.ic_compass);
+            ad.add(R.drawable.ic_assistenza_nero);
             ad.add(R.drawable.ic_center);
             ad.add(R.drawable.ic_referesh);
             ad.add(R.drawable.ic_cars);
@@ -1051,15 +1052,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             ad.add(R.drawable.ic_cars);
             ad.add(R.drawable.ic_referesh);
             ad.add(R.drawable.ic_center);
-            ad.add(R.drawable.ic_compass);
+            ad.add(R.drawable.ic_assistenza_nero);
             ad.add(R.drawable.ic_cars);
             ad.add(R.drawable.ic_referesh);
             ad.add(R.drawable.ic_center);
-            ad.add(R.drawable.ic_compass);
+            ad.add(R.drawable.ic_assistenza_nero);
             ad.add(R.drawable.ic_cars);
             ad.add(R.drawable.ic_referesh);
             ad.add(R.drawable.ic_center);
-            ad.add(R.drawable.ic_compass);
+            ad.add(R.drawable.ic_assistenza_nero);
 
 
             circularLayout.setAdapter(ad);
@@ -1089,7 +1090,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void onCircleMenuClick(int i){
         switch (i){
             case 0: //Compass
+                //TODO Inserire funzione assistance
                 onOrientationMap();
+                //Navigator.launchAssistance(MapGoogleFragment.this);
                 break;
             case 1: //Center
                 onCenterMap();
@@ -1348,7 +1351,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Metodo per resettare l'orientamento della mappa se l'utente l'ha ruotata
     private void orientationMap(){
 
-        if(!isAdded()) return;
+        Navigator.launchAssistance(MapGoogleFragment.this);
+        /*if(!isAdded()) return;
 
         if(mMap != null) {
 
@@ -1357,7 +1361,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             mMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos));
 
             orientationMapButton.setRotation(0.0f);
-        }
+        }*/
 
         //setRotationButton(0.0f);
     }
