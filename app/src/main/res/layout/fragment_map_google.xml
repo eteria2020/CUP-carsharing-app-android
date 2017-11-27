@@ -37,7 +37,7 @@
 
 
         <!-- Compass Button - testRot1 -->
-        <RelativeLayout
+        <!--<RelativeLayout
             android:id="@+id/orientationMapButtonView"
             android:layout_width="32.0dp"
             android:layout_height="32.0dp"
@@ -48,7 +48,19 @@
                 android:id="@+id/orientationMapButton"
                 android:layout_width="32.0dp"
                 android:layout_height="32.0dp"
-                android:src="@drawable/ic_assistenza_nero"/>
+                android:src="@drawable/ic_assistenza_nero"/>-->
+            <RelativeLayout
+                android:id="@+id/assistanceButtonView"
+                android:layout_width="32.0dp"
+                android:layout_height="32.0dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="5dp">
+            <ImageView
+            android:id="@+id/assistanceButton"
+            android:layout_width="32.0dp"
+            android:layout_height="32.0dp"
+            android:src="@drawable/ic_assistenza_nero_tondo"/>
         </RelativeLayout>
 
         <!-- Center Button - testRot2 -->

@@ -36,6 +36,7 @@ import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -117,7 +118,9 @@ import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import it.sharengo.eteria.data.models.SearchItem;
 import it.sharengo.eteria.data.models.Trip;
 import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.assistance.AssistanceActivity;
 import it.sharengo.eteria.ui.base.activities.BaseActivity;
+import it.sharengo.eteria.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.eteria.ui.base.map.BaseMapFragment;
 import it.sharengo.eteria.ui.components.CustomButton;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
@@ -266,11 +269,17 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @BindView(R.id.centerMapButton)
     ImageView centerMapButton;
 
-    @BindView(R.id.orientationMapButton)
+    /*@BindView(R.id.orientationMapButton)
     ImageView orientationMapButton;
 
     @BindView(R.id.orientationMapButtonView)
-    ViewGroup orientationMapButtonView;
+    ViewGroup orientationMapButtonView;*/
+
+    @BindView(R.id.assistanceButton)
+    ImageView assistanceButton;
+
+    @BindView(R.id.assistanceButtonView)
+    ViewGroup assistanceButtonView;
 
     @BindView(R.id.centerMapButtonView)
     ViewGroup centerMapButtonView;
@@ -587,8 +596,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                 if(getActivity() != null) {
 
-                    CameraPosition oldPos = mMap.getCameraPosition();
-                    setRotationButton(oldPos.bearing);
+                    /*CameraPosition oldPos = mMap.getCameraPosition();
+                    setRotationButton(oldPos.bearing);*/
 
                     refreshCars();
                 }
@@ -1089,10 +1098,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
     private void onCircleMenuClick(int i){
         switch (i){
-            case 0: //Compass
+            case 0: //Help
                 //TODO Inserire funzione assistance
-                onOrientationMap();
-                //Navigator.launchAssistance(MapGoogleFragment.this);
+                //onOrentationMap();
+                launchAssistanceMap();
                 break;
             case 1: //Center
                 onCenterMap();
@@ -1128,14 +1137,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
     }
 
-    private void setRotationButton(float rotation){
+    /*private void setRotationButton(float rotation){
 
         if(mPresenter.isFeeds){
             ad.rotation = -rotation;
             circularLayout.init();
         }
         orientationMapButton.setRotation(-rotation);
-    }
+    }*/
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1347,12 +1356,19 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //return 700000;
         return getMapRadius();
     }
+    //Metodo per aprire pagina assistenza
+    public static void launchAssistance(Fragment fragment) {
+        Intent intent = AssistanceActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
 
     //Metodo per resettare l'orientamento della mappa se l'utente l'ha ruotata
-    private void orientationMap(){
+    /*private void orientationMap(){
 
-        Navigator.launchAssistance(MapGoogleFragment.this);
-        /*if(!isAdded()) return;
+        //Navigator.launchAssistance(MapGoogleFragment.this);
+        if(!isAdded()) return;
 
         if(mMap != null) {
 
@@ -1361,10 +1377,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             mMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos));
 
             orientationMapButton.setRotation(0.0f);
-        }*/
+        }
 
         //setRotationButton(0.0f);
-    }
+    }*/
 
     //Recupero il centro della mappa
     private LatLng getMapCenter(){
@@ -3096,9 +3112,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         centerMap();
     }
 
-    @OnClick(R.id.orientationMapButtonView)
+    /*@OnClick(R.id.orientationMapButtonView)
     public void onOrientationMap() {
         if(mMap != null) orientationMap();
+    }*/
+
+    @OnClick(R.id.assistanceButtonView)
+    public void launchAssistanceMap() {
+        if(mMap != null) launchAssistance (MapGoogleFragment.this);
     }
 
     @OnClick(R.id.carFeedMapButtonView)
