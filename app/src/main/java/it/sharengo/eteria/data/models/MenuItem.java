@@ -16,6 +16,7 @@ public class MenuItem {
         BUY,
         SHARE,
         SETTINGS,
+        PIN,
         LOGOUT;
         
         public static Section toSection (String sectionString) {

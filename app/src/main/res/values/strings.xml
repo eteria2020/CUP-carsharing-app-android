@@ -40,6 +40,7 @@
     <string name="menu_buy">Acquista minuti</string>
     <string name="menu_share">Invita un amico</string>
     <string name="menu_setting">Impostazioni</string>
+    <string name="menu_pin">Il tuo PIN</string>
     <string name="menu_logout">Logout</string>
 
     <!--COMMON ERRORS-->
@@ -270,6 +271,7 @@
     <string name="rates_day_label">Tariffa giornaliera: <![CDATA[<b>€ %s</b>]]></string>
     <string name="rates_booking_label">Tariffa di prenotazione: <![CDATA[<b>€ %s</b>]]></string>
     <string name="rates_bonus_label">I tuoi minuti bonus:</string>
+    <string name="pin_pin_label">IL TUO PIN:</string>
     <string name="rates_bonusmin_label">%s minuti</string>
     <string name="rates_signup_action">Iscriviti subito</string>
     <string name="maps_enablegps_label">Abilitare il GPS per maggiori informazioni</string>
