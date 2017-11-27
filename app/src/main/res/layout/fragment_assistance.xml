@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/whitesmoke"
@@ -16,6 +17,13 @@
             android:text="@string/assistance_title_label" />
     </RelativeLayout>
 
+    <WebView
+        android:id="@+id/mailWebView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:visibility="invisible" />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -28,6 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1"/>
+
+
 
     <it.sharengo.eteria.ui.components.CustomTextView
         android:layout_width="match_parent"
@@ -72,6 +82,18 @@
             android:textSize="20sp"
             android:gravity="center"
             android:text="@string/assistance_call_action"/>
+
+        <it.sharengo.eteria.ui.components.CustomButton
+            android:id="@+id/mailAssistanceButton"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="15dp"
+            style="@style/button_primary"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:text="@string/assistance_mail_action"/>
+
+
 
     </LinearLayout>
 
