@@ -39,6 +39,8 @@ public class ResourceProvider {
                 return context.getString(R.string.menu_share);
             case SETTINGS:
                 return context.getString(R.string.menu_setting);
+            case PIN:
+                return context.getString(R.string.menu_pin);
             case LOGOUT:
                 return context.getString(R.string.menu_logout);
         }
@@ -74,6 +76,8 @@ public class ResourceProvider {
                 return getDrawable(context, R.drawable.ic_invita_amico);
             case SETTINGS:
                 return getDrawable(context, R.drawable.ic_impostazioni);
+            case PIN:
+                return getDrawable(context, R.drawable.ic_lock);
             case LOGOUT:
                 return getDrawable(context, R.drawable.ic_logout);
         }

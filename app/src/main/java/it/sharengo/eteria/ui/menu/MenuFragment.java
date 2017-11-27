@@ -224,6 +224,10 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                         Navigator.launchRates(MenuFragment.this);
                         closeActivity();
                         break;
+                    case PIN:
+                        Navigator.launchPin(MenuFragment.this);
+                        closeActivity();
+                        break;
                 }
 
 

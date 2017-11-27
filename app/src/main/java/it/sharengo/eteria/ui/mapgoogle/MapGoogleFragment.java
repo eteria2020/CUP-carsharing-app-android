@@ -391,12 +391,16 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @BindView(R.id.closestcarTextView)
     TextView closestcarTextView;
 
+    @BindView(R.id.cancelButtonSearch)
+    ImageView cancelButtonSearch;
+
 
     public static MapGoogleFragment newInstance(int type) {
         MapGoogleFragment fragment = new MapGoogleFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_TYPE, type);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -3048,12 +3052,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         checkBookingCar();
     }
 
-    //Metodo richiamato quando l'utente scrive nella casella di testo
+     //Metodo richiamato quando l'utente scrive nella casella di testo
     @OnTextChanged(value = R.id.searchEditText,
             callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     public void searchEditText() {
 
-
+        if(searchEditText.length() > 0)
+            cancelButtonSearch.setVisibility(View.VISIBLE);
+        else
+            cancelButtonSearch.setVisibility(View.GONE);
         timerEditText.cancel();
         timerEditText = new Timer();
         timerEditText.schedule(
@@ -3068,6 +3075,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 },
                 DELAY
         );
+    }
+
+    @OnClick(R.id.cancelButtonSearch)
+    public void onCancelButtonSearch(){
+        searchEditText.setText("");
     }
 
     @OnClick(R.id.microphoneImageView)
