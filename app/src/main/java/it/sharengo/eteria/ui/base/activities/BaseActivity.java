@@ -8,6 +8,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -133,19 +134,23 @@ public abstract class BaseActivity extends HdxBaseActivity {
 
     @Override
     public void onBackPressed() {
-        if(this.getClass().equals(HomeActivity.class)) {
-            super.onBackPressed();
-        }else{
-            if(App.getmStackActivity().size()>1){
+        try {
+            if (this.getClass().equals(HomeActivity.class)) {
                 super.onBackPressed();
-            }else {
+            } else {
+                if (App.getmStackActivity().size() > 1) {
+                    super.onBackPressed();
+                } else {
 
-                if (!this.getClass().equals(MapGoogleActivity.class) && App.getmStackActivity().contains(MapGoogleActivity.class))
-                    Navigator.launchMapGoogle(BaseActivity.this, Navigator.REQUEST_MAP_DEFAULT);
-                else
-                    Navigator.launchHome(BaseActivity.this);
-                super.onBackPressed();
+                    if (!this.getClass().equals(MapGoogleActivity.class) && App.getmStackActivity().contains(MapGoogleActivity.class))
+                        Navigator.launchMapGoogle(BaseActivity.this, Navigator.REQUEST_MAP_DEFAULT);
+                    else
+                        Navigator.launchHome(BaseActivity.this);
+                    super.onBackPressed();
+                }
             }
+        }catch (Exception e) {
+            Log.e("BOMB","Exception while onBackPressed",e);
         }
     }
 }
