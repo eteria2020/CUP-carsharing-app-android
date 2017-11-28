@@ -6,6 +6,8 @@ import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 
+import java.util.ArrayList;
+
 import io.fabric.sdk.android.Fabric;
 import it.sharengo.eteria.data.datasources.api.ApiModule;
 import it.sharengo.eteria.injection.components.ApplicationComponent;
@@ -18,10 +20,12 @@ public class App extends MultiDexApplication {
 
     protected ApplicationComponent mComponent;
 
+    private static ArrayList<Class> mStackActivity;
     @Override
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+        mStackActivity = new ArrayList<Class>();
 
         if (instance == null) {
             instance = this;
@@ -78,4 +82,26 @@ public class App extends MultiDexApplication {
         }
     }
 
+    public static void addActivityToStack(Class classe){
+        if(!mStackActivity.contains(classe)) {
+            mStackActivity.add(0,classe);
+        }
+    }
+
+    public static void removeActivityToStack(Class classe){
+        if(mStackActivity.contains(classe)) {
+            mStackActivity.remove(classe);
+        }
+    }
+
+    public static ArrayList<Class> getmStackActivity() {
+        return mStackActivity;
+    }
+
+    public static Class getCurrentActivity(){
+        if(mStackActivity!=null && mStackActivity.size()>0){
+            return mStackActivity.get(0);
+        }
+        return null;
+    }
 }

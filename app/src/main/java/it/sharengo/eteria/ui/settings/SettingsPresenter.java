@@ -35,6 +35,10 @@ public class SettingsPresenter extends BasePresenter<SettingsMvpView> {
 
     }
 
+    @Override
+    protected boolean showCustomLoading() {
+        return true;
+    }
 }
 
 

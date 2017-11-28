@@ -120,7 +120,7 @@ public class SettingsCitiesFragment extends BaseMvpFragment<SettingsCitiesPresen
      */
     @OnClick(R.id.backImageView)
     public void onBackClick(){
-        Navigator.launchSettings(this);
+        //Navigator.launchSettings(this);
         getActivity().finish();
     }
 

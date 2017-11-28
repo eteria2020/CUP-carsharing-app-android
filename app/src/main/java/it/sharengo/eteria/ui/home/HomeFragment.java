@@ -24,11 +24,13 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.models.City;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
+import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
 import it.sharengo.eteria.utils.ImageUtils;
 import it.sharengo.eteria.utils.ResourceProvider;
 
@@ -422,8 +424,8 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
                 if(getActivity() != null) {
                     getActivity().finish();
-
-                    Navigator.launchMapGoogle(HomeFragment.this, Navigator.REQUEST_MAP_DEFAULT);
+                    if(!App.getmStackActivity().contains(MapGoogleActivity.class))
+                        Navigator.launchMapGoogle(HomeFragment.this, Navigator.REQUEST_MAP_DEFAULT);
                 }
             }
 

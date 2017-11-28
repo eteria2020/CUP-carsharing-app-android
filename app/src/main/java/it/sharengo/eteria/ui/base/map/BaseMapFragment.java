@@ -99,6 +99,7 @@ public abstract class BaseMapFragment<T extends BaseMapPresenter> extends BaseMv
         mMap.getUiSettings().setCompassEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.setOnMarkerClickListener(this);
+        mMap.getUiSettings().setRotateGesturesEnabled(false);
 
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(getActivity(), "android.permission.ACCESS_FINE_LOCATION");
         if (hasFineLocationPermission == 0) {

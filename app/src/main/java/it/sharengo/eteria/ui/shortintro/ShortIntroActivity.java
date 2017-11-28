@@ -32,4 +32,8 @@ public class ShortIntroActivity extends BaseActivity {
         overridePendingTransition(0, R.anim.slide_out_up);
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

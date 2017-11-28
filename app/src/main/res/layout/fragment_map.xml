@@ -47,7 +47,7 @@
                 android:id="@+id/orientationMapButton"
                 android:layout_width="32.0dp"
                 android:layout_height="32.0dp"
-                android:src="@drawable/ic_compass"/>
+                android:src="@drawable/ic_assistenza_nero"/>
         </RelativeLayout>
 
         <!-- Center Button - testRot2 -->

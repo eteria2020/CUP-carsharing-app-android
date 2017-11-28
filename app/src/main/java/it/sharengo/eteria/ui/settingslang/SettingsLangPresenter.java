@@ -69,6 +69,11 @@ public class SettingsLangPresenter extends BasePresenter<SettingsLangMvpView> {
             getMvpView().reloadApp();
         }catch (NullPointerException e){}
     }
+
+    @Override
+    protected boolean showCustomLoading() {
+        return true;
+    }
 }
 
 

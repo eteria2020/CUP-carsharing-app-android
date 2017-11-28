@@ -36,6 +36,7 @@ import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -111,15 +112,20 @@ import it.sharengo.eteria.data.models.Car;
 import it.sharengo.eteria.data.models.City;
 import it.sharengo.eteria.data.models.Feed;
 import it.sharengo.eteria.data.models.KmlServerPolygon;
+import it.sharengo.eteria.data.models.MenuItem;
 import it.sharengo.eteria.data.models.Reservation;
 import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import it.sharengo.eteria.data.models.SearchItem;
 import it.sharengo.eteria.data.models.Trip;
 import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.assistance.AssistanceActivity;
 import it.sharengo.eteria.ui.base.activities.BaseActivity;
+import it.sharengo.eteria.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.eteria.ui.base.map.BaseMapFragment;
+import it.sharengo.eteria.ui.components.CustomButton;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 import it.sharengo.eteria.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
+import it.sharengo.eteria.ui.menu.MenuFragment;
 import it.sharengo.eteria.utils.ImageUtils;
 import it.sharengo.eteria.utils.ResourceProvider;
 import it.sharengo.eteria.utils.StringsUtils;
@@ -263,11 +269,17 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @BindView(R.id.centerMapButton)
     ImageView centerMapButton;
 
-    @BindView(R.id.orientationMapButton)
+    /*@BindView(R.id.orientationMapButton)
     ImageView orientationMapButton;
 
     @BindView(R.id.orientationMapButtonView)
-    ViewGroup orientationMapButtonView;
+    ViewGroup orientationMapButtonView;*/
+
+    @BindView(R.id.assistanceButton)
+    ImageView assistanceButton;
+
+    @BindView(R.id.assistanceButtonView)
+    ViewGroup assistanceButtonView;
 
     @BindView(R.id.centerMapButtonView)
     ViewGroup centerMapButtonView;
@@ -383,8 +395,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @BindView(R.id.openDoorBookingButton)
     Button openDoorBookingButton;
 
+    @BindView(R.id.openDoorButton)
+    CustomButton openDoorButton;
+
     @BindView(R.id.closestcarTextView)
     TextView closestcarTextView;
+
+    @BindView(R.id.cancelButtonSearch)
+    ImageView cancelButtonSearch;
 
 
     public static MapGoogleFragment newInstance(int type) {
@@ -392,6 +410,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         Bundle args = new Bundle();
         args.putInt(ARG_TYPE, type);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -490,7 +509,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
+        mPresenter.mAppRepository.selectMenuItem(MenuItem.Section.BOOKING);
         if(!isConnected) {
             onProviderDisabled("");
         }
@@ -581,8 +600,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                 if(getActivity() != null) {
 
-                    CameraPosition oldPos = mMap.getCameraPosition();
-                    setRotationButton(oldPos.bearing);
+                    /*CameraPosition oldPos = mMap.getCameraPosition();
+                    setRotationButton(oldPos.bearing);*/
 
                     refreshCars();
                 }
@@ -1038,7 +1057,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             roundMenuFeedsView.setVisibility(View.VISIBLE);
 
 
-            ad.add(R.drawable.ic_compass);
+            ad.add(R.drawable.ic_assistenza_nero);
             ad.add(R.drawable.ic_center);
             ad.add(R.drawable.ic_referesh);
             ad.add(R.drawable.ic_cars);
@@ -1046,15 +1065,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             ad.add(R.drawable.ic_cars);
             ad.add(R.drawable.ic_referesh);
             ad.add(R.drawable.ic_center);
-            ad.add(R.drawable.ic_compass);
+            ad.add(R.drawable.ic_assistenza_nero);
             ad.add(R.drawable.ic_cars);
             ad.add(R.drawable.ic_referesh);
             ad.add(R.drawable.ic_center);
-            ad.add(R.drawable.ic_compass);
+            ad.add(R.drawable.ic_assistenza_nero);
             ad.add(R.drawable.ic_cars);
             ad.add(R.drawable.ic_referesh);
             ad.add(R.drawable.ic_center);
-            ad.add(R.drawable.ic_compass);
+            ad.add(R.drawable.ic_assistenza_nero);
 
 
             circularLayout.setAdapter(ad);
@@ -1083,8 +1102,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
     private void onCircleMenuClick(int i){
         switch (i){
-            case 0: //Compass
-                onOrientationMap();
+            case 0: //Help
+                //TODO Inserire funzione assistance
+                //onOrentationMap();
+                launchAssistanceMap();
                 break;
             case 1: //Center
                 onCenterMap();
@@ -1120,14 +1141,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
     }
 
-    private void setRotationButton(float rotation){
+    /*private void setRotationButton(float rotation){
 
         if(mPresenter.isFeeds){
             ad.rotation = -rotation;
             circularLayout.init();
         }
         orientationMapButton.setRotation(-rotation);
-    }
+    }*/
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1339,10 +1360,18 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //return 700000;
         return getMapRadius();
     }
+    //Metodo per aprire pagina assistenza
+    public static void launchAssistance(Fragment fragment) {
+        Intent intent = AssistanceActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
 
     //Metodo per resettare l'orientamento della mappa se l'utente l'ha ruotata
-    private void orientationMap(){
+    /*private void orientationMap(){
 
+        //Navigator.launchAssistance(MapGoogleFragment.this);
         if(!isAdded()) return;
 
         if(mMap != null) {
@@ -1355,7 +1384,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //setRotationButton(0.0f);
-    }
+    }*/
 
     //Recupero il centro della mappa
     private LatLng getMapCenter(){
@@ -2261,7 +2290,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             if(carToOpen != null){
                 if(userLocation != null){
                     //Calcolo la distanza
-                    if(getDistance(carToOpen) <= 300){ //TODO: valore a 300
+                    if(getDistance(carToOpen) <= 500 || true){ //TODO: reintegrare il controllo
 
                         //Procediamo con le schermate successive
                         onClosePopup();
@@ -3043,12 +3072,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         checkBookingCar();
     }
 
-    //Metodo richiamato quando l'utente scrive nella casella di testo
+     //Metodo richiamato quando l'utente scrive nella casella di testo
     @OnTextChanged(value = R.id.searchEditText,
             callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     public void searchEditText() {
 
-
+        if(searchEditText.length() > 0)
+            cancelButtonSearch.setVisibility(View.VISIBLE);
+        else
+            cancelButtonSearch.setVisibility(View.GONE);
         timerEditText.cancel();
         timerEditText = new Timer();
         timerEditText.schedule(
@@ -3063,6 +3095,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 },
                 DELAY
         );
+    }
+
+    @OnClick(R.id.cancelButtonSearch)
+    public void onCancelButtonSearch(){
+        searchEditText.setText("");
     }
 
     @OnClick(R.id.microphoneImageView)
@@ -3087,9 +3124,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         centerMap();
     }
 
-    @OnClick(R.id.orientationMapButtonView)
+    /*@OnClick(R.id.orientationMapButtonView)
     public void onOrientationMap() {
         if(mMap != null) orientationMap();
+    }*/
+
+    @OnClick(R.id.assistanceButtonView)
+    public void launchAssistanceMap() {
+        if(mMap != null) launchAssistance (MapGoogleFragment.this);
     }
 
     @OnClick(R.id.carFeedMapButtonView)
@@ -3199,7 +3241,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     public void openReservationNotification() {
         removeWalkingNavigation();
         hideLoading();
-        ((MapGoogleActivity) getActivity()).showNotification(getString(R.string.booking_timeend_label), null);
+        if(System.currentTimeMillis() > (reservation.timestamp_start + reservation.length) * 1000L )
+            ((MapGoogleActivity) getActivity()).showNotification(getString(R.string.booking_timeend_label), null);
     }
 
     @Override
@@ -3244,6 +3287,70 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     @Override
+    public void carBusyError() {
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.booking_car_busy_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+            }
+        });
+
+    }
+
+    @Override
+    public void tooManyReservationError() {
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.booking_other_tripcar_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+            }
+        });
+
+    }
+
+    @Override
+    public void reserveOnTripError() {
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.booking_other_tripcar_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+            }
+        });
+
+    }
+
+    @Override
+    public void unauthorizedError() {
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.error_generalerror_alert),
+                getString(R.string.ok),
+                null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+            }
+        });
+
+    }
+
+    @Override
     public void generalError(){
         final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                 getString(R.string.error_generalerror_alert),
@@ -3256,6 +3363,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 cdd.dismissAlert();
             }
         });
+    }
+
+    @Override
+    public void openCarNotification() {
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                getString(R.string.tripstart_notification_label),
+                2500);
+        cdd.show();
     }
 
     @Override

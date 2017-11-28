@@ -19,6 +19,7 @@ import it.sharengo.eteria.ui.longintro.LongIntroActivity;
 import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
 import it.sharengo.eteria.ui.onboarding.OnboardingActivity;
 import it.sharengo.eteria.ui.passwordrecovery.PasswordRecoveryActivity;
+import it.sharengo.eteria.ui.pin.PinActivity;
 import it.sharengo.eteria.ui.profile.ProfileActivity;
 import it.sharengo.eteria.ui.rates.RatesActivity;
 import it.sharengo.eteria.ui.settingcities.SettingsCitiesActivity;
@@ -64,14 +65,14 @@ public class Navigator {
 
     public static void launchHome(Activity activity) {
         Intent intent = HomeActivity.getCallingIntent(activity);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         activity.startActivity(intent);
     }
 
     public static void launchHome(Fragment fragment) {
         Intent intent = HomeActivity.getCallingIntent(fragment.getActivity());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
@@ -82,6 +83,13 @@ public class Navigator {
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         intent.putExtra(EXTRA_LOGIN, type);
         fragment.startActivity(intent);
+    }
+
+    public static void launchMapGoogle(Activity activity, int type) {
+        Intent intent = MapGoogleActivity.getCallingIntent(activity, type);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        activity.startActivity(intent);
     }
 
     public static void launchMapGoogle(Fragment fragment, int type) {
@@ -254,6 +262,12 @@ public class Navigator {
 
     public static void launchRates(Fragment fragment) {
         Intent intent = RatesActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+    public static void launchPin(Fragment fragment) {
+        Intent intent = PinActivity.getCallingIntent(fragment.getActivity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);

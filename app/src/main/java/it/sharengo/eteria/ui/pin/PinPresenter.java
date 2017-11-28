@@ -1,4 +1,4 @@
-package it.sharengo.eteria.ui.rates;
+package it.sharengo.eteria.ui.pin;
 
 
 import it.sharengo.eteria.data.models.MenuItem;
@@ -11,9 +11,9 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
 
-public class RatesPresenter extends BasePresenter<RatesMvpView> {
+public class PinPresenter extends BasePresenter<PinMvpView> {
 
-    private static final String TAG = RatesPresenter.class.getSimpleName();
+    private static final String TAG = PinPresenter.class.getSimpleName();
 
     private final AppRepository mAppRepository;
     private final UserRepository mUserRepository;
@@ -22,12 +22,12 @@ public class RatesPresenter extends BasePresenter<RatesMvpView> {
 
     private ResponseUser responseUser;
 
-    public RatesPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+    public PinPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         super(schedulerProvider, userRepository);
         mAppRepository = appRepository;
         mUserRepository = userRepository;
 
-        mAppRepository.selectMenuItem(MenuItem.Section.RATES);
+        mAppRepository.selectMenuItem(MenuItem.Section.PIN);
     }
 
 
@@ -42,11 +42,10 @@ public class RatesPresenter extends BasePresenter<RatesMvpView> {
 
     }
 
-    public void getRatesInfo(){
-        if( mUserRequest == null) {
-            mUserRequest = buildUserRequest();
-            addSubscription(mUserRequest.unsafeSubscribe(getUserSubscriber()));
-        }
+    public int getPinInfo(){
+
+     return  mUserRepository.getCachedUser().userInfo.pin;
+
     }
 
     private Observable<ResponseUser> buildUserRequest() {
@@ -58,7 +57,7 @@ public class RatesPresenter extends BasePresenter<RatesMvpView> {
                     public void call() {
 
                         if(responseUser.reason != null && responseUser.reason.isEmpty() && responseUser.user != null){
-                            getMvpView().showRatesInfo(responseUser.user);
+                            getMvpView().showPinInfo(responseUser.user);
                         }
                     }
                 });

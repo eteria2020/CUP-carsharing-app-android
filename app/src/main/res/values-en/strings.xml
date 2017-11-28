@@ -53,7 +53,7 @@
     <string name="search_favoriteempty_label">No favorite\nmemorize in the settings section</string>
 
     <!-- Prenotazione -->
-    <string name="booking_userpin_label">Your pin number: %s</string>
+    <string name="booking_userpin_label">Your pin number: </string>
     <string name="booking_active_label">Booking active</string>
     <string name="booking_plate_label">Plate %s</string>
     <string name="booking_expirationtime">Expires in <![CDATA[<br><b>%s</b>]]> min</string>
@@ -194,10 +194,14 @@
     <string name="assistance_help_label">We are here to help!</string>
     <string name="assistance_talkoperator_label">Talk to an operator?</string>
     <string name="assistance_call_action">Call now</string>
+    <string name="assistance_mail_action">Write an e-mail </string>
     <string name="assistance_phonenumber_label">+3905861975772</string>
     <string name="assistance_alertcall_action">Call </string>
     <string name="assistance_cancelcall_action">Cancel</string>
     <string name="assistance_devicenotenabled_alert">Your device is not enabled to calling</string>
+    <string name="assistance_mail_label">servizioclienti@sharengo.eu</string>
+    <string name="assistance_write_action">Write</string>
+    <string name="assistance_cancelmail_action">Cancel</string>
 
     <!-- Share -->
     <string name="share_title_label">Invite a friend</string>
@@ -238,5 +242,6 @@
     <string name="rates_bonusmin_label">%s minutes</string>
     <string name="rates_signup_action">SUBSCRIBE NOW</string>
     <string name="maps_enablegps_label">Enable the GPS for more information</string>
+    <string name="general_logout_alert">Are you sure you want to log out?</string>
 
 </resources>

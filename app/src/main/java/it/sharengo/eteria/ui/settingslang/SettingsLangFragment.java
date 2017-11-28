@@ -86,7 +86,7 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
      */
     @OnClick(R.id.backImageView)
     public void onBackClick(){
-        Navigator.launchSettings(this);
+        //Navigator.launchSettings(this);
         getActivity().finish();
     }
 

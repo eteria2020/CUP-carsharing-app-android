@@ -35,9 +35,14 @@ public interface MapGoogleMvpView extends MvpMapView {
     void setNextCar(List<Car> carsList);
     void showPolygon(List<KmlServerPolygon> polygonList);
     void carAlreadyBooked();
+    void carBusyError();
+    void tooManyReservationError();
+    void reserveOnTripError();
+    void unauthorizedError();
     void onLoadCarInfo(Car car);
     void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes);
     void showLoading();
     void hideLoading();
     void generalError();
+    void openCarNotification();
 }
