@@ -27,6 +27,9 @@
     <string name="menu_share">Invite a friend</string>
     <string name="menu_setting">Settings</string>
     <string name="menu_logout">Logout </string>
+    <string name="popup_home">You have not logged in</string>
+    <string name="popup_login">Login</string>
+    <string name="popup_registrazione">Sign in</string>
 
     <!-- MAPPA -->
     <string name="maps_search_placeholder">Search by address or plate</string>
