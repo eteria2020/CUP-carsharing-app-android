@@ -105,7 +105,9 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
             @Override
             public void run() {
                 //Log.w("BOOOOOO","A");
-                ((BaseActivity) getActivity()).hideLoadingChronology();
+                try{
+                    if(getActivity() != null) ((BaseActivity) getActivity()).hideLoadingChronology();
+                }catch (NullPointerException e){}
             }
         }, 3500);
 

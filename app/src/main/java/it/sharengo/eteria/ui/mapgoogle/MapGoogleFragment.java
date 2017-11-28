@@ -655,11 +655,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }, 1000, 5000);
     }
 
-    /**
-     * Change user position if needed.
-     *
-     * @param  location new location of user.
-     */
+
     @Override
     public void onNewLocation(Location location) {
         super.onNewLocation(location);
@@ -668,9 +664,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     }
 
-    /**
-     * Send "message" location unvailable.
-     */
     @Override
     public void onLocationUnavailable() {
         super.onLocationUnavailable();
@@ -685,11 +678,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * When location changed set new camera and center on map.
-     *
-     * @param  location  new location of user
-     */
     @Override
     public void onLocationChanged(Location location) {
         //mPresenter.onLocationIsReady(location.getLatitude(), location.getLongitude());

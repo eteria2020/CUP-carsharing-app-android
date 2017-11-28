@@ -237,7 +237,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
     /**
-     * Create view when map is ready.
+     * Create view when map is ready
+     *
      */
     public void onMapIsReady() {
         mMapIsReady = true;
@@ -799,6 +800,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //                                              Load Plates
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Load cars from server available in map. First, check if the car cache exists
+     */
     public void loadPlatesCached() {
         hideLoading = true;
 
