@@ -16,7 +16,7 @@
             android:text="@string/faq_title_label" />
     </RelativeLayout>
 
-    <WebView
+    <it.sharengo.eteria.ui.base.webview.MyWebView
         android:id="@+id/faqWebView"
         android:layout_width="match_parent"
         android:layout_height="0dp"

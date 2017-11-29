@@ -305,7 +305,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
                         editor.putInt(prefKey, 1);
                         editor.commit();
 
-                        Navigator.launchTutorial(HomeFragment.this);
+                        //Navigator.launchTutorial(HomeFragment.this);
 
                     }
                 }

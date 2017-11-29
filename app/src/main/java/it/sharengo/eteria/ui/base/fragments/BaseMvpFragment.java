@@ -184,7 +184,7 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
                     mPresenter.logout(getActivity(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
                     cdd.dismissAlert();
 
-                    Navigator.launchHome(getActivity());
+                    Navigator.launchLogin(getActivity(),Navigator.REQUEST_LOGIN_MAPS);
                     getActivity().finish();
                 }
             });

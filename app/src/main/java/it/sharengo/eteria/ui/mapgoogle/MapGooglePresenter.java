@@ -118,6 +118,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private Response mResponse;
     private ResponseCar mResponseReservationCar;
+    private ResponseCar mResponseTripCar;
     private ResponseCar mResponseCarTrip;
     private ResponseTrip mResponseTrip;
     private ResponseCar mResponseInfo;
@@ -224,7 +225,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     @Override
     protected boolean showCustomLoading() {
-        if(hideLoading)
+        if(hideLoading)//TODO check if work prima era hideloading
             return true;
         else
             return super.showCustomLoading();
@@ -1901,15 +1902,15 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
             @Override
             public void onNext(ResponseCar responseList) {
-                mResponseReservationCar = responseList;
+                mResponseTripCar = responseList;
             }
         };
     }
 
     private void checkCarTripResult(){
 
-        if((mResponseReservationCar.reason.isEmpty() && mResponseReservationCar.data != null) && (mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0)){
-            getMvpView().showTripInfo(mResponseReservationCar.data, mResponseTrip.trips.get(0).timestamp_start);
+        if((mResponseTripCar.reason.isEmpty() && mResponseTripCar.data != null) && (mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0)){
+            getMvpView().showTripInfo(mResponseTripCar.data, mResponseTrip.trips.get(0).timestamp_start);
         }else{
             getMvpView().removeReservationInfo();
         }

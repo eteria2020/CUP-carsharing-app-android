@@ -104,7 +104,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                 UserInfo obj = (UserInfo) gson.fromJson(json, fooType);
                 if(obj != null && mUserRepository.getCachedUser() != null) mUserRepository.getCachedUser().userInfo = obj;
 
-                getMvpView().navigateToHome(mAppRepository.getLang());
+                askPermission();
 
             }else{ //Utente non loggato
 
@@ -115,7 +115,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                         .doOnCompleted(new Action0() {
                             @Override
                             public void call() {
-                                getMvpView().navigateToHome(mAppRepository.getLang());
+                                askPermission();
                             }
                         });
 
@@ -232,7 +232,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
             public void onError(Throwable e) {
                 mReservationsRequest = null;
 
-                getMvpView().navigateToHome(mAppRepository.getLang());
+                getMvpView().checkMapPermission();
             }
 
             @Override
@@ -339,5 +339,17 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
 
             }
         };
+    }
+
+    public void permissionChecked(){
+        getMvpView().navigateToHome(mAppRepository.getLang());
+    }
+
+    public void askPermission(){
+        try{
+            getMvpView().checkMapPermission();
+        }catch(Exception e){
+
+        }
     }
 }

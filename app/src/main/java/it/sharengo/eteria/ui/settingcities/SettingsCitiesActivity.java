@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.routing.Navigator;
@@ -25,6 +26,7 @@ public class SettingsCitiesActivity extends BaseDrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mToolBar.findViewById(R.id.menuButton).setVisibility(View.GONE);
         if (savedInstanceState == null && getIntent().getExtras() != null) {
             boolean feeds = getIntent().getExtras().getBoolean(Navigator.EXTRA_FEEDS);
             replaceFragment(SettingsCitiesFragment.newInstance(feeds));

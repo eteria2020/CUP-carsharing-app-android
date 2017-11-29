@@ -16,10 +16,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.drawer.DrawerArrowDrawable;
 import it.sharengo.eteria.ui.base.drawer.DrawerSlideListener;
+import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
 import it.sharengo.eteria.ui.menu.MenuFragment;
 
 public abstract class BaseDrawerActivity extends BaseToolbarActivity implements DrawerSlideListener {
@@ -72,8 +74,15 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
         mToolBar.findViewById(R.id.menuButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigator.launchHome(BaseDrawerActivity.this);
-                BaseDrawerActivity.this.finish();
+                try {
+                    BaseDrawerActivity.this.finish();
+                    if (!App.getmStackActivity().contains(MapGoogleActivity.class)) { //TODO controlla per layer multipli di activity
+                        Navigator.launchMapGoogle(BaseDrawerActivity.this, Navigator.REQUEST_MAP_DEFAULT);
+                    }
+                }catch(Exception e){
+                    //BaseDrawerActivity.this.finish();
+                    Navigator.launchMapGoogle(BaseDrawerActivity.this, Navigator.REQUEST_MAP_DEFAULT);
+                }
             }
         });
 
