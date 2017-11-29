@@ -6,4 +6,5 @@ public interface SplashMvpView extends MvpView {
 
         void navigateToHome(String lang);
         void navigateToLogin();
+        void checkMapPermission();
 }

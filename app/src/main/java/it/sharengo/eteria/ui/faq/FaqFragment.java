@@ -1,27 +1,28 @@
 package it.sharengo.eteria.ui.faq;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
+import it.sharengo.eteria.ui.base.webview.MyWebView;
 
 
 public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvpView {
 
     private static final String TAG = FaqFragment.class.getSimpleName();
 
-    @BindView(R.id.faqWebView)
-    WebView webview;
+    //@BindView(R.id.faqWebView)
+    MyWebView webview;
 
     public static FaqFragment newInstance() {
         FaqFragment fragment = new FaqFragment();
@@ -40,10 +41,16 @@ public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvp
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_faq, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        webview = (MyWebView) view.findViewById(R.id.faqWebView);
 
-        loadWebView();
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        loadWebView();
     }
 
     private void loadWebView(){
@@ -97,9 +104,11 @@ public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvp
             }
         });
 
+        webview.setIgnoreUrls("http://support.sharengo.it/home");
         webview.loadUrl("http://support.sharengo.it/home");
-
     }
+
+
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,6 +133,7 @@ public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvp
     //                                              Mvp Methods
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 }

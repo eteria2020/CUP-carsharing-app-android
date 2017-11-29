@@ -16,7 +16,7 @@
 
 
     <!--PERMISSION-->
-    <string name="msg_rational_location_permission">L\'app ha bisogno dei permessi per accedere alla tua posizione.</string>
+    <string name="msg_rational_location_permission">L\'app ha bisogno dei permessi per poter funzionare.</string>
     <string name="ok">OK</string>
     <string name="cancel">ANNULLA</string>
 

@@ -2,24 +2,38 @@ package it.sharengo.eteria.ui.home;
 
 import android.Manifest;
 import android.animation.Animator;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import it.sharengo.eteria.ui.userarea.UserAreaFragment;
+import it.sharengo.eteria.ui.login.LoginActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,10 +41,16 @@ import butterknife.OnClick;
 import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.models.City;
+import it.sharengo.eteria.data.models.MenuItem;
 import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.assistance.AssistanceActivity;
+import it.sharengo.eteria.ui.base.activities.BaseActivity;
+import it.sharengo.eteria.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
+import it.sharengo.eteria.ui.userarea.UserAreaActivity;
+import it.sharengo.eteria.ui.userarea.UserAreaFragment;
 import it.sharengo.eteria.utils.ImageUtils;
 import it.sharengo.eteria.utils.ResourceProvider;
 
@@ -89,6 +109,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
     private Handler mHandler = new Handler();
     private static final int FINGER_STOP_THRESHOLD = 500;
     private int touchX, touchY, deltaX, deltaY, oldX, oldY;
+    private boolean isLogin;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -169,6 +190,46 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+        //-----------------NUOVA--------------
+
+        String username = mPresenter.getUserInfo().username;
+        String password = mPresenter.getUserInfo().password;
+        String postData = null;
+        try {
+            postData = "identity=" + URLEncoder.encode(username, "UTF-8") + "&credential=" + URLEncoder.encode(password, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+       if(username==null || username=="" || password==null || password=="") {
+           final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                   getString(R.string.popup_home),
+                   getString(R.string.popup_login),
+                   getString(R.string.popup_registrazione));
+           cdd.show();
+           cdd.yes.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   cdd.dismissAlert();
+                   Navigator.launchLogin(HomeFragment.this, Navigator.REQUEST_LOGIN_START);
+                   /*Intent intent = UserAreaActivity.getCallingIntent(UserAreaFragment);
+                   HomeFragment.this.startActivity(intent);*/
+               }
+           });
+
+           cdd.no.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   cdd.dismissAlert();
+                   Navigator.launchSlideshow(HomeFragment.this);
+                   /*Intent intent = UserAreaActivity.getCallingIntent(UserAreaFragment);
+                   HomeFragment.this.startActivity(intent);*/
+               }
+           });
+       }
+        //------------FINE  NUOVA-------------
+
+
+
 
 
         return view;
@@ -240,6 +301,15 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
     }
 
+    private void loadUrl(WebView view, String mobileUrl){
+        if (StringUtils.equals(mobileUrl, "https://www.sharengo.it/contatti")) {
+            mobileUrl = mobileUrl + "/mobile";
+        }
+        view.loadUrl(mobileUrl);
+        ((BaseActivity) getActivity()).hideLoadingChronology();
+    }
+
+
     private void setCircleAnimatio(){
         if(homeView != null) {
 
@@ -305,7 +375,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
                         editor.putInt(prefKey, 1);
                         editor.commit();
 
-                        Navigator.launchTutorial(HomeFragment.this);
+                        //Navigator.launchTutorial(HomeFragment.this);
 
                     }
                 }

@@ -27,6 +27,7 @@ import it.sharengo.eteria.R;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
+import it.sharengo.eteria.ui.base.webview.MyWebView;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 import it.sharengo.eteria.ui.signup.SignupFragment;
 
@@ -37,8 +38,8 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
 
     private boolean isLogin;
 
-    @BindView(R.id.userareaWebView)
-    WebView webview;
+    //@BindView(R.id.userareaWebView)
+    MyWebView webview;
 
     public static UserAreaFragment newInstance() {
         UserAreaFragment fragment = new UserAreaFragment();
@@ -57,6 +58,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_area, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        webview = (MyWebView) view.findViewById(R.id.userareaWebView);
 
 
         return view;
@@ -156,8 +158,8 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
     private void loadUrl(WebView view, String mobileUrl){
         if (StringUtils.equals(mobileUrl, "https://www.sharengo.it/area-utente")) {
             mobileUrl = mobileUrl + "/mobile";
+            view.loadUrl(mobileUrl);
         }
-        view.loadUrl(mobileUrl);
         ((BaseActivity) getActivity()).hideLoadingChronology();
     }
 

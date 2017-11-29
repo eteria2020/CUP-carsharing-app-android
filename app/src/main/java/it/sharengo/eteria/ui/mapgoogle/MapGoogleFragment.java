@@ -462,6 +462,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         view = inflater.inflate(R.layout.fragment_map_google, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         mMapHelper = HdxFragmentMapHelper.newInstance(getActivity(), this);
         mMapHelper.setupMap(mMapContainer, this, savedInstanceState);
 
@@ -472,14 +479,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         setupCircleMenu();
 
         showCarsWithFeeds = false;
-
-
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
         //Imposto il listener sull'apertura della tastiera: se appare la tastiera devo aprire la ricerca
         view.getViewTreeObserver().addOnGlobalLayoutListener(layoutListener);
@@ -2756,7 +2755,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         if(!isTripStart) {
             if (isTripParked)
-                moveMapCameraToPoitWithZoom(carBooked.latitude + 0.0002, (double) carBooked.longitude, 19);
+                moveMapCameraToPoitWithZoom(car.latitude + 0.0002, (double) car.longitude, 19);
             else
                 if(userLocation != null) moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
         }

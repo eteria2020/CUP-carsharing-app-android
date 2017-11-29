@@ -110,7 +110,7 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
      */
     @OnClick(R.id.continueButton)
     public void onContinue(){
-        Navigator.launchHome(getActivity());
+        Navigator.launchMapGoogle(getActivity(),Navigator.REQUEST_MAP_DEFAULT);
         getActivity().finish();
     }
 
@@ -266,13 +266,13 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         switch (type){
             case Navigator.REQUEST_LOGIN_START:
                 if(getActivity() != null) {
-                    Navigator.launchHome(getActivity());
+                    Navigator.launchMapGoogle(getActivity(),Navigator.REQUEST_MAP_DEFAULT);
                     getActivity().finish();
                 }
                 break;
             case Navigator.REQUEST_LOGIN_PROFILE:
                 if(getActivity() != null) {
-                    Navigator.launchHome(LoginFragment.this);
+                    Navigator.launchUserArea(LoginFragment.this);
                     getActivity().finish();
                 }
                 break;
