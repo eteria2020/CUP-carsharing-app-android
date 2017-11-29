@@ -42,6 +42,9 @@
     <string name="menu_setting">Impostazioni</string>
     <string name="menu_pin">Il tuo PIN</string>
     <string name="menu_logout">Logout</string>
+    <string name="popup_home">Non hai ancora effettuato il login</string>
+    <string name="popup_login">Accedi</string>
+    <string name="popup_registrazione">Iscriviti</string>
 
     <!--COMMON ERRORS-->
     <string name="error_generic_msg">Ops, something went wrong.</string>
