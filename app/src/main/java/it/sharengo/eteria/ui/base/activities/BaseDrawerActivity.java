@@ -43,7 +43,7 @@ public abstract class BaseDrawerActivity extends BaseToolbarActivity implements 
         setContentView(R.layout.activity_drawer);
         
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        //mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mDrawerLayout.setScrimColor(Color.parseColor("#956fac54"));
 
 //        addLeftFrame();
