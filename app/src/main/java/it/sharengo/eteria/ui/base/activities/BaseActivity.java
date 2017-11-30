@@ -42,7 +42,6 @@ public abstract class BaseActivity extends HdxBaseActivity {
 
     public void hideLoading() {
         //super.hideLoading();
-
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -62,7 +61,6 @@ public abstract class BaseActivity extends HdxBaseActivity {
     }
 
     public void hideLoadingChronology() {
-
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

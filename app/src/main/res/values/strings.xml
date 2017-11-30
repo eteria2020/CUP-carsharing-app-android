@@ -127,7 +127,7 @@
     <string name="login_wrongemail_alert">Attenzione! L\'indirizzo email che hai inserito non è presente nel nostro database.</string>
     <string name="login_wrongpassword_alert">Attenzione! Password errata.</string>
     <string name="login_userdisabled_alert">Attenzione! L\'utente non è abilitato per l\'accesso.</string>
-    <string name="login_enabled_alert">Attenzione! Non puoi utilizzare il servizio Share\'ngo. Verifica i tuoi dati o contatta l\'assistenza clienti. Grazie</string>
+    <string name="login_enabled_alert">Non puoi effettuare il login perché c\'è un problema con il tuo profilo. Verificalo sul sito o contatta il Servizio Clienti</string>
 
     <!-- Registrazione -->
     <string name="signup_title_label">Iscriviti a Share\'ngo</string>

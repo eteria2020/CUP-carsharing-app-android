@@ -71,6 +71,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
 
         ((BaseActivity) getActivity()).showLoadingChronology();
 
+        webview.setIgnoreUrls("https://www.sharengo.it/area-utente/mobile");
         //Pulisco la sessione
         CookieManager cookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
