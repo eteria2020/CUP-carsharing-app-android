@@ -85,6 +85,14 @@ public class Navigator {
         fragment.startActivity(intent);
     }
 
+    public static void launchLogin(Activity activity, int type) {
+        Intent intent = LoginActivity.getCallingIntent(activity, type);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        intent.putExtra(EXTRA_LOGIN, type);
+        activity.startActivity(intent);
+    }
+
     public static void launchMapGoogle(Activity activity, int type) {
         Intent intent = MapGoogleActivity.getCallingIntent(activity, type);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

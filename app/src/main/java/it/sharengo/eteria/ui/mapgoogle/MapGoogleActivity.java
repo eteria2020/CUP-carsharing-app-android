@@ -28,12 +28,8 @@ public class MapGoogleActivity extends BaseDrawerActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mToolBar.findViewById(R.id.menuButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigator.launchHome(MapGoogleActivity.this);
-            }
-        });
+
+        mToolBar.findViewById(R.id.menuButton).setVisibility(View.GONE);
         if (savedInstanceState == null && getIntent().getExtras() != null) {
             int type = getIntent().getExtras().getInt(Navigator.EXTRA_MAP);
             replaceFragment(MapGoogleFragment.newInstance(type));

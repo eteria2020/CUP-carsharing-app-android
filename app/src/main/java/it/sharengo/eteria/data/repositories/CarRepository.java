@@ -56,7 +56,7 @@ public class CarRepository {
      * @see               Observable<Response>
      */
     public Observable<Response> getCars(String username, String password, float latitude, float longitude, float user_lat, float user_lon, int radius) {
-
+        Log.w("getCars","XXX "+latitude);
         return mRemoteDataSource.getCars(Credentials.basic(username, StringsUtils.md5(password)), latitude, longitude, user_lat, user_lon, radius)
                 .doOnNext(new Action1<Response>() {
                     @Override

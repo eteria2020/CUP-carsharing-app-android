@@ -2,7 +2,9 @@ package it.sharengo.eteria.ui.base.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -89,6 +91,26 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
     @Override
     public void showStandardLoading() {
         ((BaseActivity) getActivity()).showLoading();
+    }
+
+    @Override
+    public void showHCustomLoading() {
+        ((BaseActivity) getActivity()).showLoadingChronology();
+    }
+
+    @Override
+    public void hideHCustomLoading() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Log.w("BOOOOOO","A");
+                try{
+                    if(getActivity() != null) ((BaseActivity) getActivity()).hideLoadingChronology();
+                }catch (NullPointerException e){}
+            }
+        }, 3500);
+
     }
 
     @Override
@@ -184,7 +206,7 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
                     mPresenter.logout(getActivity(), getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
                     cdd.dismissAlert();
 
-                    Navigator.launchHome(getActivity());
+                    Navigator.launchLogin(getActivity(),Navigator.REQUEST_LOGIN_MAPS);
                     getActivity().finish();
                 }
             });

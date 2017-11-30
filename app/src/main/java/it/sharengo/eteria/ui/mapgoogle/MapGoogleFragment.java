@@ -79,7 +79,6 @@ import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.PatternItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -462,6 +461,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         view = inflater.inflate(R.layout.fragment_map_google, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         mMapHelper = HdxFragmentMapHelper.newInstance(getActivity(), this);
         mMapHelper.setupMap(mMapContainer, this, savedInstanceState);
 
@@ -473,16 +479,34 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         showCarsWithFeeds = false;
 
-
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
         //Imposto il listener sull'apertura della tastiera: se appare la tastiera devo aprire la ricerca
         view.getViewTreeObserver().addOnGlobalLayoutListener(layoutListener);
+
+        if(!mPresenter.isAuth()){ final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                getString(R.string.popup_home),
+                getString(R.string.popup_login),
+                getString(R.string.popup_registrazione));
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                    Navigator.launchLogin(MapGoogleFragment.this, Navigator.REQUEST_LOGIN_START);
+                   /*Intent intent = UserAreaActivity.getCallingIntent(UserAreaFragment);
+                   HomeFragment.this.startActivity(intent);*/
+                }
+            });
+
+            cdd.no.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                    Navigator.launchSlideshow(MapGoogleFragment.this);
+                   /*Intent intent = UserAreaActivity.getCallingIntent(UserAreaFragment);
+                   HomeFragment.this.startActivity(intent);*/
+                }
+            });
+        }
     }
 
     @Override
@@ -631,11 +655,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }, 1000, 5000);
     }
 
-    /**
-     * Change user position if needed.
-     *
-     * @param  location new location of user.
-     */
+
     @Override
     public void onNewLocation(Location location) {
         super.onNewLocation(location);
@@ -644,9 +664,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     }
 
-    /**
-     * Send "message" location unvailable.
-     */
     @Override
     public void onLocationUnavailable() {
         super.onLocationUnavailable();
@@ -661,11 +678,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * When location changed set new camera and center on map.
-     *
-     * @param  location  new location of user
-     */
     @Override
     public void onLocationChanged(Location location) {
         //mPresenter.onLocationIsReady(location.getLatitude(), location.getLongitude());
@@ -724,7 +736,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void providerDisabled(){
 
-
         userLocation = null;
         //moveMapCameraToDefaultLocation();
 
@@ -747,7 +758,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         if(carPreSelected != null){
             showPopupCar(carPreSelected);
-            moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
+            moveMapCameraToPoitWithZoom((double) carPreSelected.latitude, (double) carPreSelected.longitude, 19);
         }
 
         hasInit = true;
@@ -763,8 +774,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         userLocation = location;
 
         //TODO Coor
-        //userLocation.setLatitude(41.914993);
-        //userLocation.setLongitude(12.524136); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
+        //userLocation.setLatitude(41.909917);
+        //userLocation.setLongitude(12.456426); //Milano 45.510349, 9.093254 - Milano 2 45.464116, 9.191425 - Roma 41.895514, 12.486259    Vinovo 44.975330, 7.617876
 
 
         enabledCenterMap(true);
@@ -785,11 +796,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(carPreSelected != null){
 
             if(mMap != null)
-                moveMapCameraTo((double) carPreSelected.latitude, (double) carPreSelected.longitude);
+                moveMapCameraToPoitWithZoom((double) carPreSelected.latitude, (double) carPreSelected.longitude, 19);
 
             showPopupCar(carPreSelected);
 
         }
+
+        mPresenter.loadPlatesCached();
 
         //Aggiorno la Walk Navigation
         if(mMap != null && getMapRadius() < 35000){
@@ -1696,7 +1709,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 moveMapCameraToPoitWithZoom((double) userLocation.getLatitude(), (double) userLocation.getLongitude(), 19);
                 showPopupCar(car);
             }else {
-                if(userLocation != null && userMarker.getData() != null){
+                if(userLocation != null && userMarker != null && userMarker.getData() != null){
                     if(!((Car) userMarker.getData()).id.equals(car.id)) {
                         moveMapCameraToPoitWithZoom((double) car.latitude, (double) car.longitude, 19);
                         showPopupCar(car);
@@ -1726,16 +1739,19 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         String car_id = "";
         float distance = 10000000000000000000000.0f;
 
+
         if(userLocation != null && carsList != null) {
 
             for (Car car : carsList) {
 
-                float dist = getDistance(car);
+                if(car != null) {
+                    float dist = getDistance(car);
 
-                if(dist < distance) {
-                    distance = dist;
-                    car_id = car.id;
-                    carNext = car;
+                    if (dist < distance) {
+                        distance = dist;
+                        car_id = car.id;
+                        carNext = car;
+                    }
                 }
             }
 
@@ -1743,10 +1759,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         carnext_id = car_id;
 
-        if(!isBookingCar && !isTripStart) {
+        if(!isBookingCar && !isTripStart && carPreSelected == null && carSelected == null) {
             if (carWalkingNavigation == null || (carWalkingNavigation != null && !carWalkingNavigation.id.equals(carNext.id))) {
                 carWalkingNavigation = carNext;
-
                 getWalkingNavigation();
             }
         }
@@ -2119,7 +2134,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void showPopupCar(Car car){
 
-        if(!isAdded()) return; Log.w("car",": "+car.latitude+","+car.longitude);
+        if(!isAdded()) return;
 
         carSelected = car;
 
@@ -2415,7 +2430,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         if(!isTripStart && !isBookingCar && carNext != null){
 
-            carWalkingNavigation = carNext;
+            if(carSelected == null) carWalkingNavigation = carNext;
             getWalkingNavigation();
         }
         else{
@@ -2650,10 +2665,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 hideLoading();
             }else{ //Auto parcheggiata
                 carWalkingNavigation = carBooked;
+
                 getWalkingNavigation();
             }
         }else {
             carWalkingNavigation = carBooked;
+
             getWalkingNavigation();
         }
     }
@@ -2754,18 +2771,21 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         else test_corsa = true;*/
         //---
 
-        if(!isTripStart) {
-            if (isTripParked)
-                moveMapCameraToPoitWithZoom(carBooked.latitude + 0.0002, (double) carBooked.longitude, 19);
-            else
-                if(userLocation != null) moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
-        }
+
 
         isTripStart = true;
         isBookingCar = false;
         isTripParked = car.parking;
         tripTimestampStart = timestamp_start;
         carBooked = car;
+
+        if(!isTripStart) {
+            if (isTripParked)
+                moveMapCameraToPoitWithZoom(carBooked.latitude + 0.0002, (double) carBooked.longitude, 19);
+            else
+            if(userLocation != null) moveMapCameraToPoitWithZoom(userLocation.getLatitude() + 0.0002, userLocation.getLongitude(), 19);
+        }
+
 
         //removeMarkers(poiMarkers);
         if(poiMarkersToAdd == null) poiMarkersToAdd = new ArrayList<>();
@@ -3381,7 +3401,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes){
         if(!isTripStart || (isTripStart && isTripParked)) updateWalkingNavigation(googleRoutes);
-        hideLoading();
+        //hideLoading();
     }
 
     @Override
@@ -3391,7 +3411,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void hideLoading(){
-        ((BaseActivity) getActivity()).hideLoadingChronology();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if(getActivity() != null) ((BaseActivity) getActivity()).hideLoadingChronology();
+            }
+        }, 2000);
     }
 
 

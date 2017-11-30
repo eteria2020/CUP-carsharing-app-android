@@ -34,15 +34,14 @@ public abstract class BaseActivity extends HdxBaseActivity {
     public void showLoading() {
 
 
-        findViewById(R.id.customLoading).setAlpha(1.0f);
-        findViewById(R.id.customLoading).setVisibility(View.VISIBLE);
+//        findViewById(R.id.customLoading).setAlpha(1.0f);
+//        findViewById(R.id.customLoading).setVisibility(View.VISIBLE);
 
         //super.showLoading();
     }
 
     public void hideLoading() {
         //super.hideLoading();
-
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -56,13 +55,12 @@ public abstract class BaseActivity extends HdxBaseActivity {
 
     public void showLoadingChronology() {
 
-        findViewById(R.id.customLoadingChronology).setAlpha(1.0f);
-        findViewById(R.id.customLoadingChronology).setVisibility(View.VISIBLE);
+//        findViewById(R.id.customLoadingChronology).setAlpha(1.0f);
+//        findViewById(R.id.customLoadingChronology).setVisibility(View.VISIBLE);
 
     }
 
     public void hideLoadingChronology() {
-
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -135,18 +133,15 @@ public abstract class BaseActivity extends HdxBaseActivity {
     @Override
     public void onBackPressed() {
         try {
-            if (this.getClass().equals(HomeActivity.class)) {
-                super.onBackPressed();
+            if (this.getClass().equals(MapGoogleActivity.class)) {
+                finish();
             } else {
                 if (App.getmStackActivity().size() > 1) {
                     super.onBackPressed();
                 } else {
-
-                    if (!this.getClass().equals(MapGoogleActivity.class) && App.getmStackActivity().contains(MapGoogleActivity.class))
+                    finish();
+                    if (!this.getClass().equals(MapGoogleActivity.class))
                         Navigator.launchMapGoogle(BaseActivity.this, Navigator.REQUEST_MAP_DEFAULT);
-                    else
-                        Navigator.launchHome(BaseActivity.this);
-                    super.onBackPressed();
                 }
             }
         }catch (Exception e) {

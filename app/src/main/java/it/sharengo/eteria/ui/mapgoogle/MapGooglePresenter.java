@@ -64,6 +64,7 @@ import it.sharengo.eteria.data.repositories.KmlRepository;
 import it.sharengo.eteria.data.repositories.PostRepository;
 import it.sharengo.eteria.data.repositories.PreferencesRepository;
 import it.sharengo.eteria.data.repositories.UserRepository;
+import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.map.BaseMapPresenter;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
@@ -118,6 +119,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private Response mResponse;
     private ResponseCar mResponseReservationCar;
+    private ResponseCar mResponseTripCar;
     private ResponseCar mResponseCarTrip;
     private ResponseTrip mResponseTrip;
     private ResponseCar mResponseInfo;
@@ -135,6 +137,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private boolean isPause;
     private boolean isTripExists;
     private boolean isTripOpening;
+    private boolean isParked;
     private boolean isBookingExists;
     private boolean isBookingOpening;
     private int isTripOpeningCount;
@@ -146,6 +149,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private List<Feed> mEventsList;
     private long seconds;
     public float userLat, userLon;
+    private int reservationTime;
 
     /*
      *  Timer
@@ -199,22 +203,23 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
         isTripExists = false;
+        isParked = false;
         isBookingExists = false;
         timestamp_start = 0;
         seconds = 0;
         mReservationsRequest = null;
         mTripsRequest = null;
         mCarsReservationRequest = null;
+        reservationTime = 0;
 
         //getMvpView().removeReservationInfo();
         //getMvpView().removeTripInfo();
-        Log.w("isPause",": "+isPause);
-        if(isPause){
-            getMvpView().showLoading();
-        }
-        isPause = false;
 
         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) {
+            if(isPause){
+                getMvpView().showLoading();
+            }
+            isPause = false;
             getReservations(false);
             getTrips(false);
         }
@@ -224,7 +229,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     @Override
     protected boolean showCustomLoading() {
-        if(hideLoading)
+        if(hideLoading)//TODO check if work prima era hideloading
             return true;
         else
             return super.showCustomLoading();
@@ -232,7 +237,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
 
     /**
-     * Create view when map is ready.
+     * Create view when map is ready
+     *
      */
     public void onMapIsReady() {
         mMapIsReady = true;
@@ -255,6 +261,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     void viewCreated() {
 
         isTripExists = false;
+        isParked = false;
         isBookingExists = false;
         timestamp_start = 0;
         seconds = 0;
@@ -340,8 +347,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                             //Timer
                             if(timerInterval != INT_5_SEC) setTimerReservertionTrip(INT_5_SEC);
 
-                            getMvpView().removeTripInfo();
-                            getMvpView().removeReservationInfo();
+                            if(getMvpView() != null) {
+                                getMvpView().removeTripInfo();
+                                getMvpView().removeReservationInfo();
+                                reservationTime = 0;
+                            }
                         }
 
 
@@ -790,6 +800,22 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //                                              Load Plates
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Load cars from server available in map. First, check if the car cache exists
+     */
+    public void loadPlatesCached() {
+        hideLoading = true;
+
+        if( mPlatesRequest == null) {
+            mPlatesRequest = buildPlatesRequest();
+            addSubscription(mPlatesRequest.unsafeSubscribe(getPlatesSubscriber()));
+        }
+
+        if(mCachedPlates != null){ if(getMvpView() != null) getMvpView().setNextCar(mCachedPlates); }
+        else{
+            loadPlates();
+        }
+    }
 
     /**
      * Load cars from server.
@@ -1190,6 +1216,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param   mode        the mode of transport to use when calculating directions (see: https://developers.google.com/maps/documentation/directions/intro#TravelModes)
      */
     public void getRoutes(Context context, Location origin, Location destination, String mode) {
+
         hideLoading = true;
         if( mFindRoutesRequest == null) {
             mFindRoutesRequest = buildFindRoutesRequest(context, origin, destination, mode);
@@ -1208,6 +1235,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
+
                         getMvpView().onUpdateWalkingNavigation(mGoogleRoutes);
                     }
                 });
@@ -1218,12 +1246,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onCompleted() {
                 mFindRoutesRequest = null;
+                //getMvpView().hideHCustomLoading();
             }
 
             @Override
             public void onError(Throwable e) {
                 mFindRoutesRequest = null;
-                try{getMvpView().hideLoading();} catch (NullPointerException ex){}
+                try{ getMvpView().hideHCustomLoading(); } catch (NullPointerException ex){}
             }
 
             @Override
@@ -1265,7 +1294,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  context   context of application.
      */
     public void bookingCar(Car car, float user_lat, float user_lon, Context context){
-        //hideLoading = false;
+        hideLoading = true;
+
+        getMvpView().showHCustomLoading();
 
         seconds = System.currentTimeMillis();
 
@@ -1296,12 +1327,14 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onCompleted() {
                 mReservationRequest = null;
+                //getMvpView().hideCustomLoading();
             }
 
             @Override
             public void onError(Throwable e) {
                 mReservationRequest = null;
                 //getMvpView().showError(e);
+                getMvpView().hideHCustomLoading();
             }
 
             @Override
@@ -1369,9 +1402,12 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      */
     public void deleteBookingCar(int id){
 
-        //hideLoading = false;
+        hideLoading = true;
+
+        getMvpView().showHCustomLoading();
 
         isBookingExists = false;
+        reservationTime = 0;
 
         if( mReservationRequest == null) {
             mReservationRequest = buildDeleteReservationRequest(id);
@@ -1386,8 +1422,16 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        getMvpView().showConfirmDeletedCar();
-                        getReservations(true);
+                        getMvpView().hideHCustomLoading();
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getMvpView().showConfirmDeletedCar();
+                                getReservations(true);
+                            }
+                        }, 2500);
+
                     }
                 });
     }
@@ -1397,11 +1441,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onCompleted() {
                 mReservationRequest = null;
+                //getMvpView().hideCustomLoading();
             }
 
             @Override
             public void onError(Throwable e) {
                 mReservationRequest = null;
+                getMvpView().hideHCustomLoading();
             }
 
             @Override
@@ -1424,9 +1470,12 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      */
     public void openDoor(Car car, String action) {
 
+        getMvpView().showHCustomLoading();
+
         seconds = System.currentTimeMillis();
 
         isBookingExists = false;
+        if(action.equals("unpark")) isParked = true;
 
         if( mCarsTripRequest == null) {
 
@@ -1471,6 +1520,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onCompleted() {
                 mCarsTripRequest = null;
+                //getMvpView().hideCustomLoading();
             }
 
             @Override
@@ -1505,6 +1555,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     }
                 }
                 //getMvpView().showError(e);
+                getMvpView().hideHCustomLoading();
             }
 
             @Override
@@ -1639,6 +1690,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 }
             }
 
+            getMvpView().hideLoading();
+
             if(isTripExists){
                 isTripExists = false;
 
@@ -1719,6 +1772,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onError(Throwable e) {
                 mReservationsRequest = null;
+                getMvpView().hideHCustomLoading();
             }
 
             @Override
@@ -1729,14 +1783,16 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private void checkReservationsResult(){
-        Log.w("isPause","checkReservationsResult");
+
         if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
 
             //Verifico che non sia scaduta
             long unixTime = System.currentTimeMillis() / 1000L;
             int diffTime = (int) (unixTime - mResponseReservation.reservations.get(0).timestamp_start);
 
-            if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
+            reservationTime = (mResponseReservation.reservations.get(0).length - diffTime) * 1000;
+
+            if(reservationTime > 0) {
                 loadCarsReservation(mResponseReservation.reservations.get(0).car_plate);
                 isBookingExists = true;
                 isBookingOpening = false;
@@ -1756,7 +1812,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
                 }
             }
-            if(isBookingExists){
+            if(isBookingExists && reservationTime > 0){
                 isBookingExists = false;
                 getMvpView().openReservationNotification();
             }
@@ -1818,7 +1874,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             public void onError(Throwable e) {
                 mCarsReservationRequest = null;
                 //getMvpView().showError(e);
-
+                getMvpView().hideHCustomLoading();
             }
 
             @Override
@@ -1837,16 +1893,22 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             long unixTime = System.currentTimeMillis() / 1000L;
             int diffTime = (int) (unixTime - mResponseReservation.reservations.get(0).timestamp_start);
 
+            reservationTime = (mResponseReservation.reservations.get(0).length - diffTime) * 1000;
 
-            if((mResponseReservation.reservations.get(0).length - diffTime) * 1000 > 0) {
+            if(reservationTime > 0) {
                 getMvpView().showReservationInfo(mResponseReservationCar.data, mResponseReservation.reservations.get(0));
+                //getMvpView().hideLoading();
             }else {
+                reservationTime = 0;
                 getMvpView().openReservationNotification();
                 getMvpView().removeReservationInfo();
             }
         }else{
             getMvpView().removeReservationInfo();
+            reservationTime = 0;
         }
+
+        getMvpView().hideHCustomLoading();
     }
 
 
@@ -1901,16 +1963,28 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
             @Override
             public void onNext(ResponseCar responseList) {
-                mResponseReservationCar = responseList;
+                mResponseTripCar = responseList;
             }
         };
     }
 
     private void checkCarTripResult(){
 
-        if((mResponseReservationCar.reason.isEmpty() && mResponseReservationCar.data != null) && (mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0)){
-            getMvpView().showTripInfo(mResponseReservationCar.data, mResponseTrip.trips.get(0).timestamp_start);
+        getMvpView().hideLoading();
+        if((mResponseTripCar.reason.isEmpty() && mResponseTripCar.data != null) && (mResponseTrip.reason.isEmpty() && mResponseTrip.trips != null && mResponseTrip.trips.size() > 0)){
+
+            //TODO Remove
+            //mResponseReservationCar.data.parking = true;
+
+            //Verifico se era in sosta e non è ancora passato un minuto
+            if(isParked && !(seconds == 0 || ((System.currentTimeMillis() - seconds) / 1000) > 59)){
+                mResponseReservationCar.data.parking = false;
+            }
+
+            isParked = false;
+            getMvpView().showTripInfo(mResponseTripCar.data, mResponseTrip.trips.get(0).timestamp_start);
         }else{
+            reservationTime = 0;
             getMvpView().removeReservationInfo();
         }
     }

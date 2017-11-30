@@ -37,4 +37,10 @@ public class SettingsActivity extends BaseDrawerActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out_slow);
+    }
 }

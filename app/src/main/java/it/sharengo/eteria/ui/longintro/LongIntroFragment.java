@@ -101,6 +101,8 @@ public class LongIntroFragment extends BaseMvpFragment<LongIntroPresenter> imple
     @Override
     public void onAnimationCompleted(int loopNumber) {
 
+        if(getActivity() == null) return;
+
         if(gifAnimation) {
 
             try {

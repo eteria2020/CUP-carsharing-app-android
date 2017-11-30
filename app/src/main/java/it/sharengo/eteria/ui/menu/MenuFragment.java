@@ -93,7 +93,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
      * When user tap logout close view and open Home.
      */
     public void logoutUser(){
-        Navigator.launchHome(this);
+        Navigator.launchMapGoogle(this,Navigator.REQUEST_MAP_DEFAULT);
         getActivity().finish();
     }
 
