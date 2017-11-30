@@ -63,6 +63,6 @@ public class MyWebView extends WebView {
             if(!ignoreUrls.contains(url.toLowerCase()))
                 result=true;
         }
-        return result;
+        return result && super.canGoBack();
     }
 }

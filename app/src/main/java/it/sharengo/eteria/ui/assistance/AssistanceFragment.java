@@ -179,6 +179,39 @@ public class AssistanceFragment extends BaseMvpFragment<AssistancePresenter> imp
         });
     }
 //-------------------------FINE PROVA---------------------------
+
+    @OnClick(R.id.callAssistanceButton)
+    public void onAssistanceClick(){
+
+        //Verifico se il device è supportato per le chiamate telefoniche
+        if(isTelephonyEnabled()) {
+            final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                    getString(R.string.assistance_phonenumber_label),
+                    getString(R.string.assistance_alertcall_action),
+                    getString(R.string.assistance_cancelcall_action));
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getString(R.string.assistance_phonenumber_label))));
+                }
+            });
+        }else{
+            final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                    getString(R.string.assistance_devicenotenabled_alert),
+                    getString(R.string.ok),
+                    null);
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                }
+            });
+        }
+    }
+
     private boolean isTelephonyEnabled(){
         TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(getActivity().TELEPHONY_SERVICE);
         return telephonyManager != null && telephonyManager.getSimState()==TelephonyManager.SIM_STATE_READY;
