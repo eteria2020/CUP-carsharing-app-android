@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="et_cancel_icon_padding">3dp</dimen>
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="HdxTextMedium">
+        <item name="customFont">Roboto-Medium.ttf</item>
+    </style>
+
+    <style name="HdxTextLight">
+        <item name="customFont">Roboto-Light.ttf</item>
+    </style>
+
+    <style name="HdxTextCondensed">
+        <item name="customFont">Roboto-Condensed.ttf</item>
+    </style>
+
+    <style name="HdxTextRegular">
+        <item name="customFont">Roboto-Regular.ttf</item>
+    </style>
+
+    <style name="HdxTextThin">
+        <item name="customFont">Roboto-Thin.ttf</item>
+    </style>
+
+    <style name="HdxTextBold">
+        <item name="customFont">Roboto-Bold.ttf</item>
+    </style>
+
+    <style name="HdxTextSlabRegular">
+        <item name="customFont">RobotoSlab-Regular.ttf</item>
+    </style>
+
+    <style name="HdxTextSlabLight">
+        <item name="customFont">RobotoSlab-Light.ttf</item>
+    </style>
+
+    <style name="HdxTextSlabBold">
+        <item name="customFont">RobotoSlab-Bold.ttf</item>
+    </style>
+
+    <style name="HdxTextItalic">
+        <item name="customFont">Roboto-Italic.ttf</item>
+    </style>
+
+</resources>

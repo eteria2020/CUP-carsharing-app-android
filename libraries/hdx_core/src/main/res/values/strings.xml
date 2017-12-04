@@ -1,0 +1,20 @@
+<resources>
+    <string name="hdx_warning">Warning</string>
+    <string name="hdx_go_to_playstore">You\'re going to open the Google Playstore, proceed?</string>
+    <string name="hdx_go_to_website">You\'re going to open the web browser, proceed?</string>
+    <string name="hdx_open_mail">You\'re going to open the email app, proceed?</string>
+    <string name="hdx_open_dial">You\'re going to open the phone dialer, proceed?</string>
+    <string name="hdx_open_map">You\'re going to open the Maps app, proceed?</string>
+    <string name="hdx_yes">Yes</string>
+    <string name="hdx_no">No</string>
+
+
+    <string name="hdx_lorem_short">Lorem ipsum dolor sit amet, ut brute dissentiet sit. Sea inani mandamus ea, eum ad primis argumentum. Qui atqui euripidis ut, mel pertinax laboramus mediocritatem eu, pro no mundi putent. Mazim gloriatur consectetuer mei id, nam ad assum salutandi consulatu, posse munere partiendo cum ea. Pro quidam luptatum iudicabit cu, ea brute facer pro. Sea ei quot indoctum patrioque, solum aeterno forensibus cum ea.</string>
+    <string name="hdx_lorem_long">Lorem ipsum dolor sit amet, ut brute dissentiet sit. Sea inani mandamus ea, eum ad primis argumentum. Qui atqui euripidis ut, mel pertinax laboramus mediocritatem eu, pro no mundi putent. Mazim gloriatur consectetuer mei id, nam ad assum salutandi consulatu, posse munere partiendo cum ea. Pro quidam luptatum iudicabit cu, ea brute facer pro. Sea ei quot indoctum patrioque, solum aeterno forensibus cum ea.\n
+Ea affert adversarium eum, ne novum alienum vix. An nam viderer mediocrem. Etiam antiopam ex usu, at sit mundi nominavi, ne diceret evertitur voluptatum has. Qui elitr ubique appetere cu, doming offendit percipitur vix eu. An vix tamquam verterem constituto, cu has justo aperiri accusata.\n
+Lorem civibus voluptua no ius, reque imperdiet consectetuer est an. Vix etiam feugiat ne, ex quo agam democritum consectetuer, facer graece maluisset et vim. Malorum nominavi definiebas has et, cu mea vitae deterruisset, ei vix dicant libris labitur. His alii rationibus id, ea vix verear feugait vituperatoribus. In sed tibique electram, id nec nullam utroque vivendum.\n
+Eu mollis delicatissimi pri, an mel propriae epicurei. Reque noster nemore eum cu. Usu ad nonumy oporteat necessitatibus, integre praesent ad duo, ius ne tempor viderer debitis. Ut vis putent petentium ullamcorper, in sea possit hendrerit. Vim ut animal scriptorem. Cu tempor essent mea, eam augue putent omittam ei.\n
+Te vis enim feugait adipisci, duo mucius tractatos in, affert albucius te sed. Ad eos unum timeam, ei qui solum senserit. Vim et theophrastus signiferumque, ludus omnes reprehendunt mei cu. Nam mutat prompta at, an autem propriae pro. Iriure commodo eam et.</string>
+    <string name="hdx_no_application">No application is associated with the specified operation</string>
+
+</resources>

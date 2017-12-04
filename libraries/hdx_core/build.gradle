@@ -1,0 +1,41 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.handroixVersionCode
+        versionName rootProject.ext.handroixVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile ('me.zhanghai.android.materialprogressbar:library:1.1.4') {
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    provided "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
+    provided "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
+    provided "org.apache.commons:commons-lang3:$rootProject.ext.apacheCommonsLangVersion"
+    provided "commons-io:commons-io:$rootProject.ext.apacheCommonsIoVersion"
+}
+

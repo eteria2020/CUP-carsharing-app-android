@@ -1,2 +1,13 @@
-include ':app', ':circlelayout'
+include ':app'
+include':circlelayout'
+include':hdx_core'
+include':hdx_baseuiwidgets'
+include':hdx_location'
+include':hdx_map'
+
+
 project(':circlelayout').projectDir = new File('libraries/circlelayout')
+project(':hdx_core').projectDir = new File('libraries/hdx_core')
+project(':hdx_baseuiwidgets').projectDir = new File('libraries/hdx_baseuiwidgets')
+project(':hdx_location').projectDir = new File('libraries/hdx_location')
+project(':hdx_map').projectDir = new File('libraries/hdx_map')

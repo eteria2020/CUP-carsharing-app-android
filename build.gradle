@@ -1,28 +1,12 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url "http://178.79.170.22:8081/nexus/content/repositories/releases"
-            credentials {
-                username 'developer'
-                password 'v3rd3andr01d'
-            }
-        }
-
-        maven {
-            url "http://178.79.170.22:8081/nexus/content/repositories/snapshots"
-            credentials {
-                username 'developer'
-                password 'v3rd3andr01d'
-            }
-        }
 
         maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
-        classpath "it.handroix:gradle-plugin:1.1"
     }
 }
 
@@ -30,23 +14,6 @@ allprojects {
     repositories {
         mavenCentral()
         jcenter()
-        
-        maven {
-            url "http://178.79.170.22:8081/nexus/content/repositories/releases"
-            credentials {
-                username 'developer'
-                password 'v3rd3andr01d'
-            }
-        }
-
-        maven {
-            url "http://178.79.170.22:8081/nexus/content/repositories/snapshots"
-            credentials {
-                username 'developer'
-                password 'v3rd3andr01d'
-            }
-        }
-
         maven { url "https://jitpack.io" }
     }
 }
@@ -58,6 +25,9 @@ task clean(type: Delete) {
 // App Dependencies Version
 ext {
 
+
+    versionCode = 33
+
     // Sdk and tools
     targetSdkVersion = 25
     compileSdkVersion = 25
@@ -66,7 +36,8 @@ ext {
 
     // Handroix
     handroixVersion = '4.0.1'
-    
+    handroixVersionCode = 33
+
     // Android
     supportLibraryVersion = '25.3.1'
     playServiceVersion = '10.2.4'
@@ -92,4 +63,7 @@ ext {
     squareupPicasso = '2.5.2'
     googleMapsUtils = '0.5+'
     volley = '1.0.0'
+
+    apacheCommonsLangVersion = '3.5'
+    apacheCommonsIoVersion = '2.5'
 }

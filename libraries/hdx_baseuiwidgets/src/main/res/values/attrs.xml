@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <attr name="customFont" format="string"/>
+
+    <declare-styleable name="HdxTextView">
+        <attr name="customFont"/>
+    </declare-styleable>
+
+    <declare-styleable name="HdxTextViewAutoResize">
+        <attr name="customFont"/>
+    </declare-styleable>
+
+    <declare-styleable name="HdxEditText">
+        <attr name="customFont"/>
+        <attr name="enableCancelButton" format="boolean" />
+        <attr name="cancelButtonColor" format="color" />
+        <attr name="cancelButtonDrawable" format="reference" />
+        <attr name="extraButtonDrawable" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="HdxButton">
+        <attr name="customFont"/>
+    </declare-styleable>
+
+
+
+
+    <declare-styleable name="HdxFlowLayout">
+        <attr name="horizontalSpacing" format="dimension"/>
+        <attr name="verticalSpacing" format="dimension"/>
+        <attr name="orientation" format="enum">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+        <attr name="debugDraw" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="HdxFlowLayout_LayoutParams">
+        <attr name="layout_newLine" format="boolean"/>
+        <attr name="layout_horizontalSpacing" format="dimension"/>
+        <attr name="layout_verticalSpacing" format="dimension"/>
+    </declare-styleable>
+
+</resources>

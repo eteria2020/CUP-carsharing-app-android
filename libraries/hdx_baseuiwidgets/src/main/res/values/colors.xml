@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Specificare il colorAccent qui serve solo per fare in modo che ci sia un colore di default impostato nel caso in cui non sia presente nell'app che include baseuiwidgets-->
+    <color name="colorAccent">#FF4081</color>
+    <color name="hdx_colorForSelector">#1A000000</color>
+    <color name="hdx_colorForSelectorLight">#EEFFFFFF</color>
+</resources>
