@@ -25,6 +25,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements SplashMvpView {
 
     private static final String TAG = SplashFragment.class.getSimpleName();
+    private boolean handled=false;
     
     @BindView(R.id.splash_content)
     View mSplashContent;
@@ -39,6 +40,7 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getMvpFragmentComponent(savedInstanceState).inject(this);
+        handled = false;
     }
 
     @Override
@@ -80,7 +82,11 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
     @Override
     public void navigateToHome(String lang) {
 
-
+        if(!handled){
+            handled=true;
+        }else{
+            return;
+        }
         
 
         //Se è il primo accesso, mostro il login
@@ -112,7 +118,14 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
 
-                    mPresenter.permissionChecked();
+                    if (ActivityCompat.checkSelfPermission(getActivity(),Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),
+                            Manifest.permission.ACCESS_COARSE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED ) {
+                        mPresenter.permissionChecked();
+                    }
 
                 } else {
 

@@ -25,6 +25,20 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+
+                <action android:name="it.sharengo.eteria.BOOK" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
+
+            </intent-filter>
+            <intent-filter>
+
+                <action android:name="it.sharengo.eteria.OPEN_TRIP" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
+
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.home.HomeActivity"
