@@ -1,7 +1,9 @@
 package it.sharengo.eteria.ui.splash;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -142,6 +144,14 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
      */
     public void setFirstAccess(SharedPreferences mPrefs){
         mPreferencesRepository.saveFirstAccess(false, mPrefs);
+    }
+
+    public void handleExtras(Bundle extras){
+        if(extras==null)
+            return;
+        else
+            mAppRepository.setIntentSelectedCar(extras.getString(Intent.EXTRA_TEXT));
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -269,7 +269,10 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         userLon = 0;
 
         loadPlates();
-
+        if(mAppRepository.getIntentSelectedCar() != null && !mAppRepository.getIntentSelectedCar().isEmpty()) {
+            loadSelectedCars(mAppRepository.getIntentSelectedCar());
+            mAppRepository.setIntentSelectedCar(null);
+        }
         loadCarpopup();
 
         /*if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
@@ -1027,6 +1030,67 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
+    //                                              GET Car Intent
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Load from server car information (detail)
+     *
+     * @param  plate  plate for car reservation.
+     */
+    public void loadSelectedCars(String plate) {
+
+        hideLoading = true;
+
+        mCarsInfoRequest = null;
+        mCarsInfoRequest = buildCarSelectedRequest(plate);
+        addSubscription(mCarsInfoRequest.unsafeSubscribe(getCarSelectedSubscriber()));
+    }
+
+
+    private Observable<ResponseCar> buildCarSelectedRequest(String plate) {
+
+        return mCarsInfoRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate)
+                .first()
+                .compose(this.<ResponseCar>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkCarSelectedResult();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseCar> getCarSelectedSubscriber(){
+        return new Subscriber<ResponseCar>() {
+            @Override
+            public void onCompleted() {
+                mCarsInfoRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mCarsInfoRequest = null;
+
+            }
+
+            @Override
+            public void onNext(ResponseCar responseList) {
+                getMvpView().setSelectedCar(responseList.data);
+            }
+        };
+    }
+
+    private void checkCarSelectedResult(){
+
+        if(mResponseInfo.reason.isEmpty() && mResponseInfo.data != null){
+            getMvpView().onLoadCarInfo(mResponseInfo.data);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
     //                                              Find Address
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1772,7 +1836,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onError(Throwable e) {
                 mReservationsRequest = null;
-                getMvpView().hideHCustomLoading();
+                if(getMvpView()!=null)
+                    getMvpView().hideHCustomLoading();
             }
 
             @Override

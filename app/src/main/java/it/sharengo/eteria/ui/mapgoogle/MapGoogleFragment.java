@@ -3287,6 +3287,28 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     @Override
+    public void setSelectedCar(Car car) {
+        if(car!=null){
+            if(!car.busy)
+                showPopupCar(car);
+            else{
+                final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                        getString(R.string.booking_car_busy_alert),
+                        getString(R.string.ok),
+                        null);
+                cdd.show();
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismissAlert();
+                    }
+                });
+            }
+        }
+    }
+
+
+        @Override
     public void showPolygon(List<KmlServerPolygon> polygonList){
         drawPolygon(polygonList);
     }

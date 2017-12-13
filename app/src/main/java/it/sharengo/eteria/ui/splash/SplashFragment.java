@@ -55,6 +55,8 @@ public class SplashFragment extends BaseMvpFragment<SplashPresenter> implements 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if(getActivity()instanceof SplashActivity)
+        mPresenter.handleExtras(((SplashActivity) getActivity()).getIntentExtras());
 
         AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(500);
