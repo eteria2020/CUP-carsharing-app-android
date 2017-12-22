@@ -53,6 +53,7 @@ import it.sharengo.eteria.data.models.ResponseGooglePlace;
 import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import it.sharengo.eteria.data.models.ResponsePutReservation;
 import it.sharengo.eteria.data.models.ResponseReservation;
+import it.sharengo.eteria.data.models.ResponseSharengoMap;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.SearchItem;
 import it.sharengo.eteria.data.models.User;
@@ -67,6 +68,7 @@ import it.sharengo.eteria.data.repositories.UserRepository;
 import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.map.BaseMapPresenter;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
+import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
@@ -131,6 +133,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private List<SearchItem> mSearchItems;
     private List<SearchItem> historicItems;
     private ResponseGooglePlace mGooglePlace;
+    private ResponseSharengoMap mSharengoMap;
     private ResponseGoogleRoutes mGoogleRoutes;
     private List<Post> mPosts;
     private boolean hideLoading;
@@ -1088,7 +1091,102 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             getMvpView().onLoadCarInfo(mResponseInfo.data);
         }
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Find Address Sharengo
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Find place with Sharengo Nominatim API by text search by user.
+     *
+     * @param  context  context of application.
+     * @param  searchText  text serch by user.
+     * @param  location  user location. Format: lan,long.
+     * @param  lang  language
+     */
+//    public void searchPlaceSharengo(Context context, String searchText, Location location, String lang) {
+//        hideLoading = true;
+//
+//        if( mFindPlacesRequest == null) {
+//            mFindPlacesRequest = buildFindPlacesSharengoRequest(context, searchText, location, lang);
+//            addSubscription(mFindPlacesRequest.unsafeSubscribe(getFindPlacesSubscriber()));
+//        }
+//    }
+//
+//
+//    private Observable<ResponseGooglePlace> buildFindPlacesSharengoRequest(Context context, String searchText, Location location, String lang) {
+//        return mFindPlacesRequest = mAddressRepository.searchPlace(searchText, location.getLatitude()+", "+location.getLongitude(), lang, context.getString(R.string.google_place_api_key))
+//                .first()
+//                .compose(this.<ResponseGooglePlace>handleDataRequest())
+//                .doOnCompleted(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        checkPlacesSharengoResult();
+//                    }
+//                });
+//    }
+//
+//    private Subscriber<ResponseSharengoMap> getFindPlacesSharengoSubscriber(){
+//        return new Subscriber<ResponseSharengoMap>() {
+//            @Override
+//            public void onCompleted() {
+//                mFindPlacesRequest = null;
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                mFindPlacesRequest = null;
+//                //getMvpView().showError(e);
+//            }
+//
+//            @Override
+//            public void onNext(ResponseSharengoMap addressList) {
+//                //mAddress = addressList; TODO
+//                mSharengoMap = addressList;
+//            }
+//        };
+//    }
+//
+//    private void checkPlacesSharengoResult(){
+//
+//        /*mSearchItems = new ArrayList<SearchItem>();
+//
+//        for (Address address : mAddress){
+//
+//            String type = "address";
+//
+//            if(historicItems != null)
+//                for (SearchItem sI : historicItems) {
+//                    if (address.display_name.equals(sI.display_name)) type = "historic";
+//                }
+//
+//            mSearchItems.add(new SearchItem(address.display_name, type, address.longitude, address.latitude));
+//        }
+//
+//        getMvpView().showSearchResult(mSearchItems);*/
+//
+//        mSearchItems = new ArrayList<SearchItem>();
+//
+//        if(mGooglePlace != null && mGooglePlace.results != null){
+//
+//            for(int i = 0; i < mGooglePlace.results.size(); i++){
+//
+//                GooglePlace gPlace = mGooglePlace.results.get(i);
+//                String type = "address";
+//
+//                if(historicItems != null)
+//                    for (SearchItem sI : historicItems) {
+//                        if (gPlace.address.equals(sI.display_name)) type = "historic";
+//                    }
+//
+//                mSearchItems.add(new SearchItem(gPlace.address, type, gPlace.geometry.location.longitude, gPlace.geometry.location.latitude));
+//            }
+//        }
+//
+//        getMvpView().showSearchResult(mSearchItems);
+//
+//    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Find Address

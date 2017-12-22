@@ -25,6 +25,10 @@ public class Car {
 
     public boolean busy;
 
+    public boolean active;
+
+    public boolean hidden;
+
     @SerializedName("battery")
     public int autonomy;
 
@@ -48,7 +52,7 @@ public class Car {
         this.bonus = bonus;
     }
 
-    public Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy, boolean parking,boolean busy,  List<Bonus> bonus) {
+    public Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy, boolean parking,boolean busy,boolean hidden, boolean active,  List<Bonus> bonus) {
         this.id = id;
         this.manufactures = manufactures;
         this.model = model;
@@ -59,6 +63,8 @@ public class Car {
         this.parking = parking;
         this.busy = busy;
         this.bonus = bonus;
+        this.active = active;
+        this.hidden = hidden;
     }
 
     public Car(String id, float longitude, float latitude) {

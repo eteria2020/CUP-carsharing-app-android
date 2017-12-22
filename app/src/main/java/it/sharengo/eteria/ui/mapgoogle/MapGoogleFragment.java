@@ -3288,8 +3288,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void setSelectedCar(Car car) {
-        if(car!=null){
-            if(!car.busy)
+        if(car!=null){          //status = 'operative' AND active IS TRUE AND busy IS FALSE AND hidden IS FALSE
+            if(car.status.equalsIgnoreCase("operative") && car.active && !car.busy && !car.hidden)
                 showPopupCar(car);
             else{
                 final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
