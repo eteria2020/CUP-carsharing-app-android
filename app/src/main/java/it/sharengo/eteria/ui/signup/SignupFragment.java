@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -64,13 +65,13 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
         });
         webview.setWebViewClient(new WebViewClient() {
 
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            public void onReceivedError(WebView view, int errorCode, String description,final String failingUrl) {
                 //showError(getString(R.string.error_generic_msg));
 
                 if(getActivity() != null) {
                     webview.setVisibility(View.GONE);
                     final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
-                            getString(R.string.error_msg_network_general),
+                            getString(R.string.error_msg_network_general)+" \n Error code: "+ errorCode,
                             getString(R.string.ok),
                             null);
                     cdd.show();
@@ -78,8 +79,31 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
                         @Override
                         public void onClick(View view) {
                             cdd.dismissAlert();
-                            Navigator.launchSlideshow(SignupFragment.this);
-                            getActivity().finish();
+                            webview.loadUrl(failingUrl);
+                            webview.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+            }
+
+            @TargetApi(Build.VERSION_CODES.M)
+            @Override
+            public void onReceivedError(WebView view, final WebResourceRequest request, WebResourceError error) {
+                if(getActivity() != null) {
+                    webview.setVisibility(View.GONE);
+                    final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                            getString(R.string.error_msg_network_general)+" \n Error code: "+ error.getErrorCode(),
+                            getString(R.string.ok),
+                            null);
+                    cdd.show();
+                    cdd.yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            cdd.dismissAlert();
+                            //Navigator.launchSlideshow(SignupFragment.this);
+                            //getActivity().finish();
+                            webview.loadUrl(request.getUrl().toString());
+                            webview.setVisibility(View.VISIBLE);
                         }
                     });
                 }
