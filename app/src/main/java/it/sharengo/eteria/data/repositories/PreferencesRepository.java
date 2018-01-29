@@ -28,6 +28,7 @@ public class PreferencesRepository {
     static final String KEY_FIRST_ACCESS = "KEY_FIRST_ACCESS";
     static final String KEY_USERNAME = "KEY_USERNAME";
     static final String KEY_PASSWORD = "KEY_PASSWORD";
+    static final String KEY_KML = "kml";
 
 
     private SharedPreferences mPref;
@@ -140,6 +141,13 @@ public class PreferencesRepository {
         return prefs.getString(KEY_PASSWORD, "");
     }
 
+
+    public void resetKml(SharedPreferences prefs){
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(KEY_KML, "");
+        editor.commit();
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //

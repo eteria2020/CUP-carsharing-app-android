@@ -124,6 +124,9 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                 addSubscription(mSplashRequest.subscribe());
             }
         }
+
+        //Clean the saved kml
+        mPreferencesRepository.resetKml(context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE));
     }
 
     /**
