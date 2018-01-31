@@ -397,7 +397,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private void loadCarpopup(){
-        if(mCarRepository.getCarSelected() != null)
+        if(mCarRepository.getCarSelected() != null && isViewAttached())
             getMvpView().openPreselectedCarPopup(mCarRepository.getCarSelected());
     }
 
@@ -1589,8 +1589,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                getMvpView().showConfirmDeletedCar();
-                                getReservations(true);
+                                if(isViewAttached()){
+                                    getMvpView().showConfirmDeletedCar();
+                                    getReservations(true);
+                                }
+
                             }
                         }, 2500);
 
@@ -2035,9 +2038,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
             @Override
             public void onError(Throwable e) {
+
                 mCarsReservationRequest = null;
                 //getMvpView().showError(e);
-                getMvpView().hideHCustomLoading();
+                if(isViewAttached())
+                    getMvpView().hideHCustomLoading();
             }
 
             @Override

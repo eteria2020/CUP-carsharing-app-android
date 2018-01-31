@@ -1,6 +1,7 @@
 package it.sharengo.eteria.ui.signup;
 
 import android.annotation.TargetApi;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,7 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
 
     @BindView(R.id.signupWebView)
     WebView webview;
+    String currentUrl = "http://www.sharengo.it/signup/mobile";
 
     public static SignupFragment newInstance() {
         SignupFragment fragment = new SignupFragment();
@@ -102,7 +104,7 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
                             cdd.dismissAlert();
                             //Navigator.launchSlideshow(SignupFragment.this);
                             //getActivity().finish();
-                            webview.loadUrl(request.getUrl().toString());
+                            webview.loadUrl(currentUrl);
                             webview.setVisibility(View.VISIBLE);
                         }
                     });
@@ -126,6 +128,13 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
                     loadLogin();
                 }
                 return false;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+
+                super.onPageStarted(view, url, favicon);
+                currentUrl = url;
             }
         });
 

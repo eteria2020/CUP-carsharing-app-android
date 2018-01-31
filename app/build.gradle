@@ -36,7 +36,7 @@ android {
         applicationId project.APPLICATION_ID
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
-        versionCode 322
+        versionCode 323
         versionName "3.1.5"
 
         multiDexEnabled true

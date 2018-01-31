@@ -43,7 +43,12 @@ public class AssistancePresenter extends BasePresenter<AssistanceMvpView> {
         return mUserRepository.getCachedUser().username;
     }
     protected String getUserGenerality(){
-        return mUserRepository.getCachedUser().userInfo.name+" "+mUserRepository.getCachedUser().userInfo.surname;
+        try {
+            return mUserRepository.getCachedUser().userInfo.name+" "+mUserRepository.getCachedUser().userInfo.surname;
+        }catch (Exception e){
+            return "";
+        }
+
     }
 }
 
