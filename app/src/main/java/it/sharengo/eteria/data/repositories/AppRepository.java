@@ -41,6 +41,8 @@ public class AppRepository {
     private City mCityPreference;
     private String mLang;
 
+    private String intentSelectedCar;
+
     @Inject
     public AppRepository(CitiesDataSource citiesDataSource) {
         this.mCitiesDataSource = citiesDataSource;
@@ -174,5 +176,13 @@ public class AppRepository {
 
     public String getLang(){
         return mLang;
+    }
+
+    public String getIntentSelectedCar() {
+        return intentSelectedCar;
+    }
+
+    public void setIntentSelectedCar(String intentSelectedCar) {
+        this.intentSelectedCar = intentSelectedCar;
     }
 }

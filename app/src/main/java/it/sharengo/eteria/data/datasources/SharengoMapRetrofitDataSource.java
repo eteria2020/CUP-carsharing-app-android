@@ -5,6 +5,7 @@ import java.util.List;
 import it.sharengo.eteria.data.datasources.api.SharengoMapApi;
 import it.sharengo.eteria.data.datasources.base.BaseRetrofitDataSource;
 import it.sharengo.eteria.data.models.Address;
+import it.sharengo.eteria.data.models.ResponseSharengoMap;
 import rx.Observable;
 
 public class SharengoMapRetrofitDataSource extends BaseRetrofitDataSource implements SharengoMapDataSource {
@@ -25,8 +26,8 @@ public class SharengoMapRetrofitDataSource extends BaseRetrofitDataSource implem
      * @see              Observable<List<Address>>
      */
     @Override
-    public Observable<List<Address>> searchAddress(String address, String format) {
+    public Observable<ResponseSharengoMap> searchAddress(String address, String format) {
         return mSharengoMapApi.searchAddress(address, format)
-                .compose(this.<List<Address>>handleRetrofitRequest());
+                .compose(this.<ResponseSharengoMap>handleRetrofitRequest());
     }
 }

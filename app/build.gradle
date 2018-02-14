@@ -24,7 +24,6 @@ dependencies {
     compile project(':circlelayout')
 }
 
-apply plugin: 'it.handroix.plugin.buildinfoicon'
 apply from: rootProject.file('app/config.gradle')
 apply from: rootProject.file('app/dependencies.gradle')
 apply plugin: 'com.android.application'
@@ -37,8 +36,8 @@ android {
         applicationId project.APPLICATION_ID
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
-        versionCode 105
-        versionName "1.0.5"
+        versionCode 323
+        versionName "3.1.5"
 
         multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
@@ -48,7 +47,7 @@ android {
         debug {
             minifyEnabled false
             signingConfig signingConfigs.debug
-            
+
             testCoverageEnabled true
 
             applicationIdSuffix ".development"
@@ -56,16 +55,12 @@ android {
             resValue "string", "google_place_api_key", "AIzaSyAnVjGP9ZCkSkBVkrX-5SBdmNW9AwE_Gew"
             resValue "string", "google_direction_api_key", "AIzaSyBEMZPnKaJgmjXnzeWpitYuqBrUtDf_Asg"
         }
-
         release {
             minifyEnabled true
             signingConfig signingConfigs.release
-
             ext.betaDistributionReleaseNotesFilePath = "app/fabric/release_note.txt"
             ext.betaDistributionGroupAliasesFilePath = "app/fabric/testers_group.txt"
-
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
             applicationIdSuffix ".eteria"
             resValue "string", "google_map_api_key", "AIzaSyDO5blXgSSM7hvNnsde0qM_rnK7nkdICUA"
             resValue "string", "google_place_api_key", "AIzaSyAnVjGP9ZCkSkBVkrX-5SBdmNW9AwE_Gew"
@@ -76,7 +71,7 @@ android {
     /*
      * Apk Name Beautifier
      */
-   applicationVariants.all { variant ->
+    applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def String fileName = project.APK_NAME + "_" + variant.baseName + "_v_" + variant.versionName + "_" + variant.versionCode
             def String apkFileName = fileName + ".apk"
@@ -85,17 +80,6 @@ android {
                 output.outputFile = new File(output.outputFile.parent, apkZipAlignFileName)
             }
             output.packageApplication.outputFile = new File(output.packageApplication.outputFile.parent, apkFileName)
-        }
-    }
-
-    /*
-     * Slack Upload Task
-     */
-    applicationVariants.all{
-        if (!it.buildType.debuggable){
-            def task = tasks.create("slack${it.name.capitalize()}", UploadSlackTask)
-            task.variant = it
-            task.dependsOn it.assemble
         }
     }
 
@@ -135,26 +119,6 @@ android {
     }
 }
 
-buildInfoIcon {
-
-    builder { ApplicationVariant variant, File iconFile ->
-
-//        def color = "#000000"
-//        if (variant.flavorName.toLowerCase().contains("mock")) {
-//            color = "#FF0000"
-//        }
-//        
-//        if (variant.flavorName.toLowerCase().contains("mock")) {
-//            return customColorRibbonFilter("MOCK", iconFile, color)
-//        }
-//        else {
-            return customColorRibbonFilter(variant.flavorName.toUpperCase(), iconFile, "#000000")
-//        }
-    }
-
-//    forcedVariantsNames "develRelease"
-}
-
 configurations {
     compile.exclude group: 'stax'
     compile.exclude group: 'xpp3'
@@ -165,61 +129,6 @@ tasks.matching {it instanceof Test}.all {
     testLogging.events = ["failed", "passed", "skipped"]
 }
 
-/**
- *
- *      UPLOAD SLACK TASK
- *
- */
-
-import com.android.build.gradle.api.ApplicationVariant
-import groovyx.net.http.HTTPBuilder
-import groovyx.net.http.Method
-import org.apache.http.entity.mime.HttpMultipartMode
-import org.apache.http.entity.mime.MultipartEntity
-import org.apache.http.entity.mime.content.FileBody
-import org.apache.http.entity.mime.content.StringBody
-
-class UploadSlackTask extends DefaultTask {
-
-    @Input
-    ApplicationVariant variant;
-
-    @TaskAction
-    def action() {
-        File apkFile = variant.outputs[0].outputFile
-        def http = new HTTPBuilder("https://slack.com/api/files.upload")
-
-        File releaseNote = new File('app/fabric/release_note.txt')
-        String releaseNoteContent = new StringBuffer(releaseNote.text.toString())
-        String releaseNotesExtra = project.SLACK_EXTRA_MESSAGE
-
-        http.request(Method.POST) { req ->
-            requestContentType: "multipart/form-data"
-            MultipartEntity multiPartContent = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE)
-            multiPartContent.addPart("channels", new StringBody("#" + project.SLACK_CHANNEL))
-            multiPartContent.addPart("token", new StringBody(project.SLACK_USER_TOKEN))
-            multiPartContent.addPart("file", new FileBody(apkFile))
-
-            // Posto il messaggio solo se almeno uno fra release notes e messagio extra è pieno.
-            if(! releaseNoteContent.trim().isEmpty() || ! releaseNotesExtra.trim().isEmpty()) {
-
-                if(! releaseNoteContent.trim().isEmpty() && ! releaseNotesExtra.trim().isEmpty()) {
-                    releaseNoteContent = releaseNoteContent + "\n"
-                }
-                releaseNoteContent = releaseNoteContent + releaseNotesExtra
-
-                multiPartContent.addPart("initial_comment", new StringBody(releaseNoteContent))
-            }
-
-            req.setEntity(multiPartContent)
-            response.success = { resp, reader ->
-                if (resp.statusLine.statusCode == 200) {
-                    println(reader)
-                }
-            }
-        }
-    }
-}
 crashlytics {
     enableNdk true
     androidNdkOut 'src/main/obj'

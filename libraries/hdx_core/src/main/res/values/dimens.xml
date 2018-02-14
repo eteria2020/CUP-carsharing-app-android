@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="hdx_toolbarHeight">56dp</dimen>
+    <dimen name="hdx_drawerWidth">56dp</dimen>
+
+    <dimen name="hdx_quarter_standard_distance">4dp</dimen>
+    <dimen name="hdx_half_standard_distance">8dp</dimen>
+    <dimen name="hdx_standard_distance">16dp</dimen>
+    <dimen name="hdx_double_standard_distance">32dp</dimen>
+    <dimen name="hdx_quadruple_standard_distance">64dp</dimen>
+
+    <dimen name="hdx_standard_item_height">48dp</dimen>
+
+    <!--fab-->
+    <dimen name="hdx_fab_standard_elevation">0dp</dimen>
+    <dimen name="hdx_fab_standard_pressed_translation_z">0dp</dimen>
+    <dimen name="hdx_fab_normal_size">56dp</dimen>
+    <dimen name="hdx_fab_mini_size">40dp</dimen>
+
+
+</resources>

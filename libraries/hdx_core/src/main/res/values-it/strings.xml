@@ -1,0 +1,9 @@
+<resources>
+    <string name="hdx_warning">Attenzione</string>
+    <string name="hdx_go_to_website">Stai aprendo il browser, procedere?</string>
+    <string name="hdx_open_mail">Stai per aprire l\'app per inviare una email, procedere?</string>
+    <string name="hdx_open_dial">Stai per aprire il compositore per chiamare un numero di telefono, procedere?</string>
+    <string name="hdx_open_map">Stai per aprire l\'app Maps, procedere?</string>
+    <string name="hdx_yes">Sì</string>
+    <string name="hdx_no">No</string>
+</resources>

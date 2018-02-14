@@ -84,7 +84,7 @@ public class AssistanceFragment extends BaseMvpFragment<AssistancePresenter> imp
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/html");
         intent.putExtra(Intent.EXTRA_EMAIL, addressDest);
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Supporto-"+mPresenter.getUsername());
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Supporto "+mPresenter.getUsername());
         intent.putExtra(Intent.EXTRA_TEXT,"Buongiorno sono "+mPresenter.getUserGenerality()+", ");
         startActivity(Intent.createChooser(intent, "Send Email"));
         /*final CustomDialogClass cdd = new CustomDialogClass(getActivity(),

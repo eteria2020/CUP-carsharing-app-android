@@ -29,10 +29,15 @@ dependencies {
     compile "com.google.android.gms:play-services-maps:$rootProject.ext.playServiceVersion"
 
     // CORE
-    compile "it.handroix:hdx_core:$rootProject.ext.handroixVersion"
-    compile "it.handroix:hdx_baseuiwidgets:$rootProject.ext.handroixVersion@aar"
-    compile "it.handroix:hdx_location:$rootProject.ext.handroixVersion@aar"
-    compile "it.handroix:hdx_map:$rootProject.ext.handroixVersion@aar"
+    compile project(':hdx_core')
+    compile project(':hdx_baseuiwidgets')
+    compile project(':hdx_location')
+    compile project(':hdx_map')
+
+//    compile "it.handroix:hdx_core:$rootProject.ext.handroixVersion"
+//    compile "it.handroix:hdx_baseuiwidgets:$rootProject.ext.handroixVersion@aar"
+//    compile "it.handroix:hdx_location:$rootProject.ext.handroixVersion@aar"
+//    compile "it.handroix:hdx_map:$rootProject.ext.handroixVersion@aar"
 
     // UI
     compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
