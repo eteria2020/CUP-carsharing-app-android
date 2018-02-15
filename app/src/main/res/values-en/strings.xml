@@ -246,5 +246,6 @@
     <string name="rates_signup_action">SUBSCRIBE NOW</string>
     <string name="maps_enablegps_label">Enable the GPS for more information</string>
     <string name="general_logout_alert">Are you sure you want to log out?</string>
+    <string name="tripend_notification_selfclose_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente in maniera gratuita . Ti ringraziamo per aver usato Share\\\'ngo</string>
 
 </resources>

@@ -113,6 +113,7 @@
     <string name="tripend_historic_action">Storico corse</string>
     <string name="tripend_notification_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente. Ti ringraziamo per aver usato Share\'ngo</string>
     <string name="tripstart_notification_label">Le portiere si apriranno fra qualche secondo.</string>
+    <string name="tripstart_selfClosePopup">La corsa si chiuderà gratuitamente dopo 5 minuti se non sarà inserito il PIN</string>
 
     <!-- Login -->
     <string name="login_fillfields_label">Compila i campi per effettuare il login</string>
@@ -283,5 +284,7 @@
     <string name="rates_signup_action">Iscriviti subito</string>
     <string name="maps_enablegps_label">Abilitare il GPS per maggiori informazioni</string>
     <string name="general_logout_alert">Sei sicuro di voler effettuare il logout?</string>
+    <string name="carOpen_confirm">Sei sicuro di voler aprire le portirere? La corsa inizierà in questo momento.</string>
+    <string name="tripend_notification_selfclose_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente in maniera gratuita.Ti ringraziamo per aver usato Share\'ngo</string>
 
 </resources>

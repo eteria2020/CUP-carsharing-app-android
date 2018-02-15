@@ -69,6 +69,19 @@
                 android:text="@string/booking_active_label"/>
 
             <it.sharengo.eteria.ui.components.CustomTextView
+                android:id="@+id/selfClosePopupView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="@string/tripstart_selfClosePopup"
+                android:textAllCaps="true"
+                android:textColor="@color/darkjunglegreen"
+                android:textSize="12sp"
+                app:font_name="poppinsMedium"
+                android:visibility="gone"
+                android:textAlignment="center"/>
+
+            <it.sharengo.eteria.ui.components.CustomTextView
                 android:id="@+id/bookingPlateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

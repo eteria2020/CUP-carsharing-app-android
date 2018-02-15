@@ -385,6 +385,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @BindView(R.id.feedAdvantageBottomTextView)
     TextView feedAdvantageBottomTextView;
 
+    @BindView(R.id.selfClosePopupView)
+    TextView selfClosePopupView;
+
     @BindView(R.id.popupFeedView)
     View popupFeedView;
 
@@ -402,6 +405,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @BindView(R.id.cancelButtonSearch)
     ImageView cancelButtonSearch;
+
+
 
 
     public static MapGoogleFragment newInstance(int type) {
@@ -2572,9 +2577,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                 String secStr = (sec < 10 ? "0" : "") + sec;
 
 
-                                if (getActivity() != null)
+                                if (getActivity() != null) {
                                     tripDurationTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_durationtrip_label), hhStr + ":" + mnStr + ":" + secStr)));
-                                else if (countDownTimer != null) countDownTimer.cancel();
+                                        if(diffTime < 300 * 1000){
+                                            selfClosePopupView.setVisibility(View.VISIBLE);
+                                        }
+                                        else{
+                                            selfClosePopupView.setVisibility(View.GONE);
+                                        }
+                                }else if (countDownTimer != null) countDownTimer.cancel();
 
                             }
                         });
@@ -2843,7 +2854,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         closeViewBookingCar();
     }
 
-    private void showNotification(int start, int end){
+    private void showNotification(int start, int end,boolean payable){
 
         int diffTime = (int) (end - start);
 
@@ -2856,8 +2867,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         diffTime = diffTime/60;
         if(dec > 0.5) diffTime++;
 
-
-        ((MapGoogleActivity) getActivity()).showNotification(String.format(getString(R.string.tripend_notification_label), diffTime), mNotificationListener);
+        if(payable)
+            ((MapGoogleActivity) getActivity()).showNotification(String.format(getString(R.string.tripend_notification_label), diffTime), mNotificationListener);
+        else
+            ((MapGoogleActivity) getActivity()).showNotification(String.format(getString(R.string.tripend_notification_selfclose_label), diffTime), mNotificationListener);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3083,8 +3096,22 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @OnClick(R.id.openDoorButton)
     public void onOpenDoor(){
-        openDoorFromBooking = false;
-        checkOpenDoor();
+
+
+        final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                getString(R.string.carOpen_confirm),
+                getString(R.string.ok),
+                getString(R.string.cancel));
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                openDoorFromBooking = false;
+                checkOpenDoor();
+            }
+        });
+
     }
 
     @OnClick(R.id.bookingCarButton)
@@ -3253,7 +3280,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void openNotification(int start, int end) {
-        showNotification(start, end);
+        openNotification(start, end,true);
+    }
+    @Override
+    public void openNotification(int start, int end,boolean payable) {
+        showNotification(start, end,payable);
         refreshCars();
     }
 

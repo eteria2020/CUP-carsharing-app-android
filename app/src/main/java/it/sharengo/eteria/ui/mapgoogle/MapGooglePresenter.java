@@ -65,10 +65,8 @@ import it.sharengo.eteria.data.repositories.KmlRepository;
 import it.sharengo.eteria.data.repositories.PostRepository;
 import it.sharengo.eteria.data.repositories.PreferencesRepository;
 import it.sharengo.eteria.data.repositories.UserRepository;
-import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.map.BaseMapPresenter;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
-import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
@@ -109,6 +107,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private Observable<ResponseGoogleRoutes> mFindRoutesRequest;
     private Observable<List<SearchItem>> mFindSearchRequest;
     private Observable<ResponseTrip> mTripsRequest;
+    private Observable<ResponseTrip> mTripsRequestLast;
     private Observable<ResponseReservation> mReservationsRequest;
     private Observable<ResponsePutReservation> mReservationRequest;
     private Observable<ResponseCity> mCityRequest;
@@ -124,6 +123,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private ResponseCar mResponseTripCar;
     private ResponseCar mResponseCarTrip;
     private ResponseTrip mResponseTrip;
+    private ResponseTrip mResponseTripLast;
     private ResponseCar mResponseInfo;
     private ResponseReservation mResponseReservation;
     private Reservation mReservation;
@@ -1861,8 +1861,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 isTripExists = false;
 
                 loadPlates();
-
-                getMvpView().openNotification(timestamp_start, (int) (System.currentTimeMillis() / 1000L));
+                //controllo della chiusura corsa
+                showNotificationOnLastTrip();
 
                 timestamp_start = 0;
                 //timerTask1min.cancel();
@@ -2246,6 +2246,71 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 mCitiesList = response.data;
             }
         };
+    }
+
+
+
+    /**
+     * Retrieve from server user's trips list.
+     */
+    public void showNotificationOnLastTrip(){
+        hideLoading = true;
+        //getMvpView().showStandardLoading();
+
+        if( mTripsRequestLast == null) {
+            mTripsRequestLast = buildTripsRequestLast();
+            addSubscription(mTripsRequestLast.unsafeSubscribe(getTripsSubscriberLast()));
+        }
+    }
+
+    private Observable<ResponseTrip> buildTripsRequestLast() {
+
+        return mTripsRequestLast = mUserRepository.getTripsLast(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, false, true,2)
+                .first()
+                .compose(this.<ResponseTrip>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkTripsResultLast();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseTrip> getTripsSubscriberLast(){
+        return new Subscriber<ResponseTrip>() {
+            @Override
+            public void onCompleted() {
+                mTripsRequestLast = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mTripsRequestLast = null;
+                if(isViewAttached())
+                    getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start,mResponseTripLast.trips.get(0).timestamp_end);
+            }
+
+            @Override
+            public void onNext(ResponseTrip response) {
+                mResponseTripLast = response;
+            }
+        };
+    }
+
+    private void checkTripsResultLast(){
+        if(mResponseTripLast.reason.isEmpty() && mResponseTripLast.trips != null && mResponseTripLast.trips.size() > 0){
+
+            if(!mResponseTripLast.trips.get(0).payable && mResponseTripLast.trips.get(0).getTimestampEndDiff() < 120) {
+              if(isViewAttached())
+                    getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start,mResponseTripLast.trips.get(0).timestamp_end,mResponseTripLast.trips.get(0).payable);
+            }else{
+                if(isViewAttached())
+                     getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start,mResponseTripLast.trips.get(0).timestamp_end);
+            }
+        }else{
+             if(isViewAttached())
+                getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start,mResponseTripLast.trips.get(0).timestamp_end);
+        }
     }
 
 

@@ -30,6 +30,8 @@ public class Trip {
     public float total_cost;
     public boolean cost_computed;
 
+    public boolean payable;
+
     /*---*/
     public int diffTime;
     public String sCost;
@@ -44,7 +46,7 @@ public class Trip {
     public Trip() {
     }
 
-    public Trip(String plate, float latitude, float longitude, float latitude_end, float longitude_end, int timestamp_start, int timestamp_end, int km_end, int km_start, float total_cost, boolean cost_computed) {
+    public Trip(String plate, float latitude, float longitude, float latitude_end, float longitude_end, int timestamp_start, int timestamp_end, int km_end, int km_start, float total_cost, boolean cost_computed,boolean payable) {
         this.plate = plate;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -56,6 +58,13 @@ public class Trip {
         this.km_start = km_start;
         this.total_cost = total_cost;
         this.cost_computed = cost_computed;
+        this.payable = cost_computed;
     }
+
+    public long getTimestampEndDiff(){
+
+        return System.currentTimeMillis()/1000 - this.timestamp_end;
+    }
+
 
 }

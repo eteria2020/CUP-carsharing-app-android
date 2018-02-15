@@ -90,8 +90,6 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
      * Retrieve from server user's trips list.
      */
     public void getTrips(){
-
-
         hideLoading = true;
         //getMvpView().showStandardLoading();
 

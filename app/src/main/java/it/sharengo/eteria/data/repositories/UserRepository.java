@@ -337,6 +337,37 @@ public class UserRepository {
         }
     }
 
+
+    /**
+     * Invoke API getTrips with params received from app. Retrieve from cache if
+     * refreshInfo it's false.
+     *
+     * @param  username     username of user
+     * @param  password     password of user
+     * @param  active       status of trip
+     * @param  refreshInfo  boolean for retrieve data from server or cache
+     * @param  quantity     quantity of trips to retrive
+     * @return              response trip observable object
+     * @see                 Observable<ResponseTrip>
+     */
+    public Observable<ResponseTrip> getTripsLast(String username, String password, boolean active, boolean refreshInfo,int quantity) {
+        Log.w("getTrips",": "+refreshInfo);
+        if(mCachedTrips == null || refreshInfo) { Log.w("getTrips","REFRESH");
+            return mRemoteDataSource.getTrips(Credentials.basic(username, StringsUtils.md5(password)), active,quantity)
+                    .doOnNext(new Action1<ResponseTrip>() {
+                        @Override
+                        public void call(ResponseTrip response) {
+
+                            createOrUpdateTripsInMemory(response);
+                        }
+                    })
+                    .compose(logSourceTrips("NETWORK"));
+        }else{
+            Log.w("getTrips","CACHE");
+            return Observable.just(mCachedTrips);
+        }
+    }
+
     private void createOrUpdateTripsInMemory(ResponseTrip response) {
         if (mCachedTrips == null) {
             mCachedTrips = new ResponseTrip();

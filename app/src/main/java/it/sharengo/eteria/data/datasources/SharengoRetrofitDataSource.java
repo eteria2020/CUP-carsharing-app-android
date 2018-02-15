@@ -166,6 +166,21 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
     }
 
     /**
+     * Returns an observable object (ResponseTrip) for manage API getTrips.
+     *
+     * @param   auth    identification credentials
+     * @param   active  status of trip
+     * @param   quantity quantity
+     * @return          response trip observable object
+     * @see             Observable<ResponseTrip>
+     */
+    @Override
+    public Observable<ResponseTrip> getTrips(String auth, boolean active, int quantity) {
+        return mSharengoApi.getTrips(auth, active,quantity)
+                .compose(this.<ResponseTrip>handleRetrofitRequest());
+    }
+
+    /**
      * Returns an observable object (ResponseTrip) for manage API getCurrentTrips.
      *
      * @param   auth    identification credentials
