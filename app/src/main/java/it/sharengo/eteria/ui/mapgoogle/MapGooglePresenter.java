@@ -167,8 +167,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private int timerInterval;
     private int INT_1_MIN = 60000;
-    private int INT_5_SEC = 5000;
-    private int INT_30_SEC = 30000;
+    private int INT_5_SEC = 4000; //trasformato in 4 secondi per lentezza popup apertura corsa
+    private int INT_30_SEC = 25000; //trasformato in 25 secondi per lentezza popup
 
 
     public MapGooglePresenter(SchedulerProvider schedulerProvider,
@@ -317,7 +317,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         timer.schedule(timerTask, 60000, 60000); //300000
 
 
-        setTimerReservertionTrip(INT_1_MIN);
+        setTimerReservertionTrip(INT_30_SEC);
     }
 
     private void setTimerReservertionTrip(int interval){
@@ -367,7 +367,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             }
         };
 
-        timer1min.schedule(timerTask1min, 5000, interval);
+        timer1min.schedule(timerTask1min, 4000, interval);
     }
 
     /**
@@ -1851,7 +1851,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     if (timerInterval != INT_5_SEC) setTimerReservertionTrip(INT_5_SEC);
                 }else {
                     isTripOpening=false;
-                    if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
+                    if (timerInterval != INT_30_SEC) setTimerReservertionTrip(INT_30_SEC);
                 }
             }
 
@@ -1875,7 +1875,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 getMvpView().removeTripInfo();
 
                 //Timer
-                if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
+                if (timerInterval != INT_30_SEC) setTimerReservertionTrip(INT_30_SEC);
             }
         }
     }
@@ -1975,7 +1975,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     if (timerInterval != INT_5_SEC) setTimerReservertionTrip(INT_5_SEC);
                 }else {
                     isBookingOpening=false;
-                    if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
+                    if (timerInterval != INT_30_SEC) setTimerReservertionTrip(INT_30_SEC);
                 }
             }
             if(isBookingExists && reservationTime > 0){
@@ -1987,7 +1987,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 getMvpView().removeReservationInfo();
 
                 //Timer
-                if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
+                if (timerInterval != INT_30_SEC) setTimerReservertionTrip(INT_30_SEC);
             }
             //getTrips(true);
         }
