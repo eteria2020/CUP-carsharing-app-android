@@ -1,6 +1,7 @@
 package it.sharengo.eteria.ui.mapgoogle;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -240,6 +241,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private PolylineOptions polyWalkingOptions;
     private com.androidmapsextensions.Polyline polyWalking;
     private Timer timerUpadateMap;
+    public ProgressDialog progressOpenDoor;
+    public Handler cancelProgressHandler = new Handler();
 
     @BindView(R.id.mapView)
     FrameLayout mMapContainer;
@@ -639,7 +642,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         });
 
         //Avvio il timer che controlla se c'è una corsa attiva e nel caso centro la mappa sull'utente
-        timerUpadateMap = new Timer();
+       timerUpadateMap = new Timer();
 
         timerUpadateMap.schedule(new TimerTask() {
             @Override
@@ -2250,24 +2253,28 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void loadCarAutonomy(int autonomy){
-        if(autonomy < 50) autonomy = autonomy - 10;
-        autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), (int) autonomy)));
-        if(autonomy == 0){
+       //Modifica ivan per autonomia -10 in popUp
+        if(autonomy < 50 && autonomy >= 10) autonomy = autonomy - 10;
+            autonomyTextView.setText(Html.fromHtml(String.format(getString(R.string.maps_autonomy_label), (int) autonomy)));
+        /*if(autonomy == 0){
             autonomyTextView.setVisibility(View.GONE);
         }else{
             autonomyTextView.setVisibility(View.VISIBLE);
-        }
+        }*/
 
     }
 
     //Metodo per chiudere il popup che mostra le informazioni della macchina
     private void closePopup(){
-        mPresenter.setCarSelected(null);
-        popupCarView.animate().translationY(popupCarView.getHeight());
+        if(popupCarView != null) {
+            mPresenter.setCarSelected(null);
 
-        carSelected = null;
+            popupCarView.animate().translationY(popupCarView.getHeight());
 
-        if(!isBookingCar && !isTripStart) removeWalkingNavigation();
+            carSelected = null;
+
+            if (!isBookingCar && !isTripStart) removeWalkingNavigation();
+        }
     }
 
     //Metodo per verificare se è possibile aprire le portiere (utente autenticato)
@@ -2313,7 +2320,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     if(getDistance(carToOpen) <= 500 || true){ //TODO: reintegrare il controllo
 
                         //Procediamo con le schermate successive
-                        onClosePopup();
+                        //Modifica ivan per riprova open door.
+                       // onClosePopup();
                         if(isTripStart && isTripParked) {
                             unparkAction = true;
                             mPresenter.openDoor(carToOpen, "unpark");
@@ -2552,6 +2560,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             }.start();
         }
         if(isTripStart){
+            //chiudo il popup della macchina tutto sta funzionando.
+                onClosePopup();
+            if(progressOpenDoor != null)
+                progressOpenDoor.cancel();
+            if(cancelProgressHandler != null)
+                cancelProgressHandler.removeCallbacksAndMessages(null);
 
             if (timerTripDuration != null) timerTripDuration.cancel();
 
@@ -3440,10 +3454,35 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @Override
     public void openCarNotification() {
-        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+
+        /*final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                 getString(R.string.tripstart_notification_label),
                 2500);
-        cdd.show();
+        cdd.show();*/
+        progressOpenDoor = ProgressDialog.show(getActivity(), "",
+                getString(R.string.tripstart_notification_label), true);
+
+        Runnable progressOpenDooorRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                progressOpenDoor.cancel();
+                final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                        getString(R.string.retryToOpenDoorPopup),
+                        getString(R.string.ok),
+                        null);
+                cdd.show();
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                       cdd.dismiss();
+                    }
+                });
+            }
+        };
+
+
+        cancelProgressHandler.postDelayed(progressOpenDooorRunnable, 45000);
     }
 
     @Override

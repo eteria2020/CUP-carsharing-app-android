@@ -238,6 +238,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             return super.showCustomLoading();
     }
 
+   @Override
+    public void attachView(MapGoogleMvpView mvpView, boolean recreation) {
+        super.attachView(mvpView, recreation);
+        checkReservationsResult();
+    }
 
     /**
      * Create view when map is ready
@@ -343,9 +348,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                         if(isConnected) {
                             if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) {
                                 //if(seconds == 0 || ((System.currentTimeMillis() - seconds) / 1000) > 59){
-                                    getReservations(true); //Deve essere passato almeno un minuto dall'azione compiuta dall'utente (apertura porte o prenotazione)
-
-                               // }
+                                getReservations(true); //Deve essere passato almeno un minuto dall'azione compiuta dall'utente (apertura porte o prenotazione)
+                                 // }
                                 getTrips(true);
                             }
                         }else{
@@ -1950,7 +1954,10 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private void checkReservationsResult(){
 
-        if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
+        if(mResponseReservation == null )
+            //Non deve fare il checkreservation modifica per resume da background
+            return;
+        if( mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
 
             //Verifico che non sia scaduta
             long unixTime = System.currentTimeMillis() / 1000L;

@@ -19,6 +19,6 @@
     <string name="msg_rational_location_permission">L\'app ha bisogno dei permessi per poter funzionare.</string>
     <string name="ok">OK</string>
     <string name="cancel">ANNULLA</string>
-    <string name="tripend_notification_selfclose_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente in maniera gratuita . Ti ringraziamo per aver usato Share\\\'ngo</string>
+    <string name="tripend_notification_selfclose_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente in maniera gratuita . Ti ringraziamo per aver usato Share\'ngo</string>
 
 </resources>
