@@ -48,6 +48,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -107,6 +108,7 @@ import butterknife.OnTextChanged;
 import it.handroix.map.HdxFragmentMapHelper;
 import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.Bonus;
 import it.sharengo.eteria.data.models.Car;
 import it.sharengo.eteria.data.models.City;
 import it.sharengo.eteria.data.models.Feed;
@@ -1539,10 +1541,36 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                 //Creo il marker
                 MarkerOptions markerCar = new MarkerOptions().position(new LatLng(car.latitude, car.longitude));
-                if(car.bonus != null&& !car.bonus.isEmpty() && car.bonus.get(0).status && car.bonus.get(0).type.equals("nouse")){ //Macchina con minuti free
+
+            ArrayList<Bonus> carBonus = car.getValidBonus();
+            if(!carBonus.isEmpty()){
+                for(Bonus bonus:carBonus){
+                    switch (bonus.getType()){
+
+                        case "nouse":
+                            markerCar.icon(getBitmapDescriptor(makeFreeMarker(ResourceProvider.getDrawable(getActivity(), R.drawable.ic_auto_free), String.valueOf(bonus.value), 100, 100)));
+                            break;
+                        case "unplug":
+                            markerCar.icon(getBitmapDescriptor(makeFreeMarker(ResourceProvider.getDrawable(getActivity(), R.drawable.ic_auto_charging), String.valueOf(bonus.value), 100, 100)));
+                            break;
+                        default:
+                            markerCar.icon(bitmapAuto);
+                            break;
+                    }
+
+                }
+
+            }else{
+
+                markerCar.icon(bitmapAuto);
+            }
+
+
+
+                /*if(car.bonus != null&& !car.bonus.isEmpty() && car.bonus.get(0).status && car.bonus.get(0).type.equals("nouse")){ //Macchina con minuti free
                     markerCar.icon(getBitmapDescriptor(makeFreeMarker(ResourceProvider.getDrawable(getActivity(), R.drawable.ic_auto_free), String.valueOf(car.bonus.get(0).value), 100, 100)));
                 }else
-                    markerCar.icon(bitmapAuto);
+                    markerCar.icon(bitmapAuto);*/
                 markerCar.data(car);
                 //markerCar.anchor(0.5f, 1.0f);
 
@@ -2190,17 +2218,27 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         //Tipologia popup
         boolean isCarBonus = (car.bonus != null&& !car.bonus.isEmpty() && car.bonus.get(0).status && car.bonus.get(0).type.equals("nouse")) ? true : false;
+
+        Animation anim = new AlphaAnimation(1.0f, 0.0f);
+        anim.setStartOffset(100);
+        anim.setDuration(900);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+
         if(isCarBonus && car.id.equals(carnext_id)){
             closestcarTextView.setText(getString(R.string.maps_closestcar_label) + "\n" + String.format(getString(R.string.maps_freecar_label), ""+car.bonus.get(0).value));
             closestcarView.setVisibility(View.VISIBLE);
+            closestcarTextView.startAnimation(anim);
         }
         else if(isCarBonus){
             closestcarTextView.setText(String.format(getString(R.string.maps_freecar_label), ""+car.bonus.get(0).value));
             closestcarView.setVisibility(View.VISIBLE);
+            closestcarTextView.startAnimation(anim);
         }
         else if(car.id.equals(carnext_id)){
             closestcarTextView.setText(getString(R.string.maps_closestcar_label));
             closestcarView.setVisibility(View.VISIBLE);
+            closestcarTextView.startAnimation(anim);
         }else{
             closestcarView.setVisibility(View.GONE);
         }

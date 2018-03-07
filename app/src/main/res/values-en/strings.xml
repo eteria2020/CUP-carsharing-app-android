@@ -231,7 +231,7 @@
     <string name="btn_login">LOGIN</string>
     <string name="tripend_parkerdcar_label">Car parkerd</string>
     <string name="chronology_ratesmin_label">Minute fare: € %s</string>
-    <string name="maps_freecar_label">%s minutes free drive</string>
+    <string name="maps_freecar_label">With this car %s minutes of free drive</string>
 
     <string name="rates_titleauth_label">Fares</string>
     <string name="rates_titlenoauth_label">Fares and Bonuses</string>
@@ -246,6 +246,6 @@
     <string name="rates_signup_action">SUBSCRIBE NOW</string>
     <string name="maps_enablegps_label">Enable the GPS for more information</string>
     <string name="general_logout_alert">Are you sure you want to log out?</string>
-    <string name="tripend_notification_selfclose_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente in maniera gratuita . Ti ringraziamo per aver usato Share\\\'ngo</string>
+    <string name="tripend_notification_selfclose_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente in maniera gratuita . Ti ringraziamo per aver usato Share\'ngo</string>
 
 </resources>

@@ -322,6 +322,7 @@ public class UserRepository {
     public Observable<ResponseTrip> getTrips(String username, String password, boolean active, boolean refreshInfo) {
         Log.w("getTrips",": "+refreshInfo);
         if(mCachedTrips == null || refreshInfo) { Log.w("getTrips","REFRESH");
+
             return mRemoteDataSource.getTrips(Credentials.basic(username, StringsUtils.md5(password)), active)
                     .doOnNext(new Action1<ResponseTrip>() {
                         @Override
