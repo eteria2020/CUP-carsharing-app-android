@@ -31,7 +31,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-
     defaultConfig {
         applicationId project.APPLICATION_ID
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -42,16 +41,15 @@ android {
         multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
-
     buildTypes {
         debug {
             minifyEnabled false
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
 
             testCoverageEnabled true
 
-            applicationIdSuffix ".development"
-            resValue "string", "google_map_api_key", "AIzaSyA9fVUH1nET8pjHgceS6lyf65NZPsFnaCo"
+            applicationIdSuffix ".eteria"
+            resValue "string", "google_map_api_key", "AIzaSyDO5blXgSSM7hvNnsde0qM_rnK7nkdICUA"
             resValue "string", "google_place_api_key", "AIzaSyAnVjGP9ZCkSkBVkrX-5SBdmNW9AwE_Gew"
             resValue "string", "google_direction_api_key", "AIzaSyBEMZPnKaJgmjXnzeWpitYuqBrUtDf_Asg"
         }
@@ -67,7 +65,6 @@ android {
             resValue "string", "google_direction_api_key", "AIzaSyBEMZPnKaJgmjXnzeWpitYuqBrUtDf_Asg"
         }
     }
-
     /*
      * Apk Name Beautifier
      */
@@ -82,17 +79,15 @@ android {
             output.packageApplication.outputFile = new File(output.packageApplication.outputFile.parent, apkFileName)
         }
     }
-
     /*
      *  Filter useless variants (like "mockRelease")
      */
     android.variantFilter { variant ->
-        if(variant.buildType.name == 'release'
+        if (variant.buildType.name == 'release'
                 && variant.getFlavors().get(0).name == 'mock') {
             variant.setIgnore(true);
         }
     }
-
     packagingOptions {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/license.txt'
@@ -104,17 +99,19 @@ android {
         exclude 'LICENSE.txt'
         exclude 'main/AndroidManifest.xml'
     }
-
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
         disable 'InvalidPackage'
     }
-
     // Always show the result of every unit test, even if it passes.
     testOptions.unitTests.all {
         testLogging {
             events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        }
+    }
+    productFlavors {
+        miavm {
         }
     }
 }

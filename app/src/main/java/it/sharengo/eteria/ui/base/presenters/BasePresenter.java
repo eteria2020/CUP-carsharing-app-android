@@ -6,7 +6,9 @@ import android.util.Log;
 
 import java.util.concurrent.TimeUnit;
 
+import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.models.ResponseUser;
+import it.sharengo.eteria.data.models.UserInfo;
 import it.sharengo.eteria.data.repositories.UserRepository;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
@@ -211,6 +213,53 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
     public boolean isAuth(){
         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) return true;
         return false;
+    }
+
+    /**
+     *
+     * @return DisabledType user disabled_type, null otherwise
+     */
+    public UserInfo.DisabledType getDisabledType(){
+        if(mUserRepository.getCachedUser() != null && mUserRepository.getCachedUser().username != null && !mUserRepository.getCachedUser().username.isEmpty()){
+            if(!mUserRepository.getCachedUser().userInfo.enabled) {
+                return mUserRepository.getCachedUser().userInfo.getDisabledType();
+            }else {
+                return UserInfo.DisabledType.USER_NOT_DISABLED;
+            }
+        }else
+            return null;
+    }
+
+    /**
+     *
+     * @return DisabledType if user exist end disabled, null otherwise
+     */
+    public String getDisabledString(Context context){
+        if(context == null)
+            return "";
+        try {
+
+            switch (getDisabledType()) {
+                case USER_NOT_DISABLED:
+                    return "";
+                case FIRST_PAYMENT_NOT_COMPLETED:
+                    return context.getString(R.string.first_payment_login_alert);
+                case FAILED_PAYMENT:
+                    return context.getString(R.string.failed_payment_login_alert);
+                case INVALID_DRIVERS_LICENSE:
+                    return context.getString(R.string.invalid_driver_license_login_alert);
+                case DISABLED_BY_WEBUSER:
+                    return context.getString(R.string.disabled_webuser_login_alert);
+                case EXPIRED_DRIVERS_LICENSE:
+                    return context.getString(R.string.expired_driver_license_login_alert);
+                case EXPIRED_CREDIT_CARD:
+                    return context.getString(R.string.expired_credit_card_login_alert);
+                default:
+                    return context.getString(R.string.general_login_alert);
+            }
+        }catch (Exception e){
+            return context.getString(R.string.general_login_alert);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

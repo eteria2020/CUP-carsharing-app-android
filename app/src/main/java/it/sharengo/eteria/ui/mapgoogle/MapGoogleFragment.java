@@ -43,7 +43,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +72,6 @@ import com.androidmapsextensions.OnMapReadyCallback;
 import com.androidmapsextensions.PolygonOptions;
 import com.androidmapsextensions.PolylineOptions;
 import com.example.x.circlelayout.CircleLayout;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -119,6 +117,7 @@ import it.sharengo.eteria.data.models.Reservation;
 import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import it.sharengo.eteria.data.models.SearchItem;
 import it.sharengo.eteria.data.models.Trip;
+import it.sharengo.eteria.data.models.UserInfo;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.assistance.AssistanceActivity;
 import it.sharengo.eteria.ui.base.activities.BaseActivity;
@@ -127,7 +126,6 @@ import it.sharengo.eteria.ui.base.map.BaseMapFragment;
 import it.sharengo.eteria.ui.components.CustomButton;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 import it.sharengo.eteria.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
-import it.sharengo.eteria.ui.menu.MenuFragment;
 import it.sharengo.eteria.utils.ImageUtils;
 import it.sharengo.eteria.utils.ResourceProvider;
 import it.sharengo.eteria.utils.StringsUtils;
@@ -2162,6 +2160,51 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         });
     }
 
+    private void loginAlertDisabled(final UserInfo.DisabledType disabledReason){
+        String reason = getString(R.string.general_login_alert);
+        if(disabledReason!=null)
+            reason = mPresenter.getDisabledString(getActivity());
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                reason,
+                getString(R.string.next),
+                getString(R.string.cancel));
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                mPresenter.setCarSelected(carSelected);
+                if(disabledReason!=null){
+                    switch (disabledReason){
+
+                        case USER_NOT_DISABLED:
+                            Navigator.launchUserArea(MapGoogleFragment.this);
+                            break;
+                        case FIRST_PAYMENT_NOT_COMPLETED:
+                            Navigator.launchUserArea(MapGoogleFragment.this);
+                            break;
+                        case FAILED_PAYMENT:
+                            Navigator.launchUserArea(MapGoogleFragment.this);
+                            break;
+                        case INVALID_DRIVERS_LICENSE:
+                            Navigator.launchUserArea(MapGoogleFragment.this);
+                            break;
+                        case DISABLED_BY_WEBUSER:
+                            Navigator.launchAssistance(MapGoogleFragment.this);
+                            break;
+                        case EXPIRED_DRIVERS_LICENSE:
+                            Navigator.launchUserArea(MapGoogleFragment.this);
+                            break;
+                        case EXPIRED_CREDIT_CARD:
+                            Navigator.launchUserArea(MapGoogleFragment.this);
+                            break;
+                    }
+                }else
+                    Navigator.launchLogin(MapGoogleFragment.this, Navigator.REQUEST_LOGIN_MAPS);
+            }
+        });
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -2318,7 +2361,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Metodo per verificare se è possibile aprire le portiere (utente autenticato)
     private void checkOpenDoor(){
         if(mPresenter.isAuth()){
-            openDoors();
+            if(mPresenter.getDisabledType()==null || mPresenter.getDisabledType()== UserInfo.DisabledType.USER_NOT_DISABLED)
+                openDoors();
+            else{
+                 loginAlertDisabled(mPresenter.getDisabledType());
+            }
         }else{
             loginAlert();
         }

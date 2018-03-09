@@ -247,5 +247,12 @@
     <string name="maps_enablegps_label">Enable the GPS for more information</string>
     <string name="general_logout_alert">Are you sure you want to log out?</string>
     <string name="tripend_notification_selfclose_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente in maniera gratuita . Ti ringraziamo per aver usato Share\'ngo</string>
+    <string name="first_payment_login_alert">Sei disabilitato per primo pagamento non effettuato, accedi alla tua area personale per poter procedere col pagamento</string>
+    <string name="failed_payment_login_alert">Sei disabilitato per un pagamento non effettuato, accedi alla tua area personale per poter procedere col pagamento</string>
+    <string name="invalid_driver_license_login_alert">Sei disabilitato perchè hai inserto una patente non valida, accedi alla tua area personale per controllare i dati</string>
+    <string name="disabled_webuser_login_alert">L\'account è disabilitato, contatta il servizio clienti per maggiorni informazioni</string>
+    <string name="expired_driver_license_login_alert">Sei disabilitato perchè la patente che hai inserito è scaduta, accedi alla tua area personale per controllare i dati</string>
+    <string name="expired_credit_card_login_alert">Sei disabilitato perchè i dati di pagamento che hai inserito sono scaduti, accedi alla tua area personale per controllare i dati</string>
+    <string name="next">AVANTI</string>
 
 </resources>

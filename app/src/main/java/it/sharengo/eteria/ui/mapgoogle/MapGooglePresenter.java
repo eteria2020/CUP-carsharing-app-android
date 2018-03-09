@@ -7,6 +7,7 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -57,6 +58,7 @@ import it.sharengo.eteria.data.models.ResponseSharengoMap;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.SearchItem;
 import it.sharengo.eteria.data.models.User;
+import it.sharengo.eteria.data.models.UserInfo;
 import it.sharengo.eteria.data.repositories.AddressRepository;
 import it.sharengo.eteria.data.repositories.AppRepository;
 import it.sharengo.eteria.data.repositories.CarRepository;
@@ -395,10 +397,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @return      status of user authentication
      * @see         boolean
      */
+    @Override
     public boolean isAuth(){
         if(mUserRepository.getCachedUser() != null && mUserRepository.getCachedUser().username != null && !mUserRepository.getCachedUser().username.isEmpty()) return true;
         return false;
     }
+
+
 
     private void loadCarpopup(){
         if(mCarRepository.getCarSelected() != null && isViewAttached())

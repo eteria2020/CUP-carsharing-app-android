@@ -29,5 +29,15 @@ android {
             resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
         }
+        miavm {
+            resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
+            resValue "string", "endpointGoogle", "https://maps.googleapis.com/maps/api/"
+            resValue "string", "endpointSharengo", "https://192.168.178.141:8023/"
+            resValue "string", "endpointSharengoMaps", "http://maps.sharengo.it/"
+            resValue "string", "endpointSharengoKML", "http://www.sharengo.it/"
+            resValue "string", "endpointCities", "https://www.sharengo.it/"
+            resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
+            resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
+        }
     }
 }

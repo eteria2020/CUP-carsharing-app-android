@@ -45,7 +45,7 @@ public interface SharengoApi {
     * User
     */
 
-    @GET("v2/user")
+    @GET("v3/user")
     Observable<Result<ResponseUser>> getUser(@Header("Authorization") String auth);
 
     /*

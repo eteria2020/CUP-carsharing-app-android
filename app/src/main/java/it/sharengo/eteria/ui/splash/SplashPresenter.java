@@ -103,7 +103,13 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                 Type fooType = new TypeToken<UserInfo>() {}.getType();
                 Gson gson = new Gson();
                 String json = mPref.getString(context.getString(R.string.preference_userinfo), "");
-                UserInfo obj = (UserInfo) gson.fromJson(json, fooType);
+
+                UserInfo obj=null;
+                try {
+                     obj = (UserInfo) gson.fromJson(json, fooType);
+                }catch (Exception e){
+
+                }
                 if(obj != null && mUserRepository.getCachedUser() != null) mUserRepository.getCachedUser().userInfo = obj;
 
                 askPermission();
