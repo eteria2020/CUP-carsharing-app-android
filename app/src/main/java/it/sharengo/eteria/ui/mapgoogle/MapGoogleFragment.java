@@ -1550,9 +1550,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         case "nouse":
                             markerCar.icon(getBitmapDescriptor(makeFreeMarker(ResourceProvider.getDrawable(getActivity(), R.drawable.ic_auto_free), String.valueOf(bonus.value), 100, 100)));
                             break;
-                        case "unplug":
+                        /*case "unplug":
                             markerCar.icon(getBitmapDescriptor(makeFreeMarker(ResourceProvider.getDrawable(getActivity(), R.drawable.ic_auto_charging), String.valueOf(bonus.value), 100, 100)));
-                            break;
+                            break;*/
                         default:
                             markerCar.icon(bitmapAuto);
                             break;
