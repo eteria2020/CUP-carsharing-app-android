@@ -286,5 +286,6 @@
     <string name="general_logout_alert">Sei sicuro di voler effettuare il logout?</string>
     <string name="carOpen_confirm">Sei sicuro di voler aprire le portirere? La corsa inizierà in questo momento.</string>
     <string name="tripend_notification_selfclose_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente in maniera gratuita.Ti ringraziamo per aver usato Share\'ngo</string>
+    <string name="retryToOpenDoorPopup">Si è verificato un errore vuoi riprovare?</string>
 
 </resources>

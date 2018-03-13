@@ -53,8 +53,6 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
         if(recreation) {
             restoreDataOnConfigurationChange();
         }
-
-
     }
 
     @Override
