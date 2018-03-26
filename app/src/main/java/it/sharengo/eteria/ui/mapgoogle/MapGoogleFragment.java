@@ -34,6 +34,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -43,6 +44,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,6 +128,7 @@ import it.sharengo.eteria.ui.base.map.BaseMapFragment;
 import it.sharengo.eteria.ui.components.CustomButton;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 import it.sharengo.eteria.ui.mapgoogle.CircleLayout.MyCircleLayoutAdapter;
+import it.sharengo.eteria.ui.userarea.UserAreaActivity;
 import it.sharengo.eteria.utils.ImageUtils;
 import it.sharengo.eteria.utils.ResourceProvider;
 import it.sharengo.eteria.utils.StringsUtils;
@@ -229,7 +232,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private MarkerOptions carNextClusterOptions;
     private int currentDrawable = 0; //frame dell'animazione della macchiana più vicina
     private int NUM_ANIM = 40; //46
-    private List<BitmapDescriptor> drawableAnimGreenArray;
+    private List<BitmapDescriptor> bitmapAnimGreenArray;
     private List<BitmapDescriptor> drawableAnimYellowArray;
     private BitmapDescriptor bitmapAuto;
     private BitmapDescriptor bitmapUser;
@@ -451,14 +454,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         cityClusterVisible = false;
         findNextCarIntoCluster = false;
         walkingDestination = new Location("destination");
-        /*drawableAnimGreenArray = new ArrayList<>();
+        /*bitmapAnimGreenArray = new ArrayList<>();
         drawableAnimYellowArray = new ArrayList<>();
         for(int i = 0; i <= NUM_ANIM; i++){
             if(i < 10) {
-                drawableAnimGreenArray.add("autopulse000" + i);
+                bitmapAnimGreenArray.add("autopulse000" + i);
                 drawableAnimYellowArray.add("autopulseyellow000" + i);
             }else {
-                drawableAnimGreenArray.add("autopulse00" + i);
+                bitmapAnimGreenArray.add("autopulse00" + i);
                 drawableAnimYellowArray.add("autopulseyellow00" + i);
             }
         }*/
@@ -598,18 +601,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         mMap.setIndoorEnabled(false);
 
 
-        drawableAnimGreenArray = new ArrayList<>();
-        drawableAnimYellowArray = new ArrayList<>();
-        int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().density);
-        for(int i = 0; i <= NUM_ANIM; i++){
-            if(i < 10) {
-                drawableAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse000" + i, sizeMarkerAnim, sizeMarkerAnim)));
-                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow000" + i, sizeMarkerAnim, sizeMarkerAnim)));
-            }else {
-                drawableAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse00" + i, sizeMarkerAnim, sizeMarkerAnim)));
-                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow00" + i, sizeMarkerAnim, sizeMarkerAnim)));
-            }
-        }
+       initDrawableArray();
 
 
         bitmapAuto = getBitmapDescriptor(resizeMapIcons("ic_auto", (int) (39 * getResources().getDisplayMetrics().density), (int) (48 * getResources().getDisplayMetrics().density)));
@@ -618,6 +610,36 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         setMapReady();
 
+    }
+    private void initDrawableArray(@DrawableRes int res,int bonusValue){
+        Log.d("BOMB","initDrawableArray with drawable");
+        bitmapAnimGreenArray = new ArrayList<>();
+        drawableAnimYellowArray = new ArrayList<>();
+        int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().density);
+        for(int i = 0; i <= NUM_ANIM; i++){
+            if(i < 10) {
+                bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIconsBonus("autopulse000" + i, sizeMarkerAnim, sizeMarkerAnim,res,String.valueOf(bonusValue))));
+                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow000" + i, sizeMarkerAnim, sizeMarkerAnim)));
+            }else {
+                bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIconsBonus("autopulse00" + i, sizeMarkerAnim, sizeMarkerAnim,res,String.valueOf(bonusValue))));
+                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow00" + i, sizeMarkerAnim, sizeMarkerAnim)));
+            }
+        }
+    }
+    private void initDrawableArray(){
+        Log.d("BOMB","initDrawableArray");
+        bitmapAnimGreenArray = new ArrayList<>();
+        drawableAnimYellowArray = new ArrayList<>();
+        int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().density);
+        for(int i = 0; i <= NUM_ANIM; i++){
+            if(i < 10) {
+                bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse000" + i, sizeMarkerAnim, sizeMarkerAnim)));
+                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow000" + i, sizeMarkerAnim, sizeMarkerAnim)));
+            }else {
+                bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse00" + i, sizeMarkerAnim, sizeMarkerAnim)));
+                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow00" + i, sizeMarkerAnim, sizeMarkerAnim)));
+            }
+        }
     }
 
     private void setMapReady(){
@@ -1551,9 +1573,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         case "nouse":
                             markerCar.icon(getBitmapDescriptor(makeFreeMarker(ResourceProvider.getDrawable(getActivity(), R.drawable.ic_auto_free), String.valueOf(bonus.value), 100, 100)));
                             break;
-                        /*case "unplug":
-                            markerCar.icon(getBitmapDescriptor(makeFreeMarker(ResourceProvider.getDrawable(getActivity(), R.drawable.ic_auto_charging), String.valueOf(bonus.value), 100, 100)));
-                            break;*/
+                        case "unplug":
+                            markerCar.icon(getBitmapDescriptor(makeFreeMarker(ResourceProvider.getDrawable(getActivity(), R.drawable.ic_auto_charging), String.valueOf(bonus.value), 125, 100)));
+                            break;
                         default:
                             markerCar.icon(bitmapAuto);
                             break;
@@ -1695,11 +1717,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             for(com.androidmapsextensions.Marker markerNext : poiMarkers){
                 Car markerNextData = ((Car) markerNext.getData());
                 boolean freeCar = false;
-                if(markerNextData.bonus != null&& !markerNextData.bonus.isEmpty() && markerNextData.bonus.get(0).status && markerNextData.bonus.get(0).type.equals("nouse")) freeCar = true;
+                //if(markerNextData.bonus != null&& !markerNextData.bonus.isEmpty() && markerNextData.bonus.get(0).status && markerNextData.bonus.get(0).type.equals("nouse")) freeCar = true;
                 if(markerNextData.id.equals(carnext_id) && !freeCar){
                     carnextMarker = markerNext;
                 }
             }
+
 
             setMarkerAnimation();
         }else{
@@ -1771,7 +1794,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void findNextCar(List<Car> carsList){
 
         String car_id = "";
-        float distance = 10000000000000000000000.0f;
+        Car car_next=null;
+        float distance = Float.MAX_VALUE;
 
 
         if(userLocation != null && carsList != null) {
@@ -1784,7 +1808,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     if (dist < distance) {
                         distance = dist;
                         car_id = car.id;
-                        carNext = car;
+                        car_next = car;
                     }
                 }
             }
@@ -1792,10 +1816,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         carnext_id = car_id;
+        setCarNext(car_next);
 
         if(!isBookingCar && !isTripStart && carPreSelected == null && carSelected == null) {
-            if (carWalkingNavigation == null || (carWalkingNavigation != null && !carWalkingNavigation.id.equals(carNext.id))) {
-                carWalkingNavigation = carNext;
+            if (carWalkingNavigation == null || (carWalkingNavigation != null && !carWalkingNavigation.id.equals(getCarNext().id))) {
+                carWalkingNavigation = getCarNext();
                 getWalkingNavigation();
             }
         }
@@ -1823,7 +1848,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                     //Verifico se una prenotazione è attiva: il colore dell'animazione è giallo se c'è una prenotazione, altrimenti verde
                                     if (isBookingCar || isTripStart)
                                         drawableAnimArray = drawableAnimYellowArray;
-                                    else drawableAnimArray = drawableAnimGreenArray;
+                                    else drawableAnimArray = bitmapAnimGreenArray;
 
                                     //Ogni x millisecondi cambio il frame
                                     if (isBookingCar || isTripStart) {
@@ -2041,6 +2066,31 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
     }
+    private Bitmap resizeMapIconsBonus(String iconName, int width, int height, @DrawableRes int drawable,String value){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false;
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getActivity().getPackageName()), options);  //BitmapFactory.decodeResource(a.getResources(), path, options);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+        Bitmap bonusBitmap =  Bitmap.createScaledBitmap(ImageUtils.drawableToBitmap(makeFreeMarker(getResources().getDrawable(drawable),value,100,100)), (int) (55* getResources().getDisplayMetrics().density),  (int) (55* getResources().getDisplayMetrics().density), false);
+        //draw bonus value
+        Canvas imageCanvas = new Canvas(bonusBitmap);
+
+        // Set up the paint for use with our Canvas
+        Paint imagePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        imagePaint.setTextAlign(Paint.Align.CENTER);
+        imagePaint.setColor(ContextCompat.getColor(getActivity(), R.color.white));
+        imagePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        imagePaint.setTextSize(8 * getResources().getDisplayMetrics().density);
+
+
+        // Draw the text on top of our image
+        imageCanvas.drawText(value, width / 2, 48, imagePaint);
+        //draw bitmap on bigger image
+        Canvas c2 = new Canvas(resizedBitmap);
+        c2.translate((float)(62.5* getResources().getDisplayMetrics().density),(float) (62.9* getResources().getDisplayMetrics().density));
+        c2.drawBitmap(bonusBitmap, 0, 0, null);
+        return resizedBitmap;
+    }
 
     //Metodo che server per prelevare l'asset grafico corretto
     private BitmapDrawable getIconMarker(int icon){
@@ -2181,22 +2231,22 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                             Navigator.launchUserArea(MapGoogleFragment.this);
                             break;
                         case FIRST_PAYMENT_NOT_COMPLETED:
-                            Navigator.launchUserArea(MapGoogleFragment.this);
+                            Navigator.launchUserArea(MapGoogleFragment.this, UserAreaActivity.InnerRoute.PAYMENTS);
                             break;
                         case FAILED_PAYMENT:
-                            Navigator.launchUserArea(MapGoogleFragment.this);
+                            Navigator.launchUserArea(MapGoogleFragment.this, UserAreaActivity.InnerRoute.PAYMENTS);
                             break;
                         case INVALID_DRIVERS_LICENSE:
-                            Navigator.launchUserArea(MapGoogleFragment.this);
+                            Navigator.launchUserArea(MapGoogleFragment.this, UserAreaActivity.InnerRoute.DRIVER_LICENSE);
                             break;
                         case DISABLED_BY_WEBUSER:
                             Navigator.launchAssistance(MapGoogleFragment.this);
                             break;
                         case EXPIRED_DRIVERS_LICENSE:
-                            Navigator.launchUserArea(MapGoogleFragment.this);
+                            Navigator.launchUserArea(MapGoogleFragment.this, UserAreaActivity.InnerRoute.DRIVER_LICENSE);
                             break;
                         case EXPIRED_CREDIT_CARD:
-                            Navigator.launchUserArea(MapGoogleFragment.this);
+                            Navigator.launchUserArea(MapGoogleFragment.this, UserAreaActivity.InnerRoute.PAYMENTS);
                             break;
                     }
                 }else
@@ -2526,9 +2576,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void removeWalkingNavigation(){
         carWalkingNavigation = null;
 
-        if(!isTripStart && !isBookingCar && carNext != null){
+        if(!isTripStart && !isBookingCar && getCarNext() != null){
 
-            if(carSelected == null) carWalkingNavigation = carNext;
+            if(carSelected == null) carWalkingNavigation = getCarNext();
             getWalkingNavigation();
         }
         else{
@@ -3048,7 +3098,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void feedBookingClick(){
-        if(carNext != null && userLocation != null) {
+        if(getCarNext() != null && userLocation != null) {
 
             if(!showCarsWithFeeds)
                 showPoiMarkers();
@@ -3057,9 +3107,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             onCloseFeedPopup();
 
-            showPopupCar(carNext);
+            showPopupCar(getCarNext());
 
-            moveMapCameraToPoitWithZoom((double) carNext.latitude, (double) carNext.longitude, 19);
+            moveMapCameraToPoitWithZoom((double) getCarNext().latitude, (double) getCarNext().longitude, 19);
 
         }else{
             final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
@@ -3596,6 +3646,34 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 if(getActivity() != null) ((BaseActivity) getActivity()).hideLoadingChronology();
             }
         }, 2000);
+    }
+
+    public Car getCarNext() {
+        return carNext;
+    }
+
+    public void setCarNext(Car carNext) {
+
+        if(carNext!=null &&!carNext.equals(this.carNext) && carNext.getValidBonus().size()>0 ) {
+            Bonus bonus = carNext.getValidBonus().get(0);
+            Log.d("BOMB", "initDrawableArray new car" + carNext.id + " old car: " + this.carNext);
+            switch (bonus.getType()) {
+
+                case "nouse":
+                    initDrawableArray(R.drawable.ic_auto_free,bonus.getValue());
+                    break;
+                case "unplug":
+                    initDrawableArray(R.drawable.ic_auto_charging,bonus.getValue());
+                    break;
+                default:
+                    initDrawableArray();
+                    break;
+            }
+        }
+
+        this.carNext = carNext;
+
+
     }
 
 

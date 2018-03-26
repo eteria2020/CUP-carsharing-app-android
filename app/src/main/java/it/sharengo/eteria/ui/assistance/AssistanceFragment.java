@@ -173,7 +173,7 @@ public class AssistanceFragment extends BaseMvpFragment<AssistancePresenter> imp
             @Override
             public void onClick(View view) {
                 cdd.dismissAlert();
-                Navigator.launchHome(AssistanceFragment.this);
+                Navigator.launchMapGoogle(AssistanceFragment.this,Navigator.REQUEST_MAP_DEFAULT);
                 getActivity().finish();
             }
         });

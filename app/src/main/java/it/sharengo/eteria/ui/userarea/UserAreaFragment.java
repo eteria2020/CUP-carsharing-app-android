@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -36,13 +37,20 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
 
     private static final String TAG = UserAreaFragment.class.getSimpleName();
 
+    public static final String ARG_TYPE = "ARG_TYPE";
+
+    private String baseURL="";
+
     private boolean isLogin;
 
     //@BindView(R.id.userareaWebView)
     MyWebView webview;
 
-    public static UserAreaFragment newInstance() {
+    public static UserAreaFragment newInstance(UserAreaActivity.InnerRoute route) {
         UserAreaFragment fragment = new UserAreaFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_TYPE, route.name());
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -52,6 +60,24 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         getMvpFragmentComponent(savedInstanceState).inject(this);
+
+        if(getArguments() != null){
+            UserAreaActivity.InnerRoute route = UserAreaActivity.InnerRoute.valueOf(getArguments().getString(ARG_TYPE));
+
+            switch (route) {
+                case HOME:
+                    baseURL = "";
+                    break;
+                case PAYMENTS:
+                    baseURL = "/dati-pagamento";
+                    break;
+                case DRIVER_LICENSE:
+                    baseURL = "/patente";
+                    break;
+            }
+
+
+        }
     }
 
     @Override
@@ -122,7 +148,18 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             e.printStackTrace();
         }
 
+        webview.setWebChromeClient(new WebChromeClient());
+
         webview.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                   // view.evaluateJavascript("alert(\"mhh\");", null);
+                } else {
+                   // view.loadUrl("javascript:alert(\"mhh\");");
+                }
+            }
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 
@@ -158,11 +195,13 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
 
     private void loadUrl(WebView view, String mobileUrl){
         if (StringUtils.equals(mobileUrl, "https://www.sharengo.it/area-utente")) {
-            mobileUrl = mobileUrl + "/mobile";
+            mobileUrl = mobileUrl + baseURL+"/mobile";
+            Log.d("BOMB","Webview is loading: "+mobileUrl);
             view.loadUrl(mobileUrl);
         }
         ((BaseActivity) getActivity()).hideLoadingChronology();
     }
+
 
     private void hideWebView(){
         final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
@@ -174,7 +213,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             @Override
             public void onClick(View view) {
                 cdd.dismissAlert();
-                Navigator.launchHome(UserAreaFragment.this);
+                Navigator.launchMapGoogle(UserAreaFragment.this,Navigator.REQUEST_MAP_DEFAULT);
                 getActivity().finish();
             }
         });

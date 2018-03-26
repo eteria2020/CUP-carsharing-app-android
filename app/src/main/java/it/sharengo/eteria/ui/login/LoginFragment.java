@@ -25,6 +25,8 @@ import it.sharengo.eteria.data.models.UserInfo;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
+import it.sharengo.eteria.ui.mapgoogle.MapGoogleFragment;
+import it.sharengo.eteria.ui.userarea.UserAreaActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 import static it.sharengo.eteria.data.common.ErrorResponse.ErrorType.HTTP;
@@ -257,12 +259,59 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         //Salvo nelle preferenze e prelevo i dati dell'utente
         mPresenter.saveCredentials(username, password, getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
 
+
+
+    }
+
+    private void loginAlertDisabled(final UserInfo.DisabledType disabledReason){
+        String reason = getString(R.string.general_login_alert);
+        if(disabledReason!=null)
+            reason = mPresenter.getDisabledString(getActivity());
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                reason,
+                getString(R.string.next),null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                if(disabledReason!=null){
+                    switch (disabledReason){
+
+                        case USER_NOT_DISABLED:
+                            Navigator.launchUserArea(LoginFragment.this);
+                            break;
+                        case FIRST_PAYMENT_NOT_COMPLETED:
+                            Navigator.launchUserArea(LoginFragment.this, UserAreaActivity.InnerRoute.PAYMENTS);
+                            break;
+                        case FAILED_PAYMENT:
+                            Navigator.launchUserArea(LoginFragment.this, UserAreaActivity.InnerRoute.PAYMENTS);
+                            break;
+                        case INVALID_DRIVERS_LICENSE:
+                            Navigator.launchUserArea(LoginFragment.this, UserAreaActivity.InnerRoute.DRIVER_LICENSE);
+                            break;
+                        case DISABLED_BY_WEBUSER:
+                            Navigator.launchAssistance(LoginFragment.this);
+                            break;
+                        case EXPIRED_DRIVERS_LICENSE:
+                            Navigator.launchUserArea(LoginFragment.this, UserAreaActivity.InnerRoute.DRIVER_LICENSE);
+                            break;
+                        case EXPIRED_CREDIT_CARD:
+                            Navigator.launchUserArea(LoginFragment.this, UserAreaActivity.InnerRoute.PAYMENTS);
+                            break;
+                    }
+                }else
+                    Navigator.launchLogin(LoginFragment.this, Navigator.REQUEST_LOGIN_MAPS);
+            }
+        });
     }
 
     /**
      * According to type launch correct view. Example Home, Login Profile or other.
      */
     public void navigateTo(){
+        if(mPresenter.getDisabledType()==null || mPresenter.getDisabledType()== UserInfo.DisabledType.USER_NOT_DISABLED) {
+
         switch (type){
             case Navigator.REQUEST_LOGIN_START:
                 if(getActivity() != null) {
@@ -301,6 +350,9 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
                 break;
         }
 
+        }else{
+            loginAlertDisabled(mPresenter.getDisabledType());
+        }
     }
 
 

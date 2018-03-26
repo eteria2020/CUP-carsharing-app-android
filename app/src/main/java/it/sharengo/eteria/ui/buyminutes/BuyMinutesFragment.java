@@ -63,7 +63,7 @@ public class BuyMinutesFragment extends BaseMvpFragment<BuyMinutesPresenter> imp
                     @Override
                     public void onClick(View view) {
                         cdd.dismissAlert();
-                        Navigator.launchHome(BuyMinutesFragment.this);
+                        Navigator.launchMapGoogle(BuyMinutesFragment.this,Navigator.REQUEST_MAP_DEFAULT);
                         getActivity().finish();
                     }
                 });

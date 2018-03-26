@@ -51,6 +51,7 @@ public class Navigator {
     public static final String EXTRA_LOGIN = "EXTRA_LOGIN";
     public static final String EXTRA_FEEDS = "EXTRA_FEEDS";
     public static final String EXTRA_MAP = "EXTRA_MAPA";
+    public static final String EXTRA_USER_AREA = "EXTRA_USER_AREA";
 
     public static final int REQUEST_LOGIN_START = 1;
     public static final int REQUEST_LOGIN_PROFILE = 2;
@@ -122,8 +123,15 @@ public class Navigator {
         fragment.startActivity(intent);
     }
 
+    public static void launchUserArea(Fragment fragment,UserAreaActivity.InnerRoute route) {
+        Intent intent = UserAreaActivity.getCallingIntent(fragment.getActivity(),route);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
     public static void launchUserArea(Fragment fragment) {
-        Intent intent = UserAreaActivity.getCallingIntent(fragment.getActivity());
+        Intent intent = UserAreaActivity.getCallingIntent(fragment.getActivity(),UserAreaActivity.InnerRoute.HOME);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
