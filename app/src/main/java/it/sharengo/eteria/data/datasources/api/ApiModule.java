@@ -105,7 +105,7 @@ public class ApiModule {
         }
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(logging);
+        //httpClient.addInterceptor(logging);
 
         Gson gson = new GsonBuilder()
                 .addSerializationExclusionStrategy(new SerializationExclusionStrategy())

@@ -55,6 +55,7 @@ android {
         }
         release {
             minifyEnabled true
+            shrinkResources true
             signingConfig signingConfigs.release
             ext.betaDistributionReleaseNotesFilePath = "app/fabric/release_note.txt"
             ext.betaDistributionGroupAliasesFilePath = "app/fabric/testers_group.txt"
@@ -112,6 +113,8 @@ android {
     }
     productFlavors {
         miavm {
+        }
+        stage {
         }
     }
 }

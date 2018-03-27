@@ -32,7 +32,7 @@ android {
         miavm {
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
             resValue "string", "endpointGoogle", "https://maps.googleapis.com/maps/api/"
-            resValue "string", "endpointSharengo", "https://192.168.178.141:8023/"
+            resValue "string", "endpointSharengo", "https://192.168.178.114:8023/"
             resValue "string", "endpointSharengoMaps", "http://maps.sharengo.it/"
             resValue "string", "endpointSharengoKML", "http://www.sharengo.it/"
             resValue "string", "endpointCities", "https://www.sharengo.it/"

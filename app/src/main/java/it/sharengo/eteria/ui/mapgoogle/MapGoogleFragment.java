@@ -2313,7 +2313,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         //Tipologia popup
-        boolean isCarBonus = (car.bonus != null&& !car.bonus.isEmpty() && car.bonus.get(0).status && car.bonus.get(0).type.equals("nouse")) ? true : false;
+        boolean isCarBonus = (!car.getValidBonus().isEmpty());
 
         Animation anim = new AlphaAnimation(1.0f, 0.0f);
         anim.setStartOffset(100);
@@ -2596,22 +2596,25 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Metodo per verificare se è possibile prenotare la macchina (utente autenticato)
     private void checkBookingCar(){
         if(mPresenter.isAuth())
-
-            if(isBookingCar || isTripStart){
-                //Mostro un'alert di avviso
-                final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
-                        getString((isTripStart) ? R.string.booking_tripcar_alert : R.string.booking_bookedcar_alert),
-                        getString(R.string.ok),
-                        null);
-                cdd.show();
-                cdd.yes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cdd.dismissAlert();
-                    }
-                });
-            }else
-                bookingCar();
+            if(mPresenter.getDisabledType()==null || mPresenter.getDisabledType()== UserInfo.DisabledType.USER_NOT_DISABLED) {
+                if (isBookingCar || isTripStart) {
+                    //Mostro un'alert di avviso
+                    final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                            getString((isTripStart) ? R.string.booking_tripcar_alert : R.string.booking_bookedcar_alert),
+                            getString(R.string.ok),
+                            null);
+                    cdd.show();
+                    cdd.yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            cdd.dismissAlert();
+                        }
+                    });
+                } else
+                    bookingCar();
+            }else{
+                loginAlertDisabled(mPresenter.getDisabledType());
+            }
         else{
             loginAlert();
         }
