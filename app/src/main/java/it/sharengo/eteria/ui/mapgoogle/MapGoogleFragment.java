@@ -2411,6 +2411,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Metodo per verificare se è possibile aprire le portiere (utente autenticato)
     private void checkOpenDoor(){
         if(mPresenter.isAuth()){
+            Log.d("BOMB", "disabled type is "+ mPresenter.getDisabledType());
             if(mPresenter.getDisabledType()==null || mPresenter.getDisabledType()== UserInfo.DisabledType.USER_NOT_DISABLED)
                 openDoors();
             else{

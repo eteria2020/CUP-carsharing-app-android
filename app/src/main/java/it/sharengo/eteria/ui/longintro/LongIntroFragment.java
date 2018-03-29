@@ -106,9 +106,9 @@ public class LongIntroFragment extends BaseMvpFragment<LongIntroPresenter> imple
         if(gifAnimation) {
 
             try {
-                gifDrawable = new GifDrawable(getResources(), R.drawable.intro_long_part2);
+                //gifDrawable = new GifDrawable(getResources(), R.drawable.intro_long_part2);
                 mGif.setImageDrawable(gifDrawable);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
