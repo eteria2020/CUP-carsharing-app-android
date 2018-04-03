@@ -821,10 +821,10 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     public void loadPlatesCached() {
         hideLoading = true;
 
-        if( mPlatesRequest == null) {
+       /* if( mPlatesRequest == null) {
             mPlatesRequest = buildPlatesRequest();
             addSubscription(mPlatesRequest.unsafeSubscribe(getPlatesSubscriber()));
-        }
+        }*/
 
         if(mCachedPlates != null){ if(getMvpView() != null) getMvpView().setNextCar(mCachedPlates); }
         else{

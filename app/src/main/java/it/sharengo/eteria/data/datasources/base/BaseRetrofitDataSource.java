@@ -27,6 +27,7 @@ public abstract class BaseRetrofitDataSource {
                     public Observable<T> call(Result<T> r) {
 
                         if (r.isError()) {
+                            Log.e("BOMB","Error inside API ",r.error());
                             Throwable throwable = r.error();
 
                             if (throwable instanceof IOException) {

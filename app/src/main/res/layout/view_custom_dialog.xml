@@ -30,13 +30,17 @@
         <it.sharengo.eteria.ui.components.CustomButton
             android:id="@+id/btn_no"
             style="@style/button_alertdialog_positive"
+            android:minHeight="35dp"
+            android:layout_height="wrap_content"
             android:clickable="true"
             android:text="@string/hdx_no" />
 
         <it.sharengo.eteria.ui.components.CustomButton
             android:id="@+id/btn_yes"
             style="@style/button_alertdialog_positive"
+            android:layout_height="wrap_content"
             android:clickable="true"
+            android:minHeight="35dp"
             android:text="@string/hdx_yes" />
 
     </LinearLayout>
