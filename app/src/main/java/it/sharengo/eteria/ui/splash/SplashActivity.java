@@ -24,10 +24,17 @@ public class SplashActivity extends BaseActivity {
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
+        String referrer="";
+        Bundle result = new Bundle();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1 && getReferrer() !=null) {
+            referrer = getReferrer().getHost();
+        }
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
-                return intent.getExtras(); // Handle text being sent
+                result = intent.getExtras();
+                result.putString("CALLING_APP",referrer);
+                return result; // Handle text being sent
             }
 
         }else if (Intent.ACTION_VIEW.equals(action)) {
@@ -40,8 +47,8 @@ public class SplashActivity extends BaseActivity {
                 if(plate ==null || plate.isEmpty())
                     return null;
                 plate = plate.substring(plate.lastIndexOf("/")+1);
-                Bundle result = new Bundle();
                 result.putString(Intent.EXTRA_TEXT, plate.toUpperCase());
+                result.putString("CALLING_APP",referrer);
                 return result;
             }else if(data.getHost().equalsIgnoreCase("mobile.sharengo.it")){
 
@@ -49,8 +56,8 @@ public class SplashActivity extends BaseActivity {
                 if(plate ==null || plate.isEmpty())
                     return null;
                 plate = plate.substring(plate.lastIndexOf("=")+1);
-                Bundle result = new Bundle();
                 result.putString(Intent.EXTRA_TEXT, plate.toUpperCase());
+                result.putString("CALLING_APP",referrer);
                 return result;
             }
         }

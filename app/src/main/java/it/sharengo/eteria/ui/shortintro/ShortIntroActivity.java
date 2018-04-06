@@ -3,6 +3,7 @@ package it.sharengo.eteria.ui.shortintro;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.ui.base.activities.BaseActivity;
@@ -21,6 +22,7 @@ public class ShortIntroActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.d("PERF","onCreate ShortIntroActivity");
         if (savedInstanceState == null) {
             replaceFragment(ShortIntroFragment.newInstance());
         }

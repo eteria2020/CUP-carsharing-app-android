@@ -49,7 +49,7 @@ public class PinPresenter extends BasePresenter<PinMvpView> {
     }
 
     private Observable<ResponseUser> buildUserRequest() {
-        return mUserRequest = mUserRepository.getUser(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
+        return mUserRequest = mUserRepository.getUser(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, 0, 0)
                 .first()
                 .compose(this.<ResponseUser>handleDataRequest())
                 .doOnCompleted(new Action0() {

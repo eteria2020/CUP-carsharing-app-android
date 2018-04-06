@@ -1,6 +1,7 @@
 package it.sharengo.eteria.ui.login;
 
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.common.ErrorResponse;
 import it.sharengo.eteria.data.models.UserInfo;
 import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.fragments.BaseLocationFragment;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 import it.sharengo.eteria.ui.mapgoogle.MapGoogleFragment;
@@ -32,7 +34,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static it.sharengo.eteria.data.common.ErrorResponse.ErrorType.HTTP;
 
 
-public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements LoginMvpView {
+public class LoginFragment extends BaseLocationFragment<LoginPresenter> implements LoginMvpView {
 
     private static final String TAG = LoginFragment.class.getSimpleName();
 
@@ -91,6 +93,12 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         return view;
     }
 
+    @Override
+    public void onNewLocation(Location location) {
+        super.onNewLocation(location);
+        mPresenter.userLat = (float) location.getLatitude();
+        mPresenter.userLon = (float) location.getLongitude();
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //

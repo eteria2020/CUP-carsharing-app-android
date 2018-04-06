@@ -28,17 +28,17 @@ public interface SharengoApi {
     Observable<Result<Response>> getCars(@Header("Authorization") String auth, @Query("lat") float latitude, @Query("lon") float longitude, @Query("radius") int radius);
 
     @GET("v3/cars")
-    Observable<Result<Response>> getCars(@Header("Authorization") String auth, @Query("lat") float latitude, @Query("lon") float longitude, @Query("user_lat") float user_lat, @Query("user_lon") float user_lon, @Query("radius") int radius);
+    Observable<Result<Response>> getCars(@Header("Authorization") String auth, @Query("lat") float latitude, @Query("lon") float longitude, @Query("user_lat") String user_lat, @Query("user_lon") String user_lon, @Query("radius") int radius);
 
     @GET("v3/cars")
-    Observable<Result<ResponseCar>> getCars(@Header("Authorization") String auth, @Query("plate") String plate);
+    Observable<Result<ResponseCar>> getCars(@Header("Authorization") String auth, @Query("plate") String plate, @Query("callingApp") String callingApp);
 
     @GET("v3/cars")
-    Observable<Result<Response>> getPlates(@Header("Authorization") String auth, @Query("user_lat") float user_lat, @Query("user_lon") float user_lon);
+    Observable<Result<Response>> getPlates(@Header("Authorization") String auth, @Query("user_lat") String user_lat, @Query("user_lon") String user_lon);
 
     @FormUrlEncoded
     @PUT("v2/cars/{plate}")
-    Observable<Result<ResponseCar>> openCars(@Header("Authorization") String auth, @Path("plate") String plate, @Field("action") String action);
+    Observable<Result<ResponseCar>> openCars(@Header("Authorization") String auth, @Path("plate") String plate, @Field("action") String action, @Query("user_lat") String user_lat, @Query("user_lon") String user_lon);
 
 
     /*
@@ -46,7 +46,7 @@ public interface SharengoApi {
     */
 
     @GET("v3/user")
-    Observable<Result<ResponseUser>> getUser(@Header("Authorization") String auth);
+    Observable<Result<ResponseUser>> getUser(@Header("Authorization") String auth, @Query("user_lat") String user_lat, @Query("user_lon") String user_lon);
 
     /*
     * Reservation
@@ -56,10 +56,10 @@ public interface SharengoApi {
 
     @FormUrlEncoded
     @POST("v2/reservations")
-    Observable<Result<ResponsePutReservation>> postReservations(@Header("Authorization") String auth, @Field("plate") String plate, @Field("user_lat") float user_lat, @Field("user_lon") float user_lon);
+    Observable<Result<ResponsePutReservation>> postReservations(@Header("Authorization") String auth, @Field("plate") String plate, @Field("user_lat") String user_lat, @Field("user_lon") String user_lon);
 
     @DELETE("v2/reservations/{id}")
-    Observable<Result<ResponsePutReservation>> deleteReservations(@Header("Authorization") String auth, @Path("id") int id);
+    Observable<Result<ResponsePutReservation>> deleteReservations(@Header("Authorization") String auth, @Path("id") int id, @Query("user_lat") String user_lat, @Query("user_lon") String user_lon);
 
     /*
     * Trips

@@ -110,9 +110,9 @@ public class UserRepository {
      * @return           response user of observable object
      * @see              Observable<ResponseUser>
      */
-    public Observable<ResponseUser> getUser(String username, String password) {
+    public Observable<ResponseUser> getUser(String username, String password, float user_lat, float user_lon) {
 
-        return mRemoteDataSource.getUser(Credentials.basic(username, StringsUtils.md5(password)))
+        return mRemoteDataSource.getUser(Credentials.basic(username, StringsUtils.md5(password)), user_lat, user_lon)
                 .doOnNext(new Action1<ResponseUser>() {
                     @Override
                     public void call(ResponseUser response) {
@@ -289,9 +289,9 @@ public class UserRepository {
      * @return           response put reservation observable object
      * @see              Observable<ResponsePutReservation>
      */
-    public Observable<ResponsePutReservation> deleteReservations(String username, String password, int id) {
+    public Observable<ResponsePutReservation> deleteReservations(String username, String password, int id, float user_lat, float user_lon) {
 
-        return mRemoteDataSource.deleteReservations(Credentials.basic(username, StringsUtils.md5(password)), id)
+        return mRemoteDataSource.deleteReservations(Credentials.basic(username, StringsUtils.md5(password)), id, user_lat, user_lon)
                 .doOnNext(new Action1<ResponsePutReservation>() {
                     @Override
                     public void call(ResponsePutReservation response) {

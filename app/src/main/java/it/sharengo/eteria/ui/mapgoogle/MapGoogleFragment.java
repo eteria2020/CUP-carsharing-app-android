@@ -428,6 +428,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("PERF","onCreate map");
         setHasOptionsMenu(true);
         getMvpFragmentComponent(savedInstanceState).inject(this);
 
@@ -478,6 +479,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d("PERF","view created map");
 
         mMapHelper = HdxFragmentMapHelper.newInstance(getActivity(), this);
         mMapHelper.setupMap(mMapContainer, this, savedInstanceState);
@@ -597,6 +599,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         super.onMapReady(googleMap);
 
 
+        Log.d("PERF","onMapReady MapGoogle");
 
         mMap.setIndoorEnabled(false);
 
@@ -3622,6 +3625,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
 
         cancelProgressHandler.postDelayed(progressOpenDooorRunnable, 45000);
+    }
+
+    @Override
+    public void closeCarNotification() {
+        if(progressOpenDoor==null)
+            return;
+        progressOpenDoor.cancel();
     }
 
     @Override
