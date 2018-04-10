@@ -11,6 +11,22 @@
     <string name="error_msg_network_general">An error occurred, please check your internet connection and try again later </string>
     <string name="error_generalerror_alert">A connection error occurred, please try again</string>
 
+    <!--COMMON ERRORS-->
+    <string name="error_generic_msg">Ops, something went wrong.</string>
+    <string name="error_msg_no_network">No internet connection. Please try again later</string>
+    <string name="error_msg_server_timeout">Server is unreachable. Please try again later</string>
+    <string name="error_msg_conversion">Some error occured. Please try again later</string>
+    <string name="error_unexpected">Some error occured. Please try again later</string>
+    <string name="error_msg_http_400">Your request cannot be fulfilled (400)</string>
+    <string name="error_msg_http_401">Your credentials seem to be invalid. Please try again</string>
+    <string name="error_msg_http_403">You\'re not allowed to access this content</string>
+    <string name="error_msg_http_404">Your request cannot be fulfilled (404)</string>
+    <string name="error_msg_http_406">Your request is not valid, please check your input and try again (406)</string>
+    <string name="error_msg_http_500">Some error occured. Please try again later (500)</string>
+
+    <!--PERMISSION-->
+    <string name="msg_rational_location_permission">The app needs your permission to access your position.</string>
+
     <!--MENU-->
     <string name="menu_home">Home </string>
     <string name="menu_welcome">Hi, welcome!</string>
@@ -254,5 +270,17 @@
     <string name="expired_driver_license_login_alert">Sei disabilitato perchè la patente che hai inserito è scaduta, accedi alla tua area personale per controllare i dati</string>
     <string name="expired_credit_card_login_alert">Sei disabilitato perchè i dati di pagamento che hai inserito sono scaduti, accedi alla tua area personale per controllare i dati</string>
     <string name="next">AVANTI</string>
+    <string name="home_welcomeauthf_label">Welcome back %s!</string>
+    <string name="home_welcomef_label">Welcome!</string>
+    <string name="booking_car_busy_alert">This car is not available, we are sorry for the inconvenience</string>
+    <string name="booking_other_tripcar_alert">Someone is already using this Sharen\'go</string>
+    <string name="carOpen_confirm">Are you sure you want to open the doors? The trip will start right now.</string>
+    <string name="menu_pin">PIN</string>
+    <string name="menu_welcomef_login">Hi %s, welcome back!</string>
+    <string name="pin_pin_label">YOUR PIN IS:</string>
+    <string name="retryToOpenDoorPopup">An error occurred, would you like to try again?</string>
+    <string name="tripstart_notification_label">The door will open in few seconds.</string>
+    <string name="tripstart_selfClosePopup">The trip will close for free after 5 minutes if the PIN is not entered</string>
+    <string name="booking_user_unauthorized_alert">This car is not available, we are sorry for the inconvenience</string>
 
 </resources>
