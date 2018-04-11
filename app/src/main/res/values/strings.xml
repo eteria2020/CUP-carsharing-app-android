@@ -64,7 +64,7 @@
     <string name="general_notification_title" translatable="false">Share\'ngo</string>
 
     <!-- MAPPA -->
-    <string name="maps_search_placeholder">Cerca indirizzo o targa</string>
+    <string name="maps_search_placeholder">Cerca targa</string>
     <string name="maps_permissionlocation_alert">Share\'ngo ha bisogno dei permessi per accedere alla tua posizione. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
     <string name="maps_opendoor_action">Apri portiere</string>
     <string name="maps_bookingcar_action">Prenota auto</string>
@@ -289,12 +289,12 @@
     <string name="carOpen_confirm">Sei sicuro di voler aprire le portirere? La corsa inizierà in questo momento.</string>
     <string name="tripend_notification_selfclose_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente in maniera gratuita.Ti ringraziamo per aver usato Share\'ngo</string>
     <string name="retryToOpenDoorPopup">Si è verificato un errore vuoi riprovare?</string>
-    <string name="first_payment_login_alert">Sei disabilitato per primo pagamento non effettuato, per utilizzare Sharen\'go accedi alla tua area personale e completa il pagamento</string>
-    <string name="failed_payment_login_alert">Sei disabilitato per un pagamento non effettuato, per utilizzare Sharen\'go accedi alla tua area personale e procedi col pagamento</string>
-    <string name="invalid_driver_license_login_alert">Sei disabilitato perchè hai inserto una patente non valida, per utilizzare Sharen\'go accedi alla tua area personale e controlla i dati inseriti</string>
-    <string name="disabled_webuser_login_alert">L\'account è disabilitato, contatta il servizio clienti per maggiori informazioni</string>
-    <string name="expired_driver_license_login_alert">Sei disabilitato per patente scaduta, per utilizzare Sharen\'go accedi alla tua area personale ed inserisci i nuovi dati</string>
-    <string name="expired_credit_card_login_alert">Sei disabilitato perchè i dati di pagamento che hai inserito sono scaduti, per utilizzare Sharen\'go accedi alla tua area personale ed inserisci i nuovi dati</string>
+    <string name="first_payment_login_alert">Sei disabilitato per primo pagamento non effettuato, per utilizzare Share\'ngo accedi alla tua area personale e completa il pagamento</string>
+    <string name="failed_payment_login_alert">Sei disabilitato per un pagamento non effettuato, per utilizzare Share\'ngo accedi alla tua area personale e procedi col pagamento</string>
+    <string name="invalid_driver_license_login_alert">Sei disabilitato perchè hai inserito una patente non valida, per utilizzare Share\'ngo accedi alla tua area personale, controlla e modifica i dati inseriti</string>
+    <string name="disabled_webuser_login_alert">Sei disabilitato, contatta il servizio clienti per maggiori informazioni</string>
+    <string name="expired_driver_license_login_alert">Sei disabilitato per patente scaduta, per utilizzare Share\'ngo accedi alla tua area personale ed inserisci i nuovi dati</string>
+    <string name="expired_credit_card_login_alert">Sei disabilitato perchè la carta inserita è scaduta, per utilizzare Share\'ngo accedi alla tua area personale ed inserisci i nuovi dati</string>
     <string name="next">AVANTI</string>
 
 </resources>

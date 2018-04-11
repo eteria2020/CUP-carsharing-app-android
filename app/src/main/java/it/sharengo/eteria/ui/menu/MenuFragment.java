@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.eteria.App;
+import it.sharengo.eteria.BuildConfig;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.models.MenuItem;
 import it.sharengo.eteria.routing.Navigator;
@@ -43,6 +44,9 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
 
     @BindView(R.id.profileButton)
     ViewGroup profileButton;
+
+    @BindView(R.id.versionTV)
+    TextView versionTV;
     
     private MenuAdapter mAdapter;
 
@@ -72,7 +76,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
         mRv.setLayoutManager(lm);
         mRv.setAdapter(mAdapter);
         //mRv.addItemDecoration(new DividerItemDecoration(mRv.getContext(), lm.getOrientation()));
-        
+        versionTV.setText("Ver. " + BuildConfig.VERSION_NAME);
         return view;
     }
 
