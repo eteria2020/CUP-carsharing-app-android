@@ -33,7 +33,7 @@ public class ShortIntroActivity extends BaseActivity {
     public void finish() {
         Navigator.launchMapGoogle(this,Navigator.REQUEST_MAP_DEFAULT);
         super.finish();
-        overridePendingTransition(0, R.anim.slide_out_up);
+        overridePendingTransition(R.anim.fade_in, R.anim.slide_out_up);
     }
 
     @Override

@@ -2262,6 +2262,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         case EXPIRED_CREDIT_CARD:
                             Navigator.launchUserArea(MapGoogleFragment.this, UserAreaActivity.InnerRoute.PAYMENTS);
                             break;
+
                     }
                 }else
                     Navigator.launchLogin(MapGoogleFragment.this, Navigator.REQUEST_LOGIN_MAPS);

@@ -39,7 +39,7 @@ public class UserInfo {
         try {
             return disabled_reason.get(0).getReason();
         }catch (Exception e){
-            return null;
+            return DisabledType.DISABLED_BY_WEBUSER;
         }
     }
 
