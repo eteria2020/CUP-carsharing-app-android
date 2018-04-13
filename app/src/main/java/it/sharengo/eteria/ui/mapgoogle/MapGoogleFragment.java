@@ -132,6 +132,9 @@ import it.sharengo.eteria.ui.userarea.UserAreaActivity;
 import it.sharengo.eteria.utils.ImageUtils;
 import it.sharengo.eteria.utils.ResourceProvider;
 import it.sharengo.eteria.utils.StringsUtils;
+import rx.Observable;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -631,18 +634,26 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
     private void initDrawableArray(){
         Log.d("BOMB","initDrawableArray");
-        bitmapAnimGreenArray = new ArrayList<>();
-        drawableAnimYellowArray = new ArrayList<>();
-        int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().density);
-        for(int i = 0; i <= NUM_ANIM; i++){
-            if(i < 10) {
-                bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse000" + i, sizeMarkerAnim, sizeMarkerAnim)));
-                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow000" + i, sizeMarkerAnim, sizeMarkerAnim)));
-            }else {
-                bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse00" + i, sizeMarkerAnim, sizeMarkerAnim)));
-                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow00" + i, sizeMarkerAnim, sizeMarkerAnim)));
-            }
-        }
+        Observable.just(1)
+                .observeOn(Schedulers.io())
+                .subscribe(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+                        bitmapAnimGreenArray = new ArrayList<>();
+                        drawableAnimYellowArray = new ArrayList<>();
+                        int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().density);
+                        for(int i = 0; i <= NUM_ANIM; i++){
+                            if(i < 10) {
+                                bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse000" + i, sizeMarkerAnim, sizeMarkerAnim)));
+                                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow000" + i, sizeMarkerAnim, sizeMarkerAnim)));
+                            }else {
+                                bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse00" + i, sizeMarkerAnim, sizeMarkerAnim)));
+                                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow00" + i, sizeMarkerAnim, sizeMarkerAnim)));
+                            }
+                        }
+                    }
+                });
+
     }
 
     private void setMapReady(){
@@ -2237,7 +2248,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                             Navigator.launchUserArea(MapGoogleFragment.this, UserAreaActivity.InnerRoute.PAYMENTS);
                             break;
                         case FAILED_PAYMENT:
-                            Navigator.launchUserArea(MapGoogleFragment.this, UserAreaActivity.InnerRoute.PAYMENTS);
+                            Navigator.launchUserArea(MapGoogleFragment.this, UserAreaActivity.InnerRoute.HOME);
                             break;
                         case INVALID_DRIVERS_LICENSE:
                             Navigator.launchUserArea(MapGoogleFragment.this, UserAreaActivity.InnerRoute.DRIVER_LICENSE);

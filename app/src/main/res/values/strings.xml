@@ -134,7 +134,7 @@
 
     <!-- Registrazione -->
     <string name="signup_title_label">Iscriviti a Share\'ngo</string>
-    <string name="signup_description_label">L\'iscrizione al servizio costa 10 euro con 30 minuti bonus (condizioni standard, salvo promozioni). Se serve aiuto durante l\'iscrizione usa il pulsante chat!</string>
+    <string name="signup_description_label">L\'iscrizione al servizio costa 5 euro con 15 minuti bonus (condizioni standard, salvo promozioni). Se serve aiuto durante l\'iscrizione usa il pulsante chat!</string>
     <string name="signup_subscribe_action">ISCRIVITI</string>
     <string name="signup_step1text1_action">Per iscriverti devi avere\na portata di mano:</string>
     <string name="signup_step1text2_action">CARTA DI IDENTITÀ</string>
