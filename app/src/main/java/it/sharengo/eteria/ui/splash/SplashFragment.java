@@ -113,10 +113,9 @@ public class SplashFragment extends BaseLocationFragment<SplashPresenter> implem
             //Navigator.launchOnboarding(this);
             //Navigator.launchLongIntro(this);
         }else{
-            getActivity().finish();
-            Navigator.launchMapGoogle(this,Navigator.REQUEST_MAP_DEFAULT);
-            //Navigator.launchOnboarding(this); //TODO remove
             Navigator.launchShortIntro(this);
+            getActivity().finish();
+            //Navigator.launchOnboarding(this); //TODO remove
         }
     }
 
