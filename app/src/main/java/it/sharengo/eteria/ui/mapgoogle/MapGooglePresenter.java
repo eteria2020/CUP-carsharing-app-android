@@ -275,16 +275,16 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         isBookingExists = false;
         timestamp_start = 0;
         seconds = 0;
-        userLat = 0;
-        userLon = 0;
 
         loadPlates();
         if(mAppRepository.getIntentSelectedCar() != null && !mAppRepository.getIntentSelectedCar().isEmpty()) {
-            loadSelectedCars(mAppRepository.getIntentSelectedCar(), mAppRepository.getIntentSelectedCarCallingApp());
+            loadSelectedCars(mAppRepository.getIntentSelectedCar(),userLat, userLon, mAppRepository.getIntentSelectedCarCallingApp());
             mAppRepository.setIntentSelectedCar(null);
             mAppRepository.setIntentSelectedCarCallingApp(null);
         }
         loadCarpopup();
+        userLat = 0;
+        userLon = 0;
 
         /*if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
             getReservations(false);*/
@@ -1003,7 +1003,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private Observable<ResponseCar> buildCarsInfoRequest(String plate) {
 
-        return mCarsInfoRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate,null)
+        return mCarsInfoRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate,null, null, null)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -1052,19 +1052,20 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      *
      * @param  plate  plate for car reservation.
      */
-    public void loadSelectedCars(String plate, String callingApp) {
+    public void loadSelectedCars(String plate, float user_lat, float user_lon, String callingApp) {
 
         hideLoading = true;
+        Log.d("BOMB", "loadSelectedCars " + plate +user_lat + user_lon + callingApp);
 
         mCarsInfoRequest = null;
-        mCarsInfoRequest = buildCarSelectedRequest(plate, callingApp);
+        mCarsInfoRequest = buildCarSelectedRequest(plate,String.valueOf(user_lat), String.valueOf(user_lon), callingApp);
         addSubscription(mCarsInfoRequest.unsafeSubscribe(getCarSelectedSubscriber()));
     }
 
 
-    private Observable<ResponseCar> buildCarSelectedRequest(String plate, String callingApp) {
+    private Observable<ResponseCar> buildCarSelectedRequest(String plate, String user_lat, String user_lon, String callingApp) {
 
-        return mCarsInfoRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate, callingApp)
+        return mCarsInfoRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate, user_lat, user_lon, callingApp)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -2032,7 +2033,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private Observable<ResponseCar> buildCarsReservationRequest(String plate) {
 
-        return mCarsReservationRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate, null)
+        return mCarsReservationRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate, null, null, null)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -2118,7 +2119,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private Observable<ResponseCar> buildCarsTripRequest(String plate) {
 
-        return mCarsReservationRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate, null)
+        return mCarsReservationRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate, null, null, null)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
                 .doOnCompleted(new Action0() {

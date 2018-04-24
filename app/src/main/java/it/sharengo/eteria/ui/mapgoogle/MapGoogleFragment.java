@@ -134,6 +134,7 @@ import it.sharengo.eteria.utils.ResourceProvider;
 import it.sharengo.eteria.utils.StringsUtils;
 import rx.Observable;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -238,6 +239,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private List<BitmapDescriptor> bitmapAnimGreenArray;
     private List<BitmapDescriptor> drawableAnimYellowArray;
     private BitmapDescriptor bitmapAuto;
+    private BitmapDescriptor bitmapAutoSelected;
     private BitmapDescriptor bitmapUser;
     private float currentRotation;
     private boolean cityClusterVisible;
@@ -611,6 +613,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
 
         bitmapAuto = getBitmapDescriptor(resizeMapIcons("ic_auto", (int) (39 * getResources().getDisplayMetrics().density), (int) (48 * getResources().getDisplayMetrics().density)));
+        bitmapAutoSelected = getBitmapDescriptor(resizeMapIcons("ic_auto_selected", (int) (39 * getResources().getDisplayMetrics().density), (int) (48 * getResources().getDisplayMetrics().density)));
         bitmapUser = getBitmapDescriptor(R.drawable.ic_user);
 
 
@@ -2276,13 +2279,56 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //                                              Popup Car
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private void showPopupCar(Car car){
+    private void showPopupCar(final Car car){
 
         if(!isAdded()) return;
+        if(carSelected!=null){
+            final Car lastCar = carSelected;
+            Observable.just(mMap.getMarkers())
+                    .concatMap(new Func1<List<Marker>, Observable<Marker>>() {
+                        @Override
+                        public Observable<Marker> call(List<Marker> markers) {
+                            return Observable.from(markers);
+                        }
+                    })
+                    .filter(new Func1<Marker, Boolean>() {
+                        @Override
+                        public Boolean call(Marker marker) {
+                            return lastCar.equals(marker.getData());
+                        }
+                    })
+                    .subscribe(new Action1<Marker>() {
+                        @Override
+                        public void call(Marker marker) {
 
+                            marker.setIcon(bitmapAuto);
+                        }
+                    });
+        }
         carSelected = car;
 
         carPreSelected = null;
+
+        Observable.just(mMap.getMarkers())
+                .concatMap(new Func1<List<Marker>, Observable<Marker>>() {
+                    @Override
+                    public Observable<Marker> call(List<Marker> markers) {
+                        return Observable.from(markers);
+                    }
+                })
+                .filter(new Func1<Marker, Boolean>() {
+                    @Override
+                    public Boolean call(Marker marker) {
+                        return car.equals(marker.getData());
+                    }
+                })
+                .subscribe(new Action1<Marker>() {
+                    @Override
+                    public void call(Marker marker) {
+
+                        marker.setIcon(bitmapAutoSelected);
+                    }
+                });
 
         //Aggiorno la Walk Navigation
         if(!isBookingCar && !isTripStart){
@@ -2417,7 +2463,28 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             popupCarView.animate().translationY(popupCarView.getHeight());
 
+            final Car car = carSelected;
             carSelected = null;
+            Observable.just(mMap.getMarkers())
+                    .concatMap(new Func1<List<Marker>, Observable<Marker>>() {
+                        @Override
+                        public Observable<Marker> call(List<Marker> markers) {
+                            return Observable.from(markers);
+                        }
+                    })
+                    .filter(new Func1<Marker, Boolean>() {
+                        @Override
+                        public Boolean call(Marker marker) {
+                            return car.equals(marker.getData());
+                        }
+                    })
+                    .subscribe(new Action1<Marker>() {
+                        @Override
+                        public void call(Marker marker) {
+
+                            marker.setIcon(bitmapAuto);
+                        }
+                    });
 
             if (!isBookingCar && !isTripStart) removeWalkingNavigation();
         }
