@@ -48,6 +48,7 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("PERF","okHttp: -->" + this.getClass() + " resume" );
         if(!mPresenter.isViewAttached()) {
             mPresenter.attachView(this, mBundle != null);
         }
@@ -59,6 +60,7 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
     @Override
     public void onPause() {
         super.onPause();
+        Log.d("PERF","okHttp: -->" + this.getClass() + " pause" );
         mPresenter.detachView();
     }
 

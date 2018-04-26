@@ -70,7 +70,7 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="57623239bae67668df7bbce99e5c2686c876e070" />
+            android:value="96e06e0318dbf65715b2dfbc853fa90975ced412" />
 
         <activity
             android:name=".ui.tripend.TripEndActivity"

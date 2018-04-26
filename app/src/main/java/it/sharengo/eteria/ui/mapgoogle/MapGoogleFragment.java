@@ -2475,7 +2475,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     .filter(new Func1<Marker, Boolean>() {
                         @Override
                         public Boolean call(Marker marker) {
-                            return car.equals(marker.getData());
+                            return car!=null && car.equals(marker.getData());
                         }
                     })
                     .subscribe(new Action1<Marker>() {
