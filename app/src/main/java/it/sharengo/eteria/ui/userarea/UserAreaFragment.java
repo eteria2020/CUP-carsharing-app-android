@@ -74,6 +74,9 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
                 case DRIVER_LICENSE:
                     baseURL = "/patente";
                     break;
+                case RATES:
+                    baseURL = "/tariffe";
+                    break;
             }
 
 

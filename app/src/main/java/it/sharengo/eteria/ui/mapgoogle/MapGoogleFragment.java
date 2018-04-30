@@ -613,7 +613,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
 
         bitmapAuto = getBitmapDescriptor(resizeMapIcons("ic_auto", (int) (39 * getResources().getDisplayMetrics().density), (int) (48 * getResources().getDisplayMetrics().density)));
-        bitmapAutoSelected = getBitmapDescriptor(resizeMapIcons("ic_auto_selected", (int) (39 * getResources().getDisplayMetrics().density), (int) (48 * getResources().getDisplayMetrics().density)));
+        bitmapAutoSelected = getBitmapDescriptor(resizeMapIcons("ic_auto", (int) (39 * getResources().getDisplayMetrics().density), (int) (48 * getResources().getDisplayMetrics().density)));
         bitmapUser = getBitmapDescriptor(R.drawable.ic_user);
 
 

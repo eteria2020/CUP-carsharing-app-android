@@ -3,6 +3,7 @@ package it.sharengo.eteria;
 import android.content.Context;
 import android.os.Build;
 import android.support.multidex.MultiDexApplication;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -25,6 +26,7 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         mStackActivity = new ArrayList<Class>();
 
         if (instance == null) {

@@ -56,7 +56,7 @@ public class AppRepository {
         menuItems.add(new MenuItem(MenuItem.Section.LOGIN));
         menuItems.add(new MenuItem(MenuItem.Section.SIGNUP));
         menuItems.add(new MenuItem(MenuItem.Section.FAQ));
-        menuItems.add(new MenuItem(MenuItem.Section.RATES));
+        //menuItems.add(new MenuItem(MenuItem.Section.RATES));
         menuItems.add(new MenuItem(MenuItem.Section.HELP));
         
         return Observable.just(menuItems);
@@ -70,7 +70,7 @@ public class AppRepository {
         menuItems.add(new MenuItem(MenuItem.Section.PIN));
         //menuItems.add(new MenuItem(MenuItem.Section.BOOKING));
         menuItems.add(new MenuItem(MenuItem.Section.HISTORIC));
-        menuItems.add(new MenuItem(MenuItem.Section.RATES));
+        menuItems.add(new MenuItem(MenuItem.Section.FAKE_RATES));
         menuItems.add(new MenuItem(MenuItem.Section.HELP));
         menuItems.add(new MenuItem(MenuItem.Section.FAQ));
         //menuItems.add(new MenuItem(MenuItem.Section.BUY));

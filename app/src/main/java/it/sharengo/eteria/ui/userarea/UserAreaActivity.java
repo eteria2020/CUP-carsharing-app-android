@@ -19,7 +19,8 @@ public class UserAreaActivity extends BaseDrawerActivity implements WebViewUser 
     public enum InnerRoute{
         HOME,
         PAYMENTS,
-        DRIVER_LICENSE
+        DRIVER_LICENSE,
+        RATES
     }
 
     private static final String TAG = UserAreaActivity.class.getSimpleName();

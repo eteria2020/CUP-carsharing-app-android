@@ -24,6 +24,7 @@ import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
+import it.sharengo.eteria.ui.userarea.UserAreaActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -181,6 +182,10 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
             @Override
             public void run() {
                 switch(menuItem.section) {
+                    case NONE:
+                        break;
+                    case HOME:
+                        break;
                     case LOGIN:
                         Navigator.launchLogin(MenuFragment.this, Navigator.REQUEST_LOGIN_START);
                         closeActivity();
@@ -230,6 +235,10 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                         break;
                     case PIN:
                         Navigator.launchPin(MenuFragment.this);
+                        closeActivity();
+                        break;
+                    case FAKE_RATES:
+                        Navigator.launchUserArea(MenuFragment.this, UserAreaActivity.InnerRoute.RATES);
                         closeActivity();
                         break;
                 }

@@ -17,7 +17,8 @@ public class MenuItem {
         SHARE,
         SETTINGS,
         PIN,
-        LOGOUT;
+        LOGOUT,
+        FAKE_RATES,;
         
         public static Section toSection (String sectionString) {
             try {

@@ -15,6 +15,7 @@
 }
 
 #WARNING
+-dontwarn org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck
 -dontwarn com.squareup.picasso.**
 -dontwarn retrofit2.**
 -dontwarn okhttp3.**

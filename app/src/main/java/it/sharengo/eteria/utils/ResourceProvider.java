@@ -15,6 +15,8 @@ public class ResourceProvider {
     public static String getMenuItemLabel(Context context, MenuItem menuItem) {
         
         switch(menuItem.section) {
+            case NONE:
+                break;
             case HOME:
                 return context.getString(R.string.menu_home);
             case LOGIN:
@@ -43,6 +45,8 @@ public class ResourceProvider {
                 return context.getString(R.string.menu_pin);
             case LOGOUT:
                 return context.getString(R.string.menu_logout);
+            case FAKE_RATES:
+                return context.getString(R.string.menu_rates);
         }
 
         Log.e(TAG, "Resource not found for MenuItem section: " + menuItem.section);
@@ -52,6 +56,8 @@ public class ResourceProvider {
     public static Drawable getMenuItemIcon(Context context, MenuItem menuItem) {
 
         switch(menuItem.section) {
+            case NONE:
+                break;
             case HOME:
                 return getDrawable(context, R.drawable.ic_profilo);
             case LOGIN:
@@ -80,6 +86,8 @@ public class ResourceProvider {
                 return getDrawable(context, R.drawable.ic_lock);
             case LOGOUT:
                 return getDrawable(context, R.drawable.ic_logout);
+            case FAKE_RATES:
+                return getDrawable(context, R.drawable.ic_tariffe);
         }
 
         Log.e(TAG, "Resource not found for MenuItem section: " + menuItem.section);

@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.7"
-            android:src="@drawable/bkg_menu_round"/>
+            app:srcCompat="@drawable/bkg_menu_round"/>
 
 
         <!-- Compass Button - testRot1 -->
@@ -60,7 +60,7 @@
             android:id="@+id/assistanceButton"
             android:layout_width="32.0dp"
             android:layout_height="32.0dp"
-            android:src="@drawable/ic_assistenza_nero_tondo"/>
+            app:srcCompat="@drawable/ic_assistenza_nero_tondo"/>
         </RelativeLayout>
 
         <!-- Center Button - testRot2 -->
@@ -74,7 +74,7 @@
                 android:id="@+id/centerMapButton"
                 android:layout_width="32.0dp"
                 android:layout_height="32.0dp"
-                android:src="@drawable/ic_center"/>
+                app:srcCompat="@drawable/ic_center"/>
         </RelativeLayout>
 
         <!-- Refresh Button - testRot3 -->
@@ -88,7 +88,7 @@
                 android:id="@+id/refreshMapButton"
                 android:layout_width="32.0dp"
                 android:layout_height="32.0dp"
-                android:src="@drawable/ic_referesh"/>
+                app:srcCompat="@drawable/ic_referesh"/>
         </RelativeLayout>
 
         <!-- Cars Button - testRot  android:layout_marginRight="-55dp" -->
@@ -128,7 +128,7 @@
             android:scaleType="fitXY"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/bkg_menu_round"/>
+            app:srcCompat="@drawable/bkg_menu_round"/>
 
         <com.example.x.circlelayout.CircleLayout
             android:id="@+id/circularLayout"
