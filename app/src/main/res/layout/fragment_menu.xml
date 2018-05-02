@@ -40,7 +40,7 @@
                 android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/img_user"
+                app:srcCompat="@drawable/img_user"
                 android:background="@drawable/btn_bkg_mediumseagreen_bordered"/>
             <it.sharengo.eteria.ui.components.CustomTextView
                 android:id="@+id/scoreTextView"

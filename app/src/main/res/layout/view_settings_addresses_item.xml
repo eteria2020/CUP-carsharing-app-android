@@ -14,7 +14,7 @@
         android:layout_height="20dp"
         android:layout_gravity="center_vertical"
         android:tint="@color/darkjunglegreen"
-        android:src="@drawable/ic_favourites"/>
+        app:srcCompat="@drawable/ic_favourites"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -57,7 +57,7 @@
             android:padding="5dp"
             android:visibility="gone"
             android:background="@drawable/btn_bkg_darkjunglegreen"
-            android:src="@drawable/ic_favourites"/>
+            app:srcCompat="@drawable/ic_favourites"/>
 
         <ImageView
             android:id="@+id/editButton"

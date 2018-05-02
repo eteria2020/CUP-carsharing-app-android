@@ -121,7 +121,7 @@
                         style="@style/popupcar_info_box">
                         <ImageView
                             style="@style/popupcar_info_box_icon"
-                            android:src="@drawable/ic_location"/>
+                            app:srcCompat="@drawable/ic_location"/>
                         <it.sharengo.eteria.ui.components.CustomTextView
                             android:id="@+id/addressTextView"
                             style="@style/popupcar_info_box_text"
@@ -133,7 +133,7 @@
                         style="@style/popupcar_info_box">
                         <ImageView
                             style="@style/popupcar_info_box_icon"
-                            android:src="@drawable/ic_distance" />
+                            app:srcCompat="@drawable/ic_distance" />
                         <it.sharengo.eteria.ui.components.CustomTextView
                             android:id="@+id/distanceTextView"
                             style="@style/popupcar_info_box_text"
@@ -145,7 +145,7 @@
                         style="@style/popupcar_info_box">
                         <ImageView
                             style="@style/popupcar_info_box_icon"
-                            android:src="@drawable/ic_timebyfeet" />
+                            app:srcCompat="@drawable/ic_timebyfeet" />
                         <it.sharengo.eteria.ui.components.CustomTextView
                             android:id="@+id/timeTextView"
                             style="@style/popupcar_info_box_text"
@@ -196,7 +196,7 @@
             android:layout_marginRight="1dp"
             android:layout_marginTop="3dp"
             android:background="@drawable/btn_bkg_whitesmoke"
-            android:src="@drawable/ic_close"
+            app:srcCompat="@drawable/ic_close"
             android:padding="10dp"
             android:layout_alignParentRight="true"/>
 

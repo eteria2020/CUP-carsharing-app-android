@@ -21,7 +21,7 @@ public class HdxBaseActivity extends AppCompatActivity {
     private final String KEY_IS_LOADING = "is_loading";
     private final String LOADING_FRAGMENT_TAG = "handroix_loading_fragment";
 
-    private List<HdxActivityProxy> mProxies;
+    private List<HdxActivityProxy> mProxies; //i proxy sono classi che gestiscono autonomamente "cose" ed hanno bisogno di essere notificati delle attività dell'activity
 
     Fragment mHdxLoadingFragment;
     private boolean mIsLoading = false;
@@ -57,6 +57,7 @@ public class HdxBaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (mProxies != null) {
@@ -76,6 +77,7 @@ public class HdxBaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean res = false;
         if (mProxies != null) {
@@ -127,6 +129,7 @@ public class HdxBaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
     public void onStop() {
         super.onStop();
         if (mProxies != null) {
@@ -136,6 +139,7 @@ public class HdxBaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (mProxies != null) {

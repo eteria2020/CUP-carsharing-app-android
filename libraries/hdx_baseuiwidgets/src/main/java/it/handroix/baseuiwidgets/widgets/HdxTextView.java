@@ -10,7 +10,7 @@ import it.handroix.baseuiwidgets.fontmanager.HdxFontManager;
 import it.handroix.baseuiwidgets.widgets.R;
 
 
-public class HdxTextView extends TextView {
+public class HdxTextView extends android.support.v7.widget.AppCompatTextView {
 	private static final String TAG = "HdxTextView";
 	private Context mContext=null;
 

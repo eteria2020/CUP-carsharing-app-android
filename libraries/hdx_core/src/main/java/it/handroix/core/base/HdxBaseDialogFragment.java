@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import it.handroix.core.proxy.HdxFragmentProxy;
 /**
  * Created by andrealucibello on 05/06/14.
  */
-public class HdxBaseDialogFragment extends DialogFragment {
+public class HdxBaseDialogFragment extends AppCompatDialogFragment {
 
 
     private List<HdxFragmentProxy> mProxies;

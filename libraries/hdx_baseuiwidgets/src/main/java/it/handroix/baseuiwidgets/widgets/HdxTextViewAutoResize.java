@@ -22,7 +22,7 @@ import it.handroix.baseuiwidgets.widgets.R;
 /**
  * Created by andrealucibello on 28/07/14.
  */
-public class HdxTextViewAutoResize extends TextView {
+public class HdxTextViewAutoResize extends android.support.v7.widget.AppCompatTextView {
     private interface SizeTester {
         /**
          * @param suggestedSize  Size of text to be tested

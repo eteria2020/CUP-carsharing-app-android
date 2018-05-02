@@ -622,29 +622,31 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
     private void initDrawableArray(@DrawableRes int res,int bonusValue){
         Log.d("BOMB","initDrawableArray with drawable");
+        //TODO controllare crash https://fabric.io/fulvio-bombara/android/apps/it.sharengo.eteria/issues/5ae70cf1638393737ac34ae3
+        bitmapAnimGreenArray = null;
         bitmapAnimGreenArray = new ArrayList<>();
         drawableAnimYellowArray = new ArrayList<>();
-        int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().density);
+        int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().scaledDensity);
         for(int i = 0; i <= NUM_ANIM; i++){
             if(i < 10) {
-                bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIconsBonus("autopulse000" + i, sizeMarkerAnim, sizeMarkerAnim,res,String.valueOf(bonusValue))));
+                bitmapAnimGreenArray.add(i, getBitmapDescriptor(resizeMapIconsBonus("autopulse000" + i, sizeMarkerAnim, sizeMarkerAnim,res,String.valueOf(bonusValue))));
                 drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow000" + i, sizeMarkerAnim, sizeMarkerAnim)));
             }else {
-                bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIconsBonus("autopulse00" + i, sizeMarkerAnim, sizeMarkerAnim,res,String.valueOf(bonusValue))));
+                bitmapAnimGreenArray.add(i, getBitmapDescriptor(resizeMapIconsBonus("autopulse00" + i, sizeMarkerAnim, sizeMarkerAnim,res,String.valueOf(bonusValue))));
                 drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow00" + i, sizeMarkerAnim, sizeMarkerAnim)));
             }
         }
     }
     private void initDrawableArray(){
-        Log.d("BOMB","initDrawableArray");
+        /*Log.d("BOMB","initDrawableArray"); //Async create problem we should create a disposable and dispose it if we have to rebuild the object
         Observable.just(1)
                 .observeOn(Schedulers.io())
                 .subscribe(new Action1<Integer>() {
                     @Override
-                    public void call(Integer integer) {
+                    public void call(Integer integer) {*/
                         bitmapAnimGreenArray = new ArrayList<>();
                         drawableAnimYellowArray = new ArrayList<>();
-                        int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().density);
+                        int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().scaledDensity);
                         for(int i = 0; i <= NUM_ANIM; i++){
                             if(i < 10) {
                                 bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse000" + i, sizeMarkerAnim, sizeMarkerAnim)));
@@ -654,8 +656,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                 drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow00" + i, sizeMarkerAnim, sizeMarkerAnim)));
                             }
                         }
-                    }
-                });
+                 /*   }
+                });*/
 
     }
 
@@ -1844,6 +1846,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     private void setMarkerAnimation(){
+        Log.d("BOMB","initDrawableArray setMarkerAnim");
 
         if(carnextMarker != null || carbookingMarker != null || isTripStart) {
             if (timer != null) timer.cancel();
@@ -1860,12 +1863,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                                 if (getActivity() != null) {
 
-                                    List<BitmapDescriptor> drawableAnimArray = null;
+                                    List<BitmapDescriptor> drawableAnimArray = new ArrayList<>();
 
                                     //Verifico se una prenotazione è attiva: il colore dell'animazione è giallo se c'è una prenotazione, altrimenti verde
-                                    if (isBookingCar || isTripStart)
-                                        drawableAnimArray = drawableAnimYellowArray;
-                                    else drawableAnimArray = bitmapAnimGreenArray;
+                                    if (isBookingCar || isTripStart) {
+                                        drawableAnimArray.addAll(drawableAnimYellowArray);
+                                    }
+                                    else {
+                                        drawableAnimArray.addAll(bitmapAnimGreenArray);
+                                    }
 
                                     //Ogni x millisecondi cambio il frame
                                     if (isBookingCar || isTripStart) {
@@ -2084,13 +2090,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         return resizedBitmap;
     }
     private Bitmap resizeMapIconsBonus(String iconName, int width, int height, @DrawableRes int drawable,String value){
+        Log.d("BOMB", "Display metrics density " + getResources().getDisplayMetrics().density + " " + getResources().getDisplayMetrics().scaledDensity);
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getActivity().getPackageName()), options);  //BitmapFactory.decodeResource(a.getResources(), path, options);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         Bitmap bonusBitmap =  Bitmap.createScaledBitmap(ImageUtils.drawableToBitmap(makeFreeMarker(getResources().getDrawable(drawable),value,100,100)), (int) (55* getResources().getDisplayMetrics().density),  (int) (55* getResources().getDisplayMetrics().density), false);
         //draw bonus value
-        Canvas imageCanvas = new Canvas(bonusBitmap);
+        /*Canvas imageCanvas = new Canvas(bonusBitmap);
 
         // Set up the paint for use with our Canvas
         Paint imagePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -2101,10 +2108,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
 
         // Draw the text on top of our image
-        imageCanvas.drawText(value, width / 2, 48, imagePaint);
+        imageCanvas.drawText(value, width / 2, 48, imagePaint);*/
         //draw bitmap on bigger image
         Canvas c2 = new Canvas(resizedBitmap);
-        c2.translate((float)(62.5* getResources().getDisplayMetrics().density),(float) (62.9* getResources().getDisplayMetrics().density));
+        c2.translate((float)(62.5* getResources().getDisplayMetrics().scaledDensity),(float) (62* getResources().getDisplayMetrics().scaledDensity));
         c2.drawBitmap(bonusBitmap, 0, 0, null);
         return resizedBitmap;
     }
@@ -2309,7 +2316,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         carPreSelected = null;
 
-        Observable.just(mMap.getMarkers())
+        /*Observable.just(mMap.getMarkers())
                 .concatMap(new Func1<List<Marker>, Observable<Marker>>() {
                     @Override
                     public Observable<Marker> call(List<Marker> markers) {
@@ -2328,7 +2335,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                         marker.setIcon(bitmapAutoSelected);
                     }
-                });
+                });*/
 
         //Aggiorno la Walk Navigation
         if(!isBookingCar && !isTripStart){
@@ -3749,14 +3756,16 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         if(carNext!=null &&!carNext.equals(this.carNext) && carNext.getValidBonus().size()>0 ) {
             Bonus bonus = carNext.getValidBonus().get(0);
-            Log.d("BOMB", "initDrawableArray new car" + carNext.id + " old car: " + this.carNext);
+            Log.d("BOMB", "initDrawableArray new car " + carNext.id + " old car: " + this.carNext);
             switch (bonus.getType()) {
 
                 case "nouse":
-                    initDrawableArray(R.drawable.ic_auto_free,bonus.getValue());
+                    initDrawableArray();
+                    //initDrawableArray(R.drawable.ic_auto_free,bonus.getValue());
                     break;
                 case "unplug":
-                    initDrawableArray(R.drawable.ic_auto_charging,bonus.getValue());
+                    initDrawableArray();
+                    //initDrawableArray(R.drawable.ic_auto_charging,bonus.getValue());
                     break;
                 default:
                     initDrawableArray();
@@ -3773,8 +3782,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     //Classe per customizzare il cluster
     public class DemoClusterOptionsProvider implements ClusterOptionsProvider {
 
-        private final int[] res = {R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster};
-        private final int[] res_transparent = {R.drawable.ic_cluster_feed, R.drawable.ic_cluster_feed, R.drawable.ic_cluster_feed, R.drawable.ic_cluster_feed, R.drawable.ic_cluster_feed};
+        private final int[] res = {R.drawable.ic_cluster,
+                R.drawable.ic_cluster, R.drawable.ic_cluster,
+                R.drawable.ic_cluster, R.drawable.ic_cluster};
+        private final int[] res_transparent = {R.drawable.ic_cluster_feed,
+                R.drawable.ic_cluster_feed, R.drawable.ic_cluster_feed,
+                R.drawable.ic_cluster_feed, R.drawable.ic_cluster_feed};
 
         private final int[] forCounts = {10, 100, 1000, 10000, Integer.MAX_VALUE};
 

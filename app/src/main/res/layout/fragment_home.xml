@@ -46,7 +46,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_cat_home"
+                app:srcCompat="@drawable/ic_cat_home"
                 android:padding="10dp"
                 android:alpha="0.0"
                 android:background="@drawable/btn_bkg_darkpastelgreen"/>
@@ -57,7 +57,7 @@
                 android:layout_height="60dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_utente_home"
+                app:srcCompat="@drawable/ic_utente_home"
                 android:padding="15dp"
                 android:alpha="0.0"
                 android:tint="#b8afa8"

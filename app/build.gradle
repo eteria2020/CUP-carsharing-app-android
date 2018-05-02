@@ -26,6 +26,9 @@ dependencies {
         transitive = true;
     }
     implementation project(':circlelayout')
+    implementation('com.crashlytics.sdk.android:answers:1.4.1@aar') {
+        transitive = true;
+    }
 }
 
 apply from: rootProject.file('app/config.gradle')
@@ -41,8 +44,8 @@ android {
         vectorDrawables.useSupportLibrary = true
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
-        versionCode 335
-        versionName "3.2.6"
+        versionCode 338
+        versionName "3.2.4"
 
         multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
