@@ -1,28 +1,24 @@
 buildscript {
     repositories {
-        mavenCentral()
         maven { url 'https://maven.fabric.io/public' }
-        google()
     }
 
     dependencies {
         classpath 'io.fabric.tools:gradle:1.+'
-        classpath 'com.android.tools.build:gradle:3.2.0-alpha12'
     }
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 repositories {
-    mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
-    implementation('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
-    implementation('com.crashlytics.sdk.android:crashlytics-ndk:1.1.6@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics-ndk:1.1.6@aar') {
         transitive = true;
     }
     implementation project(':circlelayout')
@@ -38,10 +34,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-    flavorDimensions "default"
     defaultConfig {
         applicationId project.APPLICATION_ID
-        vectorDrawables.useSupportLibrary = true
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
         versionCode 338
@@ -78,7 +72,7 @@ android {
     /*
      * Apk Name Beautifier
      */
-    /*applicationVariants.all { variant ->
+    applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def String fileName = project.APK_NAME + "_" + variant.baseName + "_v_" + variant.versionName + "_" + variant.versionCode
             def String apkFileName = fileName + ".apk"
@@ -126,7 +120,6 @@ android {
         stage {
         }
     }
-    buildToolsVersion '27.0.3'
 }
 
 configurations {

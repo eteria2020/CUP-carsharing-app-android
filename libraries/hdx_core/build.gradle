@@ -26,16 +26,16 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation ('me.zhanghai.android.materialprogressbar:library:1.1.4') {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile ('me.zhanghai.android.materialprogressbar:library:1.1.4') {
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
-    compileOnly "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
-    compileOnly "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
-    compileOnly "org.apache.commons:commons-lang3:$rootProject.ext.apacheCommonsLangVersion"
-    compileOnly "commons-io:commons-io:$rootProject.ext.apacheCommonsIoVersion"
+    provided "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
+    provided "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
+    provided "org.apache.commons:commons-lang3:$rootProject.ext.apacheCommonsLangVersion"
+    provided "commons-io:commons-io:$rootProject.ext.apacheCommonsIoVersion"
 }
 
