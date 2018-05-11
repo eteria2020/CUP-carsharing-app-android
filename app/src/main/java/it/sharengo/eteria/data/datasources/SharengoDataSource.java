@@ -1,11 +1,15 @@
 package it.sharengo.eteria.data.datasources;
 
+import java.util.List;
+
+import it.sharengo.eteria.data.models.Config;
 import it.sharengo.eteria.data.models.Response;
 import it.sharengo.eteria.data.models.ResponseCar;
 import it.sharengo.eteria.data.models.ResponsePutReservation;
 import it.sharengo.eteria.data.models.ResponseReservation;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.ResponseUser;
+import it.sharengo.eteria.data.models.SharengoResponse;
 import rx.Observable;
 
 public interface SharengoDataSource {
@@ -33,5 +37,7 @@ public interface SharengoDataSource {
     Observable<ResponseTrip> getTrips(String auth, boolean active, int quantity);
 
     Observable<ResponseTrip> getCurrentTrips(String auth);
+
+    Observable<SharengoResponse<List<Config>>> getConfig();
 
 }

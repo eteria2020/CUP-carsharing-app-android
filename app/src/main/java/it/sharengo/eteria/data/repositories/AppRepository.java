@@ -44,6 +44,8 @@ public class AppRepository {
     private String intentSelectedCar;
     private String intentSelectedCarCallingApp;
 
+    private String callCenterNumber = "+3905861975772";
+
     @Inject
     public AppRepository(CitiesDataSource citiesDataSource) {
         this.mCitiesDataSource = citiesDataSource;
@@ -97,6 +99,13 @@ public class AppRepository {
         return menuSelection;
     }
 
+    public String getCallCenterNumber() {
+        return callCenterNumber;
+    }
+
+    public void setCallCenterNumber(String callCenterNumber) {
+        this.callCenterNumber = callCenterNumber;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //

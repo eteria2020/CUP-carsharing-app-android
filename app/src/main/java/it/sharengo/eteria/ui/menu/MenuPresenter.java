@@ -35,6 +35,7 @@ public class MenuPresenter extends BasePresenter<MenuMvpView> {
         super(schedulerProvider, userRepository);
         this.mAppRepository = appRepository;
         this.mUserRepository = userRepository;
+        this.needAuth = false;
     }
 
     @Override

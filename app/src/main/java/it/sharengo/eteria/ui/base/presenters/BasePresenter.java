@@ -36,6 +36,7 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
     private T mMvpView;
     private CompositeSubscription mSubscriptions;
     private int mLoaderDebounce = 150;
+    protected boolean needAuth = true;
 
     public BasePresenter(SchedulerProvider schedulerProvider, UserRepository userRepository) {
         mSchedulerProvider = schedulerProvider;
@@ -275,5 +276,8 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
         mUserRepository.logoutUser(mPref);
     }
 
+    public boolean isNeedAuth() {
+        return needAuth;
+    }
 }
 

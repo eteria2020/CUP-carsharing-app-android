@@ -2,14 +2,18 @@ package it.sharengo.eteria.data.datasources;
 
 import android.util.Log;
 
+import java.util.List;
+
 import it.sharengo.eteria.data.datasources.api.SharengoApi;
 import it.sharengo.eteria.data.datasources.base.BaseRetrofitDataSource;
+import it.sharengo.eteria.data.models.Config;
 import it.sharengo.eteria.data.models.Response;
 import it.sharengo.eteria.data.models.ResponseCar;
 import it.sharengo.eteria.data.models.ResponsePutReservation;
 import it.sharengo.eteria.data.models.ResponseReservation;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.ResponseUser;
+import it.sharengo.eteria.data.models.SharengoResponse;
 import rx.Observable;
 
 public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implements SharengoDataSource {
@@ -193,5 +197,11 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
     public Observable<ResponseTrip> getCurrentTrips(String auth) {
         return mSharengoApi.getCurrentTrips(auth)
                 .compose(this.<ResponseTrip>handleRetrofitRequest());
+    }
+
+    @Override
+    public Observable<SharengoResponse<List<Config>>> getConfig() {
+        return mSharengoApi.getConfig()
+                .compose(this.<SharengoResponse<List<Config>>>handleRetrofitRequest());
     }
 }

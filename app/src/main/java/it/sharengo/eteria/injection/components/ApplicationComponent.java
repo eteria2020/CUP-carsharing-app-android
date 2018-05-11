@@ -12,6 +12,7 @@ import it.sharengo.eteria.data.repositories.AddressRepository;
 import it.sharengo.eteria.data.repositories.AppRepository;
 import it.sharengo.eteria.data.repositories.CarRepository;
 import it.sharengo.eteria.data.repositories.CityRepository;
+import it.sharengo.eteria.data.repositories.ConfigRepository;
 import it.sharengo.eteria.data.repositories.KmlRepository;
 import it.sharengo.eteria.data.repositories.PostRepository;
 import it.sharengo.eteria.data.repositories.PreferencesRepository;
@@ -47,6 +48,7 @@ public interface ApplicationComponent {
     AddressRepository addressRepository();
     PreferencesRepository preferencesRepository();
     UserRepository userRepository();
+    ConfigRepository configRepository();
     CityRepository cityRepository();
     KmlRepository kmlRepository();
     //SampleRetrofitDataSource sampleRetrofitDataSource();

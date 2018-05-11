@@ -236,8 +236,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private MarkerOptions carNextClusterOptions;
     private int currentDrawable = 0; //frame dell'animazione della macchiana più vicina
     private int NUM_ANIM = 40; //46
-    private List<BitmapDescriptor> bitmapAnimGreenArray;
-    private List<BitmapDescriptor> drawableAnimYellowArray;
+    private List<BitmapDescriptor> bitmapAnimGreenArray = new ArrayList<>();;
+    private List<BitmapDescriptor> drawableAnimYellowArray = new ArrayList<>();;
     private BitmapDescriptor bitmapAuto;
     private BitmapDescriptor bitmapAutoSelected;
     private BitmapDescriptor bitmapUser;
@@ -568,6 +568,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         lm.removeUpdates(this);
 
         mPresenter.viewOnPause();
+        cancelProgressHandler.removeCallbacksAndMessages(null);
 
         removeTripInfo();
         removeReservationInfo();
@@ -638,26 +639,32 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
     }
     private void initDrawableArray(){
+        try {
         /*Log.d("BOMB","initDrawableArray"); //Async create problem we should create a disposable and dispose it if we have to rebuild the object
         Observable.just(1)
                 .observeOn(Schedulers.io())
                 .subscribe(new Action1<Integer>() {
                     @Override
                     public void call(Integer integer) {*/
-                        bitmapAnimGreenArray = new ArrayList<>();
-                        drawableAnimYellowArray = new ArrayList<>();
-                        int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().scaledDensity);
-                        for(int i = 0; i <= NUM_ANIM; i++){
-                            if(i < 10) {
-                                bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse000" + i, sizeMarkerAnim, sizeMarkerAnim)));
-                                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow000" + i, sizeMarkerAnim, sizeMarkerAnim)));
-                            }else {
-                                bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse00" + i, sizeMarkerAnim, sizeMarkerAnim)));
-                                drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow00" + i, sizeMarkerAnim, sizeMarkerAnim)));
-                            }
-                        }
+            bitmapAnimGreenArray = new ArrayList<>();
+            drawableAnimYellowArray = new ArrayList<>();
+            int sizeMarkerAnim = (int) (177 * getResources().getDisplayMetrics().scaledDensity);
+            for (int i = 0; i <= NUM_ANIM; i++) {
+                if (i < 10) {
+                    bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse000" + i, sizeMarkerAnim, sizeMarkerAnim)));
+                    drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow000" + i, sizeMarkerAnim, sizeMarkerAnim)));
+                } else {
+                    bitmapAnimGreenArray.add(getBitmapDescriptor(resizeMapIcons("autopulse00" + i, sizeMarkerAnim, sizeMarkerAnim)));
+                    drawableAnimYellowArray.add(getBitmapDescriptor(resizeMapIcons("autopulseyellow00" + i, sizeMarkerAnim, sizeMarkerAnim)));
+                }
+            }
                  /*   }
                 });*/
+        }catch (Exception e){
+            Log.e("BOMB","Exception in initDrawableArray ",e);
+            bitmapAnimGreenArray = new ArrayList<>();
+            drawableAnimYellowArray = new ArrayList<>();
+        }
 
     }
 
@@ -806,8 +813,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
         if(carPreSelected != null){
-            showPopupCar(carPreSelected);
-            moveMapCameraToPoitWithZoom((double) carPreSelected.latitude, (double) carPreSelected.longitude, 19);
+            try {
+                showPopupCar(carPreSelected);
+                moveMapCameraToPoitWithZoom((double) carPreSelected.latitude, (double) carPreSelected.longitude, 19);
+            }catch (Exception e){
+                Log.e("BOMB","Exception while show pupupCar",e);
+            }
         }
 
         hasInit = true;
@@ -2086,8 +2097,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getActivity().getPackageName()), options);  //BitmapFactory.decodeResource(a.getResources(), path, options);
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
-        return resizedBitmap;
+        return Bitmap.createScaledBitmap(imageBitmap, width, height, false);
     }
     private Bitmap resizeMapIconsBonus(String iconName, int width, int height, @DrawableRes int drawable,String value){
         Log.d("BOMB", "Display metrics density " + getResources().getDisplayMetrics().density + " " + getResources().getDisplayMetrics().scaledDensity);
@@ -2291,26 +2301,28 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         if(!isAdded()) return;
         if(carSelected!=null){
             final Car lastCar = carSelected;
-            Observable.just(mMap.getMarkers())
-                    .concatMap(new Func1<List<Marker>, Observable<Marker>>() {
-                        @Override
-                        public Observable<Marker> call(List<Marker> markers) {
-                            return Observable.from(markers);
-                        }
-                    })
-                    .filter(new Func1<Marker, Boolean>() {
-                        @Override
-                        public Boolean call(Marker marker) {
-                            return lastCar.equals(marker.getData());
-                        }
-                    })
-                    .subscribe(new Action1<Marker>() {
-                        @Override
-                        public void call(Marker marker) {
+            if(mMap!=null) {
+                Observable.just(mMap.getMarkers())
+                        .concatMap(new Func1<List<Marker>, Observable<Marker>>() {
+                            @Override
+                            public Observable<Marker> call(List<Marker> markers) {
+                                return Observable.from(markers);
+                            }
+                        })
+                        .filter(new Func1<Marker, Boolean>() {
+                            @Override
+                            public Boolean call(Marker marker) {
+                                return lastCar.equals(marker.getData());
+                            }
+                        })
+                        .subscribe(new Action1<Marker>() {
+                            @Override
+                            public void call(Marker marker) {
 
-                            marker.setIcon(bitmapAuto);
-                        }
-                    });
+                                marker.setIcon(bitmapAuto);
+                            }
+                        });
+            }
         }
         carSelected = car;
 
@@ -2472,26 +2484,28 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             final Car car = carSelected;
             carSelected = null;
-            Observable.just(mMap.getMarkers())
-                    .concatMap(new Func1<List<Marker>, Observable<Marker>>() {
-                        @Override
-                        public Observable<Marker> call(List<Marker> markers) {
-                            return Observable.from(markers);
+            if(mMap!=null) {
+                Observable.just(mMap.getMarkers())
+                        .concatMap(new Func1<List<Marker>, Observable<Marker>>() {
+                            @Override
+                            public Observable<Marker> call(List<Marker> markers) {
+                                return Observable.from(markers);
+                            }
+                        })
+                        .filter(new Func1<Marker, Boolean>() {
+                            @Override
+                            public Boolean call(Marker marker) {
+                                return car != null && car.equals(marker.getData());
                         }
-                    })
-                    .filter(new Func1<Marker, Boolean>() {
-                        @Override
-                        public Boolean call(Marker marker) {
-                            return car!=null && car.equals(marker.getData());
-                        }
-                    })
-                    .subscribe(new Action1<Marker>() {
-                        @Override
-                        public void call(Marker marker) {
+                        })
+                        .subscribe(new Action1<Marker>() {
+                            @Override
+                            public void call(Marker marker) {
 
-                            marker.setIcon(bitmapAuto);
-                        }
-                    });
+                                marker.setIcon(bitmapAuto);
+                            }
+                        });
+            }
 
             if (!isBookingCar && !isTripStart) removeWalkingNavigation();
         }
@@ -3694,7 +3708,11 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             @Override
             public void run() {
-                progressOpenDoor.cancel();
+                try {
+                    progressOpenDoor.cancel();
+                }catch (Exception e){
+                    Log.e("BOMB","Exception canceling progressDoorOpen",e);
+                }
                 final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
                         getString(R.string.retryToOpenDoorPopup),
                         getString(R.string.ok),

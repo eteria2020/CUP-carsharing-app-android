@@ -24,6 +24,7 @@ public class UserInfo {
     public List<DisabledReason> disabled_reason;
 
     public UserInfo() {
+        pin = 0;
     }
 
 

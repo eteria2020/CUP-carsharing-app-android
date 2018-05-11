@@ -186,7 +186,7 @@ public class AssistanceFragment extends BaseMvpFragment<AssistancePresenter> imp
         //Verifico se il device è supportato per le chiamate telefoniche
         if(isTelephonyEnabled()) {
             final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
-                    getString(R.string.assistance_phonenumber_label),
+                    mPresenter.getCallCenterNumber(),
                     getString(R.string.assistance_alertcall_action),
                     getString(R.string.assistance_cancelcall_action));
             cdd.show();
@@ -194,7 +194,7 @@ public class AssistanceFragment extends BaseMvpFragment<AssistancePresenter> imp
                 @Override
                 public void onClick(View view) {
                     cdd.dismissAlert();
-                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getString(R.string.assistance_phonenumber_label))));
+                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mPresenter.getCallCenterNumber())));
                 }
             });
         }else{

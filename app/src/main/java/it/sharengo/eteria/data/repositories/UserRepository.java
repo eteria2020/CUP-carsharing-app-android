@@ -15,6 +15,7 @@ import it.sharengo.eteria.data.models.ResponseReservation;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.ResponseUser;
 import it.sharengo.eteria.data.models.User;
+import it.sharengo.eteria.data.models.UserInfo;
 import it.sharengo.eteria.utils.StringsUtils;
 import okhttp3.Credentials;
 import rx.Observable;
@@ -96,6 +97,7 @@ public class UserRepository {
     public User getCachedUser(){
         if(mCachedUser == null){
             mCachedUser = new User();
+            mCachedUser.userInfo = new UserInfo();
             mCachedUser.username = "";
             mCachedUser.password = "";
         }

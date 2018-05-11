@@ -8,6 +8,7 @@ import it.sharengo.eteria.data.repositories.AddressRepository;
 import it.sharengo.eteria.data.repositories.AppRepository;
 import it.sharengo.eteria.data.repositories.CarRepository;
 import it.sharengo.eteria.data.repositories.CityRepository;
+import it.sharengo.eteria.data.repositories.ConfigRepository;
 import it.sharengo.eteria.data.repositories.KmlRepository;
 import it.sharengo.eteria.data.repositories.PostRepository;
 import it.sharengo.eteria.data.repositories.PreferencesRepository;
@@ -193,13 +194,13 @@ public class MvpFragmentModule {
     }
 
     @Provides
-    ShortIntroPresenter provideShortIntroPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, UserRepository userRepository) {
+    ShortIntroPresenter provideShortIntroPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, UserRepository userRepository, ConfigRepository configRepository) {
         ShortIntroPresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new ShortIntroPresenter(schedulerProvider, userRepository);
+            presenter = new ShortIntroPresenter(schedulerProvider, userRepository, configRepository);
         }
         return presenter;
     }
@@ -313,13 +314,13 @@ public class MvpFragmentModule {
     }
 
     @Provides
-    AssistancePresenter provideAssistancePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+    AssistancePresenter provideAssistancePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository, ConfigRepository configRepository) {
         AssistancePresenter presenter = null;
         if (mBundle != null) {
             presenter = presenterManager.restorePresenter(mBundle);
         }
         if (presenter == null) {
-            presenter = new AssistancePresenter(schedulerProvider, appRepository, userRepository);
+            presenter = new AssistancePresenter(schedulerProvider, appRepository, userRepository,configRepository );
         }
         return presenter;
     }

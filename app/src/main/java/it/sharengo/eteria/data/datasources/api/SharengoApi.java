@@ -1,11 +1,15 @@
 package it.sharengo.eteria.data.datasources.api;
 
+import java.util.List;
+
+import it.sharengo.eteria.data.models.Config;
 import it.sharengo.eteria.data.models.Response;
 import it.sharengo.eteria.data.models.ResponseCar;
 import it.sharengo.eteria.data.models.ResponsePutReservation;
 import it.sharengo.eteria.data.models.ResponseReservation;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.ResponseUser;
+import it.sharengo.eteria.data.models.SharengoResponse;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
@@ -71,6 +75,9 @@ public interface SharengoApi {
 
     @GET("v2/trips/current")
     Observable<Result<ResponseTrip>> getCurrentTrips(@Header("Authorization") String auth);
+
+    @GET("v3/config")
+    Observable<Result<SharengoResponse<List<Config>>>> getConfig();
 
 
 

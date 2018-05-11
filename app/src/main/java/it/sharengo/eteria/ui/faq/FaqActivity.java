@@ -17,6 +17,7 @@ public class FaqActivity extends BaseDrawerActivity implements WebViewUser{
     private static final String TAG = FaqActivity.class.getSimpleName();
 
     public static Intent getCallingIntent(Context context) {
+
         Intent i = new Intent(context, FaqActivity.class);
         return i;
     }

@@ -53,7 +53,7 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
             mPresenter.attachView(this, mBundle != null);
         }
 
-        if(mPresenter.isAuth())
+        if(mPresenter.isAuth() && mPresenter.isNeedAuth())
             mPresenter.getUpdateUser(getActivity());
     }
 
