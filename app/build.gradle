@@ -25,8 +25,8 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics-ndk:1.1.6@aar') {
         transitive = true;
     }
-    compile project(':circlelayout')
-    compile('com.crashlytics.sdk.android:answers:1.4.1@aar') {
+    implementation project(':circlelayout')
+    implementation('com.crashlytics.sdk.android:answers:1.4.1@aar') {
         transitive = true;
     }
 }
