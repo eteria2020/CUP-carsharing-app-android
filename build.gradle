@@ -1,11 +1,13 @@
 buildscript {
     repositories {
+        mavenCentral()
         jcenter()
 
         maven { url "https://jitpack.io" }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.1.2'
         classpath 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
     }
 }
@@ -15,6 +17,7 @@ allprojects {
         mavenCentral()
         jcenter()
         maven { url "https://jitpack.io" }
+        google()
     }
 }
 
@@ -29,9 +32,9 @@ ext {
     versionCode = 33
 
     // Sdk and tools
-    targetSdkVersion = 25
-    compileSdkVersion = 25
-    buildToolsVersion = '25.0.0'
+    targetSdkVersion = 26
+    compileSdkVersion = 26
+    buildToolsVersion = '27.0.3'
     minSdkVersion = 19
 
     // Handroix
