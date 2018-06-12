@@ -241,6 +241,10 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                         Navigator.launchUserArea(MenuFragment.this, UserAreaActivity.InnerRoute.RATES);
                         closeActivity();
                         break;
+                    case LEGAL_NOTE:
+                        Navigator.launchLegalNote(MenuFragment.this);
+                        closeActivity();
+                        break;
                 }
 
 

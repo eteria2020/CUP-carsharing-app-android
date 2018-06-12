@@ -12,6 +12,8 @@ public class UserInfo {
         DISABLED_BY_WEBUSER,
         EXPIRED_DRIVERS_LICENSE,
         EXPIRED_CREDIT_CARD,
+        FAILED_EXTRA_PAYMENT,
+        REGISTRATION_NOT_COMPLETED,
     }
 
     public int pin;

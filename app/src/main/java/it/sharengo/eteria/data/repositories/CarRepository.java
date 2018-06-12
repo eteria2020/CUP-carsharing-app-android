@@ -91,9 +91,9 @@ public class CarRepository {
      * @return            response car observable object
      * @see               Observable<ResponseCar>
      */
-    public Observable<ResponseCar> getCars(String username, String password, String plate, String user_lat, String user_lon, String callingApp) {
+    public Observable<ResponseCar> getCars(String username, String password, String plate, String user_lat, String user_lon, String callingApp, String email) {
 
-        return mRemoteDataSource.getCars(Credentials.basic(username, StringsUtils.md5(password)), plate, user_lat, user_lon, callingApp)
+        return mRemoteDataSource.getCars(Credentials.basic(username, StringsUtils.md5(password)), plate, user_lat, user_lon, callingApp,email)
                 .doOnNext(new Action1<ResponseCar>() {
                     @Override
                     public void call(ResponseCar response) {

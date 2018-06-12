@@ -68,9 +68,6 @@
             android:theme="@style/AppTheme.Base.NoAnimation"
             android:windowSoftInputMode="adjustPan" />
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="96e06e0318dbf65715b2dfbc853fa90975ced412" />
 
         <activity
             android:name=".ui.tripend.TripEndActivity"
@@ -141,6 +138,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Base.NoAnimation"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.privacystatement.PrivacyStatementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.legalnote.LegalNoteActivity"
+            android:screenOrientation="portrait" />
+ />
 
         <!-- GOOGLE MAPS API -->
         <meta-data

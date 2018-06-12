@@ -282,5 +282,9 @@
     <string name="tripstart_notification_label">The door will open in few seconds.</string>
     <string name="tripstart_selfClosePopup">The trip will close for free after 5 minutes if the PIN is not entered</string>
     <string name="booking_user_unauthorized_alert">This car is not available, we are sorry for the inconvenience</string>
+    <string name="menu_privacy">Privacy statements</string>
+    <string name="menu_legalNote">Legal Note</string>
+    <string name="failed_extra_payment_login_alert">Sei disabilitato per un pagamento penale fallito, contatta il servizio clienti per maggiori informazioni</string>
+    <string name="registration_not_completed_login_alert">Sei disabilitato perchè devi completare il processo di registrazione</string>
 
 </resources>

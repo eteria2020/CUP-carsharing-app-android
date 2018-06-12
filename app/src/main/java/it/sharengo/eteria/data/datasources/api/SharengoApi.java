@@ -34,7 +34,7 @@ public interface SharengoApi {
     Observable<Result<Response>> getCars(@Header("Authorization") String auth, @Query("lat") float latitude, @Query("lon") float longitude, @Query("user_lat") String user_lat, @Query("user_lon") String user_lon, @Query("radius") int radius);
 
     @GET("v3/cars")
-    Observable<Result<ResponseCar>> getCars(@Header("Authorization") String auth, @Query("plate") String plate, @Query("user_lat") String user_lat, @Query("user_lon") String user_lon, @Query("callingApp") String callingApp);
+    Observable<Result<ResponseCar>> getCars(@Header("Authorization") String auth, @Query("plate") String plate, @Query("user_lat") String user_lat, @Query("user_lon") String user_lon, @Query("callingApp") String callingApp, @Query("email") String emailN);
 
     @GET("v3/cars")
     Observable<Result<Response>> getPlates(@Header("Authorization") String auth, @Query("user_lat") String user_lat, @Query("user_lon") String user_lon);

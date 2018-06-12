@@ -307,6 +307,12 @@ public class LoginFragment extends BaseLocationFragment<LoginPresenter> implemen
                         case EXPIRED_CREDIT_CARD:
                             Navigator.launchUserArea(LoginFragment.this, UserAreaActivity.InnerRoute.PAYMENTS);
                             break;
+                        case FAILED_EXTRA_PAYMENT:
+                            Navigator.launchAssistance(LoginFragment.this);
+                            break;
+                        case REGISTRATION_NOT_COMPLETED:
+                            Navigator.launchUserArea(LoginFragment.this);
+                            break;
                     }
                     if(getActivity()!=null){
                         getActivity().finish();

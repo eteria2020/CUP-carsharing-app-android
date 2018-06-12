@@ -19,6 +19,7 @@ import it.sharengo.eteria.ui.chronology.ChronologyPresenter;
 import it.sharengo.eteria.ui.faq.FaqPresenter;
 import it.sharengo.eteria.ui.feeds.FeedsPresenter;
 import it.sharengo.eteria.ui.feedsdetail.FeedsDetailPresenter;
+import it.sharengo.eteria.ui.legalnote.LegalNotePresenter;
 import it.sharengo.eteria.ui.login.LoginPresenter;
 import it.sharengo.eteria.ui.longintro.LongIntroPresenter;
 import it.sharengo.eteria.ui.base.presenters.PresenterManager;
@@ -421,6 +422,18 @@ public class MvpFragmentModule {
         }
         if (presenter == null) {
             presenter = new PinPresenter(schedulerProvider, appRepository, userRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    LegalNotePresenter provideLegalNotePresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+        LegalNotePresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new LegalNotePresenter(schedulerProvider, appRepository, userRepository);
         }
         return presenter;
     }

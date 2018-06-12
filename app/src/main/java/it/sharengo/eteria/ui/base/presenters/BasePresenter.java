@@ -255,6 +255,10 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
                     return context.getString(R.string.expired_driver_license_login_alert);
                 case EXPIRED_CREDIT_CARD:
                     return context.getString(R.string.expired_credit_card_login_alert);
+                case FAILED_EXTRA_PAYMENT:
+                    return context.getString(R.string.failed_extra_payment_login_alert);
+                case REGISTRATION_NOT_COMPLETED:
+                    return context.getString(R.string.registration_not_completed_login_alert);
                 default:
                     return context.getString(R.string.general_login_alert);
             }

@@ -22,7 +22,6 @@ public class ShortIntroActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Log.d("PERF","onCreate ShortIntroActivity");
         if (savedInstanceState == null) {
             replaceFragment(ShortIntroFragment.newInstance());

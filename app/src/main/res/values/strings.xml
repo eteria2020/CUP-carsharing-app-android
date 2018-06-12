@@ -296,5 +296,9 @@
     <string name="expired_driver_license_login_alert">Sei disabilitato per patente scaduta, per utilizzare Share\'ngo accedi alla tua area personale ed inserisci i nuovi dati</string>
     <string name="expired_credit_card_login_alert">Sei disabilitato perchè la carta inserita è scaduta, per utilizzare Share\'ngo accedi alla tua area personale ed inserisci i nuovi dati</string>
     <string name="next">AVANTI</string>
+    <string name="menu_privacy">Privacy statements</string>
+    <string name="menu_legalNote">Note legali</string>
+    <string name="failed_extra_payment_login_alert">Sei disabilitato per un pagamento penale fallito, contatta il servizio clienti per maggiori informazioni</string>
+    <string name="registration_not_completed_login_alert">Sei disabilitato perchè devi completare il processo di registrazione.</string>
 
 </resources>

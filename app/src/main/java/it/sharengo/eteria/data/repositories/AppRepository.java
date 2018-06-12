@@ -60,6 +60,7 @@ public class AppRepository {
         menuItems.add(new MenuItem(MenuItem.Section.FAQ));
         //menuItems.add(new MenuItem(MenuItem.Section.RATES));
         menuItems.add(new MenuItem(MenuItem.Section.HELP));
+        menuItems.add(new MenuItem(MenuItem.Section.LEGAL_NOTE));
         
         return Observable.just(menuItems);
     }
@@ -72,12 +73,13 @@ public class AppRepository {
         menuItems.add(new MenuItem(MenuItem.Section.PIN));
         //menuItems.add(new MenuItem(MenuItem.Section.BOOKING));
         menuItems.add(new MenuItem(MenuItem.Section.HISTORIC));
-        menuItems.add(new MenuItem(MenuItem.Section.FAKE_RATES));
+        //menuItems.add(new MenuItem(MenuItem.Section.FAKE_RATES));
         menuItems.add(new MenuItem(MenuItem.Section.HELP));
         menuItems.add(new MenuItem(MenuItem.Section.FAQ));
         //menuItems.add(new MenuItem(MenuItem.Section.BUY));
         //menuItems.add(new MenuItem(MenuItem.Section.SHARE));
         menuItems.add(new MenuItem(MenuItem.Section.SETTINGS));
+        menuItems.add(new MenuItem(MenuItem.Section.LEGAL_NOTE));
         menuItems.add(new MenuItem(MenuItem.Section.LOGOUT));
 
         return Observable.just(menuItems);

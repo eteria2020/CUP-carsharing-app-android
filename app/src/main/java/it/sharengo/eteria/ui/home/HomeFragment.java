@@ -211,7 +211,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
                public void onClick(View view) {
                    cdd.dismissAlert();
                    Navigator.launchLogin(HomeFragment.this, Navigator.REQUEST_LOGIN_START);
-                   /*Intent intent = UserAreaActivity.getCallingIntent(UserAreaFragment);
+                   /*Intent intent = LegalStatementActivity.getCallingIntent(LegalStatementFragment);
                    HomeFragment.this.startActivity(intent);*/
                }
            });
@@ -221,7 +221,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
                public void onClick(View view) {
                    cdd.dismissAlert();
                    Navigator.launchSlideshow(HomeFragment.this);
-                   /*Intent intent = UserAreaActivity.getCallingIntent(UserAreaFragment);
+                   /*Intent intent = LegalStatementActivity.getCallingIntent(LegalStatementFragment);
                    HomeFragment.this.startActivity(intent);*/
                }
            });

@@ -82,6 +82,7 @@ import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PatternItem;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.maps.android.PolyUtil;
@@ -156,6 +157,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     /* General */
     private boolean hasInit;
     private Car carPreSelected;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     /* Location */
     Location userLocation;
@@ -433,6 +435,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       try {
+           mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+           Bundle b = new Bundle();
+           b.putString("test", "FIREBASE EVENT");
+           mFirebaseAnalytics.logEvent("mappa", b);
+       }
+       catch (Exception e){
+           Log.d("FIREBASE EVENT","TEST FALLITO");
+       }
         Log.d("PERF","onCreate map");
         setHasOptionsMenu(true);
         getMvpFragmentComponent(savedInstanceState).inject(this);
@@ -510,7 +521,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 public void onClick(View view) {
                     cdd.dismissAlert();
                     Navigator.launchLogin(MapGoogleFragment.this, Navigator.REQUEST_LOGIN_START);
-                   /*Intent intent = UserAreaActivity.getCallingIntent(UserAreaFragment);
+                   /*Intent intent = LegalNoteActivity.getCallingIntent(LegalNoteFragment);
                    HomeFragment.this.startActivity(intent);*/
                 }
             });
@@ -520,7 +531,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 public void onClick(View view) {
                     cdd.dismissAlert();
                     Navigator.launchSlideshow(MapGoogleFragment.this);
-                   /*Intent intent = UserAreaActivity.getCallingIntent(UserAreaFragment);
+                   /*Intent intent = LegalNoteActivity.getCallingIntent(LegalNoteFragment);
                    HomeFragment.this.startActivity(intent);*/
                 }
             });
@@ -2281,6 +2292,12 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                             break;
                         case EXPIRED_CREDIT_CARD:
                             Navigator.launchUserArea(MapGoogleFragment.this, UserAreaActivity.InnerRoute.PAYMENTS);
+                            break;
+                        case FAILED_EXTRA_PAYMENT:
+                            Navigator.launchAssistance(MapGoogleFragment.this);
+                            break;
+                        case REGISTRATION_NOT_COMPLETED:
+                            Navigator.launchUserArea(MapGoogleFragment.this);
                             break;
 
                     }
