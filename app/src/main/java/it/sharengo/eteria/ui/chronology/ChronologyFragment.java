@@ -184,7 +184,7 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
             @Override
             public void onClick(View view) {
                 cdd.dismissAlert();
-                Navigator.launchHome(ChronologyFragment.this);
+                getActivity().onBackPressed();
                 getActivity().finish();
             }
         });

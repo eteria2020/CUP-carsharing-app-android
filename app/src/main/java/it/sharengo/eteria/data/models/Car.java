@@ -2,6 +2,7 @@ package it.sharengo.eteria.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.sharengo.eteria.data.common.ExcludeSerialization;
@@ -76,7 +77,36 @@ public class Car {
         this.status = status;
         this.autonomy = autonomy;
     }
+
+    public ArrayList<Bonus> getValidBonus(){
+        ArrayList<Bonus> result =new ArrayList<Bonus>();
+        if(bonus!=null){
+            for (Bonus b:bonus) {
+                if(!b.getBonus().equals(""))
+                    result.add(b);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Car)) return false;
+
+        Car car = (Car) o;
+
+        return id != null ? id.equals(car.id) : car.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }
+
+
 
 
 /*

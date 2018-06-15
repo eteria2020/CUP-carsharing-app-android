@@ -9,8 +9,8 @@
         android:id="@+id/introGifImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/intro_long_part1" />
+        android:scaleType="centerCrop"/>
+        <!--android:src="@drawable/intro_long_part1"-->
 
     <it.sharengo.eteria.ui.components.CustomTextView
         android:id="@+id/introTextView"

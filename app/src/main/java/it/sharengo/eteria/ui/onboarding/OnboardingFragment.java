@@ -140,7 +140,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void nextAnimation(){
-
+/*
         if(getActivity() != null) {
             animation = true;
 
@@ -187,7 +187,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
                     break;
 
             }
-        }
+        }*/
     }
 
     private void setIndicator(int indicator){
@@ -209,7 +209,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
                 break;
         }
     }
-
+/*
     //Car 1
     private void startAnimationCar1Ingresso(){
 
@@ -393,7 +393,7 @@ public class OnboardingFragment extends BaseMvpFragment<OnboardingPresenter> imp
         else
             nextAnimation = 9;
 
-    }
+    }*/
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //

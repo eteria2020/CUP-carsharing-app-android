@@ -14,6 +14,7 @@ import it.sharengo.eteria.ui.faq.FaqActivity;
 import it.sharengo.eteria.ui.feeds.FeedsActivity;
 import it.sharengo.eteria.ui.feedsdetail.FeedsDetailActivity;
 import it.sharengo.eteria.ui.home.HomeActivity;
+import it.sharengo.eteria.ui.legalnote.LegalNoteActivity;
 import it.sharengo.eteria.ui.login.LoginActivity;
 import it.sharengo.eteria.ui.longintro.LongIntroActivity;
 import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
@@ -51,6 +52,8 @@ public class Navigator {
     public static final String EXTRA_LOGIN = "EXTRA_LOGIN";
     public static final String EXTRA_FEEDS = "EXTRA_FEEDS";
     public static final String EXTRA_MAP = "EXTRA_MAPA";
+    public static final String EXTRA_USER_AREA = "EXTRA_USER_AREA";
+    public static final String EXTRA_LEGAL_STATEMET = "EXTRA_LEGAL_STATEMET";
 
     public static final int REQUEST_LOGIN_START = 1;
     public static final int REQUEST_LOGIN_PROFILE = 2;
@@ -122,8 +125,15 @@ public class Navigator {
         fragment.startActivity(intent);
     }
 
+    public static void launchUserArea(Fragment fragment,UserAreaActivity.InnerRoute route) {
+        Intent intent = UserAreaActivity.getCallingIntent(fragment.getActivity(),route);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
     public static void launchUserArea(Fragment fragment) {
-        Intent intent = UserAreaActivity.getCallingIntent(fragment.getActivity());
+        Intent intent = UserAreaActivity.getCallingIntent(fragment.getActivity(),UserAreaActivity.InnerRoute.HOME);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
@@ -276,6 +286,13 @@ public class Navigator {
     }
     public static void launchPin(Fragment fragment) {
         Intent intent = PinActivity.getCallingIntent(fragment.getActivity());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchLegalNote(Fragment fragment) {
+        Intent intent = LegalNoteActivity.getCallingIntent(fragment.getActivity(), LegalNoteActivity.InnerRoute.LEGAL_NOTE);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);

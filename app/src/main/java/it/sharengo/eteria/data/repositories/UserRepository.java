@@ -15,6 +15,7 @@ import it.sharengo.eteria.data.models.ResponseReservation;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.ResponseUser;
 import it.sharengo.eteria.data.models.User;
+import it.sharengo.eteria.data.models.UserInfo;
 import it.sharengo.eteria.utils.StringsUtils;
 import okhttp3.Credentials;
 import rx.Observable;
@@ -96,6 +97,7 @@ public class UserRepository {
     public User getCachedUser(){
         if(mCachedUser == null){
             mCachedUser = new User();
+            mCachedUser.userInfo = new UserInfo();
             mCachedUser.username = "";
             mCachedUser.password = "";
         }
@@ -110,9 +112,9 @@ public class UserRepository {
      * @return           response user of observable object
      * @see              Observable<ResponseUser>
      */
-    public Observable<ResponseUser> getUser(String username, String password) {
+    public Observable<ResponseUser> getUser(String username, String password, float user_lat, float user_lon) {
 
-        return mRemoteDataSource.getUser(Credentials.basic(username, StringsUtils.md5(password)))
+        return mRemoteDataSource.getUser(Credentials.basic(username, StringsUtils.md5(password)), user_lat, user_lon)
                 .doOnNext(new Action1<ResponseUser>() {
                     @Override
                     public void call(ResponseUser response) {
@@ -289,9 +291,9 @@ public class UserRepository {
      * @return           response put reservation observable object
      * @see              Observable<ResponsePutReservation>
      */
-    public Observable<ResponsePutReservation> deleteReservations(String username, String password, int id) {
+    public Observable<ResponsePutReservation> deleteReservations(String username, String password, int id, float user_lat, float user_lon) {
 
-        return mRemoteDataSource.deleteReservations(Credentials.basic(username, StringsUtils.md5(password)), id)
+        return mRemoteDataSource.deleteReservations(Credentials.basic(username, StringsUtils.md5(password)), id, user_lat, user_lon)
                 .doOnNext(new Action1<ResponsePutReservation>() {
                     @Override
                     public void call(ResponsePutReservation response) {
@@ -322,7 +324,39 @@ public class UserRepository {
     public Observable<ResponseTrip> getTrips(String username, String password, boolean active, boolean refreshInfo) {
         Log.w("getTrips",": "+refreshInfo);
         if(mCachedTrips == null || refreshInfo) { Log.w("getTrips","REFRESH");
+
             return mRemoteDataSource.getTrips(Credentials.basic(username, StringsUtils.md5(password)), active)
+                    .doOnNext(new Action1<ResponseTrip>() {
+                        @Override
+                        public void call(ResponseTrip response) {
+
+                            createOrUpdateTripsInMemory(response);
+                        }
+                    })
+                    .compose(logSourceTrips("NETWORK"));
+        }else{
+            Log.w("getTrips","CACHE");
+            return Observable.just(mCachedTrips);
+        }
+    }
+
+
+    /**
+     * Invoke API getTrips with params received from app. Retrieve from cache if
+     * refreshInfo it's false.
+     *
+     * @param  username     username of user
+     * @param  password     password of user
+     * @param  active       status of trip
+     * @param  refreshInfo  boolean for retrieve data from server or cache
+     * @param  quantity     quantity of trips to retrive
+     * @return              response trip observable object
+     * @see                 Observable<ResponseTrip>
+     */
+    public Observable<ResponseTrip> getTripsLast(String username, String password, boolean active, boolean refreshInfo,int quantity) {
+        Log.w("getTrips",": "+refreshInfo);
+        if(mCachedTrips == null || refreshInfo) { Log.w("getTrips","REFRESH");
+            return mRemoteDataSource.getTrips(Credentials.basic(username, StringsUtils.md5(password)), active,quantity)
                     .doOnNext(new Action1<ResponseTrip>() {
                         @Override
                         public void call(ResponseTrip response) {

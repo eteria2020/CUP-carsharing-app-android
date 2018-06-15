@@ -3,8 +3,10 @@ package it.sharengo.eteria.ui.shortintro;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import it.sharengo.eteria.R;
+import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.activities.BaseActivity;
 
 
@@ -20,7 +22,7 @@ public class ShortIntroActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d("PERF","onCreate ShortIntroActivity");
         if (savedInstanceState == null) {
             replaceFragment(ShortIntroFragment.newInstance());
         }
@@ -28,8 +30,9 @@ public class ShortIntroActivity extends BaseActivity {
 
     @Override
     public void finish() {
+        Navigator.launchMapGoogle(this,Navigator.REQUEST_MAP_DEFAULT);
         super.finish();
-        overridePendingTransition(0, R.anim.slide_out_up);
+        overridePendingTransition(R.anim.fade_in, R.anim.slide_out_up);
     }
 
     @Override

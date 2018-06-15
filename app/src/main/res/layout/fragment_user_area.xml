@@ -8,12 +8,14 @@
     android:orientation="vertical">
 
     <!-- Header -->
-    <RelativeLayout
-        style="@style/header_view">
+    <RelativeLayout style="@style/header_view"
+        android:visibility="gone">
+
         <it.sharengo.eteria.ui.components.CustomTextView
             style="@style/header_title"
-            app:font_name="poppinsBold"
-            android:text="@string/menu_profile" />
+            android:text="@string/menu_profile"
+            app:font_name="poppinsBold" />
+
     </RelativeLayout>
 
     <it.sharengo.eteria.ui.base.webview.MyWebView

@@ -1,27 +1,23 @@
 buildscript {
     repositories {
-        maven { url 'https://maven.fabric.io/public' }
+        mavenCentral()
+        google()
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'com.android.tools.build:gradle:3.2.0-alpha12'
     }
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-
+apply plugin: 'com.google.gms.google-services'
 repositories {
-    maven { url 'https://maven.fabric.io/public' }
+    mavenCentral()
 }
 
 dependencies {
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true;
-    }
-    compile('com.crashlytics.sdk.android:crashlytics-ndk:1.1.6@aar') {
-        transitive = true;
-    }
-    compile project(':circlelayout')
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.1'
+    implementation project(':circlelayout')
 }
 
 apply from: rootProject.file('app/config.gradle')
@@ -31,32 +27,33 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-
+    flavorDimensions "default"
     defaultConfig {
         applicationId project.APPLICATION_ID
+        vectorDrawables.useSupportLibrary = true
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
-        versionCode 323
-        versionName "3.1.5"
+        versionCode 341
+        versionName "3.2.7"
 
         multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
-
     buildTypes {
         debug {
             minifyEnabled false
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
 
             testCoverageEnabled true
 
-            applicationIdSuffix ".development"
-            resValue "string", "google_map_api_key", "AIzaSyA9fVUH1nET8pjHgceS6lyf65NZPsFnaCo"
+            applicationIdSuffix ".eteria"
+            resValue "string", "google_map_api_key", "AIzaSyDO5blXgSSM7hvNnsde0qM_rnK7nkdICUA"
             resValue "string", "google_place_api_key", "AIzaSyAnVjGP9ZCkSkBVkrX-5SBdmNW9AwE_Gew"
             resValue "string", "google_direction_api_key", "AIzaSyBEMZPnKaJgmjXnzeWpitYuqBrUtDf_Asg"
         }
         release {
             minifyEnabled true
+            shrinkResources true
             signingConfig signingConfigs.release
             ext.betaDistributionReleaseNotesFilePath = "app/fabric/release_note.txt"
             ext.betaDistributionGroupAliasesFilePath = "app/fabric/testers_group.txt"
@@ -67,11 +64,10 @@ android {
             resValue "string", "google_direction_api_key", "AIzaSyBEMZPnKaJgmjXnzeWpitYuqBrUtDf_Asg"
         }
     }
-
     /*
      * Apk Name Beautifier
      */
-    applicationVariants.all { variant ->
+    /*applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def String fileName = project.APK_NAME + "_" + variant.baseName + "_v_" + variant.versionName + "_" + variant.versionCode
             def String apkFileName = fileName + ".apk"
@@ -82,17 +78,15 @@ android {
             output.packageApplication.outputFile = new File(output.packageApplication.outputFile.parent, apkFileName)
         }
     }
-
     /*
      *  Filter useless variants (like "mockRelease")
      */
     android.variantFilter { variant ->
-        if(variant.buildType.name == 'release'
+        if (variant.buildType.name == 'release'
                 && variant.getFlavors().get(0).name == 'mock') {
             variant.setIgnore(true);
         }
     }
-
     packagingOptions {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/license.txt'
@@ -104,18 +98,27 @@ android {
         exclude 'LICENSE.txt'
         exclude 'main/AndroidManifest.xml'
     }
-
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
         disable 'InvalidPackage'
     }
-
     // Always show the result of every unit test, even if it passes.
     testOptions.unitTests.all {
         testLogging {
             events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
         }
+    }
+    productFlavors {
+        miavm {
+        }
+        stage {
+        }
+    }
+    buildToolsVersion '27.0.3'
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 }
 

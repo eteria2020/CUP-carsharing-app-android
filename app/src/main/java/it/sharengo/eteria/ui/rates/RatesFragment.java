@@ -149,12 +149,12 @@ public class RatesFragment extends BaseMvpFragment<RatesPresenter> implements Ra
         baseTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_base_label), sBase)));
 
         //Tariffa oraria
-        float hourRates = (float) (12.00 - (12.00 * discount_rate/100));
+        float hourRates = (float) (12.00 );
         String sHour = String.format("%.2f", hourRates).replace(",00","").replace(".00","");
         hourTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_hour_label), sHour)));
 
         //Tariffa giornaliera
-        float dayRates = (float) (50.00 - (50.00 * discount_rate/100));
+        float dayRates = (float) (50.00 );
         String sDay = String.format("%.2f", dayRates).replace(",00","").replace(".00","");
         dayTextView.setText(Html.fromHtml(String.format(getString(R.string.rates_day_label), sDay)));
 

@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <!-- User pin -->
         <RelativeLayout
@@ -67,6 +69,19 @@
                 app:font_name="poppinsBold"
                 android:includeFontPadding="false"
                 android:text="@string/booking_active_label"/>
+
+            <it.sharengo.eteria.ui.components.CustomTextView
+                android:id="@+id/selfClosePopupView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="@string/tripstart_selfClosePopup"
+                android:textAllCaps="true"
+                android:textColor="@color/darkjunglegreen"
+                android:textSize="12sp"
+                app:font_name="poppinsMedium"
+                android:visibility="gone"
+                android:textAlignment="center"/>
 
             <it.sharengo.eteria.ui.components.CustomTextView
                 android:id="@+id/bookingPlateTextView"
@@ -136,7 +151,7 @@
         <LinearLayout
             android:id="@+id/openButtonBookingView"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:paddingBottom="7dp"
             android:orientation="horizontal">
@@ -145,7 +160,8 @@
                 android:id="@+id/openDoorBookingButton"
                 style="@style/button_primary"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/button_height"
+                android:layout_height="wrap_content"
+                android:minHeight="35dp"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"
@@ -156,7 +172,8 @@
                 android:id="@+id/deleteBookingButton"
                 style="@style/button_secondary"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/button_height"
+                android:layout_height="wrap_content"
+                android:minHeight="35dp"
                 android:layout_weight="1"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"

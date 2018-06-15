@@ -15,6 +15,8 @@ public class ResourceProvider {
     public static String getMenuItemLabel(Context context, MenuItem menuItem) {
         
         switch(menuItem.section) {
+            case NONE:
+                break;
             case HOME:
                 return context.getString(R.string.menu_home);
             case LOGIN:
@@ -23,8 +25,8 @@ public class ResourceProvider {
                 return context.getString(R.string.menu_signup);
             case FAQ:
                 return context.getString(R.string.menu_faq);
-            case RATES:
-                return context.getString(R.string.menu_rates);
+            //case RATES:
+            //    return context.getString(R.string.menu_rates);
             case HELP:
                 return context.getString(R.string.menu_help);
             case PROFILE:
@@ -41,8 +43,12 @@ public class ResourceProvider {
                 return context.getString(R.string.menu_setting);
             case PIN:
                 return context.getString(R.string.menu_pin);
+            case LEGAL_NOTE:
+                return context.getString(R.string.menu_legalNote);
             case LOGOUT:
                 return context.getString(R.string.menu_logout);
+            //case FAKE_RATES:
+            //  return context.getString(R.string.menu_rates);
         }
 
         Log.e(TAG, "Resource not found for MenuItem section: " + menuItem.section);
@@ -52,6 +58,8 @@ public class ResourceProvider {
     public static Drawable getMenuItemIcon(Context context, MenuItem menuItem) {
 
         switch(menuItem.section) {
+            case NONE:
+                break;
             case HOME:
                 return getDrawable(context, R.drawable.ic_profilo);
             case LOGIN:
@@ -60,8 +68,8 @@ public class ResourceProvider {
                 return getDrawable(context, R.drawable.ic_iscrizione);
             case FAQ:
                 return getDrawable(context, R.drawable.ic_faq);
-            case RATES:
-                return getDrawable(context, R.drawable.ic_tariffe);
+           // case RATES:
+           //     return getDrawable(context, R.drawable.ic_tariffe);
             case HELP:
                 return getDrawable(context, R.drawable.ic_assistenza_nero);
             case PROFILE:
@@ -78,8 +86,12 @@ public class ResourceProvider {
                 return getDrawable(context, R.drawable.ic_impostazioni);
             case PIN:
                 return getDrawable(context, R.drawable.ic_lock);
+            case LEGAL_NOTE:
+                return getDrawable(context, R.drawable.ic_legal_note);
             case LOGOUT:
                 return getDrawable(context, R.drawable.ic_logout);
+           // case FAKE_RATES:
+           //     return getDrawable(context, R.drawable.ic_tariffe);
         }
 
         Log.e(TAG, "Resource not found for MenuItem section: " + menuItem.section);

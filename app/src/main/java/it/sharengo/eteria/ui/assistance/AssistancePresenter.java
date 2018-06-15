@@ -3,6 +3,7 @@ package it.sharengo.eteria.ui.assistance;
 
 import it.sharengo.eteria.data.models.MenuItem;
 import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.ConfigRepository;
 import it.sharengo.eteria.data.repositories.PreferencesRepository;
 import it.sharengo.eteria.data.repositories.UserRepository;
 import it.sharengo.eteria.ui.base.presenters.BasePresenter;
@@ -14,12 +15,14 @@ public class AssistancePresenter extends BasePresenter<AssistanceMvpView> {
 
     private final AppRepository mAppRepository;
     private final UserRepository mUserRepository;
+    private final ConfigRepository mConfigRepository;
 
 
-    public AssistancePresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+    public AssistancePresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository, ConfigRepository configRepository) {
         super(schedulerProvider,userRepository);
         mAppRepository = appRepository;
         mUserRepository = userRepository;
+        mConfigRepository = configRepository;
         mAppRepository.selectMenuItem(MenuItem.Section.HELP);
     }
 
@@ -32,6 +35,8 @@ public class AssistancePresenter extends BasePresenter<AssistanceMvpView> {
 
     @Override
     protected void subscribeRequestsOnResume() {
+
+        mConfigRepository.updateConfig();
 
     }
 
@@ -49,6 +54,10 @@ public class AssistancePresenter extends BasePresenter<AssistanceMvpView> {
             return "";
         }
 
+    }
+
+    public String getCallCenterNumber(){
+        return mConfigRepository.getCachedCallCenterNumber();
     }
 }
 

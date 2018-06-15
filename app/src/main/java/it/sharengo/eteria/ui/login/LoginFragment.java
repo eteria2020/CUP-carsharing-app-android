@@ -1,6 +1,7 @@
 package it.sharengo.eteria.ui.login;
 
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -23,14 +24,17 @@ import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.common.ErrorResponse;
 import it.sharengo.eteria.data.models.UserInfo;
 import it.sharengo.eteria.routing.Navigator;
+import it.sharengo.eteria.ui.base.fragments.BaseLocationFragment;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
+import it.sharengo.eteria.ui.mapgoogle.MapGoogleFragment;
+import it.sharengo.eteria.ui.userarea.UserAreaActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 import static it.sharengo.eteria.data.common.ErrorResponse.ErrorType.HTTP;
 
 
-public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements LoginMvpView {
+public class LoginFragment extends BaseLocationFragment<LoginPresenter> implements LoginMvpView {
 
     private static final String TAG = LoginFragment.class.getSimpleName();
 
@@ -89,6 +93,12 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         return view;
     }
 
+    @Override
+    public void onNewLocation(Location location) {
+        super.onNewLocation(location);
+        mPresenter.userLat = (float) location.getLatitude();
+        mPresenter.userLon = (float) location.getLongitude();
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -257,50 +267,110 @@ public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements Lo
         //Salvo nelle preferenze e prelevo i dati dell'utente
         mPresenter.saveCredentials(username, password, getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
 
+
+
+    }
+
+    private void loginAlertDisabled(final UserInfo.DisabledType disabledReason){
+        String reason = getString(R.string.general_login_alert);
+        if(disabledReason!=null)
+            reason = mPresenter.getDisabledString(getActivity());
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                reason,
+                getString(R.string.next),null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                if(disabledReason!=null){
+                    switch (disabledReason){
+
+                        case USER_NOT_DISABLED:
+                            Navigator.launchUserArea(LoginFragment.this);
+                            break;
+                        case FIRST_PAYMENT_NOT_COMPLETED:
+                            Navigator.launchUserArea(LoginFragment.this, UserAreaActivity.InnerRoute.PAYMENTS);
+                            break;
+                        case FAILED_PAYMENT:
+                            Navigator.launchUserArea(LoginFragment.this, UserAreaActivity.InnerRoute.HOME);
+                            break;
+                        case INVALID_DRIVERS_LICENSE:
+                            Navigator.launchUserArea(LoginFragment.this, UserAreaActivity.InnerRoute.DRIVER_LICENSE);
+                            break;
+                        case DISABLED_BY_WEBUSER:
+                            Navigator.launchAssistance(LoginFragment.this);
+                            break;
+                        case EXPIRED_DRIVERS_LICENSE:
+                            Navigator.launchUserArea(LoginFragment.this, UserAreaActivity.InnerRoute.DRIVER_LICENSE);
+                            break;
+                        case EXPIRED_CREDIT_CARD:
+                            Navigator.launchUserArea(LoginFragment.this, UserAreaActivity.InnerRoute.PAYMENTS);
+                            break;
+                        case FAILED_EXTRA_PAYMENT:
+                            Navigator.launchAssistance(LoginFragment.this);
+                            break;
+                        case REGISTRATION_NOT_COMPLETED:
+                            Navigator.launchUserArea(LoginFragment.this);
+                            break;
+                    }
+                    if(getActivity()!=null){
+                        getActivity().finish();
+                    }
+                }else
+                    Navigator.launchLogin(LoginFragment.this, Navigator.REQUEST_LOGIN_MAPS);
+
+            }
+        });
     }
 
     /**
      * According to type launch correct view. Example Home, Login Profile or other.
      */
     public void navigateTo(){
-        switch (type){
-            case Navigator.REQUEST_LOGIN_START:
-                if(getActivity() != null) {
-                    Navigator.launchMapGoogle(getActivity(),Navigator.REQUEST_MAP_DEFAULT);
-                    getActivity().finish();
-                }
-                break;
-            case Navigator.REQUEST_LOGIN_PROFILE:
-                if(getActivity() != null) {
-                    Navigator.launchUserArea(LoginFragment.this);
-                    getActivity().finish();
-                }
-                break;
-            case Navigator.REQUEST_LOGIN_MAPS:
-                if(getActivity() != null) {
-                    Navigator.launchMapGoogle(LoginFragment.this, Navigator.REQUEST_MAP_DEFAULT);
-                    getActivity().finish();
-                }
-                break;
-            case Navigator.REQUEST_LOGIN_FEEDS:
-                //Verifico se la città preferita è stata impostata
-                SharedPreferences mPref = getActivity().getSharedPreferences(getActivity().getString(R.string.preference_file_key), MODE_PRIVATE);
-                if (mPref.getString(getActivity().getString(R.string.preference_citiesfavourites), "").isEmpty()) {
-                    //Apro i settings
-                    if(getActivity() != null) {
-                        Navigator.launchSettingsCities(LoginFragment.this, true);
-                        getActivity().finish();
-                    }
-                } else {
-                    //Apro i feed
-                    if(getActivity() != null) {
-                        Navigator.launchFeeds(LoginFragment.this, "0", "");
-                        getActivity().finish();
-                    }
-                }
-                break;
-        }
+        if(mPresenter.getDisabledType()==null || mPresenter.getDisabledType()== UserInfo.DisabledType.USER_NOT_DISABLED) {
 
+            switch (type){
+                case Navigator.REQUEST_LOGIN_START:
+                    if(getActivity() != null) {
+                        Navigator.launchMapGoogle(getActivity(),Navigator.REQUEST_MAP_DEFAULT);
+                        getActivity().finish();
+                    }
+                    break;
+                case Navigator.REQUEST_LOGIN_PROFILE:
+                    if(getActivity() != null) {
+                        Navigator.launchUserArea(LoginFragment.this);
+                        getActivity().finish();
+                    }
+                    break;
+                case Navigator.REQUEST_LOGIN_MAPS:
+                    if(getActivity() != null) {
+                        Navigator.launchMapGoogle(LoginFragment.this, Navigator.REQUEST_MAP_DEFAULT);
+                        getActivity().finish();
+                    }
+                    break;
+                case Navigator.REQUEST_LOGIN_FEEDS:
+                    //Verifico se la città preferita è stata impostata
+                    SharedPreferences mPref = getActivity().getSharedPreferences(getActivity().getString(R.string.preference_file_key), MODE_PRIVATE);
+                    if (mPref.getString(getActivity().getString(R.string.preference_citiesfavourites), "").isEmpty()) {
+                        //Apro i settings
+                        if(getActivity() != null) {
+                            Navigator.launchSettingsCities(LoginFragment.this, true);
+                            getActivity().finish();
+                        }
+                    } else {
+                        //Apro i feed
+                        if(getActivity() != null) {
+                            Navigator.launchFeeds(LoginFragment.this, "0", "");
+                            getActivity().finish();
+                        }
+                    }
+                    break;
+            }
+
+        }else{
+            loginAlertDisabled(mPresenter.getDisabledType());
+        }
     }
 
 

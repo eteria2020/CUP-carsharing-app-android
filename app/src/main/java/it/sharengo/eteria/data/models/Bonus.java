@@ -18,4 +18,34 @@ public class Bonus {
         this.value = value;
         this.status = status;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+
+    }
+
+    public String getBonus() {
+        return isStatus()?getType():"";
+    }
+
 }

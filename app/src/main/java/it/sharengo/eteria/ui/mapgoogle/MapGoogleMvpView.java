@@ -28,6 +28,7 @@ public interface MapGoogleMvpView extends MvpMapView {
     void removeReservationInfo();
     void openTripEnd(int timestamp);
     void openNotification(int start, int end);
+    void openNotification(int start, int end,boolean payable);
     void openReservationNotification();
     void openPreselectedCarPopup(Car car);
     void showCity(List<City> cityList);
@@ -46,4 +47,5 @@ public interface MapGoogleMvpView extends MvpMapView {
     void hideLoading();
     void generalError();
     void openCarNotification();
+    void closeCarNotification();
 }

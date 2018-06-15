@@ -1,13 +1,19 @@
 package it.sharengo.eteria.data.datasources;
 
+import android.util.Log;
+
+import java.util.List;
+
 import it.sharengo.eteria.data.datasources.api.SharengoApi;
 import it.sharengo.eteria.data.datasources.base.BaseRetrofitDataSource;
+import it.sharengo.eteria.data.models.Config;
 import it.sharengo.eteria.data.models.Response;
 import it.sharengo.eteria.data.models.ResponseCar;
 import it.sharengo.eteria.data.models.ResponsePutReservation;
 import it.sharengo.eteria.data.models.ResponseReservation;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.ResponseUser;
+import it.sharengo.eteria.data.models.SharengoResponse;
 import rx.Observable;
 
 public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implements SharengoDataSource {
@@ -49,7 +55,7 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
      */
     @Override
     public Observable<Response> getCars(String auth, float latitude, float longitude, float user_lat, float user_lon, int radius) {
-        return mSharengoApi.getCars(auth, latitude, longitude, user_lat, user_lon, radius)
+        return mSharengoApi.getCars(auth, latitude, longitude, user_lat!=0?String.valueOf(user_lat):null, user_lon!=0?String.valueOf(user_lon):null, radius)
                 .compose(this.<Response>handleRetrofitRequest());
     }
 
@@ -62,8 +68,8 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
      * @see            Observable<ResponseCar>
      */
     @Override
-    public Observable<ResponseCar> getCars(String auth, String plate) {
-        return mSharengoApi.getCars(auth, plate)
+    public Observable<ResponseCar> getCars(String auth, String plate, String user_lat, String user_lon, String callingApp,String email) {
+        return mSharengoApi.getCars(auth, plate, user_lat, user_lon, callingApp,email)
                 .compose(this.<ResponseCar>handleRetrofitRequest());
     }
 
@@ -77,8 +83,8 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
      * @see             Observable<ResponseCar>
      */
     @Override
-    public Observable<ResponseCar> openCars(String auth, String plate, String action) {
-        return mSharengoApi.openCars(auth, plate, action)
+    public Observable<ResponseCar> openCars(String auth, String plate, String action, float user_lat, float user_lon) {
+        return mSharengoApi.openCars(auth, plate, action, user_lat!=0?String.valueOf(user_lat):null, user_lon!=0?String.valueOf(user_lon):null)
                 .compose(this.<ResponseCar>handleRetrofitRequest());
     }
 
@@ -91,7 +97,7 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
      */
     @Override
     public Observable<Response> getPlates(String auth, float user_lat, float user_lon) {
-        return mSharengoApi.getPlates(auth, user_lat, user_lon)
+        return mSharengoApi.getPlates(auth, String.valueOf(user_lat), String.valueOf(user_lon))
                 .compose(this.<Response>handleRetrofitRequest());
     }
 
@@ -103,8 +109,8 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
      * @see            Observable<ResponseUser>
      */
     @Override
-    public Observable<ResponseUser> getUser(String auth) {
-        return mSharengoApi.getUser(auth)
+    public Observable<ResponseUser> getUser(String auth, float user_lat, float user_lon) {
+        return mSharengoApi.getUser(auth, user_lat!=0?String.valueOf(user_lat):null, user_lon!=0?String.valueOf(user_lon):null)
                 .compose(this.<ResponseUser>handleRetrofitRequest());
     }
 
@@ -133,7 +139,7 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
      */
     @Override
     public Observable<ResponsePutReservation> postReservations(String auth, String plate, float user_lat, float user_lon) {
-        return mSharengoApi.postReservations(auth, plate, user_lat, user_lon)
+        return mSharengoApi.postReservations(auth, plate, user_lat!=0?String.valueOf(user_lat):null, user_lon!=0?String.valueOf(user_lon):null)
                 .compose(this.<ResponsePutReservation>handleRetrofitRequest());
     }
 
@@ -146,8 +152,8 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
      * @see           Observable<ResponsePutReservation>
      */
     @Override
-    public Observable<ResponsePutReservation> deleteReservations(String auth, int id) {
-        return mSharengoApi.deleteReservations(auth, id)
+    public Observable<ResponsePutReservation> deleteReservations(String auth, int id, float user_lat, float user_lon) {
+        return mSharengoApi.deleteReservations(auth, id, user_lat!=0?String.valueOf(user_lat):null, user_lon!=0?String.valueOf(user_lon):null)
                 .compose(this.<ResponsePutReservation>handleRetrofitRequest());
     }
 
@@ -166,6 +172,21 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
     }
 
     /**
+     * Returns an observable object (ResponseTrip) for manage API getTrips.
+     *
+     * @param   auth    identification credentials
+     * @param   active  status of trip
+     * @param   quantity quantity
+     * @return          response trip observable object
+     * @see             Observable<ResponseTrip>
+     */
+    @Override
+    public Observable<ResponseTrip> getTrips(String auth, boolean active, int quantity) {
+        return mSharengoApi.getTrips(auth, active,quantity)
+                .compose(this.<ResponseTrip>handleRetrofitRequest());
+    }
+
+    /**
      * Returns an observable object (ResponseTrip) for manage API getCurrentTrips.
      *
      * @param   auth    identification credentials
@@ -176,5 +197,11 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
     public Observable<ResponseTrip> getCurrentTrips(String auth) {
         return mSharengoApi.getCurrentTrips(auth)
                 .compose(this.<ResponseTrip>handleRetrofitRequest());
+    }
+
+    @Override
+    public Observable<SharengoResponse<List<Config>>> getConfig() {
+        return mSharengoApi.getConfig()
+                .compose(this.<SharengoResponse<List<Config>>>handleRetrofitRequest());
     }
 }

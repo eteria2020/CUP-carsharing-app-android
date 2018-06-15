@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -22,7 +23,7 @@
                 android:layout_width="30.5dp"
                 android:layout_height="30.5dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_arrow_back"/>
+                app:srcCompat="@drawable/ic_arrow_back"/>
 
             <RelativeLayout
                 android:id="@+id/navigation_container"
@@ -34,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="20.0dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/logo_sharengo"/>
+                    app:srcCompat="@drawable/logo_sharengo"/>
 
                 <it.handroix.baseuiwidgets.widgets.HdxTextView
                     android:id="@+id/toolbar_title_tv"

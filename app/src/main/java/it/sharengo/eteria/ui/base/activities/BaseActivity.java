@@ -99,7 +99,12 @@ public abstract class BaseActivity extends HdxBaseActivity {
 
     public void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, fragment)
+                .replace(R.id.content_frame, fragment,fragment.getTag())
+                .commit();
+    }
+    public void pushFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.content_frame, fragment, fragment.getTag())
                 .commit();
     }
 

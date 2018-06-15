@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -155,8 +156,10 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
 
             //Giorno e ora
             Date date = new Date(trip.timestamp_start*1000L);
-            SimpleDateFormat sdfDay = new SimpleDateFormat("dd MMMM yyyy");
-            SimpleDateFormat sdfH = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat sdfDay = new SimpleDateFormat("dd MMMM yyyy",Locale.ITALY);
+            sdfDay.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
+            SimpleDateFormat sdfH = new SimpleDateFormat("HH:mm",Locale.ITALY);
+            sdfH.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
             String formattedDay = sdfDay.format(date);
             String formattedH = sdfH.format(date);
             dateTextView.setText(String.format(mActivity.getString(R.string.chronology_date_label), formattedDay, formattedH));

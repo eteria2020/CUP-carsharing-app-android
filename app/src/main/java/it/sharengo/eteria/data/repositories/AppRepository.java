@@ -42,6 +42,9 @@ public class AppRepository {
     private String mLang;
 
     private String intentSelectedCar;
+    private String intentSelectedCarCallingApp;
+
+    private String callCenterNumber = "+3905861975772";
 
     @Inject
     public AppRepository(CitiesDataSource citiesDataSource) {
@@ -55,8 +58,9 @@ public class AppRepository {
         menuItems.add(new MenuItem(MenuItem.Section.LOGIN));
         menuItems.add(new MenuItem(MenuItem.Section.SIGNUP));
         menuItems.add(new MenuItem(MenuItem.Section.FAQ));
-        menuItems.add(new MenuItem(MenuItem.Section.RATES));
+        //menuItems.add(new MenuItem(MenuItem.Section.RATES));
         menuItems.add(new MenuItem(MenuItem.Section.HELP));
+        menuItems.add(new MenuItem(MenuItem.Section.LEGAL_NOTE));
         
         return Observable.just(menuItems);
     }
@@ -67,14 +71,15 @@ public class AppRepository {
 
         menuItems.add(new MenuItem(MenuItem.Section.PROFILE));
         menuItems.add(new MenuItem(MenuItem.Section.PIN));
-        menuItems.add(new MenuItem(MenuItem.Section.BOOKING));
+        //menuItems.add(new MenuItem(MenuItem.Section.BOOKING));
         menuItems.add(new MenuItem(MenuItem.Section.HISTORIC));
-        menuItems.add(new MenuItem(MenuItem.Section.RATES));
+        //menuItems.add(new MenuItem(MenuItem.Section.FAKE_RATES));
         menuItems.add(new MenuItem(MenuItem.Section.HELP));
         menuItems.add(new MenuItem(MenuItem.Section.FAQ));
         //menuItems.add(new MenuItem(MenuItem.Section.BUY));
         //menuItems.add(new MenuItem(MenuItem.Section.SHARE));
         menuItems.add(new MenuItem(MenuItem.Section.SETTINGS));
+        menuItems.add(new MenuItem(MenuItem.Section.LEGAL_NOTE));
         menuItems.add(new MenuItem(MenuItem.Section.LOGOUT));
 
         return Observable.just(menuItems);
@@ -96,6 +101,13 @@ public class AppRepository {
         return menuSelection;
     }
 
+    public String getCallCenterNumber() {
+        return callCenterNumber;
+    }
+
+    public void setCallCenterNumber(String callCenterNumber) {
+        this.callCenterNumber = callCenterNumber;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -184,5 +196,13 @@ public class AppRepository {
 
     public void setIntentSelectedCar(String intentSelectedCar) {
         this.intentSelectedCar = intentSelectedCar;
+    }
+
+    public String getIntentSelectedCarCallingApp() {
+        return intentSelectedCarCallingApp;
+    }
+
+    public void setIntentSelectedCarCallingApp(String intentSelectedCarCallingApp) {
+        this.intentSelectedCarCallingApp = intentSelectedCarCallingApp;
     }
 }

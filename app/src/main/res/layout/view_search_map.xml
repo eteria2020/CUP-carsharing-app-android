@@ -24,7 +24,7 @@
         <ImageView
             android:layout_width="21dp"
             android:layout_height="21dp"
-            android:src="@drawable/ic_search" />
+            app:srcCompat="@drawable/ic_search" />
         <it.sharengo.eteria.ui.components.CustomEditText
             android:id="@+id/searchEditText"
             android:layout_width="0dp"
@@ -50,7 +50,7 @@
             android:layout_height="18dp"
             android:layout_marginRight="10dp"
             android:background="@color/hdx_transparent"
-            android:src="@drawable/ic_close"
+            app:srcCompat="@drawable/ic_close"
             android:visibility="gone" />
         <ImageView
             android:id="@+id/microphoneImageView"
@@ -58,7 +58,7 @@
             android:layout_height="25dp"
             android:background="@drawable/btn_bkg_white"
             android:padding="2dp"
-            android:src="@drawable/ic_microphone" />
+            app:srcCompat="@drawable/ic_microphone" />
 
     </LinearLayout>
 

@@ -17,12 +17,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import it.sharengo.eteria.App;
+import it.sharengo.eteria.BuildConfig;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.models.MenuItem;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.activities.BaseDrawerActivity;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
+import it.sharengo.eteria.ui.userarea.UserAreaActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -43,6 +45,9 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
 
     @BindView(R.id.profileButton)
     ViewGroup profileButton;
+
+    @BindView(R.id.versionTV)
+    TextView versionTV;
     
     private MenuAdapter mAdapter;
 
@@ -72,7 +77,7 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
         mRv.setLayoutManager(lm);
         mRv.setAdapter(mAdapter);
         //mRv.addItemDecoration(new DividerItemDecoration(mRv.getContext(), lm.getOrientation()));
-        
+        versionTV.setText("Ver. " + BuildConfig.VERSION_NAME);
         return view;
     }
 
@@ -177,6 +182,10 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
             @Override
             public void run() {
                 switch(menuItem.section) {
+                    case NONE:
+                        break;
+                    case HOME:
+                        break;
                     case LOGIN:
                         Navigator.launchLogin(MenuFragment.this, Navigator.REQUEST_LOGIN_START);
                         closeActivity();
@@ -226,6 +235,14 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                         break;
                     case PIN:
                         Navigator.launchPin(MenuFragment.this);
+                        closeActivity();
+                        break;
+                    case FAKE_RATES:
+                        Navigator.launchUserArea(MenuFragment.this, UserAreaActivity.InnerRoute.RATES);
+                        closeActivity();
+                        break;
+                    case LEGAL_NOTE:
+                        Navigator.launchLegalNote(MenuFragment.this);
                         closeActivity();
                         break;
                 }

@@ -41,6 +41,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
     private Observable<ResponseReservation> mReservationsRequest;
     private Observable<ResponseTrip> mTripsRequest;
     private Observable<ResponseCity> mCityRequest;
+    public float userLat, userLon;
 
     private Context mContext;
 
@@ -75,6 +76,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
      * @param  context context of application
      */
     public void loadData(SharedPreferences mPref, Context context) {
+        Log.d("PERF","Load Data");
 
         mContext = context;
 
@@ -94,7 +96,9 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
 
             if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) { //Utente loggato
                 //Recupero le informazioni dell'utente
-                getUser(context);
+                //getUser(context);
+
+
                 getTrips();
                 getCities();
 
@@ -103,16 +107,32 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                 Type fooType = new TypeToken<UserInfo>() {}.getType();
                 Gson gson = new Gson();
                 String json = mPref.getString(context.getString(R.string.preference_userinfo), "");
-                UserInfo obj = (UserInfo) gson.fromJson(json, fooType);
-                if(obj != null && mUserRepository.getCachedUser() != null) mUserRepository.getCachedUser().userInfo = obj;
 
-                askPermission();
+                UserInfo obj=null;
+                try {
+                     obj = (UserInfo) gson.fromJson(json, fooType);
+                }catch (Exception e){
+
+                }
+                if(obj != null && mUserRepository.getCachedUser() != null) mUserRepository.getCachedUser().userInfo = obj;
+                mSplashRequest = Observable
+                        .just(new Object())
+                        .delay(50, TimeUnit.MILLISECONDS)
+                        .compose(this.handleDataRequest())
+                        .doOnCompleted(new Action0() {
+                            @Override
+                            public void call() {
+                                askPermission();
+                            }
+                        });
+
+                addSubscription(mSplashRequest.subscribe());
 
             }else{ //Utente non loggato
 
                 mSplashRequest = Observable
                         .just(new Object())
-                        .delay(2, TimeUnit.SECONDS)
+                        .delay(50, TimeUnit.MILLISECONDS)
                         .compose(this.handleDataRequest())
                         .doOnCompleted(new Action0() {
                             @Override
@@ -128,6 +148,11 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
         //Clean the saved kml
         mPreferencesRepository.resetKml(context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE));
     }
+
+    public void loginWithLocation(Context context) {
+        getUser(context);
+    }
+
 
     /**
      * Check if first access to app.
@@ -152,8 +177,10 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
     public void handleExtras(Bundle extras){
         if(extras==null)
             return;
-        else
+        else {
             mAppRepository.setIntentSelectedCar(extras.getString(Intent.EXTRA_TEXT));
+            mAppRepository.setIntentSelectedCarCallingApp(extras.getString("CALLING_APP"));
+        }
 
     }
 
@@ -163,6 +190,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void getUser(Context context){
+        //Log.d("BOMB","/v3/user get user"+userLat+userLon);
         if( mUserRequest == null) {
             mUserRequest = buildUserRequest();
             addSubscription(mUserRequest.unsafeSubscribe(getUserSubscriber(context)));
@@ -171,8 +199,9 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
 
     private Observable<ResponseUser> buildUserRequest() {
 
+        //Log.d("BOMB","/v3/user build userRequest"+userLat+userLon);
 
-        return mUserRequest = mUserRepository.getUser(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password)
+        return mUserRequest = mUserRepository.getUser(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, userLat, userLon)
                 .first()
                 .compose(this.<ResponseUser>handleDataRequest())
                 .doOnCompleted(new Action0() {

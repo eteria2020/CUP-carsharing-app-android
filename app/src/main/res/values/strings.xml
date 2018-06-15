@@ -2,18 +2,20 @@
 <resources>
 
     <string name="app_name">Sharengo</string>
-    <string name="mystore_password">x9aStp:k4:</string>
-    <string name="preference_file_key">sharengopreference</string>
-    <string name="preference_citiesfavourites">citiesfavourites</string>
-    <string name="preference_lang">lang</string>
-    <string name="preference_feeds">feeds</string>
-    <string name="preference_tutorial">tutorial</string>
-    <string name="preference_kml">kml</string>
-    <string name="preference_userinfo">userinfo</string>
-    <string name="preference_city">city</string>
+    <string name="mystore_password" translatable="false">1WC;Xen123hb|z</string>
+    <string name="preference_file_key" translatable="false">sharengopreference</string>
+    <string name="preference_citiesfavourites" translatable="false">citiesfavourites</string>
+    <string name="preference_lang" translatable="false">lang</string>
+    <string name="preference_feeds" translatable="false">feeds</string>
+    <string name="preference_tutorial" translatable="false">tutorial</string>
+    <string name="preference_kml" translatable="false">kml</string>
+    <string name="preference_userinfo" translatable="false">userinfo</string>
+    <string name="preference_city" translatable="false">city</string>
+
 
     <!--PERMISSION-->
-    <string name="msg_rational_location_permission">The app needs your permission to access your position.</string>
+    <string name="msg_rational_location_permission">L\'app ha bisogno dei permessi per poter funzionare.</string>
+
 
     <!--GENERAL-->
     <string name="general_login_alert">Devi effettuare l\'accesso per utilizzare questa funzionalità</string>
@@ -47,22 +49,22 @@
     <string name="popup_registrazione">Iscriviti</string>
 
     <!--COMMON ERRORS-->
-    <string name="error_generic_msg">Ops, something went wrong.</string>
-    <string name="error_msg_no_network">No internet connection. Please try again later</string>
-    <string name="error_msg_server_timeout">Server is unreachable. Please try again later</string>
-    <string name="error_msg_conversion">Some error occured. Please try again later</string>
-    <string name="error_unexpected">Some error occured. Please try again later</string>
-    <string name="error_msg_http_400">Your request cannot be fulfilled (400)</string>
-    <string name="error_msg_http_401">Your credentials seem to be invalid. Please try again</string>
-    <string name="error_msg_http_403">You\'re not allowed to access this content</string>
-    <string name="error_msg_http_404">Your request cannot be fulfilled (404)</string>
-    <string name="error_msg_http_406">Your request is not valid, please check your input and try again (406)</string>
-    <string name="error_msg_http_500">Some error occured. Please try again later (500)</string>
+    <string name="error_generic_msg">Ops, qualche cosa è andato storto.</string>
+    <string name="error_msg_no_network">Non sei connesso ad internet, per favore riprova</string>
+    <string name="error_msg_server_timeout">Il Server non è raggiungibile. Per favore riprovare più tardi.</string>
+    <string name="error_msg_conversion">Si è verificato un errore, per favore riprova</string>
+    <string name="error_unexpected">Abbiamo riscontrato un problema. Riprova più tardi</string>
+    <string name="error_msg_http_400">La tua richiesta non può essere completata (400)</string>
+    <string name="error_msg_http_401">Username/Password non corrette. Per favore controlla e riprova</string>
+    <string name="error_msg_http_403">Contenuto non disponibile</string>
+    <string name="error_msg_http_404">Contenuti non disponibile (404)</string>
+    <string name="error_msg_http_406">Dati inseriti non validi, controlla e riprova</string>
+    <string name="error_msg_http_500">Abbiamo riscontrato un problema. Riprova più tardi (500)</string>
 
-    <string name="general_notification_title">Share\'ngo</string>
+    <string name="general_notification_title" translatable="false">Share\'ngo</string>
 
     <!-- MAPPA -->
-    <string name="maps_search_placeholder">Cerca indirizzo o targa</string>
+    <string name="maps_search_placeholder">Cerca targa</string>
     <string name="maps_permissionlocation_alert">Share\'ngo ha bisogno dei permessi per accedere alla tua posizione. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
     <string name="maps_opendoor_action">Apri portiere</string>
     <string name="maps_bookingcar_action">Prenota auto</string>
@@ -113,6 +115,7 @@
     <string name="tripend_historic_action">Storico corse</string>
     <string name="tripend_notification_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente. Ti ringraziamo per aver usato Share\'ngo</string>
     <string name="tripstart_notification_label">Le portiere si apriranno fra qualche secondo.</string>
+    <string name="tripstart_selfClosePopup">La corsa si chiuderà gratuitamente dopo 5 minuti se non sarà inserito il PIN</string>
 
     <!-- Login -->
     <string name="login_fillfields_label">Compila i campi per effettuare il login</string>
@@ -131,7 +134,7 @@
 
     <!-- Registrazione -->
     <string name="signup_title_label">Iscriviti a Share\'ngo</string>
-    <string name="signup_description_label">L\'iscrizione al servizio costa 10 euro con 30 minuti bonus (condizioni standard, salvo promozioni). Se serve aiuto durante l\'iscrizione usa il pulsante chat!</string>
+    <string name="signup_description_label">L\'iscrizione al servizio costa 5 euro con 15 minuti bonus (condizioni standard, salvo promozioni). Se serve aiuto durante l\'iscrizione usa il pulsante chat!</string>
     <string name="signup_subscribe_action">ISCRIVITI</string>
     <string name="signup_step1text1_action">Per iscriverti devi avere\na portata di mano:</string>
     <string name="signup_step1text2_action">CARTA DI IDENTITÀ</string>
@@ -149,7 +152,7 @@
 
     <!-- Home -->
     <string name="home_welcome_label">Benvenuto!</string>
-    <string name="home_welcomef_label">BenvenutA!</string>
+    <string name="home_welcomef_label">Benvenuta!</string>
     <string name="home_welcomeauth_label">Bentornato %s!</string>
     <string name="home_welcomeauthf_label">Bentornata %s!</string>
 
@@ -267,7 +270,7 @@
     <string name="btn_login">ACCEDI</string>
     <string name="tripend_parkerdcar_label">Auto in sosta</string>
     <string name="chronology_ratesmin_label">Tariffa al minuto: € %s</string>
-    <string name="maps_freecar_label">%s minuti di guida gratuita!</string>
+    <string name="maps_freecar_label">Con questa auto %s minuti di guida gratis!</string>
 
     <string name="rates_titleauth_label">Tariffe</string>
     <string name="rates_titlenoauth_label">Tariffe e bonus</string>
@@ -283,5 +286,19 @@
     <string name="rates_signup_action">Iscriviti subito</string>
     <string name="maps_enablegps_label">Abilitare il GPS per maggiori informazioni</string>
     <string name="general_logout_alert">Sei sicuro di voler effettuare il logout?</string>
+    <string name="carOpen_confirm">Sei sicuro di voler aprire le portirere? La corsa inizierà in questo momento.</string>
+    <string name="tripend_notification_selfclose_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente in maniera gratuita.Ti ringraziamo per aver usato Share\'ngo</string>
+    <string name="retryToOpenDoorPopup">Si è verificato un errore vuoi riprovare?</string>
+    <string name="first_payment_login_alert">Sei disabilitato per primo pagamento non effettuato, per utilizzare Share\'ngo accedi alla tua area personale e completa il pagamento</string>
+    <string name="failed_payment_login_alert">Sei disabilitato per un pagamento non effettuato, per utilizzare Share\'ngo accedi alla tua area personale e procedi col pagamento</string>
+    <string name="invalid_driver_license_login_alert">Sei disabilitato perchè hai inserito una patente non valida, per utilizzare Share\'ngo accedi alla tua area personale, controlla e modifica i dati inseriti</string>
+    <string name="disabled_webuser_login_alert">Sei disabilitato, contatta il servizio clienti per maggiori informazioni</string>
+    <string name="expired_driver_license_login_alert">Sei disabilitato per patente scaduta, per utilizzare Share\'ngo accedi alla tua area personale ed inserisci i nuovi dati</string>
+    <string name="expired_credit_card_login_alert">Sei disabilitato perchè la carta inserita è scaduta, per utilizzare Share\'ngo accedi alla tua area personale ed inserisci i nuovi dati</string>
+    <string name="next">AVANTI</string>
+    <string name="menu_privacy">Privacy statements</string>
+    <string name="menu_legalNote">Note legali</string>
+    <string name="failed_extra_payment_login_alert">Sei disabilitato per un pagamento penale fallito, contatta il servizio clienti per maggiori informazioni</string>
+    <string name="registration_not_completed_login_alert">Sei disabilitato perchè devi completare il processo di registrazione.</string>
 
 </resources>

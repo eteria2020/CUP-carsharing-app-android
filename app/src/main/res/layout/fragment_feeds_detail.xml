@@ -41,7 +41,7 @@
                 android:layout_height="210dp"
                 android:alpha="0.5"
                 android:scaleType="fitXY"
-                android:src="@drawable/trapezoid1"/>
+                app:srcCompat="@drawable/trapezoid1"/>
 
             <!-- Triangolo -->
             <RelativeLayout

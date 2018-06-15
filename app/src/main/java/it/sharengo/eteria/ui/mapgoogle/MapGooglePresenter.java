@@ -7,6 +7,7 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -57,6 +58,7 @@ import it.sharengo.eteria.data.models.ResponseSharengoMap;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.SearchItem;
 import it.sharengo.eteria.data.models.User;
+import it.sharengo.eteria.data.models.UserInfo;
 import it.sharengo.eteria.data.repositories.AddressRepository;
 import it.sharengo.eteria.data.repositories.AppRepository;
 import it.sharengo.eteria.data.repositories.CarRepository;
@@ -65,10 +67,8 @@ import it.sharengo.eteria.data.repositories.KmlRepository;
 import it.sharengo.eteria.data.repositories.PostRepository;
 import it.sharengo.eteria.data.repositories.PreferencesRepository;
 import it.sharengo.eteria.data.repositories.UserRepository;
-import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.map.BaseMapPresenter;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
-import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
@@ -109,6 +109,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private Observable<ResponseGoogleRoutes> mFindRoutesRequest;
     private Observable<List<SearchItem>> mFindSearchRequest;
     private Observable<ResponseTrip> mTripsRequest;
+    private Observable<ResponseTrip> mTripsRequestLast;
     private Observable<ResponseReservation> mReservationsRequest;
     private Observable<ResponsePutReservation> mReservationRequest;
     private Observable<ResponseCity> mCityRequest;
@@ -124,6 +125,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private ResponseCar mResponseTripCar;
     private ResponseCar mResponseCarTrip;
     private ResponseTrip mResponseTrip;
+    private ResponseTrip mResponseTripLast;
     private ResponseCar mResponseInfo;
     private ResponseReservation mResponseReservation;
     private Reservation mReservation;
@@ -167,8 +169,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private int timerInterval;
     private int INT_1_MIN = 60000;
-    private int INT_5_SEC = 5000;
-    private int INT_30_SEC = 30000;
+    private int INT_5_SEC = 4000; //trasformato in 4 secondi per lentezza popup apertura corsa
+    private int INT_30_SEC = 25000; //trasformato in 25 secondi per lentezza popup
 
 
     public MapGooglePresenter(SchedulerProvider schedulerProvider,
@@ -238,6 +240,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             return super.showCustomLoading();
     }
 
+   @Override
+    public void attachView(MapGoogleMvpView mvpView, boolean recreation) {
+        super.attachView(mvpView, recreation);
+        checkReservationsResult();
+    }
 
     /**
      * Create view when map is ready
@@ -268,15 +275,21 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         isBookingExists = false;
         timestamp_start = 0;
         seconds = 0;
-        userLat = 0;
-        userLon = 0;
 
         loadPlates();
         if(mAppRepository.getIntentSelectedCar() != null && !mAppRepository.getIntentSelectedCar().isEmpty()) {
-            loadSelectedCars(mAppRepository.getIntentSelectedCar());
+            String email= "";
+          if (isAuth()){
+             email=  mUserRepository.getCachedUser().username;
+            }
+
+            loadSelectedCars(mAppRepository.getIntentSelectedCar(), mAppRepository.getIntentSelectedCarCallingApp(),email);
             mAppRepository.setIntentSelectedCar(null);
+            mAppRepository.setIntentSelectedCarCallingApp(null);
         }
         loadCarpopup();
+        userLat = 0;
+        userLon = 0;
 
         /*if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty())
             getReservations(false);*/
@@ -317,7 +330,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         timer.schedule(timerTask, 60000, 60000); //300000
 
 
-        setTimerReservertionTrip(INT_1_MIN);
+        setTimerReservertionTrip(INT_30_SEC);
     }
 
     private void setTimerReservertionTrip(int interval){
@@ -343,9 +356,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                         if(isConnected) {
                             if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) {
                                 //if(seconds == 0 || ((System.currentTimeMillis() - seconds) / 1000) > 59){
-                                    getReservations(true); //Deve essere passato almeno un minuto dall'azione compiuta dall'utente (apertura porte o prenotazione)
-
-                               // }
+                                getReservations(true); //Deve essere passato almeno un minuto dall'azione compiuta dall'utente (apertura porte o prenotazione)
+                                 // }
                                 getTrips(true);
                             }
                         }else{
@@ -367,7 +379,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             }
         };
 
-        timer1min.schedule(timerTask1min, 5000, interval);
+        timer1min.schedule(timerTask1min, 4000, interval);
     }
 
     /**
@@ -391,10 +403,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @return      status of user authentication
      * @see         boolean
      */
+    @Override
     public boolean isAuth(){
         if(mUserRepository.getCachedUser() != null && mUserRepository.getCachedUser().username != null && !mUserRepository.getCachedUser().username.isEmpty()) return true;
         return false;
     }
+
+
 
     private void loadCarpopup(){
         if(mCarRepository.getCarSelected() != null && isViewAttached())
@@ -812,10 +827,10 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     public void loadPlatesCached() {
         hideLoading = true;
 
-        if( mPlatesRequest == null) {
+       /* if( mPlatesRequest == null) {
             mPlatesRequest = buildPlatesRequest();
             addSubscription(mPlatesRequest.unsafeSubscribe(getPlatesSubscriber()));
-        }
+        }*/
 
         if(mCachedPlates != null){ if(getMvpView() != null) getMvpView().setNextCar(mCachedPlates); }
         else{
@@ -993,7 +1008,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private Observable<ResponseCar> buildCarsInfoRequest(String plate) {
 
-        return mCarsInfoRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate)
+        return mCarsInfoRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate,null, null, null,null)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -1042,19 +1057,20 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      *
      * @param  plate  plate for car reservation.
      */
-    public void loadSelectedCars(String plate) {
+    public void loadSelectedCars(String plate, String callingApp,String email) {
 
         hideLoading = true;
+        //Log.d("BOMB", "loadSelectedCars " + plate +user_lat + user_lon + callingApp);
 
         mCarsInfoRequest = null;
-        mCarsInfoRequest = buildCarSelectedRequest(plate);
+        mCarsInfoRequest = buildCarSelectedRequest(plate, callingApp,email);
         addSubscription(mCarsInfoRequest.unsafeSubscribe(getCarSelectedSubscriber()));
     }
 
 
-    private Observable<ResponseCar> buildCarSelectedRequest(String plate) {
+    private Observable<ResponseCar> buildCarSelectedRequest(String plate, String callingApp,String email) {
 
-        return mCarsInfoRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate)
+        return mCarsInfoRequest = Observable.just(1).delay(3, TimeUnit.SECONDS).concatMap(i -> mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate, String.valueOf(userLat), String.valueOf( userLon), callingApp,email))
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -1578,7 +1594,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private Observable<ResponsePutReservation> buildDeleteReservationRequest(int id) {
-        return mReservationRequest = mUserRepository.deleteReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, id)
+        return mReservationRequest = mUserRepository.deleteReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, id, userLat, userLon)
                 .first()
                 .compose(this.<ResponsePutReservation>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -1645,15 +1661,15 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         if( mCarsTripRequest == null) {
 
             mCarsTripRequest = null;
-            mCarsTripRequest = buildCarsOpenRequest(car, action);
+            mCarsTripRequest = buildCarsOpenRequest(car, action, userLat, userLon);
             addSubscription(mCarsTripRequest.unsafeSubscribe(getCarsOpenSubscriber()));
         }
     }
 
 
-    private Observable<ResponseCar> buildCarsOpenRequest(final Car car, final String action) {
+    private Observable<ResponseCar> buildCarsOpenRequest(final Car car, final String action, float user_lat, float user_lon) {
 
-        return mCarsTripRequest = mCarRepository.openCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, car.id, action)
+        return mCarsTripRequest = mCarRepository.openCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, car.id, action, user_lat, user_lon)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
                 .doOnError(new Action1<Throwable>() {
@@ -1729,7 +1745,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
                 if(mResponseCarTrip!=null){
                     if(mResponseCarTrip.status.equalsIgnoreCase("200")){
-                        getMvpView().openCarNotification();
+                        if(!isParked)
+                            getMvpView().openCarNotification();
                         isTripOpening=true;
                         isTripOpeningCount=0;
 
@@ -1842,7 +1859,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             loadCarsTrip(mResponseTrip.trips.get(0).plate);
 
             //Timer
-            if(timerInterval != INT_5_SEC) setTimerReservertionTrip(INT_5_SEC);
+            if(timerInterval != INT_30_SEC) setTimerReservertionTrip(INT_30_SEC);
         }else{
 
             Log.d("BOMB","checkTripsResult: check trip open  " + isTripOpening + " " + !isTripExists);
@@ -1851,7 +1868,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     if (timerInterval != INT_5_SEC) setTimerReservertionTrip(INT_5_SEC);
                 }else {
                     isTripOpening=false;
-                    if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
+                    if (timerInterval != INT_30_SEC) setTimerReservertionTrip(INT_30_SEC);
                 }
             }
 
@@ -1861,8 +1878,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 isTripExists = false;
 
                 loadPlates();
-
-                getMvpView().openNotification(timestamp_start, (int) (System.currentTimeMillis() / 1000L));
+                //controllo della chiusura corsa
+                showNotificationOnLastTrip();
 
                 timestamp_start = 0;
                 //timerTask1min.cancel();
@@ -1875,7 +1892,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 getMvpView().removeTripInfo();
 
                 //Timer
-                if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
+                if (timerInterval != INT_30_SEC) setTimerReservertionTrip(INT_30_SEC);
             }
         }
     }
@@ -1950,7 +1967,10 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private void checkReservationsResult(){
 
-        if(mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
+        if(mResponseReservation == null )
+            //Non deve fare il checkreservation modifica per resume da background
+            return;
+        if( mResponseReservation.reason.isEmpty() && mResponseReservation.reservations != null && mResponseReservation.reservations.size() > 0){
 
             //Verifico che non sia scaduta
             long unixTime = System.currentTimeMillis() / 1000L;
@@ -1975,7 +1995,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     if (timerInterval != INT_5_SEC) setTimerReservertionTrip(INT_5_SEC);
                 }else {
                     isBookingOpening=false;
-                    if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
+                    if (timerInterval != INT_30_SEC) setTimerReservertionTrip(INT_30_SEC);
                 }
             }
             if(isBookingExists && reservationTime > 0){
@@ -1987,7 +2007,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 getMvpView().removeReservationInfo();
 
                 //Timer
-                if (timerInterval != INT_1_MIN) setTimerReservertionTrip(INT_1_MIN);
+                if (timerInterval != INT_30_SEC) setTimerReservertionTrip(INT_30_SEC);
             }
             //getTrips(true);
         }
@@ -2018,7 +2038,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private Observable<ResponseCar> buildCarsReservationRequest(String plate) {
 
-        return mCarsReservationRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate)
+        return mCarsReservationRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate, null, null, null,null)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -2104,7 +2124,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private Observable<ResponseCar> buildCarsTripRequest(String plate) {
 
-        return mCarsReservationRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate)
+        return mCarsReservationRequest = mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate, null, null, null,null)
                 .first()
                 .compose(this.<ResponseCar>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -2246,6 +2266,71 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 mCitiesList = response.data;
             }
         };
+    }
+
+
+
+    /**
+     * Retrieve from server user's trips list.
+     */
+    public void showNotificationOnLastTrip(){
+        hideLoading = true;
+        //getMvpView().showStandardLoading();
+
+        if( mTripsRequestLast == null) {
+            mTripsRequestLast = buildTripsRequestLast();
+            addSubscription(mTripsRequestLast.unsafeSubscribe(getTripsSubscriberLast()));
+        }
+    }
+
+    private Observable<ResponseTrip> buildTripsRequestLast() {
+
+        return mTripsRequestLast = mUserRepository.getTripsLast(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, false, true,2)
+                .first()
+                .compose(this.<ResponseTrip>handleDataRequest())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        checkTripsResultLast();
+                    }
+                });
+    }
+
+    private Subscriber<ResponseTrip> getTripsSubscriberLast(){
+        return new Subscriber<ResponseTrip>() {
+            @Override
+            public void onCompleted() {
+                mTripsRequestLast = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mTripsRequestLast = null;
+                if(isViewAttached())
+                    getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start,mResponseTripLast.trips.get(0).timestamp_end);
+            }
+
+            @Override
+            public void onNext(ResponseTrip response) {
+                mResponseTripLast = response;
+            }
+        };
+    }
+
+    private void checkTripsResultLast(){
+        if(mResponseTripLast.reason.isEmpty() && mResponseTripLast.trips != null && mResponseTripLast.trips.size() > 0){
+
+            if(!mResponseTripLast.trips.get(0).payable && mResponseTripLast.trips.get(0).getTimestampEndDiff() < 120) {
+              if(isViewAttached())
+                    getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start,mResponseTripLast.trips.get(0).timestamp_end,mResponseTripLast.trips.get(0).payable);
+            }else{
+                if(isViewAttached())
+                     getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start,mResponseTripLast.trips.get(0).timestamp_end);
+            }
+        }else{
+             if(isViewAttached())
+                getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start,mResponseTripLast.trips.get(0).timestamp_end);
+        }
     }
 
 

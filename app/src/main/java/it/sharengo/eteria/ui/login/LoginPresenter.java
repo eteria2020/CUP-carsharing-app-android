@@ -27,6 +27,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
     private final PreferencesRepository mPreferencesRepository;
     private Observable<ResponseReservation> mReservationsRequest;
     private Observable<ResponseTrip> mTripsRequest;
+    public float userLat=0, userLon=0;
 
     /*
      *  REQUEST
@@ -86,18 +87,18 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
     }
 
     private Observable<ResponseUser> buildUserRequest(final String username, final String password) {
-        return mUserRequest = mUserRepository.getUser(username, password)
+        return mUserRequest = mUserRepository.getUser(username, password, userLat, userLon)
                 .first()
                 .compose(this.<ResponseUser>handleDataRequest())
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        if(mCachedUser.enabled) {
+                        //if(mCachedUser.enabled) {
                             //Salvo le credenziali dell'utente
                             getMvpView().loginCompleted(username, password, mCachedUser);
-                        }else{
+                        /*}else{
                             getMvpView().showEnabledError();
-                        }
+                        }*/
                     }
                 });
     }

@@ -1,6 +1,7 @@
 package it.sharengo.eteria.ui.shortintro;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,12 +33,16 @@ public class ShortIntroFragment extends BaseMvpFragment<ShortIntroPresenter> imp
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d("PERF","onCreate ShortIntro");
         setHasOptionsMenu(true);
         getMvpFragmentComponent(savedInstanceState).inject(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        Log.d("PERF","onCreateView ShortIntro");
         View view = inflater.inflate(R.layout.fragment_short_intro, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
@@ -57,8 +62,12 @@ public class ShortIntroFragment extends BaseMvpFragment<ShortIntroPresenter> imp
     @Override
     public void onAnimationCompleted(int loopNumber) {
         //Navigator.launchOnboarding(ShortIntroFragment.this);
+
         if(getActivity() != null)
             getActivity().finish();
+        /*getActivity().getSupportFragmentManager().beginTransaction()
+                .detach(this)
+                .commit();*/
     }
 
 
