@@ -956,7 +956,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     placeLocation.setLatitude(userLocation.getLatitude());
                     placeLocation.setLongitude(userLocation.getLongitude());
                 }
-                mPresenter.searchPlace(getActivity(), searchMapText, placeLocation, mPresenter.mAppRepository.getLang());
+                mPresenter.searchPlaceOsm(getActivity(), searchMapText, "json","1","1");
 
                 /*String placeUrl = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+in+Sydney&key=AIzaSyAnVjGP9ZCkSkBVkrX-5SBdmNW9AwE_Gew";
                 JsonObjectRequest jsObjRequest = new JsonObjectRequest

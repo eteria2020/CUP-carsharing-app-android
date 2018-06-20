@@ -305,4 +305,32 @@ public class ApiModule {
 
         return httpClient.build();
     }
+
+    @Provides
+    @Singleton
+    OsmApi provideOsmApi(@ApplicationContext Context context, SchedulerProvider schedulerProvider) {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        if (BuildConfig.DEBUG) {
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        } else {
+            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+        }
+
+
+        Gson gson = new GsonBuilder()
+                .addSerializationExclusionStrategy(new SerializationExclusionStrategy())
+                .create();
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(context.getString(R.string.endpointOsm))
+                //.baseUrl("http:gr3dcomunication.com/sharengo/")
+                .client(provideOkHttpClientTrusted(context))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(schedulerProvider.io()))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        return retrofit.create(OsmApi.class);
+    }
+
 }

@@ -4,9 +4,11 @@ import android.util.Log;
 
 import java.util.List;
 
+import it.sharengo.eteria.data.datasources.api.OsmApi;
 import it.sharengo.eteria.data.datasources.api.SharengoApi;
 import it.sharengo.eteria.data.datasources.base.BaseRetrofitDataSource;
 import it.sharengo.eteria.data.models.Config;
+import it.sharengo.eteria.data.models.OsmPlace;
 import it.sharengo.eteria.data.models.Response;
 import it.sharengo.eteria.data.models.ResponseCar;
 import it.sharengo.eteria.data.models.ResponsePutReservation;
@@ -14,15 +16,18 @@ import it.sharengo.eteria.data.models.ResponseReservation;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.ResponseUser;
 import it.sharengo.eteria.data.models.SharengoResponse;
+import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
 
 public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implements SharengoDataSource {
 
     private final SharengoApi mSharengoApi;
 
+    private final OsmApi mOsmApi;
 
-    public SharengoRetrofitDataSource(SharengoApi mSharengoApi) {
+    public SharengoRetrofitDataSource(SharengoApi mSharengoApi,OsmApi mOsmApi) {
         this.mSharengoApi = mSharengoApi;
+        this.mOsmApi = mOsmApi;
     }
 
     /**
@@ -203,5 +208,11 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
     public Observable<SharengoResponse<List<Config>>> getConfig() {
         return mSharengoApi.getConfig()
                 .compose(this.<SharengoResponse<List<Config>>>handleRetrofitRequest());
+    }
+
+    @Override
+    public Observable<List<OsmPlace>> searchPlaceOsm(String query, String search, String polygon, String addressdetails) {
+        return mOsmApi.searchPlaceOsm( query,  search,  polygon,  addressdetails)
+                .compose(this.<List<OsmPlace>>handleRetrofitRequest());
     }
 }

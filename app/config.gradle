@@ -28,6 +28,7 @@ android {
             resValue "string", "endpointCities", "https://www.sharengo.it/"
             resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
+            resValue "string", "endpointOsm", "http://maps.sharengo.it"
         }
         miavm {
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
@@ -38,6 +39,7 @@ android {
             resValue "string", "endpointCities", "https://www.sharengo.it/"
             resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
+            resValue "string", "endpointOsm", "http://maps.sharengo.it"
         }
         stage {
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
@@ -48,6 +50,7 @@ android {
             resValue "string", "endpointCities", "https://publicstage.sharengo.it/"
             resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
+            resValue "string", "endpointOsm", "http://maps.sharengo.it"
 
         }
     }

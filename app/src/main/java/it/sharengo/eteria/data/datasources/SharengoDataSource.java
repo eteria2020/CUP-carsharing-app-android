@@ -3,6 +3,7 @@ package it.sharengo.eteria.data.datasources;
 import java.util.List;
 
 import it.sharengo.eteria.data.models.Config;
+import it.sharengo.eteria.data.models.OsmPlace;
 import it.sharengo.eteria.data.models.Response;
 import it.sharengo.eteria.data.models.ResponseCar;
 import it.sharengo.eteria.data.models.ResponsePutReservation;
@@ -10,6 +11,7 @@ import it.sharengo.eteria.data.models.ResponseReservation;
 import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.ResponseUser;
 import it.sharengo.eteria.data.models.SharengoResponse;
+import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
 
 public interface SharengoDataSource {
@@ -40,4 +42,5 @@ public interface SharengoDataSource {
 
     Observable<SharengoResponse<List<Config>>> getConfig();
 
+    Observable<List<OsmPlace>> searchPlaceOsm(String query, String search, String polygon, String addressdetails);
 }

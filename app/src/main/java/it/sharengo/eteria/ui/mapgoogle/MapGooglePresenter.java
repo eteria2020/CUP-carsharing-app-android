@@ -44,6 +44,7 @@ import it.sharengo.eteria.data.models.GooglePlace;
 import it.sharengo.eteria.data.models.Kml;
 import it.sharengo.eteria.data.models.KmlServerPolygon;
 import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.data.models.OsmPlace;
 import it.sharengo.eteria.data.models.Post;
 import it.sharengo.eteria.data.models.Reservation;
 import it.sharengo.eteria.data.models.Response;
@@ -68,9 +69,11 @@ import it.sharengo.eteria.data.repositories.PostRepository;
 import it.sharengo.eteria.data.repositories.PreferencesRepository;
 import it.sharengo.eteria.data.repositories.UserRepository;
 import it.sharengo.eteria.ui.base.map.BaseMapPresenter;
+import it.sharengo.eteria.utils.schedulers.AndroidSchedulerProvider;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
 
@@ -106,6 +109,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private Observable<List<Car>> mFindPlatesRequest;
     private Observable<List<Address>> mFindAddressRequest;
     private Observable<ResponseGooglePlace> mFindPlacesRequest;
+    private Observable<OsmPlace> mFindPlacesOsmRequest;
     private Observable<ResponseGoogleRoutes> mFindRoutesRequest;
     private Observable<List<SearchItem>> mFindSearchRequest;
     private Observable<ResponseTrip> mTripsRequest;
@@ -135,6 +139,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private List<SearchItem> mSearchItems;
     private List<SearchItem> historicItems;
     private ResponseGooglePlace mGooglePlace;
+    private List<OsmPlace> mOsmPlace;
     private ResponseSharengoMap mSharengoMap;
     private ResponseGoogleRoutes mGoogleRoutes;
     private List<Post> mPosts;
@@ -1293,6 +1298,109 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                     }
 
                 mSearchItems.add(new SearchItem(gPlace.address, type, gPlace.geometry.location.longitude, gPlace.geometry.location.latitude));
+            }
+        }
+
+        getMvpView().showSearchResult(mSearchItems);
+
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Find Address by OSM
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Find place with Google Place API by text search by user.
+     *
+     * @param  context  context of application.
+     * @param  searchText  text serch by user.
+     * @param  format  xml.
+     * @param  polygon  polygon
+     * @param  addressdetails  addressdetails
+     */
+    public void searchPlaceOsm(Context context, String searchText, String format, String polygon, String addressdetails) {
+        hideLoading = true;
+
+        if( mFindPlacesOsmRequest == null) {
+            mFindPlacesOsmRequest = buildFindPlacesOsmRequest(context, searchText,format,polygon,addressdetails);
+            addSubscription(mFindPlacesOsmRequest.unsafeSubscribe(getFindPlacesOsmSubscriber()));
+        }
+    }
+
+
+    private Observable<OsmPlace> buildFindPlacesOsmRequest(Context context, String searchText, String format, String polygon, String addressdetails) {
+        return mFindPlacesOsmRequest = mAddressRepository.searchPlaceOsm(searchText,format,polygon,addressdetails)
+                .take(5)
+                .doOnSubscribe(() -> {mOsmPlace = new ArrayList<>();
+                Log.d("BOMB" , "inizio find place request");
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        Log.d("BOMB" , "fine find place request");
+                        checkPlacesOsmResult();
+
+                    }
+                });
+    }
+
+    private Subscriber<OsmPlace> getFindPlacesOsmSubscriber(){
+        return new Subscriber<OsmPlace>() {
+
+            @Override
+            public void onCompleted() {
+                mFindPlacesOsmRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mFindPlacesOsmRequest = null;
+                //getMvpView().showError(e);
+            }
+
+            @Override
+            public void onNext(OsmPlace addressList) {
+                //mAddress = addressList; TODO
+                mOsmPlace.add(addressList);
+                Log.d("BOMB" , "onNext find place request");
+            }
+        };
+    }
+
+    private void checkPlacesOsmResult(){
+
+        /*mSearchItems = new ArrayList<SearchItem>();
+
+        for (Address address : mAddress){
+
+            String type = "address";
+
+            if(historicItems != null)
+                for (SearchItem sI : historicItems) {
+                    if (address.display_name.equals(sI.display_name)) type = "historic";
+                }
+
+            mSearchItems.add(new SearchItem(address.display_name, type, address.longitude, address.latitude));
+        }
+
+        getMvpView().showSearchResult(mSearchItems);*/
+
+        mSearchItems = new ArrayList<SearchItem>();
+
+        if(mOsmPlace != null){
+
+            for(OsmPlace place: mOsmPlace){
+
+                String type = "address";
+
+              /* if(historicItems != null)
+                    for (SearchItem sI : historicItems) {
+                        if (gPlace.address.equals(sI.display_name)) type = "historic";
+                    }*/
+
+                mSearchItems.add(new SearchItem(place.getDisplayName(), type, Float.parseFloat(place.getLon()),Float.parseFloat(place.getLat())));
             }
         }
 
