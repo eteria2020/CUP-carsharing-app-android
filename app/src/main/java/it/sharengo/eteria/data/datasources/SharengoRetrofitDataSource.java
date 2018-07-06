@@ -211,8 +211,8 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
     }
 
     @Override
-    public Observable<List<OsmPlace>> searchPlaceOsm(String query, String search, String polygon, String addressdetails) {
-        return mOsmApi.searchPlaceOsm( query,  search,  polygon,  addressdetails)
+    public Observable<List<OsmPlace>> searchPlaceOsm(String query, String search, String polygon, String addressdetails,String countrycode, String dedupe) {
+        return mOsmApi.searchPlaceOsm( query,  search,  polygon,  addressdetails,countrycode,dedupe)
                 .compose(this.<List<OsmPlace>>handleRetrofitRequest());
     }
 }

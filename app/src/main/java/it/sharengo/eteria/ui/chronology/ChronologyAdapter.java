@@ -158,7 +158,7 @@ public class ChronologyAdapter extends RecyclerView.Adapter<ChronologyAdapter.Vi
             Date date = new Date(trip.timestamp_start*1000L);
             SimpleDateFormat sdfDay = new SimpleDateFormat("dd MMMM yyyy",Locale.ITALY);
             sdfDay.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
-            SimpleDateFormat sdfH = new SimpleDateFormat("HH:mm",Locale.ITALY);
+            SimpleDateFormat sdfH = new SimpleDateFormat("HH:mm:ss",Locale.ITALY);
             sdfH.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
             String formattedDay = sdfDay.format(date);
             String formattedH = sdfH.format(date);

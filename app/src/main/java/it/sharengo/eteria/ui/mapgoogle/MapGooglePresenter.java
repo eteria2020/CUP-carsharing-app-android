@@ -1319,18 +1319,18 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  polygon  polygon
      * @param  addressdetails  addressdetails
      */
-    public void searchPlaceOsm(Context context, String searchText, String format, String polygon, String addressdetails) {
+    public void searchPlaceOsm(Context context, String searchText, String format, String polygon, String addressdetails,String countrycode,String dedupe) {
         hideLoading = true;
 
         if( mFindPlacesOsmRequest == null) {
-            mFindPlacesOsmRequest = buildFindPlacesOsmRequest(context, searchText,format,polygon,addressdetails);
+            mFindPlacesOsmRequest = buildFindPlacesOsmRequest(context, searchText,format,polygon,addressdetails,countrycode,dedupe);
             addSubscription(mFindPlacesOsmRequest.unsafeSubscribe(getFindPlacesOsmSubscriber()));
         }
     }
 
 
-    private Observable<OsmPlace> buildFindPlacesOsmRequest(Context context, String searchText, String format, String polygon, String addressdetails) {
-        return mFindPlacesOsmRequest = mAddressRepository.searchPlaceOsm(searchText,format,polygon,addressdetails)
+    private Observable<OsmPlace> buildFindPlacesOsmRequest(Context context, String searchText, String format, String polygon, String addressdetails,String countrycode,String dedupe) {
+        return mFindPlacesOsmRequest = mAddressRepository.searchPlaceOsm(searchText,format,polygon,addressdetails,countrycode,dedupe)
                 .take(5)
                 .doOnSubscribe(() -> {mOsmPlace = new ArrayList<>();
                 Log.d("BOMB" , "inizio find place request");

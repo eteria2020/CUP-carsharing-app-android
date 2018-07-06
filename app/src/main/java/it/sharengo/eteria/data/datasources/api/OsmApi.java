@@ -14,7 +14,7 @@ public interface OsmApi {
 
 
     @GET("search")
-    Observable<Result<List<OsmPlace>>> searchPlaceOsm(@Query("q") String query, @Query("format") String format, @Query("polygon") String polygon, @Query("addressdetails") String addressdetails);
+    Observable<Result<List<OsmPlace>>> searchPlaceOsm(@Query("q") String query, @Query("format") String format, @Query("polygon") String polygon, @Query("addressdetails") String addressdetails, @Query("countrycode") String countrycode,@Query("dedupe") String dedupe);
 
 
 }

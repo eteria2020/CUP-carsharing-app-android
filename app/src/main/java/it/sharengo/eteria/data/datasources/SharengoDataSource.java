@@ -42,5 +42,5 @@ public interface SharengoDataSource {
 
     Observable<SharengoResponse<List<Config>>> getConfig();
 
-    Observable<List<OsmPlace>> searchPlaceOsm(String query, String search, String polygon, String addressdetails);
+    Observable<List<OsmPlace>> searchPlaceOsm(String query, String search, String polygon, String addressdetails,String countrycode,String dedupe);
 }

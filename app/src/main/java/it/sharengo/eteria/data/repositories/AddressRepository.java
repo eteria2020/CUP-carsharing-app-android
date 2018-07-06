@@ -222,9 +222,9 @@ public class AddressRepository {
      * @param   addressdetails        Google API KEY
      * @return           response observable object (ResponseGoogleRoutes)
      */
-    public Observable<OsmPlace> searchPlaceOsm(String query, String format, String polygon, String addressdetails) {
+    public Observable<OsmPlace> searchPlaceOsm(String query, String format, String polygon, String addressdetails,String countrycode, String dedupe) {
 
-      return  mSharengoDataSource.searchPlaceOsm(query, format, polygon, addressdetails)
+      return  mSharengoDataSource.searchPlaceOsm(query, format, polygon, addressdetails,countrycode,dedupe)
               .concatMap(Observable::from)
               .doOnNext(this::createOrUpdateRoutesInMemory
               );

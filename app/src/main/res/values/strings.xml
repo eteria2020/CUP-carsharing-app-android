@@ -64,7 +64,7 @@
     <string name="general_notification_title" translatable="false">Share\'ngo</string>
 
     <!-- MAPPA -->
-    <string name="maps_search_placeholder">Cerca targa</string>
+    <string name="maps_search_placeholder">Cerca indirizzo o targa</string>
     <string name="maps_permissionlocation_alert">Share\'ngo ha bisogno dei permessi per accedere alla tua posizione. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
     <string name="maps_opendoor_action">Apri portiere</string>
     <string name="maps_bookingcar_action">Prenota auto</string>
@@ -134,7 +134,7 @@
 
     <!-- Registrazione -->
     <string name="signup_title_label">Iscriviti a Share\'ngo</string>
-    <string name="signup_description_label">L\'iscrizione al servizio costa 5 euro con 15 minuti bonus (condizioni standard, salvo promozioni). Se serve aiuto durante l\'iscrizione usa il pulsante chat!</string>
+    <string name="signup_description_label">L\'iscrizione al servizio è gratuita. Se serve aiuto durante l\'iscrizione usa il pulsante chat!</string>
     <string name="signup_subscribe_action">ISCRIVITI</string>
     <string name="signup_step1text1_action">Per iscriverti devi avere\na portata di mano:</string>
     <string name="signup_step1text2_action">CARTA DI IDENTITÀ</string>
