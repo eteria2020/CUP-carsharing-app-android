@@ -44,3 +44,5 @@ build
 # remove # and delete .idea if it better suit your needs.
 .idea/*
 !.idea/runConfigurations
+
+app\prod\release\output.json

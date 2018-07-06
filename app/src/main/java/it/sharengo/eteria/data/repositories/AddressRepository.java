@@ -110,15 +110,16 @@ public class AddressRepository {
      */
     public Observable<ResponseGooglePlace> searchPlace(String query, String location, String language, String key) {
 
-        return mGoogleRemoteDataSource.searchPlace(query, location, language, key)
-                .doOnNext(new Action1<ResponseGooglePlace>() {
-                    @Override
-                    public void call(ResponseGooglePlace response) {
-
-                        createOrUpdatePlacesInMemory(response);
-                    }
-                })
-                .compose(logSourcePlace("NETWORK"));
+        return Observable.error(new Exception("Deprecated"));
+//        return mGoogleRemoteDataSource.searchPlace(query, location, language, key)
+//                .doOnNext(new Action1<ResponseGooglePlace>() {
+//                    @Override
+//                    public void call(ResponseGooglePlace response) {
+//
+//                        createOrUpdatePlacesInMemory(response);
+//                    }
+//                })
+//                .compose(logSourcePlace("NETWORK"));
     }
 
 
@@ -166,16 +167,16 @@ public class AddressRepository {
      * @see              Observable<ResponseGoogleRoutes>
      */
     public Observable<ResponseGoogleRoutes> getRoutes(String origin, String destination, String mode, String key) {
-
-        return mGoogleRemoteDataSource.getRoutes(origin, destination, mode, key)
-                .doOnNext(new Action1<ResponseGoogleRoutes>() {
-                    @Override
-                    public void call(ResponseGoogleRoutes response) {
-
-                        createOrUpdateRoutesInMemory(response);
-                    }
-                })
-                .compose(logSourceRoutes("NETWORK"));
+        return Observable.error(new Exception("Deprecated"));
+//        return mGoogleRemoteDataSource.getRoutes(origin, destination, mode, key)
+//                .doOnNext(new Action1<ResponseGoogleRoutes>() {
+//                    @Override
+//                    public void call(ResponseGoogleRoutes response) {
+//
+//                        createOrUpdateRoutesInMemory(response);
+//                    }
+//                })
+//                .compose(logSourceRoutes("NETWORK"));
     }
 
 

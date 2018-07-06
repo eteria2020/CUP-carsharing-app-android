@@ -5,8 +5,9 @@ import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import rx.Observable;
 
 public interface GoogleDataSource {
-
+    @Deprecated
     Observable<ResponseGooglePlace> searchPlace(String query, String location, String language, String key);
+    @Deprecated
     Observable<ResponseGoogleRoutes> getRoutes(String origin, String destination, String mode, String key);
 
 }
