@@ -6,11 +6,13 @@ import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.crashlytics.android.Crashlytics;
+import com.onesignal.OneSignal;
 
 import java.util.ArrayList;
 
 import io.fabric.sdk.android.Fabric;
 import it.sharengo.eteria.data.datasources.api.ApiModule;
+import it.sharengo.eteria.data.service.NotificationBroadcastReceiver;
 import it.sharengo.eteria.injection.components.ApplicationComponent;
 import it.sharengo.eteria.injection.components.DaggerApplicationComponent;
 import it.sharengo.eteria.injection.modules.ApplicationModule;
@@ -26,6 +28,16 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+
+
+
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .setNotificationReceivedHandler(new NotificationBroadcastReceiver())
+                .setNotificationReceivedHandler(new NotificationBroadcastReceiver())
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
+
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         mStackActivity = new ArrayList<Class>();
 

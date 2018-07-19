@@ -1,6 +1,7 @@
 package it.sharengo.eteria.data.datasources.api;
 
 import android.content.Context;
+import android.os.Build;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,6 +28,7 @@ import dagger.Provides;
 import it.sharengo.eteria.BuildConfig;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.common.SerializationExclusionStrategy;
+import it.sharengo.eteria.data.common.UserAgentIntercteptor;
 import it.sharengo.eteria.injection.ApplicationContext;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import okhttp3.OkHttpClient;
@@ -217,6 +219,7 @@ public class ApiModule {
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
+        httpClient.addInterceptor(new UserAgentIntercteptor("Sharengo_Android " + BuildConfig.VERSION_NAME));
 
         try {
 

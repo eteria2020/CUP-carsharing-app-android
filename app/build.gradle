@@ -2,17 +2,22 @@ buildscript {
     repositories {
         mavenCentral()
         google()
+        maven { url 'https://plugins.gradle.org/m2/'}
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0-alpha12'
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.11.0, 0.99.99]'
+
     }
 }
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services'
 repositories {
     mavenCentral()
+    maven { url 'https://maven.google.com' }
 }
 
 dependencies {
@@ -35,6 +40,12 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         versionCode 342
         versionName "3.2.8"
+
+        manifestPlaceholders = [
+                onesignal_app_id: '202ca4a0-8ec3-4db3-af38-2986a3138106',
+                // Project number pulled from dashboard, local value is ignored.
+                onesignal_google_project_number: 'REMOTE'
+        ]
 
         multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
