@@ -76,7 +76,7 @@ public class UserRepository {
      */
     public void logoutUser(SharedPreferences prefs){
         mCachedUser = new User("", "", "");
-
+        OneSignal.deleteTag("username");
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(PreferencesRepository.KEY_USERNAME, "");
         editor.putString(PreferencesRepository.KEY_PASSWORD, "");
@@ -117,7 +117,7 @@ public class UserRepository {
     public Observable<ResponseUser> getUser(String username, String password, float user_lat, float user_lon) {
 
         return mRemoteDataSource.getUser(Credentials.basic(username, StringsUtils.md5(password)), user_lat, user_lon)
-                .doOnNext(responseUser -> OneSignal.setEmail(username))
+                .doOnNext(responseUser -> OneSignal.sendTag("username",username))
                 .doOnNext(new Action1<ResponseUser>() {
                     @Override
                     public void call(ResponseUser response) {

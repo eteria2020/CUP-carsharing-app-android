@@ -36,6 +36,7 @@ public class App extends MultiDexApplication {
                 .setNotificationReceivedHandler(new NotificationBroadcastReceiver())
                 .setNotificationReceivedHandler(new NotificationBroadcastReceiver())
                 .unsubscribeWhenNotificationsAreDisabled(true)
+
                 .init();
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
