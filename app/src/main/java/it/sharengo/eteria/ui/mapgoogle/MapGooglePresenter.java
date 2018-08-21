@@ -1889,6 +1889,144 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
+    //                                              Close door
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Send command for open door of car.
+     *
+     * @param  car     car to open.
+     * @param  action  action to execute.
+     */
+    public void closeCar(String carPlate, String action) {
+
+        //getMvpView().showHCustomLoading();
+
+        seconds = System.currentTimeMillis();
+
+        isBookingExists = false;
+
+
+        if( mCarsTripRequest == null) {
+
+            mCarsTripRequest = null;
+            mCarsTripRequest = buildCarsCloseRequest(carPlate, action, userLat, userLon);
+            addSubscription(mCarsTripRequest.unsafeSubscribe(getCarsCloseSubscriber()));
+        }
+    }
+
+
+    private Observable<ResponseCar> buildCarsCloseRequest(final String carPlate, final String action, float user_lat, float user_lon) {
+
+        return mCarsTripRequest = mCarRepository.closeCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, carPlate, action, user_lat, user_lon)
+                .first()
+                .compose(this.<ResponseCar>handleDataRequest())
+                .doOnError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e("BOMB","some error occurs",throwable);
+                    }
+                })
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        if(mResponseCarTrip.status.equalsIgnoreCase("200")) {
+                            if(isViewAttached()) {
+                                getMvpView().showPopupAfterButtonClosePressed();
+                            }
+                        }
+//                       if(timestamp_start == 0) timestamp_start = (int) (System.currentTimeMillis() / 1000L);
+                        //loadCarsTrip(car.id);
+
+                    }
+                });
+    }
+
+    private Subscriber<ResponseCar> getCarsCloseSubscriber(){
+        return new Subscriber<ResponseCar>() {
+            @Override
+            public void onCompleted() {
+                mCarsTripRequest = null;
+                //getMvpView().hideCustomLoading();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mCarsTripRequest = null;
+                if(e instanceof ErrorResponse) {
+                    try {
+                        //noinspection ConstantConditions
+                        switch (ResponseCar.splitMessages(((ErrorResponse) e).rawMessage)) {
+                            case noError:
+                                break;
+                            case generic:
+                                mReservation = null;
+                                getMvpView().generalError();
+                                break;
+                            case status:
+                                mReservation = null;
+                                getMvpView().carBusyError();
+                                break;
+                            case reservation:
+                                mReservation = null;
+                                getMvpView().tooManyReservationError();
+                                break;
+                            case trip:
+                                mReservation = null;
+                                getMvpView().reserveOnTripError();
+                                break;
+
+                        }
+                    } catch (Exception ex) {
+                        Log.e("BOMB", "exception?", ex);
+                    }
+                }
+                //getMvpView().showError(e);
+                getMvpView().hideHCustomLoading();
+            }
+
+            @Override
+            public void onNext(ResponseCar responseList) {
+                mResponseCarTrip = responseList;
+
+                if(mResponseCarTrip!=null){
+                    if(mResponseCarTrip.status.equalsIgnoreCase("200")){
+                       
+                        isTripOpening=false;
+                        isTripOpeningCount=0;
+
+                    }else if(mResponseCarTrip.status.equalsIgnoreCase("400")){
+                        switch (mResponseCarTrip.splitMessages()){
+                            case noError:
+                                break;
+                            case generic:
+                                mReservation=null;
+                                getMvpView().generalError();
+                                break;
+                            case status:
+                                mReservation=null;
+                                getMvpView().carBusyError();
+                                break;
+                            case reservation:
+                                mReservation=null;
+                                getMvpView().tooManyReservationError();
+                                break;
+                            case trip:
+                                mReservation=null;
+                                getMvpView().reserveOnTripError();
+                                break;
+
+                        }
+                    }
+
+                }
+            }
+        };
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
     //                                              GET Trips
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2439,6 +2577,10 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
              if(isViewAttached())
                 getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start,mResponseTripLast.trips.get(0).timestamp_end);
         }
+    }
+
+    public ResponseTrip getLastCurrentTrip(){
+        return mUserRepository.getmCachedTrips();
     }
 
 

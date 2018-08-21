@@ -94,6 +94,21 @@ public class SharengoRetrofitDataSource extends BaseRetrofitDataSource implement
     }
 
     /**
+     * Returns an observable object (ResponseCar) for manage API openCars; with plate to search and action to execute.
+     *
+     * @param   auth    identification credentials
+     * @param   plate   plate to search
+     * @param   action  action to execute on car
+     * @return          response car observable object
+     * @see             Observable<ResponseCar>
+     */
+    @Override
+    public Observable<ResponseCar> closeCars(String auth, String plate, String action, float user_lat, float user_lon) {
+        return mSharengoApi.closeCars(auth, plate, action, user_lat!=0?String.valueOf(user_lat):null, user_lon!=0?String.valueOf(user_lon):null)
+                .compose(this.<ResponseCar>handleRetrofitRequest());
+    }
+
+    /**
      * Returns an observable object (Response) for manage API getPlates.
      *
      * @param   auth   identification credentials

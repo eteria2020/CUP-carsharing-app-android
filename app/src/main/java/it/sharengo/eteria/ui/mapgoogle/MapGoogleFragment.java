@@ -2543,7 +2543,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     //Metodo per aprire le portiere
-    private void openDoors(){
+    private void  openDoors(){
 
         boolean openDoorOk = false;
 
@@ -2903,19 +2903,30 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             if(!carBooked.parking){ //Auto in corsa
 
-                openButtonBookingView.setVisibility(View.GONE);
-
+                parameter.setMargins((int) (40 * getResources().getDisplayMetrics().density), 0, (int) (40* getResources().getDisplayMetrics().density), 0);
+                openButtonBookingView.setVisibility(View.VISIBLE);
+                openDoorBookingButton.setVisibility(View.GONE);
+                // utilizzo il bottone elimina prenotazione per implementare anche il pulsante chiudi corsa
+                deleteBookingButton.setText("Chiudi corsa");
+                deleteBookingButton.setVisibility(View.VISIBLE);
+                deleteBookingButton.setLayoutParams(parameter);
             }else{ //Auto parcheggiata
 
-                parameter.setMargins((int) (40 * getResources().getDisplayMetrics().density), 0, (int) (40 * getResources().getDisplayMetrics().density), 0);
+                // utilizzo il bottone elimina prenotazione per implementare anche il pulsante chiudi corsa
+
+                parameter.setMargins((int) (10 * getResources().getDisplayMetrics().density), 0, (int) (5 * getResources().getDisplayMetrics().density), 0);
                 openDoorBookingButton.setLayoutParams(parameter);
 
-                openButtonBookingView.setVisibility(View.VISIBLE);
-                deleteBookingButton.setVisibility(View.GONE);
+                openDoorBookingButton.setVisibility(View.VISIBLE);
+                deleteBookingButton.setVisibility(View.VISIBLE);
+                deleteBookingButton.setText("Chiudi corsa");
+                deleteBookingButton.setLayoutParams(parameter);
             }
         }else{ //Prenotazione
             openButtonBookingView.setVisibility(View.VISIBLE);
+            openDoorBookingButton.setVisibility(View.VISIBLE);
             deleteBookingButton.setVisibility(View.VISIBLE);
+            deleteBookingButton.setText("Elimina");
             expiringTimeTextView.setVisibility(View.VISIBLE);
             tripDurationTextView.setVisibility(View.GONE);
         }
@@ -2972,6 +2983,57 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             public void onClick(View view) {
                 cdd.dismissAlert();
                 mPresenter.deleteBookingCar(reservation.id);
+            }
+        });
+    }
+
+    // Metodo per chiudere la corsa
+
+    private void closeTrip(){
+        //Chiedo conferma all'utente se vuole eliminare la prenotazione della macchina
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                "Sei sicuro di voler chiudere la corsa?",
+                getString(R.string.ok),
+                getString(R.string.cancel));
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                deleteBookingButton.setEnabled(false);
+                mPresenter.closeCar(mPresenter.getLastCurrentTrip().trips.get(0).plate, "close");
+                Timer timer2min;
+                TimerTask timerTask2min;
+                final Handler handler2min = new Handler();
+                timer2min = new Timer();
+
+                timerTask2min = new TimerTask() {
+                    public void run() {
+
+                        handler2min.post(new Runnable() {
+                            public void run() {
+                                 deleteBookingButton.setEnabled(true);
+                            }
+                        });
+                    }
+                };
+
+                timer2min.schedule(timerTask2min, 30000);
+            }
+        });
+    }
+
+    public void showPopupAfterButtonClosePressed(){
+
+        final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
+                "La macchina si chiuderà a breve, riceverai una notifica a processo completato.",
+                getString(R.string.ok),null);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+
             }
         });
     }
@@ -3430,7 +3492,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @OnClick(R.id.deleteBookingButton)
     public void onDeleteBookingButton(){
-        deleteBooking();
+       if( deleteBookingButton.getText().equals("Chiudi corsa") ){
+           closeTrip();
+       }else
+            deleteBooking();
     }
 
     @OnClick(R.id.refreshMapButtonView)

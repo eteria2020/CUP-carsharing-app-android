@@ -313,6 +313,11 @@ public class UserRepository {
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    public ResponseTrip getmCachedTrips() {
+        return mCachedTrips;
+    }
+
     /**
      * Invoke API getTrips with params received from app. Retrieve from cache if
      * refreshInfo it's false.

@@ -139,6 +139,33 @@ public class CarRepository {
                 })
                 .compose(logCarSource("NETWORK"));
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              CLOSE car
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Invoke API openCars with params received from app.
+     *
+     * @param  username   username of user
+     * @param  password   password of user
+     * @param  plate      plate to open
+     * @param  action     action to execute
+     * @return            response car observable object
+     * @see               Observable<ResponseCar>
+     */
+    public Observable<ResponseCar> closeCars(String username, String password, String plate, String action, float user_lat, float user_lon) {
+
+        return mRemoteDataSource.closeCars(Credentials.basic(username, StringsUtils.md5(password)), plate, action, user_lat, user_lon)
+                .doOnNext(new Action1<ResponseCar>() {
+                    @Override
+                    public void call(ResponseCar response) {
+
+                    }
+                })
+                .compose(logCarSource("NETWORK"));
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //

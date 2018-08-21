@@ -24,6 +24,8 @@ public interface SharengoDataSource {
 
     Observable<ResponseCar> openCars(String auth, String plate, String action, float user_lat, float user_lon);
 
+    Observable<ResponseCar> closeCars(String auth, String plate, String action, float user_lat, float user_lon);
+
     Observable<Response> getPlates(String auth, float user_lat, float user_lon);
 
     Observable<ResponseUser> getUser(String auth, float user_lat, float user_lon);
