@@ -243,9 +243,9 @@
     <string name="faq_tutorialalert_action">Tutorial</string>
 
     <!-- Non tradotti -->
-    <string name="alert_logoutError">Careful, an error occured. Please login again.</string>
+    <string name="alert_logoutError">Careful, an error occurred. Please login again.</string>
     <string name="btn_login">LOGIN</string>
-    <string name="tripend_parkerdcar_label">Car parkerd</string>
+    <string name="tripend_parkedcar_label">Car parked</string>
     <string name="chronology_ratesmin_label">Minute fare: € %s</string>
     <string name="maps_freecar_label">With this car %s minutes of free drive</string>
 

@@ -268,7 +268,7 @@
     <!-- Non tradotti -->
     <string name="alert_logoutError">Attenzione si è verificato un errore. Ti invitiamo ad accedere nuovamente.</string>
     <string name="btn_login">ACCEDI</string>
-    <string name="tripend_parkerdcar_label">Auto in sosta</string>
+    <string name="tripend_parkedcar_label">Auto in sosta</string>
     <string name="chronology_ratesmin_label">Tariffa al minuto: € %s</string>
     <string name="maps_freecar_label">Con questa auto %s minuti di guida gratis!</string>
 

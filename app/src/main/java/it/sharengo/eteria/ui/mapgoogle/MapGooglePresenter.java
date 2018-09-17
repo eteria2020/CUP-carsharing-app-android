@@ -33,6 +33,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.common.ErrorResponse;
@@ -69,6 +71,7 @@ import it.sharengo.eteria.data.repositories.PostRepository;
 import it.sharengo.eteria.data.repositories.PreferencesRepository;
 import it.sharengo.eteria.data.repositories.UserRepository;
 import it.sharengo.eteria.ui.base.map.BaseMapPresenter;
+import it.sharengo.eteria.utils.NotificationFactory;
 import it.sharengo.eteria.utils.schedulers.AndroidSchedulerProvider;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
@@ -177,6 +180,9 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private int INT_5_SEC = 4000; //trasformato in 4 secondi per lentezza popup apertura corsa
     private int INT_30_SEC = 25000; //trasformato in 25 secondi per lentezza popup
 
+    @Inject
+    NotificationFactory notificationFactory;
+
 
     public MapGooglePresenter(SchedulerProvider schedulerProvider,
                               AppRepository appRepository,
@@ -198,6 +204,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         mKmlRepository = kmlRepository;
 
         mAppRepository.selectMenuItem(MenuItem.Section.BOOKING);
+
+        App.getInstance().getComponent().inject(this);
     }
 
 
@@ -211,6 +219,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     protected void subscribeRequestsOnResume() {
         getMvpView().setFeedInters();
 
+//        notificationFactory.makeTestNotification();
 
         isTripExists = false;
         isParked = false;
@@ -1112,6 +1121,64 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             getMvpView().onLoadCarInfo(mResponseInfo.data);
         }
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              GET Car Details
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Load from server car information (detail)
+     *
+     * @param  plate  plate for car reservation.
+     */
+    public void loadCarDetails(String plate, String callingApp) {
+
+        hideLoading = true;
+        //Log.d("BOMB", "loadSelectedCars " + plate +user_lat + user_lon + callingApp);
+
+        mCarsInfoRequest = null;
+        mCarsInfoRequest = buildCarDetailsRequest(plate);
+        addSubscription(mCarsInfoRequest.unsafeSubscribe(getCarDetailsSubscriber()));
+    }
+
+
+    public Observable<ResponseCar> buildCarDetailsRequest(String plate) {
+
+        return mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate,null, null, null, null)
+                .first()
+                .compose(this.<ResponseCar>handleDataRequest());
+    }
+
+    private Subscriber<ResponseCar> getCarDetailsSubscriber(){
+        return new Subscriber<ResponseCar>() {
+            @Override
+            public void onCompleted() {
+                mCarsInfoRequest = null;
+                checkCarDetailsResult();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mCarsInfoRequest = null;
+
+            }
+
+            @Override
+            public void onNext(ResponseCar responseList) {
+                getMvpView().setSelectedCar(responseList.data);
+            }
+        };
+    }
+
+    private void checkCarDetailsResult(){
+
+        if(mResponseInfo.reason.isEmpty() && mResponseInfo.data != null){
+            getMvpView().onLoadCarInfo(mResponseInfo.data);
+        }
+    }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Find Address Sharengo
@@ -1487,66 +1554,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         mPreferencesRepository.saveSearchResultOnHistoric(mPref, searchItem);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    //                                              Get Routes
-    //
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Get the walking route from one point to another with Google Directions API.
-     *
-     * @param  context  context of application.
-     * @param   origin        latitude/longitude for the first point. Formato: lat,lon
-     * @param   destination   latitude/longitude for the second point. Formato: lat,lon
-     * @param   mode        the mode of transport to use when calculating directions (see: https://developers.google.com/maps/documentation/directions/intro#TravelModes)
-     */
-    public void getRoutes(Context context, Location origin, Location destination, String mode) {
-
-        hideLoading = true;
-        if( mFindRoutesRequest == null) {
-            mFindRoutesRequest = buildFindRoutesRequest(context, origin, destination, mode);
-            addSubscription(mFindRoutesRequest.unsafeSubscribe(getFindRoutesSubscriber()));
-        }
-    }
-
-
-    private Observable<ResponseGoogleRoutes> buildFindRoutesRequest(Context context, Location origin, Location destination, String lang) {
-        return mFindRoutesRequest = mAddressRepository.getRoutes(origin.getLatitude()+", "+origin.getLongitude(),
-                                                                destination.getLatitude()+", "+destination.getLongitude(),
-                                                                lang,
-                                                                context.getString(R.string.google_direction_api_key))
-                .first()
-                .compose(this.<ResponseGoogleRoutes>handleDataRequest())
-                .doOnCompleted(new Action0() {
-                    @Override
-                    public void call() {
-
-                        getMvpView().onUpdateWalkingNavigation(mGoogleRoutes);
-                    }
-                });
-    }
-
-    private Subscriber<ResponseGoogleRoutes> getFindRoutesSubscriber(){
-        return new Subscriber<ResponseGoogleRoutes>() {
-            @Override
-            public void onCompleted() {
-                mFindRoutesRequest = null;
-                //getMvpView().hideHCustomLoading();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                mFindRoutesRequest = null;
-                try{ getMvpView().hideHCustomLoading(); } catch (NullPointerException ex){}
-            }
-
-            @Override
-            public void onNext(ResponseGoogleRoutes routes) {
-                mGoogleRoutes = routes;
-            }
-        };
-    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

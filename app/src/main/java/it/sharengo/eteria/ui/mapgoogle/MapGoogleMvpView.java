@@ -42,7 +42,6 @@ public interface MapGoogleMvpView extends MvpMapView {
     void reserveOnTripError();
     void unauthorizedError();
     void onLoadCarInfo(Car car);
-    void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes);
     void showLoading();
     void hideLoading();
     void generalError();

@@ -1,9 +1,11 @@
 package it.sharengo.eteria.routing;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import it.sharengo.eteria.App;
 import it.sharengo.eteria.data.models.Feed;
 import it.sharengo.eteria.data.models.MenuItem;
 import it.sharengo.eteria.ui.assistance.AssistanceActivity;
@@ -32,6 +34,7 @@ import it.sharengo.eteria.ui.share.ShareActivity;
 import it.sharengo.eteria.ui.shortintro.ShortIntroActivity;
 import it.sharengo.eteria.ui.signup.SignupActivity;
 import it.sharengo.eteria.ui.slideshow.SlideshowActivity;
+import it.sharengo.eteria.ui.splash.SplashActivity;
 import it.sharengo.eteria.ui.tripend.TripEndActivity;
 import it.sharengo.eteria.ui.tutorial.TutorialActivity;
 import it.sharengo.eteria.ui.userarea.UserAreaActivity;
@@ -98,9 +101,17 @@ public class Navigator {
 
     public static void launchMapGoogle(Activity activity, int type) {
         Intent intent = MapGoogleActivity.getCallingIntent(activity, type);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP );
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         activity.startActivity(intent);
+    }
+    public static void launchMapGoogle(Context context, int type) {
+        if(App.getCurrentActivity() != MapGoogleActivity.class){
+            Intent intent = MapGoogleActivity.getCallingIntent(context, type);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+            context.startActivity(intent);
+        }
     }
 
     public static void launchMapGoogle(Fragment fragment, int type) {
@@ -212,11 +223,25 @@ public class Navigator {
         fragment.startActivity(intent);
     }
 
+    public static void launchSplash(Context context) {
+        Intent intent = SplashActivity.getCallingIntent(context);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+    }
+
     public static void launchChronology(Fragment fragment) {
         Intent intent = ChronologyActivity.getCallingIntent(fragment.getActivity());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
+    }
+    public static void launchChronology(Context context) {
+        Intent intent = ChronologyActivity.getCallingIntent(context);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        context.startActivity(intent);
     }
 
     public static void launchOnboarding(Fragment fragment) {

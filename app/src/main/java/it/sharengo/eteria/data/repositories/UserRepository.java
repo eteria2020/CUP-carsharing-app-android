@@ -128,7 +128,7 @@ public class UserRepository {
                 .compose(logSource("NETWORK"));
     }
 
-    private void createOrUpdateInMemory(ResponseUser response) {
+    public void createOrUpdateInMemory(ResponseUser response) {
 
         if (mCachedUser == null) {
             mCachedUser = new User();

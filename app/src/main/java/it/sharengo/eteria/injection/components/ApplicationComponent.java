@@ -23,6 +23,8 @@ import it.sharengo.eteria.injection.ApplicationContext;
 import it.sharengo.eteria.injection.modules.ApplicationModule;
 import it.sharengo.eteria.ui.base.fragments.BaseFragment;
 import it.sharengo.eteria.ui.base.presenters.PresenterManager;
+import it.sharengo.eteria.ui.mapgoogle.MapGooglePresenter;
+import it.sharengo.eteria.ui.shortintro.ShortIntroActivity;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 
 @Singleton
@@ -37,8 +39,10 @@ public interface ApplicationComponent {
 
     void inject(App app);
     void inject(BaseFragment baseFragment);
+    void inject(MapGooglePresenter baseFragment);
     void inject(NotificationBroadcastReceiver receiver);
     void inject(NotificationJobIntentService receiver);
+    void inject(ShortIntroActivity shortIntroActivity);
 
     @ApplicationContext
     Context context();

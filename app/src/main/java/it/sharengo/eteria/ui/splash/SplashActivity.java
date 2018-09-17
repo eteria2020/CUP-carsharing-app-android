@@ -1,5 +1,6 @@
 package it.sharengo.eteria.ui.splash;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +20,10 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
+    public static Intent getCallingIntent(Context context) {
+        Intent i = new Intent(context, SplashActivity.class);
+        return i;
+    }
 
 
     protected Bundle getIntentExtras(){

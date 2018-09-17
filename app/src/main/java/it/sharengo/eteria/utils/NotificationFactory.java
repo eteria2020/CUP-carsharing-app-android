@@ -44,8 +44,8 @@ public class NotificationFactory {
     public static final String ACTION_ONE_SIGNAL = "action_push_notification";
     public static final String ACTION_REMOTE_INPUT = "action_remote_input";
 
-    private static final String DEFAULT_CHANNEL = "Default";
-    private static final String PRIORITY_CHANNEL = "Prioritarie";
+    public static final String DEFAULT_CHANNEL = "Default";
+    public static final String PRIORITY_CHANNEL = "Prioritarie";
 
     public static final int TEST_NOTIFICATION_ID = -1;
 
@@ -60,7 +60,28 @@ public class NotificationFactory {
     }
 
     public void makeTestNotification() {
-        makeSimpleNotification("Notifica di test", "Corpo della notifica su una riga", TEST_NOTIFICATION_ID);
+        makePriorityNotification("Notifica di test", "Corpo della notifica su una riga", TEST_NOTIFICATION_ID);
+    }
+
+
+
+    public void makePriorityNotification(String title, String body, int notificationId) {
+        Bundle bundle = new Bundle();
+        bundle.putString("plate","LITEST");
+        PendingIntent contentIntent = getBasePendingIntent(ACTION_SELECT_CAR,bundle);
+
+        NotificationCompat.Builder b = new NotificationCompat.Builder(mContext, DEFAULT_CHANNEL);
+        b.setAutoCancel(true)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setChannelId(PRIORITY_CHANNEL)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setFullScreenIntent(contentIntent, true)
+                .setContentIntent(contentIntent)
+                .setAutoCancel(true);
+
+        sendNotification(b.build(), PRIORITY_CHANNEL, notificationId);
     }
 
     public void makeSimpleNotification(String title, String body, int notificationId) {
@@ -196,11 +217,11 @@ public class NotificationFactory {
     }
 
 
-    private void createNotificationChannel(String channelName) {
+    public void createNotificationChannel(String channelName) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = channelName;
-            String description = "Canale mio e di nessun altro muhahah";
+            String description = "";
             int importance = PRIORITY_CHANNEL.equalsIgnoreCase(channelName) ? NotificationManager.IMPORTANCE_HIGH : NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(channelName, name, importance);
             channel.enableVibration(true);

@@ -58,6 +58,7 @@ public class ChronologyFragment extends BaseMvpFragment<ChronologyPresenter> imp
         setHasOptionsMenu(true);
         getMvpFragmentComponent(savedInstanceState).inject(this);
         mAdapter = new ChronologyAdapter(mActionListener, getActivity());
+
     }
 
     @Override

@@ -18,7 +18,9 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 
 import it.sharengo.eteria.App;
+import it.sharengo.eteria.data.repositories.NotificationRepository;
 import it.sharengo.eteria.injection.ApplicationContext;
+import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.utils.NotificationFactory;
 
 /**
@@ -34,6 +36,9 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver implements 
     @Inject
     NotificationFactory notificationFactory;
 
+    @Inject
+    NotificationRepository notificationRepository;
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -43,20 +48,64 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver implements 
 
     @Override
     public void notificationOpened(OSNotificationOpenResult result) {
+        Log.d("PUSH", "notificationOpened:  opened notification app is " + (App.isAppForeground()?"foreground" : "background"));
         App.getInstance().getComponent().inject(this);
-        OSNotificationAction.ActionType actionType = result.action.type;
-        JSONObject data = result.notification.payload.additionalData;
-        String customKey;
+        if(App.isAppForeground()) {
+            notificationRepository.openedNotification(result);
+            OSNotificationAction.ActionType actionType = result.action.type;
+            JSONObject data = result.notification.payload.additionalData;
+            String customKey;
 
-        if (data != null) {
-            customKey = data.optString("plate", null);
-            if (customKey != null)
-                Toast.makeText(mContext,customKey,Toast.LENGTH_LONG).show();
+            if (data != null) {
+                switch (data.optInt("t", 0)) {
+                    case 1://Close Trip Notification
+                        Navigator.launchChronology(App.getInstance().getApplicationContext());
+                        notificationRepository.notificationHanlded();
+                        break;
+                    case 2://Open Trip Notification
+                        Navigator.launchMapGoogle(App.getInstance().getApplicationContext(),Navigator.REQUEST_MAP_DEFAULT);
+                        notificationRepository.notificationHanlded();
+                        break;
+                    default:
+                        Navigator.launchSplash(App.getInstance().getApplicationContext());
+                        notificationRepository.notificationHanlded();
+                }
+
+            }else {
+                Navigator.launchSplash(App.getInstance().getApplicationContext());
+            }
+        }else{
+            notificationRepository.openedNotification(result);
+            OSNotificationAction.ActionType actionType = result.action.type;
+            JSONObject data = result.notification.payload.additionalData;
+            String customKey;
+
+            if (data != null) {
+                switch (data.optInt("t", 0)) {
+                    case 1://Close Trip Notification
+                        Navigator.launchSplash(App.getInstance().getApplicationContext());
+                        //Navigator.launchChronology(App.getInstance().getApplicationContext());
+                        //notificationRepository.notificationHanlded();
+                        break;
+                    case 2://Open Trip Notification
+                        Navigator.launchSplash(App.getInstance().getApplicationContext());
+                        //Navigator.launchMapGoogle(App.getInstance().getApplicationContext(),Navigator.REQUEST_MAP_DEFAULT);
+                        //notificationRepository.notificationHanlded();
+                        break;
+                    default:
+                        Navigator.launchSplash(App.getInstance().getApplicationContext());
+                        notificationRepository.notificationHanlded();
+                }
+
+            }
+            else {
+
+                Navigator.launchSplash(App.getInstance().getApplicationContext());
+            }
+           // Navigator.launchSplash(App.getInstance().getApplicationContext());
+            //notificationRepository.openedNotification(result);
         }
 
-        if (actionType == OSNotificationAction.ActionType.ActionTaken)
-            Log.i("OneSignalExample", "Button pressed with id: " + result.action.actionID);
-       //NotificationJobIntentService.enqueueWork(mContext,buildIntentFromOSNotification(result));
 
     }
 
