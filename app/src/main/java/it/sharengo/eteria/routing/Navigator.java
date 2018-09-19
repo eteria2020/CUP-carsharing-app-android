@@ -23,6 +23,7 @@ import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
 import it.sharengo.eteria.ui.onboarding.OnboardingActivity;
 import it.sharengo.eteria.ui.passwordrecovery.PasswordRecoveryActivity;
 import it.sharengo.eteria.ui.pin.PinActivity;
+import it.sharengo.eteria.ui.privacy.PrivacyActivity;
 import it.sharengo.eteria.ui.profile.ProfileActivity;
 import it.sharengo.eteria.ui.rates.RatesActivity;
 import it.sharengo.eteria.ui.settingcities.SettingsCitiesActivity;
@@ -318,6 +319,13 @@ public class Navigator {
 
     public static void launchLegalNote(Fragment fragment) {
         Intent intent = LegalNoteActivity.getCallingIntent(fragment.getActivity(), LegalNoteActivity.InnerRoute.LEGAL_NOTE);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchPrivacy(Fragment fragment) {
+        Intent intent = PrivacyActivity.getCallingIntent(fragment.getActivity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);

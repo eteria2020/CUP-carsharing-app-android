@@ -515,7 +515,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 public void onClick(View view) {
                     cdd.dismissAlert();
                     Navigator.launchLogin(MapGoogleFragment.this, Navigator.REQUEST_LOGIN_START);
-                   /*Intent intent = LegalNoteActivity.getCallingIntent(LegalNoteFragment);
+                   /*Intent intent = PrivacyActivity.getCallingIntent(PrivacyFragment);
                    HomeFragment.this.startActivity(intent);*/
                 }
             });
@@ -525,7 +525,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 public void onClick(View view) {
                     cdd.dismissAlert();
                     Navigator.launchSlideshow(MapGoogleFragment.this);
-                   /*Intent intent = LegalNoteActivity.getCallingIntent(LegalNoteFragment);
+                   /*Intent intent = PrivacyActivity.getCallingIntent(PrivacyFragment);
                    HomeFragment.this.startActivity(intent);*/
                 }
             });
@@ -2313,14 +2313,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void showPopupCarWithUpdate(final Car car){
 
-        Observable.just(car)
+        /*Observable.just(car)
                 .concatMap((carr) ->mPresenter.buildCarDetailsRequest(carr.id))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(carResp-> {
                     showPopupCar(carResp.data);
                     Log.d("BOMB","Received onMarkerTap car postUpdate");
-                });
+                });*/
         showPopupCar(car);
         Log.d("BOMB","Received onMarkerTap car preUpdate");
 

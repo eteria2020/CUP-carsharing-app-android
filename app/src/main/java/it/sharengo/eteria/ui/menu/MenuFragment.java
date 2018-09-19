@@ -245,6 +245,10 @@ public class MenuFragment extends BaseMvpFragment<MenuPresenter> implements Menu
                         Navigator.launchLegalNote(MenuFragment.this);
                         closeActivity();
                         break;
+                    case PRIVACY:
+                        Navigator.launchPrivacy(MenuFragment.this);
+                        closeActivity();
+                        break;
                 }
 
 

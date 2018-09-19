@@ -1,4 +1,4 @@
-package it.sharengo.eteria.ui.legalnote;
+package it.sharengo.eteria.ui.privacy;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -15,20 +15,16 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import org.apache.commons.lang3.StringUtils;
-
 import butterknife.ButterKnife;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.routing.Navigator;
-import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.base.webview.MyWebView;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 
+public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implements PrivacyMvpView {
 
-public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> implements LegalNoteMvpView {
-
-    private static final String TAG = LegalNoteFragment.class.getSimpleName();
+    private static final String TAG = PrivacyFragment.class.getSimpleName();
 
     public static final String ARG_TYPE = "ARG_TYPE";
 
@@ -39,11 +35,8 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
     //@BindView(R.id.userareaWebView)
     MyWebView webview;
 
-    public static LegalNoteFragment newInstance(LegalNoteActivity.InnerRoute route) {
-        LegalNoteFragment fragment = new LegalNoteFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_TYPE, route.name());
-        fragment.setArguments(args);
+    public static PrivacyFragment newInstance() {
+        PrivacyFragment fragment = new PrivacyFragment();
         return fragment;
     }
 
@@ -72,7 +65,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
 
       //  ((BaseActivity) getActivity()).showLoadingChronology();
 
-        webview.setIgnoreUrls("https://site.sharengo.it/note-legali-app");
+        webview.setIgnoreUrls("https://site.sharengo.it/privacy/");
         //Pulisco la sessione
         CookieManager cookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -105,7 +98,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    String url = "https://site.sharengo.it/note-legali-app/";
+    String url = "https://site.sharengo.it/privacy/";
     private void loadWebView(){
 
         isLogin = false;
@@ -142,7 +135,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
             @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(LegalNoteFragment.this.url.equalsIgnoreCase(url)) {
+                if(PrivacyFragment.this.url.equalsIgnoreCase(url)) {
 
                     webview.loadUrl(url);
                 }
@@ -152,7 +145,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
             @TargetApi(Build.VERSION_CODES.N)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                if(LegalNoteFragment.this.url.equalsIgnoreCase(request.getUrl().toString())) {
+                if(PrivacyFragment.this.url.equalsIgnoreCase(request.getUrl().toString())) {
 
                     webview.loadUrl( request.getUrl().toString());
                 }
@@ -180,7 +173,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
             @Override
             public void onClick(View view) {
                 cdd.dismissAlert();
-                Navigator.launchMapGoogle(LegalNoteFragment.this,Navigator.REQUEST_MAP_DEFAULT);
+                Navigator.launchMapGoogle(PrivacyFragment.this,Navigator.REQUEST_MAP_DEFAULT);
                 getActivity().finish();
             }
         });

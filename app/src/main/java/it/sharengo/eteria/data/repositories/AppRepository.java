@@ -61,6 +61,7 @@ public class AppRepository {
         //menuItems.add(new MenuItem(MenuItem.Section.RATES));
         menuItems.add(new MenuItem(MenuItem.Section.HELP));
         menuItems.add(new MenuItem(MenuItem.Section.LEGAL_NOTE));
+        menuItems.add(new MenuItem(MenuItem.Section.PRIVACY));
         
         return Observable.just(menuItems);
     }
@@ -80,6 +81,7 @@ public class AppRepository {
         //menuItems.add(new MenuItem(MenuItem.Section.SHARE));
         menuItems.add(new MenuItem(MenuItem.Section.SETTINGS));
         menuItems.add(new MenuItem(MenuItem.Section.LEGAL_NOTE));
+        menuItems.add(new MenuItem(MenuItem.Section.PRIVACY));
         menuItems.add(new MenuItem(MenuItem.Section.LOGOUT));
 
         return Observable.just(menuItems);

@@ -144,10 +144,10 @@
             android:theme="@style/AppTheme.Base.NoAnimation"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.privacystatement.PrivacyStatementActivity"
+            android:name=".ui.legalnote.LegalNoteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.legalnote.LegalNoteActivity"
+            android:name=".ui.privacy.PrivacyActivity"
             android:screenOrientation="portrait" />
 
 
