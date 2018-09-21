@@ -65,7 +65,7 @@ public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implement
 
       //  ((BaseActivity) getActivity()).showLoadingChronology();
 
-        webview.setIgnoreUrls("https://site.sharengo.it/privacy/");
+        webview.setIgnoreUrls("https://site.sharengo.it/privacy/?app");
         //Pulisco la sessione
         CookieManager cookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -98,7 +98,7 @@ public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implement
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    String url = "https://site.sharengo.it/privacy/";
+    String url = "https://site.sharengo.it/privacy/?app";
     private void loadWebView(){
 
         isLogin = false;

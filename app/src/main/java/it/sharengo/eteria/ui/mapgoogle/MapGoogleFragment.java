@@ -32,6 +32,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.annotation.DrawableRes;
@@ -2313,14 +2314,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     private void showPopupCarWithUpdate(final Car car){
 
-        /*Observable.just(car)
+        Observable.just(car)
                 .concatMap((carr) ->mPresenter.buildCarDetailsRequest(carr.id))
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(carResp-> {
                     showPopupCar(carResp.data);
                     Log.d("BOMB","Received onMarkerTap car postUpdate");
-                });*/
+                });
         showPopupCar(car);
         Log.d("BOMB","Received onMarkerTap car preUpdate");
 
@@ -2336,23 +2337,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             final Car lastCar = carSelected;
             if(mMap!=null) {
                 Observable.just(mMap.getMarkers())
-                        .concatMap(new Func1<List<Marker>, Observable<Marker>>() {
-                            @Override
-                            public Observable<Marker> call(List<Marker> markers) {
-                                return Observable.from(markers);
-                            }
-                        })
-                        .filter(new Func1<Marker, Boolean>() {
-                            @Override
-                            public Boolean call(Marker marker) {
-                                return lastCar.equals(marker.getData());
-                            }
-                        })
+                        .concatMap(Observable::from)
+                        .filter(marker -> lastCar.equals(marker.getData()) || car.equals(marker.getData()))
+                        .concatMap(marker -> {if(marker.getData().equals(car)) marker.setData(car); return Observable.just(marker);}) //updateMarker with latest data
                         .subscribe(new Action1<Marker>() {
                             @Override
                             public void call(Marker marker) {
 
-                                marker.setIcon(getIconForCar(lastCar));
+                                marker.setIcon(getIconForCar(marker.getData()));
                             }
                         });
             }
@@ -2856,20 +2848,15 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             if(!carBooked.parking){ //Auto in corsa FULVIO : I commenti sono per momentaneamente nascondere il bottone close Trip per annullare ripristinare i commenti e cancellare il resto
 
-                openButtonBookingView.setVisibility(View.GONE);
-                /*parameter.setMargins((int) (40 * getResources().getDisplayMetrics().density), 0, (int) (40* getResources().getDisplayMetrics().density), 0);
+                parameter.setMargins((int) (40 * getResources().getDisplayMetrics().density), 0, (int) (40* getResources().getDisplayMetrics().density), 0);
                 openButtonBookingView.setVisibility(View.VISIBLE);
                 openDoorBookingButton.setVisibility(View.GONE);
                 // utilizzo il bottone elimina prenotazione per implementare anche il pulsante chiudi corsa
                 deleteBookingButton.setText("Chiudi corsa");
                 deleteBookingButton.setVisibility(View.VISIBLE);
-                deleteBookingButton.setLayoutParams(parameter);*/
+                deleteBookingButton.setLayoutParams(parameter);
             }else{ //Auto parcheggiata
-                parameter.setMargins((int) (40 * getResources().getDisplayMetrics().density), 0, (int) (40 * getResources().getDisplayMetrics().density), 0);
-                openDoorBookingButton.setLayoutParams(parameter);
 
-                openButtonBookingView.setVisibility(View.VISIBLE);
-                deleteBookingButton.setVisibility(View.GONE);/*
                 // utilizzo il bottone elimina prenotazione per implementare anche il pulsante chiudi corsa
 
                 parameter.setMargins((int) (10 * getResources().getDisplayMetrics().density), 0, (int) (5 * getResources().getDisplayMetrics().density), 0);
@@ -2878,7 +2865,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 openDoorBookingButton.setVisibility(View.VISIBLE);
                 deleteBookingButton.setVisibility(View.VISIBLE);
                 deleteBookingButton.setText("Chiudi corsa");
-                deleteBookingButton.setLayoutParams(parameter);*/
+                deleteBookingButton.setLayoutParams(parameter);
             }
         }else{ //Prenotazione
             openButtonBookingView.setVisibility(View.VISIBLE);
