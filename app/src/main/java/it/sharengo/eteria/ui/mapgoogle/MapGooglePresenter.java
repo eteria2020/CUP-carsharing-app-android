@@ -2588,7 +2588,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     public ResponseTrip getLastCurrentTrip(){
-        return mUserRepository.getmCachedTrips();
+        return mUserRepository.getmCachedCurrentTrip();
     }
 
 
