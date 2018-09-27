@@ -39,7 +39,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
         versionCode 353
-        versionName "3.3.6"
+        versionName "3.3.7"
 
         manifestPlaceholders = [
                 onesignal_app_id: '202ca4a0-8ec3-4db3-af38-2986a3138106',

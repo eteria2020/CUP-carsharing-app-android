@@ -2316,8 +2316,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         Observable.just(car)
                 .concatMap((carr) ->mPresenter.buildCarDetailsRequest(carr.id))
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .subscribe(carResp-> {
                     showPopupCar(carResp.data);
                     Log.d("BOMB","Received onMarkerTap car postUpdate");
