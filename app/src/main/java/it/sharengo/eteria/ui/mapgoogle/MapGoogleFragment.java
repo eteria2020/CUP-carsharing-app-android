@@ -2212,28 +2212,36 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     }
 
     //Metodo per ricavere l'indirizzo date le coordinate
-    private String getAddress(float latitude, float longitude){
-        String address = "";
-
-        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+    private void getAddress(float latitude, float longitude, TextView addressTV){
 
 
-            if(!addresses.isEmpty() && addresses.get(0) != null) {
+        Observable.just(new LatLng(latitude, longitude))
+                .concatMap(latLng -> {
+                    String address = "";
+                    Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+                    try {
+                        List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
 
-                String street = addresses.get(0).getThoroughfare(); //Nome della via
-                String number = addresses.get(0).getSubThoroughfare(); //Numero civico
 
-                if(street != null) address = street;
-                if(address.length() > 0 && number != null) address += ", ";
-                if(number != null) address += number;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                        if(!addresses.isEmpty() && addresses.get(0) != null) {
 
-        return address;
+                            String street = addresses.get(0).getThoroughfare(); //Nome della via
+                            String number = addresses.get(0).getSubThoroughfare(); //Numero civico
+
+                            if(street != null) address = street;
+                            if(address.length() > 0 && number != null) address += ", ";
+                            if(number != null) address += number;
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    return Observable.just(address);
+
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(addressTV::setText);
     }
 
     private void loginAlert(){
@@ -2392,9 +2400,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         mPresenter.loadCarInfoPopup(car.id);
 
         //Indirizzo
-        String address = getAddress(car.latitude, car.longitude);
-        if(address.length() > 0)
-            addressTextView.setText(address);
+        getAddress(car.latitude, car.longitude, addressTextView);
+//        if(address.length() > 0)
+//            addressTextView.setText(address);
 
         //Distanza
         if(userLocation != null){
@@ -2729,7 +2737,6 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         int pinUser = mPresenter.getUser().userInfo.pin;
         String plateBooking = carBooked.id;
-        String addressBooking = getAddress(carBooked.latitude, carBooked.longitude);
         String timingBookin = "";
 
 
@@ -2825,7 +2832,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             timeIconImageView.setImageDrawable(getIconMarker(R.drawable.ic_time_2));
         }else{
             bookingTitleTextView.setText(getString(R.string.booking_active_label));
-            bookingAddressTextView.setText(addressBooking);
+
+            getAddress(carBooked.latitude, carBooked.longitude, bookingAddressTextView);
+//            bookingAddressTextView.setText(addressBooking);
             bookingAddressTextView.setVisibility(View.VISIBLE);
             expiringTimeTextView.setText(Html.fromHtml(String.format(getString(R.string.booking_expirationtime), timingBookin)));
             timeIconImageView.setImageDrawable(getIconMarker(R.drawable.ic_time));
