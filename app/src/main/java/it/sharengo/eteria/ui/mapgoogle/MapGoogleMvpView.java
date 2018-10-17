@@ -48,4 +48,10 @@ public interface MapGoogleMvpView extends MvpMapView {
     void openCarNotification();
     void closeCarNotification();
     void showPopupAfterButtonClosePressed();
+
+    /**
+     * This function is called after a car update to ask confirm of open door
+     * @param car car to be open
+     */
+    void openDoorConfirm(Car car, int bonusValue);
 }

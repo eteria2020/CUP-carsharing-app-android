@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/customDialogLL"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/darkjunglegreen"
     android:padding="13dp"
     android:orientation="vertical" >
 
-    <it.sharengo.eteria.ui.components.CustomTextView
+    <TextView
         android:id="@+id/txt_dia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +17,6 @@
         android:layout_margin="10dp"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        app:font_name="poppinsRegular"
         android:textSize="12dp" />
 
 

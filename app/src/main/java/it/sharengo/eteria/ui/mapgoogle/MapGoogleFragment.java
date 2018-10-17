@@ -44,6 +44,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -202,7 +206,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private CountDownTimer countDownTimer;
     private boolean isBookingCar;
     private boolean isTripStart;
-    private boolean isTripParked;
+    private boolean isTripParked ;
     private Reservation reservation;
     private int tripTimestampStart;
     private float co2;
@@ -226,7 +230,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private ClusterManager<ClusterItem> mClusterManager;
     private String carnext_id;
     private Car carNext;
-    private Car carSelected;
+    private Car carSelected; // Macchina del popup
     private Car carBooked;
     private Car carWalkingNavigation;
     private com.androidmapsextensions.Marker carnextMarker, carbookingMarker, carNextCluster;
@@ -431,10 +435,10 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        try {
-           mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
-           Bundle b = new Bundle();
-           b.putString("test", "FIREBASE EVENT");
-           mFirebaseAnalytics.logEvent("mappa", b);
+//           mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+//           Bundle b = new Bundle();
+//           b.putString("test", "FIREBASE EVENT");
+//           mFirebaseAnalytics.logEvent("mappa", b);
        }
        catch (Exception e){
            Log.d("FIREBASE EVENT","TEST FALLITO");
@@ -1509,6 +1513,13 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
 
     }
+    //Metodo richiamato per centrare la mappa. Se la localizzazione non è attiva, viene avvisato l'utente
+    private void centerMapOnLocation(Location location){
+
+            moveMapCameraToPoitWithZoom(location.getLatitude(), location.getLongitude(),18);
+
+
+    }
 
     //Apre i setting del dispositivo per permettere di attivare il gps
     private void openSettings(){
@@ -2186,14 +2197,26 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         Paint imagePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         imagePaint.setTextAlign(Paint.Align.CENTER);
         imagePaint.setColor(ContextCompat.getColor(getActivity(), R.color.white));
+        imagePaint.setStyle(Paint.Style.FILL);
         imagePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        imagePaint.setTextSize(8 * getResources().getDisplayMetrics().density);
+        imagePaint.setTextSize(12 * getResources().getDisplayMetrics().density);
+
+
+        // Set up the paint for use with our Canvas
+        Paint imagePaintBorder = new Paint(Paint.ANTI_ALIAS_FLAG);
+        imagePaintBorder.setTextAlign(Paint.Align.CENTER);
+        imagePaintBorder.setColor(ContextCompat.getColor(getActivity(), R.color.mediumseagreen));
+        imagePaintBorder.setStrokeWidth(0);
+        imagePaintBorder.setStyle(Paint.Style.STROKE);
+        imagePaintBorder.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        imagePaintBorder.setTextSize(12 * getResources().getDisplayMetrics().density);
 
         // Draw the image to our canvas
         backgroundImage.draw(imageCanvas);
 
         // Draw the text on top of our image
         imageCanvas.drawText(text, width / 2, 48, imagePaint);
+        imageCanvas.drawText(text, width / 2, 48, imagePaintBorder);
 
         // Combine background and text to a LayerDrawable
         LayerDrawable layerDrawable = new LayerDrawable(
@@ -2727,7 +2750,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         setMarkerAnimation();
 
-        onClosePopup();
+        if(mCar !=null && mCar.equals(carSelected))
+            onClosePopup();
         openViewBookingCar();
     }
 
@@ -2855,16 +2879,20 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             tripDurationTextView.setVisibility(View.VISIBLE);
 
             if(!carBooked.parking){ //Auto in corsa FULVIO : I commenti sono per momentaneamente nascondere il bottone close Trip per annullare ripristinare i commenti e cancellare il resto
-
-                parameter.setMargins((int) (40 * getResources().getDisplayMetrics().density), 0, (int) (40* getResources().getDisplayMetrics().density), 0);
+                openButtonBookingView.setVisibility(View.GONE);
+                /*parameter.setMargins((int) (40 * getResources().getDisplayMetrics().density), 0, (int) (40* getResources().getDisplayMetrics().density), 0);
                 openButtonBookingView.setVisibility(View.VISIBLE);
                 openDoorBookingButton.setVisibility(View.GONE);
                 // utilizzo il bottone elimina prenotazione per implementare anche il pulsante chiudi corsa
                 deleteBookingButton.setText("Chiudi corsa");
                 deleteBookingButton.setVisibility(View.VISIBLE);
-                deleteBookingButton.setLayoutParams(parameter);
+                deleteBookingButton.setLayoutParams(parameter);*/
             }else{ //Auto parcheggiata
+                parameter.setMargins((int) (40 * getResources().getDisplayMetrics().density), 0, (int) (40 * getResources().getDisplayMetrics().density), 0);
+                openDoorBookingButton.setLayoutParams(parameter);
 
+                openButtonBookingView.setVisibility(View.VISIBLE);
+                deleteBookingButton.setVisibility(View.GONE);/*
                 // utilizzo il bottone elimina prenotazione per implementare anche il pulsante chiudi corsa
 
                 parameter.setMargins((int) (10 * getResources().getDisplayMetrics().density), 0, (int) (5 * getResources().getDisplayMetrics().density), 0);
@@ -2873,7 +2901,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 openDoorBookingButton.setVisibility(View.VISIBLE);
                 deleteBookingButton.setVisibility(View.VISIBLE);
                 deleteBookingButton.setText("Chiudi corsa");
-                deleteBookingButton.setLayoutParams(parameter);
+                deleteBookingButton.setLayoutParams(parameter);*/
             }
         }else{ //Prenotazione
             openButtonBookingView.setVisibility(View.VISIBLE);
@@ -2962,6 +2990,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         });
     }
 
+    @Override
     public void showPopupAfterButtonClosePressed(){
 
         final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
@@ -2975,6 +3004,39 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             }
         });
+    }
+
+    @Override
+    public void openDoorConfirm(Car car, int value) {
+        String message =getString(R.string.carOpen_confirm);
+
+        String pricing = getString(R.string.carOpen_normal_price);
+        if (value != 0) {
+            pricing =String.format(getString(R.string.carOpen_bonus_price), value);
+        }
+        if(car.haveActiveBonus("unplug")) {
+            message =getString(R.string.carOpen_unplug_confirm);
+            pricing =getString(R.string.carOpen_confirm);
+        }
+
+        if(car.equals(carSelected)){
+            showPopupCar(car);
+        }
+
+        final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                null,
+                getString(R.string.ok),
+                getString(R.string.cancel), value>0?1:0);
+        cdd.setMessage(message, pricing);
+        cdd.show();
+        cdd.yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cdd.dismissAlert();
+                checkOpenDoor();
+            }
+        });
+
     }
 
     //Nasconde le informazioni della prenotazione
@@ -3371,20 +3433,9 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     @OnClick(R.id.openDoorButton)
     public void onOpenDoor(){
 
+        mPresenter.checkOpenDoor(carSelected);
+        openDoorFromBooking = false;
 
-        final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
-                getString(R.string.carOpen_confirm),
-                getString(R.string.ok),
-                getString(R.string.cancel));
-        cdd.show();
-        cdd.yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cdd.dismissAlert();
-                openDoorFromBooking = false;
-                checkOpenDoor();
-            }
-        });
 
     }
 
@@ -3474,10 +3525,36 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         feedBookingClick();
     }
 
+    @OnClick(R.id.bookingLlContainer)
+    public void onCenterActiveCar(){
+        if(isBookingCar && carBooked != null){
+            centerMapOnLocation(carBooked.getLocation());
+        }
+    }
+
     @OnClick(R.id.openDoorBookingButton)
     public void openDoorBookingButton(){
-        openDoorFromBooking = true;
-        checkOpenDoor();
+        String message = getString(R.string.carOpen_confirm);
+        if(!isTripParked) {
+            openDoorFromBooking = true;
+            mPresenter.checkOpenDoor(carBooked);
+        }else {
+            message = getString(R.string.carOpen_resum_park_confirm);
+
+            final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                    message,
+                    getString(R.string.ok),
+                    getString(R.string.cancel));
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                    openDoorFromBooking = false;
+                    checkOpenDoor();
+                }
+            });
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3748,7 +3825,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         };
 
 
-        cancelProgressHandler.postDelayed(progressOpenDooorRunnable, 45000);
+        cancelProgressHandler.postDelayed(progressOpenDooorRunnable, 25000);
     }
 
     @Override

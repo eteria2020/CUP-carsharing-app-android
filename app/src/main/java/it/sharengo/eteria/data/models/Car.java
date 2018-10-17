@@ -1,5 +1,8 @@
 package it.sharengo.eteria.data.models;
 
+import android.location.Location;
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -78,7 +81,7 @@ public class Car {
         this.autonomy = autonomy;
     }
 
-    public ArrayList<Bonus> getValidBonus(){
+    public @NonNull ArrayList<Bonus> getValidBonus(){
         ArrayList<Bonus> result =new ArrayList<Bonus>();
         if(bonus!=null){
             for (Bonus b:bonus) {
@@ -88,6 +91,12 @@ public class Car {
         }
         return result;
     }
+
+    public boolean haveActiveBonus(String type){
+        ArrayList<Bonus> bonuses = getValidBonus();
+        return bonuses.contains(new Bonus(type,5,true));
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -103,6 +112,32 @@ public class Car {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    public Location getLocation(){
+        Location loc =  new Location("");
+        loc.setLatitude(latitude);
+        loc.setLongitude(longitude);
+        return loc;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id='" + id + '\'' +
+                ", manufactures='" + manufactures + '\'' +
+                ", model='" + model + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", status='" + status + '\'' +
+                ", parking=" + parking +
+                ", busy=" + busy +
+                ", active=" + active +
+                ", hidden=" + hidden +
+                ", autonomy=" + autonomy +
+                ", bonus=" + bonus +
+                ", favourite=" + favourite +
+                '}';
     }
 }
 

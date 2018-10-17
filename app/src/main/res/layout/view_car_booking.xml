@@ -49,6 +49,7 @@
 
         <!-- Content -->
         <LinearLayout
+            android:id="@+id/bookingLlContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"

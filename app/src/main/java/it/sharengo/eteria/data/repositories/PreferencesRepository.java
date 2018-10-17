@@ -2,6 +2,8 @@ package it.sharengo.eteria.data.repositories;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,7 +18,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import it.sharengo.eteria.R;
+import it.sharengo.eteria.data.models.Car;
 import it.sharengo.eteria.data.models.SearchItem;
+import it.sharengo.eteria.injection.ApplicationContext;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -29,15 +33,20 @@ public class PreferencesRepository {
     static final String KEY_USERNAME = "KEY_USERNAME";
     static final String KEY_PASSWORD = "KEY_PASSWORD";
     static final String KEY_KML = "kml";
+    //Reservation
+    static final String KEY_RESERVATION_CAR = "KEY_RESERVATION_CAR";
+    static final String KEY_RESERVATION_TIMESTAMP = "KEY_RESERVATION_TIMESTAMP";
 
+    private final Context mContext;
 
+    private SharedPreferences mReservationPreferences;
     private SharedPreferences mPref;
     private List<SearchItem> mSearchResults;
     private List<SearchItem> mFavourites;
 
     @Inject
-    public PreferencesRepository() {
-
+    public PreferencesRepository(@ApplicationContext Context context) {
+        this.mContext = context;
     }
 
     /**
@@ -71,6 +80,30 @@ public class PreferencesRepository {
         SharedPreferences.Editor editor = mPref.edit();
         editor.putString(key, data);
         return editor.commit();
+    }
+
+    private boolean putString(String key, String data) {
+        SharedPreferences.Editor editor = getmReservationPreferences().edit();
+        editor.putString(key, data);
+        return editor.commit();
+    }
+
+    private boolean putLong(String key, long data) {
+        SharedPreferences.Editor editor = getmReservationPreferences().edit();
+        editor.putLong(key, data);
+        return editor.commit();
+    }
+
+    private boolean unset(String key) {
+        SharedPreferences.Editor editor = getmReservationPreferences().edit();
+        editor.remove(key);
+        return editor.commit();
+    }
+
+    private SharedPreferences getmReservationPreferences() {
+        if(mReservationPreferences==null)
+            mReservationPreferences = mContext.getSharedPreferences(mContext.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return mReservationPreferences;
     }
 
 
@@ -306,5 +339,64 @@ public class PreferencesRepository {
 
         return results;
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Reservation
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public @Nullable Car getReservationCar() {
+        Car car = null;
+        String carEncoded = getmReservationPreferences().getString(KEY_RESERVATION_CAR, "");
+        try{
+            car = new Gson().fromJson(carEncoded, Car.class);
+            Log.d("BOMB", "decoded car from preferences" + car.toString());
+        }catch (Exception e) {
+            Log.e(TAG, "getReservationCar: Exception", e);
+        }
+        return car;
+    }
+
+    public boolean saveReservationCar(Car car) {
+        boolean result = false;
+        try{
+            Log.i("BOMB", "save reservationCar: " + car.toString());
+            result = putString(KEY_RESERVATION_CAR, new Gson().toJson(car));
+        }catch (Exception e) {
+            Log.e(TAG, "saveReservationCar: Exception", e);
+        }
+        return result;
+    }
+
+    public long getReservationTimestamp() {
+
+        return getmReservationPreferences().getLong(KEY_RESERVATION_TIMESTAMP, 0);
+    }
+
+    public boolean saveReservationTimestamp(long timestamp) {
+        boolean result = false;
+        try{
+            result = putLong(KEY_RESERVATION_TIMESTAMP, timestamp);
+        }catch (Exception e) {
+            Log.e(TAG, "saveReservationTimestamp: Exception", e);
+        }
+        return result;
+    }
+
+
+    public boolean cleanReservationData() {
+        boolean result = false;
+        try{
+            result = unset(KEY_RESERVATION_CAR);
+            result &= unset(KEY_RESERVATION_TIMESTAMP);
+        }catch (Exception e) {
+            Log.e(TAG, "saveReservationTimestamp: Exception", e);
+        }
+        return result;
+    }
+
 
 }

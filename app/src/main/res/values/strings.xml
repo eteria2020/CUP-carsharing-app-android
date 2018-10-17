@@ -11,6 +11,7 @@
     <string name="preference_kml" translatable="false">kml</string>
     <string name="preference_userinfo" translatable="false">userinfo</string>
     <string name="preference_city" translatable="false">city</string>
+    <string name="preference_reservation" translatable="false">reservationpreference</string>
 
 
     <!--PERMISSION-->
@@ -286,7 +287,9 @@
     <string name="rates_signup_action">Iscriviti subito</string>
     <string name="maps_enablegps_label">Abilitare il GPS per maggiori informazioni</string>
     <string name="general_logout_alert">Sei sicuro di voler effettuare il logout?</string>
-    <string name="carOpen_confirm">Sei sicuro di voler aprire le portirere? La corsa inizierà in questo momento.</string>
+    <string name="carOpen_confirm">Sei sicuro di voler aprire le portirere? La corsa inizierà in questo momento.\n</string>
+    <string name="carOpen_bonus_price">La macchina ha %d minuti bonus!</string>
+    <string name="carOpen_normal_price">La corsa avrà tariffa standard</string>
     <string name="tripend_notification_selfclose_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente in maniera gratuita.Ti ringraziamo per aver usato Share\'ngo</string>
     <string name="retryToOpenDoorPopup">Si è verificato un errore vuoi riprovare?</string>
     <string name="first_payment_login_alert">Sei disabilitato per primo pagamento non effettuato, per utilizzare Share\'ngo accedi alla tua area personale e completa il pagamento</string>
@@ -300,5 +303,7 @@
     <string name="menu_legalNote">Note legali</string>
     <string name="failed_extra_payment_login_alert">Sei disabilitato per un pagamento penale fallito, contatta il servizio clienti per maggiori informazioni</string>
     <string name="registration_not_completed_login_alert">Sei disabilitato perchè devi completare il processo di registrazione.</string>
+    <string name="carOpen_unplug_confirm">1. Apri l\'auto e attendi l\'apertura delle portiere\n2. Stacca la spina blu del cavo di ricarica dall\'auto facendo attenzione ad impugnare la spina e non il cavo\n3. Stacca la spina dalla colonnina di ricarica\n4. Riponi il cavo di alimentazione nel baule dell\'auto\n5. Entra in auto e segui le istruzioni sul video\n\n</string>
+    <string name="carOpen_resum_park_confirm">Sei sicuro di voler riprendere la corsa?</string>
 
 </resources>

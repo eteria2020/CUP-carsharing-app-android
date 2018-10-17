@@ -274,7 +274,7 @@
     <string name="home_welcomef_label">Welcome!</string>
     <string name="booking_car_busy_alert">This car is not available, we are sorry for the inconvenience</string>
     <string name="booking_other_tripcar_alert">Someone is already using this Sharen\'go</string>
-    <string name="carOpen_confirm">Are you sure you want to open the doors? The trip will start right now.</string>
+    <string name="carOpen_confirm">Are you sure you want to open the doors? The trip will start right now.\n</string>
     <string name="menu_pin">PIN</string>
     <string name="menu_welcomef_login">Hi %s, welcome back!</string>
     <string name="pin_pin_label">YOUR PIN IS:</string>
@@ -286,5 +286,9 @@
     <string name="menu_legalNote">Legal Note</string>
     <string name="failed_extra_payment_login_alert">Sei disabilitato per un pagamento penale fallito, contatta il servizio clienti per maggiori informazioni</string>
     <string name="registration_not_completed_login_alert">Sei disabilitato perchè devi completare il processo di registrazione</string>
+    <string name="carOpen_unplug_confirm">1. Apri l\'auto e attendi l\'apertura delle portiere\\n2. Stacca la spina blu del cavo di ricarica dall\'auto facendo attenzione ad impugnare la spina e non il cavo\\n3. Stacca la spina dalla colonnina di ricarica\\n4. Riponi il cavo di alimentazione nel baule dell\'auto\\n5. Entra in auto e segui le istruzioni sul video\\nSei sicuro di voler aprire le portiere?</string>
+    <string name="carOpen_resum_park_confirm">Are you sure you want to resume the trip?</string>
+    <string name="carOpen_bonus_price">This car have %d bonus minutes!</string>
+    <string name="carOpen_normal_price">The trip will have standard fee</string>
 
 </resources>

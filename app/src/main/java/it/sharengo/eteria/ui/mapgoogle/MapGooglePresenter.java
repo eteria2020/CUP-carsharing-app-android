@@ -1603,7 +1603,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private Observable<ResponsePutReservation> buildReservationRequest(Car car, float user_lat, float user_lon) {
-        return mReservationRequest = mUserRepository.postReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, car.id, user_lat, user_lon)
+        return mReservationRequest = mUserRepository.postReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, car, user_lat, user_lon)
                 .first()
                 .compose(this.<ResponsePutReservation>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -1758,6 +1758,35 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     //                                              Open door
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * controllo reservation e dettagi macchina per notificare lk'utente in caso di bonus o non
+     *
+     * @param  car     car to open.
+     */
+    public void checkOpenDoor(final Car car) {
+
+        getMvpView().showHCustomLoading();
+        Car carPref = mPreferencesRepository.getReservationCar();
+
+        if(carPref!=null &&  car.id.equalsIgnoreCase(carPref.id) && carPref.getValidBonus().size()>0 ){
+            if(mPreferencesRepository.getReservationTimestamp()>=System.currentTimeMillis()/1000) {
+                int bonusValue = carPref.getValidBonus().get(0).getValue();
+                getMvpView().openDoorConfirm(car, bonusValue);
+            }
+        }else {
+            addSubscription(buildCarDetailsRequest(car.id).concatMap(responseCar -> Observable.just(responseCar.data)).subscribe(car1 -> {
+                        if(car1!=null && car1.getValidBonus().size()>0){
+                            int bonusValue = car1.getValidBonus().get(0).getValue();
+                            getMvpView().openDoorConfirm(car1, bonusValue);
+                        }else {
+                            getMvpView().openDoorConfirm(car1, 0);
+                        }
+            }));
+        }
+
+    }
+
 
     /**
      * Send command for open door of car.
