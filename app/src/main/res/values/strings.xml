@@ -294,7 +294,7 @@
     <string name="retryToOpenDoorPopup">Si è verificato un errore vuoi riprovare?</string>
     <string name="first_payment_login_alert">Sei disabilitato per primo pagamento non effettuato, per utilizzare Share\'ngo accedi alla tua area personale e completa il pagamento</string>
     <string name="failed_payment_login_alert">Sei disabilitato per un pagamento non effettuato, per utilizzare Share\'ngo accedi alla tua area personale e procedi col pagamento</string>
-    <string name="invalid_driver_license_login_alert">Sei disabilitato perchè hai inserito una patente non valida, per utilizzare Share\'ngo accedi alla tua area personale, controlla e modifica i dati inseriti</string>
+    <string name="invalid_driver_license_login_alert">Sei disabilitato perchè hai inserito una patente non valida, per utilizzare Share\'ngo accedi alla tua area personale, controlla e modifica i dati inseriti.</string>
     <string name="disabled_webuser_login_alert">Sei disabilitato, contatta il servizio clienti per maggiori informazioni</string>
     <string name="expired_driver_license_login_alert">Sei disabilitato per patente scaduta, per utilizzare Share\'ngo accedi alla tua area personale ed inserisci i nuovi dati</string>
     <string name="expired_credit_card_login_alert">Sei disabilitato perchè la carta inserita è scaduta, per utilizzare Share\'ngo accedi alla tua area personale ed inserisci i nuovi dati</string>
@@ -303,7 +303,7 @@
     <string name="menu_legalNote">Note legali</string>
     <string name="failed_extra_payment_login_alert">Sei disabilitato per un pagamento penale fallito, contatta il servizio clienti per maggiori informazioni</string>
     <string name="registration_not_completed_login_alert">Sei disabilitato perchè devi completare il processo di registrazione.</string>
-    <string name="carOpen_unplug_confirm">1. Apri l\'auto e attendi l\'apertura delle portiere\n2. Stacca la spina blu del cavo di ricarica dall\'auto facendo attenzione ad impugnare la spina e non il cavo\n3. Stacca la spina dalla colonnina di ricarica\n4. Riponi il cavo di alimentazione nel baule dell\'auto\n5. Entra in auto e segui le istruzioni sul video\n\n</string>
+    <string name="carOpen_unplug_confirm">"1. Apri l'auto e attendi l'apertura delle portiere 2. Stacca la spina blu del cavo di ricarica dall'auto facendo attenzione ad impugnare la spina e non il cavo 3. Stacca la spina dalla colonnina di ricarica 4. Riponi il cavo di alimentazione nel baule dell'auto 5. Entra in auto e segui le istruzioni sul video  "</string>
     <string name="carOpen_resum_park_confirm">Sei sicuro di voler riprendere la corsa?</string>
 
 </resources>
