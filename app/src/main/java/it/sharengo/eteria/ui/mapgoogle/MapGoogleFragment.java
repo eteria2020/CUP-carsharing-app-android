@@ -2879,20 +2879,16 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
             tripDurationTextView.setVisibility(View.VISIBLE);
 
             if(!carBooked.parking){ //Auto in corsa FULVIO : I commenti sono per momentaneamente nascondere il bottone close Trip per annullare ripristinare i commenti e cancellare il resto
-                openButtonBookingView.setVisibility(View.GONE);
-                /*parameter.setMargins((int) (40 * getResources().getDisplayMetrics().density), 0, (int) (40* getResources().getDisplayMetrics().density), 0);
+                parameter.setMargins((int) (40 * getResources().getDisplayMetrics().density), 0, (int) (40* getResources().getDisplayMetrics().density), 0);
                 openButtonBookingView.setVisibility(View.VISIBLE);
                 openDoorBookingButton.setVisibility(View.GONE);
                 // utilizzo il bottone elimina prenotazione per implementare anche il pulsante chiudi corsa
                 deleteBookingButton.setText("Chiudi corsa");
                 deleteBookingButton.setVisibility(View.VISIBLE);
-                deleteBookingButton.setLayoutParams(parameter);*/
+                deleteBookingButton.setLayoutParams(parameter);
             }else{ //Auto parcheggiata
-                parameter.setMargins((int) (40 * getResources().getDisplayMetrics().density), 0, (int) (40 * getResources().getDisplayMetrics().density), 0);
-                openDoorBookingButton.setLayoutParams(parameter);
 
-                openButtonBookingView.setVisibility(View.VISIBLE);
-                deleteBookingButton.setVisibility(View.GONE);/*
+
                 // utilizzo il bottone elimina prenotazione per implementare anche il pulsante chiudi corsa
 
                 parameter.setMargins((int) (10 * getResources().getDisplayMetrics().density), 0, (int) (5 * getResources().getDisplayMetrics().density), 0);
@@ -2901,7 +2897,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 openDoorBookingButton.setVisibility(View.VISIBLE);
                 deleteBookingButton.setVisibility(View.VISIBLE);
                 deleteBookingButton.setText("Chiudi corsa");
-                deleteBookingButton.setLayoutParams(parameter);*/
+                deleteBookingButton.setLayoutParams(parameter);
             }
         }else{ //Prenotazione
             openButtonBookingView.setVisibility(View.VISIBLE);
