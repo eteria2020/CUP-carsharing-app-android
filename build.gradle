@@ -45,7 +45,7 @@ ext {
     handroixVersionCode = 33
 
     // Android
-    supportLibraryVersion = '27.1.1'
+    supportLibraryVersion = '26.1.0'
     playServiceVersion = '11.4.2'
     
     // App dependencies

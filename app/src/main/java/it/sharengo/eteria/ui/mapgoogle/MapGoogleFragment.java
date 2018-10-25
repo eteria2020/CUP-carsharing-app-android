@@ -2981,7 +2981,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     }
                 };
 
-                timer2min.schedule(timerTask2min, 30000);
+                timer2min.schedule(timerTask2min, 2*60*1000);
             }
         });
     }
