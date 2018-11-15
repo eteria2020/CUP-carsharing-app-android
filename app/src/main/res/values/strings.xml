@@ -303,7 +303,7 @@
     <string name="menu_legalNote">Note legali</string>
     <string name="failed_extra_payment_login_alert">Sei disabilitato per un pagamento penale fallito, contatta il servizio clienti per maggiori informazioni</string>
     <string name="registration_not_completed_login_alert">Sei disabilitato perchè devi completare il processo di registrazione.</string>
-    <string name="carOpen_unplug_confirm">"1. Apri l'auto e attendi l'apertura delle portiere 2. Stacca la spina blu del cavo di ricarica dall'auto facendo attenzione ad impugnare la spina e non il cavo 3. Stacca la spina dalla colonnina di ricarica 4. Riponi il cavo di alimentazione nel baule dell'auto 5. Entra in auto e segui le istruzioni sul video  "</string>
+    <string name="carOpen_unplug_confirm">"1. Apri l'auto e attendi l'apertura delle portiere \n\n2. Stacca la spina blu del cavo di ricarica dall'auto facendo attenzione ad impugnare la spina e non il cavo \n\n3. Stacca la spina dalla colonnina di ricarica \n\n4. Riponi il cavo di alimentazione nel baule dell'auto \n\n5. Entra in auto e segui le istruzioni sul video\n\n"</string>
     <string name="carOpen_resum_park_confirm">Sei sicuro di voler riprendere la corsa?</string>
 
 </resources>

@@ -3024,6 +3024,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 getString(R.string.ok),
                 getString(R.string.cancel), value>0?1:0);
         cdd.setMessage(message, pricing);
+        //cdd.setFontSize(14);
         cdd.show();
         cdd.yes.setOnClickListener(new View.OnClickListener() {
             @Override

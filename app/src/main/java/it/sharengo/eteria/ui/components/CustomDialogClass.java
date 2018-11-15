@@ -40,6 +40,7 @@ public class CustomDialogClass extends Dialog implements
 
     private Handler localHandler=new Handler();
     private int displayTime;
+    private float fontSize = 0;
 
     public CustomDialogClass(Activity a, String message, String yesString, String noString) {
         super(a);
@@ -90,8 +91,9 @@ public class CustomDialogClass extends Dialog implements
         Typeface font = Typeface.createFromAsset(c.getAssets(), "Poppins-Regular.ttf");
         messageTextView =  findViewById(R.id.txt_dia);
         messageTextView.setTypeface(font);
-
-
+        if(fontSize!= 0){
+            messageTextView.setTextSize(fontSize);
+        }
 
         if(this.message!=null)
             messageTextView.setText(message);
@@ -136,6 +138,10 @@ public class CustomDialogClass extends Dialog implements
         builder.append(spannableMessage);
         builder.append(spannablePricing);
         this.message = null;
+    }
+
+    public void setFontSize(float size){
+        this.fontSize = size;
     }
 
 

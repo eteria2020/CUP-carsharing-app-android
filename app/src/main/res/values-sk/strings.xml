@@ -45,14 +45,14 @@
     <string name="maps_permissionlocation_alert">Share\'ngo potrebuje povolenia na prístup k Tvojej polohe. Chceš otvoriť nastavenia na povolenie lokalizácie?</string>
     <string name="maps_opendoor_action">Otvor dvere</string>
     <string name="maps_bookingcar_action">Rezervuj auto</string>
-    <string name="maps_autonomy_label">Dojazd:</string>
+    <string name="maps_autonomy_label">Dojazd: <![CDATA[<b>%d km</b>]]></string>
     <string name="maps_distance_label">% d m vzdialené</string>
     <string name="maps_distancekm_label">% .2f km vzdialené</string>
     <string name="maps_time_label">% d minút pešo</string>
     <string name="maps_timeh60_label">1 hodina pešo</string>
     <string name="maps_timeh_label">% d hodín pešo</string>
-    <string name="maps_timehsm_label">% d hodina a% d minút pešo</string>
-    <string name="maps_timehm_label">% d hodín a% d minút pešo</string>
+    <string name="maps_timehsm_label" formatted="false">% d hodina a% d minút pešo</string>
+    <string name="maps_timehm_label" formatted="false">% d hodín a% d minút pešo</string>
     <string name="maps_closestcar_label">Najbližšie auto</string>
     <string name="maps_permissionopendoor_alert">Share\'ngo musí poznať Tvoju pozíciu, aby otvorila dvere. Chceš otvoriť nastavenia na povolenie lokalizácie?</string>
     <string name="maps_opendoordistance_alert">Si príliš ďaleko od Share\'ngo, ktoré si vybral. Môžeš ho otvoriť, keď si v blízkosti auta.</string>
@@ -151,9 +151,9 @@
     <string name="settingslang_en_label">Angličtina</string>
     <string name="chronology_title_label">História jázd</string>
     <string name="chronology_bookingn_label">Jazda č. % s</string>
-    <string name="chronology_minutes_label">% s minút % s</string>
-    <string name="chronology_date_label">% s - hodín % s</string>
-    <string name="chronology_end_label">Koniec: % s - hodín % s</string>
+    <string name="chronology_minutes_label" formatted="false">% s minút % s</string>
+    <string name="chronology_date_label" formatted="false">% s - hodín % s</string>
+    <string name="chronology_end_label" formatted="false">Koniec: % s - hodín % s</string>
     <string name="chronology_rate_label">Sadzba za minútu: % s</string>
     <string name="chronology_minfree_label">Počet minút používania zdarma: % s</string>
     <string name="chronology_km_label">Počet prejdených kilometrov počas jazdy: % s</string>

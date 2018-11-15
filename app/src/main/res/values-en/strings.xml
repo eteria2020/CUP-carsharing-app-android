@@ -285,7 +285,7 @@
     <string name="menu_legalNote">Legal Note</string>
     <string name="failed_extra_payment_login_alert">Sei disabilitato per un pagamento penale fallito, contatta il servizio clienti per maggiori informazioni</string>
     <string name="registration_not_completed_login_alert">You are disabled because you need to complete the registration process.</string>
-    <string name="carOpen_unplug_confirm">1. Open the car and wait for the doors to open 2. Unplug the blue plug of the charging cable from the car paying attention to pull the plug and not the cable 3. Unplug the charging column 4. Store the charging cable in the trunk of the car 5. Get in the car and follow the instructions on the video</string>
+    <string name="carOpen_unplug_confirm">1. Open the car and wait for the doors to open \n2. Unplug the blue plug of the charging cable from the car paying attention to pull the plug and not the cable \n3. Unplug the charging column \n4. Store the charging cable in the trunk of the car \n5. Get in the car and follow the instructions on the video\n</string>
     <string name="carOpen_resum_park_confirm">Are you sure you want to resume the trip?</string>
     <string name="carOpen_bonus_price">This car have %d bonus minutes!</string>
     <string name="carOpen_normal_price">The trip will have standard fee</string>

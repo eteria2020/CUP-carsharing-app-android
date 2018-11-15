@@ -72,7 +72,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
 
       //  ((BaseActivity) getActivity()).showLoadingChronology();
 
-        webview.setIgnoreUrls("https://site.sharengo.it/note-legali-app");
+        webview.setIgnoreUrls("https://site.sharengo.it/note-legali-app/?app");
         //Pulisco la sessione
         CookieManager cookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -105,7 +105,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    String url = "https://site.sharengo.it/note-legali-app/";
+    String url = "https://site.sharengo.it/note-legali-app/?app";
     private void loadWebView(){
 
         isLogin = false;
