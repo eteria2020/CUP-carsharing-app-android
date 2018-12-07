@@ -40,6 +40,9 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
     public static final String ARG_TYPE = "ARG_TYPE";
 
     private String baseURL="";
+    private String loginURL = "https://www.sharengo.it/user/login";
+    private String userAreaURLMobile = "https://www.sharengo.it/area-utente/mobile";
+    private String userAreaURL = "https://www.sharengo.it/area-utente";
 
     private boolean isLogin;
 
@@ -89,6 +92,14 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
         mUnbinder = ButterKnife.bind(this, view);
         webview = (MyWebView) view.findViewById(R.id.userareaWebView);
 
+        try{
+            loginURL = getResources().getString(R.string.endpointSite) + getString(R.string.routeLogin);
+            userAreaURLMobile = getResources().getString(R.string.endpointSite) + getString(R.string.routeUserArea) + getString(R.string.routeMobile);
+            userAreaURL = getResources().getString(R.string.endpointSite) + getString(R.string.routeUserArea);
+
+        }catch (Exception e) {
+            Log.e(TAG, "onCreateView: Exception", e);
+        }
 
         return view;
     }
@@ -100,7 +111,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
 
         ((BaseActivity) getActivity()).showLoadingChronology();
 
-        webview.setIgnoreUrls("https://www.sharengo.it/area-utente/mobile");
+        webview.setIgnoreUrls(userAreaURLMobile);
         //Pulisco la sessione
         CookieManager cookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -143,7 +154,6 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
         String username = mPresenter.getUserInfo().username;
         String password = mPresenter.getUserInfo().password;
 
-        String url = "https://www.sharengo.it/user/login";
         String postData = null;
         try {
             postData = "identity=" + URLEncoder.encode(username, "UTF-8") + "&credential=" + URLEncoder.encode(password, "UTF-8");
@@ -192,12 +202,12 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
                 return false;
             }
         });
-        webview.postUrl(url,postData.getBytes());
+        webview.postUrl(loginURL,postData.getBytes());
 
     }
 
     private void loadUrl(WebView view, String mobileUrl){
-        if (StringUtils.equals(mobileUrl, "https://www.sharengo.it/area-utente")) {
+        if (StringUtils.equals(mobileUrl, userAreaURL)) {
             mobileUrl = mobileUrl + baseURL+"/mobile";
             Log.d("BOMB","Webview is loading: "+mobileUrl);
             view.loadUrl(mobileUrl);

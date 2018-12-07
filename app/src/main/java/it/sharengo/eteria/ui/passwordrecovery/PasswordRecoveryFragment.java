@@ -2,6 +2,8 @@ package it.sharengo.eteria.ui.passwordrecovery;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ public class PasswordRecoveryFragment extends BaseMvpFragment<PasswordRecoveryPr
 
     @BindView(R.id.passwordRecoveryWebView)
     WebView webview;
+    private String passwordRecoveryURL = "https://www.sharengo.it/forgot-password/mobile";
 
     public static PasswordRecoveryFragment newInstance() {
         PasswordRecoveryFragment fragment = new PasswordRecoveryFragment();
@@ -43,9 +46,22 @@ public class PasswordRecoveryFragment extends BaseMvpFragment<PasswordRecoveryPr
         View view = inflater.inflate(R.layout.fragment_password_recovery, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        loadWebView();
+
+        try{
+            passwordRecoveryURL = getResources().getString(R.string.endpointSite) + getString(R.string.routeForgotPassword);
+        }catch (Exception e) {
+            Log.e(TAG, "onCreateView: Exception", e);
+        }
+
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        loadWebView();
     }
 
     private void loadWebView(){
@@ -103,7 +119,7 @@ public class PasswordRecoveryFragment extends BaseMvpFragment<PasswordRecoveryPr
             }
         });
 
-        webview.loadUrl("https://www.sharengo.it/forgot-password/mobile");
+        webview.loadUrl(passwordRecoveryURL);
 
     }
 

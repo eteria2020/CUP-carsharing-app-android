@@ -305,5 +305,14 @@
     <string name="registration_not_completed_login_alert">Sei disabilitato perchè devi completare il processo di registrazione.</string>
     <string name="carOpen_unplug_confirm">"1. Apri l'auto e attendi l'apertura delle portiere \n\n2. Stacca la spina blu del cavo di ricarica dall'auto facendo attenzione ad impugnare la spina e non il cavo \n\n3. Stacca la spina dalla colonnina di ricarica \n\n4. Riponi il cavo di alimentazione nel baule dell'auto \n\n5. Entra in auto e segui le istruzioni sul video\n\n"</string>
     <string name="carOpen_resum_park_confirm">Sei sicuro di voler riprendere la corsa?</string>
+    <string name="routeSignup">/signup/mobile</string>
+    <string name="routeLegalNote">/note-legali-app/?app</string>
+    <string name="routeSupport">/home</string>
+    <string name="routeForgotPassword">/forgot-password/mobile</string>
+    <string name="routeLogin">/user/login</string>
+    <string name="routeUserArea">/area-utente</string>
+    <string name="routeMobile">/mobile</string>
+    <string name="routePrivacy">/privacy/?app</string>
+    <string name="routeZone">/zone</string>
 
 </resources>

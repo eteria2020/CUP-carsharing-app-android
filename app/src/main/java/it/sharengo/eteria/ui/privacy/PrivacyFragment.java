@@ -29,6 +29,7 @@ public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implement
     public static final String ARG_TYPE = "ARG_TYPE";
 
     private String fileNameURL="";
+    private String privacyURL = "https://site.sharengo.it/privacy/?app";
 
     private boolean isLogin;
 
@@ -54,6 +55,11 @@ public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implement
         mUnbinder = ButterKnife.bind(this, view);
         webview = (MyWebView) view.findViewById(R.id.userareaWebView);
 
+        try{
+            privacyURL = getResources().getString(R.string.endpointSiteWP) + getString(R.string.routePrivacy);
+        }catch (Exception e) {
+            Log.e(TAG, "onCreateView: Exception", e);
+        }
 
         return view;
     }
@@ -65,7 +71,7 @@ public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implement
 
       //  ((BaseActivity) getActivity()).showLoadingChronology();
 
-        webview.setIgnoreUrls("https://site.sharengo.it/privacy/?app");
+        webview.setIgnoreUrls(privacyURL);
         //Pulisco la sessione
         CookieManager cookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -98,7 +104,7 @@ public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implement
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    String url = "https://site.sharengo.it/privacy/?app";
+
     private void loadWebView(){
 
         isLogin = false;
@@ -135,7 +141,7 @@ public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implement
             @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(PrivacyFragment.this.url.equalsIgnoreCase(url)) {
+                if(PrivacyFragment.this.privacyURL.equalsIgnoreCase(url)) {
 
                     webview.loadUrl(url);
                 }
@@ -145,7 +151,7 @@ public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implement
             @TargetApi(Build.VERSION_CODES.N)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                if(PrivacyFragment.this.url.equalsIgnoreCase(request.getUrl().toString())) {
+                if(PrivacyFragment.this.privacyURL.equalsIgnoreCase(request.getUrl().toString())) {
 
                     webview.loadUrl( request.getUrl().toString());
                 }
@@ -154,9 +160,9 @@ public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implement
 
 
         });
-        Log.d("link: ", url+fileNameURL);
+        Log.d("link: ", privacyURL+fileNameURL);
 
-        webview.loadUrl(url);
+        webview.loadUrl(privacyURL);
         webview.setVisibility(View.VISIBLE);
 
     }

@@ -2,6 +2,7 @@ package it.sharengo.eteria.ui.faq;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvp
 
     //@BindView(R.id.faqWebView)
     MyWebView webview;
+    private String supportURL = "http://support.sharengo.it/home";
 
     public static FaqFragment newInstance() {
         FaqFragment fragment = new FaqFragment();
@@ -43,6 +45,11 @@ public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvp
         mUnbinder = ButterKnife.bind(this, view);
         webview = (MyWebView) view.findViewById(R.id.faqWebView);
 
+        try{
+            supportURL = getResources().getString(R.string.endpointSupport) + getString(R.string.routeSupport);
+        }catch (Exception e) {
+            Log.e(TAG, "onCreateView: Exception", e);
+        }
 
         return view;
     }
@@ -104,8 +111,8 @@ public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvp
             }
         });
 
-        webview.setIgnoreUrls("http://support.sharengo.it/home");
-        webview.loadUrl("http://support.sharengo.it/home");
+        webview.setIgnoreUrls(supportURL);
+        webview.loadUrl(supportURL);
     }
 
 

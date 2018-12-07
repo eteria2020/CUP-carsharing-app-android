@@ -610,7 +610,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         if(obj != null) getMvpView().showPolygon(obj);
         else {
             JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                    (Request.Method.GET, "http://www.sharengo.it/zone", null, new com.android.volley.Response.Listener<JSONObject>() {
+                    (Request.Method.GET, context.getString(R.string.endpointSite) + context.getString(R.string.routeZone), null, new com.android.volley.Response.Listener<JSONObject>() {
 
                         @Override
                         public void onResponse(JSONObject response) {

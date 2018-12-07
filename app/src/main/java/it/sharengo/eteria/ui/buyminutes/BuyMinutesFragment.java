@@ -1,6 +1,8 @@
 package it.sharengo.eteria.ui.buyminutes;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ public class BuyMinutesFragment extends BaseMvpFragment<BuyMinutesPresenter> imp
 
     @BindView(R.id.buyWebView)
     WebView webview;
+    private String supportURL = "http://support.sharengo.it/home";
 
     public static BuyMinutesFragment newInstance() {
         BuyMinutesFragment fragment = new BuyMinutesFragment();
@@ -40,9 +43,19 @@ public class BuyMinutesFragment extends BaseMvpFragment<BuyMinutesPresenter> imp
         View view = inflater.inflate(R.layout.fragment_buy_minutes, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        loadWebView();
+        try{
+            supportURL = getResources().getString(R.string.endpointSupport) + getString(R.string.routeSupport);
+        }catch (Exception e) {
+            Log.e(TAG, "onCreateView: Exception", e);
+        }
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        loadWebView();
     }
 
     private void loadWebView(){
@@ -76,7 +89,7 @@ public class BuyMinutesFragment extends BaseMvpFragment<BuyMinutesPresenter> imp
             }
         });
 
-        webview.loadUrl("http://support.sharengo.it/home");
+        webview.loadUrl(supportURL);
 
     }
 

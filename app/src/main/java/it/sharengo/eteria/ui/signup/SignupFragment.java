@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,8 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
 
     @BindView(R.id.signupWebView)
     WebView webview;
-    String currentUrl = "http://www.sharengo.it/signup/mobile";
+    private String currentUrl = "http://www.sharengo.it/signup/mobile";
+    private String signupURL = "http://www.sharengo.it/signup/mobile";
 
     public static SignupFragment newInstance() {
         SignupFragment fragment = new SignupFragment();
@@ -40,6 +42,7 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
         getMvpFragmentComponent(savedInstanceState).inject(this);
     }
 
@@ -49,6 +52,12 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
         mUnbinder = ButterKnife.bind(this, view);
 
         loadWebView();
+        try{
+            signupURL = getResources().getString(R.string.endpointSite) + getString(R.string.routeSignup);
+            currentUrl = signupURL;
+        }catch (Exception e) {
+            Log.e(TAG, "onCreateView: Exception", e);
+        }
 
         return view;
     }
@@ -138,7 +147,7 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
             }
         });
 
-        webview.loadUrl("http://www.sharengo.it/signup/mobile");
+        webview.loadUrl(signupURL);
 
     }
 

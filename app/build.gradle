@@ -126,6 +126,8 @@ android {
         }
         stage {
         }
+        slovakia {
+        }
     }
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileOptions {

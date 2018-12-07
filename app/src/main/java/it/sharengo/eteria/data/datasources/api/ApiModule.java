@@ -303,8 +303,8 @@ public class ApiModule {
                 }
             }
         );
-        httpClient.readTimeout(20, TimeUnit.SECONDS);
-        httpClient.connectTimeout(20, TimeUnit.SECONDS);
+        httpClient.readTimeout(50, TimeUnit.SECONDS);
+        httpClient.connectTimeout(50, TimeUnit.SECONDS);
 
         return httpClient.build();
     }

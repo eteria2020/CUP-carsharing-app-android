@@ -29,6 +29,23 @@ android {
             resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointOsm", "http://maps.sharengo.it"
+            resValue "string", "endpointSite", "https://www.sharengo.it"
+            resValue "string", "endpointSiteWP", "https://site.sharengo.it"
+            resValue "string", "endpointSupport", "http://support.sharengo.it"
+        }
+        slovakia {
+            resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
+            resValue "string", "endpointGoogle", "https://maps.googleapis.com/maps/api/"
+            resValue "string", "endpointSharengo", "https://api.sharengo.sk:8201/"
+            resValue "string", "endpointSharengoMaps", "http://maps.sharengo.sk/"
+            resValue "string", "endpointSharengoKML", "http://www.sharengo.sk/"
+            resValue "string", "endpointCities", "https://www.sharengo.sk/"
+            resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
+            resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
+            resValue "string", "endpointOsm", "http://maps.sharengo.sk"
+            resValue "string", "endpointSite", "https://www.sharengo.sk"
+            resValue "string", "endpointSiteWP", "https://site.sharengo.sk"
+            resValue "string", "endpointSupport", "http://support.sharengo.sk"
         }
         miavm {
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
@@ -40,6 +57,9 @@ android {
             resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointOsm", "http://maps.sharengo.it"
+            resValue "string", "endpointSite", "https://www.sharengo.it"
+            resValue "string", "endpointSiteWP", "https://site.sharengo.it"
+            resValue "string", "endpointSupport", "http://support.sharengo.it"
         }
         stage {
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
@@ -51,6 +71,9 @@ android {
             resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointOsm", "http://maps.sharengo.it"
+            resValue "string", "endpointSite", "https://www.sharengo.it"
+            resValue "string", "endpointSiteWP", "https://site.sharengo.it"
+            resValue "string", "endpointSupport", "http://support.sharengo.it"
 
         }
     }

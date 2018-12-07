@@ -33,6 +33,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
     public static final String ARG_TYPE = "ARG_TYPE";
 
     private String fileNameURL="";
+    private String legalNoteURl =" https://site.sharengo.it/note-legali-app/?app";
 
     private boolean isLogin;
 
@@ -61,6 +62,12 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
         mUnbinder = ButterKnife.bind(this, view);
         webview = (MyWebView) view.findViewById(R.id.userareaWebView);
 
+        try{
+            legalNoteURl = getResources().getString(R.string.endpointSite) + getString(R.string.routeLegalNote);
+
+        }catch (Exception e) {
+            Log.e(TAG, "onCreateView: Exception", e);
+        }
 
         return view;
     }
@@ -72,7 +79,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
 
       //  ((BaseActivity) getActivity()).showLoadingChronology();
 
-        webview.setIgnoreUrls("https://site.sharengo.it/note-legali-app/?app");
+        webview.setIgnoreUrls(legalNoteURl);
         //Pulisco la sessione
         CookieManager cookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -105,7 +112,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    String url = "https://site.sharengo.it/note-legali-app/?app";
+
     private void loadWebView(){
 
         isLogin = false;
@@ -142,7 +149,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
             @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(LegalNoteFragment.this.url.equalsIgnoreCase(url)) {
+                if(LegalNoteFragment.this.legalNoteURl.equalsIgnoreCase(url)) {
 
                     webview.loadUrl(url);
                 }
@@ -152,7 +159,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
             @TargetApi(Build.VERSION_CODES.N)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                if(LegalNoteFragment.this.url.equalsIgnoreCase(request.getUrl().toString())) {
+                if(LegalNoteFragment.this.legalNoteURl.equalsIgnoreCase(request.getUrl().toString())) {
 
                     webview.loadUrl( request.getUrl().toString());
                 }
@@ -161,9 +168,9 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
 
 
         });
-        Log.d("link: ", url+fileNameURL);
+        Log.d("link: ", legalNoteURl+fileNameURL);
 
-        webview.loadUrl(url);
+        webview.loadUrl(legalNoteURl);
         webview.setVisibility(View.VISIBLE);
 
     }
