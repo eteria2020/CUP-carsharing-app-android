@@ -290,5 +290,10 @@
     <string name="carOpen_bonus_price">This car have %d bonus minutes!</string>
     <string name="carOpen_normal_price">The trip will have standard fee</string>
     <string name="expired_driver_license_login_alert">You are disabled for expired driving license, to use Share\'ngo access your personal area and enter the new data</string>
+    <string name="settingslang_sk_label">Slovakia</string>
+    <string name="deleteButtonBookingDelete">Delete</string>
+    <string name="DeleteButtonBookingCloseTrip">Close trip</string>
+    <string name="close_confirm_car_trip">Are you sure you want to close the race?</string>
+    <string name="alert_close_car_onpress">The machine will close shortly, you will receive a notification of the completed process.</string>
 
 </resources>

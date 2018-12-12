@@ -98,4 +98,43 @@
 
     </RelativeLayout>
 
+    <!-- Inglese -->
+    <RelativeLayout
+        android:id="@+id/skButton"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/whitesmoke">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/skCheckImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-25dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="3dp"
+                android:visibility="gone"
+                android:src="@drawable/ic_citta_selezionata"/>
+
+            <it.sharengo.eteria.ui.components.CustomTextView
+                android:id="@+id/skTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:font_name="poppinsBold"
+                android:textColor="@color/mediumseagreen"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                android:text="@string/settingslang_sk_label"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>

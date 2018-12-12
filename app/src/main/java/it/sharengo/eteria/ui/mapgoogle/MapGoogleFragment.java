@@ -1392,6 +1392,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             //Car
             if (marker.getData().getClass().equals(Car.class)) {
+                if(carBooked!=null && ((Car)marker.getData()).id.equalsIgnoreCase(carBooked.id))
+                    return true;
 
                 onTapMarker((Car) marker.getData());
 
@@ -2884,7 +2886,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 openButtonBookingView.setVisibility(View.VISIBLE);
                 openDoorBookingButton.setVisibility(View.GONE);
                 // utilizzo il bottone elimina prenotazione per implementare anche il pulsante chiudi corsa
-                deleteBookingButton.setText("Chiudi corsa");
+                deleteBookingButton.setText(R.string.DeleteButtonBookingCloseTrip);
                 deleteBookingButton.setVisibility(View.VISIBLE);
                 deleteBookingButton.setLayoutParams(parameter);
             }else{ //Auto parcheggiata
@@ -2897,14 +2899,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                 openDoorBookingButton.setVisibility(View.VISIBLE);
                 deleteBookingButton.setVisibility(View.VISIBLE);
-                deleteBookingButton.setText("Chiudi corsa");
+                deleteBookingButton.setText(R.string.DeleteButtonBookingCloseTrip);
                 deleteBookingButton.setLayoutParams(parameter);
             }
         }else{ //Prenotazione
             openButtonBookingView.setVisibility(View.VISIBLE);
             openDoorBookingButton.setVisibility(View.VISIBLE);
             deleteBookingButton.setVisibility(View.VISIBLE);
-            deleteBookingButton.setText("Elimina");
+            deleteBookingButton.setText(R.string.deleteButtonBookingDelete);
             expiringTimeTextView.setVisibility(View.VISIBLE);
             tripDurationTextView.setVisibility(View.GONE);
         }
@@ -2956,7 +2958,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     private void closeTrip(){
         //Chiedo conferma all'utente se vuole eliminare la prenotazione della macchina
         final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
-                "Sei sicuro di voler chiudere la corsa?",
+                getString(R.string.close_confirm_car_trip),
                 getString(R.string.ok),
                 getString(R.string.cancel));
         cdd.show();
@@ -2991,7 +2993,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     public void showPopupAfterButtonClosePressed(){
 
         final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
-                "La macchina si chiuderà a breve, riceverai una notifica a processo completato.",
+                getString(R.string.alert_close_car_onpress),
                 getString(R.string.ok),null);
         cdd.show();
         cdd.yes.setOnClickListener(new View.OnClickListener() {
@@ -3063,6 +3065,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 getString(R.string.booking_deleteconfirm_alert),
                 getString(R.string.ok),
                 null);
+        cdd.setBodyAlignment(CustomDialogClass.START);
         cdd.show();
         cdd.yes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -3480,7 +3483,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
     @OnClick(R.id.deleteBookingButton)
     public void onDeleteBookingButton(){
-       if( deleteBookingButton.getText().equals("Chiudi corsa") ){
+       if( deleteBookingButton.getText().equals(getString(R.string.DeleteButtonBookingCloseTrip)) ){
            closeTrip();
        }else
             deleteBooking();

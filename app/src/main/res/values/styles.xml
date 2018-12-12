@@ -7,8 +7,22 @@
         <item name="android:textSize">12sp</item>
         <item name="font_name">poppinsBold</item>
     </style>
+    <style name="button_green">
+        <item name="android:background">@drawable/button_green</item>
+        <item name="android:textColor">@color/darkjunglegreen</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="font_name">poppinsBold</item>
+    </style>
     <style name="button_secondary">
         <item name="android:background">@drawable/button_secondary</item>
+        <item name="android:textColor">@color/darkjunglegreen</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="font_name">poppinsBold</item>
+    </style>
+    <style name="button_red">
+        <item name="android:background">@drawable/button_red</item>
         <item name="android:textColor">@color/darkjunglegreen</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">12sp</item>

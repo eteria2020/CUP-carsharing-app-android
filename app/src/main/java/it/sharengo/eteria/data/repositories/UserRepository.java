@@ -11,6 +11,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import it.sharengo.eteria.BuildConfig;
 import it.sharengo.eteria.data.datasources.SharengoDataSource;
 import it.sharengo.eteria.data.models.Car;
 import it.sharengo.eteria.data.models.Reservation;

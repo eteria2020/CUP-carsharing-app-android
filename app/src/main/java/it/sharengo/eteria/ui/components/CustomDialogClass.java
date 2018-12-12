@@ -12,9 +12,11 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import it.sharengo.eteria.R;
@@ -28,6 +30,9 @@ public class CustomDialogClass extends Dialog implements
 
     private static final int TYPE_DEFAULT = 0;
     private static final int TYPE_BONUS = 1;
+    public static final int START = View.TEXT_ALIGNMENT_TEXT_START;
+    public static final int CENTER = View.TEXT_ALIGNMENT_CENTER;
+
 
     public Activity c;
     public Dialog d;
@@ -125,6 +130,27 @@ public class CustomDialogClass extends Dialog implements
                 break;
         }
     }
+    public void setBodyAlignment(int type){
+        LinearLayout.LayoutParams params;
+        switch (type) {
+            case START:
+                findViewById(R.id.txt_dia).setTextAlignment(START);
+                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.gravity = Gravity.START;
+
+                findViewById(R.id.txt_dia).setLayoutParams(params);
+                break;
+            case CENTER:
+                findViewById(R.id.txt_dia).setTextAlignment(CENTER);
+                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.gravity = Gravity.CENTER;
+
+                findViewById(R.id.txt_dia).setLayoutParams(params);
+                break;
+        }
+    }
+
+
 
     public void setMessage(String message, String messageBold){
         SpannableString spannableMessage = new SpannableString(message);

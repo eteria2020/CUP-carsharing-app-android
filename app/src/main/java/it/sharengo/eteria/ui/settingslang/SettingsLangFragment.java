@@ -25,6 +25,9 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
     @BindView(R.id.enCheckImageView)
     ImageView enCheckImageView;
 
+    @BindView(R.id.skCheckImageView)
+    ImageView skCheckImageView;
+
     public static SettingsLangFragment newInstance() {
         SettingsLangFragment fragment = new SettingsLangFragment();
         return fragment;
@@ -61,9 +64,15 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
         if(lang.equals("it")){
             itCheckImageView.setVisibility(View.VISIBLE);
             enCheckImageView.setVisibility(View.GONE);
+            skCheckImageView.setVisibility(View.GONE);
         }else if(lang.equals("en")){
             itCheckImageView.setVisibility(View.GONE);
             enCheckImageView.setVisibility(View.VISIBLE);
+            skCheckImageView.setVisibility(View.GONE);
+        }else if(lang.equals("sk")){
+            itCheckImageView.setVisibility(View.GONE);
+            enCheckImageView.setVisibility(View.GONE);
+            skCheckImageView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -104,6 +113,13 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
     @OnClick(R.id.enButton)
     public void onENClick(){
         mPresenter.setLang(getContext(), "en");
+    }
+    /**
+     * Set sk language.
+     */
+    @OnClick(R.id.skButton)
+    public void onSKClick(){
+        mPresenter.setLang(getContext(), "sk");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

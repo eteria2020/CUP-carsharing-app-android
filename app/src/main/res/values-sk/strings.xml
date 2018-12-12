@@ -46,13 +46,13 @@
     <string name="maps_opendoor_action">Otvor dvere</string>
     <string name="maps_bookingcar_action">Rezervuj auto</string>
     <string name="maps_autonomy_label">Dojazd: <![CDATA[<b>%d km</b>]]></string>
-    <string name="maps_distance_label">% d m vzdialené</string>
-    <string name="maps_distancekm_label">% .2f km vzdialené</string>
-    <string name="maps_time_label">% d minút pešo</string>
+    <string name="maps_distance_label">%d m vzdialené</string>
+    <string name="maps_distancekm_label">%.2f km vzdialené</string>
+    <string name="maps_time_label">%d minút pešo</string>
     <string name="maps_timeh60_label">1 hodina pešo</string>
-    <string name="maps_timeh_label">% d hodín pešo</string>
-    <string name="maps_timehsm_label" formatted="false">% d hodina a% d minút pešo</string>
-    <string name="maps_timehm_label" formatted="false">% d hodín a% d minút pešo</string>
+    <string name="maps_timeh_label">%d hodín pešo</string>
+    <string name="maps_timehsm_label" formatted="false">%d hodina a%d minút pešo</string>
+    <string name="maps_timehm_label" formatted="false">%d hodín a%d minút pešo</string>
     <string name="maps_closestcar_label">Najbližšie auto</string>
     <string name="maps_permissionopendoor_alert">Share\'ngo musí poznať Tvoju pozíciu, aby otvorila dvere. Chceš otvoriť nastavenia na povolenie lokalizácie?</string>
     <string name="maps_opendoordistance_alert">Si príliš ďaleko od Share\'ngo, ktoré si vybral. Môžeš ho otvoriť, keď si v blízkosti auta.</string>
@@ -63,8 +63,8 @@
     <string name="search_favoriteempty_label">Žiadne obľúbené položky sa neukladajú do pamäte v sekcii nastavení</string>
     <string name="booking_userpin_label">Tvoj používateľský pin:</string>
     <string name="booking_active_label">Rezervácia je aktívna</string>
-    <string name="booking_plate_label">značka ŠPZ % s</string>
-    <string name="booking_expirationtime">Platnosť vyprší o min</string>
+    <string name="booking_plate_label">značka ŠPZ %s</string>
+    <string name="booking_expirationtime">Platnosť vyprší <![CDATA[<br><b>%s</b>]]> min</string>
     <string name="booking_opendoor_action">Otvor dvere</string>
     <string name="booking_delete_action">Vymazať</string>
     <string name="booking_delete_alert">Odstránením tejto rezervácie nebudeš môcť rezervovať ten istý automobil v nasledujúcich 4 hodinách. Naozaj chceš zrušiť svoju rezerváciu?</string>
@@ -75,16 +75,16 @@
     <string name="booking_alreadybookedcar_alert">Nemôžeš rezervovať toto auto až do uplynutia 4 hodín od zrušenia rezervácie</string>
     <string name="booking_car_busy_alert">Toto auto nie je k dispozícii, ospravedlňujeme sa za nepríjemnosti</string>
     <string name="booking_user_unauthorized_alert">Toto auto nie je k dispozícii, ospravedlňujeme sa za nepríjemnosti</string>
-    <string name="booking_durationtrip_label">Čas jazdy:</string>
+    <string name="booking_durationtrip_label">Čas jazdy: <![CDATA[<br><b>%s</b>]]></string>
     <string name="booking_tripactive_label">Jazda aktívna</string>
     <string name="booking_timeend_label">Doba rezervácie vypršala, Tvoja rezervácia bola zrušená. Rezervuj iné auto na mape</string>
     <string name="tripend_title_label">Tvoj prenájom je ukončený</string>
     <string name="tripend_text1_label">Počkaj vonku, kým sa dvere auta zatvoria.</string>
     <string name="tripend_text2_label">E-mail s potvrdením transakcie dostaneš do 24 hodín.</string>
     <string name="tripend_thanks_label">Ďakujeme!</string>
-    <string name="tripend_text3_label">SVOJOU CESTOU SI ZNÍŽIL ŠKODLIVÉ EMISIE CO2 O % .1f GRAMOV!</string>
+    <string name="tripend_text3_label">SVOJOU CESTOU SI ZNÍŽIL ŠKODLIVÉ EMISIE CO2 O %.1f GRAMOV!</string>
     <string name="tripend_historic_action">História jázd</string>
-    <string name="tripend_notification_label">Jazda je ukončená. Jazda trvala % d minút a v poriadku sa ukončila. Ďakujeme za používanie Share\'ngo</string>
+    <string name="tripend_notification_label">Jazda je ukončená. Jazda trvala %d minút a v poriadku sa ukončila. Ďakujeme za používanie Share\'ngo</string>
     <string name="tripstart_notification_label">Dvere sa po niekoľkých sekundách otvoria.</string>
     <string name="tripstart_selfClosePopup">Po 5 minútach sa jazda ukončí zadarmo, ak PIN kód nebude zadaný</string>
     <string name="login_fillfields_label">Vyplňte polia na prihlásenie</string>
@@ -116,8 +116,8 @@
     <string name="intro_underhouse_label">Pod domom</string>
     <string name="home_welcome_label">Vitaj!</string>
     <string name="home_welcomef_label">Vitaj!</string>
-    <string name="home_welcomeauth_label">Vitaj späť % s!</string>
-    <string name="home_welcomeauthf_label">Vitaj späť % s!</string>
+    <string name="home_welcomeauth_label">Vitaj späť %s!</string>
+    <string name="home_welcomeauthf_label">Vitaj späť %s!</string>
     <string name="settings_title_label">Nastavenie</string>
     <string name="settings_city_action">Nastaviť mesto</string>
     <string name="settings_address_action">Nastav svoje obľúbené adresy</string>
@@ -150,14 +150,14 @@
     <string name="settingslang_it_label">Taliančina</string>
     <string name="settingslang_en_label">Angličtina</string>
     <string name="chronology_title_label">História jázd</string>
-    <string name="chronology_bookingn_label">Jazda č. % s</string>
-    <string name="chronology_minutes_label" formatted="false">% s minút % s</string>
-    <string name="chronology_date_label" formatted="false">% s - hodín % s</string>
-    <string name="chronology_end_label" formatted="false">Koniec: % s - hodín % s</string>
-    <string name="chronology_rate_label">Sadzba za minútu: % s</string>
-    <string name="chronology_minfree_label">Počet minút používania zdarma: % s</string>
-    <string name="chronology_km_label">Počet prejdených kilometrov počas jazdy: % s</string>
-    <string name="chronology_sharengo_label">SHARE’NGO % s</string>
+    <string name="chronology_bookingn_label">Jazda č. %s</string>
+    <string name="chronology_minutes_label" formatted="false">%s minút %s</string>
+    <string name="chronology_date_label" formatted="false">%s - hodín %s</string>
+    <string name="chronology_end_label" formatted="false">Koniec: %s - hodín %s</string>
+    <string name="chronology_rate_label">Sadzba za minútu: %s</string>
+    <string name="chronology_minfree_label">Počet minút používania zdarma: %s</string>
+    <string name="chronology_km_label">Počet prejdených kilometrov počas jazdy: %s</string>
+    <string name="chronology_sharengo_label">SHARE’NGO %s</string>
     <string name="chronology_emptytitle_label">Škoda!</string>
     <string name="chronology_emptydescription_label">Zatiaľ nemáš žiadnu jazdu s SHARE\'Ngo!</string>
     <string name="chronology_emptyquestion_label">Na čo ešte čakáš? </string>
@@ -206,8 +206,8 @@
     <string name="alert_logoutError">Pozor, došlo k chybe. Skús sa znova prihlásiť.</string>
     <string name="btn_login">PRIHLÁSENIE</string>
     <string name="tripend_parkedcar_label">Odstavené auto.</string>
-    <string name="chronology_ratesmin_label">Sadzba za minútu: €% s</string>
-    <string name="maps_freecar_label">S týmto autom máš % s minút jazdy zdarma!</string>
+    <string name="chronology_ratesmin_label">Sadzba za minútu: €%s</string>
+    <string name="maps_freecar_label">S týmto autom máš %s minút jazdy zdarma!</string>
     <string name="rates_titleauth_label">Sadzby</string>
     <string name="rates_titlenoauth_label">Sadzby a bonusy</string>
     <string name="rates_rates_label">Tu sú sadzby Share\'ngo:</string>
@@ -218,7 +218,7 @@
     <string name="rates_booking_label">Sadzba za rezerváciu:</string>
     <string name="rates_bonus_label">Tvoje bonusové minúty:</string>
     <string name="pin_pin_label">Tvoj PIN:</string>
-    <string name="rates_bonusmin_label">% s minút</string>
+    <string name="rates_bonusmin_label">%s minút</string>
     <string name="rates_signup_action">Zaregistruj sa teraz</string>
     <string name="maps_enablegps_label">Povoľ GPS pre viac informácií</string>
     <string name="general_logout_alert">Naozaj sa chceš odhlásiť?</string>
@@ -241,4 +241,9 @@
     <string name="carOpen_unplug_confirm">1. Otvor vozidlo a počkaj, kým sa dvere neotvoria. 2. Odpoj modrý konektor nabíjacieho kábla od auta a dávaj pozor aby si držal konektor a nie kábel. 3. Odpoj konektor od nabíjacej stanice. 4. Ulož kábel do kufra auta 5. Nastúp do auta a postupuj podľa pokynov vo videu.</string>
     <string name="carOpen_resum_park_confirm">Si si istý že chceš pokračovať v jazde?</string>
     <string name="tripend_parkerdcar_label">Parkovanie je zaparkované</string>
+    <string name="settingslang_sk_label">Slovakia</string>
+    <string name="deleteButtonBookingDelete">Zrušenie</string>
+    <string name="DeleteButtonBookingCloseTrip">Zatvorte spustenie</string>
+    <string name="close_confirm_car_trip">Naozaj chcete ukončiť preteky?</string>
+    <string name="alert_close_car_onpress">Stroj sa krátko zatvorí, obdržíte upozornenie na dokončený proces.</string>
 </resources>
