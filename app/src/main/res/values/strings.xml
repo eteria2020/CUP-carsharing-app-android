@@ -307,6 +307,7 @@
     <string name="carOpen_resum_park_confirm">Sei sicuro di voler riprendere la corsa?</string>
     <string name="routeSignup">/signup/mobile</string>
     <string name="routeLegalNote">/note-legali-app/?app</string>
+    <string name="routeLegalNoteEN">/en/legal-notes/?app</string>
     <string name="routeSupport">/home</string>
     <string name="routeForgotPassword">/forgot-password/mobile</string>
     <string name="routeLogin">/user/login</string>

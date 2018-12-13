@@ -246,4 +246,5 @@
     <string name="DeleteButtonBookingCloseTrip">Zatvorte spustenie</string>
     <string name="close_confirm_car_trip">Naozaj chcete ukončiť preteky?</string>
     <string name="alert_close_car_onpress">Stroj sa krátko zatvorí, obdržíte upozornenie na dokončený proces.</string>
+    <string name="routeLegalNoteEN">/en/legal-notes/?app</string>
 </resources>

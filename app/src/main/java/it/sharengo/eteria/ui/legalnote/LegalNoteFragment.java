@@ -17,6 +17,8 @@ import android.webkit.WebViewClient;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Locale;
+
 import butterknife.ButterKnife;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.routing.Navigator;
@@ -63,7 +65,10 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
         webview = (MyWebView) view.findViewById(R.id.userareaWebView);
 
         try{
-            legalNoteURl = getResources().getString(R.string.endpointSite) + getString(R.string.routeLegalNote);
+            if( Locale.getDefault().getLanguage().equals("it") )
+                legalNoteURl = getResources().getString(R.string.endpointSiteWP) + getString(R.string.routeLegalNote);
+            else
+                 legalNoteURl = getResources().getString(R.string.endpointSiteWP) +  getString(R.string.routeLegalNoteEN);
 
         }catch (Exception e) {
             Log.e(TAG, "onCreateView: Exception", e);
@@ -120,12 +125,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
 
         webview.getSettings().setDomStorageEnabled(true);
 
-
-
-
         webview.setWebChromeClient(new WebChromeClient());
-
-
 
         webview.setWebViewClient(new WebViewClient() {
 

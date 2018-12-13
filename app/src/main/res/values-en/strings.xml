@@ -295,5 +295,6 @@
     <string name="DeleteButtonBookingCloseTrip">Close trip</string>
     <string name="close_confirm_car_trip">Are you sure you want to close the race?</string>
     <string name="alert_close_car_onpress">The machine will close shortly, you will receive a notification of the completed process.</string>
+    <string name="routeLegalNoteEN">/en/legal-notes/?app</string>
 
 </resources>

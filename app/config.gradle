@@ -43,7 +43,7 @@ android {
             resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
             resValue "string", "endpointOsm", "http://maps.sharengo.sk"
-            resValue "string", "endpointSite", "https://www.sharengo.sk"
+            resValue "string", "endpointSite", "https://public.sharengo.sk"
             resValue "string", "endpointSiteWP", "https://site.sharengo.sk"
             resValue "string", "endpointSupport", "http://support.sharengo.sk"
         }
