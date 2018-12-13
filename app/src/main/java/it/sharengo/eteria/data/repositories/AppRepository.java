@@ -122,12 +122,13 @@ public class AppRepository {
         mChachedCities = new ResponseCity();
 
         try {
-            InputStream is = context.getAssets().open("city.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            String json = new String(buffer, "UTF-8");
+//            InputStream is = context.getString(R.string.cotyJson);
+//            int size = is.available();
+//            byte[] buffer = new byte[size];
+//            is.read(buffer);
+//            is.close();
+//            String json = new String(buffer, "UTF-8");
+            String json =context.getString(R.string.cityJson);
 
             Type cityType = new TypeToken<ResponseCity>() {}.getType();
             Gson gson = new Gson();
@@ -135,8 +136,8 @@ public class AppRepository {
 
             setFavoriteCity(context);
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (Exception ex) {
+            Log.e(TAG, "getCities: ",ex );
         }
 
         return Observable.just(mChachedCities);

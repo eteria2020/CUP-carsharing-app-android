@@ -598,6 +598,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  context  context of application.
      */
     public void loadKml(final Context context){
+        Log.d("DIODO", "loadKml: start");
 
         SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
 
@@ -614,7 +615,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
                         @Override
                         public void onResponse(JSONObject response) {
-
+                            Log.d("DIODO", "loadKml: start");
                             parseKml(context, response);
                         }
                     }, new com.android.volley.Response.ErrorListener() {
@@ -622,6 +623,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
+                            Log.e("DIODO", "loadKml: error",error);
                         }
                     }) {
             };
@@ -633,6 +635,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private void parseKml(Context context, JSONObject response){
 
+        Log.d("DIODO", "parseKml: " + response.toString());
         List<KmlServerPolygon> polygons = new ArrayList<>();
 
         Iterator<String> iter = response.keys();
@@ -691,6 +694,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         }catch (NullPointerException e){}
 
     }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //

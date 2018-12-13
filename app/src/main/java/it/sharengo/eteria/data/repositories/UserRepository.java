@@ -202,7 +202,7 @@ public class UserRepository {
             mCachedReservation = new ResponseReservation();
         }
         mCachedReservation = response;
-        if(response.reservations.size()>0 && mPreferencesRepository.getReservationTimestamp()==0 ) {
+        if(response.reservations!=null && response.reservations.size()>0 && mPreferencesRepository.getReservationTimestamp()==0 ) {
             Car carPref = mPreferencesRepository.getReservationCar();
             for(int i =0;i<response.reservations.size();i++){
                 if(carPref == null || response.reservations.get(i).car_plate.equalsIgnoreCase(carPref.id)){
@@ -212,7 +212,7 @@ public class UserRepository {
                 }
             }
         }
-        else if(response.reservations.size()==0)
+        else if(response.reservations==null || response.reservations.size()==0)
             mPreferencesRepository.cleanReservationData();
     }
 
