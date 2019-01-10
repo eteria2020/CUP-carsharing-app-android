@@ -20,6 +20,7 @@ android {
             resValue "string", "endpoint", "MOCK_ENDPOINT"
         }
         prod {
+            applicationIdSuffix ".eteria"
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
             resValue "string", "endpointGoogle", "https://maps.googleapis.com/maps/api/"
             resValue "string", "endpointSharengo", "https://api.sharengo.it:8023/"
@@ -35,6 +36,8 @@ android {
             resValue "string", "cityJson", "{\"status\":true,\"data\":[{\"tid\":\"5\",\"name\":\"Milano\",\"media\":{\"images\":{\"icon\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-milano.png\"},\"icon_svg\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-milano.svg\"}}},\"informations\":{\"address\":{\"lat\":\"45.464145\",\"lng\":\"9.190245\"}}},{\"tid\":\"8\",\"name\":\"Modena\",\"media\":{\"images\":{\"icon\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-modena.png\"},\"icon_svg\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-modena.svg\"}}},\"informations\":{\"address\":{\"lat\":\"44.646429\",\"lng\":\"10.925301\"}}},{\"tid\":\"7\",\"name\":\"Roma\",\"media\":{\"images\":{\"icon\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-roma.png\"},\"icon_svg\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-roma.svg\"}}},\"informations\":{\"address\":{\"lat\":\"41.899508\",\"lng\":\"12.486770\"}}},{\"tid\":\"6\",\"name\":\"Firenze\",\"media\":{\"images\":{\"icon\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-firenze.png\"},\"icon_svg\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-firenze.svg\"}}},\"informations\":{\"address\":{\"lat\":\"43.772875\",\"lng\":\"11.257487\"}}}]}"
         }
         slovakia {
+
+            applicationIdSuffix ".sk"
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
             resValue "string", "endpointGoogle", "https://maps.googleapis.com/maps/api/"
             resValue "string", "endpointSharengo", "https://api.sharengo.sk:8201/"
@@ -50,6 +53,7 @@ android {
             resValue "string", "cityJson", "{\"status\":true,\"data\":[]}"
         }
         miavm {
+            applicationIdSuffix ".eteria"
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
             resValue "string", "endpointGoogle", "https://maps.googleapis.com/maps/api/"
             resValue "string", "endpointSharengo", "https://192.168.178.114:8023/"
@@ -65,6 +69,7 @@ android {
             resValue "string", "cityJson", "{\"status\":true,\"data\":[{\"tid\":\"5\",\"name\":\"Milano\",\"media\":{\"images\":{\"icon\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-milano.png\"},\"icon_svg\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-milano.svg\"}}},\"informations\":{\"address\":{\"lat\":\"45.464145\",\"lng\":\"9.190245\"}}},{\"tid\":\"8\",\"name\":\"Modena\",\"media\":{\"images\":{\"icon\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-modena.png\"},\"icon_svg\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-modena.svg\"}}},\"informations\":{\"address\":{\"lat\":\"44.646429\",\"lng\":\"10.925301\"}}},{\"tid\":\"7\",\"name\":\"Roma\",\"media\":{\"images\":{\"icon\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-roma.png\"},\"icon_svg\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-roma.svg\"}}},\"informations\":{\"address\":{\"lat\":\"41.899508\",\"lng\":\"12.486770\"}}},{\"tid\":\"6\",\"name\":\"Firenze\",\"media\":{\"images\":{\"icon\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-firenze.png\"},\"icon_svg\":{\"uri\":\"https://www.sharengo.it/sites/default/files/assets/images/icona_trasparente-firenze.svg\"}}},\"informations\":{\"address\":{\"lat\":\"43.772875\",\"lng\":\"11.257487\"}}}]}"
         }
         stage {
+            applicationIdSuffix ".eteria"
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
             resValue "string", "endpointGoogle", "https://maps.googleapis.com/maps/api/"
             resValue "string", "endpointSharengo", "https://corestage.sharengo.it:8023/"

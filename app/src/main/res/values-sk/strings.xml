@@ -29,7 +29,7 @@
     <string name="menu_logout">Odhlásenie</string>
     <string name="popup_home">Ešte nie si prihlásený</string>
     <string name="popup_login">Prihlásenie</string>
-    <string name="popup_registrazione">Zaregistruj sa</string>
+    <string name="popup_registrazione">Registrácia</string>
     <string name="error_generic_msg">Hopla, niečo sa pokazilo.</string>
     <string name="error_msg_no_network">Nie si pripojený na internet, skús to znova</string>
     <string name="error_msg_server_timeout">Server nie je prístupný. Skús to znova neskôr.</string>
@@ -247,4 +247,6 @@
     <string name="close_confirm_car_trip">Naozaj chcete ukončiť preteky?</string>
     <string name="alert_close_car_onpress">Stroj sa krátko zatvorí, obdržíte upozornenie na dokončený proces.</string>
     <string name="routeLegalNoteEN">/en/legal-notes/?app</string>
+    <string name="routeLogin">/user/login?lang=sk_SK</string>
+    <string name="defLang">sk</string>
 </resources>

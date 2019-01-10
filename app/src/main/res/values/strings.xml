@@ -320,5 +320,7 @@
     <string name="DeleteButtonBookingCloseTrip">Chiudi corsa</string>
     <string name="close_confirm_car_trip">Sei sicuro di voler chiudere la corsa?</string>
     <string name="alert_close_car_onpress">La macchina si chiuderà a breve, riceverai una notifica a processo completato.</string>
+    <string name="defLang">it</string>
+    <string name="routeLegalNoteSK">/legal-notes/</string>
 
 </resources>

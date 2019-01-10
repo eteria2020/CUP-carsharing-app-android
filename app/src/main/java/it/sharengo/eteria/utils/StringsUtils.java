@@ -11,8 +11,7 @@ import it.sharengo.eteria.BuildConfig;
 public class StringsUtils {
 
     public static String md5(String s) {
-        if(BuildConfig.FLAVOR.equalsIgnoreCase("slovakia"))
-            return s;
+
         /*try {
             // Create MD5 Hash
             MessageDigest digest = java.security.MessageDigest.getInstance("MD5");

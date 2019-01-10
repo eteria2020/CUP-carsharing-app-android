@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
+import it.sharengo.eteria.BuildConfig;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.activities.BaseActivity;
@@ -65,10 +66,15 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
         webview = (MyWebView) view.findViewById(R.id.userareaWebView);
 
         try{
+
             if( Locale.getDefault().getLanguage().equals("it") )
                 legalNoteURl = getResources().getString(R.string.endpointSiteWP) + getString(R.string.routeLegalNote);
             else
-                 legalNoteURl = getResources().getString(R.string.endpointSiteWP) +  getString(R.string.routeLegalNoteEN);
+                legalNoteURl = getResources().getString(R.string.endpointSiteWP) +  getString(R.string.routeLegalNoteEN);
+
+            if(BuildConfig.FLAVOR.equalsIgnoreCase("slovakia"))
+                legalNoteURl = getResources().getString(R.string.endpointSiteWP) + getString(R.string.routeLegalNoteSK) + mPresenter.getLang();
+
 
         }catch (Exception e) {
             Log.e(TAG, "onCreateView: Exception", e);
