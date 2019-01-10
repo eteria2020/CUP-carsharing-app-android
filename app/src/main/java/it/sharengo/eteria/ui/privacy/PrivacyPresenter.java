@@ -40,6 +40,10 @@ public class PrivacyPresenter extends BasePresenter<PrivacyMvpView> {
     }
 
 
+    public String getLang(){
+        return mAppRepository.getLang();
+    }
+
 }
 
 

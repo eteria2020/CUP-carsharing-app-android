@@ -56,7 +56,7 @@ public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implement
         webview = (MyWebView) view.findViewById(R.id.userareaWebView);
 
         try{
-            privacyURL = getResources().getString(R.string.endpointSiteWP) + getString(R.string.routePrivacy);
+            privacyURL = getResources().getString(R.string.endpointSiteWP) + getString(R.string.routePrivacy) +  "&lang=" + mPresenter.getLang() + "_" + mPresenter.getLang().toUpperCase();
         }catch (Exception e) {
             Log.e(TAG, "onCreateView: Exception", e);
         }

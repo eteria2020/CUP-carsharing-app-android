@@ -51,14 +51,14 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        loadWebView();
         try{
-            signupURL = getResources().getString(R.string.endpointSite) + getString(R.string.routeSignup);
+            signupURL = getResources().getString(R.string.endpointSite) + getString(R.string.routeSignup) + "?lang=" + mPresenter.getLang() + "_" + mPresenter.getLang().toUpperCase();
             currentUrl = signupURL;
         }catch (Exception e) {
             Log.e(TAG, "onCreateView: Exception", e);
         }
 
+        loadWebView();
         return view;
     }
 
