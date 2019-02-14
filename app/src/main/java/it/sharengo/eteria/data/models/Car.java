@@ -33,6 +33,8 @@ public class Car {
 
     public boolean hidden;
 
+    public String software_version;
+
     @SerializedName("battery")
     public int autonomy;
 
@@ -44,7 +46,7 @@ public class Car {
     public Car() {
     }
 
-    public Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy, boolean parking, List<Bonus> bonus) {
+    public Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy, boolean parking, List<Bonus> bonus, String software_version) {
         this.id = id;
         this.manufactures = manufactures;
         this.model = model;
@@ -54,9 +56,10 @@ public class Car {
         this.autonomy = autonomy;
         this.parking = parking;
         this.bonus = bonus;
+        this.software_version = software_version;
     }
 
-    public Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy, boolean parking,boolean busy,boolean hidden, boolean active,  List<Bonus> bonus) {
+    public Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy, boolean parking,boolean busy,boolean hidden, boolean active,  List<Bonus> bonus, String software_version) {
         this.id = id;
         this.manufactures = manufactures;
         this.model = model;
@@ -69,6 +72,7 @@ public class Car {
         this.bonus = bonus;
         this.active = active;
         this.hidden = hidden;
+        this.software_version = software_version;
     }
 
     public Car(String id, float longitude, float latitude) {
@@ -121,6 +125,13 @@ public class Car {
         return loc;
     }
 
+    public int getVersionObc(String software_version){
+        int software_versionInt = 0;
+        software_version = software_version.replaceFirst(".", ",");
+        software_versionInt = Integer.parseInt(software_version.substring(0,software_version.indexOf(".")));
+        return software_versionInt;
+    }
+
     @Override
     public String toString() {
         return "Car{" +
@@ -137,6 +148,7 @@ public class Car {
                 ", autonomy=" + autonomy +
                 ", bonus=" + bonus +
                 ", favourite=" + favourite +
+                ", software_version=" + software_version +
                 '}';
     }
 }

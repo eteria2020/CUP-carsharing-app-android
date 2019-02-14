@@ -2,6 +2,7 @@ package it.sharengo.eteria.ui.signup;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -52,7 +54,7 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
         mUnbinder = ButterKnife.bind(this, view);
 
         try{
-            signupURL = getResources().getString(R.string.endpointSite) + getString(R.string.routeSignup) + "?lang=" + mPresenter.getLang() + "_" + mPresenter.getLang().toUpperCase();
+            signupURL = getResources().getString(R.string.endpointSite) + getString(R.string.routeSignup) + "?lang=" + mPresenter.getLang() ;
             currentUrl = signupURL;
         }catch (Exception e) {
             Log.e(TAG, "onCreateView: Exception", e);

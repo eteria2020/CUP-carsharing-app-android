@@ -16,6 +16,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.datasources.CitiesDataSource;
 import it.sharengo.eteria.data.models.City;
@@ -187,6 +188,7 @@ public class AppRepository {
 
     public void putLang(String lang){
         mLang = lang;
+        App.getInstance().mLang = lang;
     }
 
     public String getLang(){

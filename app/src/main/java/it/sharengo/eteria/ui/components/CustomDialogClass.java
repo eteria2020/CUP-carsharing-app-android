@@ -27,7 +27,7 @@ import it.sharengo.eteria.R;
 
 public class CustomDialogClass extends Dialog implements
         android.view.View.OnClickListener {
-
+    private static final String TAG = CustomDialogClass.class.getSimpleName();
     private static final int TYPE_DEFAULT = 0;
     private static final int TYPE_BONUS = 1;
     public static final int START = View.TEXT_ALIGNMENT_TEXT_START;
@@ -132,21 +132,25 @@ public class CustomDialogClass extends Dialog implements
     }
     public void setBodyAlignment(int type){
         LinearLayout.LayoutParams params;
-        switch (type) {
-            case START:
-                findViewById(R.id.txt_dia).setTextAlignment(START);
-                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.gravity = Gravity.START;
+        try {
+            switch (type) {
+                case START:
+                    findViewById(R.id.txt_dia).setTextAlignment(START);
+                    params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    params.gravity = Gravity.START;
 
-                findViewById(R.id.txt_dia).setLayoutParams(params);
-                break;
-            case CENTER:
-                findViewById(R.id.txt_dia).setTextAlignment(CENTER);
-                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.gravity = Gravity.CENTER;
+                    findViewById(R.id.txt_dia).setLayoutParams(params);
+                    break;
+                case CENTER:
+                    findViewById(R.id.txt_dia).setTextAlignment(CENTER);
+                    params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    params.gravity = Gravity.CENTER;
 
-                findViewById(R.id.txt_dia).setLayoutParams(params);
-                break;
+                    findViewById(R.id.txt_dia).setLayoutParams(params);
+                    break;
+            }
+        }catch (Exception e){
+            Log.e(TAG, "setBodyAlignment: exception", e);
         }
     }
 

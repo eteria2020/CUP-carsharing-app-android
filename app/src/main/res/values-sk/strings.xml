@@ -180,7 +180,7 @@
     <string name="assistance_talkoperator_label">Chceš hovoriť s operátorom?</string>
     <string name="assistance_call_action">Zavolaj teraz</string>
     <string name="assistance_mail_action">Napíš e-mail</string>
-    <string name="assistance_phonenumber_label"></string>
+    <string name="assistance_phonenumber_label">+421911050099</string>
     <string name="assistance_alertcall_action">Zavolať</string>
     <string name="assistance_cancelcall_action">Zrušiť</string>
     <string name="assistance_devicenotenabled_alert">Váš prístroj nepovoľuje hovory</string>
@@ -249,4 +249,5 @@
     <string name="routeLegalNoteEN">/en/legal-notes/?app</string>
     <string name="routeLogin">/user/login?lang=sk_SK</string>
     <string name="defLang">sk</string>
+    <string name="pin_title">PIN UTENTE</string>
 </resources>

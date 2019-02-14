@@ -9,6 +9,7 @@ import it.sharengo.eteria.ui.chronology.ChronologyFragment;
 import it.sharengo.eteria.ui.faq.FaqFragment;
 import it.sharengo.eteria.ui.feeds.FeedsFragment;
 import it.sharengo.eteria.ui.feedsdetail.FeedsDetailFragment;
+import it.sharengo.eteria.ui.genericWebView.GenericWebViewFragment;
 import it.sharengo.eteria.ui.legalnote.LegalNoteFragment;
 import it.sharengo.eteria.ui.login.LoginFragment;
 import it.sharengo.eteria.ui.longintro.LongIntroFragment;
@@ -101,4 +102,6 @@ public interface MvpFragmentComponent {
     void inject(LegalNoteFragment fragment);
 
     void inject(PrivacyFragment fragment);
+
+    void inject(GenericWebViewFragment fragment);
 }

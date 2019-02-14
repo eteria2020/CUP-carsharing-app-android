@@ -66,6 +66,11 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver implements 
                         Navigator.launchMapGoogle(App.getInstance().getApplicationContext(),Navigator.REQUEST_MAP_DEFAULT);
                         notificationRepository.notificationHanlded();
                         break;
+                    case 3:
+                        String url2open= data.optString("l","");
+                        Navigator.launchGenericWebView(App.getInstance().getApplicationContext(), url2open);
+                        notificationRepository.notificationHanlded();
+                        break;
                     default:
                         Navigator.launchSplash(App.getInstance().getApplicationContext());
                         notificationRepository.notificationHanlded();
@@ -91,6 +96,9 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver implements 
                         Navigator.launchSplash(App.getInstance().getApplicationContext());
                         //Navigator.launchMapGoogle(App.getInstance().getApplicationContext(),Navigator.REQUEST_MAP_DEFAULT);
                         //notificationRepository.notificationHanlded();
+                        break;
+                    case 3: //open GenericWebView
+                        Navigator.launchSplash(App.getInstance().getApplicationContext());
                         break;
                     default:
                         Navigator.launchSplash(App.getInstance().getApplicationContext());

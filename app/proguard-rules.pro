@@ -5,6 +5,7 @@
 #
 
 -keepclassmembers class com.unity3d.** { *; }
+-keepclassmembers class org.apache.** { *; }
 -keepclassmembers class org.fmod.** { *; }
 -keepclassmembers class bitter.jnibridge.** { *; }
 

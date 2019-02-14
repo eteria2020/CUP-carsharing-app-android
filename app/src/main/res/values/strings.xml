@@ -305,16 +305,16 @@
     <string name="registration_not_completed_login_alert">Sei disabilitato perchè devi completare il processo di registrazione.</string>
     <string name="carOpen_unplug_confirm">"1. Apri l'auto e attendi l'apertura delle portiere \n\n2. Stacca la spina blu del cavo di ricarica dall'auto facendo attenzione ad impugnare la spina e non il cavo \n\n3. Stacca la spina dalla colonnina di ricarica \n\n4. Riponi il cavo di alimentazione nel baule dell'auto \n\n5. Entra in auto e segui le istruzioni sul video\n\n"</string>
     <string name="carOpen_resum_park_confirm">Sei sicuro di voler riprendere la corsa?</string>
-    <string name="routeSignup">/signup/mobile</string>
-    <string name="routeLegalNote">/note-legali-app/?app</string>
+    <string name="routeSignup" translatable="false">/signup/mobile</string>
+    <string name="routeLegalNote" translatable="false">/note-legali-app/?app</string>
     <string name="routeLegalNoteEN">/en/legal-notes/?app</string>
     <string name="routeSupport">/home</string>
-    <string name="routeForgotPassword">/forgot-password/mobile</string>
+    <string name="routeForgotPassword" translatable="false">/forgot-password/mobile</string>
     <string name="routeLogin">/user/login</string>
-    <string name="routeUserArea">/area-utente</string>
-    <string name="routeMobile">/mobile</string>
-    <string name="routePrivacy">/privacy/?app</string>
-    <string name="routeZone">/zone</string>
+    <string name="routeUserArea" translatable="false">/area-utente</string>
+    <string name="routeMobile" translatable="false">/mobile</string>
+    <string name="routePrivacy" translatable="false">/privacy/?app</string>
+    <string name="routeZone" translatable="false">/zone</string>
     <string name="settingslang_sk_label">Slovakia</string>
     <string name="deleteButtonBookingDelete">Elimina</string>
     <string name="DeleteButtonBookingCloseTrip">Chiudi corsa</string>
@@ -322,5 +322,6 @@
     <string name="alert_close_car_onpress">La macchina si chiuderà a breve, riceverai una notifica a processo completato.</string>
     <string name="defLang">it</string>
     <string name="routeLegalNoteSK">/legal-notes/</string>
+    <string name="pin_title">PIN UTENTE</string>
 
 </resources>

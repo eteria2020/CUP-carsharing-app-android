@@ -1594,6 +1594,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     public void bookingCar(Car car, float user_lat, float user_lon, Context context){
         hideLoading = true;
 
+        if(getMvpView()!=null)
         getMvpView().showHCustomLoading();
 
         seconds = System.currentTimeMillis();
@@ -2593,8 +2594,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onError(Throwable e) {
                 mTripsRequestLast = null;
-                if(isViewAttached())
-                    getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start,mResponseTripLast.trips.get(0).timestamp_end);
+
+                try {
+                    if (isViewAttached())
+                        getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start, mResponseTripLast.trips.get(0).timestamp_end);
+                }catch (Exception ex){
+                    Log.e(TAG, "onError: probailmente non ho i dati",ex );
+                }
             }
 
             @Override

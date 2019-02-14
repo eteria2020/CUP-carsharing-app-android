@@ -1,5 +1,6 @@
 package it.sharengo.eteria.ui.slideshow;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +21,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import it.sharengo.eteria.BuildConfig;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
@@ -118,8 +120,10 @@ public class SlideshowFragment extends BaseMvpFragment<SlideshowPresenter> imple
         public PagerAdapter(FragmentManager fm) {
             super(fm);
             pagerFragments = new ArrayList<>();
-            for (int i = 0; i < NUM_PAGES; i++) {
-                pagerFragments.add(PageFragment.newInstance(i+1));
+            for (int i = 1; i <= NUM_PAGES; i++) {
+                if(BuildConfig.FLAVOR.equalsIgnoreCase("slovakia") && i ==2)
+                    continue;
+                pagerFragments.add(PageFragment.newInstance(i));
             }
         }
 

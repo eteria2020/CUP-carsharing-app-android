@@ -54,6 +54,13 @@ public class ShortIntroActivity extends BaseActivity {
                     case 1://Close Trip Notification
                         Navigator.launchChronology(this);
                         break;
+                    case 2://Close Trip Notification
+                        Navigator.launchMapGoogle(this, Navigator.REQUEST_MAP_DEFAULT);
+                        break;
+                    case 3://Close Trip Notification
+                        String url2open= data.optString("l","");
+                        Navigator.launchGenericWebView(App.getInstance().getApplicationContext(), url2open);
+                        break;
                     default:
                         Navigator.launchMapGoogle(this, Navigator.REQUEST_MAP_DEFAULT);
                 }

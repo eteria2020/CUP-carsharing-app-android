@@ -3,6 +3,7 @@ package it.sharengo.eteria.ui.base.webview;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebHistoryItem;
 import android.webkit.WebView;
@@ -40,6 +41,7 @@ public class MyWebView extends WebView {
     @Override
     public void loadUrl(String url) {
         super.loadUrl(url);
+        Log.d("BOMB", "WEBVIEW LOAD URL" + url);
 
     }
 

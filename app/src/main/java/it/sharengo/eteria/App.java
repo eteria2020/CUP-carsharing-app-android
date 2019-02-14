@@ -29,6 +29,8 @@ public class App extends MultiDexApplication {
     protected ApplicationComponent mComponent;
 
     private static ArrayList<Class> mStackActivity;
+
+    public String mLang = "it";
     @Override
     public void onCreate() {
         super.onCreate();

@@ -298,5 +298,6 @@
     <string name="routeLegalNoteEN">/en/legal-notes/?app</string>
     <string name="routeLogin">/user/login?lang=en_EN</string>
     <string name="defLang">en</string>
+    <string name="pin_title">PIN UTENTE</string>
 
 </resources>

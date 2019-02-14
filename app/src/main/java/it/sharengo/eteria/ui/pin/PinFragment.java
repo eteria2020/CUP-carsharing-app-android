@@ -60,14 +60,14 @@ public class PinFragment extends BaseMvpFragment<PinPresenter> implements PinMvp
 
         //Titolo
         if(mPresenter.isAuth()){
-            ratesTitleTextView.setText("PIN UTENTE");
+            ratesTitleTextView.setText(R.string.menu_pin);
         }else{
-            ratesTitleTextView.setText("PIN UTENTE");
+            ratesTitleTextView.setText(R.string.menu_pin);
         }
 
         //H1
         if(mPresenter.isAuth()){
-            ratesH1TextView.setText("IL TUO PIN");
+            ratesH1TextView.setText(R.string.booking_userpin_label);
         }else{
             ratesH1TextView.setText("");
         }

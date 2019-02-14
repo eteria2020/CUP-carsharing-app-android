@@ -1279,7 +1279,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
         mapRadius = getMapRadius();
 
-        if(mapRadius > 35000){
+        if(mapRadius > 95000){
 
             carnextMarker = null;
 
@@ -2202,17 +2202,17 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         imagePaint.setColor(ContextCompat.getColor(getActivity(), R.color.white));
         imagePaint.setStyle(Paint.Style.FILL);
         imagePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        imagePaint.setTextSize(12 * getResources().getDisplayMetrics().density);
+        imagePaint.setTextSize(14 * getResources().getDisplayMetrics().density);
 
 
         // Set up the paint for use with our Canvas
         Paint imagePaintBorder = new Paint(Paint.ANTI_ALIAS_FLAG);
         imagePaintBorder.setTextAlign(Paint.Align.CENTER);
         imagePaintBorder.setColor(ContextCompat.getColor(getActivity(), R.color.mediumseagreen));
-        imagePaintBorder.setStrokeWidth(0);
+        imagePaintBorder.setStrokeWidth(2.5f);
         imagePaintBorder.setStyle(Paint.Style.STROKE);
         imagePaintBorder.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        imagePaintBorder.setTextSize(12 * getResources().getDisplayMetrics().density);
+        imagePaintBorder.setTextSize(14 * getResources().getDisplayMetrics().density);
 
         // Draw the image to our canvas
         backgroundImage.draw(imageCanvas);
@@ -2729,7 +2729,14 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         }
         mPresenter.bookingCar(carSelected, user_lat, user_lon, getContext());
     }
-
+    //Metodo per convertire il versionObc in intero per comparazione
+    public int getVersionObc(String software_version){
+        int software_versionInt = 0;
+        software_version = StringUtils.replaceOnce(software_version,".",",");
+        software_version = software_version.substring(0,software_version.indexOf("."));
+        software_versionInt = Integer.parseInt(StringUtils.replaceOnce(software_version,",",""));
+        return software_versionInt;
+    }
     //Metodo per mostrare le informazioni sulla prenotazione
     private void reservationInfo(Car mCar, Reservation mReservation){
 
@@ -2883,12 +2890,20 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
             if(!carBooked.parking){ //Auto in corsa FULVIO : I commenti sono per momentaneamente nascondere il bottone close Trip per annullare ripristinare i commenti e cancellare il resto
                 parameter.setMargins((int) (40 * getResources().getDisplayMetrics().density), 0, (int) (40* getResources().getDisplayMetrics().density), 0);
+
                 openButtonBookingView.setVisibility(View.VISIBLE);
                 openDoorBookingButton.setVisibility(View.GONE);
                 // utilizzo il bottone elimina prenotazione per implementare anche il pulsante chiudi corsa
-                deleteBookingButton.setText(R.string.DeleteButtonBookingCloseTrip);
-                deleteBookingButton.setVisibility(View.VISIBLE);
-                deleteBookingButton.setLayoutParams(parameter);
+                if(getVersionObc(carBooked.software_version) >= 109) {
+                    deleteBookingButton.setText(R.string.DeleteButtonBookingCloseTrip);
+                    deleteBookingButton.setVisibility(View.VISIBLE);
+                    deleteBookingButton.setLayoutParams(parameter);
+                }
+                else{
+                    deleteBookingButton.setText(R.string.DeleteButtonBookingCloseTrip);
+                    deleteBookingButton.setVisibility(View.GONE);
+                    deleteBookingButton.setLayoutParams(parameter);
+                }
             }else{ //Auto parcheggiata
 
 
@@ -2898,15 +2913,22 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 openDoorBookingButton.setLayoutParams(parameter);
 
                 openDoorBookingButton.setVisibility(View.VISIBLE);
-                deleteBookingButton.setVisibility(View.VISIBLE);
-                deleteBookingButton.setText(R.string.DeleteButtonBookingCloseTrip);
-                deleteBookingButton.setLayoutParams(parameter);
+                if(getVersionObc(carBooked.software_version) >= 109) {
+                    deleteBookingButton.setVisibility(View.VISIBLE);
+                    deleteBookingButton.setText(R.string.DeleteButtonBookingCloseTrip);
+                    deleteBookingButton.setLayoutParams(parameter);
+                }else{
+                    deleteBookingButton.setVisibility(View.GONE);
+                    deleteBookingButton.setText(R.string.DeleteButtonBookingCloseTrip);
+                    deleteBookingButton.setLayoutParams(parameter);
+                }
             }
         }else{ //Prenotazione
             openButtonBookingView.setVisibility(View.VISIBLE);
             openDoorBookingButton.setVisibility(View.VISIBLE);
             deleteBookingButton.setVisibility(View.VISIBLE);
             deleteBookingButton.setText(R.string.deleteButtonBookingDelete);
+            deleteBookingButton.setEnabled(true);
             expiringTimeTextView.setVisibility(View.VISIBLE);
             tripDurationTextView.setVisibility(View.GONE);
         }
@@ -2984,7 +3006,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                     }
                 };
 
-                timer2min.schedule(timerTask2min, 2*60*1000);
+                timer2min.schedule(timerTask2min, 30*1000);
             }
         });
     }
@@ -3009,7 +3031,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
     public void openDoorConfirm(Car car, int value) {
         String message =getString(R.string.carOpen_confirm);
 
-        String pricing = getString(R.string.carOpen_normal_price);
+        String pricing = "";
         if (value != 0) {
             pricing =String.format(getString(R.string.carOpen_bonus_price), value);
         }
@@ -3065,8 +3087,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 getString(R.string.booking_deleteconfirm_alert),
                 getString(R.string.ok),
                 null);
-        cdd.setBodyAlignment(CustomDialogClass.START);
         cdd.show();
+        cdd.setBodyAlignment(CustomDialogClass.CENTER);
         cdd.yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

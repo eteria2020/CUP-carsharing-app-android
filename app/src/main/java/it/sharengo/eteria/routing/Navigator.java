@@ -15,6 +15,7 @@ import it.sharengo.eteria.ui.chronology.ChronologyActivity;
 import it.sharengo.eteria.ui.faq.FaqActivity;
 import it.sharengo.eteria.ui.feeds.FeedsActivity;
 import it.sharengo.eteria.ui.feedsdetail.FeedsDetailActivity;
+import it.sharengo.eteria.ui.genericWebView.GenericWebViewActivity;
 import it.sharengo.eteria.ui.home.HomeActivity;
 import it.sharengo.eteria.ui.legalnote.LegalNoteActivity;
 import it.sharengo.eteria.ui.login.LoginActivity;
@@ -58,7 +59,7 @@ public class Navigator {
     public static final String EXTRA_MAP = "EXTRA_MAPA";
     public static final String EXTRA_USER_AREA = "EXTRA_USER_AREA";
     public static final String EXTRA_LEGAL_STATEMET = "EXTRA_LEGAL_STATEMET";
-
+    public static final String EXTRA_GENERIC_WEBVIEV = "EXTRA_GENERIC_WEBVIEV";
     public static final int REQUEST_LOGIN_START = 1;
     public static final int REQUEST_LOGIN_PROFILE = 2;
     public static final int REQUEST_LOGIN_MAPS = 3;
@@ -145,10 +146,13 @@ public class Navigator {
     }
 
     public static void launchUserArea(Fragment fragment) {
-        Intent intent = UserAreaActivity.getCallingIntent(fragment.getActivity(),UserAreaActivity.InnerRoute.HOME);
+        launchUserArea(fragment.getActivity());
+    }
+    public static void launchUserArea(Activity activity) {
+        Intent intent = UserAreaActivity.getCallingIntent(activity,UserAreaActivity.InnerRoute.HOME);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
-        fragment.startActivity(intent);
+        activity.startActivity(intent);
     }
 
     public static void launchSettings(Fragment fragment) {
@@ -244,6 +248,13 @@ public class Navigator {
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         context.startActivity(intent);
     }
+    public static void launchGenericWebView(Context context, String url2open) {
+        Intent intent = GenericWebViewActivity.getCallingIntent(context,url2open);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        context.startActivity(intent);
+    }
+
 
     public static void launchOnboarding(Fragment fragment) {
         Intent intent = OnboardingActivity.getCallingIntent(fragment.getActivity());

@@ -1,4 +1,4 @@
-package it.sharengo.eteria.ui.legalnote;
+package it.sharengo.eteria.ui.genericWebView;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -15,39 +15,35 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.Locale;
-
 import butterknife.ButterKnife;
 import it.sharengo.eteria.BuildConfig;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.routing.Navigator;
-import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.base.webview.MyWebView;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 
+public class GenericWebViewFragment extends BaseMvpFragment<GenericWebViewPresenter> implements GenericWebViewMvpView {
 
-public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> implements LegalNoteMvpView {
-
-    private static final String TAG = LegalNoteFragment.class.getSimpleName();
+    private static final String TAG = GenericWebViewFragment.class.getSimpleName();
 
     public static final String ARG_TYPE = "ARG_TYPE";
 
-    private String fileNameURL="";
-    private String legalNoteURl =" https://site.sharengo.it/note-legali-app/?app";
 
-    private boolean isLogin;
+    private String genericUrl ="";
+
+
 
     //@BindView(R.id.userareaWebView)
     MyWebView webview;
 
-    public static LegalNoteFragment newInstance(LegalNoteActivity.InnerRoute route) {
-        LegalNoteFragment fragment = new LegalNoteFragment();
+
+
+    public static GenericWebViewFragment newInstance(String url) {
+        GenericWebViewFragment fragment = new GenericWebViewFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_TYPE, route.name());
-        fragment.setArguments(args);
+        args.putString(ARG_TYPE, url);
+        fragment.genericUrl = args.getString(ARG_TYPE);
         return fragment;
     }
 
@@ -65,20 +61,6 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
         mUnbinder = ButterKnife.bind(this, view);
         webview = (MyWebView) view.findViewById(R.id.userareaWebView);
 
-        try{
-
-            if( mPresenter.getLang().equals("it") )
-                legalNoteURl = getResources().getString(R.string.endpointSiteWP) + getString(R.string.routeLegalNote);
-            else
-                legalNoteURl = getResources().getString(R.string.endpointSiteWP) +  getString(R.string.routeLegalNoteEN);
-
-            if(BuildConfig.FLAVOR.equalsIgnoreCase("slovakia"))
-                legalNoteURl = getResources().getString(R.string.endpointSiteWP) + getString(R.string.routeLegalNoteSK) + "?lang=" + mPresenter.getLang();
-
-
-        }catch (Exception e) {
-            Log.e(TAG, "onCreateView: Exception", e);
-        }
 
         return view;
     }
@@ -90,7 +72,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
 
       //  ((BaseActivity) getActivity()).showLoadingChronology();
 
-        webview.setIgnoreUrls(legalNoteURl);
+        webview.setIgnoreUrls(genericUrl);
         //Pulisco la sessione
         CookieManager cookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -126,7 +108,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
 
     private void loadWebView(){
 
-        isLogin = false;
+
         webview.getSettings().setJavaScriptEnabled(true);
 
         webview.getSettings().setDomStorageEnabled(true);
@@ -155,28 +137,28 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
             @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(LegalNoteFragment.this.legalNoteURl.equalsIgnoreCase(url)) {
-
-                    webview.loadUrl(url);
-                }
-                return true;
+//                if(GenericWebViewFragment.this.genericUrl.equalsIgnoreCase(url)) {
+//
+//                    webview.loadUrl(url);
+//                }
+                return false;
             }
 
             @TargetApi(Build.VERSION_CODES.N)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                if(LegalNoteFragment.this.legalNoteURl.equalsIgnoreCase(request.getUrl().toString())) {
-
-                    webview.loadUrl( request.getUrl().toString());
-                }
-                return true;
+//                if(GenericWebViewFragment.this.genericUrl.equalsIgnoreCase(request.getUrl().toString())) {
+//
+//                    webview.loadUrl( request.getUrl().toString());
+//                }
+                return false;
             }
 
 
         });
-        Log.d("link: ", legalNoteURl+fileNameURL);
+        Log.d("link: ", genericUrl);
 
-        webview.loadUrl(legalNoteURl);
+        webview.loadUrl(genericUrl);
         webview.setVisibility(View.VISIBLE);
 
     }
@@ -193,7 +175,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
             @Override
             public void onClick(View view) {
                 cdd.dismissAlert();
-                Navigator.launchMapGoogle(LegalNoteFragment.this,Navigator.REQUEST_MAP_DEFAULT);
+                Navigator.launchMapGoogle(GenericWebViewFragment.this,Navigator.REQUEST_MAP_DEFAULT);
                 getActivity().finish();
             }
         });
