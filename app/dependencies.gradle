@@ -59,6 +59,7 @@ dependencies {
     implementation "com.squareup.picasso:picasso:$rootProject.ext.squareupPicasso"
     implementation "com.google.maps.android:android-maps-utils:$rootProject.ext.googleMapsUtils"
     implementation "com.android.volley:volley:$rootProject.ext.volley"
+    implementation 'pub.devrel:easypermissions:2.0.0'
 
     implementation 'com.onesignal:OneSignal:[3.10.3, 3.99.99]'
 }

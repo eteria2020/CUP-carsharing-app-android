@@ -1,5 +1,6 @@
 package it.sharengo.eteria.ui.userarea;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -9,7 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,9 +31,11 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,13 +46,16 @@ import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.base.webview.MyWebView;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
 import it.sharengo.eteria.ui.signup.SignupFragment;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+import pub.devrel.easypermissions.PermissionRequest;
 
-
-public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> implements UserAreaMvpView {
+public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> implements UserAreaMvpView, EasyPermissions.PermissionCallbacks {
 
     private static final String TAG = UserAreaFragment.class.getSimpleName();
 
     public static final String ARG_TYPE = "ARG_TYPE";
+    private static final int MSG_PERMISSION = 1;
 
     private String baseURL="";
     private String loginURL = "https://www.sharengo.it/user/login";
@@ -61,6 +69,10 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
     private ValueCallback<Uri> mUM;
     private ValueCallback<Uri[]> mUMA;
     private final static int FCR=1;
+    private static Intent ChooserIntent;
+    private static Intent[] cameraIntent;
+    private static final int PERM_REQ_CODE = 1010;
+    private final UserAreaHandler localHandler = new UserAreaHandler(this);
 
     //@BindView(R.id.userareaWebView)
     MyWebView webview;
@@ -99,6 +111,26 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             }
 
 
+        }
+    }
+
+
+    @AfterPermissionGranted(PERM_REQ_CODE)
+    private void checkPermission() {
+        String[] perms = {Manifest.permission.CAMERA};
+        if (EasyPermissions.hasPermissions(getActivity(), perms)) {
+            // Already have permission, do the thing
+            // ...
+
+            ChooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntent);
+            startActivityForResult(ChooserIntent, FCR);
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(new PermissionRequest.Builder(this, PERM_REQ_CODE, perms)
+                    .setRationale(R.string.msg_rational_location_permission)
+                    .setPositiveButtonText(R.string.ok)
+                    .setTheme(R.style.AppTheme_AlertDialog)
+                    .build());
         }
     }
 
@@ -141,6 +173,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             cookieManager.removeSessionCookie();
             loadWebView();
         }
+//        checkPermission();
 
     }
 
@@ -249,6 +282,14 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent){
         super.onActivityResult(requestCode, resultCode, intent);
         if(Build.VERSION.SDK_INT >= 21){
@@ -299,9 +340,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             Intent i = new Intent(Intent.ACTION_GET_CONTENT);
             i.addCategory(Intent.CATEGORY_OPENABLE);
             i.setType("*/*");
-           startActivityForResult(
-                    Intent.createChooser(i, "File Browser"),
-                    FCR);
+           startActivityForResult(Intent.createChooser(i, "File Chooser"),FCR);
         }
         //For Android 4.1+
         public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture){
@@ -309,49 +348,61 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             Intent i = new Intent(Intent.ACTION_GET_CONTENT);
             i.addCategory(Intent.CATEGORY_OPENABLE);
             i.setType("*/*");
-            startActivityForResult(Intent.createChooser(i, "File Chooser"), UserAreaFragment.FCR);
+            startActivityForResult(Intent.createChooser(i, "File Chooser"), FCR);
         }
         //For Android 5.0+
         public boolean onShowFileChooser(
                 WebView webView, ValueCallback<Uri[]> filePathCallback,
                 WebChromeClient.FileChooserParams fileChooserParams){
-            if(mUMA != null){
-                mUMA.onReceiveValue(null);
-            }
-            mUMA = filePathCallback;
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if(takePictureIntent.resolveActivity(getContext().getPackageManager()) != null){
-                File photoFile = null;
-                try{
-                    photoFile = createImageFile();
-                    takePictureIntent.putExtra("PhotoPath", mCM);
-                }catch(IOException ex){
-                    Log.e("BOMB", "Image file creation failed", ex);
-                }
-                if(photoFile != null){
-                    mCM = "file:" + photoFile.getAbsolutePath();
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                }else{
-                    takePictureIntent = null;
-                }
-            }
-            Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
-            contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
-            contentSelectionIntent.setType("*/*");
-            Intent[] intentArray;
-            if(takePictureIntent != null){
-                intentArray = new Intent[]{takePictureIntent};
-            }else{
-                intentArray = new Intent[0];
-            }
-
-            Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
-            chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
-            chooserIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser");
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
-            startActivityForResult(chooserIntent, FCR);
+            openChooser(filePathCallback);
+//            startActivityForResult(chooserIntent, FCR);
             return true;
         }
+    }
+
+    private void openChooser(ValueCallback<Uri[]> filePathCallback){
+//        if(mUMA != null){
+//            mUMA.onReceiveValue(null);
+//        }
+        mUMA = filePathCallback;
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(takePictureIntent.resolveActivity(getContext().getPackageManager()) != null){
+            File photoFile = null;
+            try{
+                photoFile = createImageFile();
+                takePictureIntent.putExtra("PhotoPath", mCM);
+            }catch(IOException ex){
+                Log.e("BOMB", "Image file creation failed", ex);
+            }
+            if(photoFile != null){
+                mCM = "file:" + photoFile.getAbsolutePath();
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+            }else{
+                takePictureIntent = null;
+            }
+        }
+        Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
+        contentSelectionIntent.setType("*/*");
+        Intent[] intentArray;
+        String[] perms = {Manifest.permission.CAMERA};
+        if(takePictureIntent != null){
+            if(EasyPermissions.hasPermissions(getActivity(), perms)) {
+                intentArray = new Intent[]{takePictureIntent};
+            }else {
+                cameraIntent = new Intent[]{takePictureIntent};
+                intentArray = new Intent[0];
+            }
+        }else{
+            intentArray = new Intent[0];
+        }
+
+        Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
+        chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
+        chooserIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
+        ChooserIntent = chooserIntent;
+        checkPermission();
     }
 
     private File createImageFile() throws IOException{
@@ -361,4 +412,32 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
         return File.createTempFile(imageFileName,".jpg",storageDir);
     }
 
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+
+//        ChooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntent);
+        startActivityForResult(ChooserIntent, FCR);
+    }
+    private static class UserAreaHandler extends Handler{
+
+        final WeakReference<UserAreaFragment> referance;
+
+        public UserAreaHandler(UserAreaFragment referance) {
+            this.referance = new WeakReference<UserAreaFragment>(referance);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case MSG_PERMISSION:
+                    referance.get().checkPermission();
+                    break;
+            }
+        }
+    }
 }
