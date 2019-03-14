@@ -4,7 +4,7 @@
     android:id="@+id/bookingCarView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="invisible">
+    android:visibility="visible">
 
 
     <LinearLayout
@@ -166,7 +166,7 @@
                 android:layout_weight="1"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="5dp"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text="@string/booking_opendoor_action"/>
@@ -180,7 +180,7 @@
                 android:layout_weight="1"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="10dp"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:maxLines="1"
                 android:text="@string/booking_delete_action"/>
 

@@ -2267,7 +2267,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(addressTV::setText);
+                .subscribe(addressTV::setText, throwable -> Log.e(TAG, "getAddress: ", throwable));
     }
 
     private void loginAlert(){
@@ -2354,7 +2354,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 .subscribe(carResp-> {
                     showPopupCar(carResp.data);
                     Log.d("BOMB","Received onMarkerTap car postUpdate");
-                });
+                },throwable -> Log.e(TAG, "showPopupCarWithUpdate: ", throwable));
         showPopupCar(car);
         Log.d("BOMB","Received onMarkerTap car preUpdate");
 
@@ -2373,13 +2373,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                         .concatMap(Observable::from)
                         .filter(marker -> lastCar.equals(marker.getData()) || car.equals(marker.getData()))
                         .concatMap(marker -> {if(marker.getData().equals(car)) marker.setData(car); return Observable.just(marker);}) //updateMarker with latest data
-                        .subscribe(new Action1<Marker>() {
-                            @Override
-                            public void call(Marker marker) {
-
-                                marker.setIcon(getIconForCar(marker.getData()));
-                            }
-                        });
+                        .subscribe(marker -> marker.setIcon(getIconForCar(marker.getData())),throwable -> Log.e(TAG, "showPopupCar: ", throwable));
             }
         }
         carSelected = car;
@@ -2562,13 +2556,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                                 return car != null && car.equals(marker.getData());
                         }
                         })
-                        .subscribe(new Action1<Marker>() {
-                            @Override
-                            public void call(Marker marker) {
-
-                                marker.setIcon(getIconForCar(car));
-                            }
-                        });
+                        .subscribe(marker -> marker.setIcon(getIconForCar(car)),throwable -> Log.e(TAG, "closePopup: ", throwable));
             }
 
 
@@ -3000,7 +2988,8 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
 
                         handler2min.post(new Runnable() {
                             public void run() {
-                                 deleteBookingButton.setEnabled(true);
+                                if(deleteBookingButton!=null)
+                                    deleteBookingButton.setEnabled(true);
                             }
                         });
                     }
@@ -3848,7 +3837,7 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         };
 
 
-        cancelProgressHandler.postDelayed(progressOpenDooorRunnable, 25000);
+        cancelProgressHandler.postDelayed(progressOpenDooorRunnable, 70000);
     }
 
     @Override

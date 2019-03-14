@@ -385,7 +385,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
         contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
         contentSelectionIntent.setType("*/*");
         Intent[] intentArray;
-        String[] perms = {Manifest.permission.CAMERA};
+        String[] perms = {};
         if(takePictureIntent != null){
             if(EasyPermissions.hasPermissions(getActivity(), perms)) {
                 intentArray = new Intent[]{takePictureIntent};

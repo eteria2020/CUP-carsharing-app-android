@@ -1781,17 +1781,27 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             }
         }else {
             addSubscription(buildCarDetailsRequest(car.id).concatMap(responseCar -> Observable.just(responseCar.data)).subscribe(car1 -> {
-                        if(car1!=null && car1.getValidBonus().size()>0){
-                            int bonusValue = car1.getValidBonus().get(0).getValue();
-                            getMvpView().openDoorConfirm(car1, bonusValue);
-                        }else {
-                            getMvpView().openDoorConfirm(car1, 0);
-                        }
-            }));
+                if(car1!=null && car1.getValidBonus().size()>0){
+                    int bonusValue = car1.getValidBonus().get(0).getValue();
+                    getMvpView().openDoorConfirm(car1, bonusValue);
+                }else {
+                    getMvpView().openDoorConfirm(car1, 0);
+                }
+            },throwable ->
+                Log.e(TAG, "checkOpenDoor: Error", throwable)
+            ,() -> {}));
         }
 
     }
 
+//    car1 -> {
+//        if(car1!=null && car1.getValidBonus().size()>0){
+//            int bonusValue = car1.getValidBonus().get(0).getValue();
+//            getMvpView().openDoorConfirm(car1, bonusValue);
+//        }else {
+//            getMvpView().openDoorConfirm(car1, 0);
+//        }
+//    })
 
     /**
      * Send command for open door of car.
