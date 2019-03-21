@@ -7,6 +7,7 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -1769,7 +1770,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      *
      * @param  car     car to open.
      */
-    public void checkOpenDoor(final Car car) {
+    public void checkOpenDoor(@NonNull final Car car) {
 
         getMvpView().showHCustomLoading();
         Car carPref = mPreferencesRepository.getReservationCar();
@@ -1780,7 +1781,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                 getMvpView().openDoorConfirm(car, bonusValue);
             }
         }else {
-            addSubscription(buildCarDetailsRequest(car.id).concatMap(responseCar -> Observable.just(responseCar.data)).subscribe(car1 -> {
+            addSubscription(buildCarDetailsRequest(car==null?"":car.id).concatMap(responseCar -> Observable.just(responseCar.data)).subscribe(car1 -> {
                 if(car1!=null && car1.getValidBonus().size()>0){
                     int bonusValue = car1.getValidBonus().get(0).getValue();
                     getMvpView().openDoorConfirm(car1, bonusValue);
