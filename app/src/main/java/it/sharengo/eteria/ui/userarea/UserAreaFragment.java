@@ -19,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -37,7 +36,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.routing.Navigator;
@@ -45,7 +43,6 @@ import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.base.webview.MyWebView;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
-import it.sharengo.eteria.ui.signup.SignupFragment;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
@@ -66,9 +63,9 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
 
 
     private String mCM;
-    private ValueCallback<Uri> mUM;
-    private ValueCallback<Uri[]> mUMA;
-    private final static int FCR=1;
+    private ValueCallback<Uri> valueCallback;
+    private ValueCallback<Uri[]> valueCallbackArray;
+    private final static int requestCodeFile =1;
     private static Intent ChooserIntent;
     private static Intent[] cameraIntent;
     private static final int PERM_REQ_CODE = 1010;
@@ -123,7 +120,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             // ...
 
             ChooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntent);
-            startActivityForResult(ChooserIntent, FCR);
+            startActivityForResult(ChooserIntent, requestCodeFile);
         } else {
             // Do not have permissions, request them now
             EasyPermissions.requestPermissions(new PermissionRequest.Builder(this, PERM_REQ_CODE, perms)
@@ -292,12 +289,12 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent){
         super.onActivityResult(requestCode, resultCode, intent);
-        if(Build.VERSION.SDK_INT >= 21){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             Uri[] results = null;
             //Check if response is positive
             if(resultCode== Activity.RESULT_OK){
-                if(requestCode == FCR){
-                    if(null == mUMA){
+                if(requestCode == requestCodeFile){
+                    if(valueCallbackArray == null){
                         return;
                     }
                     if(intent == null){
@@ -313,14 +310,14 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
                     }
                 }
             }
-            mUMA.onReceiveValue(results);
-            mUMA = null;
+            valueCallbackArray.onReceiveValue(results);
+            valueCallbackArray = null;
         }else{
-            if(requestCode == FCR){
-                if(null == mUM) return;
+            if(requestCode == requestCodeFile){
+                if(null == valueCallback) return;
                 Uri result = intent == null || resultCode != Activity.RESULT_OK ? null : intent.getData();
-                mUM.onReceiveValue(result);
-                mUM = null;
+                valueCallback.onReceiveValue(result);
+                valueCallback = null;
             }
         }
     }
@@ -328,43 +325,43 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
     private class MyChromeClient extends WebChromeClient{
         //For Android 3.0+
         public void openFileChooser(ValueCallback<Uri> uploadMsg){
-            mUM = uploadMsg;
+            valueCallback = uploadMsg;
             Intent i = new Intent(Intent.ACTION_GET_CONTENT);
             i.addCategory(Intent.CATEGORY_OPENABLE);
             i.setType("*/*");
-            startActivityForResult(Intent.createChooser(i,"File Chooser"), FCR);
+            startActivityForResult(Intent.createChooser(i,"File Chooser"), requestCodeFile);
         }
         // For Android 3.0+, above method not supported in some android 3+ versions, in such case we use this
         public void openFileChooser(ValueCallback uploadMsg, String acceptType){
-            mUM = uploadMsg;
+            valueCallback = uploadMsg;
             Intent i = new Intent(Intent.ACTION_GET_CONTENT);
             i.addCategory(Intent.CATEGORY_OPENABLE);
             i.setType("*/*");
-           startActivityForResult(Intent.createChooser(i, "File Chooser"),FCR);
+           startActivityForResult(Intent.createChooser(i, "File Chooser"), requestCodeFile);
         }
         //For Android 4.1+
         public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture){
-            mUM = uploadMsg;
+            valueCallback = uploadMsg;
             Intent i = new Intent(Intent.ACTION_GET_CONTENT);
             i.addCategory(Intent.CATEGORY_OPENABLE);
             i.setType("*/*");
-            startActivityForResult(Intent.createChooser(i, "File Chooser"), FCR);
+            startActivityForResult(Intent.createChooser(i, "File Chooser"), requestCodeFile);
         }
         //For Android 5.0+
         public boolean onShowFileChooser(
                 WebView webView, ValueCallback<Uri[]> filePathCallback,
                 WebChromeClient.FileChooserParams fileChooserParams){
             openChooser(filePathCallback);
-//            startActivityForResult(chooserIntent, FCR);
+//            startActivityForResult(chooserIntent, requestCodeFile);
             return true;
         }
     }
 
     private void openChooser(ValueCallback<Uri[]> filePathCallback){
-//        if(mUMA != null){
-//            mUMA.onReceiveValue(null);
+//        if(valueCallbackArray != null){
+//            valueCallbackArray.onReceiveValue(null);
 //        }
-        mUMA = filePathCallback;
+        valueCallbackArray = filePathCallback;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(takePictureIntent.resolveActivity(getContext().getPackageManager()) != null){
             File photoFile = null;
@@ -387,12 +384,12 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
         Intent[] intentArray;
         String[] perms = {};
         if(takePictureIntent != null){
-            if(EasyPermissions.hasPermissions(getActivity(), perms)) {
+//            if(EasyPermissions.hasPermissions(getActivity(), perms)) {
                 intentArray = new Intent[]{takePictureIntent};
-            }else {
-                cameraIntent = new Intent[]{takePictureIntent};
-                intentArray = new Intent[0];
-            }
+//            }else {
+//                cameraIntent = new Intent[]{takePictureIntent};
+//                intentArray = new Intent[0];
+//            }
         }else{
             intentArray = new Intent[0];
         }
@@ -401,8 +398,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
         chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
         chooserIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
-        ChooserIntent = chooserIntent;
-        checkPermission();
+        startActivityForResult(chooserIntent, requestCodeFile);
     }
 
     private File createImageFile() throws IOException{
@@ -421,7 +417,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
 
 //        ChooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntent);
-        startActivityForResult(ChooserIntent, FCR);
+        startActivityForResult(ChooserIntent, requestCodeFile);
     }
     private static class UserAreaHandler extends Handler{
 

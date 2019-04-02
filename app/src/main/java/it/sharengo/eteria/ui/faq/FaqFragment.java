@@ -46,7 +46,7 @@ public class FaqFragment extends BaseMvpFragment<FaqPresenter> implements FaqMvp
         webview = (MyWebView) view.findViewById(R.id.faqWebView);
 
         try{
-            supportURL = getResources().getString(R.string.endpointSupport) + getString(R.string.routeSupport);
+            supportURL = getResources().getString(R.string.endpointSupport);
         }catch (Exception e) {
             Log.e(TAG, "onCreateView: Exception", e);
         }

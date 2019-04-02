@@ -175,6 +175,11 @@ public class SlideshowFragment extends BaseMvpFragment<SlideshowPresenter> imple
         getActivity().finish();
     }
 
+    @OnClick(R.id.signupDescrTextView)
+    public void onChatClick(){
+        Navigator.launchAssistance(this);
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //

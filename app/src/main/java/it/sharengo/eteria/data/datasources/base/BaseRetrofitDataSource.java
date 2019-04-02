@@ -32,16 +32,16 @@ public abstract class BaseRetrofitDataSource {
 
                             if (throwable instanceof IOException) {
                                 if (throwable instanceof java.net.ConnectException) {
-                                    return Observable.error(new ErrorResponse(ErrorResponse.ErrorType.NO_NETWORK));
+                                    return Observable.error(new ErrorResponse(ErrorResponse.ErrorType.NO_NETWORK,throwable));
                                 } else if (throwable instanceof SocketTimeoutException) {
-                                    return Observable.error(new ErrorResponse(ErrorResponse.ErrorType.SERVER_TIMEOUT));
+                                    return Observable.error(new ErrorResponse(ErrorResponse.ErrorType.SERVER_TIMEOUT,throwable));
                                 } else if (throwable instanceof UnknownHostException) {
-                                    return Observable.error(new ErrorResponse(ErrorResponse.ErrorType.NO_NETWORK));
+                                    return Observable.error(new ErrorResponse(ErrorResponse.ErrorType.NO_NETWORK,throwable));
                                 } else {
-                                    return Observable.error(new ErrorResponse(ErrorResponse.ErrorType.UNEXPECTED));
+                                    return Observable.error(new ErrorResponse(ErrorResponse.ErrorType.UNEXPECTED,throwable));
                                 }
                             } else {
-                                return Observable.error(new ErrorResponse(ErrorResponse.ErrorType.UNEXPECTED));
+                                return Observable.error(new ErrorResponse(ErrorResponse.ErrorType.UNEXPECTED,throwable));
                             }
                         }
                         else {

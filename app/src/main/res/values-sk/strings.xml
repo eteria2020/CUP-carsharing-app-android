@@ -229,7 +229,7 @@
     <string name="retryToOpenDoorPopup">Vyskytla sa chyba, chceš to skúsiť znova?</string>
     <string name="first_payment_login_alert">Si zablokovaný za neuhradenie prvého poplatku, ak chceš používať Share\'ngo prihlás sa vo svojej osobnej zóne pokračuj v úhrade poplatku.</string>
     <string name="failed_payment_login_alert">Si zablokovaný za neuhradenie poplatku, ak chceš používať Share\'ngo prihlás sa vo svojej osobnej zóne pokračuj v úhrade poplatku.</string>
-    <string name="invalid_driver_license_login_alert">Tvoj profil je zablokovaný, pretože si zadal neplatný vodičský preukaz, pre použitie Share\'ngo sa vráť k osobným údajom, skontroluj a uprav zadané údaje.</string>
+    <string name="invalid_driver_license_login_alert">Tvoj účet je zablokovaný. Počkaj kým Tvoj profil verifikujeme. O aktivácii účtu dostaneš potvrdzovací e-mail.</string>
     <string name="disabled_webuser_login_alert">Tvoj profil je zablokovaný, pre bližšie informácie sa obráť na zákaznícky servis</string>
     <string name="expired_driver_license_login_alert">Si vyradený z dôvodu neplatného vodičského preukazu. Aby si mohol používať Share\'ngo vstúp do svojho osobného profilu a aktualizuj údaje</string>
     <string name="expired_credit_card_login_alert">Si vyradený, pretože platnosť zadanej platobnej karty vypršala. Aby si mohol použiť Share\'ngo vstúp do svojho osobného profilu a aktualizuj údaje</string>

@@ -44,7 +44,7 @@ public class BuyMinutesFragment extends BaseMvpFragment<BuyMinutesPresenter> imp
         mUnbinder = ButterKnife.bind(this, view);
 
         try{
-            supportURL = getResources().getString(R.string.endpointSupport) + getString(R.string.routeSupport);
+            supportURL = getResources().getString(R.string.endpointSupport);
         }catch (Exception e) {
             Log.e(TAG, "onCreateView: Exception", e);
         }
