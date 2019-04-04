@@ -323,5 +323,6 @@
     <string name="defLang">it</string>
     <string name="routeLegalNoteSK">/legal-notes/</string>
     <string name="pin_title">PIN UTENTE</string>
+    <string name="settingslang_nl_label">Olandese</string>
 
 </resources>

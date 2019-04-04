@@ -250,4 +250,5 @@
     <string name="routeLogin">/user/login?lang=sk_SK</string>
     <string name="defLang">sk</string>
     <string name="pin_title">PIN UTENTE</string>
+    <string name="settingslang_nl_label">Holandský</string>
 </resources>

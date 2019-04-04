@@ -8,7 +8,7 @@
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
     <string name="login">LOGIN</string>
-    <string name="error_msg_network_general">An error occurred, please check your internet connection and try again later </string>
+    <string name="error_msg_network_general">An error occurred, please check your internet connection and try again </string>
     <string name="error_generalerror_alert">A connection error occurred, please try again</string>
 
     <!--COMMON ERRORS-->
@@ -299,5 +299,6 @@
     <string name="routeLogin">/user/login?lang=en_EN</string>
     <string name="defLang">en</string>
     <string name="pin_title">PIN UTENTE</string>
+    <string name="settingslang_nl_label">Dutch</string>
 
 </resources>

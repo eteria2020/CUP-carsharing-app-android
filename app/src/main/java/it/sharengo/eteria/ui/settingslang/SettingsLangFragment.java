@@ -30,6 +30,9 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
     @BindView(R.id.skCheckImageView)
     ImageView skCheckImageView;
 
+    @BindView(R.id.nlCheckImageView)
+    ImageView nlCheckImageView;
+
     public static SettingsLangFragment newInstance() {
         SettingsLangFragment fragment = new SettingsLangFragment();
         return fragment;
@@ -52,6 +55,11 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
         else
             view.findViewById(R.id.skButton).setVisibility(View.VISIBLE);
 
+        if(!BuildConfig.FLAVOR.equalsIgnoreCase("olanda"))
+            view.findViewById(R.id.nlButton).setVisibility(View.GONE);
+        else
+            view.findViewById(R.id.nlButton).setVisibility(View.VISIBLE);
+
         return view;
     }
 
@@ -72,14 +80,22 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
             itCheckImageView.setVisibility(View.VISIBLE);
             enCheckImageView.setVisibility(View.GONE);
             skCheckImageView.setVisibility(View.GONE);
+            nlCheckImageView.setVisibility(View.GONE);
         }else if(lang.equals("en")){
             itCheckImageView.setVisibility(View.GONE);
             enCheckImageView.setVisibility(View.VISIBLE);
             skCheckImageView.setVisibility(View.GONE);
+            nlCheckImageView.setVisibility(View.GONE);
         }else if(lang.equals("sk")){
             itCheckImageView.setVisibility(View.GONE);
             enCheckImageView.setVisibility(View.GONE);
             skCheckImageView.setVisibility(View.VISIBLE);
+            nlCheckImageView.setVisibility(View.GONE);
+        }else if(lang.equals("nl")){
+            itCheckImageView.setVisibility(View.GONE);
+            enCheckImageView.setVisibility(View.GONE);
+            skCheckImageView.setVisibility(View.GONE);
+            nlCheckImageView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -127,6 +143,13 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
     @OnClick(R.id.skButton)
     public void onSKClick(){
         mPresenter.setLang(getContext(), "sk");
+    }
+    /**
+     * Set nl language.
+     */
+    @OnClick(R.id.nlButton)
+    public void onNLClick(){
+        mPresenter.setLang(getContext(), "nl");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

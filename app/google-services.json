@@ -13,27 +13,60 @@
           "package_name": "it.sharengo.eteria"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "672417303219-gsu60l8ba3anlo300red4rc4mej2ddk9.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyBQBGoxLq-futySgq_8HUX5Ogsii1yhqdo"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "672417303219-gsu60l8ba3anlo300red4rc4mej2ddk9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "672417303219-60243u3i1ans9p0ukbbdfqtqdvmem4sh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "it.eteria.sharengo.app",
+                "app_store_id": "1093104891"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672417303219:android:c957091281da3986",
+        "android_client_info": {
+          "package_name": "it.sharengo.nl"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQBGoxLq-futySgq_8HUX5Ogsii1yhqdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "672417303219-gsu60l8ba3anlo300red4rc4mej2ddk9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "672417303219-60243u3i1ans9p0ukbbdfqtqdvmem4sh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "it.eteria.sharengo.app",
+                "app_store_id": "1093104891"
+              }
+            }
+          ]
         }
       }
     },
@@ -44,27 +77,28 @@
           "package_name": "it.sharengo.sk"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "672417303219-gsu60l8ba3anlo300red4rc4mej2ddk9.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyBQBGoxLq-futySgq_8HUX5Ogsii1yhqdo"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "672417303219-gsu60l8ba3anlo300red4rc4mej2ddk9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "672417303219-60243u3i1ans9p0ukbbdfqtqdvmem4sh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "it.eteria.sharengo.app",
+                "app_store_id": "1093104891"
+              }
+            }
+          ]
         }
       }
     }

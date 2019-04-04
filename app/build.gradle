@@ -127,6 +127,8 @@ android {
         }
         slovakia {
         }
+        olanda {
+        }
     }
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileOptions {
