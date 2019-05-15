@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -212,7 +213,8 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
                 if (url.equals("http://www.sharengo.it/signup-3/mobile")) {
                     loadLogin();
                 }
-                return false;
+                view.loadUrl(needEmbeddedPdf(url));
+                return true;
             }
 
             @TargetApi(Build.VERSION_CODES.N)
@@ -222,7 +224,17 @@ public class SignupFragment extends BaseMvpFragment<SignupPresenter> implements 
                 if (url.equals("http://www.sharengo.it/signup-3/mobile")) {
                     loadLogin();
                 }
-                return false;
+                url = needEmbeddedPdf(url);
+
+                webview.loadUrl( url);
+                return true;
+            }
+            private String needEmbeddedPdf(@NonNull String url){
+
+                if(url.split("[?]")[0].endsWith(".pdf")){
+                    url = "https://docs.google.com/gview?url="+url+"&embedded=true";
+                }
+                return url;
             }
 
             @Override

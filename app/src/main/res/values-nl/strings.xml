@@ -45,7 +45,7 @@
     <string name="maps_opendoor_action">Open de deuren</string>
     <string name="maps_bookingcar_action">Reserveer auto</string>
     <string name="maps_autonomy_label">bereik: <![CDATA[<b>%d km</b>]]></string>
-    <string name="maps_distance_label">%.d mt afstand</string>
+    <string name="maps_distance_label">%d mt afstand</string>
     <string name="maps_distancekm_label">%.2f km afstand</string>
     <string name="maps_time_label">%d minuten lopen</string>
     <string name="maps_timeh60_label">1 uur lopen</string>
@@ -240,8 +240,8 @@
     <string name="carOpen_unplug_confirm">1. Open de auto en wacht tot de deuren open gaan \n\n2. Koppel de blauwe stekker van de oplaadkabel los van de auto en zorg ervoor dat je de stekker vasthoudt en niet de kabel \n\n3. Haal de stekker uit de oplaadpaal \n\n4. Leg het netsnoer weer terug in de kofferbak van de auto \n\n5. Stap in de auto en volg de instructies in de video\n\n</string>
     <string name="carOpen_resum_park_confirm">Weet je zeker dat je de rit wilt hervatten?</string>
     <string name="routeSignup" translatable="false">/signup/mobile</string>
-    <string name="routeLegalNote" translatable="false">/note-legali-app/?app</string>
     <string name="routeLegalNoteEN">/en/legal-notes/?app</string>
+    <string name="routeLegalNoteNL">/pdf/nl/ReglementSharengo.pdf</string>
     <string name="routeSupport">/home</string>
     <string name="routeForgotPassword" translatable="false">/forgot-password/mobile</string>
     <string name="routeLogin">/user/login</string>
@@ -255,7 +255,7 @@
     <string name="close_confirm_car_trip">Weet je zeker dat je de rit wilt afsluiten?</string>
     <string name="alert_close_car_onpress">De auto wordt zometeen gesloten; je ontvangt een melding wanneer het proces is voltooid.</string>
     <string name="defLang">nl</string>
-    <string name="routeLegalNoteSK">/legal-notes/</string>
+    <string name="routeLegalNoteSK">/wp-content/uploads/2019/02/VOP-Sharengo.sk_.pdf</string>
     <string name="pin_title">PIN GEBRUIKER</string>
     <string name="settingslang_nl_label">Nederlands</string>
 </resources>

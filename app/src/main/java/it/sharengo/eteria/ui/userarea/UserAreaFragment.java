@@ -231,21 +231,37 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(getActivity() != null) {
-
-                    loadUrl(view, url);
-                }
-                return false;
+                Log.d("BOMB","webview URL " +url);
+//                if(getActivity() != null) {
+//
+//                    loadUrl(view, url);
+//                }
+                view.loadUrl(needEmbeddedPdf(url));
+                return true;
             }
 
             @TargetApi(Build.VERSION_CODES.N)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                if(getActivity() != null) {
-                    String mobileUrl = request.getUrl().toString();
-                    loadUrl(view, mobileUrl);
+                Log.d("BOMB","webview URL " +request.getUrl().toString());
+//                if(getActivity() != null) {
+//                    String mobileUrl = request.getUrl().toString();
+//                    loadUrl(view, mobileUrl);
+//                }
+                String url = needEmbeddedPdf(request.getUrl().toString());
+
+                    view.loadUrl( url);
+
+                return true;
+            }
+
+
+            private String needEmbeddedPdf(@NonNull String url){
+
+                if(url.split("[?]")[0].endsWith(".pdf")){
+                    url = "https://docs.google.com/gview?url="+url+"&embedded=true";
                 }
-                return false;
+                return url;
             }
         });
         webview.postUrl(loginURL,postData.getBytes());
@@ -253,6 +269,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
     }
 
     private void loadUrl(WebView view, String mobileUrl){
+
         if (StringUtils.equals(mobileUrl, userAreaURL)) {
             mobileUrl = mobileUrl + baseURL+"/mobile?lang=" + mPresenter.getLang();
             Log.d("BOMB","Webview is loading: "+mobileUrl);

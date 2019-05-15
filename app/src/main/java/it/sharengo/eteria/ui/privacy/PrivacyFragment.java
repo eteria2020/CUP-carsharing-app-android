@@ -74,7 +74,7 @@ public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implement
 
       //  ((BaseActivity) getActivity()).showLoadingChronology();
 
-        webview.setIgnoreUrls(privacyURL);
+//        webview.setIgnoreUrls(privacyURL);
         //Pulisco la sessione
         CookieManager cookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -157,8 +157,9 @@ public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implement
                 if(PrivacyFragment.this.privacyURL.equalsIgnoreCase(request.getUrl().toString())) {
 
                     webview.loadUrl( request.getUrl().toString());
+                    return true;
                 }
-                return true;
+                return false;
             }
 
 

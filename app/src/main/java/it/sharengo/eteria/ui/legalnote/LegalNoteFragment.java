@@ -3,6 +3,7 @@ package it.sharengo.eteria.ui.legalnote;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,15 +16,10 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.Locale;
-
 import butterknife.ButterKnife;
 import it.sharengo.eteria.BuildConfig;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.routing.Navigator;
-import it.sharengo.eteria.ui.base.activities.BaseActivity;
 import it.sharengo.eteria.ui.base.fragments.BaseMvpFragment;
 import it.sharengo.eteria.ui.base.webview.MyWebView;
 import it.sharengo.eteria.ui.components.CustomDialogClass;
@@ -36,7 +32,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
     public static final String ARG_TYPE = "ARG_TYPE";
 
     private String fileNameURL="";
-    private String legalNoteURl =" https://site.sharengo.it/note-legali-app/?app";
+    private String legalNoteURL =" https://site.sharengo.it/note-legali-app/?app";
 
     private boolean isLogin;
 
@@ -68,12 +64,16 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
         try{
 
             if( mPresenter.getLang().equals("it") )
-                legalNoteURl = getResources().getString(R.string.endpointSiteWP) + getString(R.string.routeLegalNote);
+                legalNoteURL = getResources().getString(R.string.endpointSiteWP) + getString(R.string.routeLegalNote);
             else
-                legalNoteURl = getResources().getString(R.string.endpointSiteWP) +  getString(R.string.routeLegalNoteEN);
+                legalNoteURL = getResources().getString(R.string.endpointSiteWP) +  getString(R.string.routeLegalNoteEN);
 
             if(BuildConfig.FLAVOR.equalsIgnoreCase("slovakia"))
-                legalNoteURl = getResources().getString(R.string.endpointSiteWP) + getString(R.string.routeLegalNoteSK) + "?lang=" + mPresenter.getLang();
+                legalNoteURL = getResources().getString(R.string.endpointSiteWPContent) + getString(R.string.routeLegalNoteSK) ;
+
+
+            if(BuildConfig.FLAVOR.equalsIgnoreCase("olanda"))
+                legalNoteURL = getResources().getString(R.string.endpointSite) +  getString(R.string.routeLegalNoteNL);
 
 
         }catch (Exception e) {
@@ -90,7 +90,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
 
       //  ((BaseActivity) getActivity()).showLoadingChronology();
 
-        webview.setIgnoreUrls(legalNoteURl);
+        webview.setIgnoreUrls(legalNoteURL);
         //Pulisco la sessione
         CookieManager cookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -128,8 +128,9 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
 
         isLogin = false;
         webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setAllowContentAccess(true);
 
-        webview.getSettings().setDomStorageEnabled(true);
+//        webview.getSettings().setDomStorageEnabled(true);
 
         webview.setWebChromeClient(new WebChromeClient());
 
@@ -155,9 +156,10 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
             @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(LegalNoteFragment.this.legalNoteURl.equalsIgnoreCase(url)) {
+                url = needEmbeddedPdf(url);
+                if(needEmbeddedPdf(LegalNoteFragment.this.legalNoteURL).equalsIgnoreCase(url)) {
 
-                    webview.loadUrl(url);
+                    view.loadUrl( url);
                 }
                 return true;
             }
@@ -165,20 +167,36 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
             @TargetApi(Build.VERSION_CODES.N)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                if(LegalNoteFragment.this.legalNoteURl.equalsIgnoreCase(request.getUrl().toString())) {
+                String url = needEmbeddedPdf(request.getUrl().toString());
+                if(needEmbeddedPdf(LegalNoteFragment.this.legalNoteURL).equalsIgnoreCase(url)) {
 
-                    webview.loadUrl( request.getUrl().toString());
+                    view.loadUrl( url);
                 }
                 return true;
             }
 
+            private String needEmbeddedPdf(@NonNull String url){
+
+                if(url.split("[?]")[0].endsWith(".pdf")){
+                    url = "https://docs.google.com/gview?url="+url+"&embedded=true";
+                }
+                return url;
+            }
+
 
         });
-        Log.d("link: ", legalNoteURl+fileNameURL);
+        Log.d("link: ", legalNoteURL +fileNameURL);
 
-        webview.loadUrl(legalNoteURl);
+        webview.loadUrl(needEmbeddedPdf(legalNoteURL));
         webview.setVisibility(View.VISIBLE);
 
+    }
+    private String needEmbeddedPdf(@NonNull String url){
+
+        if(url.split("[?]")[0].endsWith(".pdf")){
+            url = "https://docs.google.com/gview?url="+url+"&embedded=true";
+        }
+        return url;
     }
 
 
