@@ -236,7 +236,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
 //
 //                    loadUrl(view, url);
 //                }
-                view.loadUrl(needEmbeddedPdf(url));
+                loadUrl(view,needEmbeddedPdf(url));
                 return true;
             }
 
@@ -250,7 +250,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
 //                }
                 String url = needEmbeddedPdf(request.getUrl().toString());
 
-                    view.loadUrl( url);
+                    loadUrl(view,url);
 
                 return true;
             }
