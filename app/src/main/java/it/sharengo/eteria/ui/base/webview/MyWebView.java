@@ -41,8 +41,7 @@ public class MyWebView extends WebView {
     @Override
     public void loadUrl(String url) {
         super.loadUrl(url);
-        Log.d("BOMB", "WEBVIEW LOAD URL" + url);
-
+        Log.d("BOMB", "WEBVIEW LOAD URL: " + url);
     }
 
     @Override
