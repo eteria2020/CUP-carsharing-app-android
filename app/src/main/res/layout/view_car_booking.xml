@@ -28,7 +28,7 @@
                 <it.sharengo.eteria.ui.components.CustomTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:textAllCaps="true"
                     android:textSize="14sp"
                     android:textColor="@color/white"
@@ -37,8 +37,8 @@
                     android:id="@+id/userPinTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="left"
+                    android:layout_marginStart="5dp"
+                    android:gravity="start"
                     android:textAllCaps="true"
                     android:textSize="14sp"
                     android:textColor="@color/aureolin"/>
@@ -49,10 +49,11 @@
 
         <!-- Content -->
         <LinearLayout
+            android:id="@+id/bookingLlContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:background="@color/whitesmoke"
@@ -121,7 +122,7 @@
                     android:id="@+id/expiringTimeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:textSize="12sp"
                     android:textColor="@color/darkjunglegreen"
                     app:font_name="poppinsMedium" />
@@ -130,7 +131,7 @@
                     android:id="@+id/tripDurationTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:textSize="12sp"
                     android:textColor="@color/darkjunglegreen"
                     app:font_name="poppinsMedium"
@@ -158,27 +159,31 @@
 
             <it.sharengo.eteria.ui.components.CustomButton
                 android:id="@+id/openDoorBookingButton"
-                style="@style/button_primary"
+                style="@style/button_green"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minHeight="35dp"
                 android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="5dp"
-                android:textSize="12sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/booking_opendoor_action"/>
 
             <it.sharengo.eteria.ui.components.CustomButton
                 android:id="@+id/deleteBookingButton"
-                style="@style/button_secondary"
+                style="@style/button_red"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minHeight="35dp"
                 android:layout_weight="1"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:textSize="12sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:textSize="14sp"
+                android:maxLines="1"
                 android:text="@string/booking_delete_action"/>
+
 
         </LinearLayout>
         <!-- /Button -->

@@ -8,6 +8,7 @@ import it.sharengo.eteria.data.datasources.api.CitiesApi;
 import it.sharengo.eteria.data.datasources.api.GoogleApi;
 import it.sharengo.eteria.data.datasources.api.JsonPlaceholderApi;
 import it.sharengo.eteria.data.datasources.api.KmlApi;
+import it.sharengo.eteria.data.datasources.api.OsmApi;
 import it.sharengo.eteria.data.datasources.api.SharengoApi;
 import it.sharengo.eteria.data.datasources.api.SharengoMapApi;
 
@@ -22,8 +23,8 @@ public class DataSourceModule {
 
     @Provides
     @Singleton
-    SharengoDataSource provideSharengoRemoteDataSource(SharengoApi api) {
-        return new SharengoRetrofitDataSource(api);
+    SharengoDataSource provideSharengoRemoteDataSource(SharengoApi api, OsmApi osmApi) {
+        return new SharengoRetrofitDataSource(api,osmApi);
     }
 
     @Provides

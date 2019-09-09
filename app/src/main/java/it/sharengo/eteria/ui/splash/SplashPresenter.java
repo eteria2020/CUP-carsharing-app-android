@@ -60,7 +60,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
     @Override
     protected void subscribeRequestsOnResume() {
         if (mSplashRequest != null) {
-            addSubscription(mSplashRequest.subscribe());
+            addSubscription(mSplashRequest.subscribe(o -> {},throwable -> {}));
         }
     }
 
@@ -126,7 +126,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                             }
                         });
 
-                addSubscription(mSplashRequest.subscribe());
+                addSubscription(mSplashRequest.subscribe(o -> {},throwable -> {}));
 
             }else{ //Utente non loggato
 
@@ -141,7 +141,7 @@ public class SplashPresenter extends BasePresenter<SplashMvpView> {
                             }
                         });
 
-                addSubscription(mSplashRequest.subscribe());
+                addSubscription(mSplashRequest.subscribe(o -> {},throwable -> {}));
             }
         }
 

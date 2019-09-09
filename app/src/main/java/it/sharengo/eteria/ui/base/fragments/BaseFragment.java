@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -32,7 +33,7 @@ public class BaseFragment extends HdxBaseFragment {
             lang = mPref.getString(getString(R.string.preference_lang), Locale.getDefault().getLanguage());
         else
             lang = Locale.getDefault().getLanguage();
-
+		Log.d("BOMB", "LOCALE IS " +lang + " " + this.getClass());
         Resources res = getActivity().getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         android.content.res.Configuration conf = res.getConfiguration();

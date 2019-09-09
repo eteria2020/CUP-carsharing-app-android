@@ -8,7 +8,7 @@
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
     <string name="login">LOGIN</string>
-    <string name="error_msg_network_general">An error occurred, please check your internet connection and try again later </string>
+    <string name="error_msg_network_general">An error occurred, please check your internet connection and try again </string>
     <string name="error_generalerror_alert">A connection error occurred, please try again</string>
 
     <!--COMMON ERRORS-->
@@ -177,7 +177,7 @@
     <!-- Chronology -->
     <string name="chronology_title_label">Trip history</string>
     <string name="chronology_bookingn_label">Ride n. %s</string>
-    <string name="chronology_minutes_label" formatted="false">%s minuti%s</string>
+    <string name="chronology_minutes_label" formatted="false">%s minutes%s</string>
     <string name="chronology_date_label" formatted="false">%s - hours %s</string>
     <string name="chronology_end_label" formatted="false">End: %s - hours %s</string>
     <string name="chronology_rate_label">Rate by the minute: %s</string>
@@ -243,9 +243,9 @@
     <string name="faq_tutorialalert_action">Tutorial</string>
 
     <!-- Non tradotti -->
-    <string name="alert_logoutError">Careful, an error occured. Please login again.</string>
+    <string name="alert_logoutError">Careful, an error occurred. Please login again.</string>
     <string name="btn_login">LOGIN</string>
-    <string name="tripend_parkerdcar_label">Car parkerd</string>
+    <string name="tripend_parkedcar_label">Car parked</string>
     <string name="chronology_ratesmin_label">Minute fare: € %s</string>
     <string name="maps_freecar_label">With this car %s minutes of free drive</string>
 
@@ -262,19 +262,18 @@
     <string name="rates_signup_action">SUBSCRIBE NOW</string>
     <string name="maps_enablegps_label">Enable the GPS for more information</string>
     <string name="general_logout_alert">Are you sure you want to log out?</string>
-    <string name="tripend_notification_selfclose_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente in maniera gratuita . Ti ringraziamo per aver usato Share\'ngo</string>
-    <string name="first_payment_login_alert">Sei disabilitato per primo pagamento non effettuato, accedi alla tua area personale per poter procedere col pagamento</string>
-    <string name="failed_payment_login_alert">Sei disabilitato per un pagamento non effettuato, accedi alla tua area personale per poter procedere col pagamento</string>
-    <string name="invalid_driver_license_login_alert">Sei disabilitato perchè hai inserto una patente non valida, accedi alla tua area personale per controllare i dati</string>
-    <string name="disabled_webuser_login_alert">L\'account è disabilitato, contatta il servizio clienti per maggiori informazioni</string>
-    <string name="expired_driver_license_login_alert">Sei disabilitato perchè la patente che hai inserito è scaduta, accedi alla tua area personale per controllare i dati</string>
-    <string name="expired_credit_card_login_alert">Sei disabilitato perchè i dati di pagamento che hai inserito sono scaduti, accedi alla tua area personale per controllare i dati</string>
+    <string name="tripend_notification_selfclose_label">Trip completed. The trip lasted for a duration of %d minutes and closed properly for free. We thank you for using Share\'ngo</string>
+    <string name="first_payment_login_alert">You are disabled for the first payment not made, to use Share\'ngo access your personal area and complete the payment</string>
+    <string name="failed_payment_login_alert">"You are disabled for an unpaid payment, to use Share'ngo access your personal area and proceed with payment "</string>
+    <string name="invalid_driver_license_login_alert">You are disabled because you have entered an invalid driving license, to use Share\'ngo access your personal area, check and edit the data entered.</string>
+    <string name="disabled_webuser_login_alert">You are disabled, please contact the customer service for more information</string>
+    <string name="expired_credit_card_login_alert">You are disabled because the inserted credit card has expired, to use Share\'ngo access your personal area and enter the new data</string>
     <string name="next">AVANTI</string>
     <string name="home_welcomeauthf_label">Welcome back %s!</string>
     <string name="home_welcomef_label">Welcome!</string>
     <string name="booking_car_busy_alert">This car is not available, we are sorry for the inconvenience</string>
     <string name="booking_other_tripcar_alert">Someone is already using this Sharen\'go</string>
-    <string name="carOpen_confirm">Are you sure you want to open the doors? The trip will start right now.</string>
+    <string name="carOpen_confirm">Are you sure you want to open the doors? The trip will start right now.\n</string>
     <string name="menu_pin">PIN</string>
     <string name="menu_welcomef_login">Hi %s, welcome back!</string>
     <string name="pin_pin_label">YOUR PIN IS:</string>
@@ -282,9 +281,24 @@
     <string name="tripstart_notification_label">The door will open in few seconds.</string>
     <string name="tripstart_selfClosePopup">The trip will close for free after 5 minutes if the PIN is not entered</string>
     <string name="booking_user_unauthorized_alert">This car is not available, we are sorry for the inconvenience</string>
-    <string name="menu_privacy">Privacy statements</string>
+    <string name="menu_privacy">Privacy</string>
     <string name="menu_legalNote">Legal Note</string>
     <string name="failed_extra_payment_login_alert">Sei disabilitato per un pagamento penale fallito, contatta il servizio clienti per maggiori informazioni</string>
-    <string name="registration_not_completed_login_alert">Sei disabilitato perchè devi completare il processo di registrazione</string>
+    <string name="registration_not_completed_login_alert">You are disabled because you need to complete the registration process.</string>
+    <string name="carOpen_unplug_confirm">1. Open the car and wait for the doors to open \n2. Unplug the blue plug of the charging cable from the car paying attention to pull the plug and not the cable \n3. Unplug the charging column \n4. Store the charging cable in the trunk of the car \n5. Get in the car and follow the instructions on the video\n</string>
+    <string name="carOpen_resum_park_confirm">Are you sure you want to resume the trip?</string>
+    <string name="carOpen_bonus_price">This car have %d bonus minutes!</string>
+    <string name="carOpen_normal_price">The trip will have standard fee</string>
+    <string name="expired_driver_license_login_alert">You are disabled for expired driving license, to use Share\'ngo access your personal area and enter the new data</string>
+    <string name="settingslang_sk_label">Slovakia</string>
+    <string name="deleteButtonBookingDelete">Delete</string>
+    <string name="DeleteButtonBookingCloseTrip">Close trip</string>
+    <string name="close_confirm_car_trip">Are you sure you want to close the race?</string>
+    <string name="alert_close_car_onpress">The machine will close shortly, you will receive a notification of the completed process.</string>
+    <string name="routeLegalNoteEN">/en/legal-notes/?app</string>
+    <string name="routeLogin">/user/login?lang=en_EN</string>
+    <string name="defLang">en</string>
+    <string name="pin_title">PIN UTENTE</string>
+    <string name="settingslang_nl_label">Dutch</string>
 
 </resources>

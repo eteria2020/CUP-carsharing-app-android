@@ -1,9 +1,13 @@
 package it.sharengo.eteria.ui.splash;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.onesignal.OneSignal;
+
+import it.sharengo.eteria.BuildConfig;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.ui.base.activities.BaseActivity;
 
@@ -17,8 +21,15 @@ public class SplashActivity extends BaseActivity {
         if(savedInstanceState == null) {
             replaceFragment(SplashFragment.newInstance());
         }
+        OneSignal.sendTag("server", getString(R.string.defLang));
+        if(BuildConfig.BUILD_TYPE.equalsIgnoreCase("debug"))
+            OneSignal.sendTag("debug", "true");
     }
 
+    public static Intent getCallingIntent(Context context) {
+        Intent i = new Intent(context, SplashActivity.class);
+        return i;
+    }
 
 
     protected Bundle getIntentExtras(){

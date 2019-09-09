@@ -9,6 +9,7 @@ import it.sharengo.eteria.ui.chronology.ChronologyFragment;
 import it.sharengo.eteria.ui.faq.FaqFragment;
 import it.sharengo.eteria.ui.feeds.FeedsFragment;
 import it.sharengo.eteria.ui.feedsdetail.FeedsDetailFragment;
+import it.sharengo.eteria.ui.genericWebView.GenericWebViewFragment;
 import it.sharengo.eteria.ui.legalnote.LegalNoteFragment;
 import it.sharengo.eteria.ui.login.LoginFragment;
 import it.sharengo.eteria.ui.longintro.LongIntroFragment;
@@ -18,6 +19,7 @@ import it.sharengo.eteria.ui.menu.MenuFragment;
 import it.sharengo.eteria.ui.onboarding.OnboardingFragment;
 import it.sharengo.eteria.ui.passwordrecovery.PasswordRecoveryFragment;
 import it.sharengo.eteria.ui.pin.PinFragment;
+import it.sharengo.eteria.ui.privacy.PrivacyFragment;
 import it.sharengo.eteria.ui.profile.ProfileFragment;
 import it.sharengo.eteria.ui.rates.RatesFragment;
 import it.sharengo.eteria.ui.settingcities.SettingsCitiesFragment;
@@ -98,4 +100,8 @@ public interface MvpFragmentComponent {
     void inject(PinFragment fragment);
 
     void inject(LegalNoteFragment fragment);
+
+    void inject(PrivacyFragment fragment);
+
+    void inject(GenericWebViewFragment fragment);
 }

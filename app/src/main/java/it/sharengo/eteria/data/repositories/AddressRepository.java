@@ -9,9 +9,11 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import it.sharengo.eteria.data.datasources.GoogleDataSource;
+import it.sharengo.eteria.data.datasources.SharengoDataSource;
 import it.sharengo.eteria.data.datasources.SharengoMapDataSource;
 import it.sharengo.eteria.data.models.Address;
 import it.sharengo.eteria.data.models.GooglePlace;
+import it.sharengo.eteria.data.models.OsmPlace;
 import it.sharengo.eteria.data.models.ResponseGooglePlace;
 import it.sharengo.eteria.data.models.ResponseGoogleRoutes;
 import rx.Observable;
@@ -24,15 +26,17 @@ public class AddressRepository {
 
     private SharengoMapDataSource mRemoteDataSource;
     private GoogleDataSource mGoogleRemoteDataSource;
-
+    private SharengoDataSource mSharengoDataSource;
     private List<Address> mCachedAddress;
     private List<GooglePlace> mCachedPlace;
+    private OsmPlace mCachedOsmPlace;
     private ResponseGoogleRoutes mGoogleRoutes;
 
     @Inject
-    public AddressRepository(SharengoMapDataSource remoteDataSource, GoogleDataSource googleRemoteDataSource) {
+    public AddressRepository(SharengoMapDataSource remoteDataSource, GoogleDataSource googleRemoteDataSource,SharengoDataSource sharengoDataSource) {
         this.mRemoteDataSource = remoteDataSource;
         this.mGoogleRemoteDataSource = googleRemoteDataSource;
+        this.mSharengoDataSource = sharengoDataSource;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,15 +110,16 @@ public class AddressRepository {
      */
     public Observable<ResponseGooglePlace> searchPlace(String query, String location, String language, String key) {
 
-        return mGoogleRemoteDataSource.searchPlace(query, location, language, key)
-                .doOnNext(new Action1<ResponseGooglePlace>() {
-                    @Override
-                    public void call(ResponseGooglePlace response) {
-
-                        createOrUpdatePlacesInMemory(response);
-                    }
-                })
-                .compose(logSourcePlace("NETWORK"));
+        return Observable.error(new Exception("Deprecated"));
+//        return mGoogleRemoteDataSource.searchPlace(query, location, language, key)
+//                .doOnNext(new Action1<ResponseGooglePlace>() {
+//                    @Override
+//                    public void call(ResponseGooglePlace response) {
+//
+//                        createOrUpdatePlacesInMemory(response);
+//                    }
+//                })
+//                .compose(logSourcePlace("NETWORK"));
     }
 
 
@@ -162,16 +167,16 @@ public class AddressRepository {
      * @see              Observable<ResponseGoogleRoutes>
      */
     public Observable<ResponseGoogleRoutes> getRoutes(String origin, String destination, String mode, String key) {
-
-        return mGoogleRemoteDataSource.getRoutes(origin, destination, mode, key)
-                .doOnNext(new Action1<ResponseGoogleRoutes>() {
-                    @Override
-                    public void call(ResponseGoogleRoutes response) {
-
-                        createOrUpdateRoutesInMemory(response);
-                    }
-                })
-                .compose(logSourceRoutes("NETWORK"));
+        return Observable.error(new Exception("Deprecated"));
+//        return mGoogleRemoteDataSource.getRoutes(origin, destination, mode, key)
+//                .doOnNext(new Action1<ResponseGoogleRoutes>() {
+//                    @Override
+//                    public void call(ResponseGoogleRoutes response) {
+//
+//                        createOrUpdateRoutesInMemory(response);
+//                    }
+//                })
+//                .compose(logSourceRoutes("NETWORK"));
     }
 
 
@@ -201,5 +206,36 @@ public class AddressRepository {
                         });
             }
         };
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                             OSM place
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Invoke API getRoutes with params received from app (Google Place service)
+     *
+     * @param   query        latitude/longitude for the first point. Formato: lat,lon
+     * @param   format   latitude/longitude for the second point. Formato: lat,lon
+     * @param   polygon        the mode of transport to use when calculating directions (see: https://developers.google.com/maps/documentation/directions/intro#TravelModes)
+     * @param   addressdetails        Google API KEY
+     * @return           response observable object (ResponseGoogleRoutes)
+     */
+    public Observable<OsmPlace> searchPlaceOsm(String query, String format, String polygon, String addressdetails,String countrycode, String dedupe) {
+
+      return  mSharengoDataSource.searchPlaceOsm(query, format, polygon, addressdetails,countrycode,dedupe)
+              .concatMap(Observable::from)
+              .doOnNext(this::createOrUpdateRoutesInMemory
+              );
+              //.compose(logSourceRoutes("NETWORK"));
+    }
+
+    private void createOrUpdateRoutesInMemory(OsmPlace response) {
+        if (mCachedOsmPlace == null) {
+            mCachedOsmPlace = new OsmPlace();
+        }
+        mCachedOsmPlace = response;
     }
 }

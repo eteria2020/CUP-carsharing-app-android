@@ -36,6 +36,10 @@ public class SignupPresenter extends BasePresenter<SignupMvpView> {
 
     }
 
+    public String getLang(){
+        return  mAppRepository.getLang();
+    }
+
 }
 
 

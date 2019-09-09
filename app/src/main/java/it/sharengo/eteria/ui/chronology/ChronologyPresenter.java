@@ -18,6 +18,7 @@ import it.sharengo.eteria.data.models.ResponseTrip;
 import it.sharengo.eteria.data.models.ResponseUser;
 import it.sharengo.eteria.data.models.Trip;
 import it.sharengo.eteria.data.repositories.AppRepository;
+import it.sharengo.eteria.data.repositories.PreferencesRepository;
 import it.sharengo.eteria.data.repositories.UserRepository;
 import it.sharengo.eteria.ui.base.presenters.BasePresenter;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
@@ -44,13 +45,13 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
     private boolean background = false;
     public Context mContext;
 
-    public ChronologyPresenter(SchedulerProvider schedulerProvider,
-                               AppRepository appRepository,
-                               UserRepository userRepository) {
+    public ChronologyPresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         super(schedulerProvider,userRepository);
         mAppRepository = appRepository;
         mUserRepository = userRepository;
         mAppRepository.selectMenuItem(MenuItem.Section.HISTORIC);
+
+
     }
 
 
@@ -101,6 +102,7 @@ public class ChronologyPresenter extends BasePresenter<ChronologyMvpView> {
 
     private Observable<ResponseTrip> buildTripsRequest() {
         Log.w("background",": "+background);
+
         return mTripsRequest = mUserRepository.getTrips(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, false, background)
                 .first()
                 .compose(this.<ResponseTrip>handleDataRequest())

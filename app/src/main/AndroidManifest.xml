@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -18,8 +20,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+        <meta-data android:name="com.onesignal.NotificationOpened.DEFAULT" android:value="DISABLE" />
+
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -139,18 +146,21 @@
             android:theme="@style/AppTheme.Base.NoAnimation"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.privacystatement.PrivacyStatementActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.legalnote.LegalNoteActivity"
             android:screenOrientation="portrait" />
- />
+        <activity
+            android:name=".ui.privacy.PrivacyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.genericWebView.GenericWebViewActivity"
+            android:screenOrientation="portrait" />
 
-        <!-- GOOGLE MAPS API -->
+
+        <!-- GOOGLE MAPS API
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
+        -->
 
 
         <!-- GOOGLE MAP -->
@@ -177,6 +187,11 @@
         <activity
             android:name=".ui.pin.PinActivity"
             android:screenOrientation="portrait" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
     </application>
 
 

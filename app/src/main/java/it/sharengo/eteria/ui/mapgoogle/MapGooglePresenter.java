@@ -1,12 +1,12 @@
 package it.sharengo.eteria.ui.mapgoogle;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -33,6 +33,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.common.ErrorResponse;
@@ -44,6 +46,7 @@ import it.sharengo.eteria.data.models.GooglePlace;
 import it.sharengo.eteria.data.models.Kml;
 import it.sharengo.eteria.data.models.KmlServerPolygon;
 import it.sharengo.eteria.data.models.MenuItem;
+import it.sharengo.eteria.data.models.OsmPlace;
 import it.sharengo.eteria.data.models.Post;
 import it.sharengo.eteria.data.models.Reservation;
 import it.sharengo.eteria.data.models.Response;
@@ -68,9 +71,12 @@ import it.sharengo.eteria.data.repositories.PostRepository;
 import it.sharengo.eteria.data.repositories.PreferencesRepository;
 import it.sharengo.eteria.data.repositories.UserRepository;
 import it.sharengo.eteria.ui.base.map.BaseMapPresenter;
+import it.sharengo.eteria.utils.NotificationFactory;
+import it.sharengo.eteria.utils.schedulers.AndroidSchedulerProvider;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
 
@@ -106,6 +112,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private Observable<List<Car>> mFindPlatesRequest;
     private Observable<List<Address>> mFindAddressRequest;
     private Observable<ResponseGooglePlace> mFindPlacesRequest;
+    private Observable<OsmPlace> mFindPlacesOsmRequest;
     private Observable<ResponseGoogleRoutes> mFindRoutesRequest;
     private Observable<List<SearchItem>> mFindSearchRequest;
     private Observable<ResponseTrip> mTripsRequest;
@@ -135,6 +142,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private List<SearchItem> mSearchItems;
     private List<SearchItem> historicItems;
     private ResponseGooglePlace mGooglePlace;
+    private List<OsmPlace> mOsmPlace;
     private ResponseSharengoMap mSharengoMap;
     private ResponseGoogleRoutes mGoogleRoutes;
     private List<Post> mPosts;
@@ -172,6 +180,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     private int INT_5_SEC = 4000; //trasformato in 4 secondi per lentezza popup apertura corsa
     private int INT_30_SEC = 25000; //trasformato in 25 secondi per lentezza popup
 
+    @Inject
+    NotificationFactory notificationFactory;
 
     public MapGooglePresenter(SchedulerProvider schedulerProvider,
                               AppRepository appRepository,
@@ -193,6 +203,8 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         mKmlRepository = kmlRepository;
 
         mAppRepository.selectMenuItem(MenuItem.Section.BOOKING);
+
+        App.getInstance().getComponent().inject(this);
     }
 
 
@@ -206,7 +218,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     protected void subscribeRequestsOnResume() {
         getMvpView().setFeedInters();
 
-
         isTripExists = false;
         isParked = false;
         isBookingExists = false;
@@ -216,9 +227,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         mTripsRequest = null;
         mCarsReservationRequest = null;
         reservationTime = 0;
-
-        //getMvpView().removeReservationInfo();
-        //getMvpView().removeTripInfo();
 
         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) {
             if(isPause){
@@ -584,6 +592,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
      * @param  context  context of application.
      */
     public void loadKml(final Context context){
+        Log.d("DIODO", "loadKml: start");
 
         SharedPreferences mPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE);
 
@@ -596,11 +605,11 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         if(obj != null) getMvpView().showPolygon(obj);
         else {
             JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                    (Request.Method.GET, "http://www.sharengo.it/zone", null, new com.android.volley.Response.Listener<JSONObject>() {
+                    (Request.Method.GET, context.getString(R.string.endpointSite) + context.getString(R.string.routeZone), null, new com.android.volley.Response.Listener<JSONObject>() {
 
                         @Override
                         public void onResponse(JSONObject response) {
-
+                            Log.d("DIODO", "loadKml: start");
                             parseKml(context, response);
                         }
                     }, new com.android.volley.Response.ErrorListener() {
@@ -608,6 +617,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
+                            Log.e("DIODO", "loadKml: error",error);
                         }
                     }) {
             };
@@ -619,6 +629,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
     private void parseKml(Context context, JSONObject response){
 
+        Log.d("DIODO", "parseKml: " + response.toString());
         List<KmlServerPolygon> polygons = new ArrayList<>();
 
         Iterator<String> iter = response.keys();
@@ -677,6 +688,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         }catch (NullPointerException e){}
 
     }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -1107,6 +1119,64 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             getMvpView().onLoadCarInfo(mResponseInfo.data);
         }
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              GET Car Details
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Load from server car information (detail)
+     *
+     * @param  plate  plate for car reservation.
+     */
+    public void loadCarDetails(String plate, String callingApp) {
+
+        hideLoading = true;
+        //Log.d("BOMB", "loadSelectedCars " + plate +user_lat + user_lon + callingApp);
+
+        mCarsInfoRequest = null;
+        mCarsInfoRequest = buildCarDetailsRequest(plate);
+        addSubscription(mCarsInfoRequest.unsafeSubscribe(getCarDetailsSubscriber()));
+    }
+
+
+    public Observable<ResponseCar> buildCarDetailsRequest(String plate) {
+
+        return mCarRepository.getCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, plate,null, null, null, null)
+                .first()
+                .compose(this.<ResponseCar>handleDataRequest());
+    }
+
+    private Subscriber<ResponseCar> getCarDetailsSubscriber(){
+        return new Subscriber<ResponseCar>() {
+            @Override
+            public void onCompleted() {
+                mCarsInfoRequest = null;
+                checkCarDetailsResult();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mCarsInfoRequest = null;
+
+            }
+
+            @Override
+            public void onNext(ResponseCar responseList) {
+                getMvpView().setSelectedCar(responseList.data);
+            }
+        };
+    }
+
+    private void checkCarDetailsResult(){
+
+        if(mResponseInfo.reason.isEmpty() && mResponseInfo.data != null){
+            getMvpView().onLoadCarInfo(mResponseInfo.data);
+        }
+    }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     //                                              Find Address Sharengo
@@ -1299,6 +1369,109 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         getMvpView().showSearchResult(mSearchItems);
 
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Find Address by OSM
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Find place with Google Place API by text search by user.
+     *
+     * @param  context  context of application.
+     * @param  searchText  text serch by user.
+     * @param  format  xml.
+     * @param  polygon  polygon
+     * @param  addressdetails  addressdetails
+     */
+    public void searchPlaceOsm(Context context, String searchText, String format, String polygon, String addressdetails,String countrycode,String dedupe) {
+        hideLoading = true;
+
+        if( mFindPlacesOsmRequest == null) {
+            mFindPlacesOsmRequest = buildFindPlacesOsmRequest(context, searchText,format,polygon,addressdetails,countrycode,dedupe);
+            addSubscription(mFindPlacesOsmRequest.unsafeSubscribe(getFindPlacesOsmSubscriber()));
+        }
+    }
+
+
+    private Observable<OsmPlace> buildFindPlacesOsmRequest(Context context, String searchText, String format, String polygon, String addressdetails,String countrycode,String dedupe) {
+        return mFindPlacesOsmRequest = mAddressRepository.searchPlaceOsm(searchText,format,polygon,addressdetails,countrycode,dedupe)
+                .take(5)
+                .doOnSubscribe(() -> {mOsmPlace = new ArrayList<>();
+                Log.d("BOMB" , "inizio find place request");
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        Log.d("BOMB" , "fine find place request");
+                        checkPlacesOsmResult();
+
+                    }
+                });
+    }
+
+    private Subscriber<OsmPlace> getFindPlacesOsmSubscriber(){
+        return new Subscriber<OsmPlace>() {
+
+            @Override
+            public void onCompleted() {
+                mFindPlacesOsmRequest = null;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mFindPlacesOsmRequest = null;
+                //getMvpView().showError(e);
+            }
+
+            @Override
+            public void onNext(OsmPlace addressList) {
+                //mAddress = addressList; TODO
+                mOsmPlace.add(addressList);
+                Log.d("BOMB" , "onNext find place request");
+            }
+        };
+    }
+
+    private void checkPlacesOsmResult(){
+
+        /*mSearchItems = new ArrayList<SearchItem>();
+
+        for (Address address : mAddress){
+
+            String type = "address";
+
+            if(historicItems != null)
+                for (SearchItem sI : historicItems) {
+                    if (address.display_name.equals(sI.display_name)) type = "historic";
+                }
+
+            mSearchItems.add(new SearchItem(address.display_name, type, address.longitude, address.latitude));
+        }
+
+        getMvpView().showSearchResult(mSearchItems);*/
+
+        mSearchItems = new ArrayList<SearchItem>();
+
+        if(mOsmPlace != null){
+
+            for(OsmPlace place: mOsmPlace){
+
+                String type = "address";
+
+              /* if(historicItems != null)
+                    for (SearchItem sI : historicItems) {
+                        if (gPlace.address.equals(sI.display_name)) type = "historic";
+                    }*/
+
+                mSearchItems.add(new SearchItem(place.getDisplayName(), type, Float.parseFloat(place.getLon()),Float.parseFloat(place.getLat())));
+            }
+        }
+
+        getMvpView().showSearchResult(mSearchItems);
+
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -1379,66 +1552,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         mPreferencesRepository.saveSearchResultOnHistoric(mPref, searchItem);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    //                                              Get Routes
-    //
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Get the walking route from one point to another with Google Directions API.
-     *
-     * @param  context  context of application.
-     * @param   origin        latitude/longitude for the first point. Formato: lat,lon
-     * @param   destination   latitude/longitude for the second point. Formato: lat,lon
-     * @param   mode        the mode of transport to use when calculating directions (see: https://developers.google.com/maps/documentation/directions/intro#TravelModes)
-     */
-    public void getRoutes(Context context, Location origin, Location destination, String mode) {
-
-        hideLoading = true;
-        if( mFindRoutesRequest == null) {
-            mFindRoutesRequest = buildFindRoutesRequest(context, origin, destination, mode);
-            addSubscription(mFindRoutesRequest.unsafeSubscribe(getFindRoutesSubscriber()));
-        }
-    }
-
-
-    private Observable<ResponseGoogleRoutes> buildFindRoutesRequest(Context context, Location origin, Location destination, String lang) {
-        return mFindRoutesRequest = mAddressRepository.getRoutes(origin.getLatitude()+", "+origin.getLongitude(),
-                                                                destination.getLatitude()+", "+destination.getLongitude(),
-                                                                lang,
-                                                                context.getString(R.string.google_direction_api_key))
-                .first()
-                .compose(this.<ResponseGoogleRoutes>handleDataRequest())
-                .doOnCompleted(new Action0() {
-                    @Override
-                    public void call() {
-
-                        getMvpView().onUpdateWalkingNavigation(mGoogleRoutes);
-                    }
-                });
-    }
-
-    private Subscriber<ResponseGoogleRoutes> getFindRoutesSubscriber(){
-        return new Subscriber<ResponseGoogleRoutes>() {
-            @Override
-            public void onCompleted() {
-                mFindRoutesRequest = null;
-                //getMvpView().hideHCustomLoading();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                mFindRoutesRequest = null;
-                try{ getMvpView().hideHCustomLoading(); } catch (NullPointerException ex){}
-            }
-
-            @Override
-            public void onNext(ResponseGoogleRoutes routes) {
-                mGoogleRoutes = routes;
-            }
-        };
-    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1474,6 +1588,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     public void bookingCar(Car car, float user_lat, float user_lon, Context context){
         hideLoading = true;
 
+        if(getMvpView()!=null)
         getMvpView().showHCustomLoading();
 
         seconds = System.currentTimeMillis();
@@ -1487,7 +1602,7 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     }
 
     private Observable<ResponsePutReservation> buildReservationRequest(Car car, float user_lat, float user_lon) {
-        return mReservationRequest = mUserRepository.postReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, car.id, user_lat, user_lon)
+        return mReservationRequest = mUserRepository.postReservations(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, car, user_lat, user_lon)
                 .first()
                 .compose(this.<ResponsePutReservation>handleDataRequest())
                 .doOnCompleted(new Action0() {
@@ -1644,6 +1759,45 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * controllo reservation e dettagi macchina per notificare lk'utente in caso di bonus o non
+     *
+     * @param  car     car to open.
+     */
+    public void checkOpenDoor(@NonNull final Car car) {
+
+        getMvpView().showHCustomLoading();
+        Car carPref = mPreferencesRepository.getReservationCar();
+
+        if(carPref!=null &&  car.id.equalsIgnoreCase(carPref.id) && carPref.getValidBonus().size()>0 ){
+            if(mPreferencesRepository.getReservationTimestamp()>=System.currentTimeMillis()/1000) {
+                int bonusValue = carPref.getValidBonus().get(0).getValue();
+                getMvpView().openDoorConfirm(car, bonusValue);
+            }
+        }else {
+            addSubscription(buildCarDetailsRequest(car==null?"":car.id).concatMap(responseCar -> Observable.just(responseCar.data)).subscribe(car1 -> {
+                if(car1!=null && car1.getValidBonus().size()>0){
+                    int bonusValue = car1.getValidBonus().get(0).getValue();
+                    getMvpView().openDoorConfirm(car1, bonusValue);
+                }else {
+                    getMvpView().openDoorConfirm(car1, 0);
+                }
+            },throwable ->
+                Log.e(TAG, "checkOpenDoor: Error", throwable)
+            ,() -> {}));
+        }
+
+    }
+
+//    car1 -> {
+//        if(car1!=null && car1.getValidBonus().size()>0){
+//            int bonusValue = car1.getValidBonus().get(0).getValue();
+//            getMvpView().openDoorConfirm(car1, bonusValue);
+//        }else {
+//            getMvpView().openDoorConfirm(car1, 0);
+//        }
+//    })
+
+    /**
      * Send command for open door of car.
      *
      * @param  car     car to open.
@@ -1748,6 +1902,144 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
                         if(!isParked)
                             getMvpView().openCarNotification();
                         isTripOpening=true;
+                        isTripOpeningCount=0;
+
+                    }else if(mResponseCarTrip.status.equalsIgnoreCase("400")){
+                        switch (mResponseCarTrip.splitMessages()){
+                            case noError:
+                                break;
+                            case generic:
+                                mReservation=null;
+                                getMvpView().generalError();
+                                break;
+                            case status:
+                                mReservation=null;
+                                getMvpView().carBusyError();
+                                break;
+                            case reservation:
+                                mReservation=null;
+                                getMvpView().tooManyReservationError();
+                                break;
+                            case trip:
+                                mReservation=null;
+                                getMvpView().reserveOnTripError();
+                                break;
+
+                        }
+                    }
+
+                }
+            }
+        };
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //                                              Close door
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Send command for open door of car.
+     *
+     * @param  car     car to open.
+     * @param  action  action to execute.
+     */
+    public void closeCar(String carPlate, String action) {
+
+        //getMvpView().showHCustomLoading();
+
+        seconds = System.currentTimeMillis();
+
+        isBookingExists = false;
+
+
+        if( mCarsTripRequest == null) {
+
+            mCarsTripRequest = null;
+            mCarsTripRequest = buildCarsCloseRequest(carPlate, action, userLat, userLon);
+            addSubscription(mCarsTripRequest.unsafeSubscribe(getCarsCloseSubscriber()));
+        }
+    }
+
+
+    private Observable<ResponseCar> buildCarsCloseRequest(final String carPlate, final String action, float user_lat, float user_lon) {
+
+        return mCarsTripRequest = mCarRepository.closeCars(mUserRepository.getCachedUser().username, mUserRepository.getCachedUser().password, carPlate, action, user_lat, user_lon)
+                .first()
+                .compose(this.<ResponseCar>handleDataRequest())
+                .doOnError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e("BOMB","some error occurs",throwable);
+                    }
+                })
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        if(mResponseCarTrip.status.equalsIgnoreCase("200")) {
+                            if(isViewAttached()) {
+                                getMvpView().showPopupAfterButtonClosePressed();
+                            }
+                        }
+//                       if(timestamp_start == 0) timestamp_start = (int) (System.currentTimeMillis() / 1000L);
+                        //loadCarsTrip(car.id);
+
+                    }
+                });
+    }
+
+    private Subscriber<ResponseCar> getCarsCloseSubscriber(){
+        return new Subscriber<ResponseCar>() {
+            @Override
+            public void onCompleted() {
+                mCarsTripRequest = null;
+                //getMvpView().hideCustomLoading();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mCarsTripRequest = null;
+                if(e instanceof ErrorResponse) {
+                    try {
+                        //noinspection ConstantConditions
+                        switch (ResponseCar.splitMessages(((ErrorResponse) e).rawMessage)) {
+                            case noError:
+                                break;
+                            case generic:
+                                mReservation = null;
+                                getMvpView().generalError();
+                                break;
+                            case status:
+                                mReservation = null;
+                                getMvpView().carBusyError();
+                                break;
+                            case reservation:
+                                mReservation = null;
+                                getMvpView().tooManyReservationError();
+                                break;
+                            case trip:
+                                mReservation = null;
+                                getMvpView().reserveOnTripError();
+                                break;
+
+                        }
+                    } catch (Exception ex) {
+                        Log.e("BOMB", "exception?", ex);
+                    }
+                }
+                //getMvpView().showError(e);
+                getMvpView().hideHCustomLoading();
+            }
+
+            @Override
+            public void onNext(ResponseCar responseList) {
+                mResponseCarTrip = responseList;
+
+                if(mResponseCarTrip!=null){
+                    if(mResponseCarTrip.status.equalsIgnoreCase("200")){
+                       
+                        isTripOpening=false;
                         isTripOpeningCount=0;
 
                     }else if(mResponseCarTrip.status.equalsIgnoreCase("400")){
@@ -2306,8 +2598,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
             @Override
             public void onError(Throwable e) {
                 mTripsRequestLast = null;
-                if(isViewAttached())
-                    getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start,mResponseTripLast.trips.get(0).timestamp_end);
+
+                try {
+                    if (isViewAttached())
+                        getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start, mResponseTripLast.trips.get(0).timestamp_end);
+                }catch (Exception ex){
+                    Log.e(TAG, "onError: probailmente non ho i dati",ex );
+                }
             }
 
             @Override
@@ -2331,6 +2628,10 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
              if(isViewAttached())
                 getMvpView().openNotification(mResponseTripLast.trips.get(0).timestamp_start,mResponseTripLast.trips.get(0).timestamp_end);
         }
+    }
+
+    public ResponseTrip getLastCurrentTrip(){
+        return mUserRepository.getmCachedCurrentTrip();
     }
 
 

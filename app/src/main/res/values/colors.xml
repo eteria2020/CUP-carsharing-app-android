@@ -2,7 +2,7 @@
 <resources>
   <color name="colorPrimary">#ffea00</color>
   <color name="colorPrimaryDark">#e9d701</color>
-  <color name="colorSecondary">#ff0000</color>
+  <color name="colorSecondary">#f00000</color>
   <color name="colorAccent">#ffea00</color>
   <color name="failureColor">@android:color/holo_red_dark</color>
   <color name="successColor">@android:color/holo_green_dark</color>
@@ -22,6 +22,7 @@
   <color name="aureolin_1">#ffeb00</color>
   <color name="darkjunglegreen_3">#101e24</color>
   <color name="white">#fefefe</color>
+  <color name="lightgray">#d3d3d3</color>
   <color name="mediumseagreen_2">#45ae4d</color>
   <color name="darkjunglegreen_4">#111d24</color>
   <color name="bluegray">#68a7dd</color>
@@ -93,7 +94,7 @@
   <color name="wenge_1">#5e5a57</color>
   <color name="palesilver_1">#c5bcb4</color>
   <color name="darkgray_3">#b8afa8</color>
-  <color name="onyx_3">#13120d</color>
-  <color name="shamrockgreen_1">#00a74b</color>
+  <color name="onyx_3">#313928</color>
+  <color name="shamrockgreen_1">#3ea447</color>
 </resources>
 

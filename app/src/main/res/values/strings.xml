@@ -11,6 +11,7 @@
     <string name="preference_kml" translatable="false">kml</string>
     <string name="preference_userinfo" translatable="false">userinfo</string>
     <string name="preference_city" translatable="false">city</string>
+    <string name="preference_reservation" translatable="false">reservationpreference</string>
 
 
     <!--PERMISSION-->
@@ -64,7 +65,7 @@
     <string name="general_notification_title" translatable="false">Share\'ngo</string>
 
     <!-- MAPPA -->
-    <string name="maps_search_placeholder">Cerca targa</string>
+    <string name="maps_search_placeholder">Cerca indirizzo o targa</string>
     <string name="maps_permissionlocation_alert">Share\'ngo ha bisogno dei permessi per accedere alla tua posizione. Vuoi aprire le impostazioni per abilitare la localizzazione?</string>
     <string name="maps_opendoor_action">Apri portiere</string>
     <string name="maps_bookingcar_action">Prenota auto</string>
@@ -134,7 +135,7 @@
 
     <!-- Registrazione -->
     <string name="signup_title_label">Iscriviti a Share\'ngo</string>
-    <string name="signup_description_label">L\'iscrizione al servizio costa 5 euro con 15 minuti bonus (condizioni standard, salvo promozioni). Se serve aiuto durante l\'iscrizione usa il pulsante chat!</string>
+    <string name="signup_description_label">L\'iscrizione al servizio è gratuita. Se serve aiuto durante l\'iscrizione usa il pulsante chat!</string>
     <string name="signup_subscribe_action">ISCRIVITI</string>
     <string name="signup_step1text1_action">Per iscriverti devi avere\na portata di mano:</string>
     <string name="signup_step1text2_action">CARTA DI IDENTITÀ</string>
@@ -268,7 +269,7 @@
     <!-- Non tradotti -->
     <string name="alert_logoutError">Attenzione si è verificato un errore. Ti invitiamo ad accedere nuovamente.</string>
     <string name="btn_login">ACCEDI</string>
-    <string name="tripend_parkerdcar_label">Auto in sosta</string>
+    <string name="tripend_parkedcar_label">Auto in sosta</string>
     <string name="chronology_ratesmin_label">Tariffa al minuto: € %s</string>
     <string name="maps_freecar_label">Con questa auto %s minuti di guida gratis!</string>
 
@@ -286,19 +287,43 @@
     <string name="rates_signup_action">Iscriviti subito</string>
     <string name="maps_enablegps_label">Abilitare il GPS per maggiori informazioni</string>
     <string name="general_logout_alert">Sei sicuro di voler effettuare il logout?</string>
-    <string name="carOpen_confirm">Sei sicuro di voler aprire le portirere? La corsa inizierà in questo momento.</string>
+    <string name="carOpen_confirm">Sei sicuro di voler aprire le portirere? La corsa inizierà in questo momento.\n</string>
+    <string name="carOpen_bonus_price">La macchina ha %d minuti bonus!</string>
+    <string name="carOpen_normal_price">La corsa avrà tariffa standard</string>
     <string name="tripend_notification_selfclose_label">Corsa completata. La corsa ha avuto durata %d minuti e si è chiusa correttamente in maniera gratuita.Ti ringraziamo per aver usato Share\'ngo</string>
     <string name="retryToOpenDoorPopup">Si è verificato un errore vuoi riprovare?</string>
     <string name="first_payment_login_alert">Sei disabilitato per primo pagamento non effettuato, per utilizzare Share\'ngo accedi alla tua area personale e completa il pagamento</string>
     <string name="failed_payment_login_alert">Sei disabilitato per un pagamento non effettuato, per utilizzare Share\'ngo accedi alla tua area personale e procedi col pagamento</string>
-    <string name="invalid_driver_license_login_alert">Sei disabilitato perchè hai inserito una patente non valida, per utilizzare Share\'ngo accedi alla tua area personale, controlla e modifica i dati inseriti</string>
+    <string name="invalid_driver_license_login_alert">Sei disabilitato perchè hai inserito una patente non valida, per utilizzare Share\'ngo accedi alla tua area personale, controlla e modifica i dati inseriti.</string>
     <string name="disabled_webuser_login_alert">Sei disabilitato, contatta il servizio clienti per maggiori informazioni</string>
     <string name="expired_driver_license_login_alert">Sei disabilitato per patente scaduta, per utilizzare Share\'ngo accedi alla tua area personale ed inserisci i nuovi dati</string>
     <string name="expired_credit_card_login_alert">Sei disabilitato perchè la carta inserita è scaduta, per utilizzare Share\'ngo accedi alla tua area personale ed inserisci i nuovi dati</string>
     <string name="next">AVANTI</string>
-    <string name="menu_privacy">Privacy statements</string>
+    <string name="menu_privacy">Privacy</string>
     <string name="menu_legalNote">Note legali</string>
     <string name="failed_extra_payment_login_alert">Sei disabilitato per un pagamento penale fallito, contatta il servizio clienti per maggiori informazioni</string>
     <string name="registration_not_completed_login_alert">Sei disabilitato perchè devi completare il processo di registrazione.</string>
+    <string name="carOpen_unplug_confirm">"1. Apri l'auto e attendi l'apertura delle portiere \n\n2. Stacca la spina blu del cavo di ricarica dall'auto facendo attenzione ad impugnare la spina e non il cavo \n\n3. Stacca la spina dalla colonnina di ricarica \n\n4. Riponi il cavo di alimentazione nel baule dell'auto \n\n5. Entra in auto e segui le istruzioni sul video\n\n"</string>
+    <string name="carOpen_resum_park_confirm">Sei sicuro di voler riprendere la corsa?</string>
+    <string name="routeSignup" translatable="false">/signup/mobile</string>
+    <string name="routeLegalNote" >/note-legali-app/?app</string>
+    <string name="routeLegalNoteEN">/en/legal-notes/?app</string>
+    <string name="routeSupport">/home</string>
+    <string name="routeForgotPassword" translatable="false">/forgot-password/mobile</string>
+    <string name="routeLogin">/user/login</string>
+    <string name="routeUserArea" translatable="false">/area-utente</string>
+    <string name="routeMobile" translatable="false">/mobile</string>
+    <string name="routePrivacy" translatable="false">/privacy/?app</string>
+    <string name="routeZone" translatable="false">/zone</string>
+    <string name="settingslang_sk_label">Slovakia</string>
+    <string name="deleteButtonBookingDelete">Elimina</string>
+    <string name="DeleteButtonBookingCloseTrip">Chiudi corsa</string>
+    <string name="close_confirm_car_trip">Sei sicuro di voler chiudere la corsa?</string>
+    <string name="alert_close_car_onpress">La macchina si chiuderà a breve, riceverai una notifica a processo completato.</string>
+    <string name="defLang">it</string>
+    <string name="routeLegalNoteSK">/wp-content/uploads/2019/02/VOP-Sharengo.sk_.pdf</string>
+    <string name="routeLegalNoteNL">/pdf/nl/ReglementSharengo.pdf</string>
+    <string name="pin_title">PIN UTENTE</string>
+    <string name="settingslang_nl_label">Olandese</string>
 
 </resources>

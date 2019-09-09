@@ -104,10 +104,9 @@ public class SplashFragment extends BaseLocationFragment<SplashPresenter> implem
         }else{
             return;
         }
-        
 
-        //Se è il primo accesso, mostro il login
-        if(mPresenter.isFirstAccess(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE))){
+        //Controllo se ho una notifica da gestire
+        if(mPresenter.isFirstAccess(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE))){//Se è il primo accesso, mostro il login
             mPresenter.setFirstAccess(getActivity().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE));
             getActivity().finish();
             Navigator.launchLogin(this, Navigator.REQUEST_LOGIN_START);

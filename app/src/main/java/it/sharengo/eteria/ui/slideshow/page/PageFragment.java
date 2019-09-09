@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import it.sharengo.eteria.BuildConfig;
 import it.sharengo.eteria.R;
 
 /**
@@ -57,6 +58,9 @@ public class PageFragment extends Fragment {
         View slideIndicator2 = rootView.findViewById(R.id.slideIndicator2);
         View slideIndicator3 = rootView.findViewById(R.id.slideIndicator3);
         View slideIndicator4 = rootView.findViewById(R.id.slideIndicator4);
+        if(BuildConfig.FLAVOR.equalsIgnoreCase("slovakia")  || BuildConfig.FLAVOR.equalsIgnoreCase("olanda")){
+            slideIndicator2.setVisibility(View.GONE);
+        }
 
         switch (page){
             case 1:

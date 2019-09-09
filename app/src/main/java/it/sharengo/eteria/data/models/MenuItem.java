@@ -19,7 +19,8 @@ public class MenuItem {
         PIN,
         LOGOUT,
         FAKE_RATES,
-        LEGAL_NOTE,;
+        LEGAL_NOTE,
+        PRIVACY,;
         
         public static Section toSection (String sectionString) {
             try {

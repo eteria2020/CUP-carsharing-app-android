@@ -42,10 +42,16 @@ public interface MapGoogleMvpView extends MvpMapView {
     void reserveOnTripError();
     void unauthorizedError();
     void onLoadCarInfo(Car car);
-    void onUpdateWalkingNavigation(ResponseGoogleRoutes googleRoutes);
     void showLoading();
     void hideLoading();
     void generalError();
     void openCarNotification();
     void closeCarNotification();
+    void showPopupAfterButtonClosePressed();
+
+    /**
+     * This function is called after a car update to ask confirm of open door
+     * @param car car to be open
+     */
+    void openDoorConfirm(Car car, int bonusValue);
 }

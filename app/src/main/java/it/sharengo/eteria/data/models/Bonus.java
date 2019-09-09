@@ -1,12 +1,14 @@
 package it.sharengo.eteria.data.models;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import it.sharengo.eteria.data.common.ExcludeSerialization;
 
 public class Bonus {
 
-    public String type;
+    public String type="";
     public int value;
     public boolean status;
 
@@ -44,8 +46,28 @@ public class Bonus {
 
     }
 
-    public String getBonus() {
+    public @NonNull String getBonus() {
         return isStatus()?getType():"";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) {
+            if (o != null && String.class == o.getClass()) {
+                return type.equals(o);
+            }else {
+                return false;
+            }
+        }
+
+        Bonus bonus = (Bonus) o;
+
+        return type.equals(bonus.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return type.hashCode();
+    }
 }

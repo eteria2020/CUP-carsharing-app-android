@@ -19,6 +19,7 @@ import it.sharengo.eteria.ui.chronology.ChronologyPresenter;
 import it.sharengo.eteria.ui.faq.FaqPresenter;
 import it.sharengo.eteria.ui.feeds.FeedsPresenter;
 import it.sharengo.eteria.ui.feedsdetail.FeedsDetailPresenter;
+import it.sharengo.eteria.ui.genericWebView.GenericWebViewPresenter;
 import it.sharengo.eteria.ui.legalnote.LegalNotePresenter;
 import it.sharengo.eteria.ui.login.LoginPresenter;
 import it.sharengo.eteria.ui.longintro.LongIntroPresenter;
@@ -29,6 +30,7 @@ import it.sharengo.eteria.ui.menu.MenuPresenter;
 import it.sharengo.eteria.ui.onboarding.OnboardingPresenter;
 import it.sharengo.eteria.ui.passwordrecovery.PasswordRecoveryPresenter;
 import it.sharengo.eteria.ui.pin.PinPresenter;
+import it.sharengo.eteria.ui.privacy.PrivacyPresenter;
 import it.sharengo.eteria.ui.profile.ProfilePresenter;
 import it.sharengo.eteria.ui.rates.RatesPresenter;
 import it.sharengo.eteria.ui.settingcities.SettingsCitiesPresenter;
@@ -437,4 +439,29 @@ public class MvpFragmentModule {
         }
         return presenter;
     }
+
+    @Provides
+    PrivacyPresenter providePrivacyresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+        PrivacyPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new PrivacyPresenter(schedulerProvider, appRepository, userRepository);
+        }
+        return presenter;
+    }
+
+    @Provides
+    GenericWebViewPresenter provideGenericWebViewPresenter(PresenterManager presenterManager, SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
+        GenericWebViewPresenter presenter = null;
+        if (mBundle != null) {
+            presenter = presenterManager.restorePresenter(mBundle);
+        }
+        if (presenter == null) {
+            presenter = new GenericWebViewPresenter(schedulerProvider, appRepository, userRepository);
+        }
+        return presenter;
+    }
+
 }

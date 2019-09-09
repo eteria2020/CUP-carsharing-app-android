@@ -3,12 +3,17 @@ package it.sharengo.eteria.data.repositories;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.onesignal.OneSignal;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import it.sharengo.eteria.BuildConfig;
 import it.sharengo.eteria.data.datasources.SharengoDataSource;
+import it.sharengo.eteria.data.models.Car;
 import it.sharengo.eteria.data.models.Reservation;
 import it.sharengo.eteria.data.models.ResponsePutReservation;
 import it.sharengo.eteria.data.models.ResponseReservation;
@@ -33,11 +38,13 @@ public class UserRepository {
     private ResponseTrip mCachedTrips;
     private ResponseTrip mCachedCurrentTrip;
     private ResponseTrip mCachedTripsChron;
+    private PreferencesRepository mPreferencesRepository;
     public ResponseReservation mCachedReservation;
 
     @Inject
-    public UserRepository(SharengoDataSource remoteDataSource) {
+    public UserRepository(SharengoDataSource remoteDataSource, PreferencesRepository preferencesRepository) {
         this.mRemoteDataSource = remoteDataSource;
+        this.mPreferencesRepository = preferencesRepository;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +81,7 @@ public class UserRepository {
      */
     public void logoutUser(SharedPreferences prefs){
         mCachedUser = new User("", "", "");
-
+        OneSignal.deleteTag("username");
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(PreferencesRepository.KEY_USERNAME, "");
         editor.putString(PreferencesRepository.KEY_PASSWORD, "");
@@ -115,6 +122,7 @@ public class UserRepository {
     public Observable<ResponseUser> getUser(String username, String password, float user_lat, float user_lon) {
 
         return mRemoteDataSource.getUser(Credentials.basic(username, StringsUtils.md5(password)), user_lat, user_lon)
+                .doOnNext(responseUser -> OneSignal.sendTag("username",username))
                 .doOnNext(new Action1<ResponseUser>() {
                     @Override
                     public void call(ResponseUser response) {
@@ -125,7 +133,7 @@ public class UserRepository {
                 .compose(logSource("NETWORK"));
     }
 
-    private void createOrUpdateInMemory(ResponseUser response) {
+    public void createOrUpdateInMemory(ResponseUser response) {
 
         if (mCachedUser == null) {
             mCachedUser = new User();
@@ -194,6 +202,18 @@ public class UserRepository {
             mCachedReservation = new ResponseReservation();
         }
         mCachedReservation = response;
+        if(response.reservations!=null && response.reservations.size()>0 && mPreferencesRepository.getReservationTimestamp()==0 ) {
+            Car carPref = mPreferencesRepository.getReservationCar();
+            for(int i =0;i<response.reservations.size();i++){
+                if(carPref == null || response.reservations.get(i).car_plate.equalsIgnoreCase(carPref.id)){
+
+                    mPreferencesRepository.saveReservationTimestamp(response.reservations.get(i).timestamp_start + response.reservations.get(i).length);
+                    break;
+                }
+            }
+        }
+        else if(response.reservations==null || response.reservations.size()==0)
+            mPreferencesRepository.cleanReservationData();
     }
 
     private Observable.Transformer<ResponseReservation, ResponseReservation> logSourceReservation(final String source) {
@@ -228,20 +248,26 @@ public class UserRepository {
      *
      * @param  username  username of user
      * @param  password  password of user
-     * @param  plate     plate
+     * @param  car     plate
      * @param  user_lat  latitude of user
      * @param  user_lon  longitude of user
      * @return           response put reservation observable object
      * @see              Observable<ResponsePutReservation>
      */
-    public Observable<ResponsePutReservation> postReservations(String username, String password, String plate, float user_lat, float user_lon) {
+    public Observable<ResponsePutReservation> postReservations(String username, String password,final Car car, float user_lat, float user_lon) {
 
-        return mRemoteDataSource.postReservations(Credentials.basic(username, StringsUtils.md5(password)), plate, user_lat, user_lon)
+        return mRemoteDataSource.postReservations(Credentials.basic(username, StringsUtils.md5(password)), car.id, user_lat, user_lon)
                 .doOnNext(new Action1<ResponsePutReservation>() {
                     @Override
                     public void call(ResponsePutReservation response) {
 
                         createOrUpdateReservationInMemory(response);
+
+                    }
+                })
+                .doOnNext(responsePutReservation -> {
+                    if(!responsePutReservation.reason.isEmpty() && responsePutReservation.reason.equals("Reservation created successfully")){
+                        mPreferencesRepository.saveReservationCar(car);
                     }
                 })
                 .compose(logSourcePutReservation("NETWORK"));
@@ -297,7 +323,7 @@ public class UserRepository {
                 .doOnNext(new Action1<ResponsePutReservation>() {
                     @Override
                     public void call(ResponsePutReservation response) {
-
+                        mPreferencesRepository.cleanReservationData();
                     }
                 });
                 //.compose(logSourceDeleteReservation("NETWORK"));
@@ -309,6 +335,15 @@ public class UserRepository {
     //                                              Trips
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public ResponseTrip getmCachedTrips() {
+        return mCachedTrips;
+    }
+
+    public ResponseTrip getmCachedCurrentTrip() {
+        return mCachedCurrentTrip;
+    }
 
     /**
      * Invoke API getTrips with params received from app. Retrieve from cache if

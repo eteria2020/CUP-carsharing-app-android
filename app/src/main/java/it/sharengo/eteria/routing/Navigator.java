@@ -1,9 +1,11 @@
 package it.sharengo.eteria.routing;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import it.sharengo.eteria.App;
 import it.sharengo.eteria.data.models.Feed;
 import it.sharengo.eteria.data.models.MenuItem;
 import it.sharengo.eteria.ui.assistance.AssistanceActivity;
@@ -13,6 +15,7 @@ import it.sharengo.eteria.ui.chronology.ChronologyActivity;
 import it.sharengo.eteria.ui.faq.FaqActivity;
 import it.sharengo.eteria.ui.feeds.FeedsActivity;
 import it.sharengo.eteria.ui.feedsdetail.FeedsDetailActivity;
+import it.sharengo.eteria.ui.genericWebView.GenericWebViewActivity;
 import it.sharengo.eteria.ui.home.HomeActivity;
 import it.sharengo.eteria.ui.legalnote.LegalNoteActivity;
 import it.sharengo.eteria.ui.login.LoginActivity;
@@ -21,6 +24,7 @@ import it.sharengo.eteria.ui.mapgoogle.MapGoogleActivity;
 import it.sharengo.eteria.ui.onboarding.OnboardingActivity;
 import it.sharengo.eteria.ui.passwordrecovery.PasswordRecoveryActivity;
 import it.sharengo.eteria.ui.pin.PinActivity;
+import it.sharengo.eteria.ui.privacy.PrivacyActivity;
 import it.sharengo.eteria.ui.profile.ProfileActivity;
 import it.sharengo.eteria.ui.rates.RatesActivity;
 import it.sharengo.eteria.ui.settingcities.SettingsCitiesActivity;
@@ -32,6 +36,7 @@ import it.sharengo.eteria.ui.share.ShareActivity;
 import it.sharengo.eteria.ui.shortintro.ShortIntroActivity;
 import it.sharengo.eteria.ui.signup.SignupActivity;
 import it.sharengo.eteria.ui.slideshow.SlideshowActivity;
+import it.sharengo.eteria.ui.splash.SplashActivity;
 import it.sharengo.eteria.ui.tripend.TripEndActivity;
 import it.sharengo.eteria.ui.tutorial.TutorialActivity;
 import it.sharengo.eteria.ui.userarea.UserAreaActivity;
@@ -54,7 +59,7 @@ public class Navigator {
     public static final String EXTRA_MAP = "EXTRA_MAPA";
     public static final String EXTRA_USER_AREA = "EXTRA_USER_AREA";
     public static final String EXTRA_LEGAL_STATEMET = "EXTRA_LEGAL_STATEMET";
-
+    public static final String EXTRA_GENERIC_WEBVIEV = "EXTRA_GENERIC_WEBVIEV";
     public static final int REQUEST_LOGIN_START = 1;
     public static final int REQUEST_LOGIN_PROFILE = 2;
     public static final int REQUEST_LOGIN_MAPS = 3;
@@ -98,9 +103,17 @@ public class Navigator {
 
     public static void launchMapGoogle(Activity activity, int type) {
         Intent intent = MapGoogleActivity.getCallingIntent(activity, type);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP );
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         activity.startActivity(intent);
+    }
+    public static void launchMapGoogle(Context context, int type) {
+        if(App.getCurrentActivity() != MapGoogleActivity.class){
+            Intent intent = MapGoogleActivity.getCallingIntent(context, type);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+            context.startActivity(intent);
+        }
     }
 
     public static void launchMapGoogle(Fragment fragment, int type) {
@@ -133,10 +146,13 @@ public class Navigator {
     }
 
     public static void launchUserArea(Fragment fragment) {
-        Intent intent = UserAreaActivity.getCallingIntent(fragment.getActivity(),UserAreaActivity.InnerRoute.HOME);
+        launchUserArea(fragment.getActivity());
+    }
+    public static void launchUserArea(Activity activity) {
+        Intent intent = UserAreaActivity.getCallingIntent(activity,UserAreaActivity.InnerRoute.HOME);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
-        fragment.startActivity(intent);
+        activity.startActivity(intent);
     }
 
     public static void launchSettings(Fragment fragment) {
@@ -212,12 +228,33 @@ public class Navigator {
         fragment.startActivity(intent);
     }
 
+    public static void launchSplash(Context context) {
+        Intent intent = SplashActivity.getCallingIntent(context);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+    }
+
     public static void launchChronology(Fragment fragment) {
         Intent intent = ChronologyActivity.getCallingIntent(fragment.getActivity());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);
     }
+    public static void launchChronology(Context context) {
+        Intent intent = ChronologyActivity.getCallingIntent(context);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        context.startActivity(intent);
+    }
+    public static void launchGenericWebView(Context context, String url2open) {
+        Intent intent = GenericWebViewActivity.getCallingIntent(context,url2open);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        context.startActivity(intent);
+    }
+
 
     public static void launchOnboarding(Fragment fragment) {
         Intent intent = OnboardingActivity.getCallingIntent(fragment.getActivity());
@@ -293,6 +330,13 @@ public class Navigator {
 
     public static void launchLegalNote(Fragment fragment) {
         Intent intent = LegalNoteActivity.getCallingIntent(fragment.getActivity(), LegalNoteActivity.InnerRoute.LEGAL_NOTE);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
+        fragment.startActivity(intent);
+    }
+
+    public static void launchPrivacy(Fragment fragment) {
+        Intent intent = PrivacyActivity.getCallingIntent(fragment.getActivity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BaseDrawerActivity.EXTRA_MENU_ITEM, MenuItem.Section.HOME.toString());
         fragment.startActivity(intent);

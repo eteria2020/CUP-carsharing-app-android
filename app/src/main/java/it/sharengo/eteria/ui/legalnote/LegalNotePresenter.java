@@ -16,6 +16,7 @@ public class LegalNotePresenter extends BasePresenter<LegalNoteMvpView> {
     private final UserRepository mUserRepository;
 
 
+
     public LegalNotePresenter(SchedulerProvider schedulerProvider, AppRepository appRepository, UserRepository userRepository) {
         super(schedulerProvider, userRepository);
         mAppRepository = appRepository;
@@ -37,6 +38,10 @@ public class LegalNotePresenter extends BasePresenter<LegalNoteMvpView> {
 
     public User getUserInfo(){
         return mUserRepository.getCachedUser();
+    }
+
+    public String getLang(){
+        return mAppRepository.getLang();
     }
 
 

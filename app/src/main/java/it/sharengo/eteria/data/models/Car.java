@@ -1,5 +1,8 @@
 package it.sharengo.eteria.data.models;
 
+import android.location.Location;
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -30,6 +33,8 @@ public class Car {
 
     public boolean hidden;
 
+    public String software_version;
+
     @SerializedName("battery")
     public int autonomy;
 
@@ -41,7 +46,7 @@ public class Car {
     public Car() {
     }
 
-    public Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy, boolean parking, List<Bonus> bonus) {
+    public Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy, boolean parking, List<Bonus> bonus, String software_version) {
         this.id = id;
         this.manufactures = manufactures;
         this.model = model;
@@ -51,9 +56,10 @@ public class Car {
         this.autonomy = autonomy;
         this.parking = parking;
         this.bonus = bonus;
+        this.software_version = software_version;
     }
 
-    public Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy, boolean parking,boolean busy,boolean hidden, boolean active,  List<Bonus> bonus) {
+    public Car(String id, String manufactures, String model, float longitude, float latitude, String status, int autonomy, boolean parking,boolean busy,boolean hidden, boolean active,  List<Bonus> bonus, String software_version) {
         this.id = id;
         this.manufactures = manufactures;
         this.model = model;
@@ -66,6 +72,7 @@ public class Car {
         this.bonus = bonus;
         this.active = active;
         this.hidden = hidden;
+        this.software_version = software_version;
     }
 
     public Car(String id, float longitude, float latitude) {
@@ -78,7 +85,7 @@ public class Car {
         this.autonomy = autonomy;
     }
 
-    public ArrayList<Bonus> getValidBonus(){
+    public @NonNull ArrayList<Bonus> getValidBonus(){
         ArrayList<Bonus> result =new ArrayList<Bonus>();
         if(bonus!=null){
             for (Bonus b:bonus) {
@@ -88,6 +95,12 @@ public class Car {
         }
         return result;
     }
+
+    public boolean haveActiveBonus(String type){
+        ArrayList<Bonus> bonuses = getValidBonus();
+        return bonuses.contains(new Bonus(type,5,true));
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -103,6 +116,40 @@ public class Car {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    public Location getLocation(){
+        Location loc =  new Location("");
+        loc.setLatitude(latitude);
+        loc.setLongitude(longitude);
+        return loc;
+    }
+
+    public int getVersionObc(String software_version){
+        int software_versionInt = 0;
+        software_version = software_version.replaceFirst(".", ",");
+        software_versionInt = Integer.parseInt(software_version.substring(0,software_version.indexOf(".")));
+        return software_versionInt;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id='" + id + '\'' +
+                ", manufactures='" + manufactures + '\'' +
+                ", model='" + model + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", status='" + status + '\'' +
+                ", parking=" + parking +
+                ", busy=" + busy +
+                ", active=" + active +
+                ", hidden=" + hidden +
+                ", autonomy=" + autonomy +
+                ", bonus=" + bonus +
+                ", favourite=" + favourite +
+                ", software_version=" + software_version +
+                '}';
     }
 }
 

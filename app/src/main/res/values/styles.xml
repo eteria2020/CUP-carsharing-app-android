@@ -7,8 +7,22 @@
         <item name="android:textSize">12sp</item>
         <item name="font_name">poppinsBold</item>
     </style>
+    <style name="button_green">
+        <item name="android:background">@drawable/button_green</item>
+        <item name="android:textColor">@color/darkjunglegreen</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="font_name">poppinsBold</item>
+    </style>
     <style name="button_secondary">
         <item name="android:background">@drawable/button_secondary</item>
+        <item name="android:textColor">@color/darkjunglegreen</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="font_name">poppinsBold</item>
+    </style>
+    <style name="button_red">
+        <item name="android:background">@drawable/button_red</item>
         <item name="android:textColor">@color/darkjunglegreen</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">12sp</item>
@@ -23,10 +37,13 @@
     </style>
     <style name="button_alertdialog_positive">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_height">20dp</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
         <item name="android:background">@drawable/button_primary</item>
         <item name="android:textColor">@color/darkjunglegreen</item>
         <item name="android:textAllCaps">true</item>

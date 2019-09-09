@@ -12,6 +12,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import it.sharengo.eteria.data.models.MenuItem;
@@ -35,6 +36,10 @@ public class UserAreaPresenter extends BasePresenter<UserAreaMvpView> {
         mAppRepository = appRepository;
         mUserRepository = userRepository;
         mAppRepository.selectMenuItem(MenuItem.Section.PROFILE);
+    }
+
+    public String getLang(){
+        return mAppRepository.getLang();
     }
 
 

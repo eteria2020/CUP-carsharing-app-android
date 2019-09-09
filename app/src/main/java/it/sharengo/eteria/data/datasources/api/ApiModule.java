@@ -1,6 +1,7 @@
 package it.sharengo.eteria.data.datasources.api;
 
 import android.content.Context;
+import android.os.Build;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,6 +28,7 @@ import dagger.Provides;
 import it.sharengo.eteria.BuildConfig;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.common.SerializationExclusionStrategy;
+import it.sharengo.eteria.data.common.UserAgentIntercteptor;
 import it.sharengo.eteria.injection.ApplicationContext;
 import it.sharengo.eteria.utils.schedulers.SchedulerProvider;
 import okhttp3.OkHttpClient;
@@ -217,6 +219,7 @@ public class ApiModule {
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
+        httpClient.addInterceptor(new UserAgentIntercteptor("Sharengo_Android " + BuildConfig.VERSION_NAME));
 
         try {
 
@@ -300,9 +303,37 @@ public class ApiModule {
                 }
             }
         );
-        httpClient.readTimeout(20, TimeUnit.SECONDS);
-        httpClient.connectTimeout(20, TimeUnit.SECONDS);
+        httpClient.readTimeout(50, TimeUnit.SECONDS);
+        httpClient.connectTimeout(50, TimeUnit.SECONDS);
 
         return httpClient.build();
     }
+
+    @Provides
+    @Singleton
+    OsmApi provideOsmApi(@ApplicationContext Context context, SchedulerProvider schedulerProvider) {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        if (BuildConfig.DEBUG) {
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        } else {
+            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+        }
+
+
+        Gson gson = new GsonBuilder()
+                .addSerializationExclusionStrategy(new SerializationExclusionStrategy())
+                .create();
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(context.getString(R.string.endpointOsm))
+                //.baseUrl("http:gr3dcomunication.com/sharengo/")
+                .client(provideOkHttpClientTrusted(context))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(schedulerProvider.io()))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        return retrofit.create(OsmApi.class);
+    }
+
 }

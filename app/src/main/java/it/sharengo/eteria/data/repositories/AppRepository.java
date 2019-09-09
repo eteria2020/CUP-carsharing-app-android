@@ -16,6 +16,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.data.datasources.CitiesDataSource;
 import it.sharengo.eteria.data.models.City;
@@ -61,6 +62,7 @@ public class AppRepository {
         //menuItems.add(new MenuItem(MenuItem.Section.RATES));
         menuItems.add(new MenuItem(MenuItem.Section.HELP));
         menuItems.add(new MenuItem(MenuItem.Section.LEGAL_NOTE));
+        menuItems.add(new MenuItem(MenuItem.Section.PRIVACY));
         
         return Observable.just(menuItems);
     }
@@ -80,6 +82,7 @@ public class AppRepository {
         //menuItems.add(new MenuItem(MenuItem.Section.SHARE));
         menuItems.add(new MenuItem(MenuItem.Section.SETTINGS));
         menuItems.add(new MenuItem(MenuItem.Section.LEGAL_NOTE));
+        menuItems.add(new MenuItem(MenuItem.Section.PRIVACY));
         menuItems.add(new MenuItem(MenuItem.Section.LOGOUT));
 
         return Observable.just(menuItems);
@@ -120,12 +123,13 @@ public class AppRepository {
         mChachedCities = new ResponseCity();
 
         try {
-            InputStream is = context.getAssets().open("city.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            String json = new String(buffer, "UTF-8");
+//            InputStream is = context.getString(R.string.cotyJson);
+//            int size = is.available();
+//            byte[] buffer = new byte[size];
+//            is.read(buffer);
+//            is.close();
+//            String json = new String(buffer, "UTF-8");
+            String json =context.getString(R.string.cityJson);
 
             Type cityType = new TypeToken<ResponseCity>() {}.getType();
             Gson gson = new Gson();
@@ -133,8 +137,8 @@ public class AppRepository {
 
             setFavoriteCity(context);
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (Exception ex) {
+            Log.e(TAG, "getCities: ",ex );
         }
 
         return Observable.just(mChachedCities);
@@ -184,6 +188,7 @@ public class AppRepository {
 
     public void putLang(String lang){
         mLang = lang;
+        App.getInstance().mLang = lang;
     }
 
     public String getLang(){

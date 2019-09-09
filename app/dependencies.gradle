@@ -25,9 +25,10 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
     implementation "com.android.support:design:$rootProject.ext.supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.google.android.gms:play-services-location:$rootProject.ext.playServiceVersion"
-    implementation "com.google.android.gms:play-services-maps:$rootProject.ext.playServiceVersion"
-    implementation "com.google.firebase:firebase-core:11.4.2"
+    implementation "com.google.android.gms:play-services-location:16.0.0"
+    implementation "com.google.android.gms:play-services-maps:16.0.0"
+    implementation "com.google.firebase:firebase-core:16.0.4"
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.2.31"
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.2.31"
     implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jre8', version: '1.2.0'
@@ -58,4 +59,7 @@ dependencies {
     implementation "com.squareup.picasso:picasso:$rootProject.ext.squareupPicasso"
     implementation "com.google.maps.android:android-maps-utils:$rootProject.ext.googleMapsUtils"
     implementation "com.android.volley:volley:$rootProject.ext.volley"
+    implementation 'pub.devrel:easypermissions:2.0.0'
+
+    implementation 'com.onesignal:OneSignal:[3.10.3, 3.99.99]'
 }

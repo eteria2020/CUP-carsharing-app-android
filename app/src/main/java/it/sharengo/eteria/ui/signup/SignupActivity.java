@@ -3,14 +3,16 @@ package it.sharengo.eteria.ui.signup;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.ui.base.activities.BaseDrawerActivity;
+import it.sharengo.eteria.ui.base.webview.WebViewUser;
+import it.sharengo.eteria.ui.userarea.UserAreaFragment;
 
-
-public class SignupActivity extends BaseDrawerActivity {
+public class SignupActivity extends BaseDrawerActivity implements WebViewUser {
 
     private static final String TAG = SignupActivity.class.getSimpleName();
 
@@ -36,6 +38,26 @@ public class SignupActivity extends BaseDrawerActivity {
         inflater.inflate(menuToUse, menu);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+        if(handleBackButton())
+            super.onBackPressed();
+    }
+
+    @Override
+    public boolean handleBackButton() {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+        if(f instanceof SignupFragment){
+            if(((SignupFragment) f).webview.canGoBack()){
+                ((SignupFragment) f).webview.goBack();
+                return false;
+            }
+        }
+        return true;
     }
 
 }

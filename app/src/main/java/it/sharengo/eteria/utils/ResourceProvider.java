@@ -45,6 +45,8 @@ public class ResourceProvider {
                 return context.getString(R.string.menu_pin);
             case LEGAL_NOTE:
                 return context.getString(R.string.menu_legalNote);
+            case PRIVACY:
+                return context.getString(R.string.menu_privacy);
             case LOGOUT:
                 return context.getString(R.string.menu_logout);
             //case FAKE_RATES:
@@ -88,6 +90,8 @@ public class ResourceProvider {
                 return getDrawable(context, R.drawable.ic_lock);
             case LEGAL_NOTE:
                 return getDrawable(context, R.drawable.ic_legal_note);
+            case PRIVACY:
+                return getDrawable(context, R.drawable.ic_privacy);
             case LOGOUT:
                 return getDrawable(context, R.drawable.ic_logout);
            // case FAKE_RATES:

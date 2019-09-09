@@ -17,11 +17,17 @@ public class ErrorResponse extends Throwable {
     public ErrorType errorType;
     public String rawMessage;
     public Integer httpStatus;
+    public Throwable error;
 
     public ErrorResponse(){}
 
     public ErrorResponse(ErrorType errorType){
         this.errorType = errorType;
+    }
+
+    public ErrorResponse(ErrorType errorType, Throwable error) {
+        this.errorType = errorType;
+        this.error = error;
     }
 
     @Override
@@ -51,4 +57,15 @@ public class ErrorResponse extends Throwable {
                 .toHashCode();
     }
 
+
+    @Override
+    public void printStackTrace() {
+
+        if (error != null)
+            error.printStackTrace();
+        else
+            super.printStackTrace();
+    }
 }
+
+

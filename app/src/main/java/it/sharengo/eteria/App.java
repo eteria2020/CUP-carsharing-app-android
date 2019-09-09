@@ -6,26 +6,44 @@ import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.crashlytics.android.Crashlytics;
+import com.onesignal.OneSignal;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import io.fabric.sdk.android.Fabric;
 import it.sharengo.eteria.data.datasources.api.ApiModule;
+import it.sharengo.eteria.data.service.NotificationBroadcastReceiver;
 import it.sharengo.eteria.injection.components.ApplicationComponent;
 import it.sharengo.eteria.injection.components.DaggerApplicationComponent;
 import it.sharengo.eteria.injection.modules.ApplicationModule;
+import it.sharengo.eteria.utils.NotificationFactory;
 
 public class App extends MultiDexApplication {
 
     private static App instance;
+    @Inject
+    NotificationFactory notificationFactory;
 
     protected ApplicationComponent mComponent;
 
     private static ArrayList<Class> mStackActivity;
+
+    public String mLang = "it";
     @Override
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+//                .setNotificationReceivedHandler(new NotificationBroadcastReceiver())
+                .setNotificationOpenedHandler(new NotificationBroadcastReceiver())
+                .unsubscribeWhenNotificationsAreDisabled(true)
+
+                .init();
+
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         mStackActivity = new ArrayList<Class>();
 
@@ -34,6 +52,7 @@ public class App extends MultiDexApplication {
         }
 
         buildComponent();
+
 
         Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler());
     }
@@ -44,6 +63,13 @@ public class App extends MultiDexApplication {
 
     public static App getInstance() {
         return instance;
+    }
+
+
+    public static boolean isAppForeground(){
+
+        return mStackActivity!=null && mStackActivity.size()>0;
+
     }
 
     public ApplicationComponent getComponent() {

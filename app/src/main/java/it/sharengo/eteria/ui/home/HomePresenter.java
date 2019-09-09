@@ -39,7 +39,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     private TimerTask timerTask1min;
     private final Handler handler1min = new Handler();
     private boolean isTripExists;
-    private boolean isBookingExists;
+    private boolean isBookingExists = false;
     private int timestamp_start;
     private boolean hideLoading;
 
