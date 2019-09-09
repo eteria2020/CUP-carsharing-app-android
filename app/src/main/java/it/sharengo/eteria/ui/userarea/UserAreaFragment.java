@@ -106,8 +106,6 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
                     baseURL = "/tariffe";
                     break;
             }
-
-
         }
     }
 
@@ -231,7 +229,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.d("BOMB","webview URL " +url);
+                Log.d("BOMB","webview (String) URL " +url);
 //                if(getActivity() != null) {
 //
 //                    loadUrl(view, url);
@@ -243,13 +241,12 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             @TargetApi(Build.VERSION_CODES.N)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                Log.d("BOMB","webview URL " +request.getUrl().toString());
+                Log.d("BOMB","webview (WebResourceRequest) URL " +request.getUrl().toString());
 //                if(getActivity() != null) {
 //                    String mobileUrl = request.getUrl().toString();
 //                    loadUrl(view, mobileUrl);
 //                }
                 String url = needEmbeddedPdf(request.getUrl().toString());
-
                     loadUrl(view,url);
 
                 return true;
@@ -272,7 +269,12 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
 
         if (StringUtils.equals(mobileUrl, userAreaURL)) {
             mobileUrl = mobileUrl + baseURL+"/mobile?lang=" + mPresenter.getLang();
-            Log.d("BOMB","Webview is loading: "+mobileUrl);
+            Log.d("BOMB","Webview (equals) is loading: "+mobileUrl);
+            view.loadUrl(mobileUrl);
+        }
+        else if (StringUtils.contains(mobileUrl, userAreaURL)) {
+            mobileUrl = mobileUrl + baseURL+"?lang=" + mPresenter.getLang();
+            Log.d("BOMB","Webview (contains) is loading: "+mobileUrl);
             view.loadUrl(mobileUrl);
         }
         ((BaseActivity) getActivity()).hideLoadingChronology();

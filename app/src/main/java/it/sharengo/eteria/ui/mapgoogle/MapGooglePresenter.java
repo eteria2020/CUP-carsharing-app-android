@@ -1,6 +1,5 @@
 package it.sharengo.eteria.ui.mapgoogle;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -184,7 +183,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     @Inject
     NotificationFactory notificationFactory;
 
-
     public MapGooglePresenter(SchedulerProvider schedulerProvider,
                               AppRepository appRepository,
                               PostRepository postRepository,
@@ -220,8 +218,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
     protected void subscribeRequestsOnResume() {
         getMvpView().setFeedInters();
 
-//        notificationFactory.makeTestNotification();
-
         isTripExists = false;
         isParked = false;
         isBookingExists = false;
@@ -231,9 +227,6 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
         mTripsRequest = null;
         mCarsReservationRequest = null;
         reservationTime = 0;
-
-        //getMvpView().removeReservationInfo();
-        //getMvpView().removeTripInfo();
 
         if(mUserRepository.getCachedUser() != null && !mUserRepository.getCachedUser().username.isEmpty()) {
             if(isPause){

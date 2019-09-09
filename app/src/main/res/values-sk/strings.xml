@@ -240,7 +240,7 @@
     <string name="registration_not_completed_login_alert">Si vyradený, pretože je potrebné dokončiť proces registrácie.</string>
     <string name="carOpen_unplug_confirm">1. Otvor vozidlo a počkaj, kým sa dvere neotvoria. 2. Odpoj modrý konektor nabíjacieho kábla od auta a dávaj pozor aby si držal konektor a nie kábel. 3. Odpoj konektor od nabíjacej stanice. 4. Ulož kábel do kufra auta 5. Nastúp do auta a postupuj podľa pokynov vo videu.</string>
     <string name="carOpen_resum_park_confirm">Si si istý že chceš pokračovať v jazde?</string>
-    <string name="tripend_parkerdcar_label">Parkovanie je zaparkované</string>
+    <!-- <string name="tripend_parkerdcar_label">Parkovanie je zaparkované</string> -->
     <string name="settingslang_sk_label">Slovakia</string>
     <string name="deleteButtonBookingDelete">Zrušenie</string>
     <string name="DeleteButtonBookingCloseTrip">Zatvorte spustenie</string>
