@@ -8,7 +8,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0-alpha12'
         classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.11.0, 0.99.99]'
-
         classpath 'com.android.tools.build:gradle:3.4.1'
     }
 }
@@ -40,7 +39,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
-        versionCode 367
+        versionCode 369
         versionName "3.4.8"
 
         manifestPlaceholders = [
@@ -128,6 +127,9 @@ android {
         }
         olanda {
         }
+        slovenia {
+        }
+
     }
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileOptions {

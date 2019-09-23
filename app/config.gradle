@@ -39,7 +39,6 @@ android {
             resValue "string", "endpointSupportEmail", "servizioclienti@sharengo.eu"
         }
         slovakia {
-
             applicationIdSuffix ".sk"
             resValue "string", "lang", "sk"
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
@@ -97,7 +96,6 @@ android {
             resValue "string", "endpointSupportEmail", "servizioclienti@sharengo.eu"
         }
         olanda {
-
             applicationIdSuffix ".nl"
             resValue "string", "lang", "nl"
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
@@ -115,6 +113,25 @@ android {
             resValue "string", "endpointSupport", "https://site.sharengo.nl/hoe-werkt-het/"
             resValue "string", "cityJson", "{\"status\":true,\"data\":[]}"
             resValue "string", "endpointSupportEmail", "klantenservice@sharengo.nl"
+        }
+        slovenia {
+            applicationIdSuffix ".sl"
+            resValue "string", "lang", "sl"
+            resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
+            resValue "string", "endpointGoogle", "https://maps.googleapis.com/maps/api/"
+            resValue "string", "endpointSharengo", "https://api.sharengo.it:8023/"
+            resValue "string", "endpointSharengoMaps", "http://maps.sharengo.it/"
+            resValue "string", "endpointSharengoKML", "http://www.sharengo.it/"
+            resValue "string", "endpointCities", "https://www.sharengo.it/"
+            resValue "string", "endpointCitiesUser", "universo-sharengo.thedigitalproject.it"
+            resValue "string", "endpointCitiesPass", "universo-sharengo.thedigitalproject.it"
+            resValue "string", "endpointOsm", "http://maps.sharengo.it"
+            resValue "string", "endpointSite", "https://www.sharengo.it"
+            resValue "string", "endpointSiteWP", "https://site.sharengo.it"
+            resValue "string", "endpointSiteWPContent", "https://site.sharengo.it"
+            resValue "string", "endpointSupport", "http://support.sharengo.it/home"
+            resValue "string", "cityJson", "{\"status\":true,\"data\":[]}"
+            resValue "string", "endpointSupportEmail", "servizioclienti@sharengo.eu"
         }
     }
 }

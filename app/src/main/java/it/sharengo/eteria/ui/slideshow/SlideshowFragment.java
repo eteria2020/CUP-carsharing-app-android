@@ -121,7 +121,7 @@ public class SlideshowFragment extends BaseMvpFragment<SlideshowPresenter> imple
             super(fm);
             pagerFragments = new ArrayList<>();
             for (int i = 1; i <= NUM_PAGES; i++) {
-                if((BuildConfig.FLAVOR.equalsIgnoreCase("slovakia") || BuildConfig.FLAVOR.equalsIgnoreCase("olanda")) && i ==2)
+                if((BuildConfig.FLAVOR.equalsIgnoreCase("slovakia") || BuildConfig.FLAVOR.equalsIgnoreCase("slovenia") || BuildConfig.FLAVOR.equalsIgnoreCase("olanda")) && i ==2)
                     continue;
                 pagerFragments.add(PageFragment.newInstance(i));
             }

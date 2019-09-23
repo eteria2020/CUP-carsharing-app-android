@@ -249,7 +249,7 @@
     <string name="routeMobile" translatable="false">/mobile</string>
     <string name="routePrivacy" translatable="false">/privacy/?app</string>
     <string name="routeZone" translatable="false">/zone</string>
-    <string name="settingslang_sk_label">Slowakije</string>
+    <string name="settingslang_sk_label">Slowaaks</string>
     <string name="deleteButtonBookingDelete">Verwijderen</string>
     <string name="DeleteButtonBookingCloseTrip">Rit afsluiten</string>
     <string name="close_confirm_car_trip">Weet je zeker dat je de rit wilt afsluiten?</string>
@@ -258,4 +258,5 @@
     <string name="routeLegalNoteSK">/wp-content/uploads/2019/02/VOP-Sharengo.sk_.pdf</string>
     <string name="pin_title">PIN GEBRUIKER</string>
     <string name="settingslang_nl_label">Nederlands</string>
+    <string name="settingslang_sl_label">Sloveens</string>
 </resources>

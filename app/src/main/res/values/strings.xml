@@ -315,7 +315,7 @@
     <string name="routeMobile" translatable="false">/mobile</string>
     <string name="routePrivacy" translatable="false">/privacy/?app</string>
     <string name="routeZone" translatable="false">/zone</string>
-    <string name="settingslang_sk_label">Slovakia</string>
+    <string name="settingslang_sk_label">Slovacco</string>
     <string name="deleteButtonBookingDelete">Elimina</string>
     <string name="DeleteButtonBookingCloseTrip">Chiudi corsa</string>
     <string name="close_confirm_car_trip">Sei sicuro di voler chiudere la corsa?</string>
@@ -325,5 +325,6 @@
     <string name="routeLegalNoteNL">/pdf/nl/ReglementSharengo.pdf</string>
     <string name="pin_title">PIN UTENTE</string>
     <string name="settingslang_nl_label">Olandese</string>
+    <string name="settingslang_sl_label">Sloveno</string>
 
 </resources>

@@ -241,9 +241,6 @@ public class ApiModule {
                     }
             };
 
-
-
-
             CertificateFactory cf = CertificateFactory.getInstance("X509");
             Certificate caServer;
             InputStream cert = context.getResources().openRawResource(R.raw.client);
