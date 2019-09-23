@@ -148,7 +148,7 @@
     <string name="settingsaddress_empty_title">Too bad!</string>
     <string name="settingsaddress_empty_description">You haven\'t set up any favorite o recent address yet! Set up your most frequent destinations and save time as you choose where to go.</string>
     <string name="settingsaddress_title2_label">Set up your favorite addresses</string>
-    <string name="settingsaddress_description2_label">and make your searches quicker</string>
+    <string name="settingsaddress_description2_label">" in pospešite iskanje"</string>
     <string name="settingsaddress_edittitle_label">Would you like to change your favorite address?</string>
     <string name="settingsaddress_addtitle_label">Would you like to add this address to your favorite address list?</string>
     <string name="settingsaddress_deletetitle_label">Would you like to delete this address\nfrom your favorite address list?</string>
@@ -268,7 +268,7 @@
     <string name="invalid_driver_license_login_alert">You are disabled because you have entered an invalid driving license, to use Share\'ngo access your personal area, check and edit the data entered.</string>
     <string name="disabled_webuser_login_alert">You are disabled, please contact the customer service for more information</string>
     <string name="expired_credit_card_login_alert">You are disabled because the inserted credit card has expired, to use Share\'ngo access your personal area and enter the new data</string>
-    <string name="next">AVANTI</string>
+    <string name="next">NEXT</string>
     <string name="home_welcomeauthf_label">Welcome back %s!</string>
     <string name="home_welcomef_label">Welcome!</string>
     <string name="booking_car_busy_alert">This car is not available, we are sorry for the inconvenience</string>
@@ -290,7 +290,7 @@
     <string name="carOpen_bonus_price">This car have %d bonus minutes!</string>
     <string name="carOpen_normal_price">The trip will have standard fee</string>
     <string name="expired_driver_license_login_alert">You are disabled for expired driving license, to use Share\'ngo access your personal area and enter the new data</string>
-    <string name="settingslang_sk_label">Slovakia</string>
+    <string name="settingslang_sk_label">Slovak</string>
     <string name="deleteButtonBookingDelete">Delete</string>
     <string name="DeleteButtonBookingCloseTrip">Close trip</string>
     <string name="close_confirm_car_trip">Are you sure you want to close the race?</string>
@@ -300,5 +300,6 @@
     <string name="defLang">en</string>
     <string name="pin_title">PIN UTENTE</string>
     <string name="settingslang_nl_label">Dutch</string>
+    <string name="settingslang_sl_label">Slovenian</string>
 
 </resources>
