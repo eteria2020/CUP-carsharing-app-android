@@ -241,7 +241,7 @@
     <string name="carOpen_unplug_confirm">1. Otvor vozidlo a počkaj, kým sa dvere neotvoria. 2. Odpoj modrý konektor nabíjacieho kábla od auta a dávaj pozor aby si držal konektor a nie kábel. 3. Odpoj konektor od nabíjacej stanice. 4. Ulož kábel do kufra auta 5. Nastúp do auta a postupuj podľa pokynov vo videu.</string>
     <string name="carOpen_resum_park_confirm">Si si istý že chceš pokračovať v jazde?</string>
     <!-- <string name="tripend_parkerdcar_label">Parkovanie je zaparkované</string> -->
-    <string name="settingslang_sk_label">Slovakia</string>
+    <string name="settingslang_sk_label">Slovenský</string>
     <string name="deleteButtonBookingDelete">Zrušenie</string>
     <string name="DeleteButtonBookingCloseTrip">Zatvorte spustenie</string>
     <string name="close_confirm_car_trip">Naozaj chcete ukončiť preteky?</string>
@@ -251,4 +251,5 @@
     <string name="defLang">sk</string>
     <string name="pin_title">PIN UTENTE</string>
     <string name="settingslang_nl_label">Holandský</string>
+    <string name="settingslang_sl_label">Slovinčina</string>
 </resources>
