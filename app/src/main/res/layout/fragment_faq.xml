@@ -27,6 +27,7 @@
         style="@style/button_third"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/faq_tutorial_action" />
+        android:text="@string/faq_tutorial_action"
+        android:visibility="gone" />
 
 </LinearLayout>
