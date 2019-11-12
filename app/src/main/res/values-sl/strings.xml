@@ -4,302 +4,285 @@
 
     <!--GENERAL-->
     <string name="general_login_alert">Za uporabo te funkcije se morate prijaviti</string>
-    <string name="general_notenabled_alert">Ta funkcija bo kmalu izdana</string>
-    <string name="ok">v redu</string>
-    <string name="cancel">ODPOVED</string>
-    <string name="login">VPIŠI SE</string>
-    <string name="error_msg_network_general">Prišlo je do napake, preverite internetno povezavo in poskusite znova</string>
-    <string name="error_generalerror_alert">Prišlo je do napake v povezavi, poskusite znova</string>
-
-    <!--COMMON ERRORS-->
-    <string name="error_msg_no_network">Brez internetne povezave. Prosim poskusite kasneje</string>
-    <string name="error_msg_server_timeout">Strežnik je nedosegljiv. Prosim poskusite kasneje</string>
-    <string name="error_unexpected">Prišlo je do napake. Prosim poskusite kasneje</string>
+    <string name="general_notenabled_alert">Ta funkcija bo kmalu na voljo</string>
+    <string name="ok">OK</string>
+    <string name="cancel">PREKLIC</string>
+    <string name="login">Prijava</string>
+    <string name="error_msg_network_general">Prišlo je do napake, prosimo preverite internetno povezavo in poskusite pozneje</string>
+    <string name="error_generalerror_alert">Prišlo je do napake, prosimo poskusite znova</string><!--COMMON ERRORS--><string name="error_generic_msg">Nekaj je šlo narobe.</string>
+    <string name="error_msg_no_network">Ni internetne povezave. Prosimo, poskusite pozneje</string>
+    <string name="error_msg_server_timeout">Strežnik ni dosegljiv. Prosimo, poskusite pozneje</string>
+    <string name="error_msg_conversion">Prišlo je do napake. Prosimo, poskusite pozneje</string>
+    <string name="error_unexpected">Prišlo je do napake. Prosimo, poskusite pozneje</string>
     <string name="error_msg_http_400">Vaše zahteve ni mogoče izpolniti (400)</string>
-    <string name="error_msg_http_401">Zdi se, da vaše poverilnice niso veljavne. Prosim poskusite ponovno</string>
-    <string name="error_msg_http_403">Do te vsebine ni dovoljen dostop</string>
+    <string name="error_msg_http_401">Zdi se, da vaša pooblastila niso veljavna. Prosimo, poskusite ponovno</string>
+    <string name="error_msg_http_403">Niste pooblaščeni za dostop do te vsebine</string>
     <string name="error_msg_http_404">Vaše zahteve ni mogoče izpolniti (404)</string>
     <string name="error_msg_http_406">Vaša zahteva ni veljavna, preverite svoj vnos in poskusite znova (406)</string>
-    <string name="error_msg_http_500">Prišlo je do napake. Poskusite znova pozneje (500)</string>
-
+    <string name="error_msg_http_500">Prišlo je do napake. Prosimo, poskusite pozneje (500)</string>
+    
     <!--PERMISSION-->
     <string name="msg_rational_location_permission">Aplikacija potrebuje vaše dovoljenje za dostop do vašega položaja.</string>
 
     <!--MENU-->
     <string name="menu_home">Domov</string>
-    <string name="menu_welcome_login">Pozdravljeni %s, dobrodošli nazaj!</string>
-    <string name="menu_login">Vpiši se</string>
+    <string name="menu_welcome">Pozdravljeni!</string>
+    <string name="menu_welcome_login">%s, ponovno pozdravljeni!</string>
+    <string name="menu_login">Prijava</string>
     <string name="menu_signup">Prijava</string>
     <string name="menu_rates">Cene</string>
-    <string name="menu_profile">Uporabniško območje</string>
-    <string name="menu_booking">Rezerviraj avto</string>
-    <string name="menu_historic">Zgodovina potovanj</string>
+    <string name="menu_profile">Uporabnikovo področje</string>
+    <string name="menu_booking">Rezervirajte vozilo</string>
+    <string name="menu_historic">Zgodovina potovanja</string>
     <string name="menu_help">Zahtevajte pomoč</string>
-    <string name="menu_faq">Pogosta vprašanja in navodila</string>
-    <string name="menu_share">Povabi prijatelja</string>
+    <string name="menu_faq">FAQ &amp; vodnik</string>
+    <string name="menu_buy">Kupite minute</string>
+    <string name="menu_share">Povabite prijatelja</string>
     <string name="menu_setting">Nastavitve</string>
-    <string name="popup_home">Niste prijavljeni</string>
-    <string name="popup_login">Vpiši se</string>
-    <string name="popup_registrazione">Prijaviti</string>
-
+    <string name="menu_logout">Odjava</string>
+    <string name="popup_home">Niste se prijavili</string>
+    <string name="popup_login">Prijava</string>
+    <string name="popup_registrazione">Vpišite se</string>
+    
     <!-- MAPPA -->
-    <string name="maps_search_placeholder">Iskanje po naslovu ali tablici</string>
-    <string name="maps_permissionlocation_alert">Share\'ngo potrebuje dovoljenja za dostop do svojega položaja. Ali želite odpreti nastavitve in omogočiti geolokacijo?</string>
-    <string name="maps_opendoor_action">Odprta vrata</string>
-    <string name="maps_bookingcar_action">Rezerviraj avto</string>
-    <string name="maps_autonomy_label">samostojnosti: <![CDATA[<b>%d km</b>]]></string>
+    <string name="maps_search_placeholder">Iščite po naslovu ali tablici</string>
+    <string name="maps_permissionlocation_alert">&quot;Share\&apos;ngo potrebuje dovoljenja za dostop do vašega položaja. Ali želite odpreti nastavitve in omogočiti geolokacijo?</string>
+    <string name="maps_opendoor_action">Odprite vrata</string>
+    <string name="maps_bookingcar_action">Rezervirajte vozilo</string>
+    <string name="maps_autonomy_label">avtonomija: <![CDATA[<b>%d km</b>]]></string>
     <string name="maps_distance_label">%d m stran</string>
     <string name="maps_distancekm_label">%.2f km stran</string>
-    <string name="maps_timeh_label">%d ure peš</string>
+    <string name="maps_time_label">%d minut peš&quot;</string>
+    <string name="maps_timeh60_label">1 ura peš</string>
+    <string name="maps_timeh_label">%d ur peš</string>
     <string name="maps_timehsm_label" formatted="false">%d ur in %d minut peš</string>
     <string name="maps_timehm_label" formatted="false">%d ur in %d minut peš</string>
-    <string name="maps_permissionopendoor_alert">Share\'ngo mora poznati svoj položaj, da odpre vrata. Ali želite odpreti nastavitve in omogočiti geolokacijo?</string>
-    <string name="maps_opendoordistance_alert">Predaleč ste od Share\'ngo, ki ste ga izbrali. Odprli jo boste lahko, ko se ji boste približali.</string>
-    <string name="maps_feeddiscover_message">Izvedi več</string>
-    <string name="maps_hidecars_alert">Previdno! To funkcijo boste lahko uporabljali šele po koncu potovanja ali aktivni rezervaciji.</string>
-
-    <!-- Ricerca -->
-    <string name="search_platesharengo_label">Share\'ngo plošča</string>
-    <string name="search_favoriteempty_label">V razdelku z nastavitvami ni nobenega priljubljenega</string>
-
-    <!-- Prenotazione -->
-    <string name="booking_userpin_label">Vaša številka pin:</string>
+    <string name="maps_closestcar_label">Najbližje vozilo</string>
+    <string name="maps_permissionopendoor_alert">Share\&apos;ngo mora poznati vaš položaj, da odpre vrata. Ali želite odpreti nastavitve in omogočiti geolokacijo?</string>
+    <string name="maps_opendoordistance_alert">Predaleč ste od Saren\&apos;go, ki ste ga izbrali. Odprli ga boste lahko, ko se boste še bolj približali.</string>
+    <string name="maps_searchmicrophone_message">Poslušanje …</string>
+    <string name="maps_feeddiscover_message">Izvedite več</string>
+    <string name="maps_hidecars_alert">Previdno! To funkcijo boste lahko uporabljali šele po koncu potovanja ali po aktivni rezervaciji.</string><!-- Ricerca --><string name="search_platesharengo_label">Share\&apos;ngo tablica</string>
+    <string name="search_favoriteempty_label">V razdelku z nastavitvami\n ni shranjenih priljubljenih</string><!-- Prenotazione --><string name="booking_userpin_label">Vaša številka PIN:</string>
     <string name="booking_active_label">Rezervacija aktivna</string>
-    <string name="booking_plate_label">Plošča %s</string>
-    <string name="booking_expirationtime">Potek v <![CDATA[<br><b>%s</b>]]> min</string>
-    <string name="booking_opendoor_action">Odprta vrata</string>
-    <string name="booking_delete_action">Prekliči</string>
-    <string name="booking_delete_alert">Če prekličete rezervacijo, istega avtomobila ne boste mogli rezervirati v naslednjih 4 urah. Ali potrjujete odpoved rezervacije?</string>
+    <string name="booking_plate_label">Tablica %s</string>
+    <string name="booking_expirationtime">Poteče v <![CDATA[<br><b>%s</b>]]>min.</string>
+    <string name="booking_opendoor_action">Odprite vrata</string>
+    <string name="booking_delete_action">Preklic</string>
+    <string name="booking_delete_alert">Če prekličete rezervacijo, istega avtomobila ne boste mogli rezervirati naslednje 4 ure. Ali potrjujete preklic rezervacije?</string>
+    <string name="booking_deleteconfirm_alert">Vaša rezervacija je bila pravilno preklicana</string>
     <string name="booking_bookedcar_alert">Že imate aktivno rezervacijo</string>
     <string name="booking_tripcar_alert">Vaše potovanje je že aktivno</string>
-    <string name="booking_alreadybookedcar_alert">Tega avtomobila ne morete rezervirati, dokler ne minejo 4 ure od zadnje odpovedi rezervacije</string>
+    <string name="booking_alreadybookedcar_alert">Tega avtomobila ne morete rezervirati, dokler ne minejo 4 ure od vašega zadnjega preklica rezervacije</string>
     <string name="booking_durationtrip_label">Trajanje potovanja: <![CDATA[<br><b>%s</b>]]></string>
     <string name="booking_tripactive_label">Aktivno potovanje</string>
     <string name="booking_timeend_label">Čas rezervacije je potekel, vaša rezervacija je bila preklicana. Rezervirajte drug avto na zemljevidu</string>
 
     <!-- Corsa -->
-    <string name="tripend_title_label">Končali ste potovanje</string>
-    <string name="tripend_text1_label">Počakajte, da se vrata zaprejo zunaj avtomobila</string>
-    <string name="tripend_text2_label">O potrditvi transakcije boste obveščeni po e-pošti v 24 urah</string>
-    <string name="tripend_thanks_label">Hvala vam</string>
-    <string name="tripend_text3_label" formatted="false">" PRIHODILI ste %.1f GRAMS CO2 S TIM POTOVANJEM!"</string>
-    <string name="tripend_historic_action">Zgodovina potovanj</string>
-    <string name="tripend_notification_label">Izlet se je končal. Potovanje je trajalo% d minute in se pravilno končalo. Hvala, ker uporabljate Share\'ngo</string>
-
-    <!-- Login -->
-    <string name="login_fillfields_label">Prosimo, da izpolnite polja za prijavo</string>
-    <string name="login_email_placeholder">E-naslov</string>
+    <string name="tripend_title_label">Končali ste svoje potovanje</string>
+    <string name="tripend_text1_label">Prosimo počakajte izven vozila, da se vrata zaprejo</string>
+    <string name="tripend_text2_label">O potrditvi transakcije boste obveščeni po pošti v 24 urah</string>
+    <string name="tripend_thanks_label">Hvala!</string>
+    <string name="tripend_text3_label" formatted="false">S tem potovanjem ste prihranili %.1f gramov CO2!</string>
+    <string name="tripend_historic_action">Zgodovina potovanja</string>
+    <string name="tripend_notification_label">Potovanje končano. Potovanje je trajalo %d minut in se pravilno zaključilo. Hvala, ker uporabljate Share\&apos;ngo</string><!-- Login --><string name="login_fillfields_label">Prosimo izpolnite polja za prijavo</string>
+    <string name="login_email_placeholder">e-pošta</string>
     <string name="login_password_placeholder">geslo</string>
-    <string name="login_forgetpassword_action">Pozabil sem geslo</string>
-    <string name="login_login_action">Vpiši se</string>
-    <string name="login_notregistered_label">Se še niste prijavili?</string>
+    <string name="login_forgetpassword_action">Pozabljeno geslo</string>
+    <string name="login_login_action">Prijava</string>
+    <string name="login_notregistered_label">Se še niste\ vpisali?</string>
     <string name="login_register_action">Naročite se</string>
-    <string name="login_continue_action">Nadaljujte brez beleženja</string>
+    <string name="login_continue_action">Nadaljujte brez prijave</string>
     <string name="login_emptyfields_alert">Eno ali več polj ni izpolnjeno</string>
-    <string name="login_wrongemail_alert">Previdno! E-poštni naslov, ki ga vnesete, se v naši bazi podatkov ne ujema.</string>
+    <string name="login_wrongemail_alert">Previdno! E-poštni naslov, ki ste ga vnesli, se ne ujema z našo bazo podatkov.</string>
     <string name="login_wrongpassword_alert">Previdno! Napačno geslo</string>
     <string name="login_userdisabled_alert">Previdno! Uporabniku ni omogočen dostop</string>
-    <string name="login_enabled_alert">Zaradi težave s profilom se ne morete prijaviti. Poiščite na spletnem mestu ali se obrnite na Službo za stranke.</string>
-
+    <string name="login_enabled_alert">&quot;Ne morete se prijaviti zaradi težave z vašim profilom. Poiščite na spletni strani ali se obrnite na službo za stranke.</string>
+    
     <!-- Registrazione -->
-    <string name="signup_title_label">Prijavite se na Share\'ngo</string>
-    <string name="signup_description_label">Naročnina na storitev stane 10 € na 30 minut (standardni pogoji, razen promocij). Če potrebujete pomoč pri prijavi, uporabite gumb za klepet!</string>
-    <string name="signup_step1text1_action">Če se želite prijaviti, morate imeti pri roki:</string>
-    <string name="signup_step1text2_action">OSEBNA I.D.</string>
-    <string name="signup_step2text1_action">Če se želite prijaviti, morate imeti pri roki:</string>
-    <string name="signup_step2text2_action">FISKALNA KODA</string>
-    <string name="signup_step3text1_action">Če se želite prijaviti, morate imeti pri roki:</string>
+    <string name="signup_title_label">Prijavite se v Share\&apos;ngo</string>
+    <string name="signup_description_label">Naročnina na storitev stane 10 € za 30 minut (standardni pogoji, razen promocij). Če potrebujete pomoč pri prijavi, uporabite gumb za klepet!</string>
+    <string name="signup_subscribe_action">PRIJAVITE SE</string>
+    <string name="signup_step1text1_action">Za prijavo morate imeti\n pri roki:</string>
+    <string name="signup_step1text2_action">OSEBNO IZKAZNICO</string>
+    <string name="signup_step2text1_action">Za prijavo morate imeti\n pri roki:</string>
+    <string name="signup_step2text2_action">DAVČNO ŠTEVILKO</string>
+    <string name="signup_step3text1_action">Za prijavo morate imeti\n pri roki:</string>
     <string name="signup_step3text2_action">VOZNIŠKO DOVOLJENJE</string>
-    <string name="signup_step4text1_action">Če se želite prijaviti, morate imeti pri roki:</string>
-    <string name="signup_step4text2_action">KREDITNA KARTICA</string>
-
+    <string name="signup_step4text1_action">Za prijavo morate imeti\n pri roki:</string>
+    <string name="signup_step4text2_action">KREDITNO KARTICO</string>
+    
     <!-- Intro -->
-    <string name="intro_power_label">Električni</string>
-    <string name="intro_shared_label">V skupni rab</string>
-
+    <string name="intro_power_label">Električna</string>
+    <string name="intro_shared_label">Skupna raba</string>
+    <string name="intro_underhouse_label">Izven\n vašega kraja</string>
+    
     <!-- Home -->
     <string name="home_welcome_label">Dobrodošli!</string>
     <string name="home_welcomeauth_label">Dobrodošli nazaj %s!</string>
-
+    
     <!-- Settings -->
     <string name="settings_title_label">Nastavitve</string>
-    <string name="settings_city_action">Postavite mesto</string>
+    <string name="settings_city_action">Nastavite mesto</string>
     <string name="settings_address_action">Nastavite priljubljene naslove</string>
-    <string name="settings_lang_action">" Nastavite jezik"</string>
-
+    <string name="settings_lang_action">Nastavite jezik</string>
+    
     <!-- Settings - City -->
-    <string name="settingscities_title_label">Postavite mesto</string>
-
+    <string name="settingscities_title_label">Nastavite mesto</string>
+    
     <!-- Settings - Address -->
-    <string name="settingsaddress_title_label">Nastavite svoje najljubše naslove</string>
+    <string name="settingsaddress_title_label">Nastavite priljubljene naslove</string>
     <string name="settingsaddress_new_action">Nastavite nov naslov</string>
     <string name="settingsaddress_empty_title">Škoda!</string>
-    <string name="settingsaddress_empty_description">Še niste postavili nobenega priljubljenega o nedavnem naslovu! Nastavite svoje najpogostejše destinacije in prihranite čas, ko izberete kam iti.</string>
-    <string name="settingsaddress_title2_label">Nastavite svoje najljubše naslove</string>
-    <string name="settingsaddress_description2_label">s seznama najljubših naslovov?</string>
-    <string name="settingsaddress_edittitle_label">Bi radi spremenili svoj najljubši naslov?</string>
-    <string name="settingsaddress_addtitle_label">Bi radi dodali ta naslov na seznam priljubljenih naslovov?</string>
-    <string name="settingsaddress_deletetitle_label">Ali želite izbrisati ta naslov s seznama najljubših naslovov?</string>
-    <string name="settingsaddress_editname_label">" najljubše ime"</string>
+    <string name="settingsaddress_empty_description">Nastavili niste\ še nobenega priljubljenega ali nedavnega naslova! Nastavite svoje najpogostejše namembne kraje in prihranite čas za izbiro cilja.</string>
+    <string name="settingsaddress_title2_label">Nastavite priljubljene naslove</string>
+    <string name="settingsaddress_description2_label">&quot; in pospešite iskanje&quot;</string>
+    <string name="settingsaddress_edittitle_label">Želite spremeniti priljubljeni naslov?</string>
+    <string name="settingsaddress_addtitle_label">Želite ta naslov dodati na seznam priljubljenih naslovov?</string>
+    <string name="settingsaddress_deletetitle_label">Želite izbrisati\n ta naslov s seznama priljubljenih naslovov?</string>
+    <string name="settingsaddress_editname_label">priljubljeno ime</string>
     <string name="settingsaddress_editaddress_label">nastavite naslov</string>
-    <string name="settingsaddress_editok_label">v redu</string>
+    <string name="settingsaddress_editok_label">ok</string>
     <string name="settingsaddress_editdelete_label">Izbriši</string>
-    <string name="settingsaddress_editcancel_label">Prekliči</string>
+    <string name="settingsaddress_editcancel_label">Preklic</string>
 
     <!-- Settings - New address -->
-    <string name="settingsaddressnew_header_label">Nov najljubši naslov</string>
+    <string name="settingsaddressnew_header_label">Nov priljubljeni naslov</string>
     <string name="settingsaddressnew_title_label">Nastavite nov naslov</string>
-    <string name="settingsaddressnew_description_label">Če ga želite dodati med priljubljene</string>
+    <string name="settingsaddressnew_description_label">Za dodajanje med priljubljene</string>
     <string name="settingsaddressnew_address_label">Nastavite naslov</string>
-    <string name="settingsaddressnew_name_label">Najljubše ime</string>
-    <string name="settingsaddressnew_save_action">Shranite najljubše</string>
-    <string name="settingsaddressnew_cancel_action">Prekliči</string>
-    <string name="settingsaddressnew_empty_error">" Eno ali več polj ni izpolnjeno."</string>
-    <string name="settingsaddressnew_searchempty_label">Vnesite naslov, ki ga želite dodati med priljubljene</string>
+    <string name="settingsaddressnew_name_label">Priljubljeno ime</string>
+    <string name="settingsaddressnew_save_action">Shranite priljubljeno</string>
+    <string name="settingsaddressnew_cancel_action">Preklic</string>
+    <string name="settingsaddressnew_empty_error">Eno ali več polj ni izpolnjeno.</string>
+    <string name="settingsaddressnew_searchempty_label">Vnesite naslov, ki ga želite\ dodati med\n priljubljene</string>
 
     <!-- Settings - Lang -->
     <string name="settingslang_title_label">Nastavite jezik</string>
     <string name="settingslang_it_label">Italijanski</string>
-    <string name="settingslang_en_label">Angleščina</string>
-
+    <string name="settingslang_en_label">angleški</string>
+    
     <!-- Chronology -->
-    <string name="chronology_title_label">Zgodovina potovanj</string>
+    <string name="chronology_title_label">Zgodovina potovanja</string>
     <string name="chronology_bookingn_label">Vožnja n. %s</string>
     <string name="chronology_minutes_label" formatted="false">%s minut %s</string>
-    <string name="chronology_date_label" formatted="false">%s - ure %s</string>
-    <string name="chronology_end_label" formatted="false">Konec:%s - ure %s</string>
-    <string name="chronology_minfree_label">Uporabljene brezplačne minute vožnje: %s</string>
-    <string name="chronology_km_label">Prevoženi kilometri: %s</string>
-    <string name="chronology_sharengo_label">SHARE\'NGO %s</string>
+    <string name="chronology_date_label" formatted="false">%s - ur %s</string>
+    <string name="chronology_end_label" formatted="false">Konec: %s - ur %s</string>
+    <string name="chronology_rate_label">Cena na minuto: %s</string>
+    <string name="chronology_minfree_label">Porabljene brezplačne minute vožnje: %s</string>
+    <string name="chronology_km_label">Prepotovani kilometri: %s</string>
+    <string name="chronology_sharengo_label">SHARE\&apos;NGO %s</string>
     <string name="chronology_emptytitle_label">Škoda!</string>
-    <string name="chronology_emptydescription_label">Še niste opravili nobenega potovanja s Share\'ngo!</string>
+    <string name="chronology_emptydescription_label">S Share\&apos;ngo še niste\ opravili nobenega potovanja!</string>
     <string name="chronology_emptyquestion_label">Zakaj ne bi poskusili?</string>
-    <string name="chronology_tomap_action">Pojdi na zemljevid</string>
-
+    <string name="chronology_tomap_action">Pojdite na zemljevid</string>
+    
     <!-- Onboarding -->
-    <string name="onboarding_skip_action">Preskoči >></string>
-    <string name="onboarding_car3_label">Vsako potovanje presenečenje in odkritje</string>
-
-    <!-- Feeds -->
-    <string name="feeds_feed_action">Krma</string>
+    <string name="onboarding_skip_action">Preskoči &gt;&gt;</string>
+    <string name="onboarding_car1_label">Preprosta in zabavna\n vožnja</string>
+    <string name="onboarding_car2_label">Bolj ko jih potrebujete,\nmanj vas bodo stali</string>
+    <string name="onboarding_car3_label">Vsako potovanje je presenečenje\nin odkritje</string><!-- Feeds --><string name="feeds_feed_action">Napolnite</string>
     <string name="feeds_categories_action">Kategorije</string>
-    <string name="feeds_aroundme_action">Glej na zemljevidu</string>
+    <string name="feeds_aroundme_action">Poglejte na zemljevid</string>
     <string name="feeds_categorydisabled_alert">Ta kategorija bo kmalu na voljo</string>
     <string name="feeds_empty_title">Škoda!</string>
-    <string name="feeds_empty_label">Trenutno v vašem mestu ni na voljo nobene vsebine. V naslednjih dneh se vrnite</string>
-    <string name="feeds_emptycategory_label">Trenutno v vašem mestu ni na voljo nobene vsebine za kategorijo, ki ste jo vnesli. V naslednjih dneh se vrnite</string>
-
-    <!-- Feeds - Detail -->
-    <string name="feedsdetails_interested_action">Zainteresirani</string>
+    <string name="feeds_empty_label">Ta trenutek v vašem mestu ni na voljo nobena vsebina. Prosimo, vrnite se v naslednjih dneh</string>
+    <string name="feeds_emptycategory_label">Trenutno v vašem mestu ni na voljo nobene vsebine za vneseno kategorijo. Prosimo, vrnite se v naslednjih dneh</string><!-- Feeds - Detail --><string name="feedsdetails_interested_action">Zanima</string>
     <string name="feedsdetails_notinterested_action">Ne zanima</string>
 
     <!-- Assistance -->
     <string name="assistance_title_label">Zahtevajte pomoč</string>
     <string name="assistance_help_label">Tu smo, da pomagamo!</string>
-    <string name="assistance_talkoperator_label">Se pogovorite z operaterjem?</string>
-    <string name="assistance_call_action">Pokliči zdaj</string>
-    <string name="assistance_mail_action">Napišite e-pošto</string>
+    <string name="assistance_talkoperator_label">Bi govorili z operaterjem?</string>
+    <string name="assistance_call_action">Pokličite zdaj</string>
+    <string name="assistance_mail_action">Pošljite e-pošto</string>
     <string name="assistance_phonenumber_label">+3905861975772</string>
-    <string name="assistance_alertcall_action">Pokliči</string>
-    <string name="assistance_cancelcall_action">Prekliči</string>
-    <string name="assistance_devicenotenabled_alert">Vaša naprava ni omogočena klicanja</string>
+    <string name="assistance_alertcall_action">Klicanje</string>
+    <string name="assistance_cancelcall_action">Preklic</string>
+    <string name="assistance_devicenotenabled_alert">Vaša naprava nima omogočenih klicev</string>
     <string name="assistance_mail_label">servizioclienti@sharengo.eu</string>
     <string name="assistance_write_action">Pišite</string>
-    <string name="assistance_cancelmail_action">Prekliči</string>
-
+    <string name="assistance_cancelmail_action">Preklic</string>
+    
     <!-- Share -->
-    <string name="share_title_label">Povabi prijatelja</string>
+    <string name="share_title_label">Povabite prijatelja</string>
     <string name="share_invitefriend_label">Povabite prijatelja in zaslužite minute!</string>
-    <string name="share_timeregister_label">Ob naročnini</string>
-    <string name="share_tenminutes_label">prejeli boste 10 minut brezplačne vožnje</string>
+    <string name="share_timeregister_label">Ob naročilu</string>
+    <string name="share_tenminutes_label">boste prejeli 10 minut brezplačne vožnje</string>
     <string name="share_giftwelcome_label">kot darilo dobrodošlice</string>
-    <string name="share_friendregistration_label">Za vsakega prijatelja, ki se prijavi s svojega povabila</string>
-    <string name="share_twentyminutes_label">prejeli boste 20 minut brezplačne vožnje</string>
-    <string name="share_invite_button">Povabi zdaj</string>
-    <string name="share_text">Zdravo! Uporabite aplikacijo Share\'ngo</string>
-
+    <string name="share_friendregistration_label">Za vsakega prijatelja, ki se prijavi\n na podlagi vašega povabila</string>
+    <string name="share_twentyminutes_label">boste prejeli 20 minut brezplačne vožnje</string>
+    <string name="share_invite_button">Povabite zdaj</string>
+    <string name="share_text">Pozdravljeni! Uporabite aplikacijo Share\&apos;ngo</string>
+    
     <!-- FAQ -->
-    <string name="faq_title_label">Pogosta vprašanja</string>
-    <string name="faq_tutorial_action">Vadnica za aplikacijo</string>
-    <string name="faq_close_alert">Želite zapustiti vadnico? Lahko si ga boste ogledali kadar koli iz razdelka \"Vsebine in navodila\" v meniju</string>
+    <string name="faq_title_label">FAQ</string>
+    <string name="faq_tutorial_action">Vodnik po aplikaciji</string>
+    <string name="faq_close_alert">Ali želite zapustiti vodnika?\nKadarkoli si ga boste lahko spet ogledali v razdelku \&quot;FAQ in vodnik\&quot; v meniju</string>
     <string name="faq_exit_action">Izhod</string>
-    <string name="faq_stay_action">Ostani</string>
+    <string name="faq_stay_action">Ostanite</string>
     <string name="faq_backalert_action">Nazaj</string>
-
+    <string name="faq_tutorialalert_action">Vodnik</string>
+    
     <!-- Non tradotti -->
-    <string name="alert_logoutError">Previdno, prišlo je do napake. Prosimo, prijavite se še enkrat.</string>
-    <string name="btn_login">VPIŠI SE</string>
-    <string name="tripend_parkedcar_label">Parkirano vozilo</string>
-    <string name="chronology_ratesmin_label">Minuta cena: €%s</string>
+    <string name="alert_logoutError">Previdno, prišlo je do napake. Prosimo, prijavite se ponovno.</string>
+    <string name="btn_login">PRIJAVA</string>
+    <string name="tripend_parkedcar_label">Vozilo je parkirano</string>
+    <string name="chronology_ratesmin_label">Voznina na minuto: € %s</string>
+    <string name="maps_freecar_label">%s minut brezplačne vožnje s tem vozilom</string>
 
-    <string name="rates_titleauth_label">Cene</string>
-    <string name="rates_titlenoauth_label">Cene in dodatki</string>
-    <string name="rates_rates_label">Tu so cene Share\'ngo vozovnic:</string>
-    <string name="rates_yourrates_label">TUKAJ JE TVOJ FARE:</string>
-    <string name="rates_base_label">Osnovna vozovnica potovanja: <![CDATA[<b>€ %s</b>]]></string>
-    <string name="rates_hour_label">1h Cena: <![CDATA[<b>€ %s</b>]]></string>
-    <string name="rates_day_label">Dnevni najem: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_titleauth_label">Voznine</string>
+    <string name="rates_titlenoauth_label">Voznine in bonusi</string>
+    <string name="rates_rates_label">Tu so voznine Share\&apos;ngo:</string>
+    <string name="rates_yourrates_label">TU\ JE VAŠA VOZNINA:</string>
+    <string name="rates_base_label">Osnovna voznina za potovanje: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_hour_label">1h Voznina: <![CDATA[<b>€ %s</b>]]></string>
+    <string name="rates_day_label">Voznina na dan: <![CDATA[<b>€ %s</b>]]></string>
     <string name="rates_booking_label">Cena rezervacije: <![CDATA[<b>€ %s</b>]]></string>
     <string name="rates_bonus_label">Vaše bonus minute:</string>
     <string name="rates_bonusmin_label">%s minut</string>
-    <string name="rates_signup_action">PRIJAVITE ZDAJ</string>
+    <string name="rates_signup_action">NAROČITE SE ZDAJ</string>
     <string name="maps_enablegps_label">Za več informacij omogočite GPS</string>
-    <string name="general_logout_alert">Ali ste prepričani, da se želite odjaviti?</string>
-    <string name="tripend_notification_selfclose_label">" Izlet je končan. Potovanje je trajalo% d minute in se brezplačno zaprlo. Zahvaljujemo se vam za uporabo Share'ngo"</string>
-    <string name="first_payment_login_alert">Če ne izvedete prvega plačila, ne morete uporabljati Share\'ngo dostopa do svojega osebnega območja in dokončati plačilo</string>
-    <string name="failed_payment_login_alert">Za neplačano plačilo onemogočite, če želite uporabljati Share\'ngo dostop do svojega osebnega območja in nadaljevati s plačilom</string>
-    <string name="invalid_driver_license_login_alert">Onemogočeni ste, ker ste vpisali neveljavno vozniško dovoljenje, če želite uporabljati Share\'ngo za dostop do svojega osebnega območja, preveriti in urediti vnesene podatke.</string>
-    <string name="disabled_webuser_login_alert">Onemogočeni ste, za več informacij se obrnite na službo za stranke</string>
-    <string name="expired_credit_card_login_alert">Onemogočeni ste, ker je potekla vstavljena kreditna kartica, če želite uporabljati Share\'ngo, dostopati do svojega osebnega območja in vnesti nove podatke</string>
-    <string name="next">NASLEDNJI</string>
-    <string name="home_welcomeauthf_label">Dobrodošli nazaj %s!</string>
+    <string name="general_logout_alert">Ste prepričani, da želite odjaviti?</string>
+    <string name="tripend_notification_selfclose_label">Potovanje zaključeno. Potovanje je trajalo %d minut in se pravilno brezplačno zaprlo. Hvala, ker uporabljate Share\&apos;ngo</string>
+    <string name="first_payment_login_alert">Onemogočeni ste, ker niste izvedli prvega plačila; za uporabo Share\&apos;ngo dostopite do svojega osebnega področja in zaključite plačilo</string>
+    <string name="failed_payment_login_alert">Onemogočeni ste zaradi neporavnanega plačila; za uporabo Share\&apos;ngo dostopite do svojega osebnega področja in nadaljujte s plačilom</string>
+    <string name="invalid_driver_license_login_alert">Onemogočeni ste, ker ste vnesli neveljavno vozniško dovoljenje; za uporabo Share\&apos;ngo dostopite do svojega osebnega področja in preverite ter uredite vnesene podatke</string>
+    <string name="disabled_webuser_login_alert">Onemogočeni ste, za več informacij se prosimo obrnite na službo za stranke</string>
+    <string name="expired_credit_card_login_alert">Onemogočeni ste, ker je potekla vstavljena kreditna kartica; za uporabo Share\&apos;ngo dostopite do svojega osebnega področja in vnesite nove podatke</string>
+    <string name="next">NAPREJ</string>
+    <string name="home_welcomeauthf_label">%s, ponovno dobrodošli!</string>
     <string name="home_welcomef_label">Dobrodošli!</string>
-    <string name="booking_other_tripcar_alert">Nekdo že uporablja to Sharen\'go</string>
-    <string name="carOpen_confirm">Ali ste prepričani, da želite odpreti vrata? Potovanje se bo začelo prav zdaj.</string>
+    <string name="booking_car_busy_alert">To vozilo ni na voljo, oprostite za nevšečnosti</string>
+    <string name="booking_other_tripcar_alert">Nekdo že uporablja ta Sharen\&apos;go</string>
+    <string name="carOpen_confirm">Ste prepričani, da želite odpreti vrata? Vožnja se bo pravkar začela.\n</string>
     <string name="menu_pin">PIN</string>
-    <string name="menu_welcomef_login">Pozdravljeni %s, dobrodošli nazaj!</string>
-    <string name="retryToOpenDoorPopup">Prišlo je do napake. Ali želite poskusiti znova?</string>
-    <string name="tripstart_notification_label">Vrata se odprejo v nekaj sekundah.</string>
-    <string name="tripstart_selfClosePopup">Potovanje se bo zaprlo brezplačno po 5 minutah, če PIN ne vnesete</string>
-    <string name="booking_user_unauthorized_alert">Ta avto ni na voljo, žal nam je za nevšečnosti</string>
+    <string name="menu_welcomef_login">%s, ponovno pozdravljeni!</string>
+    <string name="pin_pin_label">VAŠ PIN JE:</string>
+    <string name="retryToOpenDoorPopup">Prišlo je do napake, ali bi radi poskusili znova?</string>
+    <string name="tripstart_notification_label">Vrata se bodo odprla v nekaj sekundah.</string>
+    <string name="tripstart_selfClosePopup">Potovanje se bo brezplačno končalo po 5 minutah, če ne vnesete PIN-a</string>
+    <string name="booking_user_unauthorized_alert">To vozilo ni na voljo, oprostite za nevšečnosti</string>
     <string name="menu_privacy">Zasebnost</string>
-    <string name="menu_legalNote">Pravna opomba</string>
-    <string name="failed_extra_payment_login_alert">Sei disabilitato per un pagamento penale fallito, contatta il servizio clienti per maggiori informazioni</string>
-    <string name="registration_not_completed_login_alert">Onemogočeni ste, ker morate dokončati postopek registracije.</string>
-    <string name="carOpen_unplug_confirm">. Odprite avto in počakajte, da se vrata odprejo 2. Odklopite modri vtič polnilnega kabla iz avtomobila, pri čemer bodite pozorni, da vlečete vtič in ne kabla 3. Odklopite polnilni stolpec 4. Polnilni kabel shranite v prtljažnik avtomobila 5. Pojdite v avto in sledite navodilom na videoposnetku</string>
+    <string name="menu_legalNote">Pravna pojasnila</string>
+    <string name="failed_extra_payment_login_alert">Onemogočeni ste zaradi neuspelega plačila; za več informacij se obrnite na službo za stranke</string>
+    <string name="registration_not_completed_login_alert">Onemogočeni ste, ker morate dokončati postopek registracije</string>
+    <string name="carOpen_unplug_confirm">1. Odprite avto in počakajte, da se vrata odprejo \n2. Modri vtič polnilnega kabla izklopite iz avtomobila, pri tem pazite, da držite vtič in ne kabla \n3. Odklopite polnilno postajo \n4. Polnilni kabel shranite v prtljažnik vozila \n5. Sedite v vozilo in sledite navodilom na videoposnetku\n</string>
     <string name="carOpen_resum_park_confirm">Ali ste prepričani, da želite nadaljevati potovanje?</string>
     <string name="carOpen_bonus_price">Ta avto ima %d bonus minut!</string>
-    <string name="expired_driver_license_login_alert">Za vozniško dovoljenje vam je onemogočen, če želite uporabljati Share\'ngo dostop do svojega osebnega območja in vnašati nove podatke</string>
-    <string name="settingslang_sk_label">Slovaški</string>
+    <string name="carOpen_normal_price">Za potovanje bo veljala standardna voznina</string>
+    <string name="expired_driver_license_login_alert">Onemogočeni ste, ker vam je poteklo vozniško dovoljenje; za uporabo Share\&apos;ngo dostopite do svojega osebnega področja in vnesite nove podatke</string>
+    <string name="settingslang_sk_label">Slovaščina</string>
     <string name="deleteButtonBookingDelete">Izbriši</string>
-    <string name="DeleteButtonBookingCloseTrip">Izlet v bližini</string>
-    <string name="close_confirm_car_trip">Ali ste prepričani, da želite dirko zaključiti?</string>
-    <string name="alert_close_car_onpress">Naprava se bo kmalu zaprla, prejeli boste obvestilo o zaključenem postopku.</string>
+    <string name="DeleteButtonBookingCloseTrip">Končajte potovanje</string>
+    <string name="close_confirm_car_trip">Ali ste prepričani, da želite končati potovanje?</string>
+    <string name="alert_close_car_onpress">Motor se bo kmalu izklopil, prejeli boste obvestilo o zaključenem postopku.</string>
     <string name="routeLegalNoteEN">/en/legal-notes/?app</string>
+    <string name="routeLegalNoteSI">/pdf/si/contract.pdf</string>
     <string name="routeLogin">/user/login?lang=en_EN</string>
     <string name="defLang">sl</string>
-    <string name="pin_title">Uporabniški PIN</string>
-    <string name="settingslang_nl_label">Nizozemski</string>
-    <string name="booking_car_busy_alert">Ta avto ni na voljo, žal nam je za nevšečnosti</string>
-    <string name="booking_deleteconfirm_alert">Vaša rezervacija je pravilno preklicana</string>
-    <string name="carOpen_normal_price">Za pot bo veljala standardna pristojbina</string>
-    <string name="chronology_rate_label">Stopnja po minuti: %s</string>
-    <string name="error_generic_msg">Ops, nekaj je šlo narobe.</string>
-    <string name="error_msg_conversion">Prišlo je do napake. Prosim poskusite kasneje</string>
-    <string name="faq_tutorialalert_action">Vadnica</string>
-    <string name="intro_underhouse_label">Zunaj svojega kraja</string>
-    <string name="maps_closestcar_label">Najbližji avto</string>
-    <string name="maps_freecar_label">S tem avtomobilom %s minut brezplačne vožnje</string>
-    <string name="maps_searchmicrophone_message">Poslušanje…</string>
-    <string name="maps_time_label">%d minut peš</string>
-    <string name="maps_timeh60_label">1 uro peš</string>
-    <string name="menu_buy">Kupite minute</string>
-    <string name="menu_logout">Izpisati</string>
-    <string name="menu_welcome">Živjo, dobrodošli!</string>
-    <string name="onboarding_car1_label">Enostavno in zabavno</string>
-    <string name="onboarding_car2_label">Bolj ko jih potrebuješ, manj vas stanejo,</string>
-    <string name="pin_pin_label">VAŠ PIN je:</string>
-    <string name="settingslang_sl_label">Slovenski</string>
-    <string name="signup_subscribe_action">PRIJAVI SE</string>
+    <string name="pin_title">Uporabnik PIN-a</string>
+    <string name="settingslang_nl_label">Nizozemščina</string>
+    <string name="settingslang_sl_label">Slovenščina</string>
 
 </resources>

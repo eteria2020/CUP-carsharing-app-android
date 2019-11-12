@@ -1,0 +1,3 @@
+storePassword "Sharengo1"
+keyAlias "sharengo.user"
+keyPassword "Sharengo1"
