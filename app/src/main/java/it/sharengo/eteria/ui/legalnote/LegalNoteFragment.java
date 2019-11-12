@@ -72,7 +72,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
                 legalNoteURL = getResources().getString(R.string.endpointSiteWPContent) + getString(R.string.routeLegalNoteSK) ;
 
             if(BuildConfig.FLAVOR.equalsIgnoreCase("slovenia"))
-                legalNoteURL = getResources().getString(R.string.endpointSiteWP) +  getString(R.string.routeLegalNoteEN);
+                legalNoteURL = getResources().getString(R.string.endpointSiteWP) + getString(R.string.routeLegalNoteSI);
 
             if(BuildConfig.FLAVOR.equalsIgnoreCase("olanda"))
                 legalNoteURL = getResources().getString(R.string.endpointSite) +  getString(R.string.routeLegalNoteNL);
