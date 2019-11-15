@@ -245,7 +245,7 @@
     <string name="maps_enablegps_label">Za več informacij omogočite GPS</string>
     <string name="general_logout_alert">Ste prepričani, da želite odjaviti?</string>
     <string name="tripend_notification_selfclose_label">Potovanje zaključeno. Potovanje je trajalo %d minut in se pravilno brezplačno zaprlo. Hvala, ker uporabljate Share\&apos;ngo</string>
-    <string name="first_payment_login_alert">Onemogočeni ste, ker niste izvedli prvega plačila; za uporabo Share\&apos;ngo dostopite do svojega osebnega področja in zaključite plačilo</string>
+    <string name="first_payment_login_alert">Račun še ni aktiviran. Pojdite na svoj profil in izberite paket, ki vam ustreza</string>
     <string name="failed_payment_login_alert">Onemogočeni ste zaradi neporavnanega plačila; za uporabo Share\&apos;ngo dostopite do svojega osebnega področja in nadaljujte s plačilom</string>
     <string name="invalid_driver_license_login_alert">Onemogočeni ste, ker ste vnesli neveljavno vozniško dovoljenje; za uporabo Share\&apos;ngo dostopite do svojega osebnega področja in preverite ter uredite vnesene podatke</string>
     <string name="disabled_webuser_login_alert">Onemogočeni ste, za več informacij se prosimo obrnite na službo za stranke</string>
