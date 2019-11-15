@@ -30,6 +30,9 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
     @BindView(R.id.skCheckImageView)
     ImageView skCheckImageView;
 
+    @BindView(R.id.slCheckImageView)
+    ImageView slCheckImageView;
+
     @BindView(R.id.nlCheckImageView)
     ImageView nlCheckImageView;
 
@@ -50,6 +53,17 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings_lang, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
+        if(!BuildConfig.FLAVOR.equalsIgnoreCase("italia"))
+            view.findViewById(R.id.itButton).setVisibility(View.GONE);
+        else
+            view.findViewById(R.id.itButton).setVisibility(View.VISIBLE);
+
+        if(!BuildConfig.FLAVOR.equalsIgnoreCase("slovenia"))
+            view.findViewById(R.id.slButton).setVisibility(View.GONE);
+        else
+            view.findViewById(R.id.slButton).setVisibility(View.VISIBLE);
+
         if(!BuildConfig.FLAVOR.equalsIgnoreCase("slovakia"))
             view.findViewById(R.id.skButton).setVisibility(View.GONE);
         else
@@ -79,21 +93,31 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
         if(lang.equals("it")){
             itCheckImageView.setVisibility(View.VISIBLE);
             enCheckImageView.setVisibility(View.GONE);
+            slCheckImageView.setVisibility(View.GONE);
             skCheckImageView.setVisibility(View.GONE);
             nlCheckImageView.setVisibility(View.GONE);
         }else if(lang.equals("en")){
             itCheckImageView.setVisibility(View.GONE);
             enCheckImageView.setVisibility(View.VISIBLE);
+            slCheckImageView.setVisibility(View.GONE);
+            skCheckImageView.setVisibility(View.GONE);
+            nlCheckImageView.setVisibility(View.GONE);
+        }else if(lang.equals("sl")){
+            itCheckImageView.setVisibility(View.GONE);
+            enCheckImageView.setVisibility(View.GONE);
+            slCheckImageView.setVisibility(View.VISIBLE);
             skCheckImageView.setVisibility(View.GONE);
             nlCheckImageView.setVisibility(View.GONE);
         }else if(lang.equals("sk")){
             itCheckImageView.setVisibility(View.GONE);
             enCheckImageView.setVisibility(View.GONE);
+            slCheckImageView.setVisibility(View.GONE);
             skCheckImageView.setVisibility(View.VISIBLE);
             nlCheckImageView.setVisibility(View.GONE);
         }else if(lang.equals("nl")){
             itCheckImageView.setVisibility(View.GONE);
             enCheckImageView.setVisibility(View.GONE);
+            slCheckImageView.setVisibility(View.GONE);
             skCheckImageView.setVisibility(View.GONE);
             nlCheckImageView.setVisibility(View.VISIBLE);
         }
@@ -136,6 +160,13 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
     @OnClick(R.id.enButton)
     public void onENClick(){
         mPresenter.setLang(getContext(), "en");
+    }
+    /**
+     * Set sl language.
+     */
+    @OnClick(R.id.slButton)
+    public void onSLClick(){
+        mPresenter.setLang(getContext(), "sl");
     }
     /**
      * Set sk language.
