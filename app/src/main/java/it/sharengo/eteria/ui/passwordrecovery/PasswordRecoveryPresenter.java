@@ -37,6 +37,10 @@ public class PasswordRecoveryPresenter extends BasePresenter<PasswordRecoveryMvp
 
     }
 
+    public String getLang(){
+        return  mAppRepository.getLang();
+    }
+
 }
 
 

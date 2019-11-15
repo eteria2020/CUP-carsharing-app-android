@@ -48,7 +48,7 @@ public class PasswordRecoveryFragment extends BaseMvpFragment<PasswordRecoveryPr
 
 
         try{
-            passwordRecoveryURL = getResources().getString(R.string.endpointSite) + getString(R.string.routeForgotPassword);
+            passwordRecoveryURL = getResources().getString(R.string.endpointSite) + getString(R.string.routeForgotPassword) + "?lang=" + mPresenter.getLang();
         }catch (Exception e) {
             Log.e(TAG, "onCreateView: Exception", e);
         }
