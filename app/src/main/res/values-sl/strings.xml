@@ -196,11 +196,11 @@
     <string name="assistance_talkoperator_label">Bi govorili z operaterjem?</string>
     <string name="assistance_call_action">Pokličite zdaj</string>
     <string name="assistance_mail_action">Pošljite e-pošto</string>
-    <string name="assistance_phonenumber_label">+3905861975772</string>
+    <string name="assistance_phonenumber_label">+386 080 4448</string>
     <string name="assistance_alertcall_action">Klicanje</string>
     <string name="assistance_cancelcall_action">Preklic</string>
     <string name="assistance_devicenotenabled_alert">Vaša naprava nima omogočenih klicev</string>
-    <string name="assistance_mail_label">servizioclienti@sharengo.eu</string>
+    <string name="assistance_mail_label">support@sharengo.si</string>
     <string name="assistance_write_action">Pišite</string>
     <string name="assistance_cancelmail_action">Preklic</string>
     
@@ -279,7 +279,9 @@
     <string name="alert_close_car_onpress">Motor se bo kmalu izklopil, prejeli boste obvestilo o zaključenem postopku.</string>
     <string name="routeLegalNoteEN">/en/legal-notes/?app</string>
     <string name="routeLegalNoteSI">/pdf/si/contract.pdf</string>
-    <string name="routeLogin">/user/login?lang=en_EN</string>
+    <string name="routeForgotPassword" translatable="false">/forgot-password</string>
+    <string name="routeLogin">/user/login?lang=si_SL</string>
+    <string name="routeZone" translatable="false">/zone</string>
     <string name="defLang">sl</string>
     <string name="pin_title">Uporabnik PIN-a</string>
     <string name="settingslang_nl_label">Nizozemščina</string>
