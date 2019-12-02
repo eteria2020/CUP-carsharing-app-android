@@ -62,7 +62,7 @@ android {
             resValue "string", "lang", "it"
             resValue "string", "endpoint", "https://jsonplaceholder.typicode.com/"
             resValue "string", "endpointGoogle", "https://maps.googleapis.com/maps/api/"
-            resValue "string", "endpointSharengo", "https://sharengo.ddns.net:8023/"
+            resValue "string", "endpointSharengo", "https://api.sharengo.sk:8201/" //"https://sharengo.ddns.net:8023/"
             resValue "string", "endpointSharengoMaps", "http://maps.sharengo.it/"
             resValue "string", "endpointSharengoKML", "http://www.sharengo.it/"
             resValue "string", "endpointCities", "https://www.sharengo.it/"

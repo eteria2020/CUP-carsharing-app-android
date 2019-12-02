@@ -1,3 +1,8 @@
+//Certificate KEY//
 storePassword "Sharengo1"
 keyAlias "sharengo.user"
 keyPassword "Sharengo1"
+
+//Export APP update_certificate//
+cd \Program Files\Java\jdk1.8.0_144\bin
+keytool -export -rfc -alias sharengo.user -file c:\tmp\upload_certificate.pem -keystore c:\tmp\keystore.jks
