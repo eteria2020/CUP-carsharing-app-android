@@ -609,14 +609,13 @@ public class MapGooglePresenter extends BaseMapPresenter<MapGoogleMvpView> {
 
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d("DIODO", "loadKml: start");
+                            Log.d("DIODO", "loadKml: ok");
                             parseKml(context, response);
                         }
                     }, new com.android.volley.Response.ErrorListener() {
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
-
                             Log.e("DIODO", "loadKml: error",error);
                         }
                     }) {

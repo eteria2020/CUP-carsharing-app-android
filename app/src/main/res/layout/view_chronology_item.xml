@@ -118,10 +118,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:textSize="13sp"
             android:textAlignment="center"
             android:textColor="@color/taupegray"
-            app:font_name="poppinsBold"/>
+            android:textSize="13sp"
+            android:visibility="gone"
+            app:font_name="poppinsBold" />
 
         <!-- Macchina -->
         <it.sharengo.eteria.ui.components.CustomTextView
