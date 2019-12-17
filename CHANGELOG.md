@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.4.12] - 2019-12-02
 ### Changed
 - removed chronology rate minute line (#341)
+- updated routeLogin for NL
 
 ## [3.4.11] - 2019-11-15
 ### Changed

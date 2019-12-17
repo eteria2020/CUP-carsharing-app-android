@@ -40,7 +40,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http" android:host="mobile.sharengo.it" />
-                <data android:scheme="app" android:host="sharengocar" />
+                <data android:scheme="app" android:host="sharengocar" />v
 
             </intent-filter>
 
