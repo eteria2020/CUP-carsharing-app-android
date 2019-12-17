@@ -313,7 +313,7 @@
     <string name="routeLogin">/user/login</string>
     <string name="routeUserArea" translatable="false">/area-utente</string>
     <string name="routeMobile" translatable="false">/mobile</string>
-    <string name="routePrivacy" translatable="false">/privacy/?app</string>
+    <string name="routePrivacy">/privacy/?app</string>
     <string name="routeZone" translatable="false">/zone</string>
     <string name="settingslang_sk_label">Slovacco</string>
     <string name="deleteButtonBookingDelete">Elimina</string>
