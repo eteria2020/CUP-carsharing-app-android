@@ -244,7 +244,7 @@
     <string name="routeLegalNoteNL">/pdf/nl/ReglementSharengo.pdf</string>
     <string name="routeSupport">/home</string>
     <string name="routeForgotPassword" translatable="false">/forgot-password/mobile</string>
-    <string name="routeLogin">/user/login</string>
+    <string name="routeLogin">/user/login?lang=nl_NL</string>
     <string name="routeUserArea" translatable="false">/area-utente</string>
     <string name="routeMobile" translatable="false">/mobile</string>
     <string name="routePrivacy" translatable="false">/privacy/?app</string>
