@@ -285,6 +285,6 @@
     <string name="pin_title">Uporabnik PIN-a</string>
     <string name="settingslang_nl_label">Nizozemščina</string>
     <string name="settingslang_sl_label">Slovenščina</string>
-    <string name="routePrivacy" translatable="false">/pdf/si/privacy.pdf</string>
+    <string name="routePrivacy" translatable="false">/privacy/?app</string> //pdf/si/privacy.pdf
 
 </resources>
