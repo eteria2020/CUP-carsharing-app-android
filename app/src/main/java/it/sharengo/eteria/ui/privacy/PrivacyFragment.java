@@ -54,15 +54,19 @@ public class PrivacyFragment extends BaseMvpFragment<PrivacyPresenter> implement
         View view = inflater.inflate(R.layout.fragment_user_area, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         webview = (MyWebView) view.findViewById(R.id.userareaWebView);
+        privacyURL = getResources().getString(R.string.endpointSiteWP) + "/" + mPresenter.getLang()   + getString(R.string.routePrivacy) ;
 
+/*
         try{
             if( mPresenter.getLang().equals("it") )
                 privacyURL = getResources().getString(R.string.endpointSiteWP) + getString(R.string.routePrivacy) +  "&lang=" + mPresenter.getLang();
             else
                 privacyURL = getResources().getString(R.string.endpointSiteWP) + "/" + mPresenter.getLang()   + getString(R.string.routePrivacy) ;
+
         }catch (Exception e) {
             Log.e(TAG, "onCreateView: Exception", e);
         }
+*/
 
         return view;
     }

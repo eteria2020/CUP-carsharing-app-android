@@ -58,6 +58,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
     private String loginURL = "https://www.sharengo.it/user/login";
     private String userAreaURLMobile = "https://www.sharengo.it/area-utente/mobile";
     private String userAreaURL = "https://www.sharengo.it/area-utente";
+    private String userAreaPaymentsURL = "https://www.sharengo.it/cartasi";
 
     private boolean isLogin;
 
@@ -139,6 +140,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             loginURL = getResources().getString(R.string.endpointSite) + getString(R.string.routeLogin);
             userAreaURLMobile = getResources().getString(R.string.endpointSite) + getString(R.string.routeUserArea) + getString(R.string.routeMobile);
             userAreaURL = getResources().getString(R.string.endpointSite) + getString(R.string.routeUserArea);
+            userAreaPaymentsURL = getResources().getString(R.string.endpointSitePayments);
 
         }catch (Exception e) {
             Log.e(TAG, "onCreateView: Exception", e);
@@ -277,7 +279,12 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
             Log.d("BOMB","Webview (contains) is loading: "+mobileUrl);
             view.loadUrl(mobileUrl);
         }
+        else if (StringUtils.contains(mobileUrl, userAreaPaymentsURL)) {
+            Log.d("BOMB","Webview (payment) is loading: "+mobileUrl);
+            view.loadUrl(mobileUrl);
+        }
         ((BaseActivity) getActivity()).hideLoadingChronology();
+
     }
 
 

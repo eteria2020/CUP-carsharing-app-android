@@ -254,5 +254,5 @@
     <string name="pin_title">PIN UTENTE</string>
     <string name="settingslang_nl_label">Holandský</string>
     <string name="settingslang_sl_label">Slovinčina</string>
-    <string name="routePrivacy" translatable="false">/pdf/sk/privacy.pdf</string>
+    <string name="routePrivacy" translatable="false">/privacy/?app</string> //pdf/sk/privacy.pdf
 </resources>

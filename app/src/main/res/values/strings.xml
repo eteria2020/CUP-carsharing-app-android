@@ -322,7 +322,7 @@
     <string name="alert_close_car_onpress">La macchina si chiuderà a breve, riceverai una notifica a processo completato.</string>
     <string name="defLang">it</string>
     <string name="routeLegalNoteSK">/wp-content/uploads/2019/02/VOP-Sharengo.sk_.pdf</string>
-    <string name="routeLegalNoteNL">/pdf/nl/ReglementSharengo.pdf</string>
+    <string name="routeLegalNoteNL">/pdf/nl/contract.pdf</string> //ReglementSharengo.pdf
     <string name="routeLegalNoteSI">/pdf/si/contract.pdf</string>
     <string name="pin_title">PIN UTENTE</string>
     <string name="settingslang_nl_label">Olandese</string>
