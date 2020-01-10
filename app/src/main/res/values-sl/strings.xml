@@ -247,7 +247,7 @@
     <string name="tripend_notification_selfclose_label">Potovanje zaključeno. Najem je trajal %d minut in se je pravilno zaključil. Hvala, ker uporabljate Share\&apos;ngo</string>
     <string name="first_payment_login_alert">Račun še ni aktiviran. Pojdite na svoj profil in izberite paket, ki vam ustreza</string>
     <string name="failed_payment_login_alert">Onemogočeni ste zaradi neporavnanega plačila; za uporabo Share\&apos;ngo dostopite do svojega uporabniškega profila in nadaljujte s plačilom</string>
-    <string name="invalid_driver_license_login_alert">Onemogočeni ste, ker ste vnesli neveljavno vozniško dovoljenje; za uporabo Share\&apos;ngo dostopite do svojega osebnega področja in preverite ter uredite vnešene podatke</string>
+    <string name="invalid_driver_license_login_alert">Vaš račun še ni aktiviran. Naš upravni oddelek bo preveril veljavnost vašega osebnega dokumenta in vozniškega dovoljenja. Po odobritvi bo vaš račun samodejno aktiviran. Nič drugega vam ni treba storiti. O tem boste prejeli e-pošto</string>
     <string name="disabled_webuser_login_alert">Onemogočeni ste, za več informacij se prosimo obrnite na službo za stranke</string>
     <string name="expired_credit_card_login_alert">Onemogočeni ste, ker je vstavljena kreditna kartica potekla; za uporabo Share\&apos;ngo dostopite do svojega osebnega področja in vnesite nove podatke</string>
     <string name="next">NAPREJ</string>
