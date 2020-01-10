@@ -265,7 +265,7 @@
     <string name="tripend_notification_selfclose_label">Trip completed. The trip lasted for a duration of %d minutes and closed properly for free. We thank you for using Share\'ngo</string>
     <string name="first_payment_login_alert">You are disabled for the first payment not made, to use Share\'ngo access your personal area and complete the payment</string>
     <string name="failed_payment_login_alert">"You are disabled for an unpaid payment, to use Share'ngo access your personal area and proceed with payment "</string>
-    <string name="invalid_driver_license_login_alert">You are disabled because you have entered an invalid driving license, to use Share\'ngo access your personal area, check and edit the data entered.</string>
+    <string name="invalid_driver_license_login_alert">Your account has not yet been activated. Our administration department will check the validity of your ID and driver\'s license. After approval your account will be activated automatically. You do not have to do anything else. You will receive an e-mail about this</string>
     <string name="disabled_webuser_login_alert">You are disabled, please contact the customer service for more information</string>
     <string name="expired_credit_card_login_alert">You are disabled because the inserted credit card has expired, to use Share\'ngo access your personal area and enter the new data</string>
     <string name="next">NEXT</string>
