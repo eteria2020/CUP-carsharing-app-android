@@ -101,7 +101,7 @@ public class UserAreaFragment extends BaseMvpFragment<UserAreaPresenter> impleme
                     baseURL = "/dati-pagamento";
                     break;
                 case DRIVER_LICENSE:
-                    baseURL = "/patente";
+                    baseURL = "/driverlicense"; //patente
                     break;
                 case RATES:
                     baseURL = "/tariffe";
