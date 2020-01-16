@@ -54,7 +54,7 @@ public class SettingsLangFragment extends BaseMvpFragment<SettingsLangPresenter>
         View view = inflater.inflate(R.layout.fragment_settings_lang, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        if(!BuildConfig.FLAVOR.equalsIgnoreCase("italia"))
+        if(!BuildConfig.FLAVOR.equalsIgnoreCase("prod"))
             view.findViewById(R.id.itButton).setVisibility(View.GONE);
         else
             view.findViewById(R.id.itButton).setVisibility(View.VISIBLE);
