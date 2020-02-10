@@ -235,7 +235,8 @@
     <!-- Assistance -->
     <string name="assistance_title_label">Richiedi assistenza</string>
     <string name="assistance_help_label">Siamo qui per aiutarti!</string>
-    <string name="assistance_talkoperator_label">Vuoi parlare con un operatore?</string>
+    <string name="assistance_sos_label">Dall\'1 alle 6 del mattino il Servizio Clienti è attivo SOLO PER SOS</string>
+    <string name="assistance_talkoperator_label">Risponderemo alla tua email solo in orario di ufficio</string>
     <string name="assistance_call_action">Chiama ora</string>
     <string name="assistance_mail_action">Scrivi una mail </string>
     <string name="assistance_phonenumber_label">+3905861975772</string>

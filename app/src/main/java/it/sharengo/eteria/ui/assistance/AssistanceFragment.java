@@ -3,10 +3,12 @@ package it.sharengo.eteria.ui.assistance;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +19,20 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.MotionEvent;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Calendar;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import it.sharengo.eteria.BuildConfig;
 import it.sharengo.eteria.R;
 import it.sharengo.eteria.routing.Navigator;
 import it.sharengo.eteria.ui.base.activities.BaseActivity;
@@ -37,6 +44,19 @@ import it.sharengo.eteria.ui.userarea.UserAreaFragment;
 public class AssistanceFragment extends BaseMvpFragment<AssistancePresenter> implements AssistanceMvpView {
 
     private static final String TAG = AssistanceFragment.class.getSimpleName();
+
+    @BindView (R.id.sosButton)
+    Button sosButton;
+
+    @BindView (R.id.callAssistanceButton)
+    Button callAssistanceButton;
+
+    @BindView (R.id.sosAssistanceText)
+    TextView sosAssistanceText;
+
+    @BindDrawable(R.drawable.ic_grey_phone_icon)
+    Drawable background;
+
     @BindView (R.id.mailWebView)
     WebView webview;
     private boolean isLogin;
@@ -63,7 +83,30 @@ public class AssistanceFragment extends BaseMvpFragment<AssistancePresenter> imp
         vc.height=1;
         webview.setLayoutParams(vc);
         webview.setVisibility(View.GONE);
+        initInterface();
         return view;
+    }
+
+    /**
+     *  Just for italian app disabled callAssistanceButton every morning from 1 to 6
+     */
+    private void initInterface(){
+
+        if(BuildConfig.FLAVOR.equalsIgnoreCase("prod")){
+
+            //set visible sosButton
+            sosButton.setVisibility(View.VISIBLE);
+            //get current hour
+            Calendar rightNow = Calendar.getInstance();
+            int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+            if ((currentHour > 0) && (currentHour < 7)) {
+                callAssistanceButton.setBackground(background);
+                callAssistanceButton.setEnabled(false);
+                sosAssistanceText.setVisibility(View.VISIBLE);
+            }
+
+        }
+
     }
 
 
@@ -179,6 +222,38 @@ public class AssistanceFragment extends BaseMvpFragment<AssistancePresenter> imp
         });
     }
 //-------------------------FINE PROVA---------------------------
+
+    @OnClick(R.id.sosButton)
+    public void onSosClick(){
+
+        //Verifico se il device è supportato per le chiamate telefoniche
+        if(isTelephonyEnabled()) {
+            final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                    mPresenter.getCallCenterNumber(),
+                    getString(R.string.assistance_alertcall_action),
+                    getString(R.string.assistance_cancelcall_action));
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mPresenter.getCallCenterNumber())));
+                }
+            });
+        }else{
+            final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                    getString(R.string.assistance_devicenotenabled_alert),
+                    getString(R.string.ok),
+                    null);
+            cdd.show();
+            cdd.yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cdd.dismissAlert();
+                }
+            });
+        }
+    }
 
     @OnClick(R.id.callAssistanceButton)
     public void onAssistanceClick(){
