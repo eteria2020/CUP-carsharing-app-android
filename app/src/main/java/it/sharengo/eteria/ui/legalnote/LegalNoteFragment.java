@@ -76,7 +76,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
 
             if(BuildConfig.FLAVOR.equalsIgnoreCase("olanda"))
                 legalNoteURL = getResources().getString(R.string.endpointSite) +  getString(R.string.routeLegalNoteNL);
-            
+
         }catch (Exception e) {
             Log.e(TAG, "onCreateView: Exception", e);
         }
@@ -171,7 +171,7 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
                 String url = needEmbeddedPdf(request.getUrl().toString());
                 if(needEmbeddedPdf(LegalNoteFragment.this.legalNoteURL).equalsIgnoreCase(url)) {
 
-                    view.loadUrl( url);
+                    view.loadUrl(url);
                 }
                 return true;
             }
@@ -181,9 +181,11 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
                 if(url.split("[?]")[0].endsWith(".pdf")){
                     url = "https://docs.google.com/gview?url="+url+"&embedded=true";
                 }
+                if(url.split("[?]")[0].contains("docukey")){
+                    url = "https://docs.google.com/gview?url="+url+"&embedded=true";
+                }
                 return url;
             }
-
 
         });
         Log.d("link: ", legalNoteURL +fileNameURL);
@@ -197,10 +199,11 @@ public class LegalNoteFragment extends BaseMvpFragment<LegalNotePresenter> imple
         if(url.split("[?]")[0].endsWith(".pdf")){
             url = "https://docs.google.com/gview?url="+url+"&embedded=true";
         }
+        if(url.split("[?]")[0].contains("docukey")){
+            url = "https://docs.google.com/gview?url="+url+"&embedded=true";
+        }
         return url;
     }
-
-
 
     private void hideWebView(){
         final CustomDialogClass cdd=new CustomDialogClass(getActivity(),
