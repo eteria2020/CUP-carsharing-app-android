@@ -25,18 +25,20 @@
     <RelativeLayout
         android:id="@+id/cityButton"
         style="@style/settings_box"
-        android:background="@color/whitesmoke">
+        android:background="@color/whitesmoke"
+        android:visibility="gone">
 
-        <LinearLayout
-            style="@style/settings_box_center">
+        <LinearLayout style="@style/settings_box_center">
+
             <ImageView
                 android:id="@+id/cityImageView"
                 style="@style/settings_box_icon"
-                android:src="@drawable/ic_imposta_citta"/>
+                android:src="@drawable/ic_imposta_citta" />
+
             <it.sharengo.eteria.ui.components.CustomTextView
                 style="@style/settings_box_title"
-                app:font_name="poppinsBold"
-                android:text="@string/settings_city_action" />
+                android:text="@string/settings_city_action"
+                app:font_name="poppinsBold" />
         </LinearLayout>
 
     </RelativeLayout>
