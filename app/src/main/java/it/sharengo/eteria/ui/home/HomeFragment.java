@@ -228,10 +228,6 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
        }
         //------------FINE  NUOVA-------------
 
-
-
-
-
         return view;
     }
     private float value = 1;
