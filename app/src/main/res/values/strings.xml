@@ -236,7 +236,7 @@
     <string name="assistance_title_label">Richiedi assistenza</string>
     <string name="assistance_help_label">Siamo qui per aiutarti!</string>
     <string name="assistance_sos_label">Dall\'1 alle 6 del mattino il Servizio Clienti è attivo SOLO PER SOS</string>
-    <string name="assistance_talkoperator_label">Risponderemo alla tua email solo in orario di ufficio</string>
+    <string name="assistance_talkoperator_label">Il Servizio Clienti è attivo dal Lunedì al Venerdì, dalle 9:00 alle 17:00</string>
     <string name="assistance_call_action">Chiama ora</string>
     <string name="assistance_mail_action">Scrivi una mail </string>
     <string name="assistance_phonenumber_label">+3905861975772</string>
@@ -322,8 +322,8 @@
     <string name="close_confirm_car_trip">Sei sicuro di voler chiudere la corsa?</string>
     <string name="alert_close_car_onpress">La macchina si chiuderà a breve, riceverai una notifica a processo completato.</string>
     <string name="defLang">it</string>
-    <string name="routeLegalNoteSK">/wp-content/uploads/2019/02/VOP-Sharengo.sk_.pdf</string>
-    <string name="routeLegalNoteNL">/pdf/nl/contract.pdf</string> //ReglementSharengo.pdf
+    <string name="routeLegalNoteSK">/pdf/sk/contract.pdf</string>
+    <string name="routeLegalNoteNL">/pdf/nl/contract.pdf</string>
     <string name="routeLegalNoteSI">/pdf/si/contract.pdf</string>
     <string name="pin_title">PIN UTENTE</string>
     <string name="settingslang_nl_label">Olandese</string>
