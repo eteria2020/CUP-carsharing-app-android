@@ -5,47 +5,67 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.18] - 2020-03-23
+## versionCode=382
+### Changed
+- IT: updated assistance_talkoperator_label value (#952)
+
+## [3.4.15] - 2020-03-13
+## versionCode=379
+### Changed
+- SK: updated legal note link (#941)
+
 ## [3.4.17] - 2020-03-02
+## versionCode=381
 ### Changed
 - IT: added docukey path for embedded PDF on legal webview (#650)
       removed city button from settings menu
 
 ## [3.4.16] - 2020-02-10
+## versionCode=380
 ### Changed
 - IT: added SOS button on Support Area (#734)
 
 ## [3.4.15] - 2020-01-16
+## versionCode=379
 ### Changed
 - IT: bugfix on settings cities selection (cityJson)
 
 ## [3.4.14] - 2020-01-10
+## versionCode=378
 ### Changed
 - NL: updated invalid_driver_license_login_alert message (#605)
 - updated DRIVER_LICENSE baseURL in UserAreaFragment.java
 
 ## [3.4.14] - 2020-01-08
+## versionCode=378
 ### Changed
 - added endpointSitePayments for userarea payments (#547)
 
 ## [3.4.13] - 2019-12-23
+## versionCode=377
 ### Changed
 - SK: updated faq links (#512)
 
 ## [3.4.13] - 2019-12-18
+## versionCode=37
 ### Changed
 - SL: updated translations (#476)
 
 ## [3.4.12] - 2019-12-02
+## versionCode=376
 ### Changed
 - removed chronology rate minute line (#341)
 - updated routeLogin for NL
 
 ## [3.4.12] - 2019-12-02
+## versionCode=376
 ### Changed
 - removed chronology rate minute line (#341)
 - updated routeLogin for NL
 
 ## [3.4.11] - 2019-11-15
+## versionCode=375
 ### Changed
 - SL: updated translations 
 
