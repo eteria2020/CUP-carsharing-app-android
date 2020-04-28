@@ -107,6 +107,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import it.sharengo.eteria.BuildConfig;
 import it.handroix.map.HdxFragmentMapHelper;
 import it.sharengo.eteria.App;
 import it.sharengo.eteria.R;
@@ -511,16 +512,18 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
         //Imposto il listener sull'apertura della tastiera: se appare la tastiera devo aprire la ricerca
         view.getViewTreeObserver().addOnGlobalLayoutListener(layoutListener);
 
-        if(!mPresenter.isAuth()){ final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
-                getString(R.string.popup_home),
-                getString(R.string.popup_login),
-                getString(R.string.popup_registrazione));
+        if(BuildConfig.FLAVOR.equalsIgnoreCase("prod"))
+        {
+            final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                    getString(R.string.popup_message),
+                    "MYSHARENGO",
+                    getString(R.string.popup_close));
             cdd.show();
             cdd.yes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     cdd.dismissAlert();
-                    Navigator.launchLogin(MapGoogleFragment.this, Navigator.REQUEST_LOGIN_START);
+                    Navigator.launchFaq(MapGoogleFragment.this);
                    /*Intent intent = PrivacyActivity.getCallingIntent(PrivacyFragment);
                    HomeFragment.this.startActivity(intent);*/
                 }
@@ -530,11 +533,39 @@ public class MapGoogleFragment extends BaseMapFragment<MapGooglePresenter> imple
                 @Override
                 public void onClick(View view) {
                     cdd.dismissAlert();
-                    Navigator.launchSlideshow(MapGoogleFragment.this);
+                    //Navigator.launchSlideshow(MapGoogleFragment.this);
                    /*Intent intent = PrivacyActivity.getCallingIntent(PrivacyFragment);
                    HomeFragment.this.startActivity(intent);*/
                 }
             });
+
+        } else {
+            if (!mPresenter.isAuth()) {
+                final CustomDialogClass cdd = new CustomDialogClass(getActivity(),
+                        getString(R.string.popup_home),
+                        getString(R.string.popup_login),
+                        getString(R.string.popup_registrazione));
+                cdd.show();
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismissAlert();
+                        Navigator.launchLogin(MapGoogleFragment.this, Navigator.REQUEST_LOGIN_START);
+                   /*Intent intent = PrivacyActivity.getCallingIntent(PrivacyFragment);
+                   HomeFragment.this.startActivity(intent);*/
+                    }
+                });
+
+                cdd.no.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismissAlert();
+                        Navigator.launchSlideshow(MapGoogleFragment.this);
+                   /*Intent intent = PrivacyActivity.getCallingIntent(PrivacyFragment);
+                   HomeFragment.this.startActivity(intent);*/
+                    }
+                });
+            }
         }
     }
 

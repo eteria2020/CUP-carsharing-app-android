@@ -48,6 +48,8 @@
     <string name="popup_home">Non hai ancora effettuato il login</string>
     <string name="popup_login">Accedi</string>
     <string name="popup_registrazione">Iscriviti</string>
+    <string name="popup_message">Il servizio di carsharing è temporaneamente sospeso.\nScopri il nuovo servizio di mobilità MYSHARENGO</string>
+    <string name="popup_close">Chiudi</string>
 
     <!--COMMON ERRORS-->
     <string name="error_generic_msg">Ops, qualche cosa è andato storto.</string>
