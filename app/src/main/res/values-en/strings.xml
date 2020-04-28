@@ -46,6 +46,8 @@
     <string name="popup_home">You have not logged in</string>
     <string name="popup_login">Login</string>
     <string name="popup_registrazione">Sign in</string>
+    <string name="popup_message">The carsharing service is temporarily suspended.\nDiscover the new MYSHARENGO mobility service</string>
+    <string name="popup_close">Close</string>
 
     <!-- MAPPA -->
     <string name="maps_search_placeholder">Search by address or plate</string>
