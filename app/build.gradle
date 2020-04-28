@@ -39,8 +39,8 @@ android {
         vectorDrawables.useSupportLibrary = true
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
-        versionCode 382
-        versionName "3.4.18"
+        versionCode 383
+        versionName "3.4.19"
 
         manifestPlaceholders = [
                 onesignal_app_id: '202ca4a0-8ec3-4db3-af38-2986a3138106',
